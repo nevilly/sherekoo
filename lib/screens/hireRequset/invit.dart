@@ -12,6 +12,7 @@ class InvitationTime extends StatefulWidget {
 class _InvitationTimeState extends State<InvitationTime> {
   final Preferences _preferences = Preferences();
   String token = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
