@@ -116,6 +116,7 @@ class _HomeState extends State<Home> {
                       username: post[index].username,
                       videoDescription: post[index].body,
                       ceremonyId: post[index].ceremonyId,
+                      postVedeo: post[index].vedeo,
                       filterBck: Positioned.fill(
                         child: ImageFiltered(
                           imageFilter: ImageFilter.blur(

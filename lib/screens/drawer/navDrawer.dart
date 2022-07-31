@@ -11,6 +11,7 @@ import '../accounts/login.dart';
 import '../crmScreen/Crm.dart';
 import '../crmScreen/crmScreen.dart';
 import '../hireRequset/InvCeremony.dart';
+import '../share/sharing.dart';
 
 class NavDrawer extends StatefulWidget {
   const NavDrawer({Key? key}) : super(key: key);
@@ -192,16 +193,16 @@ class _NavDrawerState extends State<NavDrawer> {
                 },
               ),
 
-              // ListTile(
-              //   title: const Text('Ukumbi'),
-              //   onTap: () {
-              //     Navigator.of(context).pop();
-              //     Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //             builder: (BuildContext context) => const Upload()));
-              //   },
-              // ),
+              ListTile(
+                title: const Text('Sharing'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => const Sharing()));
+                },
+              ),
               // ListTile(
               //   title: const Text('check Home'),
               //   onTap: () {

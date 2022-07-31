@@ -2,7 +2,13 @@
 
 // ignore_for_file: prefer_typing_uninitialized_variables, unused_field
 
+import 'dart:io';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 import 'package:sherekoo/screens/chats.dart';
 import 'package:sherekoo/screens/profile/profile.dart';
@@ -26,6 +32,7 @@ class PostTemplate extends StatefulWidget {
   final String numberOfComments;
   final String numberOfShere;
   final String ceremonyId;
+  final String postVedeo;
 
   final filterBck;
   final userPost;
@@ -39,6 +46,7 @@ class PostTemplate extends StatefulWidget {
       required this.filterBck,
       required this.avater,
       required this.userPost,
+      required this.postVedeo,
       required this.userId,
       required this.username,
       required this.videoDescription,
@@ -213,8 +221,36 @@ class _PostTemplateState extends State<PostTemplate> {
                 const SizedBox(
                   height: 10,
                 ),
-                MyButton(
-                    icon: Icons.reply_rounded, number: widget.numberOfShere),
+
+                GestureDetector(
+                  onTap: () async {
+                    final String dirUrl = api +
+                        'public/uploads/' +
+                        widget.username +
+                        '/posts/' +
+                        widget.postVedeo;
+                    // Uri url = Uri.parse(
+                    //     'https://res.cloudinary.com/practicaldev/image/fetch/s--_HBZhuhF--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/nweeqf97l2md3tlqkjyt.jpg');
+
+                    Uri url = Uri.parse(dirUrl);
+
+                    final response = await http.get(url);
+
+                    final bytes = response.bodyBytes;
+
+                    final temp = await getTemporaryDirectory();
+                    final path = '${temp.path}/image.jpg';
+
+                    File(path).writeAsBytesSync(bytes);
+                    await Share.shareFiles([path],
+                        text: 'Image Shared from sherekoo');
+
+                    //inspiration Link
+                    // => https://protocoderspoint.com/flutter-share-files-images-videos-text-using-share_plus/
+                  },
+                  child: MyButton(
+                      icon: Icons.reply_rounded, number: widget.numberOfShere),
+                ),
                 const SizedBox(
                   height: 4,
                 ),

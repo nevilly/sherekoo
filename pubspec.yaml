@@ -44,8 +44,8 @@ dependencies:
   video_player: ^2.4.0
   android_alarm_manager_plus: ^2.0.5
   flutter_local_notifications: ^9.5.0
-  dependencies:
   share_plus: ^4.0.10
+  path_provider:
 
 dev_dependencies:
   flutter_test:
