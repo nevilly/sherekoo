@@ -249,7 +249,20 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _saloonCeobioController.text = widget.getData.aboutCEO;
             _saloonCeoPhoneController.text = widget.getData.contact;
           }
-          if (widget.getData.busnessType == 'Car') {}
+          if (widget.getData.busnessType == 'Car') {
+            carsAvater = widget.getData.avater;
+            carsId = widget.getData.ceoId;
+            carsUsername = widget.getData.username;
+            carsSubscription = widget.getData.subcrlevel;
+            carsDefaultImg = widget.getData.coProfile;
+            _carsCoKnownController.text = widget.getData.knownAs;
+            _carsCoPriceController.text = widget.getData.price;
+            _carsCoPhoneController.text = widget.getData.contact;
+            _carsCoLocationController.text = widget.getData.location;
+            _carsCoAboutController.text = widget.getData.aboutCompany;
+            _carsCeobioController.text = widget.getData.aboutCEO;
+            _carsCeoPhoneController.text = widget.getData.contact;
+          }
         }
       });
     });
@@ -1233,23 +1246,45 @@ class _BusnessUploadState extends State<BusnessUpload> {
                     }
                   }
                   if (selectedBusness == 'Car') {
-                    _postBusness(
-                        selectedBusness,
-                        _carsCoKnownController.text,
-                        carsDefaultImg,
-                        _generalimage,
-                        _carsCoPriceController.text,
-                        _carsCoPhoneController.text,
-                        _carsCoLocationController.text,
-                        _carsCoKnownController.text,
-                        carsId,
-                        _carsCeobioController.text,
-                        _carsCoAboutController.text,
-                        'Insert your Brand Name on "CO Tab" pls!...',
-                        'Insert your Price on "Co Tab" pls!...',
-                        'Insert your Phone Number  on "Co Tab" pls!...',
-                        'Insert Contact  on "Co Tab" pls!...',
-                        'msg5');
+                    if (widget.getData.bId.isEmpty) {
+                      _postBusness(
+                          selectedBusness,
+                          _carsCoKnownController.text,
+                          carsDefaultImg,
+                          _generalimage,
+                          _carsCoPriceController.text,
+                          _carsCoPhoneController.text,
+                          _carsCoLocationController.text,
+                          _carsCoKnownController.text,
+                          carsId,
+                          _carsCeobioController.text,
+                          _carsCoAboutController.text,
+                          'Insert your Brand Name on "CO Tab" pls!...',
+                          'Insert your Price on "Co Tab" pls!...',
+                          'Insert your Phone Number  on "Co Tab" pls!...',
+                          'Insert Contact  on "Co Tab" pls!...',
+                          'msg5');
+                      // if (widget.getData.bId.isEmpty) {
+                    } else {
+                      _updateBusness(
+                          selectedBusness,
+                          _carsCoKnownController.text,
+                          carsDefaultImg,
+                          _generalimage,
+                          _carsCoPriceController.text,
+                          _carsCoPhoneController.text,
+                          _carsCoLocationController.text,
+                          _carsCoKnownController.text,
+                          carsId,
+                          _carsCeobioController.text,
+                          _carsCoAboutController.text,
+                          carsSubscription,
+                          'Insert your Brand Name on "CO Tab" pls!...',
+                          'Insert your Price on "Co Tab" pls!...',
+                          'Insert your Phone Number  on "Co Tab" pls!...',
+                          'Insert Contact  on "Co Tab" pls!...',
+                          '');
+                    }
                   }
                 },
 
