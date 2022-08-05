@@ -127,14 +127,28 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _mcCoKnownController.text = widget.getData.knownAs;
             _mcCoPriceController.text = widget.getData.price;
             _mcCoPhoneController.text = widget.getData.contact;
-            _mcCoAboutController.text = widget.getData.aboutCEO;
+            _mcCoAboutController.text = widget.getData.aboutCompany;
             _mcCoLocationController.text = widget.getData.location;
 
             _mcCeobioController.text = widget.getData.aboutCEO;
             _mcCeoPhoneController.text = widget.getData.contact;
           }
 
-          if (widget.getData.busnessType == 'Production') {}
+          if (widget.getData.busnessType == 'Production') {
+            productionAvater = widget.getData.avater;
+            productionId = widget.getData.ceoId;
+            productionUsername = widget.getData.username;
+            productionDefaultImg = widget.getData.coProfile;
+            _productionCoKnownController.text = widget.getData.knownAs;
+            _productionCoPriceController.text = widget.getData.price;
+            _productionCoPhoneController.text = widget.getData.contact;
+            _productionCoLocationController.text = widget.getData.location;
+
+            _productionCoAboutController.text = widget.getData.aboutCompany;
+
+            _productionCeobioController.text = widget.getData.aboutCEO;
+            _productionCeoPhoneController.text = widget.getData.contact;
+          }
           if (widget.getData.busnessType == 'Decorator') {}
           if (widget.getData.busnessType == 'Cake Bekar') {}
           if (widget.getData.busnessType == 'Singer') {}
