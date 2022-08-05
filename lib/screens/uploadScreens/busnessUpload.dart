@@ -221,8 +221,34 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _dancersCeobioController.text = widget.getData.aboutCEO;
             _dancersCeoPhoneController.text = widget.getData.contact;
           }
-          if (widget.getData.busnessType == 'Cooker') {}
-          if (widget.getData.busnessType == 'saloon') {}
+          if (widget.getData.busnessType == 'Cooker') {
+            cookerAvater = widget.getData.avater;
+            cookerId = widget.getData.ceoId;
+            cookerUsername = widget.getData.username;
+            cookerSubscription = widget.getData.subcrlevel;
+            cookerDefaultImg = widget.getData.coProfile;
+            _cookerCoKnownController.text = widget.getData.knownAs;
+            _cookerCoPriceController.text = widget.getData.price;
+            _cookerCoPhoneController.text = widget.getData.contact;
+            _cookerCoLocationController.text = widget.getData.location;
+            _cookerCoAboutController.text = widget.getData.aboutCompany;
+            _cookerCeobioController.text = widget.getData.aboutCEO;
+            _cookerCeoPhoneController.text = widget.getData.contact;
+          }
+          if (widget.getData.busnessType == 'saloon') {
+            saloonAvater = widget.getData.avater;
+            saloonId = widget.getData.ceoId;
+            saloonUsername = widget.getData.username;
+            saloonSubscription = widget.getData.subcrlevel;
+            saloonDefaultImg = widget.getData.coProfile;
+            _saloonCoKnownController.text = widget.getData.knownAs;
+            _saloonCoPriceController.text = widget.getData.price;
+            _saloonCoPhoneController.text = widget.getData.contact;
+            _saloonCoLocationController.text = widget.getData.location;
+            _saloonCoAboutController.text = widget.getData.aboutCompany;
+            _saloonCeobioController.text = widget.getData.aboutCEO;
+            _saloonCeoPhoneController.text = widget.getData.contact;
+          }
           if (widget.getData.busnessType == 'Car') {}
         }
       });
@@ -1123,43 +1149,88 @@ class _BusnessUploadState extends State<BusnessUpload> {
                   }
 
                   if (selectedBusness == 'Cooker') {
-                    _postBusness(
-                        selectedBusness,
-                        _cookerCoKnownController.text,
-                        cookerDefaultImg,
-                        _generalimage,
-                        _cookerCoPriceController.text,
-                        _cookerCoPhoneController.text,
-                        _cookerCoLocationController.text,
-                        _cookerCoKnownController.text,
-                        cookerId,
-                        _cookerCeobioController.text,
-                        _cookerCoAboutController.text,
-                        'Insert your Brand Name on "CO Tab" pls!...',
-                        'Insert your Price on "Co Tab" pls!...',
-                        'Insert your Phone Number  on "Co Tab" pls!...',
-                        'Insert Contact  on "Co Tab" pls!...',
-                        'msg5');
+                    if (widget.getData.bId.isEmpty) {
+                      _postBusness(
+                          selectedBusness,
+                          _cookerCoKnownController.text,
+                          cookerDefaultImg,
+                          _generalimage,
+                          _cookerCoPriceController.text,
+                          _cookerCoPhoneController.text,
+                          _cookerCoLocationController.text,
+                          _cookerCoKnownController.text,
+                          cookerId,
+                          _cookerCeobioController.text,
+                          _cookerCoAboutController.text,
+                          'Insert your Brand Name on "CO Tab" pls!...',
+                          'Insert your Price on "Co Tab" pls!...',
+                          'Insert your Phone Number  on "Co Tab" pls!...',
+                          'Insert Contact  on "Co Tab" pls!...',
+                          'msg5');
+
+                      // if (widget.getData.bId.isEmpty) {
+                    } else {
+                      _updateBusness(
+                          selectedBusness,
+                          _cookerCoKnownController.text,
+                          cookerDefaultImg,
+                          _generalimage,
+                          _cookerCoPriceController.text,
+                          _cookerCoPhoneController.text,
+                          _cookerCoLocationController.text,
+                          _cookerCoKnownController.text,
+                          cookerId,
+                          _cookerCeobioController.text,
+                          _cookerCoAboutController.text,
+                          cookerSubscription,
+                          'Insert your Brand Name on "CO Tab" pls!...',
+                          'Insert your Price on "Co Tab" pls!...',
+                          'Insert your Phone Number  on "Co Tab" pls!...',
+                          'Insert Contact  on "Co Tab" pls!...',
+                          '');
+                    }
                   }
 
                   if (selectedBusness == 'saloon') {
-                    _postBusness(
-                        selectedBusness,
-                        _saloonCoKnownController.text,
-                        saloonDefaultImg,
-                        _generalimage,
-                        _saloonCoPriceController.text,
-                        _saloonCoPhoneController.text,
-                        _saloonCoLocationController.text,
-                        _saloonCoKnownController.text,
-                        saloonId,
-                        _saloonCeobioController.text,
-                        _saloonCoAboutController.text,
-                        'Insert your Brand Name on "CO Tab" pls!...',
-                        'Insert your Price on "Co Tab" pls!...',
-                        'Insert your Phone Number  on "Co Tab" pls!...',
-                        'Insert Contact  on "Co Tab" pls!...',
-                        'msg5');
+                    if (widget.getData.bId.isEmpty) {
+                      _postBusness(
+                          selectedBusness,
+                          _saloonCoKnownController.text,
+                          saloonDefaultImg,
+                          _generalimage,
+                          _saloonCoPriceController.text,
+                          _saloonCoPhoneController.text,
+                          _saloonCoLocationController.text,
+                          _saloonCoKnownController.text,
+                          saloonId,
+                          _saloonCeobioController.text,
+                          _saloonCoAboutController.text,
+                          'Insert your Brand Name on "CO Tab" pls!...',
+                          'Insert your Price on "Co Tab" pls!...',
+                          'Insert your Phone Number  on "Co Tab" pls!...',
+                          'Insert Contact  on "Co Tab" pls!...',
+                          'msg5');
+                      // if (widget.getData.bId.isEmpty) {
+                    } else {
+                      _updateBusness(
+                          selectedBusness,
+                          _saloonCoKnownController.text,
+                          saloonDefaultImg,
+                          _generalimage,
+                          _saloonCoPriceController.text,
+                          _saloonCoPhoneController.text,
+                          _saloonCoLocationController.text,
+                          _saloonCoKnownController.text,
+                          saloonId,
+                          _saloonCeobioController.text,
+                          _saloonCoAboutController.text,
+                          saloonSubscription,
+                          'Insert your Brand Name on "CO Tab" pls!...',
+                          'Insert your Price on "Co Tab" pls!...',
+                          'Insert your Phone Number  on "Co Tab" pls!...',
+                          'Insert Contact  on "Co Tab" pls!...',
+                          '');
+                    }
                   }
                   if (selectedBusness == 'Car') {
                     _postBusness(
