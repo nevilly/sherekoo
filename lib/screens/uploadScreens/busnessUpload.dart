@@ -149,7 +149,20 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _productionCeobioController.text = widget.getData.aboutCEO;
             _productionCeoPhoneController.text = widget.getData.contact;
           }
-          if (widget.getData.busnessType == 'Decorator') {}
+          if (widget.getData.busnessType == 'Decorator') {
+            decoratorAvater = widget.getData.avater;
+            decoratorId = widget.getData.ceoId;
+            decoratorUsername = widget.getData.username;
+            decoratorDefaultImg = widget.getData.coProfile;
+            _decoratorCoKnownController.text = widget.getData.knownAs;
+            _decoratorCoPriceController.text = widget.getData.price;
+            _decoratorCoPhoneController.text = widget.getData.contact;
+            _decoratorCoLocationController.text = widget.getData.location;
+            _decoratorCoAboutController.text = widget.getData.aboutCompany;
+
+            _decoratorCeobioController.text = widget.getData.aboutCEO;
+            _decoratorCeoPhoneController.text = widget.getData.contact;
+          }
           if (widget.getData.busnessType == 'Cake Bekar') {}
           if (widget.getData.busnessType == 'Singer') {}
           if (widget.getData.busnessType == 'Dancer') {}
@@ -814,23 +827,44 @@ class _BusnessUploadState extends State<BusnessUpload> {
                   }
 
                   if (selectedBusness == 'Decorator') {
-                    _postBusness(
-                        selectedBusness,
-                        _decoratorCoKnownController.text,
-                        decoratorDefaultImg,
-                        _generalimage,
-                        _decoratorCoPriceController.text,
-                        _decoratorCoPhoneController.text,
-                        _decoratorCoLocationController.text,
-                        _decoratorCoKnownController.text,
-                        decoratorId,
-                        _decoratorCeobioController.text,
-                        _decoratorCoAboutController.text,
-                        'Insert your Brand Name on "CO Tab" pls!...',
-                        'Insert your Price on "Co Tab" pls!...',
-                        'Insert your Phone Number  on "Co Tab" pls!...',
-                        'Insert Contact  on "Co Tab" pls!...',
-                        'msg5');
+                    if (widget.getData.bId.isEmpty) {
+                      _postBusness(
+                          selectedBusness,
+                          _decoratorCoKnownController.text,
+                          decoratorDefaultImg,
+                          _generalimage,
+                          _decoratorCoPriceController.text,
+                          _decoratorCoPhoneController.text,
+                          _decoratorCoLocationController.text,
+                          _decoratorCoKnownController.text,
+                          decoratorId,
+                          _decoratorCeobioController.text,
+                          _decoratorCoAboutController.text,
+                          'Insert your Brand Name on "CO Tab" pls!...',
+                          'Insert your Price on "Co Tab" pls!...',
+                          'Insert your Phone Number  on "Co Tab" pls!...',
+                          'Insert Contact  on "Co Tab" pls!...',
+                          'msg5');
+                    } else {
+                      _updateBusness(
+                          selectedBusness,
+                          _decoratorCoKnownController.text,
+                          decoratorDefaultImg,
+                          _generalimage,
+                          _decoratorCoPriceController.text,
+                          _decoratorCoPhoneController.text,
+                          _decoratorCoLocationController.text,
+                          _decoratorCoKnownController.text,
+                          decoratorId,
+                          _decoratorCeobioController.text,
+                          _decoratorCoAboutController.text,
+                          _mcSubscription,
+                          'Insert your Brand Name on "CO Tab" pls!...',
+                          'Insert your Price on "Co Tab" pls!...',
+                          'Insert your Phone Number  on "Co Tab" pls!...',
+                          'Insert Contact  on "Co Tab" pls!...',
+                          '');
+                    }
                   }
                   if (selectedBusness == 'Halls') {
                     _postBusness(
