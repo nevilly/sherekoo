@@ -6,8 +6,8 @@ class BusnessModel {
   final String price;
   final String aboutCEO;
   final String companyName;
+  final String ceoId;
   final String location;
-  final String avater;
   final String contact;
 
   final String hotStatus;
@@ -15,6 +15,10 @@ class BusnessModel {
   // final String createdBy;
 
   final String username;
+  final String avater;
+
+  // subscription
+  final String subcrlevel;
 
   BusnessModel({
     required this.location,
@@ -24,6 +28,7 @@ class BusnessModel {
     required this.busnessType,
     required this.avater,
     required this.companyName,
+    required this.ceoId,
     required this.price,
     required this.contact,
     required this.hotStatus,
@@ -32,24 +37,27 @@ class BusnessModel {
     // required this.createdBy,
 
     required this.username,
+    required this.subcrlevel,
   });
 
   factory BusnessModel.fromJson(Map<String, dynamic> json) {
     return BusnessModel(
-      bId: json['bId'],
-      busnessType: json['busnessType'],
-      companyName: json['companyName'],
-      aboutCEO: json['aboutCEO'],
-      coProfile: json['coProfile'],
-      knownAs: json['knownAs'],
-      price: json['price'],
-      avater: json['avater'],
+      bId: json['bId'] ?? "",
+      busnessType: json['busnessType'] ?? "",
+      companyName: json['companyName'] ?? "",
+      aboutCEO: json['aboutCEO'] ?? "",
+      coProfile: json['coProfile'] ?? "",
+      knownAs: json['knownAs'] ?? "",
+      price: json['price'] ?? "",
+      avater: json['avater'] ?? "",
+      ceoId: json['ceoId'] ?? "",
 
-      username: json['username'],
+      username: json['username'] ?? "",
+      subcrlevel: json['subcrlevel'] ?? "",
 
-      aboutCompany: json['aboutCompany'],
-      hotStatus: json['hotStatus'],
-      contact: json['contact'], location: json['location'],
+      aboutCompany: json['aboutCompany'] ?? "",
+      hotStatus: json['hotStatus'] ?? "",
+      contact: json['contact'], location: json['location'] ?? "",
 
       // createdBy: json['createdBy'],
     );

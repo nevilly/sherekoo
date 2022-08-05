@@ -12,7 +12,6 @@ import '../model/profileMode.dart';
 import '../util/Preferences.dart';
 import '../util/util.dart';
 import '../widgets/navWidget/bttmNav.dart';
-import '../widgets/navWidget/bottom_toolbar.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -132,6 +131,23 @@ class _HomeState extends State<Home> {
                                       post[index].vedeo,
                                   // height: 400,
                                   fit: BoxFit.cover,
+                                  loadingBuilder: (BuildContext context,
+                                      Widget child,
+                                      ImageChunkEvent? loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        value: loadingProgress
+                                                    .expectedTotalBytes !=
+                                                null
+                                            ? loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                loadingProgress
+                                                    .expectedTotalBytes!
+                                            : null,
+                                      ),
+                                    );
+                                  },
                                 )
                               : const SizedBox(height: 1),
                         ),
@@ -146,6 +162,23 @@ class _HomeState extends State<Home> {
                                         '/posts/' +
                                         post[index].vedeo,
                                     fit: BoxFit.contain,
+                                    loadingBuilder: (BuildContext context,
+                                        Widget child,
+                                        ImageChunkEvent? loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          value: loadingProgress
+                                                      .expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                        ),
+                                      );
+                                    },
                                   )
                                 : const SizedBox(height: 1)),
                       ));

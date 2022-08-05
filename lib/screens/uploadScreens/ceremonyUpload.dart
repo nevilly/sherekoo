@@ -153,83 +153,83 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
 
         getUser();
         getAllUsers();
+
+        if (widget.getcurrentUser.id.isNotEmpty) {
+          currentUser = widget.getcurrentUser;
+        }
+
+        if (widget.getData.cId.isNotEmpty) {
+          selectedChereko = widget.getData.ceremonyType;
+
+          // Birthday
+          if (widget.getData.ceremonyType == 'Birthday') {
+            selectedChereko = widget.getData.ceremonyType;
+
+            bAvater = widget.getData.u1Avt;
+            bId = widget.getData.fId;
+            bFirstName = widget.getData.u1Fname;
+            bUsername = widget.getData.u1;
+
+            bDflt_img = widget.getData.cImage;
+
+            _ageController.text = widget.getData.cName;
+            _birthdayDateController.text = widget.getData.ceremonyDate;
+          }
+
+          // Wedding
+          if (widget.getData.ceremonyType == 'Wedding') {
+            wedAvater = widget.getData.u2Avt;
+            wedId = widget.getData.sId;
+            wedLastname = widget.getData.u2Lname;
+            wedUsername = widget.getData.u2;
+            // File? _wimage; // background image for wedding
+            wDflt_img = widget.getData.cImage;
+
+            _weddingNameController.text = widget.getData.cName;
+            _weddingDateController.text = widget.getData.ceremonyDate;
+          }
+
+          //SendOff
+          if (widget.getData.ceremonyType == 'SendOff') {
+            sAvater = widget.getData.u2Avt;
+            sId = widget.getData.sId;
+            sLastName = widget.getData.u2Lname;
+            sUsername = widget.getData.u2;
+            // File? _wimage; // background image for wedding
+            sDflt_img = widget.getData.cImage;
+
+            _sendOffNameController.text = widget.getData.cName;
+            _sendOffDateController.text = widget.getData.ceremonyDate;
+          }
+
+          //kitchenPart data
+          if (widget.getData.ceremonyType == 'Kitchen Part') {
+            kAvater = widget.getData.u2Avt;
+            kId = widget.getData.sId;
+            kFirstName = widget.getData.u2Lname;
+            kUsername = widget.getData.u2;
+
+            kDflt_img = widget.getData.cImage;
+
+            _kichenpartNameController.text = widget.getData.cName;
+            _kitchenPartDateController.text = widget.getData.ceremonyDate;
+          }
+
+          //Kigodoro
+          if (widget.getData.ceremonyType == 'Kigodoro') {
+            gAvater = widget.getData.u2Avt;
+            gId = widget.getData.sId;
+            gFirstName = widget.getData.u2Lname;
+            gUsername = widget.getData.u2;
+
+            gDflt_img = widget.getData.cImage;
+
+            _kgodoroNameController.text = widget.getData.cName;
+            _kigodoroDateController.text = widget.getData.ceremonyDate;
+          }
+        }
       });
     });
-
-    if (widget.getcurrentUser.id.isNotEmpty) {
-      currentUser = widget.getcurrentUser;
-    }
-
-    if (widget.getData.cId.isNotEmpty) {
-      selectedChereko = widget.getData.ceremonyType;
-
-      // Birthday
-      if (widget.getData.ceremonyType == 'Birthday') {
-        selectedChereko = widget.getData.ceremonyType;
-
-        bAvater = widget.getData.u1Avt;
-        bId = widget.getData.fId;
-        bFirstName = widget.getData.u1Fname;
-        bUsername = widget.getData.u1;
-
-        bDflt_img = widget.getData.cImage;
-
-        _ageController.text = widget.getData.cName;
-        _birthdayDateController.text = widget.getData.ceremonyDate;
-      }
-
-      // Wedding
-      if (widget.getData.ceremonyType == 'Wedding') {
-        wedAvater = widget.getData.u2Avt;
-        wedId = widget.getData.sId;
-        wedLastname = widget.getData.u2Lname;
-        wedUsername = widget.getData.u2;
-        // File? _wimage; // background image for wedding
-        wDflt_img = widget.getData.cImage;
-
-        _weddingNameController.text = widget.getData.cName;
-        _weddingDateController.text = widget.getData.ceremonyDate;
-      }
-
-      //SendOff
-      if (widget.getData.ceremonyType == 'SendOff') {
-        sAvater = widget.getData.u2Avt;
-        sId = widget.getData.sId;
-        sLastName = widget.getData.u2Lname;
-        sUsername = widget.getData.u2;
-        // File? _wimage; // background image for wedding
-        wDflt_img = widget.getData.cImage;
-
-        _sendOffNameController.text = widget.getData.cName;
-        _sendOffDateController.text = widget.getData.ceremonyDate;
-      }
-
-      //kitchenPart data
-      if (widget.getData.ceremonyType == 'Kitchen Part') {
-        kAvater = widget.getData.u2Avt;
-        kId = widget.getData.sId;
-        kFirstName = widget.getData.u2Lname;
-        kUsername = widget.getData.u2;
-
-        kDflt_img = widget.getData.cImage;
-
-        _kichenpartNameController.text = widget.getData.cName;
-        _kitchenPartDateController.text = widget.getData.ceremonyDate;
-      }
-
-      //Kigodoro
-      if (widget.getData.ceremonyType == 'Kigodoro') {
-        gAvater = widget.getData.u2Avt;
-        gId = widget.getData.sId;
-        gFirstName = widget.getData.u2Lname;
-        gUsername = widget.getData.u2;
-
-        gDflt_img = widget.getData.cImage;
-
-        _kgodoroNameController.text = widget.getData.cName;
-        _kigodoroDateController.text = widget.getData.ceremonyDate;
-      }
-    }
 
     _foundUsers = _allUsers;
     super.initState();
@@ -389,88 +389,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: widget.getData.cId.isNotEmpty
-            ? const Text('Edit ')
-            : const Text('UPLOAD'),
-        centerTitle: true,
-        actions: [
-          if (selectedChereko != 'Please Choose Sherehe')
-            GestureDetector(
-                onTap: () {
-                  if (selectedChereko == _sherehe[0]) {
-                    _saveCeremony(
-                        _bimage,
-                        bDflt_img,
-                        bId,
-                        bFirstName,
-                        _ageController,
-                        _birthdayDateController,
-                        selectedChereko,
-                        'Select Birthday Boy/Girl',
-                        'Enter Age pls ...',
-                        'Enter Birthday date pls ...');
-                  }
-
-                  if (selectedChereko == _sherehe[1]) {
-                    _saveCeremony(
-                        _wimage,
-                        wDflt_img,
-                        wedId,
-                        currentUser!.lastname,
-                        _weddingNameController,
-                        _weddingDateController,
-                        selectedChereko,
-                        'Select your Wife pls...',
-                        'Enter Family Name pls ...',
-                        'Enter Wedding Date pls ...');
-                  }
-
-                  if (selectedChereko == _sherehe[2]) {
-                    _saveCeremony(
-                        _simage,
-                        sDflt_img,
-                        sId,
-                        currentUser!.lastname,
-                        _sendOffNameController,
-                        _sendOffDateController,
-                        selectedChereko,
-                        'Select  your future husband...',
-                        'Enter Last name pls ...',
-                        'Enter sendOff Date pls ...');
-                  }
-
-                  if (selectedChereko == _sherehe[3]) {
-                    _saveCeremony(
-                        _kimage,
-                        kDflt_img,
-                        kId,
-                        currentUser!.lastname,
-                        _kichenpartNameController,
-                        _kitchenPartDateController,
-                        selectedChereko,
-                        'Select  your Future husband...',
-                        'Enter your Last name pls ...',
-                        'Enter Kitchen Part date pls ...');
-                  }
-
-                  if (selectedChereko == _sherehe[4]) {
-                    _saveCeremony(
-                        _gimage,
-                        gDflt_img,
-                        gId,
-                        gFirstName,
-                        _kgodoroNameController,
-                        _kigodoroDateController,
-                        selectedChereko,
-                        'Select Kigodoro Admin...',
-                        'Enter kigodoro Title pls ...',
-                        'Enter Kigodoro date pls ...');
-                  }
-                },
-                child: ceremonySave())
-        ],
-      ),
+      appBar: topBar(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -500,6 +419,91 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
           if (selectedChereko == _sherehe[4]) kigodoro,
         ],
       ),
+    );
+  }
+
+  AppBar topBar() {
+    return AppBar(
+      title: widget.getData.cId.isNotEmpty
+          ? const Text('Edit ')
+          : const Text('UPLOAD'),
+      centerTitle: true,
+      actions: [
+        if (selectedChereko != 'Please Choose Sherehe')
+          GestureDetector(
+              onTap: () {
+                if (selectedChereko == _sherehe[0]) {
+                  _saveCeremony(
+                      _bimage,
+                      bDflt_img,
+                      bId,
+                      bFirstName,
+                      _ageController,
+                      _birthdayDateController,
+                      selectedChereko,
+                      'Select Birthday Boy/Girl',
+                      'Enter Age pls ...',
+                      'Enter Birthday date pls ...');
+                }
+
+                if (selectedChereko == _sherehe[1]) {
+                  _saveCeremony(
+                      _wimage,
+                      wDflt_img,
+                      wedId,
+                      currentUser!.lastname,
+                      _weddingNameController,
+                      _weddingDateController,
+                      selectedChereko,
+                      'Select your Wife pls...',
+                      'Enter Family Name pls ...',
+                      'Enter Wedding Date pls ...');
+                }
+
+                if (selectedChereko == _sherehe[2]) {
+                  _saveCeremony(
+                      _simage,
+                      sDflt_img,
+                      sId,
+                      currentUser!.lastname,
+                      _sendOffNameController,
+                      _sendOffDateController,
+                      selectedChereko,
+                      'Select  your future husband...',
+                      'Enter Last name pls ...',
+                      'Enter sendOff Date pls ...');
+                }
+
+                if (selectedChereko == _sherehe[3]) {
+                  _saveCeremony(
+                      _kimage,
+                      kDflt_img,
+                      kId,
+                      currentUser!.lastname,
+                      _kichenpartNameController,
+                      _kitchenPartDateController,
+                      selectedChereko,
+                      'Select  your Future husband...',
+                      'Enter your Last name pls ...',
+                      'Enter Kitchen Part date pls ...');
+                }
+
+                if (selectedChereko == _sherehe[4]) {
+                  _saveCeremony(
+                      _gimage,
+                      gDflt_img,
+                      gId,
+                      gFirstName,
+                      _kgodoroNameController,
+                      _kigodoroDateController,
+                      selectedChereko,
+                      'Select Kigodoro Admin...',
+                      'Enter kigodoro Title pls ...',
+                      'Enter Kigodoro date pls ...');
+                }
+              },
+              child: ceremonySave())
+      ],
     );
   }
 

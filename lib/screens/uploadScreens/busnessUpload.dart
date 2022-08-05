@@ -3,15 +3,20 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sherekoo/model/busness/busnessModel.dart';
 
 import '../../model/allData.dart';
+import '../../model/busness/postBusness.dart';
+import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
 import '../../util/util.dart';
+import '../bsnScreen/bsnScrn.dart';
 import '../subscriptionScreen/busnessSubscription.dart';
 
 class BusnessUpload extends StatefulWidget {
-  const BusnessUpload({Key? key}) : super(key: key);
+  final BusnessModel getData;
+  const BusnessUpload({Key? key, required this.getData}) : super(key: key);
 
   @override
   _BusnessUploadState createState() => _BusnessUploadState();
@@ -33,13 +38,53 @@ class _BusnessUploadState extends State<BusnessUpload> {
   String selectedBusness = 'Please Choose Busness';
   final Preferences _preferences = Preferences();
   String token = '';
-  List<User> _allUsers = [];
-  List<User> _foundUsers = []; //search
-  User? currentUser;
 
   // Image upload
   final _picker = ImagePicker();
   final _pickerG = ImagePicker();
+
+  List<User> _allUsers = [];
+  List<User> _foundUsers = []; //search
+  late User currentUser;
+  BusnessModel busness = BusnessModel(
+      location: '',
+      bId: '',
+      knownAs: '',
+      coProfile: '',
+      busnessType: '',
+      avater: '',
+      companyName: '',
+      price: '',
+      contact: '',
+      hotStatus: '',
+      aboutCEO: '',
+      aboutCompany: '',
+      username: '',
+      ceoId: '',
+      subcrlevel: '');
+
+  CeremonyModel ceremony = CeremonyModel(
+      cId: '',
+      codeNo: '',
+      ceremonyType: '',
+      cName: '',
+      fId: '',
+      sId: '',
+      cImage: '',
+      ceremonyDate: '',
+      contact: '',
+      admin: '',
+      u1: '',
+      u1Avt: '',
+      u1Fname: '',
+      u1Lname: '',
+      u1g: '',
+      u2: '',
+      u2Avt: '',
+      u2Fname: '',
+      u2Lname: '',
+      u2g: '');
+
   // for_Search Result
   void _runFilter(String enteredKeyword) {
     List<User> results = [];
@@ -69,6 +114,35 @@ class _BusnessUploadState extends State<BusnessUpload> {
         token = value;
         getUser();
         getAllUsers();
+
+        if (widget.getData.bId.isNotEmpty) {
+          selectedBusness = widget.getData.busnessType;
+
+          if (widget.getData.busnessType == 'Mc') {
+            mcAvater = widget.getData.avater;
+            mcId = widget.getData.ceoId;
+            mcUsername = widget.getData.username;
+            _mcSubscription = widget.getData.subcrlevel;
+            mcDefaultImg = widget.getData.coProfile;
+            _mcCoKnownController.text = widget.getData.knownAs;
+            _mcCoPriceController.text = widget.getData.price;
+            _mcCoPhoneController.text = widget.getData.contact;
+            _mcCoAboutController.text = widget.getData.aboutCEO;
+            _mcCoLocationController.text = widget.getData.location;
+
+            _mcCeobioController.text = widget.getData.aboutCEO;
+            _mcCeoPhoneController.text = widget.getData.contact;
+          }
+
+          if (widget.getData.busnessType == 'Production') {}
+          if (widget.getData.busnessType == 'Decorator') {}
+          if (widget.getData.busnessType == 'Cake Bekar') {}
+          if (widget.getData.busnessType == 'Singer') {}
+          if (widget.getData.busnessType == 'Dancer') {}
+          if (widget.getData.busnessType == 'Cooker') {}
+          if (widget.getData.busnessType == 'saloon') {}
+          if (widget.getData.busnessType == 'Car') {}
+        }
       });
     });
     _foundUsers = _allUsers;
@@ -78,7 +152,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
   getUser() async {
     AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
       setState(() {
-        currentUser = User.fromJson(value.payload);
+        if (value.status == 200) {
+          currentUser = User.fromJson(value.payload);
+        }
       });
     });
   }
@@ -86,10 +162,11 @@ class _BusnessUploadState extends State<BusnessUpload> {
   getAllUsers() async {
     AllUsersModel(payload: [], status: 0).get(token, urlUserList).then((value) {
       // print(value.payload);
-
-      setState(() {
-        _allUsers = value.payload.map<User>((e) => User.fromJson(e)).toList();
-      });
+      if (value.status == 200) {
+        setState(() {
+          _allUsers = value.payload.map<User>((e) => User.fromJson(e)).toList();
+        });
+      }
     });
   }
 
@@ -97,6 +174,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
   String mcAvater = '';
   String mcId = "";
   String mcUsername = "";
+  String _mcSubscription = '';
   String mcDefaultImg = "assets/busness/mc/mc2.png";
   final TextEditingController _mcCoKnownController = TextEditingController();
   final TextEditingController _mcCoPriceController = TextEditingController();
@@ -261,7 +339,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
   final TextEditingController _saloonCeoPhoneController =
       TextEditingController();
 
-  //saloon
+  //Cars
   String carsAvater = '';
   String carsId = "";
   String carsUsername = "";
@@ -304,6 +382,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
 
   dynamic imaged;
 
+// for Posting
   _postBusness(bType, knwnAs, coPro, defaultImg, price, no, adress, coName,
       ceoId, abtCeo, abtCo, msg1, msg2, msg3, msg4, msg5) async {
     if (coPro == null) {
@@ -332,7 +411,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                         ceoId: ceoId,
                         aboutCEO: abtCeo,
                         aboutCompany: abtCo,
-                        createdBy: currentUser!.id,
+                        createdBy: currentUser.id,
                         hotStatus: '0')));
           } else {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -348,6 +427,50 @@ class _BusnessUploadState extends State<BusnessUpload> {
     } else {
       fillTheBlanks(msg1);
     }
+  }
+
+  // for Updating Cermony
+  dynamic img;
+  _updateBusness(bType, knwnAs, coPro, defaultImg, price, no, address, coName,
+      ceoId, abtCeo, abtCo, lvl, msg1, msg2, msg3, msg4, msg5) async {
+    if (_generalimage != null) {
+      List<int> bytes = defaultImg.readAsBytesSync();
+      img = base64Encode(bytes);
+    }
+
+    PostBusness(
+      bId: widget.getData.bId,
+      busnessType: bType,
+      knownAs: knwnAs,
+      coProfile: img ?? '',
+      price: price,
+      contact: no,
+      location: address,
+      companyName: coName,
+      ceoId: ceoId,
+      aboutCEO: abtCeo,
+      aboutCompany: abtCo,
+      createdBy: currentUser.id,
+      hotStatus: '0',
+      status: 0,
+      payload: [],
+      subscrlevel: lvl,
+    ).update(token, urlUpdateBusness, coPro).then((v) {
+      if (v.status == 200) {
+        fillTheBlanks(v.payload);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => BusnessScreen(
+                      bsnType: widget.getData.busnessType,
+                      ceremony: ceremony,
+                    )));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('System Error, Try Again'),
+        ));
+      }
+    });
   }
 
   fillTheBlanks(String title) {
@@ -415,8 +538,18 @@ class _BusnessUploadState extends State<BusnessUpload> {
                         child: _generalimage != null
                             ? Image.file(_generalimage!,
                                 width: 300, fit: BoxFit.cover)
-                            : const Image(
-                                image: AssetImage('assets/busness/mc/mc2.png')),
+                            : widget.getData.bId.isNotEmpty
+                                ? Image.network(
+                                    api +
+                                        'public/uploads/' +
+                                        widget.getData.username +
+                                        '/busness/' +
+                                        widget.getData.coProfile,
+                                    fit: BoxFit.cover,
+                                  )
+                                : const Image(
+                                    image: AssetImage(
+                                        'assets/busness/mc/mc2.png')),
                       ),
 
                       Container(
@@ -606,23 +739,44 @@ class _BusnessUploadState extends State<BusnessUpload> {
                 //objects will be added to the database when this button is clicked.
                 onPressed: () {
                   if (selectedBusness == 'Mc') {
-                    _postBusness(
-                        selectedBusness,
-                        _mcCoKnownController.text,
-                        mcDefaultImg,
-                        _generalimage,
-                        _mcCoPriceController.text,
-                        _mcCoPhoneController.text,
-                        _mcCoLocationController.text,
-                        _mcCoKnownController.text,
-                        mcId,
-                        _mcCeobioController.text,
-                        _mcCoAboutController.text,
-                        'Insert your Brand Name on "CO Tab" pls!...',
-                        'Insert your Price on "Co Tab" pls!...',
-                        'Insert your Phone Number  on "Co Tab" pls!...',
-                        'Insert Contact  on "Co Tab" pls!...',
-                        'msg5');
+                    if (widget.getData.bId.isEmpty) {
+                      _postBusness(
+                          selectedBusness,
+                          _mcCoKnownController.text,
+                          mcDefaultImg,
+                          _generalimage,
+                          _mcCoPriceController.text,
+                          _mcCoPhoneController.text,
+                          _mcCoLocationController.text,
+                          _mcCoKnownController.text,
+                          mcId,
+                          _mcCeobioController.text,
+                          _mcCoAboutController.text,
+                          'Insert your Brand Name on "CO Tab" pls!...',
+                          'Insert your Price on "Co Tab" pls!...',
+                          'Insert your Phone Number  on "Co Tab" pls!...',
+                          'Insert Contact  on "Co Tab" pls!...',
+                          'msg5');
+                    } else {
+                      _updateBusness(
+                          selectedBusness,
+                          _mcCoKnownController.text,
+                          widget.getData.coProfile,
+                          _generalimage,
+                          _mcCoPriceController.text,
+                          _mcCoPhoneController.text,
+                          _mcCoLocationController.text,
+                          _mcCoKnownController.text,
+                          mcId,
+                          _mcCeobioController.text,
+                          _mcCoAboutController.text,
+                          _mcSubscription,
+                          'Insert your Brand Name on "CO Tab" pls!...',
+                          'Insert your Price on "Co Tab" pls!...',
+                          'Insert your Phone Number  on "Co Tab" pls!...',
+                          'Insert Contact  on "Co Tab" pls!...',
+                          '');
+                    }
                   }
 
                   if (selectedBusness == 'Production') {
@@ -645,7 +799,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                         'msg5');
                   }
 
-                  if (selectedBusness == 'Decorators') {
+                  if (selectedBusness == 'Decorator') {
                     _postBusness(
                         selectedBusness,
                         _decoratorCoKnownController.text,
@@ -704,7 +858,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                         'msg5');
                   }
 
-                  if (selectedBusness == 'Singers') {
+                  if (selectedBusness == 'Singer') {
                     _postBusness(
                         selectedBusness,
                         _singersCoKnownController.text,
@@ -724,7 +878,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                         'msg5');
                   }
 
-                  if (selectedBusness == 'Dancers') {
+                  if (selectedBusness == 'Dancer') {
                     _postBusness(
                         selectedBusness,
                         _dancersCoKnownController.text,
@@ -783,7 +937,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                         'Insert Contact  on "Co Tab" pls!...',
                         'msg5');
                   }
-                  if (selectedBusness == 'Cars') {
+                  if (selectedBusness == 'Car') {
                     _postBusness(
                         selectedBusness,
                         _carsCoKnownController.text,
@@ -815,7 +969,6 @@ class _BusnessUploadState extends State<BusnessUpload> {
   }
 
   Widget get categorySelect => Container(
-        height: 30,
         margin: selectedBusness != 'Please Choose Busness'
             ? const EdgeInsets.only(left: 20, right: 20)
             : const EdgeInsets.only(left: 20, right: 20, top: 250),
@@ -3799,8 +3952,15 @@ class _BusnessUploadState extends State<BusnessUpload> {
 // Cookers
   Widget get cokCoCategory => Expanded(
         child: SingleChildScrollView(
-            child: ceoCategory('cookerCEO', cookerAvater, cookerUsername,
-                _cookerCeobioController, _cookerCeoPhoneController)),
+          child: coCategory(
+            'cookerCo',
+            _cookerCoKnownController,
+            _cookerCoPriceController,
+            _cookerCoPhoneController,
+            _cookerCoLocationController,
+            _cookerCoAboutController,
+          ),
+        ),
       );
 
   Widget get cokCeoCategory => Expanded(

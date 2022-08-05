@@ -4,10 +4,14 @@ import '../../model/allData.dart';
 import '../../model/busness/allBusness.dart';
 import '../../model/busness/busnessModel.dart';
 import '../../model/ceremony/ceremonyModel.dart';
+import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
+import '../../util/colors.dart';
 import '../../util/util.dart';
 import '../detailScreen/DetailPage.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+
+import '../uploadScreens/busnessUpload.dart';
 
 class BsnTab extends StatefulWidget {
   final String bsnType;
@@ -48,23 +52,43 @@ class _BsnTabState extends State<BsnTab> {
     u2g: '',
   );
 
+  late User currentUser = User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '');
+
   @override
   void initState() {
     _preferences.init();
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-        getAllBusness();
+        getAllBusness(widget.bsnType);
       });
     });
 
-    // print('cehek on bsn mc Tabs');
-    // print(widget.ceremony.codeNo);
+    getUser();
     super.initState();
   }
 
-  getAllBusness() async {
-    if (widget.bsnType != 'all') {
+  getUser() async {
+    AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
+      if (value.status == 200) {
+        setState(() {
+          currentUser = User.fromJson(value.payload);
+        });
+      }
+    });
+  }
+
+  getAllBusness(arg) async {
+    if (arg != 'all') {
       AllBusnessModel(payload: [], status: 0)
           .onBusnessType(token, urlBusnessByType, widget.bsnType)
           .then((value) {
@@ -73,8 +97,6 @@ class _BsnTabState extends State<BsnTab> {
           data = value.payload.map<BusnessModel>((e) {
             return BusnessModel.fromJson(e);
           }).toList();
-
-          // print(data);
         });
       });
     } else {
@@ -85,8 +107,6 @@ class _BsnTabState extends State<BsnTab> {
           data = value.payload.map<BusnessModel>((e) {
             return BusnessModel.fromJson(e);
           }).toList();
-
-          // print(data);
         });
       });
     }
@@ -104,8 +124,13 @@ class _BsnTabState extends State<BsnTab> {
           mainAxisSpacing: 2,
           crossAxisCount: 4,
           itemBuilder: (context, index) {
-            return GestureDetector(
-                child: InkWell(
+            return InkWell(
+                child: Card(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //BackgroundImage & Busness Type
+                  GestureDetector(
                     onTap: () {
                       Navigator.push(
                           context,
@@ -114,124 +139,164 @@ class _BsnTabState extends State<BsnTab> {
                                   data: data[index],
                                   ceremonyData: widget.ceremony)));
                     },
-                    child: Card(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          //Background Image
-                          Stack(children: [
-                            // Image(
-                            //   image: AssetImage(data[index].coProfile),
-                            // ),
-
-                            ClipRRect(
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(1.0),
-                                  topRight: Radius.circular(1.0),
-                                ),
-                                child: data[index].coProfile != ''
-                                    ? Image.network(
-                                        api +
-                                            'public/uploads/' +
-                                            data[index].username +
-                                            '/busness/' +
-                                            data[index].coProfile,
-                                        fit: BoxFit.cover,
-                                      )
-                                    : const SizedBox(height: 1)),
-
-                            Positioned(
-                                top: 1,
-                                child: Container(
-                                    decoration: const BoxDecoration(
-                                      color: Colors.red,
-                                      borderRadius: BorderRadius.only(
-                                          bottomRight: Radius.circular(10)),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Text(
-                                        data[index].busnessType,
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold),
+                    child: Stack(children: [
+                      ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(1.0),
+                            topRight: Radius.circular(1.0),
+                          ),
+                          child: data[index].coProfile != ''
+                              ? Image.network(
+                                  api +
+                                      'public/uploads/' +
+                                      data[index].username +
+                                      '/busness/' +
+                                      data[index].coProfile,
+                                  fit: BoxFit.cover,
+                                  loadingBuilder: (BuildContext context,
+                                      Widget child,
+                                      ImageChunkEvent? loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        value: loadingProgress
+                                                    .expectedTotalBytes !=
+                                                null
+                                            ? loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                loadingProgress
+                                                    .expectedTotalBytes!
+                                            : null,
                                       ),
-                                    )))
-                          ]),
-                          //Details
-                          const SizedBox(height: 5.0),
-
-                          Container(
-                            alignment: Alignment.center,
-                            // padding: const EdgeInsets.only(left: 8.0),
-                            child: Text(
-                              data[index].price + ' Tsh',
-                              style: const TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          const SizedBox(height: 3.0),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Text(
-                              data[index].knownAs,
-                              style: const TextStyle(
-                                  fontSize: 13, fontWeight: FontWeight.w400),
-                            ),
-                          ),
-
-                          const SizedBox(height: 3.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(
-                                    left: 8.0, bottom: 4.0),
-                                child: Row(children: const [
-                                  Icon(
-                                    Icons.star,
-                                    size: 16,
-                                    color: Colors.red,
-                                  ),
-                                  Icon(
-                                    Icons.star,
-                                    size: 16,
-                                    color: Colors.red,
-                                  ),
-                                  Icon(
-                                    Icons.star,
-                                    size: 16,
-                                    color: Colors.red,
-                                  ),
-                                  Icon(
-                                    Icons.star,
-                                    size: 16,
-                                    color: Colors.grey,
-                                  ),
-                                  Icon(
-                                    Icons.star,
-                                    size: 16,
-                                    color: Colors.grey,
-                                  )
-                                ]),
+                                    );
+                                  },
+                                )
+                              : const SizedBox(height: 1)),
+                      Positioned(
+                          top: 1,
+                          child: Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.only(
+                                    bottomRight: Radius.circular(10)),
                               ),
-                              Container(
-                                margin: const EdgeInsets.only(
-                                    right: 8.0, bottom: 4.0),
-                                child: Row(children: const [
-                                  Icon(
-                                    Icons.heart_broken,
-                                    size: 16,
-                                    color: Colors.red,
-                                  )
-                                ]),
-                              ),
-                            ],
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Text(
+                                  data[index].busnessType,
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              )))
+                    ]),
+                  ),
+
+                  //Details
+                  const SizedBox(height: 5.0),
+
+                  // Price Display
+                  Container(
+                    alignment: Alignment.center,
+                    // padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      data[index].price + ' Tsh',
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  const SizedBox(height: 3.0),
+
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      data[index].knownAs,
+                      style: const TextStyle(
+                          fontSize: 13, fontWeight: FontWeight.w400),
+                    ),
+                  ),
+
+                  const SizedBox(height: 3.0),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(left: 8.0, bottom: 4.0),
+                        child: Row(children: const [
+                          Icon(
+                            Icons.star,
+                            size: 16,
+                            color: Colors.red,
                           ),
-                        ],
+                          Icon(
+                            Icons.star,
+                            size: 16,
+                            color: Colors.red,
+                          ),
+                          Icon(
+                            Icons.star,
+                            size: 16,
+                            color: Colors.red,
+                          ),
+                          Icon(
+                            Icons.star,
+                            size: 16,
+                            color: Colors.grey,
+                          ),
+                          Icon(
+                            Icons.star,
+                            size: 16,
+                            color: Colors.grey,
+                          )
+                        ]),
                       ),
-                    )));
+                      Container(
+                        margin: const EdgeInsets.only(right: 8.0, bottom: 4.0),
+                        child: Row(children: const [
+                          Icon(
+                            Icons.heart_broken,
+                            size: 16,
+                            color: Colors.red,
+                          )
+                        ]),
+                      ),
+                    ],
+                  ),
+                  currentUser.id != data[index].ceoId
+                      ? GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => BusnessUpload(
+                                          getData: data[index],
+                                        )));
+                          },
+                          child: Container(
+                            height: 30,
+                            padding: const EdgeInsets.all(4.0),
+                            decoration: BoxDecoration(
+                              color: OColors.danger,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                "Edit ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        )
+                      : const SizedBox(),
+                ],
+              ),
+            ));
           },
           staggeredTileBuilder: (index) {
             return const StaggeredTile.fit(2);

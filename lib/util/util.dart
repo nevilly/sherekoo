@@ -34,6 +34,7 @@ String urlAllBusnessList = api + 'Busness/getBusness';
 String urlBusnessByType = api + 'Busness/getByBusnessType';
 String urlMyBusnessList = api + 'Busness/getByBusnessCeoId';
 String urlMyBsnByCratorId = api + 'Busness/bsnByCreatorId';
+String urlUpdateBusness = api + 'Busness/update';
 
 String urlBusnessPhoto = api + 'Busness/getPhoto';
 String urlBusnessMembers = api + 'Busness/getMembers';

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class PostBusness {
+  final String bId;
   final String busnessType;
   final String knownAs;
   final String coProfile;
@@ -21,7 +22,8 @@ class PostBusness {
   dynamic payload;
 
   PostBusness(
-      {required this.busnessType,
+      {required this.bId,
+      required this.busnessType,
       required this.knownAs,
       required this.coProfile,
       required this.price,
@@ -41,6 +43,7 @@ class PostBusness {
     return PostBusness(
       status: json['status'],
       payload: json['payload'],
+      bId: json['bId'] ?? "",
       busnessType: json['busnessType'] ?? "",
       knownAs: json['knownAs'] ?? "",
       coProfile: json['coProfile'] ?? "",
@@ -93,9 +96,54 @@ class PostBusness {
     return await http
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((r) {
-      // final rJson = jsonDecode(r.body);
-      // print('I want to knooowwww');
-      // print(rJson);
+      if (r.statusCode == 200) {
+        return PostBusness.fromJson(
+            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+      }
+      return PostBusness.fromJson(
+          {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+    });
+  }
+
+  Future<PostBusness> update(
+      String token, String dirUrl, String oldCoProfile) async {
+    Uri url = Uri.parse(dirUrl);
+
+    if (token.isEmpty) {
+      return PostBusness.fromJson({
+        "status": 204,
+        "payload": {"error": "Invalid token"}
+      });
+    }
+
+    Map<String, dynamic> toMap() {
+      return <String, dynamic>{
+        'bId': bId,
+        'busnessType': busnessType,
+        'knownAs': knownAs,
+        'coProfile': coProfile,
+        'price': price,
+        'contact': contact,
+        'location': location,
+        'companyName': companyName,
+        'ceoId': ceoId,
+        'aboutCEO': aboutCEO,
+        'aboutCompany': aboutCompany,
+        'createdBy': createdBy,
+        'hotStatus': hotStatus,
+        'subscrlevel': subscrlevel,
+        'oldCoProfile': oldCoProfile,
+      };
+    }
+
+    Map<String, String> headers = {
+      "Authorization": "Owesis " + token,
+      "Content-Type": "Application/json"
+    };
+
+    return await http
+        .post(url, body: jsonEncode(toMap()), headers: headers)
+        .then((r) {
       if (r.statusCode == 200) {
         return PostBusness.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});

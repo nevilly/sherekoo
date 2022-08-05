@@ -25,27 +25,27 @@ class _ProfileState extends State<Profile> {
   final Preferences _preferences = Preferences();
   String token = '';
 
-  User userById = User(
+  late User userById = User(
       id: '',
       username: '',
+      firstname: '',
+      lastname: '',
       avater: '',
       phoneNo: '',
-      role: '',
-      gender: '',
       email: '',
-      firstname: '',
-      lastname: '');
+      gender: '',
+      role: '');
 
-  User currentUser = User(
+  late User currentUser = User(
       id: '',
       username: '',
+      firstname: '',
+      lastname: '',
       avater: '',
       phoneNo: '',
-      role: '',
-      gender: '',
       email: '',
-      firstname: '',
-      lastname: '');
+      gender: '',
+      role: '');
 
   @override
   void initState() {
@@ -64,9 +64,11 @@ class _ProfileState extends State<Profile> {
 
   getUser() async {
     AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
-      setState(() {
-        currentUser = User.fromJson(value.payload);
-      });
+      if (value.status == 200) {
+        setState(() {
+          currentUser = User.fromJson(value.payload);
+        });
+      }
     });
   }
 
@@ -74,9 +76,11 @@ class _ProfileState extends State<Profile> {
     AllUsersModel(payload: [], status: 0)
         .getUserById(token, urlUserProfileById, id)
         .then((value) {
-      setState(() {
-        userById = User.fromJson(value.payload);
-      });
+      if (value.status == 200) {
+        setState(() {
+          userById = User.fromJson(value.payload);
+        });
+      }
     });
   }
 

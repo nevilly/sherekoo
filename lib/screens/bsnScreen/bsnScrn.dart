@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sherekoo/model/busness/busnessModel.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 
 import 'bsnTabs.dart';
@@ -37,7 +38,22 @@ class _BusnessScreenState extends State<BusnessScreen> {
     u2Lname: '',
     u2g: '',
   );
-
+  BusnessModel busness = BusnessModel(
+      location: '',
+      bId: '',
+      knownAs: '',
+      coProfile: '',
+      busnessType: '',
+      avater: '',
+      companyName: '',
+      price: '',
+      contact: '',
+      hotStatus: '',
+      aboutCEO: '',
+      aboutCompany: '',
+      username: '',
+      ceoId: '',
+      subcrlevel: '');
   @override
   void initState() {
     ceremony = widget.ceremony;
@@ -52,6 +68,7 @@ class _BusnessScreenState extends State<BusnessScreen> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.black54,
           title: Text(widget.bsnType),
         ),
         body: Column(
@@ -85,13 +102,14 @@ class _BusnessScreenState extends State<BusnessScreen> {
 
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.red,
-          //objects will be added to the database when this button is clicked.
           onPressed: () {
-            //this method is executed when the floating button is clicked
-            Navigator.push(context,
-                MaterialPageRoute(builder: (_) => const BusnessUpload()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => BusnessUpload(
+                          getData: busness,
+                        )));
           },
-
           child: const Icon(
             Icons.add,
             color: Colors.white,

@@ -97,6 +97,7 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
       status: 0,
       payload: [],
       subscrlevel: lvl,
+      bId: '',
     ).get(token, urlPostBusness).then((v) {
       if (v.status == 200) {
         alertMessage(v.payload);
@@ -142,6 +143,7 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
             height: 150,
             fit: BoxFit.cover,
           ),
+
           const Padding(
             padding:
                 EdgeInsets.only(top: 2.0, left: 8.0, right: 8.0, bottom: 8.0),
@@ -155,6 +157,7 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
                   color: Colors.black),
             )),
           ),
+
           const SizedBox(
             height: 10,
           ),
@@ -564,6 +567,7 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
           const SizedBox(
             height: 10,
           ),
+
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(

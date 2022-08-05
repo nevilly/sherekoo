@@ -6,8 +6,10 @@ import 'dart:io';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import 'package:image_watermark/image_watermark.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 import 'package:sherekoo/screens/chats.dart';
@@ -197,7 +199,6 @@ class _PostTemplateState extends State<PostTemplate> {
                 const SizedBox(
                   height: 8,
                 ),
-
                 // Like Button
                 MyButton(icon: Icons.favorite, number: widget.numberOfLikes),
 
@@ -222,6 +223,7 @@ class _PostTemplateState extends State<PostTemplate> {
                   height: 10,
                 ),
 
+                // share
                 GestureDetector(
                   onTap: () async {
                     final String dirUrl = api +
@@ -229,19 +231,28 @@ class _PostTemplateState extends State<PostTemplate> {
                         widget.username +
                         '/posts/' +
                         widget.postVedeo;
-                    // Uri url = Uri.parse(
-                    //     'https://res.cloudinary.com/practicaldev/image/fetch/s--_HBZhuhF--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/nweeqf97l2md3tlqkjyt.jpg');
 
                     Uri url = Uri.parse(dirUrl);
-
                     final response = await http.get(url);
-
                     final bytes = response.bodyBytes;
+                    ByteData imagebyte = await rootBundle
+                        .load('assets/logo/waterMark/sherekoo.jpg');
+                    final logo = imagebyte.buffer.asUint8List();
+
+                    // waterMark
+                    final watermarkedImgBytes =
+                        await image_watermark.addImageWatermark(
+                            bytes, //image bytes
+                            logo, //watermark img bytes
+                            imgHeight: 250, //watermark img height
+                            imgWidth: 250, //watermark img width
+                            dstY: 400,
+                            dstX: 400);
 
                     final temp = await getTemporaryDirectory();
                     final path = '${temp.path}/image.jpg';
 
-                    File(path).writeAsBytesSync(bytes);
+                    File(path).writeAsBytesSync(watermarkedImgBytes);
                     await Share.shareFiles([path],
                         text: 'Image Shared from sherekoo');
 
