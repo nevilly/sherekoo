@@ -28,7 +28,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
     'Production',
     'Decorator',
     'Hall',
-    'Cake Bekar',
+    'Cake Bakery',
     'Singer',
     'Dancer',
     'Cooker',
@@ -138,6 +138,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             productionAvater = widget.getData.avater;
             productionId = widget.getData.ceoId;
             productionUsername = widget.getData.username;
+            productionSubscription = widget.getData.subcrlevel;
             productionDefaultImg = widget.getData.coProfile;
             _productionCoKnownController.text = widget.getData.knownAs;
             _productionCoPriceController.text = widget.getData.price;
@@ -153,6 +154,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             decoratorAvater = widget.getData.avater;
             decoratorId = widget.getData.ceoId;
             decoratorUsername = widget.getData.username;
+            decoratorSubscription = widget.getData.subcrlevel;
             decoratorDefaultImg = widget.getData.coProfile;
             _decoratorCoKnownController.text = widget.getData.knownAs;
             _decoratorCoPriceController.text = widget.getData.price;
@@ -163,7 +165,34 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _decoratorCeobioController.text = widget.getData.aboutCEO;
             _decoratorCeoPhoneController.text = widget.getData.contact;
           }
-          if (widget.getData.busnessType == 'Cake Bekar') {}
+          if (widget.getData.busnessType == 'Hall') {
+            hallAvater = widget.getData.avater;
+            hallId = widget.getData.ceoId;
+            hallUsername = widget.getData.username;
+            hallSubscription = widget.getData.subcrlevel;
+            hallDefaultImg = widget.getData.coProfile;
+            _hallCoKnownController.text = widget.getData.knownAs;
+            _hallCoPriceController.text = widget.getData.price;
+            _hallCoPhoneController.text = widget.getData.contact;
+            _hallCoLocationController.text = widget.getData.location;
+            _hallCoAboutController.text = widget.getData.aboutCompany;
+            _hallCeobioController.text = widget.getData.aboutCEO;
+            _hallCeoPhoneController.text = widget.getData.contact;
+          }
+          if (widget.getData.busnessType == 'Cake Bakery') {
+            cakeAvater = widget.getData.avater;
+            cakeId = widget.getData.ceoId;
+            cakeUsername = widget.getData.username;
+            cakeSubscription = widget.getData.subcrlevel;
+            cakeDefaultImg = widget.getData.coProfile;
+            _cakeCoKnownController.text = widget.getData.knownAs;
+            _cakeCoPriceController.text = widget.getData.price;
+            _cakeCoPhoneController.text = widget.getData.contact;
+            _cakeCoLocationController.text = widget.getData.location;
+            _cakeCoAboutController.text = widget.getData.aboutCompany;
+            _cakeCeobioController.text = widget.getData.aboutCEO;
+            _cakeCeoPhoneController.text = widget.getData.contact;
+          }
           if (widget.getData.busnessType == 'Singer') {}
           if (widget.getData.busnessType == 'Dancer') {}
           if (widget.getData.busnessType == 'Cooker') {}
@@ -216,6 +245,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
   String productionAvater = '';
   String productionId = "";
   String productionUsername = "";
+  String productionSubscription = "";
   String productionDefaultImg = "assets/busness/mc/mc2.png";
   final TextEditingController _productionCoKnownController =
       TextEditingController();
@@ -237,6 +267,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
   String decoratorAvater = '';
   String decoratorId = "";
   String decoratorUsername = "";
+  String decoratorSubscription = '';
   String decoratorDefaultImg = "assets/busness/mc/mc2.png";
   final TextEditingController _decoratorCoKnownController =
       TextEditingController();
@@ -258,6 +289,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
   String hallAvater = '';
   String hallId = "";
   String hallUsername = "";
+  String hallSubscription = '';
   String hallDefaultImg = "assets/busness/mc/mc2.png";
   final TextEditingController _hallCoKnownController = TextEditingController();
   final TextEditingController _hallCoPriceController = TextEditingController();
@@ -273,6 +305,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
   String cakeAvater = '';
   String cakeId = "";
   String cakeUsername = "";
+  String cakeSubscription = '';
   String cakeDefaultImg = "assets/busness/mc/mc2.png";
   final TextEditingController _cakeCoKnownController = TextEditingController();
   final TextEditingController _cakeCoPriceController = TextEditingController();
@@ -288,6 +321,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
   String singersAvater = '';
   String singersId = "";
   String singersUsername = "";
+  String singersSubscription = '';
   String singersDefaultImg = "assets/busness/mc/mc2.png";
   final TextEditingController _singersCoKnownController =
       TextEditingController();
@@ -309,6 +343,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
   String dancersAvater = '';
   String dancersId = "";
   String dancersUsername = "";
+  String dancersSubscription = '';
   String dancersDefaultImg = "assets/busness/mc/mc2.png";
   final TextEditingController _dancersCoKnownController =
       TextEditingController();
@@ -330,6 +365,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
   String cookerAvater = '';
   String cookerId = "";
   String cookerUsername = "";
+  String cookerSubscription = '';
   String cookerDefaultImg = "assets/busness/mc/mc2.png";
   final TextEditingController _cookerCoKnownController =
       TextEditingController();
@@ -350,6 +386,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
   String saloonAvater = '';
   String saloonId = "";
   String saloonUsername = "";
+  String saloonSubscription = '';
   String saloonDefaultImg = "assets/busness/mc/mc2.png";
   final TextEditingController _saloonCoKnownController =
       TextEditingController();
@@ -370,6 +407,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
   String carsAvater = '';
   String carsId = "";
   String carsUsername = "";
+  String carsSubscription = '';
   String carsDefaultImg = "assets/busness/mc/mc2.png";
   final TextEditingController _carsCoKnownController = TextEditingController();
   final TextEditingController _carsCoPriceController = TextEditingController();
@@ -807,23 +845,44 @@ class _BusnessUploadState extends State<BusnessUpload> {
                   }
 
                   if (selectedBusness == 'Production') {
-                    _postBusness(
-                        selectedBusness,
-                        _productionCoKnownController.text,
-                        productionDefaultImg,
-                        _generalimage,
-                        _productionCoPriceController.text,
-                        _productionCoPhoneController.text,
-                        _productionCoLocationController.text,
-                        _productionCoKnownController.text,
-                        productionId,
-                        _productionCeobioController.text,
-                        _productionCoAboutController.text,
-                        'Insert your Brand Name on "CO Tab" pls!...',
-                        'Insert your Price on "Co Tab" pls!...',
-                        'Insert your Phone Number  on "Co Tab" pls!...',
-                        'Insert Contact  on "Co Tab" pls!...',
-                        'msg5');
+                    if (widget.getData.bId.isEmpty) {
+                      _postBusness(
+                          selectedBusness,
+                          _productionCoKnownController.text,
+                          productionDefaultImg,
+                          _generalimage,
+                          _productionCoPriceController.text,
+                          _productionCoPhoneController.text,
+                          _productionCoLocationController.text,
+                          _productionCoKnownController.text,
+                          productionId,
+                          _productionCeobioController.text,
+                          _productionCoAboutController.text,
+                          'Insert your Brand Name on "CO Tab" pls!...',
+                          'Insert your Price on "Co Tab" pls!...',
+                          'Insert your Phone Number  on "Co Tab" pls!...',
+                          'Insert Contact  on "Co Tab" pls!...',
+                          'msg5');
+                    } else {
+                      _updateBusness(
+                          selectedBusness,
+                          _productionCoKnownController.text,
+                          productionDefaultImg,
+                          _generalimage,
+                          _productionCoPriceController.text,
+                          _productionCoPhoneController.text,
+                          _productionCoLocationController.text,
+                          _productionCoKnownController.text,
+                          productionId,
+                          _productionCeobioController.text,
+                          _productionCoAboutController.text,
+                          productionSubscription,
+                          'Insert your Brand Name on "CO Tab" pls!...',
+                          'Insert your Price on "Co Tab" pls!...',
+                          'Insert your Phone Number  on "Co Tab" pls!...',
+                          'Insert Contact  on "Co Tab" pls!...',
+                          '');
+                    }
                   }
 
                   if (selectedBusness == 'Decorator') {
@@ -858,7 +917,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                           decoratorId,
                           _decoratorCeobioController.text,
                           _decoratorCoAboutController.text,
-                          _mcSubscription,
+                          decoratorSubscription,
                           'Insert your Brand Name on "CO Tab" pls!...',
                           'Insert your Price on "Co Tab" pls!...',
                           'Insert your Phone Number  on "Co Tab" pls!...',
@@ -867,43 +926,88 @@ class _BusnessUploadState extends State<BusnessUpload> {
                     }
                   }
                   if (selectedBusness == 'Halls') {
-                    _postBusness(
-                        selectedBusness,
-                        _hallCoKnownController.text,
-                        hallDefaultImg,
-                        _generalimage,
-                        _hallCoPriceController.text,
-                        _hallCoPhoneController.text,
-                        _hallCoLocationController.text,
-                        _hallCoKnownController.text,
-                        hallId,
-                        _hallCeobioController.text,
-                        _hallCoAboutController.text,
-                        'Insert your Brand Name on "CO Tab" pls!...',
-                        'Insert your Price on "Co Tab" pls!...',
-                        'Insert your Phone Number  on "Co Tab" pls!...',
-                        'Insert Contact  on "Co Tab" pls!...',
-                        'msg5');
+                    if (widget.getData.bId.isEmpty) {
+                      _postBusness(
+                          selectedBusness,
+                          _hallCoKnownController.text,
+                          hallDefaultImg,
+                          _generalimage,
+                          _hallCoPriceController.text,
+                          _hallCoPhoneController.text,
+                          _hallCoLocationController.text,
+                          _hallCoKnownController.text,
+                          hallId,
+                          _hallCeobioController.text,
+                          _hallCoAboutController.text,
+                          'Insert your Brand Name on "CO Tab" pls!...',
+                          'Insert your Price on "Co Tab" pls!...',
+                          'Insert your Phone Number  on "Co Tab" pls!...',
+                          'Insert Contact  on "Co Tab" pls!...',
+                          'msg5');
+                      // if (widget.getData.bId.isEmpty) {
+                    } else {
+                      _updateBusness(
+                          selectedBusness,
+                          _hallCoKnownController.text,
+                          hallDefaultImg,
+                          _generalimage,
+                          _hallCoPriceController.text,
+                          _hallCoPhoneController.text,
+                          _hallCoLocationController.text,
+                          _hallCoKnownController.text,
+                          hallId,
+                          _hallCeobioController.text,
+                          _hallCoAboutController.text,
+                          hallSubscription,
+                          'Insert your Brand Name on "CO Tab" pls!...',
+                          'Insert your Price on "Co Tab" pls!...',
+                          'Insert your Phone Number  on "Co Tab" pls!...',
+                          'Insert Contact  on "Co Tab" pls!...',
+                          '');
+                    }
                   }
 
-                  if (selectedBusness == 'Cake Bekar') {
-                    _postBusness(
-                        selectedBusness,
-                        _cakeCoKnownController.text,
-                        cakeDefaultImg,
-                        _generalimage,
-                        _cakeCoPriceController.text,
-                        _cakeCoPhoneController.text,
-                        _cakeCoLocationController.text,
-                        _cakeCoKnownController.text,
-                        cakeId,
-                        _cakeCeobioController.text,
-                        _cakeCoAboutController.text,
-                        'Insert your Brand Name on "CO Tab" pls!...',
-                        'Insert your Price on "Co Tab" pls!...',
-                        'Insert your Phone Number  on "Co Tab" pls!...',
-                        'Insert Contact  on "Co Tab" pls!...',
-                        'msg5');
+                  if (selectedBusness == 'Cake Bakery') {
+                    if (widget.getData.bId.isEmpty) {
+                      _postBusness(
+                          selectedBusness,
+                          _cakeCoKnownController.text,
+                          cakeDefaultImg,
+                          _generalimage,
+                          _cakeCoPriceController.text,
+                          _cakeCoPhoneController.text,
+                          _cakeCoLocationController.text,
+                          _cakeCoKnownController.text,
+                          cakeId,
+                          _cakeCeobioController.text,
+                          _cakeCoAboutController.text,
+                          'Insert your Brand Name on "CO Tab" pls!...',
+                          'Insert your Price on "Co Tab" pls!...',
+                          'Insert your Phone Number  on "Co Tab" pls!...',
+                          'Insert Contact  on "Co Tab" pls!...',
+                          'msg5');
+
+                      // if (widget.getData.bId.isEmpty) {
+                    } else {
+                      _updateBusness(
+                          selectedBusness,
+                          _cakeCoKnownController.text,
+                          cakeDefaultImg,
+                          _generalimage,
+                          _cakeCoPriceController.text,
+                          _cakeCoPhoneController.text,
+                          _cakeCoLocationController.text,
+                          _cakeCoKnownController.text,
+                          cakeId,
+                          _cakeCeobioController.text,
+                          _cakeCoAboutController.text,
+                          cakeSubscription,
+                          'Insert your Brand Name on "CO Tab" pls!...',
+                          'Insert your Price on "Co Tab" pls!...',
+                          'Insert your Phone Number  on "Co Tab" pls!...',
+                          'Insert Contact  on "Co Tab" pls!...',
+                          '');
+                    }
                   }
 
                   if (selectedBusness == 'Singer') {
