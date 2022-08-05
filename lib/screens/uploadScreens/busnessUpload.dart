@@ -193,8 +193,34 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _cakeCeobioController.text = widget.getData.aboutCEO;
             _cakeCeoPhoneController.text = widget.getData.contact;
           }
-          if (widget.getData.busnessType == 'Singer') {}
-          if (widget.getData.busnessType == 'Dancer') {}
+          if (widget.getData.busnessType == 'Singer') {
+            singersAvater = widget.getData.avater;
+            singersId = widget.getData.ceoId;
+            singersUsername = widget.getData.username;
+            singersSubscription = widget.getData.subcrlevel;
+            singersDefaultImg = widget.getData.coProfile;
+            _singersCoKnownController.text = widget.getData.knownAs;
+            _singersCoPriceController.text = widget.getData.price;
+            _singersCoPhoneController.text = widget.getData.contact;
+            _singersCoLocationController.text = widget.getData.location;
+            _singersCoAboutController.text = widget.getData.aboutCompany;
+            _singersCeobioController.text = widget.getData.aboutCEO;
+            _singersCeoPhoneController.text = widget.getData.contact;
+          }
+          if (widget.getData.busnessType == 'Dancer') {
+            dancersAvater = widget.getData.avater;
+            dancersId = widget.getData.ceoId;
+            dancersUsername = widget.getData.username;
+            dancersSubscription = widget.getData.subcrlevel;
+            dancersDefaultImg = widget.getData.coProfile;
+            _dancersCoKnownController.text = widget.getData.knownAs;
+            _dancersCoPriceController.text = widget.getData.price;
+            _dancersCoPhoneController.text = widget.getData.contact;
+            _dancersCoLocationController.text = widget.getData.location;
+            _dancersCoAboutController.text = widget.getData.aboutCompany;
+            _dancersCeobioController.text = widget.getData.aboutCEO;
+            _dancersCeoPhoneController.text = widget.getData.contact;
+          }
           if (widget.getData.busnessType == 'Cooker') {}
           if (widget.getData.busnessType == 'saloon') {}
           if (widget.getData.busnessType == 'Car') {}
@@ -1011,43 +1037,89 @@ class _BusnessUploadState extends State<BusnessUpload> {
                   }
 
                   if (selectedBusness == 'Singer') {
-                    _postBusness(
-                        selectedBusness,
-                        _singersCoKnownController.text,
-                        singersDefaultImg,
-                        _generalimage,
-                        _singersCoPriceController.text,
-                        _singersCoPhoneController.text,
-                        _singersCoLocationController.text,
-                        _singersCoKnownController.text,
-                        singersId,
-                        _singersCeobioController.text,
-                        _singersCoAboutController.text,
-                        'Insert your Brand Name on "CO Tab" pls!...',
-                        'Insert your Price on "Co Tab" pls!...',
-                        'Insert your Phone Number  on "Co Tab" pls!...',
-                        'Insert Contact  on "Co Tab" pls!...',
-                        'msg5');
+                    if (widget.getData.bId.isEmpty) {
+                      _postBusness(
+                          selectedBusness,
+                          _singersCoKnownController.text,
+                          singersDefaultImg,
+                          _generalimage,
+                          _singersCoPriceController.text,
+                          _singersCoPhoneController.text,
+                          _singersCoLocationController.text,
+                          _singersCoKnownController.text,
+                          singersId,
+                          _singersCeobioController.text,
+                          _singersCoAboutController.text,
+                          'Insert your Brand Name on "CO Tab" pls!...',
+                          'Insert your Price on "Co Tab" pls!...',
+                          'Insert your Phone Number  on "Co Tab" pls!...',
+                          'Insert Contact  on "Co Tab" pls!...',
+                          'msg5');
+
+                      // if (widget.getData.bId.isEmpty) {
+                    } else {
+                      _updateBusness(
+                          selectedBusness,
+                          _singersCoKnownController.text,
+                          singersDefaultImg,
+                          _generalimage,
+                          _singersCoPriceController.text,
+                          _singersCoPhoneController.text,
+                          _singersCoLocationController.text,
+                          _singersCoKnownController.text,
+                          singersId,
+                          _singersCeobioController.text,
+                          _singersCoAboutController.text,
+                          singersSubscription,
+                          'Insert your Brand Name on "CO Tab" pls!...',
+                          'Insert your Price on "Co Tab" pls!...',
+                          'Insert your Phone Number  on "Co Tab" pls!...',
+                          'Insert Contact  on "Co Tab" pls!...',
+                          '');
+                    }
                   }
 
                   if (selectedBusness == 'Dancer') {
-                    _postBusness(
-                        selectedBusness,
-                        _dancersCoKnownController.text,
-                        dancersDefaultImg,
-                        _generalimage,
-                        _dancersCoPriceController.text,
-                        _dancersCoPhoneController.text,
-                        _dancersCoLocationController.text,
-                        _dancersCoKnownController.text,
-                        dancersId,
-                        _dancersCeobioController.text,
-                        _dancersCoAboutController.text,
-                        'Insert your Brand Name on "CO Tab" pls!...',
-                        'Insert your Price on "Co Tab" pls!...',
-                        'Insert your Phone Number  on "Co Tab" pls!...',
-                        'Insert Contact  on "Co Tab" pls!...',
-                        'msg5');
+                    if (widget.getData.bId.isEmpty) {
+                      _postBusness(
+                          selectedBusness,
+                          _dancersCoKnownController.text,
+                          dancersDefaultImg,
+                          _generalimage,
+                          _dancersCoPriceController.text,
+                          _dancersCoPhoneController.text,
+                          _dancersCoLocationController.text,
+                          _dancersCoKnownController.text,
+                          dancersId,
+                          _dancersCeobioController.text,
+                          _dancersCoAboutController.text,
+                          'Insert your Brand Name on "CO Tab" pls!...',
+                          'Insert your Price on "Co Tab" pls!...',
+                          'Insert your Phone Number  on "Co Tab" pls!...',
+                          'Insert Contact  on "Co Tab" pls!...',
+                          'msg5');
+
+                      // if (widget.getData.bId.isEmpty) {
+                    } else {
+                      _updateBusness(
+                          selectedBusness,
+                          _dancersCoKnownController.text,
+                          dancersDefaultImg,
+                          _generalimage,
+                          _dancersCoPriceController.text,
+                          _dancersCoPhoneController.text,
+                          _dancersCoLocationController.text,
+                          _dancersCoKnownController.text,
+                          dancersId,
+                          _dancersCeobioController.text,
+                          _dancersCoAboutController.text,
+                          dancersSubscription,
+                          'Insert your Brand Name on "CO Tab" pls!...',
+                          'Insert your Price on "Co Tab" pls!...',
+                          'Insert your Phone Number  on "Co Tab" pls!...',
+                          'Insert Contact  on "Co Tab" pls!...',
+                          '');
+                    }
                   }
 
                   if (selectedBusness == 'Cooker') {
