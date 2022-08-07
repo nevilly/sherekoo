@@ -129,7 +129,6 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _mcCoPhoneController.text = widget.getData.contact;
             _mcCoAboutController.text = widget.getData.aboutCompany;
             _mcCoLocationController.text = widget.getData.location;
-
             _mcCeobioController.text = widget.getData.aboutCEO;
             _mcCeoPhoneController.text = widget.getData.contact;
           }

@@ -47,6 +47,7 @@ dependencies:
   share_plus: ^4.0.10
   path_provider:
   image_watermark:
+  curved_navigation_bar:
 
 dev_dependencies:
   flutter_test:

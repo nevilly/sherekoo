@@ -264,7 +264,7 @@ class _BsnTabState extends State<BsnTab> {
                       ),
                     ],
                   ),
-                  currentUser.id != data[index].ceoId
+                  currentUser.id == data[index].ceoId
                       ? GestureDetector(
                           onTap: () {
                             Navigator.push(

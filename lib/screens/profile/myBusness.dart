@@ -8,6 +8,7 @@ import '../../util/Preferences.dart';
 import '../../util/pallets.dart';
 import '../../util/util.dart';
 import '../detailScreen/DetailPage.dart';
+import '../uploadScreens/busnessUpload.dart';
 
 class MyBusness extends StatefulWidget {
   final String userId;
@@ -215,12 +216,22 @@ class _MyBusnessState extends State<MyBusness> {
                               ),
                             ),
                             widget.currentId == widget.userId
-                                ? Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'Edit',
-                                      style: btnText.copyWith(
-                                          color: OColors.danger),
+                                ? GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => BusnessUpload(
+                                                    getData: myBsn[index],
+                                                  )));
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        'Edit',
+                                        style: btnText.copyWith(
+                                            color: OColors.danger),
+                                      ),
                                     ),
                                   )
                                 : const SizedBox(),

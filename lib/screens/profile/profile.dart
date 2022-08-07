@@ -49,6 +49,8 @@ class _ProfileState extends State<Profile> {
 
   @override
   void initState() {
+    currentUser = widget.user;
+
     _preferences.init();
     _preferences.get('token').then((value) {
       setState(() {
@@ -63,7 +65,7 @@ class _ProfileState extends State<Profile> {
   }
 
   getUser() async {
-    AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
+    AllUsersModel(payload: [], status: 0).get(token, urlGetUser+'/'+ widget.user.id).then((value) {
       if (value.status == 200) {
         setState(() {
           currentUser = User.fromJson(value.payload);
