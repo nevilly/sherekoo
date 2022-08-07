@@ -61,7 +61,7 @@ class _BsnTabState extends State<BsnTab> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '');
+      role: '', isCurrentUser: '');
 
   @override
   void initState() {

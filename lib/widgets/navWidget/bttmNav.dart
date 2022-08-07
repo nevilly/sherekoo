@@ -33,7 +33,7 @@ class _BttmNavState extends State<BttmNav> {
       gender: '',
       email: '',
       firstname: '',
-      lastname: '');
+      lastname: '', isCurrentUser: '');
 
   @override
   void initState() {

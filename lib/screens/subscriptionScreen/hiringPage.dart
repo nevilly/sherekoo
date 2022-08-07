@@ -37,7 +37,7 @@ class _HiringPageState extends State<HiringPage> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '');
+      role: '', isCurrentUser: '');
 
   BusnessModel? bsn;
   CeremonyModel? crm;

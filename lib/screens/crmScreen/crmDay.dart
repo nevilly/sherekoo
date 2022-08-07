@@ -35,7 +35,7 @@ class _CeremonyDayState extends State<CeremonyDay> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '');
+      role: '', isCurrentUser: '');
 
   @override
   void initState() {

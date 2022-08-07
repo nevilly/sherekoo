@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
       gender: '',
       email: '',
       firstname: '',
-      lastname: '');
+      lastname: '', isCurrentUser: '');
 
   @override
   void initState() {

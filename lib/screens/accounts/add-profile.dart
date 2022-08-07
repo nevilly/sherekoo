@@ -32,7 +32,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '');
+      role: '', isCurrentUser: '');
 
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();

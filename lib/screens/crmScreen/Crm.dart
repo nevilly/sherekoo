@@ -37,7 +37,7 @@ class _CrmState extends State<Crm> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '');
+      role: '', isCurrentUser: '');
 
   @override
   void initState() {

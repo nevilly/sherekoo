@@ -31,7 +31,7 @@ class _NavDrawerState extends State<NavDrawer> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '');
+      role: '', isCurrentUser: '');
 
   CeremonyModel ceremony = CeremonyModel(
       cId: '',

@@ -109,7 +109,7 @@ class _PostTemplateState extends State<PostTemplate> {
       gender: '',
       email: '',
       firstname: '',
-      lastname: '');
+      lastname: '', isCurrentUser: '');
 
   @override
   void initState() {
@@ -188,7 +188,7 @@ class _PostTemplateState extends State<PostTemplate> {
                                         gender: '',
                                         email: '',
                                         firstname: '',
-                                        lastname: ''),
+                                        lastname: '', isCurrentUser: ''),
                                   )));
                     },
                     child: _getFollowAction(pictureUrl: widget.avater)),

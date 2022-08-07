@@ -33,7 +33,7 @@ class _TabBState extends State<TabB> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '');
+      role: '', isCurrentUser: '');
   List<SvModel> bsnInfo = [];
 
   @override

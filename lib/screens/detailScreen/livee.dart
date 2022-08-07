@@ -33,7 +33,7 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '');
+      role: '', isCurrentUser: '');
 
   final YoutubePlayerController _controller = YoutubePlayerController(
     initialVideoId: myVideoId,

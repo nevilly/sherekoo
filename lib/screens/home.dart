@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '');
+      role: '', isCurrentUser: '');
 
   String avata = '';
   List<SherekooModel> post = [];

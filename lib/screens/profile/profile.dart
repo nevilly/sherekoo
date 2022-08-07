@@ -34,7 +34,7 @@ class _ProfileState extends State<Profile> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '');
+      role: '', isCurrentUser: '');
 
   late User currentUser = User(
       id: '',
@@ -45,7 +45,7 @@ class _ProfileState extends State<Profile> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '');
+      role: '', isCurrentUser: '');
 
   @override
   void initState() {
@@ -57,7 +57,7 @@ class _ProfileState extends State<Profile> {
         token = value;
 
         getUser();
-        userProfileById(widget.user.id);
+        // userProfileById(widget.user.id);
       });
     });
 
@@ -68,23 +68,23 @@ class _ProfileState extends State<Profile> {
     AllUsersModel(payload: [], status: 0).get(token, urlGetUser+'/'+ widget.user.id).then((value) {
       if (value.status == 200) {
         setState(() {
-          currentUser = User.fromJson(value.payload);
-        });
-      }
-    });
-  }
-
-  userProfileById(id) async {
-    AllUsersModel(payload: [], status: 0)
-        .getUserById(token, urlUserProfileById, id)
-        .then((value) {
-      if (value.status == 200) {
-        setState(() {
           userById = User.fromJson(value.payload);
         });
       }
     });
   }
+
+  // userProfileById(id) async {
+  //   AllUsersModel(payload: [], status: 0)
+  //       .getUserById(token, urlUserProfileById, id)
+  //       .then((value) {
+  //     if (value.status == 200) {
+  //       setState(() {
+  //         userById = User.fromJson(value.payload);
+  //       });
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
