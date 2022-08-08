@@ -20,6 +20,7 @@ import '../../model/allData.dart';
 import '../../model/ceremony/allCeremony.dart';
 import '../../model/profileMode.dart';
 import '../../screens/detailScreen/livee.dart';
+import '../../screens/homNav.dart';
 import '../imgWigdets/defaultAvater.dart';
 import '../../util/Preferences.dart';
 import '../../util/button.dart';
@@ -109,7 +110,8 @@ class _PostTemplateState extends State<PostTemplate> {
       gender: '',
       email: '',
       firstname: '',
-      lastname: '', isCurrentUser: '');
+      lastname: '',
+      isCurrentUser: '');
 
   @override
   void initState() {
@@ -178,7 +180,7 @@ class _PostTemplateState extends State<PostTemplate> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) => Profile(
+                              builder: (BuildContext context) => HomeNav(
                                     user: User(
                                         id: widget.userId,
                                         username: widget.username,
@@ -188,7 +190,9 @@ class _PostTemplateState extends State<PostTemplate> {
                                         gender: '',
                                         email: '',
                                         firstname: '',
-                                        lastname: '', isCurrentUser: ''),
+                                        lastname: '',
+                                        isCurrentUser: ''),
+                                    getIndex: 4,
                                   )));
                     },
                     child: _getFollowAction(pictureUrl: widget.avater)),

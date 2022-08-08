@@ -12,7 +12,7 @@ class Post {
   final String username;
   final String avater;
 
-  final int status;
+  dynamic status;
   dynamic payload;
 
   Post(

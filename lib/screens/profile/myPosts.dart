@@ -3,13 +3,14 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../../model/post/post.dart';
 import '../../model/post/sherekoModel.dart';
+import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
 import '../../util/util.dart';
 import '../chats.dart';
 
 class MyPosts extends StatefulWidget {
-  final String userId;
-  const MyPosts({Key? key, required this.userId}) : super(key: key);
+  final User user;
+  const MyPosts({Key? key, required this.user}) : super(key: key);
 
   @override
   State<MyPosts> createState() => _MyPostsState();
@@ -23,12 +24,12 @@ class _MyPostsState extends State<MyPosts> {
 
   @override
   void initState() {
+    PaintingBinding.instance.imageCache.clear();
     _preferences.init();
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-
-        getPost(widget.userId);
+        getPost(widget.user.id);
       });
     });
     super.initState();
@@ -47,6 +48,8 @@ class _MyPostsState extends State<MyPosts> {
       vedeo: '',
     ).getPostByUserId(token, urlProfileSherekooByUid, id).then((value) {
       setState(() {
+        print('value.payload poost');
+        print(value.payload);
         post = value.payload
             .map<SherekooModel>((e) => SherekooModel.fromJson(e))
             .toList();
@@ -80,13 +83,38 @@ class _MyPostsState extends State<MyPosts> {
                     Center(
                       child: Container(
                           child: post[index].vedeo != ''
-                              ? Image.network(
-                                  api +
+                              ?
+
+                              //  Image.network(
+                              //     api +
+                              //         'public/uploads/' +
+                              //         post[index].username +
+                              //         '/posts/' +
+                              //         post[index].vedeo,
+                              //     fit: BoxFit.cover,
+                              //     errorBuilder: (context, error, stackTrace) {
+                              //       return Image.asset('assets/logo/noimage.pgn',
+                              //           fit: BoxFit.fitWidth);
+                              //     },
+                              //   )
+
+                              FadeInImage(
+                                  image: NetworkImage(api +
                                       'public/uploads/' +
                                       post[index].username +
                                       '/posts/' +
-                                      post[index].vedeo,
-                                  fit: BoxFit.cover,
+                                      post[index].vedeo),
+                                  fadeInDuration:
+                                      const Duration(milliseconds: 100),
+                                  placeholder: const AssetImage(
+                                      'assets/logo/noimage.png'),
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) {
+                                    return Image.asset(
+                                        'assets/logo/noimage.png',
+                                        fit: BoxFit.fitWidth);
+                                  },
+                                  fit: BoxFit.fitWidth,
                                 )
                               : const SizedBox(height: 1)),
                     ),

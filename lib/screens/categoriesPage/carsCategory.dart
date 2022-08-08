@@ -143,7 +143,7 @@ class _CarsCategoryState extends State<CarsCategory> {
       ),
 
       // // Bottom Section
-      bottomNavigationBar: const BttmNav(),
+      // bottomNavigationBar: const BttmNav(),
     );
   }
 }

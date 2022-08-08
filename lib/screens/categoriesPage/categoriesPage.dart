@@ -86,7 +86,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
       ),
 
       // // Bottom Section
-      bottomNavigationBar: const BttmNav(),
+      // bottomNavigationBar: const BttmNav(),
       // bottomNavigationBar: BottomToolbar(),
     );
   }

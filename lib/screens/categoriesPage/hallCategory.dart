@@ -120,7 +120,7 @@ class _HallsCategoryState extends State<HallsCategory> {
       ),
 
       //Bottom Section
-      bottomNavigationBar: const BttmNav(),
+      // bottomNavigationBar: const BttmNav(),
       //bottomNavigationBar: BottomToolbar(),
     );
   }

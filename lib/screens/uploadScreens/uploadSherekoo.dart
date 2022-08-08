@@ -63,6 +63,9 @@ class _SherekooUploadState extends State<SherekooUpload> {
               //Vedio Uploader...
               UploadVedeo()
             ])),
+            SizedBox(
+              height: 30,
+            )
           ],
         ),
       ),

@@ -88,7 +88,7 @@ class _MagazineCategoryState extends State<MagazineCategory> {
       ),
 
       //Bottom Section
-      bottomNavigationBar: const BttmNav(),
+      // bottomNavigationBar: const BttmNav(),
       //bottomNavigationBar: BottomToolbar(),
     );
   }

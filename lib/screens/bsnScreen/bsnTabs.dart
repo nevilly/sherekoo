@@ -53,15 +53,17 @@ class _BsnTabState extends State<BsnTab> {
   );
 
   late User currentUser = User(
-      id: '',
-      username: '',
-      firstname: '',
-      lastname: '',
-      avater: '',
-      phoneNo: '',
-      email: '',
-      gender: '',
-      role: '', isCurrentUser: '');
+    id: '',
+    username: '',
+    firstname: '',
+    lastname: '',
+    avater: '',
+    phoneNo: '',
+    email: '',
+    gender: '',
+    role: '',
+    isCurrentUser: null,
+  );
 
   @override
   void initState() {

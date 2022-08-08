@@ -84,7 +84,7 @@ class _DecoratorsCategoryState extends State<DecoratorsCategory> {
       ),
 
       //Bottom Section
-      bottomNavigationBar: const BttmNav(),
+      // bottomNavigationBar: const BttmNav(),
       //bottomNavigationBar: BottomToolbar(),
     );
   }

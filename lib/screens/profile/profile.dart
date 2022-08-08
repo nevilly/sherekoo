@@ -25,7 +25,7 @@ class _ProfileState extends State<Profile> {
   final Preferences _preferences = Preferences();
   String token = '';
 
-  late User userById = User(
+  User user = User(
       id: '',
       username: '',
       firstname: '',
@@ -34,57 +34,36 @@ class _ProfileState extends State<Profile> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '', isCurrentUser: '');
-
-  late User currentUser = User(
-      id: '',
-      username: '',
-      firstname: '',
-      lastname: '',
-      avater: '',
-      phoneNo: '',
-      email: '',
-      gender: '',
-      role: '', isCurrentUser: '');
+      role: '',
+      isCurrentUser: '');
 
   @override
   void initState() {
-    currentUser = widget.user;
-
+    PaintingBinding.instance.imageCache.clear();
     _preferences.init();
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-
-        getUser();
-        // userProfileById(widget.user.id);
+        widget.user.id != ''
+            ? getUser(urlGetUser + '/' + widget.user.id)
+            : getUser(urlGetUser);
       });
     });
 
     super.initState();
   }
 
-  getUser() async {
-    AllUsersModel(payload: [], status: 0).get(token, urlGetUser+'/'+ widget.user.id).then((value) {
+  getUser(arg) async {
+    AllUsersModel(payload: [], status: 0).get(token, arg).then((value) {
       if (value.status == 200) {
+        print('value.payload');
+        print(value.payload);
         setState(() {
-          userById = User.fromJson(value.payload);
+          user = User.fromJson(value.payload);
         });
       }
     });
   }
-
-  // userProfileById(id) async {
-  //   AllUsersModel(payload: [], status: 0)
-  //       .getUserById(token, urlUserProfileById, id)
-  //       .then((value) {
-  //     if (value.status == 200) {
-  //       setState(() {
-  //         userById = User.fromJson(value.payload);
-  //       });
-  //     }
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -127,13 +106,14 @@ class _ProfileState extends State<Profile> {
             Expanded(
               child: TabBarView(children: [
                 // My Posts
+
                 MyPosts(
-                  userId: widget.user.id,
+                  user: user,
                 ),
 
                 // My Ceremonies
                 MyCrmn(
-                  userId: widget.user.id,
+                  userId: user.id,
                 )
               ]),
             ),
@@ -141,7 +121,7 @@ class _ProfileState extends State<Profile> {
         ),
 
         // Bottom Section
-        bottomNavigationBar: const BttmNav(),
+        // bottomNavigationBar: const BttmNav(),
       ),
     );
   }
@@ -149,7 +129,7 @@ class _ProfileState extends State<Profile> {
   AppBar topBar() {
     return AppBar(
       backgroundColor: Colors.black54,
-      title: const Text('Profile'),
+      title: Text('Profile'),
       centerTitle: true,
       actions: [
         // Notification
@@ -185,15 +165,15 @@ class _ProfileState extends State<Profile> {
                 shape: BoxShape.circle,
                 color: Colors.grey,
               ),
-              child: userById.avater != ''
+              child: user.avater != ''
                   ?
                   // User Current Avater
                   Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: UserAvater(
-                        avater: userById.avater,
+                        avater: user.avater,
                         url: '/profile/',
-                        username: userById.username,
+                        username: user.username,
                         width: 60.0,
                         height: 60.0,
                       ))
@@ -209,7 +189,7 @@ class _ProfileState extends State<Profile> {
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0, top: 4),
                     child: Text(
-                      '@' + userById.username,
+                      '@' + user.username,
                       style: const TextStyle(
                           color: Colors.black,
                           fontSize: 17,
@@ -311,10 +291,7 @@ class _ProfileState extends State<Profile> {
           onTap: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (BuildContext context) {
-              return MyBusness(
-                  userId: widget.user.id,
-                  username: widget.user.username,
-                  currentId: currentUser.id);
+              return MyBusness(user: user);
             }));
           },
           child: Container(
@@ -329,7 +306,7 @@ class _ProfileState extends State<Profile> {
         ),
 
         // Dispaly all Gallalery & upload function
-        currentUser.id == widget.user.id
+        user.isCurrentUser == true
             ? Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
                 child: Container(
@@ -340,7 +317,7 @@ class _ProfileState extends State<Profile> {
                     child: const Icon(Icons.camera_alt)),
               )
             : const SizedBox(),
-        currentUser.id == widget.user.id
+        user.isCurrentUser == true
             ? GestureDetector(
                 onTap: () {
                   showDialog(

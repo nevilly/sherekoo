@@ -116,7 +116,7 @@ class _ProductionCategoryState extends State<ProductionCategory> {
       ),
 
       //Bottom Section
-      bottomNavigationBar: const BttmNav(),
+      // bottomNavigationBar: const BttmNav(),
       //bottomNavigationBar: BottomToolbar(),
     );
   }

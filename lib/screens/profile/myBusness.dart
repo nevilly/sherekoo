@@ -4,6 +4,7 @@ import 'package:sherekoo/util/colors.dart';
 import '../../model/busness/allBusness.dart';
 import '../../model/busness/busnessModel.dart';
 import '../../model/ceremony/ceremonyModel.dart';
+import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
 import '../../util/pallets.dart';
 import '../../util/util.dart';
@@ -11,15 +12,8 @@ import '../detailScreen/DetailPage.dart';
 import '../uploadScreens/busnessUpload.dart';
 
 class MyBusness extends StatefulWidget {
-  final String userId;
-  final String username;
-  final String currentId;
-  const MyBusness(
-      {Key? key,
-      required this.userId,
-      required this.username,
-      required this.currentId})
-      : super(key: key);
+  final User user;
+  const MyBusness({Key? key, required this.user}) : super(key: key);
 
   @override
   State<MyBusness> createState() => _MyBusnessState();
@@ -69,7 +63,7 @@ class _MyBusnessState extends State<MyBusness> {
 
   getAllBusness() async {
     AllBusnessModel(payload: [], status: 0)
-        .bsnByCreatorid(token, urlMyBsnByCratorId, widget.userId)
+        .bsnByCreatorid(token, urlMyBsnByCratorId, widget.user.id)
         .then((value) {
       setState(() {
         // print(value.payload);
@@ -86,7 +80,7 @@ class _MyBusnessState extends State<MyBusness> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.username + ' Busness'),
+        title: Text(widget.user.username + ' Busness'),
         centerTitle: true,
         backgroundColor: Colors.black54,
       ),
@@ -215,7 +209,7 @@ class _MyBusnessState extends State<MyBusness> {
                                 ],
                               ),
                             ),
-                            widget.currentId == widget.userId
+                            widget.user.isCurrentUser == true
                                 ? GestureDetector(
                                     onTap: () {
                                       Navigator.push(

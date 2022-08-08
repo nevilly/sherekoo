@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../widgets/navWidget/bottom_toolbar.dart';
+
 import '../../widgets/categoriesWidgets/ctgrMenu.dart';
 import '../../widgets/navWidget/bttmNav.dart';
 
@@ -38,7 +38,7 @@ class _ClothesCategoryState extends State<ClothesCategory> {
       ),
 
       // Bottom Section
-      bottomNavigationBar: const BttmNav(),
+      // bottomNavigationBar: const BttmNav(),
       //bottomNavigationBar: BottomToolbar(),
     );
   }

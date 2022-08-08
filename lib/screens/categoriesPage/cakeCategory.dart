@@ -87,7 +87,7 @@ class _CakeCategoryState extends State<CakeCategory> {
       ),
 
       // // Bottom Section
-      bottomNavigationBar: const BttmNav(),
+      // bottomNavigationBar: const BttmNav(),
     );
   }
 

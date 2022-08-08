@@ -35,7 +35,8 @@ class _HomeState extends State<Home> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '', isCurrentUser: '');
+      role: '',
+      isCurrentUser: '');
 
   String avata = '';
   List<SherekooModel> post = [];
@@ -49,7 +50,7 @@ class _HomeState extends State<Home> {
         token = value;
         getUser();
         getPost();
-        getAllCeremony();
+        getLiveCeremony();
       });
     });
     super.initState();
@@ -75,6 +76,7 @@ class _HomeState extends State<Home> {
       username: '',
       vedeo: '',
     ).get(token, urlGetSherekoo).then((value) {
+      print(value.payload);
       setState(() {
         post = value.payload
             .map<SherekooModel>((e) => SherekooModel.fromJson(e))
@@ -83,7 +85,7 @@ class _HomeState extends State<Home> {
     });
   }
 
-  getAllCeremony() async {
+  getLiveCeremony() async {
     AllCeremonysModel(payload: [], status: 0)
         .getDayCeremony(token, urlGetDayCeremony, 'Today')
         .then((value) {
@@ -98,30 +100,62 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          children: [
-            PageView(
-                controller: _controller,
-                scrollDirection: Axis.vertical,
-                children: List.generate(post.length, (index) {
-                  return PostTemplate(
-                      postId: post[index].pId,
-                      avater: post[index].avater,
-                      numberOfComments: post[index].commentNumber,
-                      numberOfLikes: '765',
-                      numberOfShere: '234',
-                      userId: post[index].userId,
-                      username: post[index].username,
-                      videoDescription: post[index].body,
-                      ceremonyId: post[index].ceremonyId,
-                      postVedeo: post[index].vedeo,
-                      filterBck: Positioned.fill(
-                        child: ImageFiltered(
-                          imageFilter: ImageFilter.blur(
-                            sigmaX: 10.0,
-                            sigmaY: 10.0,
-                          ),
+      backgroundColor: Colors.transparent,
+      body: Stack(
+        children: [
+          PageView(
+              controller: _controller,
+              scrollDirection: Axis.vertical,
+              children: List.generate(post.length, (index) {
+                return PostTemplate(
+                    postId: post[index].pId,
+                    avater: post[index].avater,
+                    numberOfComments: post[index].commentNumber,
+                    numberOfLikes: '765',
+                    numberOfShere: '234',
+                    userId: post[index].userId,
+                    username: post[index].username,
+                    videoDescription: post[index].body,
+                    ceremonyId: post[index].ceremonyId,
+                    postVedeo: post[index].vedeo,
+                    filterBck: Positioned.fill(
+                      child: ImageFiltered(
+                        imageFilter: ImageFilter.blur(
+                          sigmaX: 10.0,
+                          sigmaY: 10.0,
+                        ),
+                        child: post[index].vedeo != ''
+                            ? Image.network(
+                                api +
+                                    'public/uploads/' +
+                                    post[index].username +
+                                    '/posts/' +
+                                    post[index].vedeo,
+                                // height: 400,
+                                fit: BoxFit.cover,
+                                loadingBuilder: (BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                    ),
+                                  );
+                                },
+                              )
+                            : const SizedBox(height: 1),
+                      ),
+                    ),
+                    userPost: Center(
+                      child: Container(
                           child: post[index].vedeo != ''
                               ? Image.network(
                                   api +
@@ -129,8 +163,7 @@ class _HomeState extends State<Home> {
                                       post[index].username +
                                       '/posts/' +
                                       post[index].vedeo,
-                                  // height: 400,
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.contain,
                                   loadingBuilder: (BuildContext context,
                                       Widget child,
                                       ImageChunkEvent? loadingProgress) {
@@ -149,69 +182,39 @@ class _HomeState extends State<Home> {
                                     );
                                   },
                                 )
-                              : const SizedBox(height: 1),
-                        ),
-                      ),
-                      userPost: Center(
-                        child: Container(
-                            child: post[index].vedeo != ''
-                                ? Image.network(
-                                    api +
-                                        'public/uploads/' +
-                                        post[index].username +
-                                        '/posts/' +
-                                        post[index].vedeo,
-                                    fit: BoxFit.contain,
-                                    loadingBuilder: (BuildContext context,
-                                        Widget child,
-                                        ImageChunkEvent? loadingProgress) {
-                                      if (loadingProgress == null) return child;
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                          value: loadingProgress
-                                                      .expectedTotalBytes !=
-                                                  null
-                                              ? loadingProgress
-                                                      .cumulativeBytesLoaded /
-                                                  loadingProgress
-                                                      .expectedTotalBytes!
-                                              : null,
-                                        ),
-                                      );
-                                    },
-                                  )
-                                : const SizedBox(height: 1)),
-                      ));
-                })),
-            Positioned(
-                top: 25,
-                left: 0,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10.0, vertical: 20),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.only(
-                          left: 8.0, right: 8.0, top: 3, bottom: 3),
-                      child: Text(
-                        'ShareKo',
-                        style: TextStyle(
-                            fontSize: 19,
-                            color: Colors.white,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold),
-                      ),
+                              : const SizedBox(height: 1)),
+                    ));
+              })),
+          Positioned(
+              top: 25,
+              left: 0,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.only(
+                        left: 8.0, right: 8.0, top: 3, bottom: 3),
+                    child: Text(
+                      'ShareKo',
+                      style: TextStyle(
+                          fontSize: 19,
+                          color: Colors.white,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
-                )),
-          ],
-        ),
+                ),
+              )),
+        ],
+      ),
 
-        // Bottom Section
-        bottomNavigationBar: const BttmNav());
+      // Bottom Section
+      // bottomNavigationBar: const BttmNav()
+    );
   }
 }

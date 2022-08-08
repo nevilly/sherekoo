@@ -62,7 +62,6 @@ class _SherekooState extends State<Sherekoo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: topBar(),
-
       body: Row(
         children: [
           const CategoryMenu(
@@ -114,10 +113,6 @@ class _SherekooState extends State<Sherekoo> {
           )
         ],
       ),
-
-      //Bottom Section
-      bottomNavigationBar: const BttmNav(),
-      //bottomNavigationBar: BottomToolbar(),
     );
   }
 

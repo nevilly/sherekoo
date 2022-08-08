@@ -5,7 +5,7 @@ import 'dart:convert';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:sherekoo/model/allData.dart';
-import 'package:sherekoo/screens/home.dart';
+import 'package:sherekoo/screens/homNav.dart';
 
 import '../../model/post/post.dart';
 import '../../model/profileMode.dart';
@@ -34,7 +34,8 @@ class _UploadImageState extends State<UploadImage> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '', isCurrentUser: '');
+      role: '',
+      isCurrentUser: '');
 
   // Image upload
   final _picker = ImagePicker();
@@ -109,7 +110,10 @@ class _UploadImageState extends State<UploadImage> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => const Home()));
+                  builder: (BuildContext context) => HomeNav(
+                        getIndex: 2,
+                        user: currentUser,
+                      )));
         });
       });
       // AllIbada(

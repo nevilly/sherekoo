@@ -8,6 +8,7 @@ import '../../util/pallets.dart';
 import '../../util/util.dart';
 import '../../widgets/login_widget/background-image.dart';
 
+import '../homNav.dart';
 import '../home.dart';
 import 'create-new-account.dart';
 
@@ -34,7 +35,8 @@ class _LoginPageState extends State<LoginPage> {
       gender: '',
       email: '',
       firstname: '',
-      lastname: '', isCurrentUser: '');
+      lastname: '',
+      isCurrentUser: '');
 
   @override
   void initState() {
@@ -47,7 +49,10 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (BuildContext context) => const Home(),
+                builder: (BuildContext context) => HomeNav(
+                  getIndex: 2,
+                  user: currentUser,
+                ),
               ),
               ModalRoute.withName('/'));
         });
