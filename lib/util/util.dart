@@ -42,6 +42,7 @@ String urlBusnessMembers = api + 'Busness/getMembers';
 //Services List
 String urlPostHostList = api + 'Services/add';
 String urlGetServices = api + 'Services/getById';
+String urlGetBsnToCrmnServices = api + 'Services/getBsnToCrm';
 String urlGetInvatation = api + 'Services/getInvatation';
 
 //PostsSherekkoo

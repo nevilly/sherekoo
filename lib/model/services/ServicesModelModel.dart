@@ -1,4 +1,5 @@
 class ServicesModel {
+  // Services (Hostlist)
   final String hostId;
   final String busnessId;
   final String ceremonyId;
@@ -6,9 +7,9 @@ class ServicesModel {
   final String createdBy;
   final String createdDate;
 
+  // Busness Info
   final String bId;
   final String busnessType;
-  final String cImage;
   final String knownAs;
   final String coProfile;
   final String price;
@@ -16,12 +17,11 @@ class ServicesModel {
   final String ceoId;
   final String bsnAvater;
   final String bsnUname;
-  //subscription info
-  final String level;
-  final String activeted;
 
+  // ceremony Details
   final String cId;
   final String codeNo;
+  final String cImage;
   final String cName;
   final String ceremonyType;
   final String fIdAvater;
@@ -29,6 +29,10 @@ class ServicesModel {
   final String sIdAvater;
   final String sIdUname;
   final String crmContact;
+
+  //subscription info
+  final String level;
+  final String activeted;
 
   ServicesModel(
       {required this.busnessId,
@@ -61,32 +65,39 @@ class ServicesModel {
 
   factory ServicesModel.fromJson(Map<String, dynamic> json) {
     return ServicesModel(
-        hostId: json['hostId'],
-        confirm: json['confirm'],
-        cName: json['cName'],
-        cId: json['cId'],
-        codeNo: json['codeNo'],
-        ceremonyType: json['ceremonyType'],
-        fIdAvater: json['fIdAvater'],
-        fIdUname: json['fIdUname'],
-        sIdAvater: json['sIdAvater'],
-        sIdUname: json['sIdUname'],
-        cImage: json['cImage'],
-        crmContact: json['crmContact'],
-        busnessId: json['busnessId'],
-        createdDate: json['createdDate'],
-        bsnAvater: json['bsnAvater'],
-        bsnUname: json['bsnUname'],
-        price: json['price'],
-        knownAs: json['knownAs'],
-        createdBy: json['createdBy'],
-        coProfile: json['coProfile'],
-        bsnContact: json['bsnContact'],
-        ceremonyId: json['avater'],
-        ceoId: json['ceoId'],
-        busnessType: json['busnessType'],
-        bId: json['bId'],
-        activeted: json['activeted'],
-        level: json['level']);
+        // Service Info
+        hostId: json['hostId'] ?? "",
+        busnessId: json['busnessId'] ?? "",
+        ceremonyId: json['ceremonyId'] ?? "",
+        confirm: json['confirm'] ?? "",
+
+        //busness
+        bId: json['bId'] ?? "",
+        busnessType: json['busnessType'] ?? "",
+        createdDate: json['createdDate'] ?? "",
+        bsnAvater: json['bsnAvater'] ?? "",
+        bsnUname: json['bsnUname'] ?? "",
+        price: json['price'] ?? "",
+        knownAs: json['knownAs'] ?? "",
+        createdBy: json['createdBy'] ?? "",
+        coProfile: json['coProfile'] ?? "",
+        bsnContact: json['bsnContact'] ?? "",
+        ceoId: json['ceoId'] ?? "",
+
+        // ceremony
+        cName: json['cName'] ?? "",
+        cId: json['cId'] ?? "",
+        codeNo: json['codeNo'] ?? "",
+        ceremonyType: json['ceremonyType'] ?? "",
+        fIdAvater: json['fIdAvater'] ?? "",
+        fIdUname: json['fIdUname'] ?? "",
+        sIdAvater: json['sIdAvater'] ?? "",
+        sIdUname: json['sIdUname'] ?? "",
+        cImage: json['cImage'] ?? "",
+        crmContact: json['crmContact'] ?? "",
+
+        //subscription info
+        activeted: json['activeted'] ?? "",
+        level: json['level'] ?? "");
   }
 }

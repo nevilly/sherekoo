@@ -48,10 +48,11 @@ class _BsnDetailsState extends State<BsnDetails> {
     u2Avt: '',
     u2Fname: '',
     u2Lname: '',
-    u2g: '', youtubeLink: '',
+    u2g: '',
+    youtubeLink: '',
   );
 
-  List<ServicesModel> hostLIstData = [];
+  List<ServicesModel> service = [];
   List<BusnessModel> info = [];
   List<BusnessModel> otherBsn = [];
   List<BusnessPhotoModel> photo = [];
@@ -71,12 +72,6 @@ class _BsnDetailsState extends State<BsnDetails> {
 
         getPhoto();
         getMembers();
-
-        // print('getMemberResult.................................');
-        // print(go);
-        // if (members.isNotEmpty && go) {
-        //   tabsNu = 4;
-        // }
         getAll();
       });
     });
@@ -150,12 +145,12 @@ class _BsnDetailsState extends State<BsnDetails> {
 
   getAll() async {
     GetAll(id: data.bId, status: 0, payload: [])
-        .get(token, urlGetServices)
+        .get(token, urlGetBsnToCrmnServices)
         .then((value) {
       // print('HOostList view..');
       // print(value.payload);
       setState(() {
-        hostLIstData = value.payload
+        service = value.payload
             .map<ServicesModel>((e) => ServicesModel.fromJson(e))
             .toList();
       });
@@ -168,6 +163,7 @@ class _BsnDetailsState extends State<BsnDetails> {
         length: tabsNu,
         child: Scaffold(
           appBar: AppBar(
+            backgroundColor: Colors.black87,
             title: Text(data.companyName),
             centerTitle: true,
           ),
@@ -186,39 +182,75 @@ class _BsnDetailsState extends State<BsnDetails> {
                                     data.username +
                                     '/busness/' +
                                     data.coProfile,
-                                height: 185,
+                                height: 165,
                                 fit: BoxFit.cover,
                               )
                             : const SizedBox(height: 1)),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 135, right: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          decoration: const BoxDecoration(
-                            color: Colors.black54,
-                            borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(10)),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      // margin: const EdgeInsets.only(top: 135, right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            decoration: const BoxDecoration(
+                              color: Colors.black54,
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(10)),
+                            ),
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 8.0, left: 8, right: 10, bottom: 8),
+                              child: RichText(
+                                  text: TextSpan(children: [
+                                TextSpan(
+                                    text: '${data.busnessType}: ',
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
+                                TextSpan(text: data.knownAs),
+                              ])),
+                            ),
                           ),
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 8.0, left: 8, right: 10, bottom: 8),
-                            child: RichText(
-                                text: TextSpan(children: [
-                              TextSpan(
-                                  text: '${data.busnessType}: ',
-                                  style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold)),
-                              TextSpan(text: data.knownAs),
-                            ])),
-                          ),
-                        ),
-                        Icon(Icons.favorite_sharp, color: Colors.red.shade500),
-                      ],
+                          //Hire Me Botton
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => HiringPage(
+                                            busness: data,
+                                            ceremony: widget.ceremonyData,
+                                          )));
+                            },
+                            child: Container(
+                              width: 65,
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                color: Colors.red.shade400,
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  bottomLeft: Radius.circular(10),
+                                ),
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  "Hire",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -226,7 +258,7 @@ class _BsnDetailsState extends State<BsnDetails> {
 
               //Tabs
               const TabBar(
-                  labelColor: Colors.green,
+                  labelColor: Colors.red,
                   unselectedLabelColor: Colors.black,
                   tabs: [
                     Tab(
@@ -238,11 +270,6 @@ class _BsnDetailsState extends State<BsnDetails> {
                     Tab(
                       text: 'Feedback',
                     ),
-                    // ignore: unrelated_type_equality_checks
-                    // if (members.isNotEmpty && go)
-                    //   const Tab(
-                    //     text: 'Staff',
-                    //   ),
                   ]),
 
               //TabVies
@@ -255,71 +282,18 @@ class _BsnDetailsState extends State<BsnDetails> {
                     child: Column(
                       children: [
                         const SizedBox(
-                          height: 12.0,
+                          height: 10.0,
                         ),
 
                         // Price
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 15.0, bottom: 10.0, left: 8),
-                          child: Column(
-                            children: [
-                              Text(
-                                '${data.price} Tsh',
-                                style: const TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black),
-                              ),
-                              const Text(
-                                'Price/Negotiable',
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400,
-                                    fontStyle: FontStyle.italic,
-                                    color: Colors.black),
-                              ),
-                              const SizedBox(height: 5),
-                              //Hire Me Botton
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => HiringPage(
-                                                busness: data,
-                                                ceremony: widget.ceremonyData,
-                                              )));
-                                },
-                                child: Container(
-                                  width: 400,
-                                  padding: const EdgeInsets.all(8.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.red.shade400,
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10)),
-                                  ),
-                                  child: const Center(
-                                    child: Text(
-                                      "Hire Me ",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
+                        priceShow(context),
 
                         const SizedBox(
                           height: 12.0,
                         ),
 
-                        // Ceremony List.
-                        if (hostLIstData.isNotEmpty)
+                        // Header: Ceremony List.
+                        if (service.isNotEmpty)
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
@@ -347,13 +321,13 @@ class _BsnDetailsState extends State<BsnDetails> {
                                 )),
                           ),
 
-                        //List of Ceremony Container
-                        if (hostLIstData.isNotEmpty)
+                        //Ceremony Ceremony List;
+                        if (service.isNotEmpty)
                           SizedBox(
                             height: 120,
                             child: GridView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount: hostLIstData.length,
+                                itemCount: service.length,
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: 3),
@@ -364,7 +338,7 @@ class _BsnDetailsState extends State<BsnDetails> {
                                       //     context,
                                       //     MaterialPageRoute(
                                       //         builder: (_) =>
-                                      //              LiveCeremony(data: hostLIstData[index],)));
+                                      //              LiveCeremony(data: service[index],)));
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.only(top: 2.0),
@@ -377,8 +351,7 @@ class _BsnDetailsState extends State<BsnDetails> {
                                                 child: Center(
                                                   child: Image(
                                                     image: AssetImage(
-                                                        hostLIstData[index]
-                                                            .cImage),
+                                                        service[index].cImage),
                                                     height: 55,
                                                     fit: BoxFit.fill,
                                                   ),
@@ -391,14 +364,14 @@ class _BsnDetailsState extends State<BsnDetails> {
                                                 padding: const EdgeInsets.only(
                                                     left: 4.0, right: 4.0),
                                                 child: Text(
-                                                    hostLIstData[index].codeNo,
+                                                    service[index].codeNo,
                                                     style: const TextStyle(
                                                         fontSize: 9)),
                                               ),
                                               const SizedBox(
                                                 height: 2,
                                               ),
-                                              Text(hostLIstData[index].cName,
+                                              Text(service[index].cName,
                                                   style: const TextStyle(
                                                       fontSize: 9,
                                                       fontWeight:
@@ -477,6 +450,7 @@ class _BsnDetailsState extends State<BsnDetails> {
 
                         // Other Busness Type
                         if (otherBsn.isNotEmpty)
+                          // Header: Other Busness
                           Padding(
                             padding: const EdgeInsets.only(left: 8.0),
                             child: Container(
@@ -587,696 +561,627 @@ class _BsnDetailsState extends State<BsnDetails> {
                 ),
 
                 //Description
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      //Contact Button => Subscription Page
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 8.0, right: 8.0, top: 8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Expanded(
-                                child: Text('Name',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontStyle: FontStyle.italic,
-                                        fontWeight: FontWeight.bold))),
-                            GestureDetector(
-                              onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          const SubscriptionPage())),
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: Container(
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'Get Contact',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            height: 1),
-                                      ),
-                                    ),
-                                    decoration: const BoxDecoration(
-                                        color: Colors.black87,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10)))),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                          ],
-                        ),
-                      ),
-                      //Name
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0, bottom: 5.0),
-                        child: Container(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              data.companyName,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 10),
-                      //Origin
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0, bottom: 5.0),
-                        child: Column(
-                          children: [
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: const Text('Origin',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontStyle: FontStyle.italic,
-                                      fontWeight: FontWeight.bold)),
-                            ),
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: RichText(
-                                    text: const TextSpan(children: [
-                                  TextSpan(
-                                    text: 'Region: ',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: ' Mnyakyusa',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ])),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      //Location
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0, bottom: 5.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: const Text('Address',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontStyle: FontStyle.italic,
-                                      fontWeight: FontWeight.bold)),
-                            ),
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: RichText(
-                                    text: TextSpan(children: [
-                                  const TextSpan(
-                                    text: 'Location: ',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: data.location,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ])),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      //Bio
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: const Text('Bio ',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontStyle: FontStyle.italic,
-                                      fontWeight: FontWeight.bold)),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: RichText(
-                                  text: TextSpan(children: [
-                                TextSpan(
-                                  text: data.aboutCEO,
-                                  style: const TextStyle(
-                                    fontSize: 13,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                const TextSpan(
-                                  text: ' @RealCount',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ])),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      //Co Bio
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: const Text('company Bio ',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontStyle: FontStyle.italic,
-                                      fontWeight: FontWeight.bold)),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: RichText(
-                                  softWrap: true,
-                                  textAlign: TextAlign.left,
-                                  text: TextSpan(children: [
-                                    TextSpan(
-                                      text: data.aboutCompany,
-                                      style: const TextStyle(
-                                        fontSize: 13,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    const TextSpan(
-                                      text: ' @RealCount',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ])),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      //Picture
-
-                      if (photo.isNotEmpty)
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            alignment: Alignment.topLeft,
-                            child: const Text('Photos / Facilites',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontStyle: FontStyle.italic,
-                                    fontWeight: FontWeight.bold)),
-                          ),
-                        ),
-
-                      if (photo.isNotEmpty)
-                        SizedBox(
-                          height: 600,
-                          // color: Colors.red,
-                          child: GridView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: photo.length,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 3),
-                              itemBuilder: (context, index) {
-                                return SizedBox(
-                                  height: 100,
-                                  child: Image(
-                                    image: AssetImage(photo[index].photo),
-                                    fit: BoxFit.fill,
-                                  ),
-                                );
-                              }),
-                        ),
-
-                      // Column(children: [
-                      //   Padding(
-                      //     padding: const EdgeInsets.all(8.0),
-                      //     child: Container(
-                      //       alignment: Alignment.topLeft,
-                      //       child: const Text('Photos / Facilites',
-                      //           style: TextStyle(
-                      //               color: Colors.black,
-                      //               fontStyle: FontStyle.italic,
-                      //               fontWeight: FontWeight.bold)),
-                      //     ),
-                      //   ),
-                      //   const SizedBox(
-                      //     height: 10,
-                      //   ),
-                      //   const SizedBox(
-                      //     height: 120,
-                      //     child: Image(
-                      //       image: AssetImage('assets/login/03.jpg'),
-                      //       fit: BoxFit.fill,
-                      //     ),
-                      //   ),
-                      //   const SizedBox(
-                      //     height: 10,
-                      //   ),
-                      //   const SizedBox(
-                      //     height: 120,
-                      //     child: Image(
-                      //       image: AssetImage('assets/login/04.jpg'),
-                      //       fit: BoxFit.fill,
-                      //     ),
-                      //   ),
-                      // ])
-                    ],
-                  ),
-                ),
+                description(context),
 
                 //Feeds From Ceremony
-                SizedBox(
-                  height: 400,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView.builder(
-                        itemCount: 4,
-                        itemBuilder: (BuildContext context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Card(
-                                  child: Column(
-                                    children: [
-                                      //header
-
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: const [
-                                              Padding(
-                                                padding: EdgeInsets.all(4.0),
-                                                child: CircleAvatar(
-                                                  radius: 15.0,
-                                                  backgroundImage: AssetImage(
-                                                      'assets/login/02.jpg'),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 4.0),
-                                                child: Text('Karium',
-                                                    style: TextStyle(
-                                                      color: Colors.blueGrey,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    )),
-                                              ),
-                                            ],
-                                          ),
-                                          const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text('12:00 pm'),
-                                          ),
-                                        ],
-                                      ),
-
-                                      //body Photo
-                                      const Image(
-                                          image: AssetImage(
-                                              'assets/login/04.jpg')),
-
-                                      //body Message
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: RichText(
-                                            textAlign: TextAlign.justify,
-                                            text: const TextSpan(children: [
-                                              TextSpan(
-                                                  text:
-                                                      'Nakutakia maisha yenye Amani na upendo rafik wa kweri',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontSize: 16.0,
-                                                      color: Colors.grey)),
-                                              TextSpan(
-                                                  text:
-                                                      ' @koosafi-MrsMwakanyaga0xsd',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontStyle:
-                                                          FontStyle.italic,
-                                                      fontSize: 12.0,
-                                                      color: Colors.grey)),
-                                            ])),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      //footer
-
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 8.0,
-                                            right: 8.0,
-                                            bottom: 15.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 8.0),
-                                              child: Column(
-                                                children: const [
-                                                  Icon(
-                                                    Icons.reply,
-                                                    size: 20.0,
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5.0,
-                                                  ),
-                                                  Text('234'),
-                                                ],
-                                              ),
-                                            ),
-                                            Column(
-                                              children: const [
-                                                Icon(
-                                                  Icons.favorite,
-                                                  size: 20.0,
-                                                ),
-                                                SizedBox(
-                                                  height: 5.0,
-                                                ),
-                                                Text('139'),
-                                              ],
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 8.0),
-                                              child: Column(
-                                                children: const [
-                                                  Icon(
-                                                    Icons.send,
-                                                    size: 20.0,
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5.0,
-                                                  ),
-                                                  Text('Text'),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(height: 15),
-                                Card(
-                                  child: Column(
-                                    children: [
-                                      //header
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: const [
-                                              Padding(
-                                                padding: EdgeInsets.all(4.0),
-                                                child: CircleAvatar(
-                                                  radius: 15.0,
-                                                  backgroundImage: AssetImage(
-                                                      'assets/login/01.png'),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 4.0),
-                                                child: Text('Nehemia',
-                                                    style: TextStyle(
-                                                      color: Colors.blueGrey,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    )),
-                                              ),
-                                            ],
-                                          ),
-                                          const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text('12:00 pm'),
-                                          ),
-                                        ],
-                                      ),
-
-                                      //body Photo
-                                      // Image(
-                                      //     image: AssetImage(
-                                      //         'assets/login/02.jpg')),
-
-                                      //body Message
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: RichText(
-                                            textAlign: TextAlign.justify,
-                                            text: const TextSpan(children: [
-                                              TextSpan(
-                                                  text:
-                                                      'Nakutakia maisha yenye Amani na upendo rafik wa kweri',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontSize: 16.0,
-                                                      color: Colors.grey)),
-                                              TextSpan(
-                                                  text: ' @koosafi-MrsMusa0xsd',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontStyle:
-                                                          FontStyle.italic,
-                                                      fontSize: 12.0,
-                                                      color: Colors.grey)),
-                                            ])),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      //footer
-
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 8.0,
-                                            right: 8.0,
-                                            bottom: 15.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 8.0),
-                                              child: Column(
-                                                children: const [
-                                                  Icon(
-                                                    Icons.reply,
-                                                    size: 20.0,
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5.0,
-                                                  ),
-                                                  Text('234'),
-                                                ],
-                                              ),
-                                            ),
-                                            Column(
-                                              children: const [
-                                                Icon(
-                                                  Icons.favorite,
-                                                  size: 20.0,
-                                                ),
-                                                SizedBox(
-                                                  height: 5.0,
-                                                ),
-                                                Text('139'),
-                                              ],
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 8.0),
-                                              child: Column(
-                                                children: const [
-                                                  Icon(
-                                                    Icons.send,
-                                                    size: 20.0,
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5.0,
-                                                  ),
-                                                  Text('Text'),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }),
-                  ),
-                ),
-
-                //staff
-                // if (members.isNotEmpty && go)
-                //   SingleChildScrollView(
-                //     child: Column(
-                //       children: [
-                //         Row(
-                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //           children: [
-                //             Container(
-                //               margin: const EdgeInsets.only(left: 25),
-                //               child: const Text('Co Members',
-                //                   style: TextStyle(
-                //                       fontWeight: FontWeight.bold,
-                //                       fontSize: 16)),
-                //             ),
-
-                //             // GestureDetector(
-                //             //   onTap: () {
-                //             //     // oneButtonPressed();
-                //             //   },
-                //             //   child: Container(
-                //             //       margin:
-                //             //           const EdgeInsets.only(right: 14, top: 10.0),
-                //             //       decoration: const BoxDecoration(
-                //             //         color: Colors.red,
-                //             //         borderRadius:
-                //             //             BorderRadius.all(Radius.circular(10)),
-                //             //       ),
-                //             //       child: const Padding(
-                //             //           padding: EdgeInsets.all(8.0),
-                //             //           child: Text('Insert Members',
-                //             //               style: TextStyle(
-                //             //                   fontWeight: FontWeight.bold,
-                //             //                   color: Colors.white)))),
-                //             // ),
-                //           ],
-                //         ),
-                //         SizedBox(
-                //           height: 400,
-                //           child: ListView.builder(
-                //               itemCount: members.length,
-                //               itemBuilder: (BuildContext context, index) {
-                //                 return Container(
-                //                   margin: const EdgeInsets.only(
-                //                       top: 1, left: 10, right: 10),
-                //                   child: Card(
-                //                     child: ListTile(
-                //                         leading: CircleAvatar(
-                //                           backgroundImage:
-                //                               AssetImage(members[index].avater),
-                //                         ),
-                //                         title: Text(members[index].username),
-                //                         subtitle: Text(members[index].position),
-                //                         trailing: const Icon(Icons.select_all)),
-                //                   ),
-                //                 );
-                //               }),
-                //         ),
-                //         Container(
-                //           margin: const EdgeInsets.only(
-                //               top: 1, left: 10, right: 10),
-                //           child: const Card(
-                //             child: ListTile(
-                //                 leading: CircleAvatar(
-                //                     backgroundImage: AssetImage(
-                //                         'assets/busness/profile.jpg')),
-                //                 title: Text('User Name'),
-                //                 subtitle: Text('Sub tile'),
-                //                 trailing: Icon(Icons.select_all)),
-                //           ),
-                //         ),
-                //         Container(
-                //           margin: const EdgeInsets.only(
-                //               top: 1, left: 10, right: 10),
-                //           child: const Card(
-                //             child: ListTile(
-                //                 leading: CircleAvatar(
-                //                   backgroundImage:
-                //                       AssetImage('assets/busness/profile.jpg'),
-                //                 ),
-                //                 title: Text('User Name'),
-                //                 subtitle: Text('Sub tile'),
-                //                 trailing: Icon(Icons.select_all)),
-                //           ),
-                //         ),
-                //         Container(
-                //           margin: const EdgeInsets.only(
-                //               top: 1, left: 10, right: 10),
-                //           child: const Card(
-                //             child: ListTile(
-                //                 leading: CircleAvatar(
-                //                     backgroundImage: AssetImage(
-                //                         'assets/busness/profile.jpg')),
-                //                 title: Text('User Name'),
-                //                 subtitle: Text('Sub tile'),
-                //                 trailing: Icon(Icons.select_all)),
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
+                feeds(),
               ])),
             ],
           ),
         ));
+  }
+
+  Padding priceShow(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 15.0, bottom: 10.0, left: 8),
+      child: Column(
+        children: [
+          Text(
+            '${data.price} Tsh',
+            style: const TextStyle(
+                fontSize: 25, fontWeight: FontWeight.w500, color: Colors.black),
+          ),
+          const Text(
+            'Price/Negotiable',
+            style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w200,
+                fontStyle: FontStyle.italic,
+                color: Colors.black),
+          ),
+          const SizedBox(height: 5),
+          //Hire Me Botton
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => HiringPage(
+                            busness: data,
+                            ceremony: widget.ceremonyData,
+                          )));
+            },
+            child: Container(
+              width: 200,
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Colors.red.shade400,
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+              ),
+              child: const Center(
+                child: Text(
+                  "Hire Me ",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.white),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  SizedBox feeds() {
+    return SizedBox(
+      height: 400,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView.builder(
+            itemCount: 4,
+            itemBuilder: (BuildContext context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Card(
+                      child: Column(
+                        children: [
+                          //header
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: const [
+                                  Padding(
+                                    padding: EdgeInsets.all(4.0),
+                                    child: CircleAvatar(
+                                      radius: 15.0,
+                                      backgroundImage:
+                                          AssetImage('assets/login/02.jpg'),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 4.0),
+                                    child: Text('Karium',
+                                        style: TextStyle(
+                                          color: Colors.blueGrey,
+                                          fontWeight: FontWeight.w600,
+                                        )),
+                                  ),
+                                ],
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text('12:00 pm'),
+                              ),
+                            ],
+                          ),
+
+                          //body Photo
+                          const Image(image: AssetImage('assets/login/04.jpg')),
+
+                          //body Message
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: RichText(
+                                textAlign: TextAlign.justify,
+                                text: const TextSpan(children: [
+                                  TextSpan(
+                                      text:
+                                          'Nakutakia maisha yenye Amani na upendo rafik wa kweri',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 16.0,
+                                          color: Colors.grey)),
+                                  TextSpan(
+                                      text: ' @koosafi-MrsMwakanyaga0xsd',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle: FontStyle.italic,
+                                          fontSize: 12.0,
+                                          color: Colors.grey)),
+                                ])),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          //footer
+
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 8.0, right: 8.0, bottom: 15.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Column(
+                                    children: const [
+                                      Icon(
+                                        Icons.reply,
+                                        size: 20.0,
+                                      ),
+                                      SizedBox(
+                                        height: 5.0,
+                                      ),
+                                      Text('234'),
+                                    ],
+                                  ),
+                                ),
+                                Column(
+                                  children: const [
+                                    Icon(
+                                      Icons.favorite,
+                                      size: 20.0,
+                                    ),
+                                    SizedBox(
+                                      height: 5.0,
+                                    ),
+                                    Text('139'),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: Column(
+                                    children: const [
+                                      Icon(
+                                        Icons.send,
+                                        size: 20.0,
+                                      ),
+                                      SizedBox(
+                                        height: 5.0,
+                                      ),
+                                      Text('Text'),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    Card(
+                      child: Column(
+                        children: [
+                          //header
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: const [
+                                  Padding(
+                                    padding: EdgeInsets.all(4.0),
+                                    child: CircleAvatar(
+                                      radius: 15.0,
+                                      backgroundImage:
+                                          AssetImage('assets/login/01.png'),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 4.0),
+                                    child: Text('Nehemia',
+                                        style: TextStyle(
+                                          color: Colors.blueGrey,
+                                          fontWeight: FontWeight.w600,
+                                        )),
+                                  ),
+                                ],
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text('12:00 pm'),
+                              ),
+                            ],
+                          ),
+
+                          //body Photo
+                          // Image(
+                          //     image: AssetImage(
+                          //         'assets/login/02.jpg')),
+
+                          //body Message
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: RichText(
+                                textAlign: TextAlign.justify,
+                                text: const TextSpan(children: [
+                                  TextSpan(
+                                      text:
+                                          'Nakutakia maisha yenye Amani na upendo rafik wa kweri',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 16.0,
+                                          color: Colors.grey)),
+                                  TextSpan(
+                                      text: ' @koosafi-MrsMusa0xsd',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle: FontStyle.italic,
+                                          fontSize: 12.0,
+                                          color: Colors.grey)),
+                                ])),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          //footer
+
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 8.0, right: 8.0, bottom: 15.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Column(
+                                    children: const [
+                                      Icon(
+                                        Icons.reply,
+                                        size: 20.0,
+                                      ),
+                                      SizedBox(
+                                        height: 5.0,
+                                      ),
+                                      Text('234'),
+                                    ],
+                                  ),
+                                ),
+                                Column(
+                                  children: const [
+                                    Icon(
+                                      Icons.favorite,
+                                      size: 20.0,
+                                    ),
+                                    SizedBox(
+                                      height: 5.0,
+                                    ),
+                                    Text('139'),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: Column(
+                                    children: const [
+                                      Icon(
+                                        Icons.send,
+                                        size: 20.0,
+                                      ),
+                                      SizedBox(
+                                        height: 5.0,
+                                      ),
+                                      Text('Text'),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }),
+      ),
+    );
+  }
+
+  SingleChildScrollView description(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 10,
+          ),
+
+          //Contact Button => Subscription Page
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Expanded(
+                    child: Text('Name',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold))),
+                GestureDetector(
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const SubscriptionPage())),
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Container(
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Get Contact',
+                            style: TextStyle(
+                                fontSize: 14, color: Colors.white, height: 1),
+                          ),
+                        ),
+                        decoration: const BoxDecoration(
+                            color: Colors.black87,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10)))),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+              ],
+            ),
+          ),
+          //Name
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, bottom: 5.0),
+            child: Container(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  data.companyName,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 10),
+          //Origin
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, bottom: 5.0),
+            child: Column(
+              children: [
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: const Text('Origin',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold)),
+                ),
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RichText(
+                        text: const TextSpan(children: [
+                      TextSpan(
+                        text: 'Region: ',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' Mnyakyusa',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ])),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          //Location
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, bottom: 5.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: const Text('Address',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold)),
+                ),
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RichText(
+                        text: TextSpan(children: [
+                      const TextSpan(
+                        text: 'Location: ',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      TextSpan(
+                        text: data.location,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ])),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          //Bio
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: const Text('Bio ',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: RichText(
+                      text: TextSpan(children: [
+                    TextSpan(
+                      text: data.aboutCEO,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const TextSpan(
+                      text: ' @RealCount',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ])),
+                ),
+              ],
+            ),
+          ),
+
+          //Co Bio
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: const Text('company Bio ',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: RichText(
+                      softWrap: true,
+                      textAlign: TextAlign.left,
+                      text: TextSpan(children: [
+                        TextSpan(
+                          text: data.aboutCompany,
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        const TextSpan(
+                          text: ' @RealCount',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ])),
+                ),
+              ],
+            ),
+          ),
+
+          //Picture
+
+          if (photo.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                alignment: Alignment.topLeft,
+                child: const Text('Photos / Facilites',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold)),
+              ),
+            ),
+
+          if (photo.isNotEmpty)
+            SizedBox(
+              height: 600,
+              // color: Colors.red,
+              child: GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: photo.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3),
+                  itemBuilder: (context, index) {
+                    return SizedBox(
+                      height: 100,
+                      child: Image(
+                        image: AssetImage(photo[index].photo),
+                        fit: BoxFit.fill,
+                      ),
+                    );
+                  }),
+            ),
+
+          // Column(children: [
+          //   Padding(
+          //     padding: const EdgeInsets.all(8.0),
+          //     child: Container(
+          //       alignment: Alignment.topLeft,
+          //       child: const Text('Photos / Facilites',
+          //           style: TextStyle(
+          //               color: Colors.black,
+          //               fontStyle: FontStyle.italic,
+          //               fontWeight: FontWeight.bold)),
+          //     ),
+          //   ),
+          //   const SizedBox(
+          //     height: 10,
+          //   ),
+          //   const SizedBox(
+          //     height: 120,
+          //     child: Image(
+          //       image: AssetImage('assets/login/03.jpg'),
+          //       fit: BoxFit.fill,
+          //     ),
+          //   ),
+          //   const SizedBox(
+          //     height: 10,
+          //   ),
+          //   const SizedBox(
+          //     height: 120,
+          //     child: Image(
+          //       image: AssetImage('assets/login/04.jpg'),
+          //       fit: BoxFit.fill,
+          //     ),
+          //   ),
+          // ])
+        ],
+      ),
+    );
   }
 
   void oneButtonPressed(title, price) {
@@ -1304,7 +1209,7 @@ class _BsnDetailsState extends State<BsnDetails> {
                     SizedBox(
                       height: 350,
                       child: ListView.builder(
-                          itemCount: hostLIstData.length,
+                          itemCount: service.length,
                           itemBuilder: (BuildContext context, index) {
                             return Container(
                               margin: const EdgeInsets.all(10),
@@ -1321,8 +1226,7 @@ class _BsnDetailsState extends State<BsnDetails> {
                                         topLeft: Radius.circular(5.0),
                                         bottomLeft: Radius.circular(5.0)),
                                     child: Image(
-                                      image: AssetImage(
-                                          hostLIstData[index].cImage),
+                                      image: AssetImage(service[index].cImage),
                                       width: 100,
                                       height: 60,
                                       fit: BoxFit.fill,
@@ -1331,11 +1235,11 @@ class _BsnDetailsState extends State<BsnDetails> {
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(children: [
-                                      Text(hostLIstData[index].cName,
+                                      Text(service[index].cName,
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               color: Colors.black54)),
-                                      Text(hostLIstData[index].codeNo,
+                                      Text(service[index].codeNo,
                                           style: const TextStyle(fontSize: 10)),
                                     ]),
                                   )
@@ -1350,3 +1254,105 @@ class _BsnDetailsState extends State<BsnDetails> {
         });
   }
 }
+
+//staff
+// if (members.isNotEmpty && go)
+//   SingleChildScrollView(
+//     child: Column(
+//       children: [
+//         Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//           children: [
+//             Container(
+//               margin: const EdgeInsets.only(left: 25),
+//               child: const Text('Co Members',
+//                   style: TextStyle(
+//                       fontWeight: FontWeight.bold,
+//                       fontSize: 16)),
+//             ),
+
+//             // GestureDetector(
+//             //   onTap: () {
+//             //     // oneButtonPressed();
+//             //   },
+//             //   child: Container(
+//             //       margin:
+//             //           const EdgeInsets.only(right: 14, top: 10.0),
+//             //       decoration: const BoxDecoration(
+//             //         color: Colors.red,
+//             //         borderRadius:
+//             //             BorderRadius.all(Radius.circular(10)),
+//             //       ),
+//             //       child: const Padding(
+//             //           padding: EdgeInsets.all(8.0),
+//             //           child: Text('Insert Members',
+//             //               style: TextStyle(
+//             //                   fontWeight: FontWeight.bold,
+//             //                   color: Colors.white)))),
+//             // ),
+//           ],
+//         ),
+//         SizedBox(
+//           height: 400,
+//           child: ListView.builder(
+//               itemCount: members.length,
+//               itemBuilder: (BuildContext context, index) {
+//                 return Container(
+//                   margin: const EdgeInsets.only(
+//                       top: 1, left: 10, right: 10),
+//                   child: Card(
+//                     child: ListTile(
+//                         leading: CircleAvatar(
+//                           backgroundImage:
+//                               AssetImage(members[index].avater),
+//                         ),
+//                         title: Text(members[index].username),
+//                         subtitle: Text(members[index].position),
+//                         trailing: const Icon(Icons.select_all)),
+//                   ),
+//                 );
+//               }),
+//         ),
+//         Container(
+//           margin: const EdgeInsets.only(
+//               top: 1, left: 10, right: 10),
+//           child: const Card(
+//             child: ListTile(
+//                 leading: CircleAvatar(
+//                     backgroundImage: AssetImage(
+//                         'assets/busness/profile.jpg')),
+//                 title: Text('User Name'),
+//                 subtitle: Text('Sub tile'),
+//                 trailing: Icon(Icons.select_all)),
+//           ),
+//         ),
+//         Container(
+//           margin: const EdgeInsets.only(
+//               top: 1, left: 10, right: 10),
+//           child: const Card(
+//             child: ListTile(
+//                 leading: CircleAvatar(
+//                   backgroundImage:
+//                       AssetImage('assets/busness/profile.jpg'),
+//                 ),
+//                 title: Text('User Name'),
+//                 subtitle: Text('Sub tile'),
+//                 trailing: Icon(Icons.select_all)),
+//           ),
+//         ),
+//         Container(
+//           margin: const EdgeInsets.only(
+//               top: 1, left: 10, right: 10),
+//           child: const Card(
+//             child: ListTile(
+//                 leading: CircleAvatar(
+//                     backgroundImage: AssetImage(
+//                         'assets/busness/profile.jpg')),
+//                 title: Text('User Name'),
+//                 subtitle: Text('Sub tile'),
+//                 trailing: Icon(Icons.select_all)),
+//           ),
+//         ),
+//       ],
+//     ),
+//   ),

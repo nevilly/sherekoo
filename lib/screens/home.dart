@@ -41,7 +41,6 @@ class _HomeState extends State<Home> {
   List<SherekooModel> post = [];
   List<CeremonyModel> ceremonyLIve = [];
 
-
   @override
   void initState() {
     _preferences.init();
@@ -108,25 +107,56 @@ class _HomeState extends State<Home> {
               scrollDirection: Axis.vertical,
               children: List.generate(post.length, (index) {
                 return PostTemplate(
-                    postId: post[index].pId,
-                    avater: post[index].avater,
-                    numberOfComments: post[index].commentNumber,
-                    numberOfLikes: post[index].totalLikes.toString(),
-                    numberOfShere: '234',
-                    userId: post[index].userId,
-                    username: post[index].username,
-                    videoDescription: post[index].body,
-                    ceremonyId: post[index].ceremonyId,
-                    cImage: post[index].cImage,
-                    crmUsername: post[index].crmUsername,
-                    crmYoutubeLink:  post[index].crmYoutubeLink,
-                    postVedeo: post[index].vedeo,
-                    filterBck: Positioned.fill(
-                      child: ImageFiltered(
-                        imageFilter: ImageFilter.blur(
-                          sigmaX: 10.0,
-                          sigmaY: 10.0,
-                        ),
+                  postId: post[index].pId,
+                  avater: post[index].avater,
+                  numberOfComments: post[index].commentNumber,
+                  numberOfLikes: post[index].totalLikes,
+                  isLIke: post[index].isLike,
+                  numberOfShere: '234',
+                  userId: post[index].userId,
+                  username: post[index].username,
+                  videoDescription: post[index].body,
+                  ceremonyId: post[index].ceremonyId,
+                  cImage: post[index].cImage,
+                  crmUsername: post[index].crmUsername,
+                  crmYoutubeLink: post[index].crmYoutubeLink,
+                  postVedeo: post[index].vedeo,
+                  filterBck: Positioned.fill(
+                    child: ImageFiltered(
+                      imageFilter: ImageFilter.blur(
+                        sigmaX: 10.0,
+                        sigmaY: 10.0,
+                      ),
+                      child: post[index].vedeo != ''
+                          ? Image.network(
+                              api +
+                                  'public/uploads/' +
+                                  post[index].username +
+                                  '/posts/' +
+                                  post[index].vedeo,
+                              // height: 400,
+                              fit: BoxFit.cover,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent? loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  ),
+                                );
+                              },
+                            )
+                          : const SizedBox(height: 1),
+                    ),
+                  ),
+                  userPost: Center(
+                    child: Container(
                         child: post[index].vedeo != ''
                             ? Image.network(
                                 api +
@@ -134,8 +164,7 @@ class _HomeState extends State<Home> {
                                     post[index].username +
                                     '/posts/' +
                                     post[index].vedeo,
-                                // height: 400,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.contain,
                                 loadingBuilder: (BuildContext context,
                                     Widget child,
                                     ImageChunkEvent? loadingProgress) {
@@ -154,41 +183,9 @@ class _HomeState extends State<Home> {
                                   );
                                 },
                               )
-                            : const SizedBox(height: 1),
-                      ),
-                    ),
-                    userPost: Center(
-                      child: Container(
-                          child: post[index].vedeo != ''
-                              ? Image.network(
-                                  api +
-                                      'public/uploads/' +
-                                      post[index].username +
-                                      '/posts/' +
-                                      post[index].vedeo,
-                                  fit: BoxFit.contain,
-                                  loadingBuilder: (BuildContext context,
-                                      Widget child,
-                                      ImageChunkEvent? loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        value: loadingProgress
-                                                    .expectedTotalBytes !=
-                                                null
-                                            ? loadingProgress
-                                                    .cumulativeBytesLoaded /
-                                                loadingProgress
-                                                    .expectedTotalBytes!
-                                            : null,
-                                      ),
-                                    );
-                                  },
-                                )
-                              : const SizedBox(height: 1)),
-                    ),
-                    
-                     );
+                            : const SizedBox(height: 1)),
+                  ),
+                );
               })),
           Positioned(
               top: 25,

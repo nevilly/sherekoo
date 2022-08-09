@@ -4,9 +4,7 @@ import '../../../model/ceremony/ceremonyModel.dart';
 import '../../../util/Preferences.dart';
 import '../../../util/util.dart';
 import '../../widgets/categoriesWidgets/ctgrWigets.dart';
-import '../../widgets/navWidget/bottom_toolbar.dart';
 import '../../widgets/categoriesWidgets/ctgrMenu.dart';
-import '../../widgets/navWidget/bttmNav.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
 
 class McCategory extends StatefulWidget {
@@ -39,7 +37,8 @@ class _McCategoryState extends State<McCategory> {
       u2Avt: '',
       u2Fname: '',
       u2Lname: '',
-      u2g: '', youtubeLink: '');
+      u2g: '',
+      youtubeLink: '');
 
   @override
   void initState() {

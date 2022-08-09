@@ -2,6 +2,7 @@
 
 // ignore_for_file: prefer_typing_uninitialized_variables, unused_field
 
+import 'dart:ffi';
 import 'dart:io';
 import 'dart:convert';
 
@@ -15,8 +16,6 @@ import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 import 'package:sherekoo/screens/chats.dart';
 import 'package:sherekoo/util/util.dart';
 
-import '../../model/allData.dart';
-import '../../model/ceremony/allCeremony.dart';
 import '../../model/profileMode.dart';
 import '../../screens/detailScreen/livee.dart';
 import '../../screens/homNav.dart';
@@ -38,6 +37,7 @@ class PostTemplate extends StatefulWidget {
   final String crmUsername;
   final String crmYoutubeLink;
   final String postVedeo;
+  final isLIke;
 
   final filterBck;
   final userPost;
@@ -58,7 +58,8 @@ class PostTemplate extends StatefulWidget {
       required this.ceremonyId,
       required this.cImage,
       required this.crmUsername,
-      required this.crmYoutubeLink});
+      required this.crmYoutubeLink,
+      required this.isLIke});
 
   @override
   _PostTemplateState createState() => _PostTemplateState();
@@ -84,12 +85,38 @@ class _PostTemplateState extends State<PostTemplate> {
 // The size of the plus icon under the profile image in follow action
   static const double plusIconSize = 20.0;
 
+  double likeNo = 0;
+  dynamic isLike;
   @override
   void initState() {
     _preferences.init();
-    _preferences.get('token').then((value) {});
+    _preferences.get('token').then((value) {
+      setState(() {
+        // likeNo = widget.numberOfLikes ;
+        // isLike = widget.isLIke;
+      });
+    });
 
     super.initState();
+  }
+
+  onLikeButtonTapped(isLiked) async {
+    /// send your request here
+    // final bool success= await sendRequest();
+    if (isLiked == '1') {
+      print('remove Like');
+      setState(() {
+        // likeNo = likeNo - 1;
+        isLike = '0';
+        print(3 - 1);
+        print(isLike);
+      });
+    }
+
+    /// if failed, you can do nothing
+    // return success? !isLiked:isLiked;
+
+    return !isLiked;
   }
 
   @override
@@ -145,7 +172,49 @@ class _PostTemplateState extends State<PostTemplate> {
                   height: 8,
                 ),
                 // Like Button
-                MyButton(icon: Icons.favorite, number: widget.numberOfLikes),
+                GestureDetector(
+                  onTap: () {
+                    // onLikeButtonTapped(widget.isLIke);
+                  },
+                  child: Container(
+                    width: 35,
+                    height: 55,
+                    decoration: BoxDecoration(
+                        color: Colors.black54.withOpacity(.5),
+                        borderRadius: BorderRadius.circular(50)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            widget.isLIke == '0'
+                                ? const Icon(
+                                    Icons.favorite,
+                                    size: 18.0,
+                                    color: Colors.white,
+                                  )
+                                : const Icon(
+                                    Icons.favorite,
+                                    size: 18.0,
+                                    color: Colors.red,
+                                  ),
+                            const SizedBox(
+                              height: 3,
+                            ),
+                            Text(
+                              widget.numberOfLikes,
+                              style: const TextStyle(
+                                  fontSize: 12, color: Colors.white),
+                            ),
+                            // const SizedBox(
+                            //   height: 8.0,
+                            // ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
 
                 const SizedBox(
                   height: 10,

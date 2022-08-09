@@ -31,8 +31,10 @@ class SherekooModel {
       required this.userId,
       required this.username,
       required this.avater,
-      required this.commentNumber,
       required this.createdDate,
+
+      //Chats
+      required this.commentNumber,
 
       //Ceremony Info
       required this.ceremonyId,
@@ -54,7 +56,6 @@ class SherekooModel {
       userId: json['createdBy'] ?? "",
       username: json['username'] ?? "",
       avater: json['avater'] ?? "",
-      commentNumber: json['commentNumber'] ?? "",
       createdDate: json['createdDate'] ?? "",
 
       //Ceremony Info
@@ -64,8 +65,11 @@ class SherekooModel {
       crmYoutubeLink: json['crmYoutubeLink'] ?? "",
       crmFid: json['crmFid'] ?? "",
 
+      //Chats
+      commentNumber: json['commentNumber'].toString(),
+
       //Likes Info
-      totalLikes: json['totalLikes'] ?? "",
+      totalLikes: json['totalLikes'].toString(),
       isLike: json['isLike'] ?? "",
     );
   }
