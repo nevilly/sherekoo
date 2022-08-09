@@ -37,7 +37,7 @@ class _DecoratorsCategoryState extends State<DecoratorsCategory> {
       u2Avt: '',
       u2Fname: '',
       u2Lname: '',
-      u2g: '');
+      u2g: '', youtubeLink: '');
 
   @override
   void initState() {

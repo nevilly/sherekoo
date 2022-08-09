@@ -38,7 +38,7 @@ class _DancersCategoryState extends State<DancersCategory> {
       u2Avt: '',
       u2Fname: '',
       u2Lname: '',
-      u2g: '');
+      u2g: '', youtubeLink: '');
 
   @override
   void initState() {

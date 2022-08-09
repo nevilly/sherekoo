@@ -48,7 +48,7 @@ class _BsnDetailsState extends State<BsnDetails> {
     u2Avt: '',
     u2Fname: '',
     u2Lname: '',
-    u2g: '',
+    u2g: '', youtubeLink: '',
   );
 
   List<ServicesModel> hostLIstData = [];

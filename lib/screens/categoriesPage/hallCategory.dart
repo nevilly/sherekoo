@@ -42,7 +42,7 @@ class _HallsCategoryState extends State<HallsCategory> {
       u2Avt: '',
       u2Fname: '',
       u2Lname: '',
-      u2g: '');
+      u2g: '', youtubeLink: '');
 
   @override
   void initState() {

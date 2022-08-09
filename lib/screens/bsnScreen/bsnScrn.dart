@@ -36,7 +36,7 @@ class _BusnessScreenState extends State<BusnessScreen> {
     u2Avt: '',
     u2Fname: '',
     u2Lname: '',
-    u2g: '',
+    u2g: '', youtubeLink: '',
   );
   BusnessModel busness = BusnessModel(
       location: '',

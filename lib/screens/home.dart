@@ -11,7 +11,6 @@ import '../model/post/sherekoModel.dart';
 import '../model/profileMode.dart';
 import '../util/Preferences.dart';
 import '../util/util.dart';
-import '../widgets/navWidget/bttmNav.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -41,6 +40,7 @@ class _HomeState extends State<Home> {
   String avata = '';
   List<SherekooModel> post = [];
   List<CeremonyModel> ceremonyLIve = [];
+
 
   @override
   void initState() {
@@ -111,12 +111,15 @@ class _HomeState extends State<Home> {
                     postId: post[index].pId,
                     avater: post[index].avater,
                     numberOfComments: post[index].commentNumber,
-                    numberOfLikes: '765',
+                    numberOfLikes: post[index].totalLikes.toString(),
                     numberOfShere: '234',
                     userId: post[index].userId,
                     username: post[index].username,
                     videoDescription: post[index].body,
                     ceremonyId: post[index].ceremonyId,
+                    cImage: post[index].cImage,
+                    crmUsername: post[index].crmUsername,
+                    crmYoutubeLink:  post[index].crmYoutubeLink,
                     postVedeo: post[index].vedeo,
                     filterBck: Positioned.fill(
                       child: ImageFiltered(
@@ -183,7 +186,9 @@ class _HomeState extends State<Home> {
                                   },
                                 )
                               : const SizedBox(height: 1)),
-                    ));
+                    ),
+                    
+                     );
               })),
           Positioned(
               top: 25,

@@ -2,7 +2,6 @@ import '../../../model/busness/busnessModel.dart';
 import '../../../model/ceremony/ceremonyModel.dart';
 import '../../../util/Preferences.dart';
 import '../../widgets/categoriesWidgets/ctgrWigets.dart';
-import '../../widgets/navWidget/bottom_toolbar.dart';
 import '../../widgets/categoriesWidgets/ctgrMenu.dart';
 import 'package:flutter/material.dart';
 
@@ -42,7 +41,7 @@ class _SingersCategoryState extends State<SingersCategory> {
       u2Avt: '',
       u2Fname: '',
       u2Lname: '',
-      u2g: '');
+      u2g: '', youtubeLink: '');
 
   @override
   void initState() {

@@ -43,6 +43,7 @@ class _SearchBusnessState extends State<SearchBusness> {
     u2Fname: '',
     u2Lname: '',
     u2g: '',
+    youtubeLink: '',
   );
 
   @override

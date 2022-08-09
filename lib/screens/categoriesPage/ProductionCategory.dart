@@ -39,7 +39,7 @@ class _ProductionCategoryState extends State<ProductionCategory> {
       u2Avt: '',
       u2Fname: '',
       u2Lname: '',
-      u2g: '');
+      u2g: '', youtubeLink: '');
 
   @override
   void initState() {

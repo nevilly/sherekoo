@@ -71,7 +71,7 @@ class _CeremonyScreenState extends State<CeremonyScreen> {
       u2Avt: '',
       u2Fname: '',
       u2Lname: '',
-      u2g: '');
+      u2g: '', youtubeLink: '');
 
   @override
   Widget build(BuildContext context) {

@@ -83,7 +83,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
       u2Avt: '',
       u2Fname: '',
       u2Lname: '',
-      u2g: '');
+      u2g: '', youtubeLink: '');
 
   // for_Search Result
   void _runFilter(String enteredKeyword) {

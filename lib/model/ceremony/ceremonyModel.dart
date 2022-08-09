@@ -22,6 +22,8 @@ class CeremonyModel {
   final String u2Lname;
   final String u2g;
 
+    final String youtubeLink;
+
   CeremonyModel({
     required this.cId,
     required this.codeNo,
@@ -43,6 +45,7 @@ class CeremonyModel {
     required this.u2Fname,
     required this.u2Lname,
     required this.u2g,
+     required this.youtubeLink,
   });
 
   factory CeremonyModel.fromJson(Map<String, dynamic> json) {
@@ -66,6 +69,7 @@ class CeremonyModel {
         u2Fname: json['u2Fname'],
         u2g: json['u2g'],
         u1Lname: json['u1Lname'],
+        youtubeLink: json['youtubeLink'],
         u2Lname: json['u2Lname']);
   }
 }

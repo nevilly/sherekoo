@@ -57,7 +57,7 @@ class _CategoryBodyState extends State<CategoryBody> {
       u2Avt: '',
       u2Fname: '',
       u2Lname: '',
-      u2g: '');
+      u2g: '', youtubeLink: '');
   String bsnType = '';
   @override
   void initState() {

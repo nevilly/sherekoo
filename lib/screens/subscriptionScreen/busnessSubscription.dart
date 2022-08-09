@@ -67,7 +67,7 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
       u2Avt: '',
       u2Fname: '',
       u2Lname: '',
-      u2g: '');
+      u2g: '', youtubeLink: '');
   @override
   void initState() {
     _preferences.init();

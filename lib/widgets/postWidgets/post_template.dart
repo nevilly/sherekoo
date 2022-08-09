@@ -13,7 +13,6 @@ import 'package:image_watermark/image_watermark.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 import 'package:sherekoo/screens/chats.dart';
-import 'package:sherekoo/screens/profile/profile.dart';
 import 'package:sherekoo/util/util.dart';
 
 import '../../model/allData.dart';
@@ -35,6 +34,9 @@ class PostTemplate extends StatefulWidget {
   final String numberOfComments;
   final String numberOfShere;
   final String ceremonyId;
+  final String cImage;
+  final String crmUsername;
+  final String crmYoutubeLink;
   final String postVedeo;
 
   final filterBck;
@@ -53,7 +55,10 @@ class PostTemplate extends StatefulWidget {
       required this.userId,
       required this.username,
       required this.videoDescription,
-      required this.ceremonyId});
+      required this.ceremonyId,
+      required this.cImage,
+      required this.crmUsername,
+      required this.crmYoutubeLink});
 
   @override
   _PostTemplateState createState() => _PostTemplateState();
@@ -79,76 +84,12 @@ class _PostTemplateState extends State<PostTemplate> {
 // The size of the plus icon under the profile image in follow action
   static const double plusIconSize = 20.0;
 
-  CeremonyModel ceremony = CeremonyModel(
-      cId: '',
-      codeNo: '',
-      ceremonyType: '',
-      cName: '',
-      fId: '',
-      sId: '',
-      cImage: '',
-      ceremonyDate: '',
-      contact: '',
-      admin: '',
-      u1: '',
-      u1Avt: '',
-      u1Fname: '',
-      u1Lname: '',
-      u1g: '',
-      u2: '',
-      u2Avt: '',
-      u2Fname: '',
-      u2Lname: '',
-      u2g: '');
-
-  User postUser = User(
-      id: '',
-      username: '',
-      avater: '',
-      phoneNo: '',
-      role: '',
-      gender: '',
-      email: '',
-      firstname: '',
-      lastname: '',
-      isCurrentUser: '');
-
   @override
   void initState() {
     _preferences.init();
-    _preferences.get('token').then((value) {
-      setState(() {
-        token = value;
-        if (widget.ceremonyId != '0') {
-          getAllCeremony();
-        }
-
-        //
-        // getUser();
-      });
-    });
+    _preferences.get('token').then((value) {});
 
     super.initState();
-  }
-
-  getUser() async {
-    AllUsersModel(payload: [], status: 0)
-        .getUserById(token, urlUserById, widget.userId)
-        .then((value) {
-      setState(() {
-        postUser = User.fromJson(value.payload);
-      });
-    });
-  }
-
-  getAllCeremony() async {
-    AllCeremonysModel(payload: [], status: 0)
-        .getCeremonyById(token, urlGetCeremonyById, widget.ceremonyId)
-        .then((value) {
-      setState(() {
-        ceremony = CeremonyModel.fromJson(value.payload);
-      });
-    });
   }
 
   @override
@@ -402,7 +343,28 @@ class _PostTemplateState extends State<PostTemplate> {
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) => Livee(
-                      ceremony: ceremony,
+                      ceremony: CeremonyModel(
+                          cId: widget.ceremonyId,
+                          codeNo: '',
+                          ceremonyType: '',
+                          cName: '',
+                          fId: '',
+                          sId: '',
+                          cImage: widget.cImage,
+                          ceremonyDate: '',
+                          contact: '',
+                          admin: '',
+                          u1: widget.crmUsername,
+                          u1Avt: '',
+                          u1Fname: '',
+                          u1Lname: '',
+                          u1g: '',
+                          u2: '',
+                          u2Avt: '',
+                          u2Fname: '',
+                          u2Lname: '',
+                          u2g: '',
+                          youtubeLink: widget.crmYoutubeLink),
                     )));
       },
       child: SizedBox(
@@ -420,15 +382,15 @@ class _PostTemplateState extends State<PostTemplate> {
               decoration: BoxDecoration(
                   gradient: musicGradient,
                   borderRadius: BorderRadius.circular(profileImageSize / 2)),
-              child: ceremony.cImage != ''
+              child: widget.cImage != ''
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(19),
                       child: Image.network(
                         api +
                             'public/uploads/' +
-                            ceremony.u1 +
+                            widget.crmUsername +
                             '/ceremony/' +
-                            ceremony.cImage,
+                            widget.cImage,
                         fit: BoxFit.cover,
                       ),
                     )

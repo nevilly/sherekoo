@@ -4,7 +4,6 @@ class SherekooModel {
   final String createdBy;
   final String body;
   final String vedeo;
-  final String ceremonyId;
 
   final String userId;
   final String username;
@@ -14,15 +13,21 @@ class SherekooModel {
   final String createdDate;
 
   //Ceremony Info
+  final String ceremonyId;
   final String cImage;
   final String crmUsername;
+  final String crmFid;
+  final String crmYoutubeLink;
+
+  //Ceremony Info
+  final String totalLikes;
+  dynamic isLike;
 
   SherekooModel(
       {required this.pId,
       required this.createdBy,
       required this.body,
       required this.vedeo,
-      required this.ceremonyId,
       required this.userId,
       required this.username,
       required this.avater,
@@ -30,24 +35,38 @@ class SherekooModel {
       required this.createdDate,
 
       //Ceremony Info
+      required this.ceremonyId,
       required this.cImage,
-      required this.crmUsername});
+      required this.crmUsername,
+      required this.crmFid,
+      required this.crmYoutubeLink,
+
+      //Likes Info
+      required this.totalLikes,
+      required this.isLike});
 
   factory SherekooModel.fromJson(Map<String, dynamic> json) {
     return SherekooModel(
-        pId: json['pId'] ?? "",
-        createdBy: json['createdBy'] ?? "",
-        vedeo: json['vedeo'] ?? "",
-        ceremonyId: json['ceremonyId'] ?? "",
-        body: json['body'] ?? "",
-        userId: json['createdBy'] ?? "",
-        username: json['username'] ?? "",
-        avater: json['avater'] ?? "",
-        commentNumber: json['commentNumber'] ?? "",
-        createdDate: json['createdDate'] ?? "",
+      pId: json['pId'] ?? "",
+      createdBy: json['createdBy'] ?? "",
+      vedeo: json['vedeo'] ?? "",
+      body: json['body'] ?? "",
+      userId: json['createdBy'] ?? "",
+      username: json['username'] ?? "",
+      avater: json['avater'] ?? "",
+      commentNumber: json['commentNumber'] ?? "",
+      createdDate: json['createdDate'] ?? "",
 
-        //Ceremony Info
-        cImage: json['cImage'] ?? "",
-        crmUsername: json['crmUsername'] ?? "");
+      //Ceremony Info
+      ceremonyId: json['ceremonyId'] ?? "",
+      cImage: json['cImage'] ?? "",
+      crmUsername: json['crmUsername'] ?? "",
+      crmYoutubeLink: json['crmYoutubeLink'] ?? "",
+      crmFid: json['crmFid'] ?? "",
+
+      //Likes Info
+      totalLikes: json['totalLikes'] ?? "",
+      isLike: json['isLike'] ?? "",
+    );
   }
 }

@@ -49,7 +49,7 @@ class _BsnTabState extends State<BsnTab> {
     u2Avt: '',
     u2Fname: '',
     u2Lname: '',
-    u2g: '',
+    u2g: '', youtubeLink: '',
   );
 
   late User currentUser = User(
