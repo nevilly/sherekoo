@@ -8,6 +8,8 @@ import '../../model/getAll.dart';
 import '../../model/services/ServicesModelModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/util.dart';
+import '../../widgets/detailsWidg/busnessList.dart';
+import '../../widgets/detailsWidg/ceremonyList.dart';
 import '../bsnScreen/bsnScrn.dart';
 import '../subscriptionScreen/hiringPage.dart';
 import '../subscriptionScreen/subscription.dart';
@@ -72,7 +74,7 @@ class _BsnDetailsState extends State<BsnDetails> {
 
         // getPhoto();
         // getMembers();
-        getAll();
+        crmWorkWithBsn();
       });
     });
 
@@ -143,11 +145,11 @@ class _BsnDetailsState extends State<BsnDetails> {
     });
   }
 
-  getAll() async {
+  //All Ceremony work With Busness
+  crmWorkWithBsn() async {
     GetAll(id: data.bId, status: 0, payload: [])
         .get(token, urlGetBsnToCrmnServices)
         .then((value) {
- 
       setState(() {
         service = value.payload
             .map<ServicesModel>((e) => ServicesModel.fromJson(e))
@@ -314,146 +316,14 @@ class _BsnDetailsState extends State<BsnDetails> {
                                         color: Colors.blueGrey,
                                         iconSize: 20.0,
                                         onPressed: () {
-                                          oneButtonPressed('sema', '234234');
+                                          oneButtonPressed();
                                         })
                                   ],
                                 )),
                           ),
 
                         //Ceremony Ceremony List;
-                        if (service.isNotEmpty)
-                          SizedBox(
-                            height: 120,
-                            child: GridView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: service.length,
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3),
-                                itemBuilder: (context, index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      // Navigator.push(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (_) =>
-                                      //              LiveCeremony(data: service[index],)));
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 2.0),
-                                      child: SizedBox(
-                                        width: 120,
-                                        child: Card(
-                                          child: Column(
-                                            children: [
-                                              service[index].cImage == ''
-                                                  ? ClipRRect(
-                                                      child: Center(
-                                                        child: FadeInImage(
-                                                          image: NetworkImage(api +
-                                                              'public/uploads/' +
-                                                              service[index]
-                                                                  .fIdUname +
-                                                              '/ceremony/' +
-                                                              service[index]
-                                                                  .cImage),
-                                                          fadeInDuration:
-                                                              const Duration(
-                                                                  milliseconds:
-                                                                      100),
-                                                          placeholder:
-                                                              const AssetImage(
-                                                                  'assets/logo/noimage.png'),
-                                                          imageErrorBuilder:
-                                                              (context, error,
-                                                                  stackTrace) {
-                                                            return Image.asset(
-                                                                'assets/logo/noimage.png',
-                                                                fit: BoxFit
-                                                                    .fitWidth);
-                                                          },
-                                                          fit: BoxFit.fitWidth,
-                                                        ),
-                                                      ),
-                                                    )
-                                                  : const SizedBox(),
-                                              const SizedBox(
-                                                height: 8,
-                                              ),
-                                              const SizedBox(
-                                                height: 2,
-                                              ),
-                                              Text(service[index].cName,
-                                                  style: const TextStyle(
-                                                      fontSize: 9,
-                                                      fontWeight:
-                                                          FontWeight.bold)),
-                                              const SizedBox(
-                                                height: 4,
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 8.0,
-                                                    right: 8.0,
-                                                    bottom: 4),
-                                                child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Row(
-                                                        children: const [
-                                                          Icon(
-                                                            Icons
-                                                                .remove_red_eye,
-                                                            size: 10,
-                                                          ),
-                                                          Text('134',
-                                                              style: TextStyle(
-                                                                  fontSize: 7,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                        ],
-                                                      ),
-                                                      Row(
-                                                        children: const [
-                                                          Icon(
-                                                            Icons.photo,
-                                                            size: 10,
-                                                          ),
-                                                          Text('13k',
-                                                              style: TextStyle(
-                                                                  fontSize: 7,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                        ],
-                                                      ),
-                                                      Row(
-                                                        children: const [
-                                                          Icon(
-                                                            Icons.message,
-                                                            size: 10,
-                                                          ),
-                                                          Text('25k',
-                                                              style: TextStyle(
-                                                                  fontSize: 7,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                        ],
-                                                      ),
-                                                    ]),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }),
-                          ),
+                        if (service.isNotEmpty) CeremonyList(service: service),
                         // End List of Ceremony Container
 
                         const SizedBox(
@@ -502,71 +372,7 @@ class _BsnDetailsState extends State<BsnDetails> {
                           ),
 
                         if (otherBsn.isNotEmpty)
-                          SizedBox(
-                            height: 120,
-                            child: GridView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: otherBsn.length,
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3),
-                                itemBuilder: (context, index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) => BsnDetails(
-                                                    data: otherBsn[index],
-                                                    ceremonyData: ceremony,
-                                                  )));
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 2.0),
-                                      child: SizedBox(
-                                        width: 100,
-                                        height: 100,
-                                        child: Card(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              children: [
-                                                Center(
-                                                  child: CircleAvatar(
-                                                    radius: 15.0,
-                                                    child: ClipOval(
-                                                        child: Image.network(
-                                                      api +
-                                                          'public/uploads/' +
-                                                          otherBsn[index]
-                                                              .username +
-                                                          '/busness/' +
-                                                          otherBsn[index]
-                                                              .coProfile,
-                                                      fit: BoxFit.cover,
-                                                      width: 90.0,
-                                                      height: 90.0,
-                                                    )),
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Center(
-                                                  child: Text(
-                                                      otherBsn[index].knownAs,
-                                                      style: const TextStyle(
-                                                          color: Colors.grey)),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }),
-                          ),
+                          BusnessLst(otherBsn: otherBsn, ceremony: ceremony),
                       ],
                     ),
                   ),
@@ -583,6 +389,7 @@ class _BsnDetailsState extends State<BsnDetails> {
         ));
   }
 
+  // Pricing
   Padding priceShow(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 15.0, bottom: 10.0, left: 8),
@@ -636,6 +443,7 @@ class _BsnDetailsState extends State<BsnDetails> {
     );
   }
 
+  // Feeds
   SizedBox feeds() {
     return SizedBox(
       height: 400,
@@ -896,6 +704,7 @@ class _BsnDetailsState extends State<BsnDetails> {
     );
   }
 
+  // Descption Tab
   SingleChildScrollView description(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
@@ -1196,7 +1005,7 @@ class _BsnDetailsState extends State<BsnDetails> {
     );
   }
 
-  void oneButtonPressed(title, price) {
+  void oneButtonPressed() {
     showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -1210,62 +1019,89 @@ class _BsnDetailsState extends State<BsnDetails> {
                       topLeft: Radius.circular(25),
                       topRight: Radius.circular(25),
                     )),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 10),
-                    const Center(
-                        child: Text('List Of Ceremony',
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold))),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      height: 350,
-                      child: ListView.builder(
-                          itemCount: service.length,
-                          itemBuilder: (BuildContext context, index) {
-                            return Container(
-                              margin: const EdgeInsets.all(10),
-                              padding: const EdgeInsets.all(0),
-                              decoration: const BoxDecoration(
-                                color: Color(0xFFEEEEEE),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                              ),
-                              child: Row(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(5.0),
-                                        bottomLeft: Radius.circular(5.0)),
-                                    child: Image(
-                                      image: AssetImage(service[index].cImage),
-                                      width: 100,
-                                      height: 60,
-                                      fit: BoxFit.fill,
+                child: Expanded(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 5),
+                      const Center(
+                          child: Text('Participate Ceremony',
+                              style: TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.bold))),
+                      const SizedBox(height: 5),
+                      SizedBox(
+                        height: 290,
+                        child: ListView.builder(
+                            itemCount: service.length,
+                            itemBuilder: (BuildContext context, index) {
+                              return Container(
+                                margin:
+                                    const EdgeInsets.only(left: 8, right: 8),
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFFEEEEEE),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                ),
+                                child: Row(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(5.0),
+                                          bottomLeft: Radius.circular(5.0)),
+                                      child: service[index].cImage != ''
+                                          ? ClipRRect(
+                                              child: Center(
+                                                child: FadeInImage(
+                                                  height: 55,
+                                                  image: NetworkImage(api +
+                                                      'public/uploads/' +
+                                                      service[index].fIdUname +
+                                                      '/ceremony/' +
+                                                      service[index].cImage),
+                                                  // fadeInDuration:
+                                                  //     const Duration(
+                                                  //         milliseconds:
+                                                  //             100),
+                                                  placeholder: const AssetImage(
+                                                      'assets/logo/noimage.png'),
+                                                  imageErrorBuilder: (context,
+                                                      error, stackTrace) {
+                                                    return Image.asset(
+                                                        'assets/logo/noimage.png',
+                                                        fit: BoxFit.fitWidth);
+                                                  },
+                                                  fit: BoxFit.fitWidth,
+                                                ),
+                                              ),
+                                            )
+                                          : const SizedBox(),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(children: [
-                                      Text(service[index].cName,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black54)),
-                                      Text(service[index].codeNo,
-                                          style: const TextStyle(fontSize: 10)),
-                                    ]),
-                                  )
-                                ],
-                              ),
-                            );
-                          }),
-                    ),
-                  ],
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(children: [
+                                        Text(service[index].cName,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black54)),
+                                        Text(service[index].codeNo,
+                                            style: const TextStyle(
+                                                fontSize: 10,
+                                                color: Colors.black54))
+                                      ]),
+                                    )
+                                  ],
+                                ),
+                              );
+                            }),
+                      ),
+                    ],
+                  ),
                 )),
           );
         });
   }
 }
+
+
 
 //staff
 // if (members.isNotEmpty && go)
