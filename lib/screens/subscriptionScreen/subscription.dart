@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../widgets/notifyWidget/notifyWidget.dart';
+
 class SubscriptionPage extends StatefulWidget {
   const SubscriptionPage({Key? key}) : super(key: key);
 
@@ -20,9 +22,19 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
       Scaffold(
         // backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: const Center(
-            child: Text('Subscription'),
-          ),
+          backgroundColor: Colors.black87,
+          title: const Text('Subscription'),
+          centerTitle: true,
+          actions: const [
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.notifications,
+                color: Colors.white,
+                size: 25,
+              ),
+            ),
+          ],
         ),
         body: Column(
           children: [
