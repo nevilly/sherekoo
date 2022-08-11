@@ -20,7 +20,7 @@ class CeremonyList extends StatelessWidget {
         if (service.isNotEmpty)
           // Header: Ceremony List.
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(left: 8.0, top: 8),
             child: Container(
                 alignment: Alignment.topLeft,
                 child: Row(
@@ -29,7 +29,7 @@ class CeremonyList extends StatelessWidget {
                     const Text(
                       'List Ceremon Host',
                       style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                           fontStyle: FontStyle.italic,
                           color: Colors.black),
@@ -37,7 +37,7 @@ class CeremonyList extends StatelessWidget {
                     IconButton(
                         icon: const Icon(Icons.more_horiz),
                         color: Colors.blueGrey,
-                        iconSize: 20.0,
+                        iconSize: 30.0,
                         onPressed: () {
                           otherCeremony(context);
                         })
@@ -46,7 +46,7 @@ class CeremonyList extends StatelessWidget {
           ),
         if (service.isNotEmpty)
           SizedBox(
-            height: 120,
+            height: 110,
             child: GridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: service.length,
@@ -245,15 +245,18 @@ class CeremonyList extends StatelessWidget {
                                           : const SizedBox(),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.only(
+                                        left: 8.0,
+                                        top: 4,
+                                      ),
                                       child: Column(children: [
                                         Text(service[index].cName,
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.black54)),
-                                        Text(service[index].codeNo,
+                                        Text(service[index].busnessType,
                                             style: const TextStyle(
-                                                fontSize: 10,
+                                                fontSize: 8,
                                                 color: Colors.black54))
                                       ]),
                                     )
@@ -268,6 +271,4 @@ class CeremonyList extends StatelessWidget {
           );
         });
   }
-
-  void oneButtonPressed() {}
 }

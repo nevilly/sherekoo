@@ -12,9 +12,7 @@ import '../../widgets/detailsWidg/BsnProfile.dart';
 import '../../widgets/detailsWidg/bsnDescr.dart';
 import '../../widgets/detailsWidg/busnessList.dart';
 import '../../widgets/detailsWidg/ceremonyList.dart';
-import '../bsnScreen/bsnScrn.dart';
 import '../subscriptionScreen/hiringPage.dart';
-import '../subscriptionScreen/subscription.dart';
 
 class BsnDetails extends StatefulWidget {
   final BusnessModel data;
@@ -179,6 +177,7 @@ class _BsnDetailsState extends State<BsnDetails> {
               const TabBar(
                   labelColor: Colors.red,
                   unselectedLabelColor: Colors.black,
+                  labelStyle: TextStyle(fontWeight: FontWeight.w500),
                   tabs: [
                     Tab(
                       text: 'OverView',
@@ -203,16 +202,12 @@ class _BsnDetailsState extends State<BsnDetails> {
                         // Price
                         priceShow(context),
 
-                        const SizedBox(
-                          height: 12.0,
-                        ),
-
                         //Ceremony List;
                         CeremonyList(service: service),
                         // End List of Ceremony Container
 
                         const SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
 
                         // other Busness List

@@ -86,7 +86,7 @@ class BsnDescr extends StatelessWidget {
             const SizedBox(height: 10),
             //Origin
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, bottom: 5.0),
+              padding: const EdgeInsets.only(left: 15.0, bottom: 5.0),
               child: Column(
                 children: [
                   Container(
@@ -126,8 +126,9 @@ class BsnDescr extends StatelessWidget {
             ),
 
             //Location
+            
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, bottom: 5.0),
+              padding: const EdgeInsets.only(left: 15.0, bottom: 5.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -168,80 +169,10 @@ class BsnDescr extends StatelessWidget {
             ),
 
             //Bio
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: const Text('Bio ',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                        text: data.aboutCEO,
-                        style: const TextStyle(
-                          fontSize: 13,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      const TextSpan(
-                        text: ' @RealCount',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ])),
-                  ),
-                ],
-              ),
-            ),
-
+            descrInfo('Ceo Bio ', data.aboutCEO),
+           
             //Co Bio
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: const Text('company Bio ',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: RichText(
-                        softWrap: true,
-                        textAlign: TextAlign.left,
-                        text: TextSpan(children: [
-                          TextSpan(
-                            text: data.aboutCompany,
-                            style: const TextStyle(
-                              fontSize: 13,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          const TextSpan(
-                            text: ' @RealCount',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ])),
-                  ),
-                ],
-              ),
-            ),
+            descrInfo('company Bio ', data.aboutCompany),
 
             //Picture
 
@@ -317,5 +248,44 @@ class BsnDescr extends StatelessWidget {
       ),
     );
   }
-}
 
+  Padding descrInfo(String label,String dscr) {
+    return Padding(
+            padding:  const EdgeInsets.only(left:15.0),
+            child: Column(
+              children: [
+                Container(
+                  alignment: Alignment.topLeft,
+                  child:  Text(label,
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: RichText(
+                      softWrap: true,
+                      textAlign: TextAlign.left,
+                      text: TextSpan(children: [
+                        TextSpan(
+                          text: dscr,
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        const TextSpan(
+                          text: ' @RealCount',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ])),
+                ),
+              ],
+            ),
+          );
+  }
+}
