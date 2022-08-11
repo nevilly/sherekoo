@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class GetAll {
   final String id;
-  final int status;
+  dynamic status;
   dynamic payload;
 
   GetAll({required this.id, required this.status, required this.payload});
@@ -40,21 +40,15 @@ class GetAll {
     return await http
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((r) {
-      // print('check Boody');
-      // print(jsonDecode(r.body)['payload']);
+      print('check Boody');
+      print(jsonDecode(r.body)['payload']);
 
       if (r.statusCode == 200) {
-        return GetAll.fromJson({
-          'id': '',
-          'status': r.statusCode,
-          'payload': jsonDecode(r.body)['payload']
-        });
+        return GetAll.fromJson(
+            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       } else {
-        return GetAll.fromJson({
-          'id': '',
-          'status': r.statusCode,
-          'payload': jsonDecode(r.body)['payload']
-        });
+        return GetAll.fromJson(
+            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       }
     });
   }

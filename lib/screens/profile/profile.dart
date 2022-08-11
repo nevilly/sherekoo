@@ -5,7 +5,6 @@ import '../../model/allData.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
 import '../../util/util.dart';
-import '../../widgets/navWidget/bttmNav.dart';
 import '../../widgets/imgWigdets/userAvater.dart';
 import '../accounts/login.dart';
 import '../drawer/navDrawer.dart';
@@ -39,7 +38,7 @@ class _ProfileState extends State<Profile> {
 
   @override
   void initState() {
-    PaintingBinding.instance.imageCache.clear();
+
     _preferences.init();
     _preferences.get('token').then((value) {
       setState(() {
@@ -129,7 +128,7 @@ class _ProfileState extends State<Profile> {
   AppBar topBar() {
     return AppBar(
       backgroundColor: Colors.black54,
-      title: Text('Profile'),
+      title: const Text('Profile'),
       centerTitle: true,
       actions: [
         // Notification

@@ -70,8 +70,8 @@ class _BsnDetailsState extends State<BsnDetails> {
         token = value;
         getOther();
 
-        getPhoto();
-        getMembers();
+        // getPhoto();
+        // getMembers();
         getAll();
       });
     });
@@ -147,8 +147,7 @@ class _BsnDetailsState extends State<BsnDetails> {
     GetAll(id: data.bId, status: 0, payload: [])
         .get(token, urlGetBsnToCrmnServices)
         .then((value) {
-      // print('HOostList view..');
-      // print(value.payload);
+ 
       setState(() {
         service = value.payload
             .map<ServicesModel>((e) => ServicesModel.fromJson(e))
@@ -347,26 +346,39 @@ class _BsnDetailsState extends State<BsnDetails> {
                                         child: Card(
                                           child: Column(
                                             children: [
-                                              ClipRRect(
-                                                child: Center(
-                                                  child: Image(
-                                                    image: AssetImage(
-                                                        service[index].cImage),
-                                                    height: 55,
-                                                    fit: BoxFit.fill,
-                                                  ),
-                                                ),
-                                              ),
+                                              service[index].cImage == ''
+                                                  ? ClipRRect(
+                                                      child: Center(
+                                                        child: FadeInImage(
+                                                          image: NetworkImage(api +
+                                                              'public/uploads/' +
+                                                              service[index]
+                                                                  .fIdUname +
+                                                              '/ceremony/' +
+                                                              service[index]
+                                                                  .cImage),
+                                                          fadeInDuration:
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      100),
+                                                          placeholder:
+                                                              const AssetImage(
+                                                                  'assets/logo/noimage.png'),
+                                                          imageErrorBuilder:
+                                                              (context, error,
+                                                                  stackTrace) {
+                                                            return Image.asset(
+                                                                'assets/logo/noimage.png',
+                                                                fit: BoxFit
+                                                                    .fitWidth);
+                                                          },
+                                                          fit: BoxFit.fitWidth,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : const SizedBox(),
                                               const SizedBox(
                                                 height: 8,
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 4.0, right: 4.0),
-                                                child: Text(
-                                                    service[index].codeNo,
-                                                    style: const TextStyle(
-                                                        fontSize: 9)),
                                               ),
                                               const SizedBox(
                                                 height: 2,
@@ -525,7 +537,7 @@ class _BsnDetailsState extends State<BsnDetails> {
                                                     child: ClipOval(
                                                         child: Image.network(
                                                       api +
-                                                          '/public/uploads/' +
+                                                          'public/uploads/' +
                                                           otherBsn[index]
                                                               .username +
                                                           '/busness/' +
