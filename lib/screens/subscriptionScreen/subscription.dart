@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../widgets/notifyWidget/notifyWidget.dart';
-
 class SubscriptionPage extends StatefulWidget {
   const SubscriptionPage({Key? key}) : super(key: key);
 
@@ -41,6 +39,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
             const Image(
               image: AssetImage("assets/subscription/subscription.png"),
               fit: BoxFit.cover,
+              height: 185,
             ),
             const Padding(
               padding:
@@ -51,362 +50,364 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                    fontSize: 16,
                     color: Colors.black),
               )),
             ),
             const SizedBox(
               height: 5,
             ),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 4.0, left: 8, right: 4.0, bottom: 8.0),
-                child: GestureDetector(
-                  onTap: () {
-                    oneButtonPressed('Basic', '25,000 Tsh');
-                    setState(() {
-                      _color = Colors.white;
-                      _shdwColor1 = Colors.red.withOpacity(0.5);
-                      _shdwColor2 = Colors.black.withOpacity(0.1);
-                      _shdwColor3 = Colors.black.withOpacity(0.1);
-                    });
-                  },
-                  child: Container(
-                    height: 160,
-                    // width: 120,
-                    decoration: BoxDecoration(
-                      color: _color,
-                      borderRadius: BorderRadius.circular(5),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: const Offset(0, 1),
-                          blurRadius: 5,
-                          color: _shdwColor1,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              'Basic',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            )),
-                        const SizedBox(height: 7),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Container(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text(
-                                    ' Offer',
-                                    style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text(
-                                    '- Live Ceremony ',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    '- 5 Contact each ',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    '- View 5 Schedule',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                ],
+            Expanded(
+              child: ListView(scrollDirection: Axis.horizontal, children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 4.0, left: 8, right: 4.0, bottom: 8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      oneButtonPressed('Basic', '25,000 Tsh');
+                      setState(() {
+                        _color = Colors.white;
+                        _shdwColor1 = Colors.red.withOpacity(0.5);
+                        _shdwColor2 = Colors.black.withOpacity(0.1);
+                        _shdwColor3 = Colors.black.withOpacity(0.1);
+                      });
+                    },
+                    child: Container(
+                      // height: 160,
+                      // width: 120,
+                      decoration: BoxDecoration(
+                        color: _color,
+                        borderRadius: BorderRadius.circular(5),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: const Offset(0, 1),
+                            blurRadius: 5,
+                            color: _shdwColor1,
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                'Basic',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black),
+                              )),
+                          const SizedBox(height: 7),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Container(
+                              alignment: Alignment.topLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text(
+                                      ' Offer',
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      '- Live Ceremony ',
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                    Text(
+                                      '- 5 Contact each ',
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                    Text(
+                                      '- View 5 Schedule',
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 19),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: RichText(
-                              text: const TextSpan(children: [
-                            TextSpan(
-                              text: '25,000 ',
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            TextSpan(
-                              text: 'Tsh',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black54,
-                                fontWeight: FontWeight.bold,
+                          const SizedBox(height: 19),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: RichText(
+                                text: const TextSpan(children: [
+                              TextSpan(
+                                text: '25,000 ',
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold),
                               ),
-                            ),
-                          ])),
-                        )
-                      ],
+                              TextSpan(
+                                text: 'Tsh',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ])),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: GestureDetector(
-                  onTap: () {
-                    oneButtonPressed('Silver', '60,000 Tsh');
-                    setState(() {
-                      _color = Colors.white;
-                      _shdwColor1 = Colors.black.withOpacity(0.1);
-                      _shdwColor2 = Colors.red.withOpacity(0.5);
-                      _shdwColor3 = Colors.black.withOpacity(0.1);
-                    });
-                  },
-                  child: Container(
-                    height: 160,
-                    // width: 120,
-                    decoration: BoxDecoration(
-                      color: _color,
-                      borderRadius: BorderRadius.circular(5),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: const Offset(0, 1),
-                          blurRadius: 5,
-                          color: _shdwColor2,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              'Silver',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            )),
-                        const SizedBox(height: 7),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Container(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text(
-                                    ' Offer',
-                                    style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text(
-                                    '- Live Ceremony',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    '- view ten Contact',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    '- View All Schedule',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    '- send alert Message',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    '- Be in Magazine',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                ],
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      oneButtonPressed('Silver', '60,000 Tsh');
+                      setState(() {
+                        _color = Colors.white;
+                        _shdwColor1 = Colors.black.withOpacity(0.1);
+                        _shdwColor2 = Colors.red.withOpacity(0.5);
+                        _shdwColor3 = Colors.black.withOpacity(0.1);
+                      });
+                    },
+                    child: Container(
+                      // height: 160,
+                      // width: 120,
+                      decoration: BoxDecoration(
+                        color: _color,
+                        borderRadius: BorderRadius.circular(5),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: const Offset(0, 1),
+                            blurRadius: 5,
+                            color: _shdwColor2,
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                'Silver',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black),
+                              )),
+                          const SizedBox(height: 7),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Container(
+                              alignment: Alignment.topLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text(
+                                      ' Offer',
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      '- Live Ceremony',
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                    Text(
+                                      '- view ten Contact',
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                    Text(
+                                      '- View All Schedule',
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                    Text(
+                                      '- send alert Message',
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                    Text(
+                                      '- Be in Magazine',
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        // SizedBox(height: 5),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 4.0),
-                          child: RichText(
-                              text: const TextSpan(children: [
-                            TextSpan(
-                              text: '60,000 ',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            TextSpan(
-                              text: 'Tsh',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.black54,
-                                fontWeight: FontWeight.bold,
+                          // SizedBox(height: 5),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4.0),
+                            child: RichText(
+                                text: const TextSpan(children: [
+                              TextSpan(
+                                text: '60,000 ',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold),
                               ),
-                            ),
-                          ])),
-                        )
-                      ],
+                              TextSpan(
+                                text: 'Tsh',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ])),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 4.0, left: 4, right: 8.0, bottom: 8.0),
-                child: GestureDetector(
-                  onTap: () {
-                    oneButtonPressed('Gold', '120,000 Tsh');
-                    setState(() {
-                      _color = Colors.white;
-                      _shdwColor1 = Colors.black.withOpacity(0.1);
-                      _shdwColor2 = Colors.black.withOpacity(0.1);
-                      _shdwColor3 = Colors.red.withOpacity(0.5);
-                    });
-                  },
-                  child: Container(
-                    height: 160,
-                    // width: 120,
-                    decoration: BoxDecoration(
-                      color: Colors.red.shade800,
-                      borderRadius: BorderRadius.circular(5),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: const Offset(0, 1),
-                          blurRadius: 5,
-                          color: _shdwColor3,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              'Gold',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            )),
-                        const SizedBox(height: 7),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Container(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text(
-                                    ' Offer',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Text(
-                                    '- Live Ceremony',
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Text(
-                                    '- view all Contact',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    '- view All Schedule',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    '- send alert Message',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    '- Be in Magazine',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                ],
-                              ),
-                            ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 4.0, left: 4, right: 8.0, bottom: 8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      oneButtonPressed('Gold', '120,000 Tsh');
+                      setState(() {
+                        _color = Colors.white;
+                        _shdwColor1 = Colors.black.withOpacity(0.1);
+                        _shdwColor2 = Colors.black.withOpacity(0.1);
+                        _shdwColor3 = Colors.red.withOpacity(0.5);
+                      });
+                    },
+                    child: Container(
+                      // height: 160,
+                      // width: 120,
+                      decoration: BoxDecoration(
+                        color: Colors.red.shade800,
+                        borderRadius: BorderRadius.circular(5),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: const Offset(0, 1),
+                            blurRadius: 5,
+                            color: _shdwColor3,
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 8.0, top: 4.0, right: 8.0, bottom: 8.0),
-                          child: RichText(
-                              text: const TextSpan(children: [
-                            TextSpan(
-                              text: '120,000 ',
-                              style: TextStyle(
-                                  fontSize: 16,
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                'Gold',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
                                   color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            TextSpan(
-                              text: 'Tsh',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                                ),
+                              )),
+                          const SizedBox(height: 7),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Container(
+                              alignment: Alignment.topLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text(
+                                      ' Offer',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      '- Live Ceremony',
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      '- view all Contact',
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                    Text(
+                                      '- view All Schedule',
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                    Text(
+                                      '- send alert Message',
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                    Text(
+                                      '- Be in Magazine',
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ])),
-                        )
-                      ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 8.0, top: 4.0, right: 8.0, bottom: 8.0),
+                            child: RichText(
+                                text: const TextSpan(children: [
+                              TextSpan(
+                                text: '120,000 ',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              TextSpan(
+                                text: 'Tsh',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ])),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ]),
+              ]),
+            ),
             const SizedBox(
               height: 10,
             ),

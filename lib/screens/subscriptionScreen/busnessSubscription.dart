@@ -164,7 +164,8 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
 
           //Our package list
           Expanded(
-            child: ListView(scrollDirection: Axis.horizontal, children: [
+            child: ListView(
+              scrollDirection: Axis.horizontal, children: [
               //free offer
               Padding(
                 padding: const EdgeInsets.only(
