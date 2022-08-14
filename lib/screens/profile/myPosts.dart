@@ -47,13 +47,13 @@ class _MyPostsState extends State<MyPosts> {
       username: '',
       vedeo: '',
     ).getPostByUserId(token, urlGetSherekooByUid, id).then((value) {
-      setState(() {
-        print('value.payload poost');
-        print(value.payload);
-        post = value.payload
-            .map<SherekooModel>((e) => SherekooModel.fromJson(e))
-            .toList();
-      });
+      if (value.status == 200) {
+        setState(() {
+          post = value.payload
+              .map<SherekooModel>((e) => SherekooModel.fromJson(e))
+              .toList();
+        });
+      }
     });
   }
 

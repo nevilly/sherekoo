@@ -11,6 +11,8 @@ class OColors {
   static Color textColor = Color(0xff606060);
   static Color textDescriptionColor = const Color(0xff78849E);
 
+  // appBar colors
+  static Color appBarColor = Colors.black87;
   //Profile
   static Color profilePictureMainContainerColor = const Color(0xff8A56AC);
 

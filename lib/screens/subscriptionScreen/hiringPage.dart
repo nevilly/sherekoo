@@ -431,7 +431,7 @@ class _HiringPageState extends State<HiringPage> {
 
   AppBar topBar() {
     return AppBar(
-      backgroundColor: Colors.black,
+      backgroundColor: OColors.appBarColor,
       elevation: 0,
       toolbarHeight: 70,
       flexibleSpace: SafeArea(

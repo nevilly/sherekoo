@@ -52,6 +52,7 @@ class _UploadState extends State<Upload> {
                 ),
               ),
             ),
+          
             Positioned(
               left: 0,
               right: 0,
@@ -74,6 +75,7 @@ class _UploadState extends State<Upload> {
                 ),
               ),
             ),
+            
             Positioned(
               left: 0,
               right: 0,

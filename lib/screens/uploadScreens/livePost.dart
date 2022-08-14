@@ -12,6 +12,7 @@ import 'package:sherekoo/screens/home.dart';
 import '../../model/post/post.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
+import '../../util/colors.dart';
 import '../../util/util.dart';
 
 class LivePostUpload extends StatefulWidget {
@@ -163,7 +164,7 @@ class _LivePostUploadState extends State<LivePostUpload> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black87,
+        backgroundColor: OColors.appBarColor,
         title: const Text('LIve Upload',
             style: TextStyle(
               fontStyle: FontStyle.italic,

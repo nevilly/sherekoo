@@ -5,6 +5,7 @@ import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
+import '../../util/colors.dart';
 import '../../util/util.dart';
 import '../../widgets/navWidget/bottom_toolbar.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
@@ -229,7 +230,7 @@ class _CrmFontPageState extends State<CrmFontPage> {
 
   AppBar topBar() {
     return AppBar(
-      backgroundColor: Colors.black,
+      backgroundColor:  OColors.appBarColor,
       elevation: 0,
       toolbarHeight: 70,
       flexibleSpace: SafeArea(

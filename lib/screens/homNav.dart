@@ -4,6 +4,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import '../model/allData.dart';
 import '../model/profileMode.dart';
 import '../util/Preferences.dart';
+import '../util/colors.dart';
 import '../util/util.dart';
 import 'categoriesPage/sherekooPage.dart';
 import 'crmScreen/crmFont.dart';
@@ -101,7 +102,7 @@ class _HomeNavState extends State<HomeNav> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.black87,
+      color: OColors.appBarColor,
       child: ClipRect(
         child: SafeArea(
           top: false,

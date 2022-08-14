@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sherekoo/util/colors.dart';
 
 class SubscriptionPage extends StatefulWidget {
   const SubscriptionPage({Key? key}) : super(key: key);
@@ -20,7 +21,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
       Scaffold(
         // backgroundColor: Colors.transparent,
         appBar: AppBar(
-          backgroundColor: Colors.black87,
+          backgroundColor: OColors.appBarColor,
           title: const Text('Subscription'),
           centerTitle: true,
           actions: const [

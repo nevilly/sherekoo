@@ -4,6 +4,7 @@ import '../../model/allData.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
+import '../../util/colors.dart';
 import '../../util/util.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
 import '../uploadScreens/ceremonyUpload.dart';
@@ -143,7 +144,7 @@ class _CeremonyScreenState extends State<CeremonyScreen> {
 
   AppBar topBar() {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor:  OColors.appBarColor,
       elevation: 1.0,
       toolbarHeight: 70,
       flexibleSpace: SafeArea(

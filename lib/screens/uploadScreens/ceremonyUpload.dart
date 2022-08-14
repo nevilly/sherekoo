@@ -13,6 +13,7 @@ import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/ceremony/postCeremony.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
+import '../../util/colors.dart';
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/userAvater.dart';
 import '../crmScreen/crmScreen.dart';
@@ -381,7 +382,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
           style: const TextStyle(
               fontSize: 18, color: Colors.red, fontWeight: FontWeight.bold),
         ),
-        backgroundColor: const Color.fromARGB(255, 26, 25, 25),
+        backgroundColor: OColors.appBarColor,
       ),
     );
   }

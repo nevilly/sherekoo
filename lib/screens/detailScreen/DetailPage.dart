@@ -7,6 +7,7 @@ import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/getAll.dart';
 import '../../model/services/ServicesModelModel.dart';
 import '../../util/Preferences.dart';
+import '../../util/colors.dart';
 import '../../util/util.dart';
 import '../../widgets/detailsWidg/BsnProfile.dart';
 import '../../widgets/detailsWidg/bsnDescr.dart';
@@ -163,7 +164,7 @@ class _BsnDetailsState extends State<BsnDetails> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.black87,
+            backgroundColor:  OColors.appBarColor,
             title: Text(data.companyName),
             centerTitle: true,
           ),

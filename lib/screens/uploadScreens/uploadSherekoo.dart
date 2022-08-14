@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 
 import '../../util/Preferences.dart';
+import '../../util/colors.dart';
 import 'uploadImage.dart';
 import 'uploadVedeo.dart';
 
@@ -35,7 +36,7 @@ class _SherekooUploadState extends State<SherekooUpload> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Colors.black87,
+          backgroundColor:OColors.appBarColor,
           title: const Text('Upload',
               style: TextStyle(
                 fontStyle: FontStyle.italic,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/screens/profile/myCrmn.dart';
+import 'package:sherekoo/screens/profile/settings.dart';
 import 'package:sherekoo/widgets/imgWigdets/defaultAvater.dart';
 import '../../model/allData.dart';
 import '../../model/profileMode.dart';
@@ -303,14 +304,23 @@ class _ProfileState extends State<Profile> {
 
         // Dispaly all Gallalery & upload function
         user.isCurrentUser == true
-            ? Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.shade300),
-                        borderRadius: BorderRadius.circular(5.0)),
-                    child: const Icon(Icons.camera_alt)),
+            ? GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              ProfileSetting(user: user)));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey.shade300),
+                          borderRadius: BorderRadius.circular(5.0)),
+                      child: const Icon(Icons.camera_alt)),
+                ),
               )
             : const SizedBox(),
         user.isCurrentUser == true

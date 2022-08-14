@@ -5,6 +5,7 @@ import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
+import '../../util/colors.dart';
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/boxImg.dart';
 import '../../widgets/imgWigdets/defaultAvater.dart';
@@ -495,30 +496,27 @@ class _CrmState extends State<Crm> {
 
   AppBar topBar() {
     return AppBar(
-      backgroundColor: Colors.black,
+      backgroundColor:  OColors.appBarColor,
       elevation: 1.0,
       toolbarHeight: 70,
       flexibleSpace: SafeArea(
-          child: Container(
-        // color: Colors.white,
-        child: Row(
-          children: [
-            Expanded(
-              child: Container(
-                  margin: const EdgeInsets.only(
-                      top: 10, left: 35, right: 18, bottom: 7),
-                  width: 70,
-                  height: 45,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[500]!.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const SearchCeremony()),
-            ),
-            const NotifyWidget()
-          ],
-        ),
-      )),
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                    margin: const EdgeInsets.only(
+                        top: 10, left: 35, right: 18, bottom: 7),
+                    width: 70,
+                    height: 45,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[500]!.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: const SearchCeremony()),
+              ),
+              const NotifyWidget()
+            ],
+          )),
     );
   }
 }

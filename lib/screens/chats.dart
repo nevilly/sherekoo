@@ -5,6 +5,7 @@ import '../model/chats/chatPost.dart';
 import '../model/chats/chatsModel.dart';
 import '../model/profileMode.dart';
 import '../util/Preferences.dart';
+import '../util/colors.dart';
 import '../util/util.dart';
 import 'profile/profile.dart';
 
@@ -99,7 +100,7 @@ class _PostChatsState extends State<PostChats> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black54,
+        backgroundColor: OColors.appBarColor,
         title: const Text('Comments'),
       ),
       body: Column(

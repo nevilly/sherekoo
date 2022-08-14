@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sherekoo/model/busness/busnessModel.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 
+import '../../util/colors.dart';
 import 'bsnTabs.dart';
 import '../uploadScreens/busnessUpload.dart';
 
@@ -68,7 +69,7 @@ class _BusnessScreenState extends State<BusnessScreen> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.black54,
+          backgroundColor: OColors.appBarColor,
           title: Text(widget.bsnType),
         ),
         body: Column(

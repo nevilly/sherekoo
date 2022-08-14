@@ -10,6 +10,7 @@ import '../../model/busness/postBusness.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
+import '../../util/colors.dart';
 import '../../util/util.dart';
 import '../bsnScreen/bsnScrn.dart';
 import '../subscriptionScreen/busnessSubscription.dart';
@@ -624,7 +625,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(35.0),
           child: AppBar(
-            backgroundColor: Colors.black87,
+            backgroundColor: OColors.appBarColor,
             title: const Text('YOUR BUSNESS', style: TextStyle(fontSize: 14)),
             centerTitle: true,
           ),

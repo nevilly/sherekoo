@@ -82,7 +82,7 @@ class _MyBusnessState extends State<MyBusness> {
       appBar: AppBar(
         title: Text(widget.user.username + ' Busness'),
         centerTitle: true,
-        backgroundColor: Colors.black54,
+        backgroundColor:  OColors.appBarColor,
       ),
       body: SizedBox(
         child: ListView.builder(

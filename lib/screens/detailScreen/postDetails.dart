@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../model/post/sherekoModel.dart';
+import '../../util/colors.dart';
 import '../../util/util.dart';
 
 class PostDetail extends StatefulWidget {
@@ -18,6 +19,7 @@ class _PostDetailState extends State<PostDetail> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor:  OColors.appBarColor,
         title: const Text('Writer'),
       ),
       body: Column(

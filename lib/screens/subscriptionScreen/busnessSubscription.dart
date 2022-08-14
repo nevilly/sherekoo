@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/screens/bsnScreen/bsnScrn.dart';
+import 'package:sherekoo/util/colors.dart';
 
 import '../../model/busness/postBusness.dart';
 import '../../model/ceremony/ceremonyModel.dart';
@@ -67,7 +68,8 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
       u2Avt: '',
       u2Fname: '',
       u2Lname: '',
-      u2g: '', youtubeLink: '');
+      u2g: '',
+      youtubeLink: '');
   @override
   void initState() {
     _preferences.init();
@@ -133,6 +135,7 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: OColors.appBarColor,
         title: const Text('Subscription'),
         centerTitle: true,
       ),
@@ -164,8 +167,7 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
 
           //Our package list
           Expanded(
-            child: ListView(
-              scrollDirection: Axis.horizontal, children: [
+            child: ListView(scrollDirection: Axis.horizontal, children: [
               //free offer
               Padding(
                 padding: const EdgeInsets.only(

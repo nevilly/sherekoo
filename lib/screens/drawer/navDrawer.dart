@@ -6,8 +6,8 @@ import 'package:sherekoo/screens/bsnScreen/bsnScrn.dart';
 import '../../model/allData.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
+import '../../util/colors.dart';
 import '../../util/util.dart';
-import '../../widgets/imgWigdets/userAvater.dart';
 import '../accounts/login.dart';
 import '../crmScreen/Crm.dart';
 import '../crmScreen/crmScreen.dart';
@@ -92,7 +92,7 @@ class _NavDrawerState extends State<NavDrawer> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               UserAccountsDrawerHeader(
-                decoration: const BoxDecoration(color: Colors.black87),
+                decoration: BoxDecoration(color: OColors.appBarColor),
                 accountName: Padding(
                   padding: const EdgeInsets.only(left: 18.0),
                   child: Text(
