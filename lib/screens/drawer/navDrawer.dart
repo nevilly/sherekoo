@@ -7,6 +7,7 @@ import '../../model/allData.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
 import '../../util/util.dart';
+import '../../widgets/imgWigdets/userAvater.dart';
 import '../accounts/login.dart';
 import '../crmScreen/Crm.dart';
 import '../crmScreen/crmScreen.dart';
@@ -31,7 +32,8 @@ class _NavDrawerState extends State<NavDrawer> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '', isCurrentUser: '');
+      role: '',
+      isCurrentUser: '');
 
   CeremonyModel ceremony = CeremonyModel(
       cId: '',
@@ -53,7 +55,8 @@ class _NavDrawerState extends State<NavDrawer> {
       u2Avt: '',
       u2Fname: '',
       u2Lname: '',
-      u2g: '', youtubeLink: '');
+      u2g: '',
+      youtubeLink: '');
 
   @override
   void initState() {
@@ -71,7 +74,11 @@ class _NavDrawerState extends State<NavDrawer> {
   getUser() async {
     AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
       setState(() {
-        currentUser = User.fromJson(value.payload);
+        if (value.status == 200) {
+          setState(() {
+            currentUser = User.fromJson(value.payload);
+          });
+        }
       });
     });
   }
@@ -85,19 +92,25 @@ class _NavDrawerState extends State<NavDrawer> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               UserAccountsDrawerHeader(
-                accountName: Text(currentUser.username),
-                accountEmail: const Text('email'),
-                currentAccountPicture: const CircleAvatar(
-                  backgroundImage: AssetImage('assets/login/02.jpg'),
-                  // backgroundImage: NetworkImage('https://i.pravatar.cc/300')
+                decoration: const BoxDecoration(color: Colors.black87),
+                accountName: Padding(
+                  padding: const EdgeInsets.only(left: 18.0),
+                  child: Text(
+                    currentUser.username,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
                 ),
+                accountEmail: Text(currentUser.email),
+                currentAccountPicture: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                  api +
+                      'public/uploads/' +
+                      currentUser.username +
+                      '/profile/' +
+                      currentUser.avater,
+                )),
                 onDetailsPressed: () {},
-                //=> Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (_) => Profile(
-                //               user: currentUser,
-                //             ))),
               ),
 
               //LIve ceremony
@@ -193,70 +206,6 @@ class _NavDrawerState extends State<NavDrawer> {
               ),
 
               // ListTile(
-              //   title: const Text('check Home'),
-              //   onTap: () {
-              //     Navigator.of(context).pop();
-              //     Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //             builder: (BuildContext context) => const AppThe()));
-              //   },
-              // ),
-              // ListTile(
-              //   title: const Text('CompleteProfile'),
-              //   onTap: () {
-              //     Navigator.of(context).pop();
-              //     Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //             builder: (BuildContext context) =>
-              //                 const CompleteProfile()));
-              //   },
-              // ),
-
-              // ListTile(
-              //   title: const Text('Decorators'),
-              //   onTap: () {
-              //     Navigator.of(context).pop();
-              //     Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //             builder: (BuildContext context) => const Uploads()));
-              //   },
-              // ),
-              // ListTile(
-              //   title: Text('Saloons'),
-              //   // onTap: () {
-              //   //   Navigator.of(context).pop();
-              //   //   Navigator.push(
-              //   //       context,
-              //   //       new MaterialPageRoute(
-              //   //           builder: (BuildContext context) =>
-              //   //               new Mkutano()));
-              //   // },
-              // ),
-              // ListTile(
-              //   title: const Text('Utambulisho'),
-              //   onTap: () {
-              //     // Navigator.of(context).pop();
-              //     // Navigator.push(
-              //     //     context,
-              //     //     new MaterialPageRoute(
-              //     //         builder: (BuildContext context) =>
-              //     //             new Concerts()));
-              //   },
-              // ),
-              // ListTile(
-              //   title: const Text('Productions '),
-              //   onTap: () {
-              //     // Navigator.of(context).pop();
-              //     // Navigator.push(
-              //     //     context,
-              //     //     new MaterialPageRoute(
-              //     //         builder: (BuildContext context) => new Home()));
-              //   },
-              // ),
-              // ListTile(
               //   title: const Text('Shampeners Dancers'),
               //   onTap: () {
               //     // Navigator.of(context).pop();
@@ -265,38 +214,6 @@ class _NavDrawerState extends State<NavDrawer> {
               //     //     new MaterialPageRoute(
               //     //         builder: (BuildContext context) =>
               //     //             new BusnessDetails()));
-              //   },
-              // ),
-              // ListTile(
-              //   title: const Text('Wedding Planners'),
-              //   onTap: () {
-              //     // Navigator.of(context).pop();
-              //     // Navigator.push(
-              //     //     context,
-              //     //     new MaterialPageRoute(
-              //     //         builder: (BuildContext context) =>
-              //     //             new LoginPage()));
-              //   },
-              // ),
-              // ListTile(
-              //   title: const Text('Dili'),
-              //   onTap: () {
-              //     // Navigator.of(context).pop();
-              //     // Navigator.push(
-              //     //     context,
-              //     //     new MaterialPageRoute(
-              //     //         builder: (BuildContext context) => new Wall()));
-              //   },
-              // ),
-              // ListTile(
-              //   title: const Text('Cars'),
-              //   onTap: () {
-              //     // Navigator.of(context).pop();
-              //     // Navigator.push(
-              //     //     context,
-              //     //     new MaterialPageRoute(
-              //     //         builder: (BuildContext context) =>
-              //     //             new LoginPage()));
               //   },
               // ),
 
