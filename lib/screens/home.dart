@@ -2,16 +2,11 @@
 
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:sherekoo/widgets/postWidgets/post_template.dart';
-import 'package:video_player/video_player.dart';
-import '../model/ceremony/allCeremony.dart';
-import '../model/ceremony/ceremonyModel.dart';
-import '../model/allData.dart';
 import '../model/post/post.dart';
 import '../model/post/sherekoModel.dart';
-import '../model/profileMode.dart';
 import '../util/Preferences.dart';
 import '../util/util.dart';
+import '../widgets/postWidgets/post_template.dart';
 import '../widgets/uploadWidg/displayPost.dart';
 
 class Home extends StatefulWidget {
@@ -28,21 +23,9 @@ class _HomeState extends State<Home> {
 
   final _controller = PageController();
 
-  User currentUser = User(
-      id: '',
-      username: '',
-      firstname: '',
-      lastname: '',
-      avater: '',
-      phoneNo: '',
-      email: '',
-      gender: '',
-      role: '',
-      isCurrentUser: '');
-
   String avata = '';
   List<SherekooModel> post = [];
-  List<CeremonyModel> ceremonyLIve = [];
+
 
   @override
   void initState() {
@@ -50,7 +33,7 @@ class _HomeState extends State<Home> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-        getUser();
+
         getPost(offset: page, limit: limit);
         // getLiveCeremony();
       });
@@ -78,14 +61,6 @@ class _HomeState extends State<Home> {
       //print("Select * from posts order by id limit ${offset}, ${limit}");
       getPost(offset: offset, limit: limit);
     }
-  }
-
-  getUser() async {
-    AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
-      setState(() {
-        currentUser = User.fromJson(value.payload);
-      });
-    });
   }
 
   getPost({int? offset, int? limit}) async {
@@ -127,17 +102,7 @@ class _HomeState extends State<Home> {
     });
   }
 
-  getLiveCeremony() async {
-    AllCeremonysModel(payload: [], status: 0)
-        .getDayCeremony(token, urlGetDayCeremony, 'Today')
-        .then((value) {
-      setState(() {
-        ceremonyLIve = value.payload
-            .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
-            .toList();
-      });
-    });
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -241,7 +206,6 @@ class _HomeState extends State<Home> {
   @override
   void dispose() {
     _controller.dispose();
-    // TODO: implement dispose
     super.dispose();
   }
 }

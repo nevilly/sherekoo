@@ -59,12 +59,18 @@ class _CrmFontPageState extends State<CrmFontPage> {
 
   getCeremony() async {
     AllCeremonysModel(payload: [], status: 0)
-        .getDayCeremony(token, urlGetDayCeremony, 'Today')
+        .getDayCeremony(token, urlCrmByDay, 'Today')
         .then((value) {
       setState(() {
-        todayCrm = value.payload
-            .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
-            .toList();
+        print('check check value.payload');
+        print(value.payload);
+        if (value.status == 200) {
+          setState(() {
+            todayCrm = value.payload
+                .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
+                .toList();
+          });
+        }
       });
     });
   }

@@ -22,7 +22,7 @@ class CeremonyModel {
   final String u2Lname;
   final String u2g;
 
-    final String youtubeLink;
+  final String youtubeLink;
 
   CeremonyModel({
     required this.cId,
@@ -45,31 +45,31 @@ class CeremonyModel {
     required this.u2Fname,
     required this.u2Lname,
     required this.u2g,
-     required this.youtubeLink,
+    required this.youtubeLink,
   });
 
   factory CeremonyModel.fromJson(Map<String, dynamic> json) {
     return CeremonyModel(
-        cId: json['cId'],
-        codeNo: json['codeNo'],
-        cName: json['cName'],
-        ceremonyType: json['ceremonyType'],
-        fId: json['fId'],
-        sId: json['sId'],
-        cImage: json['cImage'],
-        ceremonyDate: json['ceremonyDate'],
-        contact: json['contact'],
-        admin: json['admin'],
-        u1: json['u1'],
-        u1Avt: json['u1Avt'],
-        u1Fname: json['u1Fname'],
-        u1g: json['u1g'],
-        u2: json['u2'],
-        u2Avt: json['u2Avt'],
-        u2Fname: json['u2Fname'],
-        u2g: json['u2g'],
-        u1Lname: json['u1Lname'],
-        youtubeLink: json['youtubeLink'],
-        u2Lname: json['u2Lname']);
+        cId: json['cId'] ?? '',
+        codeNo: json['codeNo'] ?? '',
+        cName: json['cName'] ?? '',
+        ceremonyType: json['ceremonyType'] ?? '',
+        fId: json['fId'] ?? '',
+        sId: json['sId'] ?? '',
+        cImage: json['cImage'] ?? '',
+        ceremonyDate: json['ceremonyDate'] ?? '',
+        contact: json['contact'] ?? '',
+        admin: json['admin'] ?? '',
+        u1: json['u1'] ?? '',
+        u1Avt: json['u1Avt'] ?? '',
+        u1Fname: json['u1Fname'] ?? '',
+        u1g: json['u1g'] ?? '',
+        u2: json['u2'] ?? '',
+        u2Avt: json['u2Avt'] ?? '',
+        u2Fname: json['u2Fname'] ?? '',
+        u2g: json['u2g'] ?? '',
+        u1Lname: json['u1Lname'] ?? '',
+        youtubeLink: json['youtubeLink'] ?? '',
+        u2Lname: json['u2Lname'] ?? '');
   }
 }

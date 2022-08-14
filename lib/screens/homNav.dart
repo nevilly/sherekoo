@@ -29,7 +29,7 @@ class _HomeNavState extends State<HomeNav> {
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   int index = 2;
 
-  User user = User(
+  User users = User(
       id: '',
       username: '',
       firstname: '',
@@ -45,19 +45,7 @@ class _HomeNavState extends State<HomeNav> {
     const SherekooUpload(),
     const CrmFontPage(),
     const Home(),
-    const Sherekoo(),
-    Profile(
-        user: User(
-            id: '',
-            username: '',
-            firstname: '',
-            lastname: '',
-            avater: '',
-            phoneNo: '',
-            email: '',
-            gender: '',
-            role: '',
-            isCurrentUser: '')),
+    const Sherekoo()
   ];
 
   @override
@@ -66,25 +54,49 @@ class _HomeNavState extends State<HomeNav> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-
-        widget.user.id != ''
-            ? getUser(urlGetUser + '/' + widget.user.id)
-            : getUser(urlGetUser);
+        if (widget.user.id != '') {
+          screen.add(Profile(
+              user: User(
+                  id: widget.user.id,
+                  username: '',
+                  firstname: '',
+                  lastname: '',
+                  avater: '',
+                  phoneNo: '',
+                  email: '',
+                  gender: '',
+                  role: '',
+                  isCurrentUser: '')));
+        } else {
+          screen.add(Profile(
+              user: User(
+                  id: '',
+                  username: '',
+                  firstname: '',
+                  lastname: '',
+                  avater: '',
+                  phoneNo: '',
+                  email: '',
+                  gender: '',
+                  role: '',
+                  isCurrentUser: '')));
+        }
       });
     });
+
     index = widget.getIndex;
     super.initState();
   }
 
-  getUser(arg) async {
-    AllUsersModel(payload: [], status: 0).get(token, arg).then((value) {
-      if (value.status == 200) {
-        setState(() {
-          user = User.fromJson(value.payload);
-        });
-      }
-    });
-  }
+  // getUser(arg) async {
+  //   AllUsersModel(payload: [], status: 0).get(token, arg).then((value) {
+  //     if (value.status == 200) {
+  //       setState(() {
+  //         users = User.fromJson(value.payload);
+  //       });
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

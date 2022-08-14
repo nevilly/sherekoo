@@ -14,7 +14,7 @@ String login = api + "Users/login";
 String craetAcount = api + 'Users/addAccount';
 
 //users
-String urlGetUser = api + 'Users/user/1';
+String urlGetUser = api + 'Users/user';
 String urlUserList = api + 'Users/users';
 String urlUserById = api + 'Users/userById';
 String urlUserProfileById = api + 'Users/getUserProfileById';
@@ -24,7 +24,7 @@ String urlUpdateUserInfo = api + 'Users/updateAccount';
 String urlPostCeremony = api + 'Ceremony/add';
 String urlGetCeremony = api + 'Ceremony/get';
 String urlGetCeremonyById = api + 'Ceremony/getById';
-String urlGetDayCeremony = api + 'Ceremony/getCeremony';
+String urlCrmByDay = api + 'Ceremony/getCeremonyByDay';
 String urlUpdateDayCeremony = api + 'Ceremony/update';
 String urlGetCeremonyByUserId = api + 'Ceremony/getByUserId';
 String urlGetCrmByType = api + 'Ceremony/getCeremonyByType';

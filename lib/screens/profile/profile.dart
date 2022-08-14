@@ -38,7 +38,6 @@ class _ProfileState extends State<Profile> {
 
   @override
   void initState() {
-
     _preferences.init();
     _preferences.get('token').then((value) {
       setState(() {
@@ -52,11 +51,9 @@ class _ProfileState extends State<Profile> {
     super.initState();
   }
 
-  getUser(arg) async {
-    AllUsersModel(payload: [], status: 0).get(token, arg).then((value) {
+  getUser(String dirUrl) async {
+    AllUsersModel(payload: [], status: 0).get(token, dirUrl).then((value) {
       if (value.status == 200) {
-        print('value.payload');
-        print(value.payload);
         setState(() {
           user = User.fromJson(value.payload);
         });

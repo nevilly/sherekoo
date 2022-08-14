@@ -46,7 +46,7 @@ class _MyPostsState extends State<MyPosts> {
       createdBy: '',
       username: '',
       vedeo: '',
-    ).getPostByUserId(token, urlProfileSherekooByUid, id).then((value) {
+    ).getPostByUserId(token, urlGetSherekooByUid, id).then((value) {
       setState(() {
         print('value.payload poost');
         print(value.payload);

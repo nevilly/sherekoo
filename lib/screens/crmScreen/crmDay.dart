@@ -35,7 +35,8 @@ class _CeremonyDayState extends State<CeremonyDay> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '', isCurrentUser: '');
+      role: '',
+      isCurrentUser: '');
 
   @override
   void initState() {
@@ -61,7 +62,7 @@ class _CeremonyDayState extends State<CeremonyDay> {
 
   getAllCeremony() async {
     AllCeremonysModel(payload: [], status: 0)
-        .getDayCeremony(token, urlGetDayCeremony, widget.day)
+        .getDayCeremony(token, urlCrmByDay, widget.day)
         .then((value) {
       setState(() {
         data = value.payload
