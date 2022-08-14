@@ -26,7 +26,7 @@ String urlGetCeremony = api + 'Ceremony/get';
 String urlGetCeremonyById = api + 'Ceremony/getById';
 String urlCrmByDay = api + 'Ceremony/getCeremonyByDay';
 String urlUpdateDayCeremony = api + 'Ceremony/update';
-String urlGetCeremonyByUserId = api + 'Ceremony/getByUserId';
+String urlCrmnByUserId = api + 'Ceremony/getCrmn_by_UserId';
 String urlGetCrmByType = api + 'Ceremony/getCeremonyByType';
 
 //Busness

@@ -35,7 +35,7 @@ class _MyCrmnState extends State<MyCrmn> {
 
   getAllCeremony(id) async {
     AllCeremonysModel(payload: [], status: 0)
-        .getDayCeremony(token, urlGetCeremonyByUserId, id)
+        .getDayCeremony(token, urlCrmnByUserId, id)
         .then((value) {
       setState(() {
         myCeremony = value.payload
@@ -96,11 +96,8 @@ class _MyCrmnState extends State<MyCrmn> {
                               //Details Ceremony
                               Column(
                                 children: [
-                                  // const SizedBox(
-                                  //   height: 8,
-                                  // ),
-
                                   // Title
+                                  
                                   Container(
                                     margin: const EdgeInsets.only(top: 10),
                                     child: Text(
