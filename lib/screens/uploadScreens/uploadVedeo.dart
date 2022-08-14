@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../model/allData.dart';
 import '../../model/post/post.dart';
+import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
 import '../../util/util.dart';
+import '../homNav.dart';
 
 class UploadVedeo extends StatefulWidget {
   const UploadVedeo({Key? key}) : super(key: key);
@@ -21,12 +24,32 @@ class _UploadVedeoState extends State<UploadVedeo> {
 
   String? _video;
 
+  User currentUser = User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      isCurrentUser: '');
+
   late VideoPlayerController _videoPlayerController;
 
   final TextEditingController _body = TextEditingController();
 
   // Gets Vedeos
   final _picker = ImagePicker();
+
+  getUser() async {
+    AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
+      setState(() {
+        currentUser = User.fromJson(value.payload);
+      });
+    });
+  }
 
   Future getVideo({int state = 0}) async {
     final _v = await _picker.pickVideo(
@@ -64,10 +87,13 @@ class _UploadVedeoState extends State<UploadVedeo> {
         username: '',
       ).set(token, urlVedioPostSherekoo, _video).then((value) {
         setState(() {
-          // Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //         builder: (BuildContext context) => const HomeLive()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => HomeNav(
+                        getIndex: 2,
+                        user: currentUser,
+                      )));
         });
       });
     } else {

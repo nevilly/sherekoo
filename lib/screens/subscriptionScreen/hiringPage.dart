@@ -10,7 +10,6 @@ import '../../model/services/postServices.dart';
 import '../../util/Preferences.dart';
 import '../../util/util.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
-import '../../widgets/searchBar/search_Ceremony.dart';
 import '../hireRequset/InvCeremony.dart';
 
 class HiringPage extends StatefulWidget {
@@ -37,7 +36,8 @@ class _HiringPageState extends State<HiringPage> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '', isCurrentUser: '');
+      role: '',
+      isCurrentUser: '');
 
   BusnessModel? bsn;
   CeremonyModel? crm;
@@ -201,38 +201,41 @@ class _HiringPageState extends State<HiringPage> {
                   ),
                 ),
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        bsn!.busnessType + ' ' + bsn!.companyName,
-                        style: const TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                      RichText(
-                          text: TextSpan(children: [
-                        TextSpan(
-                          text: bsn!.price,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          bsn!.busnessType + ' ' + bsn!.companyName,
                           style: const TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red),
+                            fontSize: 20,
+                          ),
                         ),
-                        const TextSpan(
-                            text: ' Tsh',
-                            style: TextStyle(
+                        RichText(
+                            text: TextSpan(children: [
+                          TextSpan(
+                            text: bsn!.price,
+                            style: const TextStyle(
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20.0,
-                                fontStyle: FontStyle.italic,
-                                color: Colors.red)),
-                      ])),
-                      const Text(
-                        'Negotiable ',
-                        style: TextStyle(
-                            color: Colors.green, fontStyle: FontStyle.italic),
-                      ),
-                    ],
+                                color: Colors.red),
+                          ),
+                          const TextSpan(
+                              text: ' Tsh',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 20.0,
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.red)),
+                        ])),
+                        const Text(
+                          'Negotiable ',
+                          style: TextStyle(
+                              color: Colors.green, fontStyle: FontStyle.italic),
+                        ),
+                      ],
+                    ),
                   ),
                 )
               ],
@@ -258,15 +261,15 @@ class _HiringPageState extends State<HiringPage> {
             const Padding(
               padding:
                   EdgeInsets.only(top: 2.0, left: 8.0, right: 8.0, bottom: 8.0),
-              child: Center(
-                  child: Text(
+              child: 
+              Text(
                 'Your Ceremony Info.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                     color: Colors.black),
-              )),
+              ),
             ),
 
             const SizedBox(

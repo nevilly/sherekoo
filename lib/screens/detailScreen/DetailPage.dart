@@ -249,6 +249,7 @@ class _BsnDetailsState extends State<BsnDetails> {
                 color: Colors.black),
           ),
           const SizedBox(height: 5),
+          
           //Hire Me Botton
           GestureDetector(
             onTap: () {
@@ -278,6 +279,7 @@ class _BsnDetailsState extends State<BsnDetails> {
               ),
             ),
           )
+        
         ],
       ),
     );

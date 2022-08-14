@@ -1,8 +1,9 @@
-// ignore_for_file: unnecessary_new, prefer_final_fields
+// ignore_for_file: unnecessary_new, prefer_final_fields, unnecessary_brace_in_string_interps
 
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:sherekoo/widgets/postWidgets/post_template.dart';
+import 'package:video_player/video_player.dart';
 import '../model/ceremony/allCeremony.dart';
 import '../model/ceremony/ceremonyModel.dart';
 import '../model/allData.dart';
@@ -11,6 +12,7 @@ import '../model/post/sherekoModel.dart';
 import '../model/profileMode.dart';
 import '../util/Preferences.dart';
 import '../util/util.dart';
+import '../widgets/uploadWidg/displayPost.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -22,6 +24,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final Preferences _preferences = Preferences();
   String token = '';
+  int page = 1, limit = 3, offset = 0;
 
   final _controller = PageController();
 
@@ -48,11 +51,33 @@ class _HomeState extends State<Home> {
       setState(() {
         token = value;
         getUser();
-        getPost();
-        getLiveCeremony();
+        getPost(offset: page, limit: limit);
+        // getLiveCeremony();
       });
     });
+
     super.initState();
+  }
+
+  onPage(int pag) {
+    print("Pages");
+    print(pag);
+    if (page > pag) {
+      page--;
+    } else {
+      page++;
+    }
+    //page = pag;
+
+    print('post Length :');
+    print(post.length);
+
+    if (pag == post.length - 1) {
+      offset = page;
+
+      //print("Select * from posts order by id limit ${offset}, ${limit}");
+      getPost(offset: offset, limit: limit);
+    }
   }
 
   getUser() async {
@@ -63,7 +88,9 @@ class _HomeState extends State<Home> {
     });
   }
 
-  getPost() async {
+  getPost({int? offset, int? limit}) async {
+    String d = offset != null && limit != null ? "/${offset}/${limit}" : '';
+
     Post(
       payload: [],
       status: 0,
@@ -74,13 +101,29 @@ class _HomeState extends State<Home> {
       createdBy: '',
       username: '',
       vedeo: '',
-    ).get(token, urlGetSherekoo).then((value) {
-      print(value.payload);
-      setState(() {
-        post = value.payload
-            .map<SherekooModel>((e) => SherekooModel.fromJson(e))
-            .toList();
-      });
+    ).get(token, urlGetSherekoo + d).then((value) {
+      //print(value.payload);
+      if (value.status == 200) {
+        setState(() {
+          post.addAll(value.payload
+              .map<SherekooModel>((e) => SherekooModel.fromJson(e))
+              .toList());
+        });
+
+        // if (offset! > limit!) {
+        //   setState(() {
+        //     post.addAll(value.payload
+        //         .map<SherekooModel>((e) => SherekooModel.fromJson(e))
+        //         .toList());
+        //   });
+        // } else {
+        //   post.addAll(value.payload
+        //       .map<SherekooModel>((e) => SherekooModel.fromJson(e))
+        //       .toList());
+        // }
+      }
+
+      //SetState Problem;
     });
   }
 
@@ -103,10 +146,10 @@ class _HomeState extends State<Home> {
       body: Stack(
         children: [
           PageView(
-              controller: _controller,
-              scrollDirection: Axis.vertical,
-              children: List.generate(post.length, (index) {
-                return PostTemplate(
+            controller: _controller,
+            scrollDirection: Axis.vertical,
+            children: List.generate(post.length, (index) {
+              return PostTemplate(
                   postId: post[index].pId,
                   avater: post[index].avater,
                   numberOfComments: post[index].commentNumber,
@@ -155,38 +198,13 @@ class _HomeState extends State<Home> {
                           : const SizedBox(height: 1),
                     ),
                   ),
-                  userPost: Center(
-                    child: Container(
-                        child: post[index].vedeo != ''
-                            ? Image.network(
-                                api +
-                                    'public/uploads/' +
-                                    post[index].username +
-                                    '/posts/' +
-                                    post[index].vedeo,
-                                fit: BoxFit.contain,
-                                loadingBuilder: (BuildContext context,
-                                    Widget child,
-                                    ImageChunkEvent? loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                      value:
-                                          loadingProgress.expectedTotalBytes !=
-                                                  null
-                                              ? loadingProgress
-                                                      .cumulativeBytesLoaded /
-                                                  loadingProgress
-                                                      .expectedTotalBytes!
-                                              : null,
-                                    ),
-                                  );
-                                },
-                              )
-                            : const SizedBox(height: 1)),
-                  ),
-                );
-              })),
+                  userPost: DisplayVedeo(
+                    username: post[index].username,
+                    vedeo: post[index].vedeo,
+                  ));
+            }),
+            onPageChanged: onPage,
+          ),
           Positioned(
               top: 25,
               left: 0,
@@ -218,5 +236,12 @@ class _HomeState extends State<Home> {
       // Bottom Section
       // bottomNavigationBar: const BttmNav()
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    // TODO: implement dispose
+    super.dispose();
   }
 }

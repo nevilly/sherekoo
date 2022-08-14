@@ -56,17 +56,18 @@ class Post {
     };
 
     return await http.get(url, headers: headers).then((r) {
+      print('Our status Code');
+      print(r.statusCode);
       if (r.statusCode == 200) {
         return Post.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       } else {
-        return Post.fromJson(
-            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+        return Post.fromJson({'status': r.statusCode, 'payload': {}});
       }
     });
   }
 
-  Map<String, String> toMap() => {"body": body, "pId": pId};
+  Map<String, String> toMap() => {"body": body, "createdBy": createdBy};
 
   Future<Post> post(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);

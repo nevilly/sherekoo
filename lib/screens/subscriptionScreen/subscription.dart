@@ -59,19 +59,18 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
             ),
             Expanded(
               child: ListView(scrollDirection: Axis.horizontal, children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 4.0, left: 8, right: 4.0, bottom: 8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      oneButtonPressed('Basic', '25,000 Tsh');
-                      setState(() {
-                        _color = Colors.white;
-                        _shdwColor1 = Colors.red.withOpacity(0.5);
-                        _shdwColor2 = Colors.black.withOpacity(0.1);
-                        _shdwColor3 = Colors.black.withOpacity(0.1);
-                      });
-                    },
+                GestureDetector(
+                  onTap: () {
+                    oneButtonPressed('Basic', '25,000 Tsh');
+                    setState(() {
+                      _color = Colors.white;
+                      _shdwColor1 = Colors.red.withOpacity(0.5);
+                      _shdwColor2 = Colors.black.withOpacity(0.1);
+                      _shdwColor3 = Colors.black.withOpacity(0.1);
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: Container(
                       // height: 160,
                       // width: 120,
@@ -164,18 +163,18 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      oneButtonPressed('Silver', '60,000 Tsh');
-                      setState(() {
-                        _color = Colors.white;
-                        _shdwColor1 = Colors.black.withOpacity(0.1);
-                        _shdwColor2 = Colors.red.withOpacity(0.5);
-                        _shdwColor3 = Colors.black.withOpacity(0.1);
-                      });
-                    },
+                GestureDetector(
+                  onTap: () {
+                    oneButtonPressed('Silver', '60,000 Tsh');
+                    setState(() {
+                      _color = Colors.white;
+                      _shdwColor1 = Colors.black.withOpacity(0.1);
+                      _shdwColor2 = Colors.red.withOpacity(0.5);
+                      _shdwColor3 = Colors.black.withOpacity(0.1);
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: Container(
                       // height: 160,
                       // width: 120,
@@ -280,19 +279,19 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 4.0, left: 4, right: 8.0, bottom: 8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      oneButtonPressed('Gold', '120,000 Tsh');
-                      setState(() {
-                        _color = Colors.white;
-                        _shdwColor1 = Colors.black.withOpacity(0.1);
-                        _shdwColor2 = Colors.black.withOpacity(0.1);
-                        _shdwColor3 = Colors.red.withOpacity(0.5);
-                      });
-                    },
+                GestureDetector(
+                  onTap: () {
+                    oneButtonPressed('Gold', '120,000 Tsh');
+                    setState(() {
+                      _color = Colors.white;
+                      _shdwColor1 = Colors.black.withOpacity(0.1);
+                      _shdwColor2 = Colors.black.withOpacity(0.1);
+                      _shdwColor3 = Colors.red.withOpacity(0.5);
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 4.0, left: 4, right: 8.0, bottom: 8.0),
                     child: Container(
                       // height: 160,
                       // width: 120,

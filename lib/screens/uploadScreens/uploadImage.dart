@@ -25,6 +25,10 @@ class _UploadImageState extends State<UploadImage> {
   final TextEditingController _body = TextEditingController();
   File? _generalimage;
 
+  
+
+
+
   User currentUser = User(
       id: '',
       username: '',

@@ -5,15 +5,16 @@
 // ignore_for_file: non_constant_identifier_names
 
 // String api = "http://192.168.43.237/"; // Devota
+//String api = "http://172.20.10.13/"; // Reddeath
 String api = "http://192.168.43.125/"; // Neheman
 //String api = "http://192.168.43.237/"; // challo
 
-// Authentications
+//Authentications
 String login = api + "Users/login";
 String craetAcount = api + 'Users/addAccount';
 
 //users
-String urlGetUser = api + 'Users/user';
+String urlGetUser = api + 'Users/user/1';
 String urlUserList = api + 'Users/users';
 String urlUserById = api + 'Users/userById';
 String urlUserProfileById = api + 'Users/getUserProfileById';
