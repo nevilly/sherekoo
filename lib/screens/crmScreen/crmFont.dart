@@ -7,7 +7,6 @@ import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
-import '../../widgets/navWidget/bottom_toolbar.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
 import '../../widgets/searchBar/search_Ceremony.dart';
 import 'crmDay.dart';
@@ -35,7 +34,7 @@ class _CrmFontPageState extends State<CrmFontPage> {
       email: '',
       gender: '',
       role: '',
-      isCurrentUser: '');
+      isCurrentUser: '', address: '', bio: '', meritalStatus: '');
 
   @override
   void initState() {

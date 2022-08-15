@@ -62,7 +62,7 @@ class _BsnTabState extends State<BsnTab> {
     email: '',
     gender: '',
     role: '',
-    isCurrentUser: null,
+    isCurrentUser: null, address: '', bio: '', meritalStatus: '',
   );
 
   @override

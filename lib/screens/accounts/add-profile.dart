@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sherekoo/screens/profile/profile.dart';
+import 'package:sherekoo/util/colors.dart';
 
 import '../../model/allData.dart';
 import '../../model/authentication/creatAccount.dart';
@@ -32,7 +33,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '', isCurrentUser: '');
+      role: '', isCurrentUser: '', address: '', bio: '', meritalStatus: '');
 
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
@@ -241,7 +242,10 @@ class _CompleteProfileState extends State<CompleteProfile> {
           ),
         ],
       ),
-      backgroundColor: Theme.of(context).primaryColor,
+     
+      //backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: OColors.appBarColor,
+
       body: Column(
         children: [
           Expanded(
@@ -313,6 +317,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                     
                       // Gallary
                       GestureDetector(
                         onTap: () {
@@ -635,6 +640,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
                     ),
                   ),
                 ),
+             
+             
               ],
             ),
           )

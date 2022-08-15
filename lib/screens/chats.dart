@@ -135,7 +135,7 @@ class _PostChatsState extends State<PostChats> {
                                                     gender: '',
                                                     email: '',
                                                     firstname: '',
-                                                    lastname: '', isCurrentUser: ''),
+                                                    lastname: '', isCurrentUser: '', address: '', bio: '', meritalStatus: ''),
                                               )));
                                 },
                                 child: Container(

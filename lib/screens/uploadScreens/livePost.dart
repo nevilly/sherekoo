@@ -41,7 +41,7 @@ class _LivePostUploadState extends State<LivePostUpload> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '', isCurrentUser: '');
+      role: '', isCurrentUser: '', meritalStatus: '', address: '', bio: '');
 
   // Image upload
   final _picker = ImagePicker();

@@ -34,7 +34,7 @@ class _UploadVedeoState extends State<UploadVedeo> {
       email: '',
       gender: '',
       role: '',
-      isCurrentUser: '');
+      isCurrentUser: '', address: '', bio: '', meritalStatus: '');
 
   late VideoPlayerController _videoPlayerController;
 

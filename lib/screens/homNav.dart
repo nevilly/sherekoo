@@ -40,7 +40,7 @@ class _HomeNavState extends State<HomeNav> {
       email: '',
       gender: '',
       role: '',
-      isCurrentUser: '');
+      isCurrentUser: '', address: '', bio: '', meritalStatus: '');
 
   final screen = [
     const SherekooUpload(),
@@ -67,7 +67,7 @@ class _HomeNavState extends State<HomeNav> {
                   email: '',
                   gender: '',
                   role: '',
-                  isCurrentUser: '')));
+                  isCurrentUser: '', address: '', bio: '', meritalStatus: '')));
         } else {
           screen.add(Profile(
               user: User(
@@ -80,7 +80,7 @@ class _HomeNavState extends State<HomeNav> {
                   email: '',
                   gender: '',
                   role: '',
-                  isCurrentUser: '')));
+                  isCurrentUser: '', meritalStatus: '', address: '', bio: '')));
         }
       });
     });

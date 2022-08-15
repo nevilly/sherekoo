@@ -30,7 +30,7 @@ class _InvatationCeremonyState extends State<InvatationCeremony> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '', isCurrentUser: '');
+      role: '', isCurrentUser: '', address: '', bio: '', meritalStatus: '');
   List<SvModel> invites = [];
   @override
   void initState() {

@@ -159,7 +159,7 @@ class _PostTemplateState extends State<PostTemplate> {
                                         email: '',
                                         firstname: '',
                                         lastname: '',
-                                        isCurrentUser: ''),
+                                        isCurrentUser: '', address: '', bio: '', meritalStatus: ''),
                                     getIndex: 4,
                                   )));
                     },

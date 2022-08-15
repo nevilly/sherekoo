@@ -39,7 +39,7 @@ class _UploadImageState extends State<UploadImage> {
       email: '',
       gender: '',
       role: '',
-      isCurrentUser: '');
+      isCurrentUser: '', meritalStatus: '', address: '', bio: '');
 
   // Image upload
   final _picker = ImagePicker();

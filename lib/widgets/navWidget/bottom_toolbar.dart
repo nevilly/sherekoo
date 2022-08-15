@@ -23,7 +23,7 @@ class BottomToolbar extends StatelessWidget {
       gender: '',
       email: '',
       firstname: '',
-      lastname: '', isCurrentUser: '');
+      lastname: '', isCurrentUser: '', address: '', bio: '', meritalStatus: '');
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +111,7 @@ class BottomToolbar extends StatelessWidget {
                                     gender: '',
                                     email: '',
                                     firstname: '',
-                                    lastname: '', isCurrentUser: ''),
+                                    lastname: '', isCurrentUser: '', address: '', bio: '', meritalStatus: ''),
                               )));
                 },
                 child: const Icon(Icons.person,

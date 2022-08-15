@@ -32,7 +32,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '', isCurrentUser: '');
+      role: '', isCurrentUser: '', address: '', bio: '', meritalStatus: '');
   bool isLoggedIn = false;
   // String _email;
   //String _password;
