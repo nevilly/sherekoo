@@ -120,4 +120,45 @@ class CreateAccountModel {
       return CreateAccountModel.fromJson(rJson);
     });
   }
+
+  Future updateAccountSetting(String token, dirUrl, String normalAvater) async {
+    Uri url = Uri.parse(dirUrl);
+
+    if (token.isEmpty) {
+      return CreateAccountModel.fromJson({
+        "status": 204,
+        "payload": {"error": "Invalid token"}
+      });
+    }
+
+    Map<String, dynamic> toMap() {
+      return <String, dynamic>{
+        'username': username,
+        'firstname': firstname,
+        'lastname': lastname,
+        'email': email,
+        'phoneNo': phone,
+        'meritalStatus': meritalStatus,
+        'address': address,
+        'avater': avater,
+        'normalAvater': normalAvater
+      };
+    }
+
+    Map<String, String> headers = {
+      "Authorization": "Owesis " + token,
+      "Content-Type": "Application/json"
+    };
+
+    return await http
+        .put(url, body: jsonEncode(toMap()), headers: headers)
+        .then((r) {
+      final rJson = jsonDecode(r.body);
+
+      if (r.statusCode == 200) {
+        return CreateAccountModel.fromJson(rJson);
+      }
+      return CreateAccountModel.fromJson(rJson);
+    });
+  }
 }

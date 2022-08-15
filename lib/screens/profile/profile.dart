@@ -35,7 +35,10 @@ class _ProfileState extends State<Profile> {
       email: '',
       gender: '',
       role: '',
-      isCurrentUser: '', address: '', bio: '', meritalStatus: '');
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      meritalStatus: '');
 
   @override
   void initState() {

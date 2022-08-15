@@ -19,6 +19,7 @@ String urlUserList = api + 'Users/users';
 String urlUserById = api + 'Users/userById';
 String urlUserProfileById = api + 'Users/getUserProfileById';
 String urlUpdateUserInfo = api + 'Users/updateAccount';
+String urlUpdateUserSetting = api + 'Users/updateSetting';
 
 //Ceremony
 String urlPostCeremony = api + 'Ceremony/add';

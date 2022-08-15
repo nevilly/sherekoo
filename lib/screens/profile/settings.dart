@@ -1,14 +1,18 @@
 // ignore_for_file: unnecessary_const
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sherekoo/util/colors.dart';
 
+import '../../model/authentication/creatAccount.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
+import '../../util/util.dart';
 import '../../widgets/imgWigdets/userAvater.dart';
+import '../homNav.dart';
 
 class ProfileSetting extends StatefulWidget {
   final User user;
@@ -21,11 +25,14 @@ class ProfileSetting extends StatefulWidget {
 class _ProfileSettingState extends State<ProfileSetting> {
   final Preferences _preferences = Preferences();
   String token = '';
+  List gender = ["Single", "merriage", "engaged"];
 
   TextEditingController username = TextEditingController();
   TextEditingController region = TextEditingController();
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController phoneNo = TextEditingController();
 
   String selectedRegion = 'Select Your Location';
   final List<String> _region = [
@@ -59,7 +66,6 @@ class _ProfileSettingState extends State<ProfileSetting> {
     'Unguja',
   ];
 
-  List gender = ["Single", "merriage", "engaged"];
   String select = "";
   File? _generalimage;
   // Image upload
@@ -90,19 +96,82 @@ class _ProfileSettingState extends State<ProfileSetting> {
     }
   }
 
+  Row addRadioButton(int btnValue, String title) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Radio<String>(
+          activeColor: Theme.of(context).primaryColor,
+          value: gender[btnValue],
+          groupValue: select,
+          onChanged: (value) {
+            setState(() {
+              // print(value);
+              select = value!;
+            });
+          },
+        ),
+        Text(title, style: const TextStyle(color: Colors.grey, fontSize: 12))
+      ],
+    );
+  }
+
+  dynamic image;
+  void creatAccount(u, fn, ln, e, m, p, img, rgn, slt) async {
+   
+    if (img != null) {
+      List<int> bytes = img.readAsBytesSync();
+      image = base64Encode(bytes);
+    }
+
+    final CreateAccountModel r = await CreateAccountModel(
+            password: '',
+            status: 0,
+            token: '',
+            avater: image ?? '',
+            username: u,
+            phone: p,
+            gender: '',
+            address: rgn,
+            bio: '',
+            email: e,
+            firstname: fn,
+            role: 'n',
+            lastname: ln,
+            meritalStatus: slt)
+        .updateAccountSetting(token, urlUpdateUserSetting, widget.user.avater);
+
+    if (r.status == 200) {
+      setState(() {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => HomeNav(
+                      user: widget.user,
+                      getIndex: 4,
+                    )),
+            ModalRoute.withName('/'));
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('System Error, Try Again'),
+      ));
+    }
+  }
+
   @override
   void initState() {
     _preferences.init();
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-        // print('checkk token');
-        // print(token);
-
         username.text = widget.user.username;
         firstName.text = widget.user.firstname;
         lastName.text = widget.user.lastname;
         selectedRegion = widget.user.address;
+        email.text = widget.user.email;
+        phoneNo.text = widget.user.phoneNo;
+        select = widget.user.meritalStatus;
       });
     });
 
@@ -116,13 +185,45 @@ class _ProfileSettingState extends State<ProfileSetting> {
         backgroundColor: OColors.appBarColor,
         title: const Text('Profile Settings'),
         centerTitle: true,
+        actions: [
+          //Post Button
+          GestureDetector(
+            onTap: () {
+              creatAccount(
+                  username.text,
+                  firstName.text,
+                  lastName.text,
+                  email.text,
+                  select,
+                  phoneNo.text,
+                  _generalimage,
+                  selectedRegion,
+                  select);
+            },
+            child: Container(
+              margin: const EdgeInsets.only(top: 10, right: 10, bottom: 10),
+              padding:
+                  const EdgeInsets.only(top: 8, bottom: 8, left: 6, right: 6),
+              alignment: Alignment.center,
+              decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 243, 104, 12),
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              child: const Text(
+                'Update',
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+            ),
+          ),
+        ],
       ),
       body: Column(
         children: [
           Expanded(
+            flex: 5,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 // Title Add title
 
@@ -130,67 +231,65 @@ class _ProfileSettingState extends State<ProfileSetting> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     // Profile Column
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(top: 4.0, left: 8),
-                            child: Text(
-                              'Upload Profile',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey),
-                            ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 4.0, left: 8),
+                          child: Text(
+                            'Upload Profile',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey),
                           ),
+                        ),
 
-                          // Avatar upload...
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              alignment: Alignment.centerLeft,
-                              width: 90,
-                              height: 90,
-                              // color: Colors.grey[300],
-                              child: _generalimage != null
-                                  ? Padding(
-                                      padding: const EdgeInsets.only(left: 1.0),
-                                      child: CircleAvatar(
-                                        radius: 85,
-                                        child: ClipOval(
-                                          child: Image.file(
-                                            _generalimage!,
-                                            fit: BoxFit.cover,
-                                            width: 80.0,
-                                            height: 80.0,
-                                            // width: 100,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  : CircleAvatar(
-                                      backgroundColor: Colors.grey,
-                                      radius: 110,
+                        // Avatar upload...
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            width: 90,
+                            height: 90,
+                            // color: Colors.grey[300],
+                            child: _generalimage != null
+                                ? Padding(
+                                    padding: const EdgeInsets.only(left: 1.0),
+                                    child: CircleAvatar(
+                                      radius: 85,
                                       child: ClipOval(
-                                        child: UserAvater(
-                                          avater: widget.user.avater,
-                                          url: '/profile/',
-                                          username: widget.user.username,
+                                        child: Image.file(
+                                          _generalimage!,
+                                          fit: BoxFit.cover,
                                           width: 80.0,
                                           height: 80.0,
+                                          // width: 100,
                                         ),
                                       ),
                                     ),
+                                  )
+                                : CircleAvatar(
+                                    backgroundColor: Colors.grey,
+                                    radius: 110,
+                                    child: ClipOval(
+                                      child: UserAvater(
+                                        avater: widget.user.avater,
+                                        url: '/profile/',
+                                        username: widget.user.username,
+                                        width: 80.0,
+                                        height: 80.0,
+                                      ),
+                                    ),
+                                  ),
 
-                              // CircleAvatar(
-                              //     radius: 100,
-                              //     backgroundImage:Image(image: Image.network(api)),
-                              //   ),
-                            ),
+                            // CircleAvatar(
+                            //     radius: 100,
+                            //     backgroundImage:Image(image: Image.network(api)),
+                            //   ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
 
                     //Buttons Image Upload
@@ -325,7 +424,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
                                     height: 10,
                                   ),
 
-                                  // First Name
+                                  // username
                                   Container(
                                     height: 40,
                                     margin: const EdgeInsets.only(
@@ -442,6 +541,84 @@ class _ProfileSettingState extends State<ProfileSetting> {
                                     ),
                                   ),
 
+                                  // Email
+                                  Container(
+                                    height: 40,
+                                    margin: const EdgeInsets.only(
+                                        left: 20, right: 20, bottom: 15),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 1, color: Colors.grey),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: TextField(
+                                      controller: email,
+                                      decoration: const InputDecoration(
+                                        border: InputBorder.none,
+                                        prefixIcon: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 20.0),
+                                          child: Icon(
+                                            Icons.email,
+                                            size: 20,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        hintText: 'Email',
+                                        hintStyle: TextStyle(
+                                            color: Colors.grey, height: 1.5),
+                                      ),
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.grey,
+                                          height: 1.5),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          //_email = value;
+                                        });
+                                      },
+                                    ),
+                                  ),
+
+                                  // phone
+                                  Container(
+                                    height: 40,
+                                    margin: const EdgeInsets.only(
+                                        left: 20, right: 20, bottom: 15),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 1, color: Colors.grey),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: TextField(
+                                      controller: phoneNo,
+                                      decoration: const InputDecoration(
+                                        border: InputBorder.none,
+                                        prefixIcon: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 20.0),
+                                          child: Icon(
+                                            Icons.phone,
+                                            size: 20,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        hintText: 'Last Name',
+                                        hintStyle: TextStyle(
+                                            color: Colors.grey, height: 1.5),
+                                      ),
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.grey,
+                                          height: 1.5),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          //_email = value;
+                                        });
+                                      },
+                                    ),
+                                  ),
+
                                   // Region Selection
                                   Card(
                                     child: Column(
@@ -527,19 +704,19 @@ class _ProfileSettingState extends State<ProfileSetting> {
                                     ),
                                   ),
 
-                                  // // Radio Button
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(left: 1.0),
-                                  //   child: Row(
-                                  //     mainAxisAlignment:
-                                  //         MainAxisAlignment.start,
-                                  //     children: <Widget>[
-                                  //       addRadioButton(0, 'Single'),
-                                  //       addRadioButton(1, 'merriage'),
-                                  //       addRadioButton(2, 'engaged'),
-                                  //     ],
-                                  //   ),
-                                  // ),
+                                  // Radio Button
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 1.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        addRadioButton(0, 'Single'),
+                                        addRadioButton(1, 'merriage'),
+                                        addRadioButton(2, 'engaged'),
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),

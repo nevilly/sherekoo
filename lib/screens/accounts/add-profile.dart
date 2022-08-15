@@ -33,7 +33,11 @@ class _CompleteProfileState extends State<CompleteProfile> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '', isCurrentUser: '', address: '', bio: '', meritalStatus: '');
+      role: '',
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      meritalStatus: '');
 
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
@@ -242,7 +246,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
           ),
         ],
       ),
-     
+
       //backgroundColor: Theme.of(context).primaryColor,
       backgroundColor: OColors.appBarColor,
 
@@ -317,7 +321,6 @@ class _CompleteProfileState extends State<CompleteProfile> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                     
                       // Gallary
                       GestureDetector(
                         onTap: () {
@@ -640,8 +643,6 @@ class _CompleteProfileState extends State<CompleteProfile> {
                     ),
                   ),
                 ),
-             
-             
               ],
             ),
           )
