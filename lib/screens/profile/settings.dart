@@ -283,10 +283,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
                                     ),
                                   ),
 
-                            // CircleAvatar(
-                            //     radius: 100,
-                            //     backgroundImage:Image(image: Image.network(api)),
-                            //   ),
+                           
                           ),
                         ),
                       ],

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
-import '../model/allData.dart';
 import '../model/profileMode.dart';
 import '../util/Preferences.dart';
 import '../util/colors.dart';
-import '../util/util.dart';
 import 'categoriesPage/sherekooPage.dart';
 import 'crmScreen/crmFont.dart';
 import 'home.dart';
@@ -30,17 +28,6 @@ class _HomeNavState extends State<HomeNav> {
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   int index = 2;
 
-  User users = User(
-      id: '',
-      username: '',
-      firstname: '',
-      lastname: '',
-      avater: '',
-      phoneNo: '',
-      email: '',
-      gender: '',
-      role: '',
-      isCurrentUser: '', address: '', bio: '', meritalStatus: '');
 
   final screen = [
     const SherekooUpload(),
@@ -88,16 +75,6 @@ class _HomeNavState extends State<HomeNav> {
     index = widget.getIndex;
     super.initState();
   }
-
-  // getUser(arg) async {
-  //   AllUsersModel(payload: [], status: 0).get(token, arg).then((value) {
-  //     if (value.status == 200) {
-  //       setState(() {
-  //         users = User.fromJson(value.payload);
-  //       });
-  //     }
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {

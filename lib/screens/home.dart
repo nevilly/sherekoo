@@ -26,7 +26,6 @@ class _HomeState extends State<Home> {
   String avata = '';
   List<SherekooModel> post = [];
 
-
   @override
   void initState() {
     _preferences.init();
@@ -102,8 +101,6 @@ class _HomeState extends State<Home> {
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,7 +132,8 @@ class _HomeState extends State<Home> {
                         sigmaX: 10.0,
                         sigmaY: 10.0,
                       ),
-                      child: post[index].vedeo != ''
+                      child: post[index].vedeo.endsWith('.jpg') &&
+                              post[index].vedeo.isNotEmpty
                           ? Image.network(
                               api +
                                   'public/uploads/' +
@@ -160,7 +158,10 @@ class _HomeState extends State<Home> {
                                 );
                               },
                             )
-                          : const SizedBox(height: 1),
+                          : Image.asset(
+                              'assets/logo/bkg.png',
+                              fit: BoxFit.cover,
+                            ),
                     ),
                   ),
                   userPost: DisplayVedeo(

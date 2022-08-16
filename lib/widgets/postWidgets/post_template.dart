@@ -472,7 +472,7 @@ class _PostTemplateState extends State<PostTemplate> {
                       ),
                     )
                   : const SizedBox(height: 1),
-              // backgroundImage: NetworkImage('https://i.pravatar.cc/300')
+             
             ),
           ])),
     );
