@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -20,33 +18,33 @@ class DisplayVedeo extends StatefulWidget {
 }
 
 class _DisplayVedeoState extends State<DisplayVedeo> {
-  late VideoPlayerController _videoPlayerController;
+  VideoPlayerController? controller;
 
+  double vedeoVolum = 0;
   @override
   void initState() {
-    // if (widget.vedeo.endsWith('.mp4')) {
-    //   print(widget.vedeo.endsWith('.mp4'));
-    //   print(widget.vedeo);
-    //   getVideo(widget.vedeo);
-    // }
+    if (widget.vedeo.endsWith('.mp4')) {
+      loadVideoPlayer();
+    }
+
     super.initState();
   }
 
-  String? _video;
-
-  Future getVideo(_v) async {
-    File v;
-
-    if (_v != null) {
-      v = File(_v.path);
-      _videoPlayerController = VideoPlayerController.file(v)
-        ..initialize().then((_) {
-          setState(() {
-            _video = _v.path;
-          });
-          _videoPlayerController.play();
-        });
-    }
+  dynamic v;
+  loadVideoPlayer() {
+    controller = VideoPlayerController.network(
+      api + 'public/uploads/' + widget.username + '/posts/' + widget.vedeo,
+    );
+    controller!.addListener(() {
+      setState(() {});
+    });
+    controller!.initialize().then((value) {
+      setState(() {
+        controller!.setVolume(0);
+        controller!.play();
+        controller!.setLooping(true);
+      });
+    });
   }
 
   @override
@@ -74,8 +72,50 @@ class _DisplayVedeoState extends State<DisplayVedeo> {
                   );
                 },
               )
-            : Text('null Vedo'),
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  GestureDetector(
+                      onTap: () {
+                        if (controller!.value.volume == 0) {
+                          //check if volume is already set to 0 (i.e mute)
+                          controller!.setVolume(1.0);
+                        } else {
+                          //check if volume is already set to 1 (i.e unmute)
+                          controller!.setVolume(0.0);
+                        }
+                        setState(() {});
+                      },
+                      child: controller!.value.volume == 0
+                          ? const Icon(
+                              Icons.volume_off_outlined,
+                              size: 50,
+                            )
+                          : const Icon(
+                              Icons.volume_up_rounded,
+                              size: 50,
+                            )),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  controller!.value.isInitialized
+                      ? AspectRatio(
+                          aspectRatio: controller!.value.aspectRatio,
+                          child: VideoPlayer(controller!),
+                        )
+                      : const CircularProgressIndicator(),
+                ],
+              ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    controller?.pause();
+    controller?.dispose();
+    
+    super.dispose();
   }
 }

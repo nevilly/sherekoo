@@ -133,11 +133,16 @@ class _PostTemplateState extends State<PostTemplate> {
           widget.userPost,
 
           //Username & Caption
-          bodyPanel(context),
+          Positioned(
+              bottom: 0,
+              child: SizedBox(height: 100, child: bodyPanel(context))),
 
-          Padding(
-            padding: const EdgeInsets.only(bottom: 0, right: 1.0),
+          Positioned(
+            right: 0,
+            bottom: 3,
             child: Container(
+              padding: const EdgeInsets.only(bottom: 0, right: 1.0),
+              width: 60,
               color: Colors.transparent,
               alignment: const Alignment(1, 1),
               child:
@@ -159,7 +164,10 @@ class _PostTemplateState extends State<PostTemplate> {
                                         email: '',
                                         firstname: '',
                                         lastname: '',
-                                        isCurrentUser: '', address: '', bio: '', meritalStatus: ''),
+                                        isCurrentUser: '',
+                                        address: '',
+                                        bio: '',
+                                        meritalStatus: ''),
                                     getIndex: 4,
                                   )));
                     },
