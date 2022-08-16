@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-
 import '../../util/util.dart';
 
 class DisplayVedeo extends StatefulWidget {
@@ -26,7 +25,6 @@ class _DisplayVedeoState extends State<DisplayVedeo> {
     if (widget.vedeo.endsWith('.mp4')) {
       loadVideoPlayer();
     }
-
     super.initState();
   }
 
@@ -52,7 +50,9 @@ class _DisplayVedeoState extends State<DisplayVedeo> {
     return Center(
       child: Container(
         child: widget.vedeo.endsWith('.jpg')
-            ? Image.network(
+            ? 
+            
+            Image.network(
                 api +
                     'public/uploads/' +
                     widget.username +
@@ -72,50 +72,63 @@ class _DisplayVedeoState extends State<DisplayVedeo> {
                   );
                 },
               )
-            : Column(
+            
+            : 
+            Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 // crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  GestureDetector(
-                      onTap: () {
-                        if (controller!.value.volume == 0) {
-                          //check if volume is already set to 0 (i.e mute)
-                          controller!.setVolume(1.0);
-                        } else {
-                          //check if volume is already set to 1 (i.e unmute)
-                          controller!.setVolume(0.0);
-                        }
-                        setState(() {});
-                      },
-                      child: controller!.value.volume == 0
-                          ? const Icon(
-                              Icons.volume_off_outlined,
-                              size: 50,
-                            )
-                          : const Icon(
-                              Icons.volume_up_rounded,
-                              size: 50,
-                            )),
-                  SizedBox(
-                    height: 20,
-                  ),
                   controller!.value.isInitialized
-                      ? AspectRatio(
-                          aspectRatio: controller!.value.aspectRatio,
-                          child: VideoPlayer(controller!),
+                      ? Stack(
+                          alignment: AlignmentDirectional.centerStart,
+                          children: [
+                            AspectRatio(
+                              aspectRatio: controller!.value.aspectRatio,
+                              child: VideoPlayer(controller!),
+                            ),
+
+                            GestureDetector(
+                                onTap: () {
+                                  if (controller!.value.volume == 0) {
+                                    //check if volume is already set to 0 (i.e mute)
+                                    controller!.setVolume(1.0);
+                                  } else {
+                                    //check if volume is already set to 1 (i.e unmute)
+                                    controller!.setVolume(0.0);
+                                  }
+                                  setState(() {});
+                                },
+
+                                child: Container(
+                                  color: Colors.black.withOpacity(0.3),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 8),
+                                  child: controller!.value.volume == 0
+                                      ? const Icon(
+                                          Icons.volume_off_outlined,
+                                          size: 25,
+                                          color: Colors.white,
+                                        )
+                                      : const Icon(
+                                          Icons.volume_up_rounded,
+                                          size: 25,
+                                          color: Colors.white,
+                                        ),
+                                ))
+                          ],
                         )
                       : const CircularProgressIndicator(),
                 ],
               ),
+      
       ),
     );
   }
 
   @override
   void dispose() {
-    controller?.pause();
-    controller?.dispose();
-    
+    controller!.pause();
+    controller!.dispose();
     super.dispose();
   }
 }
