@@ -41,7 +41,7 @@ class _UploadImageState extends State<UploadImage> {
 
   // Image Picking
   _openImagePicker(ImageSource source) async {
-    final pick = _picker.pickImage(source: source);
+    final pick = _picker.pickImage(source: source, imageQuality: 25);
     XFile? pickedImage = await pick;
     if (pickedImage == null) return;
 
