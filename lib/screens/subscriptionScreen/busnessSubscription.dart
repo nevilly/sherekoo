@@ -48,28 +48,7 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
   final Preferences _preferences = Preferences();
   String token = '';
 
-  CeremonyModel ceremony = CeremonyModel(
-      cId: '',
-      codeNo: '',
-      ceremonyType: '',
-      cName: '',
-      fId: '',
-      sId: '',
-      cImage: '',
-      ceremonyDate: '',
-      contact: '',
-      admin: '',
-      u1: '',
-      u1Avt: '',
-      u1Fname: '',
-      u1Lname: '',
-      u1g: '',
-      u2: '',
-      u2Avt: '',
-      u2Fname: '',
-      u2Lname: '',
-      u2g: '',
-      youtubeLink: '');
+
   @override
   void initState() {
     _preferences.init();
@@ -108,7 +87,28 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
             MaterialPageRoute(
                 builder: (BuildContext context) => BusnessScreen(
                       bsnType: widget.busnessType,
-                      ceremony: ceremony,
+                      ceremony: CeremonyModel(
+      cId: '',
+      codeNo: '',
+      ceremonyType: '',
+      cName: '',
+      fId: '',
+      sId: '',
+      cImage: '',
+      ceremonyDate: '',
+      contact: '',
+      admin: '',
+      u1: '',
+      u1Avt: '',
+      u1Fname: '',
+      u1Lname: '',
+      u1g: '',
+      u2: '',
+      u2Avt: '',
+      u2Fname: '',
+      u2Lname: '',
+      u2g: '',
+      youtubeLink: ''),
                     )));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

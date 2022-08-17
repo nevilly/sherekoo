@@ -5,6 +5,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:sherekoo/widgets/imgWigdets/defaultAvater.dart';
@@ -40,7 +41,6 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
 
   // Image upload
   final _picker = ImagePicker();
-  final _pickerG = ImagePicker();
 
   String selectedChereko = 'Please Choose Sherehe';
   DateTime? _selectedDate;
@@ -105,36 +105,54 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
   final TextEditingController _kgodoroNameController = TextEditingController();
   final TextEditingController _kigodoroDateController = TextEditingController();
 
-  // Implementing the image Camera picker
-  _openImagePickerG(arg) async {
-    final pickG = _pickerG.pickImage(source: ImageSource.gallery);
-    XFile? pickedImage = await pickG;
+  File? _generalimage;
+  // Image Picking
+  _openImagePicker(ImageSource source, arg) async {
+    final pick = _picker.pickImage(source: source, imageQuality: 25);
+    XFile? pickedImage = await pick;
+    if (pickedImage == null) return;
 
-    if (pickedImage != null) {
-      setState(() {
-        if (arg == 'Birthday') _bimage = File(pickedImage.path);
-        if (arg == 'Wedding') _wimage = File(pickedImage.path);
-        if (arg == 'SendOff') _simage = File(pickedImage.path);
-        if (arg == 'kitchenPart') _kimage = File(pickedImage.path);
-        if (arg == 'Kigodoro') _gimage = File(pickedImage.path);
-      });
-    }
+    File img = File(pickedImage.path);
+    img = await cropImage(img);
+
+    setState(() {
+      _generalimage = img;
+      if (arg == 'Birthday') _bimage = img;
+      if (arg == 'Wedding') _wimage = img;
+      if (arg == 'SendOff') _simage = img;
+      if (arg == 'kitchenPart') _kimage = img;
+      if (arg == 'Kigodoro') _gimage = img;
+    });
   }
 
-  // Implementing the image Camera picker
-  _openImagePickerC(arg) async {
-    final pickC = _picker.pickImage(source: ImageSource.camera);
-    XFile? pickedImage = await pickC;
-
-    if (pickedImage != null) {
-      setState(() {
-        if (arg == 'birthday') _bimage = File(pickedImage.path);
-        if (arg == 'wedding') _wimage = File(pickedImage.path);
-        if (arg == 'sendOff') _simage = File(pickedImage.path);
-        if (arg == 'kitchenPart') _kimage = File(pickedImage.path);
-        if (arg == 'kigodoro') _gimage = File(pickedImage.path);
-      });
-    }
+  // Image Croping
+  Future cropImage(File imageFile) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: imageFile.path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Shereko Cropper',
+            toolbarColor: OColors.appBarColor,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Sherekoo Cropper',
+        ),
+        // WebUiSettings(
+        //   context: context,
+        // ),
+      ],
+    );
+    if (croppedFile == null) return null;
+    return File(croppedFile.path);
   }
 
   final List<String> _sherehe = [
@@ -196,7 +214,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
             sId = widget.getData.sId;
             sLastName = widget.getData.u2Lname;
             sUsername = widget.getData.u2;
-            // File? _wimage; // background image for wedding
+
             sDflt_img = widget.getData.cImage;
 
             _sendOffNameController.text = widget.getData.cName;
@@ -285,11 +303,18 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
         List.generate(4, (index) => _chars[r.nextInt(_chars.length)]).join();
 
     String codeNo = codeName + rand;
+    print('check Details');
+    print(backgroundImg);
+    print(defaultImg);
+    print(sId);
+    print(codeName);
+    print(slcted);
 
     if (sId.isNotEmpty) {
       if (name.text.isNotEmpty) {
         if (dati.text.isNotEmpty) {
           if (widget.getData.cId.isNotEmpty) {
+            print('Am hereeeeeeee2');
             if (backgroundImg != null) {
               List<int> bytes = backgroundImg.readAsBytesSync();
               image = base64Encode(bytes);
@@ -297,7 +322,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
 
             PostAllCeremony(
               cId: widget.getData.cId,
-              userId: currentUser!.id,
+              userId: '',
               sId: sId,
               name: name.text,
               date: dati.text,
@@ -327,12 +352,14 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
               }
             });
           } else {
+            print('Am hereeeeeeee');
             if (backgroundImg != null) {
+              print('Am hereeeeeeeerrrrrrrrrreeeeeeeee');
               List<int> bytes = backgroundImg.readAsBytesSync();
               String image = base64Encode(bytes);
 
               PostAllCeremony(
-                userId: currentUser!.id,
+                userId: '',
                 sId: sId,
                 name: name.text,
                 date: dati.text,
@@ -423,6 +450,11 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
     );
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   AppBar topBar() {
     return AppBar(
       title: widget.getData.cId.isNotEmpty
@@ -435,7 +467,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
               onTap: () {
                 if (selectedChereko == _sherehe[0]) {
                   _saveCeremony(
-                      _bimage,
+                      _generalimage,
                       bDflt_img,
                       bId,
                       bFirstName,
@@ -449,7 +481,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
 
                 if (selectedChereko == _sherehe[1]) {
                   _saveCeremony(
-                      _wimage,
+                      _generalimage,
                       wDflt_img,
                       wedId,
                       currentUser!.lastname,
@@ -463,7 +495,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
 
                 if (selectedChereko == _sherehe[2]) {
                   _saveCeremony(
-                      _simage,
+                      _generalimage,
                       sDflt_img,
                       sId,
                       currentUser!.lastname,
@@ -477,7 +509,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
 
                 if (selectedChereko == _sherehe[3]) {
                   _saveCeremony(
-                      _kimage,
+                      _generalimage,
                       kDflt_img,
                       kId,
                       currentUser!.lastname,
@@ -491,7 +523,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
 
                 if (selectedChereko == _sherehe[4]) {
                   _saveCeremony(
-                      _gimage,
+                      _generalimage,
                       gDflt_img,
                       gId,
                       gFirstName,
@@ -1257,9 +1289,9 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
                   // width: double.infinity,
 
                   color: Colors.grey[300],
-                  child: imgType != null
+                  child: _generalimage != null
                       ? Image.file(
-                          imgType!,
+                          _generalimage!,
                           height: 120,
                           fit: BoxFit.cover,
                         )
@@ -1286,7 +1318,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
                     // Gallary
                     GestureDetector(
                       onTap: () {
-                        _openImagePickerG(slctdChereko);
+                        _openImagePicker(ImageSource.gallery, slctdChereko);
                       },
                       child: Row(
                         children: const [
@@ -1319,7 +1351,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
 
                     GestureDetector(
                       onTap: () {
-                        _openImagePickerC(slctdChereko);
+                        _openImagePicker(ImageSource.camera, slctdChereko);
                       },
                       child: Row(
                         children: const [

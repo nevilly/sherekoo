@@ -20,35 +20,24 @@ class UploadVedeo extends StatefulWidget {
 
 class _UploadVedeoState extends State<UploadVedeo> {
   final Preferences _preferences = Preferences();
-  String token = "";
-
-  String? _video;
-
-  User currentUser = User(
-      id: '',
-      username: '',
-      firstname: '',
-      lastname: '',
-      avater: '',
-      phoneNo: '',
-      email: '',
-      gender: '',
-      role: '',
-      isCurrentUser: '', address: '', bio: '', meritalStatus: '');
+  final TextEditingController _body = TextEditingController();
+  final _picker = ImagePicker();
 
   late VideoPlayerController _videoPlayerController;
 
-  final TextEditingController _body = TextEditingController();
+  String token = "";
+  String? _video;
 
-  // Gets Vedeos
-  final _picker = ImagePicker();
-
-  getUser() async {
-    AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
+  @override
+  void initState() {
+    _preferences.init();
+    _preferences.get('token').then((value) {
       setState(() {
-        currentUser = User.fromJson(value.payload);
+        token = value;
+        // getUser();
       });
     });
+    super.initState();
   }
 
   Future getVideo({int state = 0}) async {
@@ -70,10 +59,8 @@ class _UploadVedeoState extends State<UploadVedeo> {
 
   Future<void> postVedeo() async {
     if (_video != null) {
-      // List<int> bytes = _generalimage!.readAsBytesSync();
-      // String image = base64Encode(bytes);
-      print('imageeeeeeeeeeee');
-      print(_video);
+      // print('vedeo');
+      // print(_video);
 
       Post(
         pId: '',
@@ -92,7 +79,20 @@ class _UploadVedeoState extends State<UploadVedeo> {
               MaterialPageRoute(
                   builder: (BuildContext context) => HomeNav(
                         getIndex: 2,
-                        user: currentUser,
+                        user: User(
+                            id: '',
+                            username: '',
+                            firstname: '',
+                            lastname: '',
+                            avater: '',
+                            phoneNo: '',
+                            email: '',
+                            gender: '',
+                            role: '',
+                            isCurrentUser: '',
+                            address: '',
+                            bio: '',
+                            meritalStatus: ''),
                       )));
         });
       });
@@ -112,18 +112,6 @@ class _UploadVedeoState extends State<UploadVedeo> {
         textAlign: TextAlign.center,
       ),
     ));
-  }
-
-  @override
-  void initState() {
-    _preferences.init();
-    _preferences.get('token').then((value) {
-      setState(() {
-        token = value;
-        // getUser();
-      });
-    });
-    super.initState();
   }
 
   @override
@@ -266,8 +254,6 @@ class _UploadVedeoState extends State<UploadVedeo> {
                     ),
                   ),
                 ),
-             
-             
               ],
             )),
       ),

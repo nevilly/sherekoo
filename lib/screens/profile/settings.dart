@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sherekoo/util/colors.dart';
 
@@ -70,30 +71,49 @@ class _ProfileSettingState extends State<ProfileSetting> {
   File? _generalimage;
   // Image upload
   final _picker = ImagePicker();
-  final _pickerG = ImagePicker();
 
-  // Implementing the image Camera picker
-  _openImagePickerG(arg) async {
-    final pickG = _pickerG.pickImage(source: ImageSource.gallery);
-    XFile? pickedImage = await pickG;
+  // Image Picking
+  _openImagePicker(ImageSource source) async {
+    final pick = _picker.pickImage(source: source, imageQuality: 25);
+    XFile? pickedImage = await pick;
+    if (pickedImage == null) return;
 
-    if (pickedImage != null) {
-      setState(() {
-        _generalimage = File(pickedImage.path);
-      });
-    }
+    File img = File(pickedImage.path);
+    img = await cropImage(img);
+
+    setState(() {
+      _generalimage = img;
+    });
   }
 
-  // Implementing the image Camera picker
-  _openImagePickerC(arg) async {
-    final pickC = _picker.pickImage(source: ImageSource.camera);
-    XFile? pickedImage = await pickC;
-
-    if (pickedImage != null) {
-      setState(() {
-        _generalimage = File(pickedImage.path);
-      });
-    }
+  // Image Croping
+  Future cropImage(File imageFile) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: imageFile.path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Shereko Cropper',
+            toolbarColor: OColors.appBarColor,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Sherekoo Cropper',
+        ),
+        // WebUiSettings(
+        //   context: context,
+        // ),
+      ],
+    );
+    if (croppedFile == null) return null;
+    return File(croppedFile.path);
   }
 
   Row addRadioButton(int btnValue, String title) {
@@ -118,7 +138,6 @@ class _ProfileSettingState extends State<ProfileSetting> {
 
   dynamic image;
   void creatAccount(u, fn, ln, e, m, p, img, rgn, slt) async {
-   
     if (img != null) {
       List<int> bytes = img.readAsBytesSync();
       image = base64Encode(bytes);
@@ -282,8 +301,6 @@ class _ProfileSettingState extends State<ProfileSetting> {
                                       ),
                                     ),
                                   ),
-
-                           
                           ),
                         ),
                       ],
@@ -297,7 +314,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
                           // Gallary
                           GestureDetector(
                             onTap: () {
-                              _openImagePickerG('slctdChereko');
+                              _openImagePicker(ImageSource.gallery);
                             },
                             child: Row(
                               children: const [
@@ -331,7 +348,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
 
                           GestureDetector(
                             onTap: () {
-                              _openImagePickerC('slctdChereko');
+                              _openImagePicker(ImageSource.camera);
                             },
                             child: Row(
                               children: const [
@@ -340,7 +357,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
                                   child: Padding(
                                     padding: EdgeInsets.all(5.0),
                                     child: Icon(
-                                      Icons.photo_library,
+                                      Icons.camera,
                                       color: Colors.white,
                                       size: 14,
                                     ),

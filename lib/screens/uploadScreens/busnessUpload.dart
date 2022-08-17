@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sherekoo/model/busness/busnessModel.dart';
 
@@ -42,11 +43,10 @@ class _BusnessUploadState extends State<BusnessUpload> {
 
   // Image upload
   final _picker = ImagePicker();
-  final _pickerG = ImagePicker();
 
   List<User> _allUsers = [];
   List<User> _foundUsers = []; //search
-  late User currentUser;
+ 
   BusnessModel busness = BusnessModel(
       location: '',
       bId: '',
@@ -84,7 +84,8 @@ class _BusnessUploadState extends State<BusnessUpload> {
       u2Avt: '',
       u2Fname: '',
       u2Lname: '',
-      u2g: '', youtubeLink: '');
+      u2g: '',
+      youtubeLink: '');
 
   // for_Search Result
   void _runFilter(String enteredKeyword) {
@@ -113,7 +114,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-        getUser();
+        // getUser();
         getAllUsers();
 
         if (widget.getData.bId.isNotEmpty) {
@@ -270,15 +271,15 @@ class _BusnessUploadState extends State<BusnessUpload> {
     super.initState();
   }
 
-  getUser() async {
-    AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
-      setState(() {
-        if (value.status == 200) {
-          currentUser = User.fromJson(value.payload);
-        }
-      });
-    });
-  }
+  // getUser() async {
+  //   AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
+  //     setState(() {
+  //       if (value.status == 200) {
+  //         currentUser = User.fromJson(value.payload);
+  //       }
+  //     });
+  //   });
+  // }
 
   getAllUsers() async {
     AllUsersModel(payload: [], status: 0).get(token, urlUserList).then((value) {
@@ -486,28 +487,48 @@ class _BusnessUploadState extends State<BusnessUpload> {
 
   File? _generalimage;
 
-  // Implementing the image Camera picker
-  _openImagePickerG(arg) async {
-    final pickG = _pickerG.pickImage(source: ImageSource.gallery);
-    XFile? pickedImage = await pickG;
+  // Image Picking
+  _openImagePicker(ImageSource source) async {
+    final pick = _picker.pickImage(source: source, imageQuality: 25);
+    XFile? pickedImage = await pick;
+    if (pickedImage == null) return;
 
-    if (pickedImage != null) {
-      setState(() {
-        _generalimage = File(pickedImage.path);
-      });
-    }
+    File img = File(pickedImage.path);
+    img = await cropImage(img);
+
+    setState(() {
+      _generalimage = img;
+    });
   }
 
-  // Implementing the image Camera picker
-  _openImagePickerC(arg) async {
-    final pickC = _picker.pickImage(source: ImageSource.camera);
-    XFile? pickedImage = await pickC;
-
-    if (pickedImage != null) {
-      setState(() {
-        _generalimage = File(pickedImage.path);
-      });
-    }
+  // Image Croping
+  Future cropImage(File imageFile) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: imageFile.path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Shereko Cropper',
+            toolbarColor: OColors.appBarColor,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Sherekoo Cropper',
+        ),
+        // WebUiSettings(
+        //   context: context,
+        // ),
+      ],
+    );
+    if (croppedFile == null) return null;
+    return File(croppedFile.path);
   }
 
   dynamic imaged;
@@ -541,7 +562,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                         ceoId: ceoId,
                         aboutCEO: abtCeo,
                         aboutCompany: abtCo,
-                        createdBy: currentUser.id,
+                        createdBy: '',
                         hotStatus: '0')));
           } else {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -580,7 +601,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
       ceoId: ceoId,
       aboutCEO: abtCeo,
       aboutCompany: abtCo,
-      createdBy: currentUser.id,
+      createdBy: '',
       hotStatus: '0',
       status: 0,
       payload: [],
@@ -712,7 +733,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                           // Gallary
                           GestureDetector(
                             onTap: () {
-                              _openImagePickerG('slctdChereko');
+                              _openImagePicker(ImageSource.gallery);
                             },
                             child: Row(
                               children: const [
@@ -745,7 +766,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
 
                           GestureDetector(
                             onTap: () {
-                              _openImagePickerC('slctdChereko');
+                              _openImagePicker(ImageSource.camera);
                             },
                             child: Row(
                               children: const [
@@ -754,7 +775,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                                   child: Padding(
                                     padding: EdgeInsets.all(5.0),
                                     child: Icon(
-                                      Icons.photo_library,
+                                      Icons.camera,
                                       color: Colors.white,
                                       size: 16,
                                     ),
