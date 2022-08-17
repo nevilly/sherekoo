@@ -9,6 +9,8 @@ class SherekooModel {
   final String username;
   final String avater;
 
+
+  // total Comments
   final String commentNumber;
   final String createdDate;
 
@@ -19,7 +21,7 @@ class SherekooModel {
   final String crmFid;
   final String crmYoutubeLink;
 
-  //Ceremony Info
+  //Likes Info
   final String totalLikes;
   dynamic isLike;
 

@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'dart:convert';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:sherekoo/model/allData.dart';
 import 'package:sherekoo/screens/homNav.dart';
+import 'package:sherekoo/util/colors.dart';
 
 import '../../model/post/post.dart';
 import '../../model/profileMode.dart';
@@ -21,56 +23,10 @@ class UploadImage extends StatefulWidget {
 
 class _UploadImageState extends State<UploadImage> {
   final Preferences _preferences = Preferences();
-  String token = "";
   final TextEditingController _body = TextEditingController();
-  File? _generalimage;
-
-  
-
-
-
-  User currentUser = User(
-      id: '',
-      username: '',
-      firstname: '',
-      lastname: '',
-      avater: '',
-      phoneNo: '',
-      email: '',
-      gender: '',
-      role: '',
-      isCurrentUser: '', meritalStatus: '', address: '', bio: '');
-
-  // Image upload
   final _picker = ImagePicker();
-  final _pickerG = ImagePicker();
-
-  // late VideoPlayerController _videoPlayerController;
-  // late VideoPlayerController _cameraVideoPlayerController;
-
-  // Implementing the image Camera picker
-  _openImagePickerG(arg) async {
-    final pickG = _pickerG.pickImage(source: ImageSource.gallery);
-    XFile? pickedImage = await pickG;
-
-    if (pickedImage != null) {
-      setState(() {
-        _generalimage = File(pickedImage.path);
-      });
-    }
-  }
-
-  // Implementing the image Camera picker
-  _openImagePickerC(arg) async {
-    final pickC = _picker.pickImage(source: ImageSource.camera);
-    XFile? pickedImage = await pickC;
-
-    if (pickedImage != null) {
-      setState(() {
-        _generalimage = File(pickedImage.path);
-      });
-    }
-  }
+  File? _generalimage;
+  String token = "";
 
   @override
   void initState() {
@@ -78,30 +34,64 @@ class _UploadImageState extends State<UploadImage> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-        getUser();
       });
     });
     super.initState();
   }
 
-  getUser() async {
-    AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
-      setState(() {
-        currentUser = User.fromJson(value.payload);
-      });
+  // Image Picking
+  _openImagePicker(ImageSource source) async {
+    final pick = _picker.pickImage(source: source);
+    XFile? pickedImage = await pick;
+    if (pickedImage == null) return;
+
+    File img = File(pickedImage.path);
+    img = await cropImage(img);
+
+    setState(() {
+      _generalimage = img;
     });
   }
 
+  // Image Croping
+  Future cropImage(File imageFile) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: imageFile.path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Shereko Cropper',
+            toolbarColor: OColors.appBarColor,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Sherekoo Cropper',
+        ),
+        // WebUiSettings(
+        //   context: context,
+        // ),
+      ],
+    );
+    if (croppedFile == null) return null;
+    return File(croppedFile.path);
+  }
+
+  // Posting
   Future<void> post() async {
     if (_generalimage != null) {
       List<int> bytes = _generalimage!.readAsBytesSync();
       String image = base64Encode(bytes);
-      print('imageeeeeeeeeeee');
-      print(image);
 
       Post(
         pId: '',
-        createdBy: currentUser.id,
+        createdBy: '',
         body: _body.text,
         vedeo: image,
         ceremonyId: '',
@@ -116,34 +106,23 @@ class _UploadImageState extends State<UploadImage> {
               MaterialPageRoute(
                   builder: (BuildContext context) => HomeNav(
                         getIndex: 2,
-                        user: currentUser,
+                        user: User(
+                            id: '',
+                            username: '',
+                            firstname: '',
+                            lastname: '',
+                            avater: '',
+                            phoneNo: '',
+                            email: '',
+                            gender: '',
+                            role: '',
+                            isCurrentUser: '',
+                            meritalStatus: '',
+                            address: '',
+                            bio: ''),
                       )));
         });
       });
-      // AllIbada(
-      //         payload: [],
-      //         status: 0,
-      //         ibadaType: selectedType,
-      //         id: '',
-      //         title: _title.text,
-      //         body: _body.text,
-      //         image: image,
-      //         startDate: _startDate.text,
-      //         endDate: _endDate.text,
-      //         startTime: _startTime.text,
-      //         endTime: _endTime.text,
-      //         youtubeId: _youtubeId.text,
-      //         createdBy: currentUser.id)
-      //     .get(token, urlPostIbada)
-      //     .then((v) {
-      //   // print('v.payload');
-      //   // print(v.payload);
-      //   Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //           builder: (BuildContext context) => const NavIbada()));
-
-      // });
     } else {
       fillMessage(
         'Select Image/Vedio Please... ',
@@ -199,7 +178,7 @@ class _UploadImageState extends State<UploadImage> {
               // Gallary
               GestureDetector(
                 onTap: () {
-                  _openImagePickerG('slctdChereko');
+                  _openImagePicker(ImageSource.camera);
                 },
                 child: const Card(
                   color: Color.fromARGB(255, 243, 104, 12),
@@ -217,7 +196,7 @@ class _UploadImageState extends State<UploadImage> {
               //cameraa
               GestureDetector(
                 onTap: () {
-                  _openImagePickerC('slctdChereko');
+                  _openImagePicker(ImageSource.gallery);
                 },
                 child: const Card(
                   color: Color.fromARGB(255, 243, 104, 12),

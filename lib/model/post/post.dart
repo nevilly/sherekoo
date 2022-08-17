@@ -59,6 +59,7 @@ class Post {
       print('Our status Code');
       print(r.statusCode);
       if (r.statusCode == 200) {
+        print(r.body);
         return Post.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       } else {
