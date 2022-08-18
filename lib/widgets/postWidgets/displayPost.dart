@@ -19,7 +19,6 @@ class DisplayVedeo extends StatefulWidget {
 class _DisplayVedeoState extends State<DisplayVedeo> {
   VideoPlayerController? controller;
 
-  double vedeoVolum = 0;
   @override
   void initState() {
     if (widget.vedeo.endsWith('.mp4')) {
@@ -28,7 +27,6 @@ class _DisplayVedeoState extends State<DisplayVedeo> {
     super.initState();
   }
 
-  dynamic v;
   loadVideoPlayer() {
     controller = VideoPlayerController.network(
       api + 'public/uploads/' + widget.username + '/posts/' + widget.vedeo,
@@ -50,9 +48,7 @@ class _DisplayVedeoState extends State<DisplayVedeo> {
     return Center(
       child: Container(
         child: widget.vedeo.endsWith('.jpg')
-            ? 
-            
-            Image.network(
+            ? Image.network(
                 api +
                     'public/uploads/' +
                     widget.username +
@@ -72,9 +68,7 @@ class _DisplayVedeoState extends State<DisplayVedeo> {
                   );
                 },
               )
-            
-            : 
-            Column(
+            : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 // crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -86,7 +80,6 @@ class _DisplayVedeoState extends State<DisplayVedeo> {
                               aspectRatio: controller!.value.aspectRatio,
                               child: VideoPlayer(controller!),
                             ),
-
                             GestureDetector(
                                 onTap: () {
                                   if (controller!.value.volume == 0) {
@@ -98,7 +91,6 @@ class _DisplayVedeoState extends State<DisplayVedeo> {
                                   }
                                   setState(() {});
                                 },
-
                                 child: Container(
                                   color: Colors.black.withOpacity(0.3),
                                   padding: const EdgeInsets.symmetric(
@@ -120,15 +112,16 @@ class _DisplayVedeoState extends State<DisplayVedeo> {
                       : const CircularProgressIndicator(),
                 ],
               ),
-      
       ),
     );
   }
 
   @override
   void dispose() {
-    controller!.pause();
-    controller!.dispose();
+    if (widget.vedeo.endsWith('.mp4')) {
+      controller!.pause();
+      controller!.dispose();
+    }
     super.dispose();
   }
 }

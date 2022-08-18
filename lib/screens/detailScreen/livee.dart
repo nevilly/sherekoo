@@ -24,20 +24,6 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
 
   String token = '';
   static String myVideoId = 'kPnKhtlGWV4';
-  User currentUser = User(
-      id: '',
-      username: '',
-      firstname: '',
-      lastname: '',
-      avater: '',
-      phoneNo: '',
-      email: '',
-      gender: '',
-      role: '',
-      isCurrentUser: '',
-      address: '',
-      bio: '',
-      meritalStatus: '');
 
   final YoutubePlayerController _controller = YoutubePlayerController(
     initialVideoId: myVideoId,
@@ -59,19 +45,10 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-        getUser();
       });
     });
 
     super.initState();
-  }
-
-  getUser() async {
-    AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
-      setState(() {
-        currentUser = User.fromJson(value.payload);
-      });
-    });
   }
 
   @override
@@ -85,7 +62,8 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
               backgroundColor: Colors.black45,
               // automaticallyImplyLeading: false,
               expandedHeight: 200,
-              flexibleSpace: SafeArea(bottom: false, child: Text('cedio')),
+              flexibleSpace:
+                  const SafeArea(bottom: false, child: Text('cedio')),
               // child: YoutubePlayer(
               //     controller: _controller, liveUIColor: Colors.amber)),
 
@@ -111,13 +89,17 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
         body: TabBarView(
           controller: _tabController,
           children: [
-            TabA(
-              ceremony: widget.ceremony,
-              getcurrentUser: currentUser.id,
+            Expanded(
+              flex: 2,
+              child: TabA(
+                ceremony: widget.ceremony,
+              ),
             ),
-            TabB(
-              ceremony: widget.ceremony,
-            )
+            Expanded(
+              flex: 2,
+                child: TabB(
+                  ceremony: widget.ceremony,
+                ))
           ],
         ),
       ),

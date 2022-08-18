@@ -7,7 +7,7 @@ import '../model/post/sherekoModel.dart';
 import '../util/Preferences.dart';
 import '../util/util.dart';
 import '../widgets/postWidgets/post_template.dart';
-import '../widgets/uploadWidg/displayPost.dart';
+import '../widgets/postWidgets/displayPost.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -198,14 +198,12 @@ class _HomeState extends State<Home> {
               )),
         ],
       ),
-
-      // Bottom Section
-      // bottomNavigationBar: const BttmNav()
     );
   }
 
   @override
   void dispose() {
+    
     _controller.dispose();
     super.dispose();
   }

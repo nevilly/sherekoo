@@ -126,12 +126,15 @@ class _UploadImageState extends State<UploadImage> {
                             meritalStatus: ''),
                       )));
         } else if (widget.from == 'Ceremony') {
+         Navigator.pop(context);
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (BuildContext context) => Livee(
                         ceremony: widget.crm,
                       )));
+
+          
         }
     
       });

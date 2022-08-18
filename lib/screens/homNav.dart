@@ -6,7 +6,7 @@ import '../model/profileMode.dart';
 import '../util/Preferences.dart';
 import '../util/colors.dart';
 import 'categoriesPage/sherekooPage.dart';
-import 'crmScreen/crmFont.dart';
+import 'crmScreen/crmOn-nav.dart';
 import 'home.dart';
 import 'profile/profile.dart';
 import 'uploadScreens/uploadSherekoo.dart';

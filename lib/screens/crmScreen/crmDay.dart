@@ -36,7 +36,10 @@ class _CeremonyDayState extends State<CeremonyDay> {
       email: '',
       gender: '',
       role: '',
-      isCurrentUser: '', address: '', bio: '', meritalStatus: '');
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      meritalStatus: '');
 
   @override
   void initState() {
@@ -54,9 +57,11 @@ class _CeremonyDayState extends State<CeremonyDay> {
 
   getUser() async {
     AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
-      setState(() {
-        currentUser = User.fromJson(value.payload);
-      });
+      if (value.status == 200) {
+        setState(() {
+          currentUser = User.fromJson(value.payload);
+        });
+      }
     });
   }
 
@@ -64,327 +69,321 @@ class _CeremonyDayState extends State<CeremonyDay> {
     AllCeremonysModel(payload: [], status: 0)
         .getDayCeremony(token, urlCrmByDay, widget.day)
         .then((value) {
-      setState(() {
-        data = value.payload
-            .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
-            .toList();
-      });
+      if (value.status == 200) {
+        setState(() {
+          data = value.payload
+              .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
+              .toList();
+        });
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox(
-        height: 400,
-        child: ListView.builder(
-          itemCount: data.length,
-          itemBuilder: (BuildContext context, int index) {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  InkWell(
-                    customBorder: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: const BorderSide(color: Colors.red)),
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => Livee(
-                                          ceremony: data[index],
-                                        )));
-                          },
-                          child: Stack(children: [
-                            ClipRRect(
-                              child: Center(
-                                  child: data[index].cImage != ''
-                                      ? Img(
-                                          avater: data[index].cImage,
-                                          url: '/ceremony/',
-                                          username: data[index].u1,
-                                          width: 145,
-                                          height: 150,
-                                        )
-                                      : const SizedBox(height: 1)),
+      body: ListView.builder(
+        itemCount: data.length,
+        itemBuilder: (BuildContext context, int index) {
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 5,
+                ),
+                InkWell(
+                  customBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: const BorderSide(color: Colors.red)),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => Livee(
+                                        ceremony: data[index],
+                                      )));
+                        },
+                        child: Stack(children: [
+                          ClipRRect(
+                            child: Center(
+                                child: data[index].cImage != ''
+                                    ? Img(
+                                        avater: data[index].cImage,
+                                        url: '/ceremony/',
+                                        username: data[index].u1,
+                                        width: 145,
+                                        height: 150,
+                                      )
+                                    : const SizedBox(height: 1)),
+                          ),
+
+                          // Red TAGs ceremony Type
+                          Container(
+                            margin: const EdgeInsets.only(top: 10),
+                            decoration: const BoxDecoration(
+                                color: Color.fromARGB(255, 136, 64, 64),
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(10),
+                                    bottomRight: Radius.circular(10))),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 4.0,
+                                  left: 8.0,
+                                  right: 13.0,
+                                  bottom: 4.0),
+                              child: Text(
+                                data[index].ceremonyType,
+                                style: const TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ]),
+                      ),
+
+                      //Details Ceremony
+                      Expanded(
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 8,
                             ),
 
-                            // Red TAGs ceremony Type
+                            // Title
                             Container(
-                              margin: const EdgeInsets.only(top: 10),
-                              decoration: const BoxDecoration(
-                                  color: Color.fromARGB(255, 136, 64, 64),
-                                  borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(10),
-                                      bottomRight: Radius.circular(10))),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 4.0,
-                                    left: 8.0,
-                                    right: 13.0,
-                                    bottom: 4.0),
-                                child: Text(
-                                  data[index].ceremonyType,
+                              margin: const EdgeInsets.only(top: 1),
+                              child: Text(
+                                  data[index].ceremonyType.toUpperCase(),
                                   style: const TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                                      fontStyle: FontStyle.italic,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 1)),
+                            ),
+
+                            Container(
+                              margin: const EdgeInsets.only(top: 2),
+                              child: RichText(
+                                text: TextSpan(children: [
+                                  const TextSpan(
+                                      text: 'On: ',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                          color: Colors.grey)),
+                                  TextSpan(
+                                      text: data[index].ceremonyDate,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 10,
+                                          color: Colors.black))
+                                ]),
                               ),
                             ),
-                          ]),
-                        ),
 
-                        //Details Ceremony
-                        Expanded(
-                          child: Column(
-                            children: [
-                              const SizedBox(
-                                height: 8,
-                              ),
-
-                              // Title
-                              Container(
-                                margin: const EdgeInsets.only(top: 1),
-                                child: Text(
-                                    data[index].ceremonyType.toUpperCase(),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => Livee(
+                                              ceremony: data[index],
+                                            )));
+                              },
+                              child: Container(
+                                  margin: const EdgeInsets.only(top: 10),
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius: BorderRadius.circular(105)),
+                                  child: Text(
+                                    'Code: ' + data[index].codeNo,
                                     style: const TextStyle(
-                                        fontStyle: FontStyle.italic,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 1)),
-                              ),
+                                        fontSize: 11,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                            ),
 
-                              Container(
-                                margin: const EdgeInsets.only(top: 2),
-                                child: RichText(
-                                  text: TextSpan(children: [
-                                    const TextSpan(
-                                        text: 'On: ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 13,
-                                            color: Colors.grey)),
-                                    TextSpan(
-                                        text: data[index].ceremonyDate,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 10,
-                                            color: Colors.black))
-                                  ]),
-                                ),
-                              ),
-
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => Livee(
-                                                ceremony: data[index],
-                                              )));
-                                },
-                                child: Container(
-                                    margin: const EdgeInsets.only(top: 10),
-                                    padding: const EdgeInsets.all(4),
+                            // Profile Details
+                            Container(
+                              margin: const EdgeInsets.only(top: 8),
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, right: 8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // Profile Photo...
+                                  Container(
+                                    width: 35,
+                                    height: 35,
                                     decoration: BoxDecoration(
-                                        color: Colors.red,
+                                        color: Colors.grey.shade300,
                                         borderRadius:
                                             BorderRadius.circular(105)),
-                                    child: Text(
-                                      'Code: ' + data[index].codeNo,
-                                      style: const TextStyle(
-                                          fontSize: 11,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                              ),
-
-                              // Profile Details
-                              Container(
-                                margin: const EdgeInsets.only(top: 8),
-                                padding: const EdgeInsets.only(
-                                    left: 8.0, right: 8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    // Profile Photo...
-                                    Container(
-                                      width: 35,
-                                      height: 35,
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey.shade300,
-                                          borderRadius:
-                                              BorderRadius.circular(105)),
-                                      child: Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child:
-                                              // check if bday or kigodoro
-                                              data[index].ceremonyType ==
-                                                          'Birthday' ||
-                                                      data[index]
-                                                              .ceremonyType ==
-                                                          'Kigodoro'
-                                                  ?
-                                                  //if avater not empty
-                                                  data[index].u1Avt.isNotEmpty
-                                                      ? UserAvater(
-                                                          avater:
-                                                              data[index].u1Avt,
-                                                          url: '/profile/',
-                                                          username:
-                                                              data[index].u1,
-                                                          height: 35,
-                                                          width: 35)
-                                                      : const DefaultAvater(
-                                                          height: 35,
-                                                          radius: 15,
-                                                          width: 35)
-                                                  :
-
-                                                  // if birthday is empty must be wedding or send off or kitchn part
-                                                  data[index].u1Avt.isNotEmpty
-                                                      ? UserAvater(
-                                                          avater:
-                                                              data[index].u1Avt,
-                                                          url: '/profile/',
-                                                          username:
-                                                              data[index].u1,
-                                                          height: 35,
-                                                          width: 35)
-                                                      : const DefaultAvater(
-                                                          height: 35,
-                                                          radius: 15,
-                                                          width: 35)),
-                                    ),
-
-                                    data[index].ceremonyType == 'Wedding' ||
+                                    child: Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child:
+                                            // check if bday or kigodoro
                                             data[index].ceremonyType ==
-                                                'SendOff' ||
-                                            data[index].ceremonyType ==
-                                                'Kitchen Part'
-                                        ? Container(
-                                            width: 35,
-                                            height: 35,
-                                            decoration: BoxDecoration(
-                                                color: Colors.grey.shade300,
-                                                borderRadius:
-                                                    BorderRadius.circular(105)),
-                                            child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(4.0),
-                                                child: data[index]
-                                                        .u2Avt
-                                                        .isNotEmpty
+                                                        'Birthday' ||
+                                                    data[index].ceremonyType ==
+                                                        'Kigodoro'
+                                                ?
+                                                //if avater not empty
+                                                data[index].u1Avt.isNotEmpty
                                                     ? UserAvater(
                                                         avater:
-                                                            data[index].u2Avt,
+                                                            data[index].u1Avt,
                                                         url: '/profile/',
                                                         username:
-                                                            data[index].u2,
+                                                            data[index].u1,
+                                                        height: 35,
+                                                        width: 35)
+                                                    : const DefaultAvater(
+                                                        height: 35,
+                                                        radius: 15,
+                                                        width: 35)
+                                                :
+
+                                                // if birthday is empty must be wedding or send off or kitchn part
+                                                data[index].u1Avt.isNotEmpty
+                                                    ? UserAvater(
+                                                        avater:
+                                                            data[index].u1Avt,
+                                                        url: '/profile/',
+                                                        username:
+                                                            data[index].u1,
                                                         height: 35,
                                                         width: 35)
                                                     : const DefaultAvater(
                                                         height: 35,
                                                         radius: 15,
                                                         width: 35)),
-                                          )
-                                        : const SizedBox(),
-                                  ],
-                                ),
-                              ),
+                                  ),
 
-                              const SizedBox(
-                                height: 5,
+                                  data[index].ceremonyType == 'Wedding' ||
+                                          data[index].ceremonyType ==
+                                              'SendOff' ||
+                                          data[index].ceremonyType ==
+                                              'Kitchen Part'
+                                      ? Container(
+                                          width: 35,
+                                          height: 35,
+                                          decoration: BoxDecoration(
+                                              color: Colors.grey.shade300,
+                                              borderRadius:
+                                                  BorderRadius.circular(105)),
+                                          child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(4.0),
+                                              child: data[index]
+                                                      .u2Avt
+                                                      .isNotEmpty
+                                                  ? UserAvater(
+                                                      avater: data[index].u2Avt,
+                                                      url: '/profile/',
+                                                      username: data[index].u2,
+                                                      height: 35,
+                                                      width: 35)
+                                                  : const DefaultAvater(
+                                                      height: 35,
+                                                      radius: 15,
+                                                      width: 35)),
+                                        )
+                                      : const SizedBox(),
+                                ],
                               ),
+                            ),
 
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 5.0,
-                                    bottom: 6.0,
-                                    left: 10.0,
-                                    right: 10.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        cardFotter(
-                                            const Icon(
-                                              Icons.group,
-                                              size: 14,
-                                            ),
-                                            '1k'),
-                                        cardFotter(
-                                            const Icon(
-                                              Icons.reply,
-                                              size: 12,
-                                            ),
-                                            '2k'),
-                                        cardFotter(
-                                            const Icon(
-                                              Icons.favorite,
-                                              color: Colors.red,
-                                              size: 12,
-                                            ),
-                                            '99+'),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    const Icon(
-                                      Icons.share,
-                                      size: 13,
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    data[index].fId == currentUser.id ||
-                                            data[index].sId == currentUser.id
-                                        ? GestureDetector(
-                                            onTap: () {
-                                              showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        _buildPopupDialog(
-                                                            context, index),
-                                              );
-                                            },
-                                            child: const Icon(
-                                              Icons.more_vert,
-                                              size: 13,
-                                            ),
-                                          )
-                                        : const SizedBox(),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 5.0,
+                                  bottom: 6.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      cardFotter(
+                                          const Icon(
+                                            Icons.group,
+                                            size: 14,
+                                          ),
+                                          '1k'),
+                                      cardFotter(
+                                          const Icon(
+                                            Icons.reply,
+                                            size: 12,
+                                          ),
+                                          '2k'),
+                                      cardFotter(
+                                          const Icon(
+                                            Icons.favorite,
+                                            color: Colors.red,
+                                            size: 12,
+                                          ),
+                                          '99+'),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  const Icon(
+                                    Icons.share,
+                                    size: 13,
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  data[index].fId == currentUser.id ||
+                                          data[index].sId == currentUser.id
+                                      ? GestureDetector(
+                                          onTap: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  _buildPopupDialog(
+                                                      context, index),
+                                            );
+                                          },
+                                          child: const Icon(
+                                            Icons.more_vert,
+                                            size: 13,
+                                          ),
+                                        )
+                                      : const SizedBox(),
+                                ],
+                              ),
+                            )
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

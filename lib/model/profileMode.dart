@@ -39,10 +39,9 @@ class User {
         email: json['email'] ?? "",
         gender: json['gender'] ?? "",
         address: json['address'] ?? "",
-        isCurrentUser: json['isCurrentUser'] ?? "",
+        isCurrentUser: json['isCurrentUser'].toString(),
         role: json['role'] ?? "",
         meritalStatus: json['merital_status'] ?? "",
-        bio: json['bio'] ?? ""
-        );
+        bio: json['bio'] ?? "");
   }
 }

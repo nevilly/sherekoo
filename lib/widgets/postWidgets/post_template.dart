@@ -73,7 +73,6 @@ class _PostTemplateState extends State<PostTemplate> {
   static const double actionWidgetSize = 60.0;
 
 // The size of the icon showen for Social Actions
-
   static const double actionIconSize = 35.0;
 
 // The size of the share social icon
@@ -101,8 +100,6 @@ class _PostTemplateState extends State<PostTemplate> {
   }
 
   onLikeButtonTapped(isLiked) async {
-    /// send your request here
-    // final bool success= await sendRequest();
     if (isLiked == '1') {
       print('remove Like');
       setState(() {
@@ -112,9 +109,6 @@ class _PostTemplateState extends State<PostTemplate> {
         print(isLike);
       });
     }
-
-    /// if failed, you can do nothing
-    // return success? !isLiked:isLiked;
 
     return !isLiked;
   }
