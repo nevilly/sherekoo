@@ -89,12 +89,7 @@ class _PostTemplateState extends State<PostTemplate> {
   @override
   void initState() {
     _preferences.init();
-    _preferences.get('token').then((value) {
-      setState(() {
-        // likeNo = widget.numberOfLikes ;
-        // isLike = widget.isLIke;
-      });
-    });
+    _preferences.get('token').then((value) {});
 
     super.initState();
   }
@@ -466,7 +461,6 @@ class _PostTemplateState extends State<PostTemplate> {
                       ),
                     )
                   : const SizedBox(height: 1),
-             
             ),
           ])),
     );

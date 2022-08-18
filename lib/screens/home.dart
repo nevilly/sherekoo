@@ -51,8 +51,8 @@ class _HomeState extends State<Home> {
     }
     //page = pag;
 
-    print('post Length :');
-    print(post.length);
+    // print('post Length :');
+    // print(post.length);
 
     if (pag == post.length - 1) {
       offset = page;
@@ -203,7 +203,6 @@ class _HomeState extends State<Home> {
 
   @override
   void dispose() {
-    
     _controller.dispose();
     super.dispose();
   }

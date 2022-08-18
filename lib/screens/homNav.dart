@@ -54,7 +54,7 @@ class _HomeNavState extends State<HomeNav> {
             u2Lname: '',
             u2g: '',
             youtubeLink: '')),
-    const CrmFontPage(),
+    const CrmOnNav(),
     const Home(),
     const Sherekoo()
   ];

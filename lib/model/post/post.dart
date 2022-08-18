@@ -56,10 +56,7 @@ class Post {
     };
 
     return await http.get(url, headers: headers).then((r) {
-      print('Our status Code');
-      print(r.statusCode);
       if (r.statusCode == 200) {
-        print(r.body);
         return Post.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       } else {
@@ -67,8 +64,6 @@ class Post {
       }
     });
   }
-
- 
 
   Future<Post> post(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);
@@ -110,15 +105,14 @@ class Post {
   Future<Post> set(String token, String dirUrl, imageFileList) async {
     // Uri url = Uri.parse(Api + 'posts/add');
     Uri url = Uri.parse(dirUrl);
- 
+
     Map<String, String> headers = {
       "Accept": "application/json",
       "Authorization": "Owesis " + token
     }; // ignore this headers if there is no authentication
 
-     Map<String, String> toMap() => {"body": body, "createdBy": createdBy,
-     'ceremonyId':ceremonyId
-     };
+    Map<String, String> toMap() =>
+        {"body": body, "createdBy": createdBy, 'ceremonyId': ceremonyId};
     var request = http.MultipartRequest('POST', url);
 
     // print('fileeeeeeeeeeeee');
