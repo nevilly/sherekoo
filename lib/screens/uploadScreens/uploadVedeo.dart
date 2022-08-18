@@ -5,7 +5,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../model/allData.dart';
 import '../../model/post/post.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
@@ -72,7 +71,7 @@ class _UploadVedeoState extends State<UploadVedeo> {
         createdBy: '',
         body: _body.text,
         vedeo: '',
-        ceremonyId: '',
+        ceremonyId: widget.crm.cId,
         status: 0,
         payload: [],
         avater: '',
@@ -99,7 +98,7 @@ class _UploadVedeoState extends State<UploadVedeo> {
                             bio: '',
                             meritalStatus: ''),
                       )));
-        } else {
+        } else if (widget.from == 'Ceremony') {
           Navigator.push(
               context,
               MaterialPageRoute(

@@ -243,9 +243,9 @@ class _TabAState extends State<TabA> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => SherekooUpload(crm: widget.ceremony, from: 'ceremony',
-                       
-                        
+                    builder: (_) => SherekooUpload(
+                          crm: widget.ceremony,
+                          from: 'Ceremony',
                         )));
           },
           child: const Icon(Icons.upload, color: Colors.white),

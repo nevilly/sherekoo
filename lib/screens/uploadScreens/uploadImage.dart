@@ -18,7 +18,8 @@ import '../detailScreen/livee.dart';
 class UploadImage extends StatefulWidget {
   final String from;
   final CeremonyModel crm;
-  const UploadImage({Key? key, required this.from, required this.crm}) : super(key: key);
+  const UploadImage({Key? key, required this.from, required this.crm})
+      : super(key: key);
 
   @override
   State<UploadImage> createState() => _UploadImageState();
@@ -97,14 +98,13 @@ class _UploadImageState extends State<UploadImage> {
         createdBy: '',
         body: _body.text,
         vedeo: image,
-        ceremonyId: '',
+        ceremonyId: widget.crm.cId,
         status: 0,
         payload: [],
         avater: '',
         username: '',
       ).post(token, urlPostSherekoo).then((value) {
-        
-           if (widget.from == 'Home') {
+        if (widget.from == 'Home') {
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -125,16 +125,15 @@ class _UploadImageState extends State<UploadImage> {
                             bio: '',
                             meritalStatus: ''),
                       )));
-        } else {
+        } else if (widget.from == 'Ceremony') {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) =>  Livee(
+                  builder: (BuildContext context) => Livee(
                         ceremony: widget.crm,
                       )));
         }
-        
-
+    
       });
     } else {
       fillMessage(
