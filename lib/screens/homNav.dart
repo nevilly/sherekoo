@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 
 import '../model/profileMode.dart';
 import '../util/Preferences.dart';
@@ -28,9 +29,31 @@ class _HomeNavState extends State<HomeNav> {
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   int index = 2;
 
-
   final screen = [
-    const SherekooUpload(),
+    SherekooUpload(
+        from: 'Home',
+        crm: CeremonyModel(
+            cId: '',
+            codeNo: '',
+            ceremonyType: '',
+            cName: '',
+            fId: '',
+            sId: '',
+            cImage: '',
+            ceremonyDate: '',
+            contact: '',
+            admin: '',
+            u1: '',
+            u1Avt: '',
+            u1Fname: '',
+            u1Lname: '',
+            u1g: '',
+            u2: '',
+            u2Avt: '',
+            u2Fname: '',
+            u2Lname: '',
+            u2g: '',
+            youtubeLink: '')),
     const CrmFontPage(),
     const Home(),
     const Sherekoo()
@@ -54,7 +77,10 @@ class _HomeNavState extends State<HomeNav> {
                   email: '',
                   gender: '',
                   role: '',
-                  isCurrentUser: '', address: '', bio: '', meritalStatus: '')));
+                  isCurrentUser: '',
+                  address: '',
+                  bio: '',
+                  meritalStatus: '')));
         } else {
           screen.add(Profile(
               user: User(
@@ -67,7 +93,10 @@ class _HomeNavState extends State<HomeNav> {
                   email: '',
                   gender: '',
                   role: '',
-                  isCurrentUser: '', meritalStatus: '', address: '', bio: '')));
+                  isCurrentUser: '',
+                  meritalStatus: '',
+                  address: '',
+                  bio: '')));
         }
       });
     });

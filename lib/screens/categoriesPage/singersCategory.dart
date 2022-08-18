@@ -5,7 +5,7 @@ import '../../widgets/categoriesWidgets/ctgrWigets.dart';
 import '../../widgets/categoriesWidgets/ctgrMenu.dart';
 import 'package:flutter/material.dart';
 
-import '../../widgets/navWidget/bttmNav.dart';
+
 import '../../widgets/notifyWidget/notifyWidget.dart';
 import '../../widgets/searchBar/search_Busness.dart';
 
@@ -118,9 +118,6 @@ class _SingersCategoryState extends State<SingersCategory> {
         ],
       ),
 
-      //Bottom Section
-      bottomNavigationBar: const BttmNav(),
-      //bottomNavigationBar: BottomToolbar(),
     );
   }
 }

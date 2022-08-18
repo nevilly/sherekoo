@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../model/allData.dart';
@@ -9,10 +10,14 @@ import '../../model/post/post.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
 import '../../util/util.dart';
+import '../detailScreen/livee.dart';
 import '../homNav.dart';
 
 class UploadVedeo extends StatefulWidget {
-  const UploadVedeo({Key? key}) : super(key: key);
+  final String from;
+  final CeremonyModel crm;
+  const UploadVedeo({Key? key, required this.from, required this.crm})
+      : super(key: key);
 
   @override
   State<UploadVedeo> createState() => _UploadVedeoState();
@@ -73,7 +78,7 @@ class _UploadVedeoState extends State<UploadVedeo> {
         avater: '',
         username: '',
       ).set(token, urlVedioPostSherekoo, _video).then((value) {
-        setState(() {
+        if (widget.from == 'Home') {
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -94,7 +99,14 @@ class _UploadVedeoState extends State<UploadVedeo> {
                             bio: '',
                             meritalStatus: ''),
                       )));
-        });
+        } else {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => Livee(
+                        ceremony: widget.crm,
+                      )));
+        }
       });
     } else {
       fillMessage(

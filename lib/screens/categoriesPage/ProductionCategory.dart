@@ -1,11 +1,9 @@
 import '../../../model/ceremony/ceremonyModel.dart';
 import '../../../util/Preferences.dart';
 import '../../widgets/categoriesWidgets/ctgrWigets.dart';
-import '../../widgets/navWidget/bottom_toolbar.dart';
 import '../../widgets/categoriesWidgets/ctgrMenu.dart';
 import 'package:flutter/material.dart';
 
-import '../../widgets/navWidget/bttmNav.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
 import '../../widgets/searchBar/search_Busness.dart';
 
@@ -114,10 +112,6 @@ class _ProductionCategoryState extends State<ProductionCategory> {
           )
         ],
       ),
-
-      //Bottom Section
-      // bottomNavigationBar: const BttmNav(),
-      //bottomNavigationBar: BottomToolbar(),
     );
   }
 }

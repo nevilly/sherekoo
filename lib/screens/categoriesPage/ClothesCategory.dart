@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 
 import '../../widgets/categoriesWidgets/ctgrMenu.dart';
-import '../../widgets/navWidget/bttmNav.dart';
 
 class ClothesCategory extends StatefulWidget {
   const ClothesCategory({Key? key}) : super(key: key);

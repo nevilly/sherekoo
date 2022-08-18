@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../widgets/categoriesWidgets/ctgrMenu.dart';
-import '../../widgets/navWidget/bttmNav.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
 
 class CategoriesPage extends StatefulWidget {

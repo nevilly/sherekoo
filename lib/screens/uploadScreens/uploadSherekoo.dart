@@ -2,13 +2,17 @@
 
 import 'package:flutter/material.dart';
 
+import '../../model/ceremony/ceremonyModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import 'uploadImage.dart';
 import 'uploadVedeo.dart';
 
 class SherekooUpload extends StatefulWidget {
-  const SherekooUpload({Key? key}) : super(key: key);
+  final String from;
+  final CeremonyModel crm;
+  const SherekooUpload({Key? key, required this.from, required this.crm})
+      : super(key: key);
 
   @override
   State<SherekooUpload> createState() => _SherekooUploadState();
@@ -36,7 +40,7 @@ class _SherekooUploadState extends State<SherekooUpload> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor:OColors.appBarColor,
+          backgroundColor: OColors.appBarColor,
           title: const Text('Upload',
               style: TextStyle(
                 fontStyle: FontStyle.italic,
@@ -44,8 +48,8 @@ class _SherekooUploadState extends State<SherekooUpload> {
           // ignore: prefer_const_literals_to_create_immutables
         ),
         body: Column(
-          children: const [
-            TabBar(
+          children: [
+            const TabBar(
                 labelColor: Colors.green,
                 unselectedLabelColor: Colors.black,
                 tabs: [
@@ -59,12 +63,15 @@ class _SherekooUploadState extends State<SherekooUpload> {
             Expanded(
                 child: TabBarView(children: [
               // Image Uploading
-              UploadImage(),
+              UploadImage(from: widget.from, crm: widget.crm),
 
               //Vedio Uploader...
-              UploadVedeo()
+              UploadVedeo(
+                from: widget.from,
+                crm: widget.crm,
+              )
             ])),
-            SizedBox(
+            const SizedBox(
               height: 30,
             )
           ],

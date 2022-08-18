@@ -5,6 +5,7 @@ import '../model/chats/chatsModel.dart';
 import '../model/post/post.dart';
 import '../model/post/sherekoModel.dart';
 import '../screens/uploadScreens/livePost.dart';
+import '../screens/uploadScreens/uploadSherekoo.dart';
 import '../util/Preferences.dart';
 import '../util/util.dart';
 import 'cermChats_widgets.dart';
@@ -242,9 +243,9 @@ class _TabAState extends State<TabA> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => LivePostUpload(
-                          ceremony: widget.ceremony,
-                          getcurrentUser: widget.getcurrentUser,
+                    builder: (_) => SherekooUpload(crm: widget.ceremony, from: 'ceremony',
+                       
+                        
                         )));
           },
           child: const Icon(Icons.upload, color: Colors.white),

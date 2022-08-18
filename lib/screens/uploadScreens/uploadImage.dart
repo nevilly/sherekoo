@@ -5,6 +5,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'dart:convert';
 
 import 'package:image_picker/image_picker.dart';
+import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 import 'package:sherekoo/screens/homNav.dart';
 import 'package:sherekoo/util/colors.dart';
 
@@ -12,9 +13,12 @@ import '../../model/post/post.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
 import '../../util/util.dart';
+import '../detailScreen/livee.dart';
 
 class UploadImage extends StatefulWidget {
-  const UploadImage({Key? key}) : super(key: key);
+  final String from;
+  final CeremonyModel crm;
+  const UploadImage({Key? key, required this.from, required this.crm}) : super(key: key);
 
   @override
   State<UploadImage> createState() => _UploadImageState();
@@ -99,7 +103,8 @@ class _UploadImageState extends State<UploadImage> {
         avater: '',
         username: '',
       ).post(token, urlPostSherekoo).then((value) {
-        setState(() {
+        
+           if (widget.from == 'Home') {
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -116,11 +121,20 @@ class _UploadImageState extends State<UploadImage> {
                             gender: '',
                             role: '',
                             isCurrentUser: '',
-                            meritalStatus: '',
                             address: '',
-                            bio: ''),
+                            bio: '',
+                            meritalStatus: ''),
                       )));
-        });
+        } else {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>  Livee(
+                        ceremony: widget.crm,
+                      )));
+        }
+        
+
       });
     } else {
       fillMessage(

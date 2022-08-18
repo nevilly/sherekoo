@@ -1,7 +1,7 @@
 import '../../widgets/categoriesWidgets/ctgrMenu.dart';
 import 'package:flutter/material.dart';
 
-import '../../widgets/navWidget/bttmNav.dart';
+
 import '../../widgets/notifyWidget/notifyWidget.dart';
 
 class SingleCategory extends StatefulWidget {
@@ -87,9 +87,7 @@ class _SingleCategoryState extends State<SingleCategory> {
         ],
       ),
 
-      //Bottom Section
-      bottomNavigationBar: const BttmNav(),
-      //bottomNavigationBar: BottomToolbar(),
+      
     );
   }
 

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sherekoo/model/allData.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
+import 'package:sherekoo/screens/detailScreen/livee.dart';
 import 'package:sherekoo/screens/home.dart';
 
 import '../../model/post/post.dart';
@@ -16,10 +17,10 @@ import '../../util/colors.dart';
 import '../../util/util.dart';
 
 class LivePostUpload extends StatefulWidget {
-  final String getcurrentUser;
+  
   final CeremonyModel ceremony;
   const LivePostUpload(
-      {Key? key, required this.ceremony, required this.getcurrentUser})
+      {Key? key, required this.ceremony})
       : super(key: key);
 
   @override
@@ -32,16 +33,7 @@ class _LivePostUploadState extends State<LivePostUpload> {
   final TextEditingController _body = TextEditingController();
   File? _generalimage;
 
-  User currentUser = User(
-      id: '',
-      username: '',
-      firstname: '',
-      lastname: '',
-      avater: '',
-      phoneNo: '',
-      email: '',
-      gender: '',
-      role: '', isCurrentUser: '', meritalStatus: '', address: '', bio: '');
+ 
 
   // Image upload
   final _picker = ImagePicker();
@@ -79,19 +71,12 @@ class _LivePostUploadState extends State<LivePostUpload> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-        getUser();
       });
     });
     super.initState();
   }
 
-  getUser() async {
-    AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
-      setState(() {
-        currentUser = User.fromJson(value.payload);
-      });
-    });
-  }
+  
 
   Future<void> post() async {
     if (_generalimage != null) {
@@ -102,7 +87,7 @@ class _LivePostUploadState extends State<LivePostUpload> {
 
       Post(
         pId: '',
-        createdBy: currentUser.id,
+        createdBy: '',
         body: _body.text,
         vedeo: image,
         ceremonyId: widget.ceremony.cId,
@@ -115,33 +100,10 @@ class _LivePostUploadState extends State<LivePostUpload> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => const Home()));
+                  builder: (BuildContext context) =>  Livee(ceremony:widget.ceremony)));
         });
       });
-      // AllIbada(
-      //         payload: [],
-      //         status: 0,
-      //         ibadaType: selectedType,
-      //         id: '',
-      //         title: _title.text,
-      //         body: _body.text,
-      //         image: image,
-      //         startDate: _startDate.text,
-      //         endDate: _endDate.text,
-      //         startTime: _startTime.text,
-      //         endTime: _endTime.text,
-      //         youtubeId: _youtubeId.text,
-      //         createdBy: currentUser.id)
-      //     .get(token, urlPostIbada)
-      //     .then((v) {
-      //   // print('v.payload');
-      //   // print(v.payload);
-      //   Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //           builder: (BuildContext context) => const NavIbada()));
-
-      // });
+  
     } else {
       fillMessage(
         'Select Image/Vedio Please... ',

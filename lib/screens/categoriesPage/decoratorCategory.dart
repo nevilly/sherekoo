@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../model/ceremony/ceremonyModel.dart';
 import '../../../util/Preferences.dart';
 import '../../widgets/categoriesWidgets/ctgrWigets.dart';
-import '../../widgets/navWidget/bottom_toolbar.dart';
 import '../../widgets/categoriesWidgets/ctgrMenu.dart';
-import '../../widgets/navWidget/bttmNav.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
 import '../../widgets/searchBar/search_Busness.dart';
 

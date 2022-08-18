@@ -33,7 +33,11 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '', isCurrentUser: '', address: '', bio: '', meritalStatus: '');
+      role: '',
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      meritalStatus: '');
 
   final YoutubePlayerController _controller = YoutubePlayerController(
     initialVideoId: myVideoId,
@@ -81,10 +85,9 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
               backgroundColor: Colors.black45,
               // automaticallyImplyLeading: false,
               expandedHeight: 200,
-              flexibleSpace: SafeArea(
-                  bottom: false,
-                  child: YoutubePlayer(
-                      controller: _controller, liveUIColor: Colors.amber)),
+              flexibleSpace: SafeArea(bottom: false, child: Text('cedio')),
+              // child: YoutubePlayer(
+              //     controller: _controller, liveUIColor: Colors.amber)),
 
               pinned: true,
               floating: true,

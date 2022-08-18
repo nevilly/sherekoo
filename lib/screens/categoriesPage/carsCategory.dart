@@ -8,7 +8,6 @@ import '../../../util/Preferences.dart';
 import '../../../util/util.dart';
 import '../../widgets/categoriesWidgets/ctgrWigets.dart';
 import '../../widgets/categoriesWidgets/ctgrMenu.dart';
-import '../../widgets/navWidget/bttmNav.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
 import '../../widgets/searchBar/search_Busness.dart';
 
@@ -142,8 +141,6 @@ class _CarsCategoryState extends State<CarsCategory> {
         ],
       ),
 
-      // // Bottom Section
-      // bottomNavigationBar: const BttmNav(),
     );
   }
 }

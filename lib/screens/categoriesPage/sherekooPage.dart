@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/widgets/searchBar/search_Ceremony.dart';
 
-import '../../widgets/navWidget/bottom_toolbar.dart';
 import '../../widgets/categoriesWidgets/ctgrMenu.dart';
 import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/util.dart';
 import '../../widgets/categoriesWidgets/crmCtgr.dart';
-import '../../widgets/navWidget/bttmNav.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
 
 class Sherekoo extends StatefulWidget {
