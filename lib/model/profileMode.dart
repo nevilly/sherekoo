@@ -39,7 +39,7 @@ class User {
         email: json['email'] ?? "",
         gender: json['gender'] ?? "",
         address: json['address'] ?? "",
-        isCurrentUser: json['isCurrentUser'].toString(),
+        isCurrentUser: json['isCurrentUser'] ?? '',
         role: json['role'] ?? "",
         meritalStatus: json['merital_status'] ?? "",
         bio: json['bio'] ?? "");

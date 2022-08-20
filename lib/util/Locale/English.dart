@@ -5,16 +5,16 @@ class English {
   English(this.key) : super();
   final int key;
   List dictionary = [
-    "Sherekoo",
-    "",
-    "CONTINUE",
-    "",
-    "Biograph",
-    "",
-    "",
-    "Share",
-    "",
-    "",
+    "Sherekoo", // 1
+    "Phone Number",
+    "Password",
+    "Forget Password",
+    "Login", //5
+    "Create New Account",
+    "Wrong Phone number or Password..",
+    "Insert password... ",
+    "Insert Phone Number ...",
+    "", // 10
     'Change language',
     "",
     "",

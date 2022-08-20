@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:sherekoo/screens/profile/profile.dart';
 import '../../model/authentication/loginModel.dart';
 import '../../model/profileMode.dart';
+import '../../util/Locale.dart';
 import '../../util/Preferences.dart';
 import '../../util/pallets.dart';
 import '../../util/util.dart';
@@ -19,7 +20,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-   bool isSwahili = false, isVisibleDrawer = true, r = false;
+  bool isSwahili = false, isVisibleDrawer = true, r = false;
   final Preferences _preferences = Preferences();
   String u = '';
   bool isLoggedIn = false;
@@ -36,7 +37,10 @@ class _LoginPageState extends State<LoginPage> {
       email: '',
       firstname: '',
       lastname: '',
-      isCurrentUser: '', address: '', bio: '', meritalStatus: '');
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      meritalStatus: '');
 
   @override
   void initState() {
@@ -96,13 +100,13 @@ class _LoginPageState extends State<LoginPage> {
                 ModalRoute.withName('/'));
           });
         } else {
-          infoError("System Error, Wrong password or phone number..");
+          infoError(OLocale(false, 6).get());
         }
       } else {
-        infoError('Insert password, Is empty..');
+        infoError(OLocale(false, 7).get());
       }
     } else {
-      infoError('Insert password, Is empty..');
+      infoError(OLocale(false, 8).get());
     }
   }
 
@@ -117,11 +121,11 @@ class _LoginPageState extends State<LoginPage> {
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Flexible(
+              Flexible(
                 child: Center(
                   child: Text(
-                    'Cherekoo',
-                    style: TextStyle(
+                    OLocale(false, 0).get(),
+                    style: const TextStyle(
                         color: Colors.white,
                         fontSize: 60,
                         fontWeight: FontWeight.bold),
@@ -142,9 +146,9 @@ class _LoginPageState extends State<LoginPage> {
                       child: Center(
                         child: TextField(
                           controller: username,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             border: InputBorder.none,
-                            prefixIcon: Padding(
+                            prefixIcon: const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20.0),
                               child: Icon(
                                 Icons.phone_android,
@@ -152,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
                                 color: kWhite,
                               ),
                             ),
-                            hintText: 'Phone Number',
+                            hintText: OLocale(false, 1).get(),
                             hintStyle: kBodyText,
                           ),
                           // obscureText: true,
@@ -183,9 +187,9 @@ class _LoginPageState extends State<LoginPage> {
                       child: Center(
                         child: TextField(
                           controller: password,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             border: InputBorder.none,
-                            prefixIcon: Padding(
+                            prefixIcon: const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20.0),
                               child: Icon(
                                 Icons.lock,
@@ -193,7 +197,7 @@ class _LoginPageState extends State<LoginPage> {
                                 color: kWhite,
                               ),
                             ),
-                            hintText: 'Password',
+                            hintText: OLocale(false, 2).get(),
                             hintStyle: kBodyText,
                           ),
                           obscureText: true,
@@ -214,8 +218,8 @@ class _LoginPageState extends State<LoginPage> {
                   //forgot Password
                   GestureDetector(
                     onTap: () => Navigator.pushNamed(context, 'ForgotPassword'),
-                    child: const Text(
-                      'Forgot Password',
+                    child: Text(
+                      OLocale(false, 3).get(),
                       style: kBodyText_login,
                     ),
                   ),
@@ -238,7 +242,7 @@ class _LoginPageState extends State<LoginPage> {
                         getLogin();
                       },
                       child: Text(
-                        'Login',
+                        OLocale(false, 4).get(),
                         style: kBodyText.copyWith(fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -255,8 +259,8 @@ class _LoginPageState extends State<LoginPage> {
                         builder: (BuildContext context) =>
                             const CreateNewAccount())),
                 child: Container(
-                  child: const Text(
-                    'Create New Account',
+                  child: Text(
+                    OLocale(false, 5).get(),
                     style: kBodyText_login,
                   ),
                   decoration: const BoxDecoration(
