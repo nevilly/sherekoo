@@ -69,7 +69,7 @@ class CeremonyModel {
         u2Fname: json['u2Fname'] ?? '',
         u2g: json['u2g'] ?? '',
         u1Lname: json['u1Lname'] ?? '',
-        youtubeLink: json['youtubeLink'] ?? '',
+        youtubeLink: json['goLiveId'] ?? '',
         u2Lname: json['u2Lname'] ?? '');
   }
 }

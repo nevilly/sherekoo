@@ -28,7 +28,6 @@ class _CrmOnNavState extends State<CrmOnNav> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-        // getUser();
         getCeremony();
       });
     });

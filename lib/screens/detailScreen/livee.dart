@@ -19,19 +19,11 @@ class Livee extends StatefulWidget {
 
 class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-
+  late YoutubePlayerController _controller;
   final Preferences _preferences = Preferences();
 
   String token = '';
-  static String myVideoId = 'kPnKhtlGWV4';
-
-  final YoutubePlayerController _controller = YoutubePlayerController(
-    initialVideoId: myVideoId,
-    flags: const YoutubePlayerFlags(
-      autoPlay: false,
-      mute: false,
-    ),
-  );
+  // static String myVideoId = '';
 
   @override
   void initState() {
@@ -47,8 +39,21 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
         token = value;
       });
     });
+    if (widget.ceremony.youtubeLink != 'GoLive') {
+      loadYOutube(widget.ceremony.youtubeLink);
+    }
 
     super.initState();
+  }
+
+  loadYOutube(String url) {
+    _controller = YoutubePlayerController(
+      initialVideoId: url,
+      flags: const YoutubePlayerFlags(
+        autoPlay: false,
+        mute: false,
+      ),
+    );
   }
 
   @override
@@ -62,10 +67,24 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
               backgroundColor: Colors.black45,
               // automaticallyImplyLeading: false,
               expandedHeight: 200,
-              flexibleSpace:
-                  const SafeArea(bottom: false, child: Text('cedio')),
-              // child: YoutubePlayer(
-              //     controller: _controller, liveUIColor: Colors.amber)),
+              flexibleSpace: SafeArea(
+                  bottom: false,
+                  child: Expanded(
+                    flex: 5,
+                    child: widget.ceremony.youtubeLink != 'GoLive'
+                        ? YoutubePlayer(
+                            controller: _controller, liveUIColor: Colors.amber)
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Text(
+                                'Ceremony Loading',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                  )),
 
               pinned: true,
               floating: true,
@@ -96,7 +115,7 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
               ),
             ),
             Expanded(
-              flex: 2,
+                flex: 2,
                 child: TabB(
                   ceremony: widget.ceremony,
                 ))
@@ -109,6 +128,7 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
   @override
   void dispose() {
     _tabController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 }

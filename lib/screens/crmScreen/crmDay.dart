@@ -69,7 +69,9 @@ class _CeremonyDayState extends State<CeremonyDay> {
     AllCeremonysModel(payload: [], status: 0)
         .getDayCeremony(token, urlCrmByDay, widget.day)
         .then((value) {
+      // print('alll ceremoniewss');
       if (value.status == 200) {
+        // print(value.payload);
         setState(() {
           data = value.payload
               .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))

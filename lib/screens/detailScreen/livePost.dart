@@ -3,6 +3,7 @@ import 'package:sherekoo/model/post/sherekoModel.dart';
 
 import '../../util/util.dart';
 import '../../widgets/cermChats_widgets.dart';
+import '../chats.dart';
 
 class LiveePost extends StatefulWidget {
   final SherekooModel post;
@@ -27,6 +28,7 @@ class _LiveePostState extends State<LiveePost> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
+             
               Card(
                 child: Column(
                   children: [
@@ -64,9 +66,11 @@ class _LiveePostState extends State<LiveePost> {
                         ),
                       ],
                     ),
+                
                     const SizedBox(
                       height: 10,
                     ),
+                  
                     //body Photo
                     Center(
                       child: Container(
@@ -103,6 +107,7 @@ class _LiveePostState extends State<LiveePost> {
                             //         color: Colors.grey)),
                           ])),
                     ),
+                  
                     const SizedBox(
                       height: 10,
                     ),
@@ -143,7 +148,7 @@ class _LiveePostState extends State<LiveePost> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              oneButtonPressed(widget.post);
+                              oneButtonPressed(widget.post.pId);
                             },
                             child: Padding(
                               padding: const EdgeInsets.only(right: 4.0),
@@ -190,7 +195,7 @@ class _LiveePostState extends State<LiveePost> {
                       topLeft: Radius.circular(25),
                       topRight: Radius.circular(25),
                     )),
-                child: CeremonyChats(post: p)),
+                child: PostChats( postId: p)),
           );
         });
   }

@@ -22,8 +22,8 @@ class _TabAState extends State<TabA> {
   String token = '';
 
   List<SherekooModel> post = [];
-
   List<ChatsModel> chats = [];
+
   @override
   void initState() {
     _preferences.init();
@@ -73,19 +73,21 @@ class _TabAState extends State<TabA> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.pop(context);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => SherekooUpload(
-                          crm: widget.ceremony,
-                          from: 'Ceremony',
-                        )));
-          },
-          child: const Icon(Icons.upload, color: Colors.white),
-          backgroundColor: Colors.red),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.pop(context);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => SherekooUpload(
+                        crm: widget.ceremony,
+                        from: 'Ceremony',
+                      )));
+        },
+        // icon: const Icon(Icons.upload, color: Colors.white),
+        label: Text('post'),
+        backgroundColor: Colors.red,
+      ),
     );
   }
 }

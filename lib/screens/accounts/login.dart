@@ -9,7 +9,6 @@ import '../../util/util.dart';
 import '../../widgets/login_widget/background-image.dart';
 
 import '../homNav.dart';
-import '../home.dart';
 import 'create-new-account.dart';
 
 class LoginPage extends StatefulWidget {
@@ -20,6 +19,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+   bool isSwahili = false, isVisibleDrawer = true, r = false;
   final Preferences _preferences = Preferences();
   String u = '';
   bool isLoggedIn = false;

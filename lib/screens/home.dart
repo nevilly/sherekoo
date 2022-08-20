@@ -32,9 +32,7 @@ class _HomeState extends State<Home> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-
         getPost(offset: page, limit: limit);
-        // getLiveCeremony();
       });
     });
 
@@ -42,21 +40,18 @@ class _HomeState extends State<Home> {
   }
 
   onPage(int pag) {
-    print("Pages");
-    print(pag);
+    // print("Pages");
+    // print(pag);
     if (page > pag) {
       page--;
     } else {
       page++;
     }
     //page = pag;
-
     // print('post Length :');
     // print(post.length);
-
     if (pag == post.length - 1) {
       offset = page;
-
       //print("Select * from posts order by id limit ${offset}, ${limit}");
       getPost(offset: offset, limit: limit);
     }
@@ -76,28 +71,13 @@ class _HomeState extends State<Home> {
       username: '',
       vedeo: '',
     ).get(token, urlGetSherekoo + d).then((value) {
-      //print(value.payload);
       if (value.status == 200) {
         setState(() {
           post.addAll(value.payload
               .map<SherekooModel>((e) => SherekooModel.fromJson(e))
               .toList());
         });
-
-        // if (offset! > limit!) {
-        //   setState(() {
-        //     post.addAll(value.payload
-        //         .map<SherekooModel>((e) => SherekooModel.fromJson(e))
-        //         .toList());
-        //   });
-        // } else {
-        //   post.addAll(value.payload
-        //       .map<SherekooModel>((e) => SherekooModel.fromJson(e))
-        //       .toList());
-        // }
       }
-
-      //SetState Problem;
     });
   }
 

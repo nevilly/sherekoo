@@ -127,6 +127,7 @@ class _CeremonyChatsState extends State<CeremonyChats> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
+                                
                                 Row(
                                   children: [
                                     Padding(
