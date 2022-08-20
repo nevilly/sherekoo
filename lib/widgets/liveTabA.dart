@@ -75,7 +75,7 @@ class _TabAState extends State<TabA> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.canPop(context);
           Navigator.push(
               context,
               MaterialPageRoute(

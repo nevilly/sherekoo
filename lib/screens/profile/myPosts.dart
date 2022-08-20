@@ -29,13 +29,17 @@ class _MyPostsState extends State<MyPosts> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-        getPost(widget.user.id);
+        print('Need to See widget.user.id');
+        print(widget.user.id);
+        if (widget.user.id.isNotEmpty) {
+          getPost(widget.user.id);
+        }
       });
     });
     super.initState();
   }
 
-  getPost(id) async {
+  Future getPost(id) async {
     Post(
       payload: [],
       status: 0,

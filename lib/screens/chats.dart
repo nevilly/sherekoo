@@ -30,7 +30,9 @@ class _PostChatsState extends State<PostChats> {
   @override
   void initState() {
     _preferences.init();
+    postid = widget.postId;
     backgroundTask();
+   
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
@@ -38,7 +40,6 @@ class _PostChatsState extends State<PostChats> {
       });
     });
 
-    postid = widget.postId;
     super.initState();
   }
 
@@ -135,7 +136,11 @@ class _PostChatsState extends State<PostChats> {
                                                     gender: '',
                                                     email: '',
                                                     firstname: '',
-                                                    lastname: '', isCurrentUser: '', address: '', bio: '', meritalStatus: ''),
+                                                    lastname: '',
+                                                    isCurrentUser: '',
+                                                    address: '',
+                                                    bio: '',
+                                                    meritalStatus: ''),
                                               )));
                                 },
                                 child: Container(

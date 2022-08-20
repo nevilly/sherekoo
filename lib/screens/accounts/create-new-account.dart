@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:sherekoo/util/Locale.dart';
 
 import '../../model/allData.dart';
 import '../../model/authentication/creatAccount.dart';
@@ -20,6 +21,7 @@ class CreateNewAccount extends StatefulWidget {
 }
 
 class _CreateNewAccountState extends State<CreateNewAccount> {
+  bool isSwahili = true, isVisibleDrawer = true, r = false;
   final Preferences _preferences = Preferences();
   String u = '';
   String token = '';
@@ -32,7 +34,11 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '', isCurrentUser: '', address: '', bio: '', meritalStatus: '');
+      role: '',
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      meritalStatus: '');
   bool isLoggedIn = false;
   // String _email;
   //String _password;
@@ -134,8 +140,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
             } else {
               if (r.token ==
                   "Sorry a user with the same information exists on our system. Please login!") {
-                emptyField(
-                    "Sorry a user with the same information exists on our system. Please login!");
+                emptyField(OLocale(isSwahili, 13).get());
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text('System Error, Try Again'),
@@ -143,16 +148,16 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
               }
             }
           } else {
-            emptyField("Select Gender Please...");
+            emptyField(OLocale(isSwahili, 14).get());
           }
         } else {
-          emptyField("Enter your Password Please...");
+          emptyField(OLocale(isSwahili, 8).get());
         }
       } else {
-        emptyField("Enter your phone Please...");
+        emptyField(OLocale(isSwahili, 7).get());
       }
     } else {
-      emptyField("Enter your Username Please...");
+      emptyField(OLocale(isSwahili, 15).get());
     }
   }
 
@@ -242,9 +247,9 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                         child: Center(
                           child: TextField(
                             controller: username,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               border: InputBorder.none,
-                              prefixIcon: Padding(
+                              prefixIcon: const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 20.0),
                                 child: Icon(
                                   Icons.person,
@@ -252,7 +257,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                                   color: kWhite,
                                 ),
                               ),
-                              hintText: 'username',
+                              hintText: OLocale(isSwahili, 9).get(),
                               hintStyle: kBodyText,
                             ),
                             // obscureText: true,
@@ -283,9 +288,9 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                         child: Center(
                           child: TextField(
                             controller: phone,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               border: InputBorder.none,
-                              prefixIcon: Padding(
+                              prefixIcon: const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 20.0),
                                 child: Icon(
                                   Icons.phone_android,
@@ -293,7 +298,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                                   color: kWhite,
                                 ),
                               ),
-                              hintText: 'Phone',
+                              hintText: OLocale(isSwahili, 1).get(),
                               hintStyle: kBodyText,
                             ),
                             // obscureText: true,
@@ -324,9 +329,9 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                         child: Center(
                           child: TextField(
                             controller: password,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               border: InputBorder.none,
-                              prefixIcon: Padding(
+                              prefixIcon: const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 20.0),
                                 child: Icon(
                                   Icons.lock,
@@ -334,7 +339,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                                   color: kWhite,
                                 ),
                               ),
-                              hintText: 'Password',
+                              hintText: OLocale(isSwahili, 2).get(),
                               hintStyle: kBodyText,
                             ),
                             obscureText: true,
@@ -356,8 +361,8 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          addRadioButton(0, 'Male'),
-                          addRadioButton(1, 'Female'),
+                          addRadioButton(0, OLocale(isSwahili, 10).get()),
+                          addRadioButton(1, OLocale(isSwahili, 11).get()),
                         ],
                       ),
                     ),
@@ -379,7 +384,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                         onPressed: () => creatAccount(
                             username.text, phone.text, password.text, select),
                         child: Text(
-                          'Register',
+                          OLocale(isSwahili, 12).get(),
                           style:
                               kBodyText.copyWith(fontWeight: FontWeight.bold),
                         ),
@@ -392,8 +397,8 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
-                          'Already have an account? ',
+                        Text(
+                          OLocale(isSwahili, 16).get(),
                           style: kBodyText_login,
                         ),
                         GestureDetector(

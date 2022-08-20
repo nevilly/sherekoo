@@ -100,13 +100,13 @@ class _LoginPageState extends State<LoginPage> {
                 ModalRoute.withName('/'));
           });
         } else {
-          infoError(OLocale(false, 6).get());
+          infoError(OLocale(isSwahili, 6).get());
         }
       } else {
-        infoError(OLocale(false, 7).get());
+        infoError(OLocale(isSwahili, 7).get());
       }
     } else {
-      infoError(OLocale(false, 8).get());
+      infoError(OLocale(isSwahili, 8).get());
     }
   }
 
@@ -156,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
                                 color: kWhite,
                               ),
                             ),
-                            hintText: OLocale(false, 1).get(),
+                            hintText: OLocale(isSwahili, 1).get(),
                             hintStyle: kBodyText,
                           ),
                           // obscureText: true,
@@ -197,7 +197,7 @@ class _LoginPageState extends State<LoginPage> {
                                 color: kWhite,
                               ),
                             ),
-                            hintText: OLocale(false, 2).get(),
+                            hintText: OLocale(isSwahili, 2).get(),
                             hintStyle: kBodyText,
                           ),
                           obscureText: true,
@@ -242,7 +242,7 @@ class _LoginPageState extends State<LoginPage> {
                         getLogin();
                       },
                       child: Text(
-                        OLocale(false, 4).get(),
+                        OLocale(isSwahili, 4).get(),
                         style: kBodyText.copyWith(fontWeight: FontWeight.bold),
                       ),
                     ),

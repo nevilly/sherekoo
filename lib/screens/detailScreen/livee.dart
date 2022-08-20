@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sherekoo/widgets/liveTabB.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import '../../model/allData.dart';
 import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
-import '../../util/util.dart';
 import '../../widgets/liveTabA.dart';
 
 class Livee extends StatefulWidget {

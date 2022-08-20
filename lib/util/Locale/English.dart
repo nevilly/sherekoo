@@ -5,23 +5,24 @@ class English {
   English(this.key) : super();
   final int key;
   List dictionary = [
-    "Sherekoo", // 1
-    "Phone Number",
+    "Sherekoo", // 0
+    // Login & Registration LIfe
+    "Phone Number", // 1
     "Password",
     "Forget Password",
-    "Login", //5
-    "Create New Account",
+    "Login",
+    "Create New Account", // 5
     "Wrong Phone number or Password..",
     "Insert password... ",
     "Insert Phone Number ...",
-    "", // 10
-    'Change language',
-    "",
-    "",
-    "Cancel",
-    "Select payment method",
-    "paypal",
-    "M-Pesa",
+    "username",
+    'Male', //10
+    "Female",
+    "Register",
+    "Sorry a user with the same information exists on our system. Please login!",
+    "Select Gender Please...",
+    "Enter your Username Please...", // 15
+    "Already have an account..? ",
     "TigoPesa",
     "Airtel Money",
     "",

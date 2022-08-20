@@ -6,18 +6,24 @@ class Swahili {
   final int key;
   List dictionary = [
     "Sherekoo",
-    "Sim namba",
+    // Login & Registration LIfe
+    "Simu Namba", //1
     "Nywila",
-    "Sahau Nywila",  
-    "Ingia",     //5
-    "Akaunti mpya..?",
+    "Sahau Nywila",
+    "Ingia",
+    "Akaunti mpya..?", // 5
     "Umekosea Simu namba au Nywila",
-    "Ingaza Nywila zako...",
     "Ingaza Simu Namba zako...",
-    "",   // 10
-    "Badili lugha",
-    "",
-    ""
+    "Ingaza Nywila zako...",
+    "Yuzanemu",
+    "Me", // 10
+    "Ke",
+    "Jiunge",
+    "Taarifa za yuzaname hii zipo.. Waweza Ingia... ",
+    "Chagua Jinsia Tafadhari...",
+    "Ingiza yuzanemu yako. Tafadhari..", //15
+    "Tayari, Nina Akaunti ...",
+    "Already have an account..? "
   ];
 
   words() {

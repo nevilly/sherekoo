@@ -3,6 +3,8 @@ import 'package:sherekoo/screens/profile/myCrmn.dart';
 import 'package:sherekoo/screens/profile/settings.dart';
 import 'package:sherekoo/widgets/imgWigdets/defaultAvater.dart';
 import '../../model/allData.dart';
+import '../../model/post/post.dart';
+import '../../model/post/sherekoModel.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
 import '../../util/util.dart';
@@ -25,7 +27,7 @@ class _ProfileState extends State<Profile> {
   final Preferences _preferences = Preferences();
   String token = '';
 
-  User user = User(
+  late User user = User(
       id: '',
       username: '',
       firstname: '',
@@ -55,8 +57,10 @@ class _ProfileState extends State<Profile> {
     super.initState();
   }
 
-  getUser(String dirUrl) async {
-    AllUsersModel(payload: [], status: 0).get(token, dirUrl).then((value) {
+  Future getUser(String dirUrl) async {
+    return await AllUsersModel(payload: [], status: 0)
+        .get(token, dirUrl)
+        .then((value) {
       if (value.status == 200) {
         setState(() {
           user = User.fromJson(value.payload);
@@ -107,14 +111,34 @@ class _ProfileState extends State<Profile> {
               child: TabBarView(children: [
                 // My Posts
 
-                MyPosts(
-                  user: user,
-                ),
+                user.id.isNotEmpty
+                    ? MyPosts(
+                        user: user,
+                      )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          SizedBox(
+                            height: 40,
+                            child: CircularProgressIndicator(),
+                          )
+                        ],
+                      ),
 
                 // My Ceremonies
-                MyCrmn(
-                  userId: user.id,
-                )
+                user.id.isNotEmpty
+                    ? MyCrmn(
+                        userId: user.id,
+                      )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          SizedBox(
+                            height: 40,
+                            child: CircularProgressIndicator(),
+                          )
+                        ],
+                      )
               ]),
             ),
           ],
@@ -208,8 +232,8 @@ class _ProfileState extends State<Profile> {
                         Container(
                           alignment: Alignment.centerRight,
                           child: Row(
-                            children: const [
-                              Text(' 34 ',
+                            children: [
+                              Text(user.id,
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
