@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:sherekoo/util/colors.dart';
 
 import '../../model/post/post.dart';
 import '../../model/post/sherekoModel.dart';
@@ -29,8 +30,8 @@ class _MyPostsState extends State<MyPosts> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-        print('Need to See widget.user.id');
-        print(widget.user.id);
+        // print('Need to See widget.user.id');
+        // print(widget.user.id);
         if (widget.user.id.isNotEmpty) {
           getPost(widget.user.id);
         }
@@ -65,8 +66,8 @@ class _MyPostsState extends State<MyPosts> {
   Widget build(BuildContext context) {
     return StaggeredGridView.countBuilder(
         crossAxisSpacing: 1,
-        mainAxisSpacing: 2,
-        crossAxisCount: 4,
+        mainAxisSpacing: 3,
+        crossAxisCount: 6,
         shrinkWrap: true,
         itemCount: post.length,
         itemBuilder: (context, index) {
@@ -86,6 +87,8 @@ class _MyPostsState extends State<MyPosts> {
                   Stack(clipBehavior: Clip.hardEdge, children: [
                     Center(
                       child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(29.0)),
                           child: post[index].vedeo != ''
                               ?
 
@@ -132,12 +135,22 @@ class _MyPostsState extends State<MyPosts> {
                               horizontal: 1.0, vertical: 3.0),
                           child: Container(
                               width: MediaQuery.of(context).size.width,
-                              color: Colors.black45.withOpacity(.8),
+                              color: Color.fromRGBO(0, 0, 0, 0.451)
+                                  .withOpacity(.8),
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
-                                child: Text(
-                                  post[index].body,
-                                  style: const TextStyle(color: Colors.white),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.bubble_chart,
+                                      color: OColors.primary,
+                                    ),
+                                    Text(
+                                      post[index].commentNumber,
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                  ],
                                 ),
                               )),
                         ),

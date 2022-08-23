@@ -133,7 +133,7 @@ class _HomeNavState extends State<HomeNav> {
                     padding: const EdgeInsets.all(4.0),
                     margin: const EdgeInsets.only(bottom: 8),
                     child: const Icon(
-                      Icons.play_arrow_rounded,
+                      Icons.live_tv,
                       size: 25,
                     ),
                   ),

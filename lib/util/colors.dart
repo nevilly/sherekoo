@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class OColors {
   //Sherekoo Color
-  static Color secondary = const Color(0x00ffd428);
+  static Color secondary = const Color(0xff181A20);
   static Color primary = const Color(0xfff54b64);
   static Color darkGrey = const Color(0xff4e586e);
   static Color white = const Color(0xffFFFFFF);

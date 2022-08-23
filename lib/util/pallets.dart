@@ -11,6 +11,11 @@ const TextStyle btnText = TextStyle(
   fontSize: 15,
 );
 
+//Profile Life
+const TextStyle h3 = TextStyle(fontSize: 16, color: Colors.white);
+const TextStyle h4 = TextStyle(fontSize: 13, color: Colors.white);
+const TextStyle h5 = TextStyle(fontSize: 10, color: Colors.white);
+
 const TextStyle kBodyText = TextStyle(fontSize: 18, color: Colors.white);
 
 const TextStyle kBodyText_login =
