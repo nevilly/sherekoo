@@ -210,4 +210,42 @@ class Post {
       return Post.fromJson(rJson);
     });
   }
+
+  //Gets Like
+  Future<Post> likes(String token, String dirUrl, String isLike) async {
+    Uri url = Uri.parse(dirUrl);
+
+    if (token.isEmpty) {
+      return Post.fromJson({
+        "status": 204,
+        "payload": {"error": "Invalid token"}
+      });
+    }
+
+    Map<String, dynamic> toMap() {
+      return <String, dynamic>{
+        'createdBy': createdBy,
+        'isLike': isLike,
+        'postId': pId
+      };
+    }
+
+    print(toMap());
+
+    Map<String, String> headers = {
+      "Authorization": "Owesis " + token,
+      "Content-Type": "Application/json"
+    };
+
+    return await http
+        .post(url, body: jsonEncode(toMap()), headers: headers)
+        .then((r) {
+      final rJson = jsonDecode(r.body);
+      print(rJson);
+      if (r.statusCode == 200) {
+        return Post.fromJson(rJson);
+      }
+      return Post.fromJson({'status': false});
+    });
+  }
 }

@@ -2,9 +2,7 @@
 
 // ignore_for_file: prefer_typing_uninitialized_variables, unused_field
 
-import 'dart:ffi';
 import 'dart:io';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:image_watermark/image_watermark.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
+import 'package:sherekoo/model/post/post.dart';
 import 'package:sherekoo/screens/chats.dart';
 import 'package:sherekoo/util/util.dart';
 
@@ -37,10 +36,10 @@ class PostTemplate extends StatefulWidget {
   final String crmUsername;
   final String crmYoutubeLink;
   final String postVedeo;
-  final isLIke;
+  final isLike;
 
   final filterBck;
-  final userPost;
+  final Widget userPost;
 
   // ignore: use_key_in_widget_constructors
   const PostTemplate(
@@ -59,7 +58,7 @@ class PostTemplate extends StatefulWidget {
       required this.cImage,
       required this.crmUsername,
       required this.crmYoutubeLink,
-      required this.isLIke});
+      required this.isLike});
 
   @override
   _PostTemplateState createState() => _PostTemplateState();
@@ -83,29 +82,61 @@ class _PostTemplateState extends State<PostTemplate> {
 
 // The size of the plus icon under the profile image in follow action
   static const double plusIconSize = 20.0;
+  int isLike = 0;
+  int totalLikes = 0;
 
-  double likeNo = 0;
-  dynamic isLike;
   @override
   void initState() {
     _preferences.init();
-    _preferences.get('token').then((value) {});
+    _preferences.get('token').then((value) {
+      token = value;
+    });
+
+    if (widget.numberOfLikes != '') {
+      totalLikes = int.parse(widget.numberOfLikes);
+    } else {
+      totalLikes = 0;
+    }
+
+    isLike = int.parse(widget.isLike);
 
     super.initState();
   }
 
-  onLikeButtonTapped(isLiked) async {
-    if (isLiked == '1') {
-      print('remove Like');
-      setState(() {
-        // likeNo = likeNo - 1;
-        isLike = '0';
-        print(3 - 1);
-        print(isLike);
-      });
-    }
+  onLikeButtonTapped() async {
+    Post(
+            pId: widget.postId,
+            createdBy: widget.userId,
+            body: '',
+            vedeo: '',
+            ceremonyId: '',
+            username: '',
+            avater: '',
+            status: 0,
+            payload: [])
+        .likes(token, urlpostLikes, isLike.toString())
+        .then((value) {
+      // print(value.payload);
 
-    return !isLiked;
+     
+      if(value.status == 200){
+      if (value.payload == 'removed') {
+        setState(() {
+          isLike--;
+          totalLikes--;
+        });
+      } else if (value.payload == 'added') {
+        setState(() {
+          isLike++;
+          totalLikes++;
+        });
+      }}
+
+      // make App to remember likes, or store
+    });
+
+    print('check Status like');
+    print(isLike);
   }
 
   @override
@@ -168,10 +199,11 @@ class _PostTemplateState extends State<PostTemplate> {
                 const SizedBox(
                   height: 8,
                 ),
+
                 // Like Button
                 GestureDetector(
                   onTap: () {
-                    // onLikeButtonTapped(widget.isLIke);
+                    onLikeButtonTapped();
                   },
                   child: Container(
                     width: 35,
@@ -184,7 +216,7 @@ class _PostTemplateState extends State<PostTemplate> {
                       child: Center(
                         child: Column(
                           children: [
-                            widget.isLIke == '0'
+                            isLike == 0
                                 ? const Icon(
                                     Icons.favorite,
                                     size: 18.0,
@@ -199,7 +231,7 @@ class _PostTemplateState extends State<PostTemplate> {
                               height: 3,
                             ),
                             Text(
-                              widget.numberOfLikes,
+                              totalLikes.toString(),
                               style: const TextStyle(
                                   fontSize: 12, color: Colors.white),
                             ),

@@ -28,6 +28,7 @@ class _CeremonyChatsState extends State<CeremonyChats> {
   @override
   void initState() {
     _preferences.init();
+      postid = widget.post.pId;
     backgroundTask();
     _preferences.get('token').then((value) {
       setState(() {
@@ -36,7 +37,7 @@ class _CeremonyChatsState extends State<CeremonyChats> {
       });
     });
 
-    postid = widget.post.pId;
+ 
     super.initState();
   }
 

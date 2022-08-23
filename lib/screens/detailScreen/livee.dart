@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:sherekoo/widgets/liveTabB.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import '../../model/allData.dart';
 import '../../model/ceremony/ceremonyModel.dart';
+import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
+import '../../util/util.dart';
 import '../../widgets/liveTabA.dart';
+import '../uploadScreens/uploadSherekoo.dart';
 
 class Livee extends StatefulWidget {
   final CeremonyModel ceremony;
@@ -20,7 +24,23 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
   final Preferences _preferences = Preferences();
 
   String token = '';
+  int tabIndex = 0;
   // static String myVideoId = '';
+
+  User currentUser = User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      meritalStatus: '');
 
   @override
   void initState() {
@@ -34,13 +54,42 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
+        getUser();
       });
     });
     if (widget.ceremony.youtubeLink != 'GoLive') {
       loadYOutube(widget.ceremony.youtubeLink);
     }
 
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        setState(() {
+          tabIndex = _tabController.index;
+          print('is changing index');
+          print(_tabController.index);
+          // _tabController.
+        });
+      }
+      if (_tabController.animation != null) {
+        setState(() {
+          tabIndex = _tabController.animation!.value.floor();
+          _tabController.animation;
+          print('is animate index');
+          print(_tabController.animation!.value.floor());
+        });
+      }
+    });
     super.initState();
+  }
+
+  getUser() async {
+    AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
+      if (value.status == 200) {
+        setState(() {
+          currentUser = User.fromJson(value.payload);
+        });
+      }
+    });
   }
 
   loadYOutube(String url) {
@@ -108,16 +157,38 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
             Expanded(
               flex: 2,
               child: TabA(
-                ceremony: widget.ceremony,
+                ceremony: widget.ceremony, user: currentUser,
               ),
             ),
             Expanded(
                 flex: 2,
                 child: TabB(
-                  ceremony: widget.ceremony,
-                ))
+                  ceremony: widget.ceremony, user: currentUser,
+                )),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.pop(context);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => SherekooUpload(
+                        crm: widget.ceremony,
+                        from: 'Ceremony',
+                      )));
+        },
+        splashColor: Colors.yellow,
+
+        // icon: const Icon(Icons.upload, color: Colors.white),
+        label: tabIndex == 0
+            ? Text('post')
+            : tabIndex == 1 && currentUser.id == widget.ceremony.admin ||
+                    currentUser.id == widget.ceremony.fId
+                ? Text('Choose')
+                : Text('Post'),
+        backgroundColor: Colors.red,
       ),
     );
   }

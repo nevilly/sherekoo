@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
 class OColors {
-  static Color secondary = const Color(0xffD47FA6);
-  static Color primary = const Color(0xff02B7E2);
+  //Sherekoo Color
+  static Color secondary = const Color(0x00ffd428);
+  static Color primary = const Color(0xfff54b64);
+  static Color darkGrey = const Color(0xff4e586e);
+  static Color white = const Color(0xffFFFFFF);
+
   static Color danger = Colors.red;
 
   //Text Colors
@@ -31,7 +35,12 @@ class OColors {
   //Others
   static Color transparent = Colors.transparent;
   static Color opacity = const Color(0xff646464);
-  static Color white = const Color(0xffFFFFFF);
+
   static Color whiteFade = const Color(0xffF6F6F6);
   static Color timeColor = const Color(0xff352641);
+}
+
+// convert color to hex func
+Color hexToColor(String hexString, {String alphaChannel = 'FF'}) {
+  return Color(int.parse(hexString.replaceFirst('#', '0x$alphaChannel')));
 }

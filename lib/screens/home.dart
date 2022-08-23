@@ -36,8 +36,10 @@ class _HomeState extends State<Home> {
       });
     });
 
+
     super.initState();
   }
+
 
   onPage(int pag) {
     // print("Pages");
@@ -96,7 +98,7 @@ class _HomeState extends State<Home> {
                   avater: post[index].avater,
                   numberOfComments: post[index].commentNumber,
                   numberOfLikes: post[index].totalLikes,
-                  isLIke: post[index].isLike,
+                  isLike: post[index].isLike,
                   numberOfShere: '234',
                   userId: post[index].userId,
                   username: post[index].username,

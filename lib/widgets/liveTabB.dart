@@ -13,7 +13,8 @@ import 'listTile_widget.dart';
 
 class TabB extends StatefulWidget {
   final CeremonyModel ceremony;
-  const TabB({Key? key, required this.ceremony}) : super(key: key);
+  final User user;
+  const TabB({Key? key, required this.ceremony,required this.user}) : super(key: key);
 
   @override
   State<TabB> createState() => _TabBState();
@@ -33,7 +34,12 @@ class _TabBState extends State<TabB> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '', isCurrentUser: '', address: '', bio: '', meritalStatus: '');
+      role: '',
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      meritalStatus: '');
+
   List<SvModel> bsnInfo = [];
 
   @override
@@ -52,9 +58,11 @@ class _TabBState extends State<TabB> {
 
   getUser() async {
     AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
-      setState(() {
-        currentUser = User.fromJson(value.payload);
-      });
+      if (value.status == 200) {
+        setState(() {
+          currentUser = User.fromJson(value.payload);
+        });
+      }
     });
   }
 
@@ -72,9 +80,11 @@ class _TabBState extends State<TabB> {
         .then((v) {
       // print('check the payload brother');
       // print(v.payload);
-      setState(() {
-        bsnInfo = v.payload.map<SvModel>((e) => SvModel.fromJson(e)).toList();
-      });
+      if (v.status == 200) {
+        setState(() {
+          bsnInfo = v.payload.map<SvModel>((e) => SvModel.fromJson(e)).toList();
+        });
+      }
     });
   }
 

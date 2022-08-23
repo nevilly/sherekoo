@@ -4,14 +4,16 @@ import '../model/ceremony/ceremonyModel.dart';
 import '../model/chats/chatsModel.dart';
 import '../model/post/post.dart';
 import '../model/post/sherekoModel.dart';
+import '../model/profileMode.dart';
 import '../screens/detailScreen/livePost.dart';
-import '../screens/uploadScreens/uploadSherekoo.dart';
 import '../util/Preferences.dart';
 import '../util/util.dart';
 
 class TabA extends StatefulWidget {
   final CeremonyModel ceremony;
-  const TabA({Key? key, required this.ceremony}) : super(key: key);
+  final User user;
+  const TabA({Key? key, required this.ceremony, required this.user})
+      : super(key: key);
 
   @override
   State<TabA> createState() => _TabAState();
@@ -50,43 +52,29 @@ class _TabAState extends State<TabA> {
     ).getPostByCeremonyId(token, urlGetSherekooByCeremonyId).then((value) {
       // print('check Payload feeds');
       // print(value.payload);
-      setState(() {
-        post = value.payload
-            .map<SherekooModel>((e) => SherekooModel.fromJson(e))
-            .toList();
-      });
+
+      if (value.status == 200) {
+        setState(() {
+          post = value.payload
+              .map<SherekooModel>((e) => SherekooModel.fromJson(e))
+              .toList();
+        });
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Scrollbar(
-        child: ListView.separated(
-          separatorBuilder: (context, child) => const Divider(
-            height: 5,
-          ),
-          padding: const EdgeInsets.all(0.0),
-          itemCount: post.length,
-          itemBuilder: (context, i) {
-            return LiveePost(post: post[i]);
-          },
+    return Scrollbar(
+      child: ListView.separated(
+        separatorBuilder: (context, child) => const Divider(
+          height: 5,
         ),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.canPop(context);
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (_) => SherekooUpload(
-                        crm: widget.ceremony,
-                        from: 'Ceremony',
-                      )));
+        padding: const EdgeInsets.all(0.0),
+        itemCount: post.length,
+        itemBuilder: (context, i) {
+          return LiveePost(post: post[i]);
         },
-        // icon: const Icon(Icons.upload, color: Colors.white),
-        label: Text('post'),
-        backgroundColor: Colors.red,
       ),
     );
   }

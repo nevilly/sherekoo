@@ -55,6 +55,9 @@ String urlGetSherekooByUid = api + 'MyPost/getPostByUid';
 String urlProfileSherekooByUid = api + 'MyPost/getProfileByUid';
 String urlVedioPostSherekoo = api + 'MyPost/addVedeo';
 
+//LIkes
+String urlpostLikes = api + 'Likes/add';
+
 //Chats on Post
 String urlPostChats = api + 'Chats/add';
 String urlGetChats = api + 'Chats/get';

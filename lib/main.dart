@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/screens/accounts/login.dart';
+import 'package:sherekoo/util/colors.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Sherekoo',
       theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primaryColor: OColors.secondary,
+          // primarySwatch: Colors.blac,
           fontFamily: 'Poppins',
           textTheme: const TextTheme(
             subtitle1: TextStyle(color: Color.fromRGBO(10, 10, 10, .6)),

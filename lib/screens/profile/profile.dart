@@ -99,11 +99,9 @@ class _ProfileState extends State<Profile> {
                 labelColor: Colors.green,
                 unselectedLabelColor: Colors.black,
                 tabs: [
+                  Tab(icon: Icon(Icons.view_column)),
                   Tab(
-                    text: 'Posts',
-                  ),
-                  Tab(
-                    text: 'Ceremony',
+                    icon: Icon(Icons.celebration),
                   ),
                 ]),
 

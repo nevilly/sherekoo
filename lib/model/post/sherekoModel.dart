@@ -9,7 +9,6 @@ class SherekooModel {
   final String username;
   final String avater;
 
-
   // total Comments
   final String commentNumber;
   final String createdDate;
