@@ -10,7 +10,6 @@ import '../../util/util.dart';
 import '../../widgets/imgWigdets/userAvater.dart';
 import '../accounts/login.dart';
 import '../drawer/navDrawer.dart';
-import '../hireRequset/invit.dart';
 import 'myBusness.dart';
 import 'myPosts.dart';
 
@@ -71,7 +70,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 3,
       child: Scaffold(
         backgroundColor: OColors.secondary,
         appBar: topBar(),
@@ -99,7 +98,7 @@ class _ProfileState extends State<Profile> {
                         top: 6.0, bottom: 6.0, left: 20, right: 20),
                     child: Container(
                         width: MediaQuery.of(context).size.width,
-                        height: 40,
+                        height: 30,
                         decoration: BoxDecoration(
                           color: Colors.transparent,
                           border: Border.all(color: OColors.primary),
@@ -111,14 +110,14 @@ class _ProfileState extends State<Profile> {
                             Icon(
                               Icons.settings_suggest,
                               color: OColors.primary,
-                              size: 25,
+                              size: 20,
                             ),
                             const SizedBox(
                               width: 4,
                             ),
                             Text(
                               'Edit Profile',
-                              style: h3.copyWith(color: OColors.primary),
+                              style: h4.copyWith(color: OColors.primary),
                             ),
                           ],
                         )),
@@ -135,11 +134,11 @@ class _ProfileState extends State<Profile> {
                     Icons.grid_on_outlined,
                     size: 20,
                   )),
-                  Tab(
-                      icon: Icon(
-                    Icons.photo,
-                    size: 20,
-                  )),
+                  // Tab(
+                  //     icon: Icon(
+                  //   Icons.photo,
+                  //   size: 20,
+                  // )),
                   Tab(
                     icon: Icon(
                       Icons.celebration,
@@ -178,7 +177,7 @@ class _ProfileState extends State<Profile> {
                         ],
                       ),
 
-                const Text('Photooos'),
+                // const Text('Photooos'),
                 // My Ceremonies
                 user.id.isNotEmpty
                     ? MyCrmn(
@@ -195,7 +194,21 @@ class _ProfileState extends State<Profile> {
                           )
                         ],
                       ),
-                const Text('My Busness'),
+                user.id.isNotEmpty
+                    ? MyBusness(
+                        user: user,
+                      )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 40,
+                            child: CircularProgressIndicator(
+                              color: OColors.primary,
+                            ),
+                          )
+                        ],
+                      ),
               ]),
             ),
           ],
@@ -244,14 +257,14 @@ class _ProfileState extends State<Profile> {
         // Notification
         GestureDetector(
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => const InvitationTime()));
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => _buildPopupDialog(context),
+            );
           },
           child: Container(
               padding: const EdgeInsets.only(right: 8.0),
-              child: const Icon(Icons.notifications)),
+              child: const Icon(Icons.settings)),
         ),
 
         const SizedBox(
@@ -422,7 +435,7 @@ class _ProfileState extends State<Profile> {
         //     onTap: () {
         //       Navigator.push(context,
         //           MaterialPageRoute(builder: (BuildContext context) {
-        //         return MyBusness(user: user);
+        //         return ;
         //       }));
         //     },
         //     child: Container(

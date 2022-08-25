@@ -30,6 +30,9 @@ String urlUpdateDayCeremony = api + 'Ceremony/update';
 String urlCrmnByUserId = api + 'Ceremony/getCrmn_by_UserId';
 String urlGetCrmByType = api + 'Ceremony/getCeremonyByType';
 
+//Ceremonyt Viewers
+String urlGetCrmViewrs = api + 'CeremonyViewers/get'; //urlshoulBe:./get/../..;
+
 //Busness
 String urlPostBusness = api + 'Busness/add';
 String urlAllBusnessList = api + 'Busness/getBusness';
@@ -52,6 +55,7 @@ String urlPostSherekoo = api + 'MyPost/add';
 String urlGetSherekoo = api + 'MyPost/get';
 String urlGetSherekooByCeremonyId = api + 'MyPost/getPostByCrmId';
 String urlGetSherekooByUid = api + 'MyPost/getPostByUid';
+String urlGetCrmPostByUid = api + 'MyPost/getPostByUid';
 String urlProfileSherekooByUid = api + 'MyPost/getProfileByUid';
 String urlVedioPostSherekoo = api + 'MyPost/addVedeo';
 

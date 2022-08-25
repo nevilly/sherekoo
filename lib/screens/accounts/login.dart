@@ -94,8 +94,9 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) => Profile(
+                    builder: (BuildContext context) => HomeNav(
                           user: currentUser,
+                          getIndex: 2,
                         )),
                 ModalRoute.withName('/'));
           });

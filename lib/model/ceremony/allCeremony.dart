@@ -177,4 +177,30 @@ class AllCeremonysModel {
       }
     });
   }
+
+  Future<AllCeremonysModel> getCrmViewr(String token, String dirUrl) async {
+    Uri url = Uri.parse(dirUrl);
+
+    if (token.isEmpty) {
+      return AllCeremonysModel.fromJson({
+        "status": 204,
+        "payload": {"error": "Invalid token"}
+      });
+    }
+
+    Map<String, String> headers = {
+      "Authorization": "Owesis " + token,
+      "Content-Type": "Application/json"
+    };
+
+    return await http.get(url, headers: headers).then((http.Response r) {
+      if (r.statusCode == 200) {
+        return AllCeremonysModel.fromJson(
+            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+      } else {
+        return AllCeremonysModel.fromJson(
+            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+      }
+    });
+  }
 }

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:sherekoo/util/pallets.dart';
 
 import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
+import '../../model/ceremony/crmViewerModel.dart';
 import '../../util/Preferences.dart';
+import '../../util/colors.dart';
 import '../../util/util.dart';
+import '../crmScreen/crmDoor.dart';
 import '../detailScreen/livee.dart';
 
 class MyCrmn extends StatefulWidget {
@@ -16,170 +21,125 @@ class MyCrmn extends StatefulWidget {
 
 class _MyCrmnState extends State<MyCrmn> {
   final Preferences _preferences = Preferences();
-
   String token = '';
 
   List<CeremonyModel> myCeremony = [];
+  List<CrmViewersModel> crmV = [];
   @override
   void initState() {
     _preferences.init();
     _preferences.get('token').then((value) {
       setState(() {
+        token = value;
         getAllCeremony(widget.userId);
+        getCeremonyPosts(widget.userId);
       });
     });
     super.initState();
   }
 
+  // My ceremonies..
   getAllCeremony(id) async {
     AllCeremonysModel(payload: [], status: 0)
         .getCeremonyByUserId(token, urlCrmnByUserId, id)
         .then((value) {
-      setState(() {
-        myCeremony = value.payload
-            .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
-            .toList();
-      });
+      if (value.status == 200) {
+        // print('Am in');
+        // print(value.payload);
+        setState(() {
+          myCeremony = value.payload
+              .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
+              .toList();
+        });
+      }
+    });
+  }
+
+  // My all ceremonie post
+  Future getCeremonyPosts(id) async {
+    AllCeremonysModel(payload: [], status: 0)
+        .getCrmViewr(token, urlGetCrmViewrs + "/userid/11")
+        .then((value) {
+      if (value.status == 200) {
+        print(value.payload);
+        setState(() {
+          crmV = value.payload
+              .map<CrmViewersModel>((e) => CrmViewersModel.fromJson(e))
+              .toList();
+        });
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: ListView.builder(
-        // physics: const NeverScrollableScrollPhysics(),
-        itemCount: myCeremony.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: myCeremony.length.toString() != '0'
-                  ? Card(
-                      child: Column(
-                        children: [
-                          InkWell(
-                            customBorder: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                side: const BorderSide(color: Colors.grey)),
-                            child: Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) => Livee(
-                                                  ceremony: myCeremony[index],
-                                                )));
+    return StaggeredGridView.countBuilder(
+        crossAxisSpacing: 1,
+        mainAxisSpacing: 3,
+        crossAxisCount: 6,
+        shrinkWrap: true,
+        itemCount: crmV.length,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => const CrmDoor()));
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Column(
+                children: [
+                  Stack(clipBehavior: Clip.hardEdge, children: [
+                    Center(
+                      child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          child: crmV[index].cImage != ''
+                              ? FadeInImage(
+                                  image: NetworkImage(api +
+                                      'public/uploads/' +
+                                      crmV[index].crmUsername +
+                                      '/ceremony/' +
+                                      crmV[index].cImage),
+                                  fadeInDuration:
+                                      const Duration(milliseconds: 100),
+                                  placeholder: const AssetImage(
+                                      'assets/logo/noimage.png'),
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) {
+                                    return Image.asset(
+                                        'assets/logo/noimage.png',
+                                        fit: BoxFit.fitWidth);
                                   },
-                                  child: ClipRRect(
-                                    child: Center(
-                                        child: myCeremony[index].cImage != ''
-                                            ? Image.network(
-                                                api +
-                                                    'public/uploads/' +
-                                                    myCeremony[index].u1 +
-                                                    '/ceremony/' +
-                                                    myCeremony[index].cImage,
-                                                height: 60,
-                                                width: 65,
-                                                fit: BoxFit.cover,
-                                              )
-                                            : const SizedBox(height: 1)),
-                                  ),
+                                  fit: BoxFit.fitWidth,
+                                )
+                              : const SizedBox(height: 1)),
+                    ),
+                    Positioned(
+                      left: 2,
+                      bottom: 2,
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: OColors.primary,
+                              borderRadius: BorderRadius.circular(6.0)),
+                          child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Center(
+                                child: Text(
+                                  crmV[index].ceremonyType,
+                                  style:
+                                      h5.copyWith(fontWeight: FontWeight.bold),
                                 ),
-
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                //Details Ceremony
-                                Column(
-                                  children: [
-                                    // Title
-
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 10),
-                                      child: Text(
-                                          myCeremony[index]
-                                              .ceremonyType
-                                              .toUpperCase(),
-                                          style: const TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                              letterSpacing: 1)),
-                                    ),
-
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 2),
-                                      child: RichText(
-                                        text: TextSpan(children: [
-                                          const TextSpan(
-                                              text: 'On: ',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 13,
-                                                  color: Colors.grey)),
-                                          TextSpan(
-                                              text: myCeremony[index]
-                                                  .ceremonyDate,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 10,
-                                                  color: Colors.black))
-                                        ]),
-                                      ),
-                                    ),
-
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) => Livee(
-                                                      ceremony:
-                                                          myCeremony[index],
-                                                    )));
-                                      },
-                                      child: Container(
-                                          margin:
-                                              const EdgeInsets.only(top: 10),
-                                          padding: const EdgeInsets.all(4),
-                                          decoration: BoxDecoration(
-                                              color: Colors.red,
-                                              borderRadius:
-                                                  BorderRadius.circular(105)),
-                                          child: Text(
-                                            'Code: ' + myCeremony[index].codeNo,
-                                            style: const TextStyle(
-                                                fontSize: 11,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
-                                          )),
-                                    ),
-
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                              ))),
                     )
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'No Ceremony',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.red),
-                        ),
-                      ],
-                    ));
+                  ]),
+                ],
+              ),
+            ),
+          );
         },
-      ),
-    );
+        staggeredTileBuilder: (index) {
+          return const StaggeredTile.fit(2);
+        });
   }
 }

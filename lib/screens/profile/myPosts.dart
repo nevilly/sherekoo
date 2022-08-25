@@ -135,20 +135,24 @@ class _MyPostsState extends State<MyPosts> {
                               horizontal: 1.0, vertical: 3.0),
                           child: Container(
                               width: MediaQuery.of(context).size.width,
-                              color: Color.fromRGBO(0, 0, 0, 0.451)
+                              color: const Color.fromRGBO(0, 0, 0, 0.451)
                                   .withOpacity(.8),
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: Row(
                                   children: [
                                     Icon(
-                                      Icons.bubble_chart,
+                                      Icons.comment,
                                       color: OColors.primary,
+                                      size: 13,
+                                    ),
+                                    const SizedBox(
+                                      width: 3,
                                     ),
                                     Text(
                                       post[index].commentNumber,
-                                      style:
-                                          const TextStyle(color: Colors.white),
+                                      style: const TextStyle(
+                                          color: Colors.white, fontSize: 10),
                                     ),
                                   ],
                                 ),
@@ -165,5 +169,6 @@ class _MyPostsState extends State<MyPosts> {
         staggeredTileBuilder: (index) {
           return const StaggeredTile.fit(2);
         });
+ 
   }
 }
