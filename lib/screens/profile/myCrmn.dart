@@ -30,6 +30,7 @@ class _MyCrmnState extends State<MyCrmn> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
+
         getAllCeremony(widget.userId);
         getCeremonyPosts(widget.userId);
       });
@@ -82,30 +83,33 @@ class _MyCrmnState extends State<MyCrmn> {
           return GestureDetector(
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (_) =>  CrmDoor(
-                    crm: CeremonyModel(
-                      cId: crmV[index].cid,
-                      codeNo: crmV[index].codeNo,
-                      ceremonyDate: crmV[index].ceremonyDate,
-                      cImage: crmV[index].cImage,
-                      cName: crmV[index].cName,
-                      ceremonyType: crmV[index].ceremonyType,
-                      contact: '',
-                      u1: crmV[index].crmUsername,
-                      u1Avt: '',
-                      u1Fname: '',
-                      u1Lname: '',
-                      u1g: '',
-                      u2: '',
-                      u2Avt: '',
-                      u2Fname: '',
-                      u2Lname: '',
-                      u2g: '', admin: '',fId: '',
-                      sId: '', youtubeLink: ''
-                      
-                      ),)));
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => CrmDoor(
+                            crm: CeremonyModel(
+                                cId: crmV[index].cId,
+                                codeNo: crmV[index].codeNo,
+                                ceremonyDate: crmV[index].ceremonyDate,
+                                cImage: crmV[index].cImage,
+                                cName: crmV[index].cName,
+                                ceremonyType: crmV[index].ceremonyType,
+                                contact: '',
+                                u1: crmV[index].crmUsername,
+                                u1Avt: '',
+                                u1Fname: '',
+                                u1Lname: '',
+                                u1g: '',
+                                u2: '',
+                                u2Avt: '',
+                                u2Fname: '',
+                                u2Lname: '',
+                                u2g: '',
+                                admin: '',
+                                fId: '',
+                                sId: '',
+                                youtubeLink: crmV[index].youtubeLink),
+                          )));
             },
-
             child: Padding(
               padding: const EdgeInsets.all(2.0),
               child: Column(
@@ -136,7 +140,6 @@ class _MyCrmnState extends State<MyCrmn> {
                                 )
                               : const SizedBox(height: 1)),
                     ),
-                    
                     Positioned(
                       left: 2,
                       bottom: 2,
@@ -154,7 +157,6 @@ class _MyCrmnState extends State<MyCrmn> {
                                 ),
                               ))),
                     )
-                  
                   ]),
                 ],
               ),

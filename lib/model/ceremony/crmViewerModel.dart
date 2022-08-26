@@ -4,7 +4,7 @@ class CrmViewersModel {
   final String avater;
   final String position;
 
-  final String cid;
+  final String cId;
   final String codeNo;
   final String ceremonyType;
   final String fId;
@@ -35,7 +35,7 @@ class CrmViewersModel {
     required this.username,
     required this.position,
     required this.codeNo,
-    required this.cid,
+    required this.cId,
     required this.ceremonyType,
     required this.fId,
     required this.sId,
@@ -63,7 +63,7 @@ class CrmViewersModel {
         username: json['username'] ?? '',
         avater: json['avater'] ?? '',
         position: json['position'] ?? '',
-        cid: json['cid'] ?? '',
+        cId: json['cId'] ?? '',
         codeNo: json['codeNo'] ?? '',
         ceremonyType: json['ceremonyType'] ?? '',
         fId: json['crmFid'] ?? '',

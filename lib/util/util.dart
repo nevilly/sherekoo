@@ -32,6 +32,7 @@ String urlGetCrmByType = api + 'Ceremony/getCeremonyByType';
 
 //Ceremonyt Viewers
 String urlGetCrmViewrs = api + 'CeremonyViewers/get'; //urlshoulBe:./get/../..;
+String urlGetExistViewrs = api + 'CeremonyViewers/viewerExist';
 
 //Busness
 String urlPostBusness = api + 'Busness/add';
