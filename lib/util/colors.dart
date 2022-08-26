@@ -4,7 +4,10 @@ class OColors {
   //Sherekoo Color
   static Color secondary = const Color(0xff181A20);
   static Color primary = const Color(0xfff54b64);
+  static Color primaryy = const Color(0xffff566e);
   static Color darkGrey = const Color(0xff4e586e);
+   static Color sPurple = const Color(0xff8028ff);
+  static Color sYelow = const Color(0xfffca01c);
   static Color white = const Color(0xffFFFFFF);
 
   static Color danger = Colors.red;
@@ -12,7 +15,7 @@ class OColors {
   //Text Colors
   static Color titleColor = const Color(0xff352641);
   static Color subTitleColor = const Color(0xff352641);
-  static Color textColor = Color(0xff606060);
+  static Color textColor = const Color(0xff606060);
   static Color textDescriptionColor = const Color(0xff78849E);
 
   // appBar colors

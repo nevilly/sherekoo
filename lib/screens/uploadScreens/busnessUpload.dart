@@ -1329,7 +1329,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 20.0, right: 10),
-          child: DropdownButton<String>(
+          child: 
+          
+          DropdownButton<String>(
             isExpanded: true,
             // icon: const Icon(Icons.arrow_circle_down),
             // iconSize: 20,

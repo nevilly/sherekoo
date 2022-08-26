@@ -9,7 +9,6 @@ import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
 import '../crmScreen/crmDoor.dart';
-import '../detailScreen/livee.dart';
 
 class MyCrmn extends StatefulWidget {
   final String userId;
@@ -83,8 +82,30 @@ class _MyCrmnState extends State<MyCrmn> {
           return GestureDetector(
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => const CrmDoor()));
+                  context, MaterialPageRoute(builder: (_) =>  CrmDoor(
+                    crm: CeremonyModel(
+                      cId: crmV[index].cid,
+                      codeNo: crmV[index].codeNo,
+                      ceremonyDate: crmV[index].ceremonyDate,
+                      cImage: crmV[index].cImage,
+                      cName: crmV[index].cName,
+                      ceremonyType: crmV[index].ceremonyType,
+                      contact: '',
+                      u1: crmV[index].crmUsername,
+                      u1Avt: '',
+                      u1Fname: '',
+                      u1Lname: '',
+                      u1g: '',
+                      u2: '',
+                      u2Avt: '',
+                      u2Fname: '',
+                      u2Lname: '',
+                      u2g: '', admin: '',fId: '',
+                      sId: '', youtubeLink: ''
+                      
+                      ),)));
             },
+
             child: Padding(
               padding: const EdgeInsets.all(2.0),
               child: Column(
@@ -115,6 +136,7 @@ class _MyCrmnState extends State<MyCrmn> {
                                 )
                               : const SizedBox(height: 1)),
                     ),
+                    
                     Positioned(
                       left: 2,
                       bottom: 2,
@@ -132,6 +154,7 @@ class _MyCrmnState extends State<MyCrmn> {
                                 ),
                               ))),
                     )
+                  
                   ]),
                 ],
               ),
