@@ -50,8 +50,7 @@ class _TabAState extends State<TabA> {
       username: '',
       vedeo: '',
     ).getPostByCeremonyId(token, urlGetSherekooByCeremonyId).then((value) {
-      print('check Post Payload by Ceremony Id ');
-      print(value.payload);
+    
 
       if (value.status == 200) {
         setState(() {

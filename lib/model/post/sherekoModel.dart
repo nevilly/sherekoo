@@ -23,6 +23,8 @@ class SherekooModel {
   //Likes Info
   final String totalLikes;
   dynamic isLike;
+  // Shares info
+  final String totalShare;
 
   SherekooModel(
       {required this.pId,
@@ -46,7 +48,10 @@ class SherekooModel {
 
       //Likes Info
       required this.totalLikes,
-      required this.isLike});
+      required this.isLike,
+
+      //Share Info
+      required this.totalShare});
 
   factory SherekooModel.fromJson(Map<String, dynamic> json) {
     return SherekooModel(
@@ -72,6 +77,8 @@ class SherekooModel {
       //Likes Info
       totalLikes: json['totalLikes'].toString(),
       isLike: json['isLike'] ?? "",
+
+      totalShare: json['totalShare'].toString(),
     );
   }
 }

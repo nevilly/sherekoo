@@ -85,6 +85,7 @@ class PostTemplateState extends State<PostTemplate> {
   static const double plusIconSize = 20.0;
   int isLike = 0;
   int totalLikes = 0;
+  int totalShare = 0;
 
   @override
   void initState() {
@@ -99,12 +100,40 @@ class PostTemplateState extends State<PostTemplate> {
       totalLikes = 0;
     }
 
-    isLike = int.parse(widget.isLike);
+    if (widget.numberOfShere != '') {
+      totalShare = int.parse(widget.numberOfShere);
+    } else {
+      totalShare = 0;
+    }
 
+    isLike = int.parse(widget.isLike);
     super.initState();
   }
 
- 
+  share() async {
+    print('oress');
+    Post(
+        pId: widget.postId,
+        createdBy: '',
+        body: '',
+        vedeo: '',
+        ceremonyId: '',
+        username: '',
+        avater: '',
+        status: 0,
+        payload: []).share(token, urlpostShare, 'Post').then((value) {
+      // print(value.payload);
+
+      if (value.payload == 200) {
+        // print(value.payload);
+        setState(() {
+          totalShare++;
+        });
+      }
+      // make App to remember likes, or store
+    });
+  }
+
   onLikeButtonTapped() async {
     Post(
             pId: widget.postId,
@@ -120,24 +149,22 @@ class PostTemplateState extends State<PostTemplate> {
         .then((value) {
       // print(value.payload);
 
-     
-      if(value.status == 200){
-      if (value.payload == 'removed') {
-        setState(() {
-          isLike--;
-          totalLikes--;
-        });
-      } else if (value.payload == 'added') {
-        setState(() {
-          isLike++;
-          totalLikes++;
-        });
-      }}
+      if (value.status == 200) {
+        if (value.payload == 'removed') {
+          setState(() {
+            isLike--;
+            totalLikes--;
+          });
+        } else if (value.payload == 'added') {
+          setState(() {
+            isLike++;
+            totalLikes++;
+          });
+        }
+      }
 
       // make App to remember likes, or store
     });
-
-
   }
 
   @override
@@ -219,12 +246,12 @@ class PostTemplateState extends State<PostTemplate> {
                         child: Column(
                           children: [
                             isLike == 0
-                                ?  Icon(
+                                ? Icon(
                                     Icons.favorite,
                                     size: 18.0,
                                     color: OColors.fontColor,
                                   )
-                                :  Icon(
+                                : Icon(
                                     Icons.favorite,
                                     size: 18.0,
                                     color: OColors.primary,
@@ -234,7 +261,7 @@ class PostTemplateState extends State<PostTemplate> {
                             ),
                             Text(
                               totalLikes.toString(),
-                              style:  TextStyle(
+                              style: TextStyle(
                                   fontSize: 12, color: OColors.fontColor),
                             ),
                             // const SizedBox(
@@ -271,7 +298,8 @@ class PostTemplateState extends State<PostTemplate> {
                 // share
                 GestureDetector(
                   onTap: () async {
-                    final String dirUrl = '${api}public/uploads/${widget.username}/posts/${widget.postVedeo}';
+                    final String dirUrl =
+                        '${api}public/uploads/${widget.username}/posts/${widget.postVedeo}';
 
                     Uri url = Uri.parse(dirUrl);
                     final response = await http.get(url);
@@ -301,7 +329,7 @@ class PostTemplateState extends State<PostTemplate> {
                     // => https://protocoderspoint.com/flutter-share-files-images-videos-text-using-share_plus/
                   },
                   child: MyButton(
-                      icon: Icons.reply_rounded, number: widget.numberOfShere),
+                      icon: Icons.reply_rounded, number: totalShare.toString()),
                 ),
                 const SizedBox(
                   height: 4,
@@ -401,7 +429,8 @@ class PostTemplateState extends State<PostTemplate> {
 
           child: widget.avater.isNotEmpty
               ? CircleAvatar(
-                  backgroundImage: NetworkImage('${api}public/uploads/${widget.username}/profile/${widget.avater}'),
+                  backgroundImage: NetworkImage(
+                      '${api}public/uploads/${widget.username}/profile/${widget.avater}'),
                 )
               : const DefaultAvater(
                   height: profileImageSize,

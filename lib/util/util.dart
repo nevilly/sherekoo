@@ -64,6 +64,9 @@ String urlVedioPostSherekoo = '${api}MyPost/addVedeo';
 //LIkes
 String urlpostLikes = '${api}Likes/add';
 
+//LIkes
+String urlpostShare = '${api}Share/add';
+
 //Chats on Post
 String urlPostChats = '${api}Chats/add';
 String urlGetChats = '${api}Chats/get';

@@ -167,7 +167,6 @@ class Post {
     return await http
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((r) {
-      print(r.body);
       final rJson = jsonDecode(r.body);
 
       if (r.statusCode == 200) {
@@ -233,6 +232,39 @@ class Post {
     return await http
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((r) {
+      final rJson = jsonDecode(r.body);
+
+      if (r.statusCode == 200) {
+        return Post.fromJson(rJson);
+      }
+      return Post.fromJson({'status': false});
+    });
+  }
+
+  //Get Shares
+  Future<Post> share(String token, String dirUrl, String table) async {
+    Uri url = Uri.parse(dirUrl);
+
+    if (token.isEmpty) {
+      return Post.fromJson({
+        "status": 204,
+        "payload": {"error": "Invalid token"}
+      });
+    }
+
+    Map<String, dynamic> toMap() {
+      return <String, dynamic>{'fromTable': table, 'tableId': pId};
+    }
+
+    Map<String, String> headers = {
+      "Authorization": "Owesis $token",
+      "Content-Type": "Application/json"
+    };
+
+    return await http
+        .post(url, body: jsonEncode(toMap()), headers: headers)
+        .then((r) {
+  
       final rJson = jsonDecode(r.body);
 
       if (r.statusCode == 200) {

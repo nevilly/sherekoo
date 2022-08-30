@@ -21,6 +21,8 @@ class _LiveePostState extends State<LiveePost> {
   String token = '';
   int isLike = 0;
   int totalLikes = 0;
+  int totalShare = 0;
+
   @override
   void initState() {
     _preferences.init();
@@ -34,13 +36,43 @@ class _LiveePostState extends State<LiveePost> {
       totalLikes = 0;
     }
 
+    if (widget.post.totalShare != '') {
+      totalShare = int.parse(widget.post.totalShare);
+    } else {
+      totalShare = 0;
+    }
+
     isLike = int.parse(widget.post.isLike);
 
     super.initState();
   }
 
+  share() async {
+     print('oress');
+    Post(
+        pId: widget.post.pId,
+        createdBy: '',
+        body: '',
+        vedeo: '',
+        ceremonyId: '',
+        username: '',
+        avater: '',
+        status: 0,
+        payload: []).share(token, urlpostShare, 'Post').then((value) {
+      // print(value.payload);
+
+      if (value.payload == 200) {
+        // print(value.payload);
+        setState(() {
+          totalShare++;
+        });
+      }
+      // make App to remember likes, or store
+    });
+  }
+
   onLikeButtonTapped() async {
-    print('pressdedd');
+   
     Post(
             pId: widget.post.pId,
             createdBy: '',
@@ -53,8 +85,6 @@ class _LiveePostState extends State<LiveePost> {
             payload: [])
         .likes(token, urlpostLikes, isLike.toString())
         .then((value) {
-      // print(value.payload);
-
       if (value.status == 200) {
         if (value.payload == 'removed') {
           setState(() {
@@ -68,8 +98,6 @@ class _LiveePostState extends State<LiveePost> {
           });
         }
       }
-
-      // make App to remember likes, or store
     });
   }
 
@@ -158,7 +186,7 @@ class _LiveePostState extends State<LiveePost> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0),
-                    child: footerIcon(Icons.more_vert, 20, OColors.fontColor),
+                    child: footerIcon(Icons.more_vert, 20, OColors.primary),
                   ),
                   const SizedBox(
                     height: 2.0,
@@ -173,7 +201,7 @@ class _LiveePostState extends State<LiveePost> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      print('clicked');
+                      share();
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(right: 10.0),
@@ -188,7 +216,7 @@ class _LiveePostState extends State<LiveePost> {
                             height: 2.0,
                           ),
                           Text(
-                            '234',
+                            totalShare.toString(),
                             style: TextStyle(color: OColors.fontColor),
                           ),
                         ],
@@ -201,7 +229,7 @@ class _LiveePostState extends State<LiveePost> {
                     },
                     child: Container(
                       // color: Colors.green,
-                      margin: EdgeInsets.only(left: 4, right: 8),
+                      margin: const EdgeInsets.only(left: 4, right: 8),
                       child: Column(
                         children: [
                           isLike == 0

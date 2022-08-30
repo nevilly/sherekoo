@@ -75,7 +75,7 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
         setState(() {
           tabIndex = _tabController.animation!.value.floor();
           _tabController.animation;
-          print('is animate index');
+          // print('is animate index');
           print(_tabController.animation!.value.floor());
         });
       }
