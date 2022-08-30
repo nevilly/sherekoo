@@ -23,7 +23,7 @@ class AllBusnessModel {
     }
 
     Map<String, String> headers = {
-      "Authorization": "Owesis " + token,
+      "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
     };
 
@@ -50,7 +50,7 @@ class AllBusnessModel {
     }
 
     Map<String, String> headers = {
-      "Authorization": "Owesis " + token,
+      "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
     };
 
@@ -82,7 +82,7 @@ class AllBusnessModel {
     }
 
     Map<String, String> headers = {
-      "Authorization": "Owesis " + token,
+      "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
     };
 
@@ -114,7 +114,7 @@ class AllBusnessModel {
     }
 
     Map<String, String> headers = {
-      "Authorization": "Owesis " + token,
+      "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
     };
 

@@ -45,6 +45,10 @@ class BsnDescr extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Container(
+                          decoration: const BoxDecoration(
+                              color: Colors.black87,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
                           child: const Padding(
                             padding: EdgeInsets.all(8.0),
                             child: Text(
@@ -52,11 +56,7 @@ class BsnDescr extends StatelessWidget {
                               style: TextStyle(
                                   fontSize: 14, color: Colors.white, height: 1),
                             ),
-                          ),
-                          decoration: const BoxDecoration(
-                              color: Colors.black87,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)))),
+                          )),
                     ),
                   ),
                   const SizedBox(

@@ -104,11 +104,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 accountEmail: Text(currentUser.email),
                 currentAccountPicture: CircleAvatar(
                     backgroundImage: NetworkImage(
-                  api +
-                      'public/uploads/' +
-                      currentUser.username +
-                      '/profile/' +
-                      currentUser.avater,
+                  '${api}public/uploads/${currentUser.username}/profile/${currentUser.avater}',
                 )),
                 onDetailsPressed: () {},
               ),

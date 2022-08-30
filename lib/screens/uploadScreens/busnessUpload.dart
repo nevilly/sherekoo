@@ -691,11 +691,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                                 width: 300, fit: BoxFit.cover)
                             : widget.getData.bId.isNotEmpty
                                 ? Image.network(
-                                    api +
-                                        'public/uploads/' +
-                                        widget.getData.username +
-                                        '/busness/' +
-                                        widget.getData.coProfile,
+                                    '${api}public/uploads/${widget.getData.username}/busness/${widget.getData.coProfile}',
                                     fit: BoxFit.cover,
                                   )
                                 : const Image(
@@ -5751,13 +5747,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
                                                       ? CircleAvatar(
                                                           backgroundImage:
                                                               NetworkImage(
-                                                          api +
-                                                              'public/uploads/' +
-                                                              _foundUsers[index]
-                                                                  .username +
-                                                              '/profile/' +
-                                                              _foundUsers[index]
-                                                                  .avater,
+                                                          '${api}public/uploads/${_foundUsers[index]
+                                                                  .username}/profile/${_foundUsers[index]
+                                                                  .avater}',
                                                           // height: 45,
                                                           // fit: BoxFit.cover,
                                                         ))
@@ -6123,10 +6115,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
                                       )
                                     : CircleAvatar(
                                         backgroundImage: NetworkImage(
-                                        api +
+                                        '${api +
                                             'public/uploads/' +
-                                            name +
-                                            '/profile/' +
+                                            name}/profile/' +
                                             avater,
                                       )),
                               )),

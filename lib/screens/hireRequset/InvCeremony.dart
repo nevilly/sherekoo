@@ -98,7 +98,7 @@ class _InvatationCeremonyState extends State<InvatationCeremony> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text('Our ' + invites[i].busnessType,
+                                  child: Text('Our ${invites[i].busnessType}',
                                       style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold)),
@@ -119,7 +119,7 @@ class _InvatationCeremonyState extends State<InvatationCeremony> {
                                             left: 8,
                                             right: 8),
                                         child: Text(
-                                          'Choose ' + invites[i].busnessType,
+                                          'Choose ${invites[i].busnessType}',
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white),
@@ -149,11 +149,7 @@ class _InvatationCeremonyState extends State<InvatationCeremony> {
                                     //         ('assets/ceremony/b1.png')))
 
                                     Image.network(
-                                  api +
-                                      'public/uploads/' +
-                                      invites[i].bsnUsername +
-                                      '/busness/' +
-                                      invites[i].coProfile,
+                                  '${api}public/uploads/${invites[i].bsnUsername}/busness/${invites[i].coProfile}',
                                   height: 70,
                                   fit: BoxFit.cover,
                                 ),
@@ -165,9 +161,7 @@ class _InvatationCeremonyState extends State<InvatationCeremony> {
                                     // margin: EdgeInsets.only(top: 1),
                                     child: Center(
                                       child: Text(
-                                        invites[i].busnessType +
-                                            ': ' +
-                                            invites[i].knownAs,
+                                        '${invites[i].busnessType}: ${invites[i].knownAs}',
                                         style: const TextStyle(
                                           fontSize: 15,
                                         ),

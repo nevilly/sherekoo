@@ -93,11 +93,7 @@ class CeremonyList extends StatelessWidget {
                                     child: Center(
                                       child: FadeInImage(
                                         height: 55,
-                                        image: NetworkImage(api +
-                                            'public/uploads/' +
-                                            service[index].fIdUname +
-                                            '/ceremony/' +
-                                            service[index].cImage),
+                                        image: NetworkImage('${api}public/uploads/${service[index].fIdUname}/ceremony/${service[index].cImage}'),
                                         // fadeInDuration:
                                         //     const Duration(
                                         //         milliseconds:
@@ -221,11 +217,7 @@ class CeremonyList extends StatelessWidget {
                                               child: Center(
                                                 child: FadeInImage(
                                                   height: 55,
-                                                  image: NetworkImage(api +
-                                                      'public/uploads/' +
-                                                      service[index].fIdUname +
-                                                      '/ceremony/' +
-                                                      service[index].cImage),
+                                                  image: NetworkImage('${api}public/uploads/${service[index].fIdUname}/ceremony/${service[index].cImage}'),
                                                   // fadeInDuration:
                                                   //     const Duration(
                                                   //         milliseconds:

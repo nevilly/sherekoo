@@ -34,7 +34,7 @@ class BusnessLst extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Other ' + data.busnessType,
+                      'Other ${data.busnessType}',
                       style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -96,11 +96,7 @@ class BusnessLst extends StatelessWidget {
                                     child: ClipOval(
                                         child: otherBsn[index].coProfile != ''
                                             ? Image.network(
-                                                api +
-                                                    'public/uploads/' +
-                                                    otherBsn[index].username +
-                                                    '/busness/' +
-                                                    otherBsn[index].coProfile,
+                                                '${api}public/uploads/${otherBsn[index].username}/busness/${otherBsn[index].coProfile}',
                                                 fit: BoxFit.cover,
                                                 width: 90.0,
                                                 height: 90.0,

@@ -189,11 +189,7 @@ class _HiringPageState extends State<HiringPage> {
                     child: Center(
                         child: bsn!.coProfile != ''
                             ? Image.network(
-                                api +
-                                    'public/uploads/' +
-                                    bsn!.username +
-                                    '/busness/' +
-                                    bsn!.coProfile,
+                                '${api}public/uploads/${bsn!.username}/busness/${bsn!.coProfile}',
                                 height: 120,
                                 fit: BoxFit.cover,
                               )
@@ -207,7 +203,7 @@ class _HiringPageState extends State<HiringPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          bsn!.busnessType + ' ' + bsn!.companyName,
+                          '${bsn!.busnessType} ${bsn!.companyName}',
                           style: const TextStyle(
                             fontSize: 20,
                           ),
@@ -536,11 +532,7 @@ class _HiringPageState extends State<HiringPage> {
                                               const EdgeInsets.only(right: 10),
                                           child: option.cImage != ''
                                               ? Image.network(
-                                                  api +
-                                                      'public/uploads/' +
-                                                      option.u1 +
-                                                      '/ceremony/' +
-                                                      option.cImage,
+                                                  '${api}public/uploads/${option.u1}/ceremony/${option.cImage}',
                                                   fit: BoxFit.cover,
                                                   height: 45,
                                                 )

@@ -163,11 +163,7 @@ class _CategoryBodyState extends State<CategoryBody> {
                                 ),
                                 child: data[index].coProfile != ''
                                     ? Image.network(
-                                        api +
-                                            'public/uploads/' +
-                                            data[index].username +
-                                            '/busness/' +
-                                            data[index].coProfile,
+                                        '${api}public/uploads/${data[index].username}/busness/${data[index].coProfile}',
                                         height: 45,
                                         fit: BoxFit.cover,
                                       )

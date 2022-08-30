@@ -24,13 +24,13 @@ class _MyCrmnState extends State<MyCrmn> {
 
   List<CeremonyModel> myCeremony = [];
   List<CrmViewersModel> crmV = [];
+
   @override
   void initState() {
     _preferences.init();
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-
         getAllCeremony(widget.userId);
         getCeremonyPosts(widget.userId);
       });
@@ -58,10 +58,9 @@ class _MyCrmnState extends State<MyCrmn> {
   // My all ceremonie post
   Future getCeremonyPosts(id) async {
     AllCeremonysModel(payload: [], status: 0)
-        .getCrmViewr(token, urlGetCrmViewrs + "/userid/11")
+        .getCrmViewr(token, "$urlGetCrmViewrs/userid/" +id)
         .then((value) {
       if (value.status == 200) {
-        print(value.payload);
         setState(() {
           crmV = value.payload
               .map<CrmViewersModel>((e) => CrmViewersModel.fromJson(e))
@@ -121,11 +120,7 @@ class _MyCrmnState extends State<MyCrmn> {
                               borderRadius: BorderRadius.circular(10.0)),
                           child: crmV[index].cImage != ''
                               ? FadeInImage(
-                                  image: NetworkImage(api +
-                                      'public/uploads/' +
-                                      crmV[index].crmUsername +
-                                      '/ceremony/' +
-                                      crmV[index].cImage),
+                                  image: NetworkImage('${api}public/uploads/${crmV[index].crmUsername}/ceremony/${crmV[index].cImage}'),
                                   fadeInDuration:
                                       const Duration(milliseconds: 100),
                                   placeholder: const AssetImage(

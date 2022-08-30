@@ -68,7 +68,7 @@ class PostAllCeremony {
     }
 
     Map<String, String> headers = {
-      "Authorization": "Owesis " + token,
+      "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
     };
 
@@ -111,7 +111,7 @@ class PostAllCeremony {
     }
 
     Map<String, String> headers = {
-      "Authorization": "Owesis " + token,
+      "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
     };
 

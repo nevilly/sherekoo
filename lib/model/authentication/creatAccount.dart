@@ -105,7 +105,7 @@ class CreateAccountModel {
     }
 
     Map<String, String> headers = {
-      "Authorization": "Owesis " + token,
+      "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
     };
 
@@ -146,7 +146,7 @@ class CreateAccountModel {
     }
 
     Map<String, String> headers = {
-      "Authorization": "Owesis " + token,
+      "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
     };
 

@@ -142,11 +142,7 @@ class _SearchBusnessState extends State<SearchBusness> {
                                 margin: const EdgeInsets.only(right: 10),
                                 child: option.coProfile != ''
                                     ? Image.network(
-                                        api +
-                                            'public/uploads/' +
-                                            option.username +
-                                            '/busness/' +
-                                            option.coProfile,
+                                        '${api}public/uploads/${option.username}/busness/${option.coProfile}',
                                         fit: BoxFit.cover,
                                         height: 40,
                                       )

@@ -23,7 +23,7 @@ class AllCeremonysModel {
     }
 
     Map<String, String> headers = {
-      "Authorization": "Owesis " + token,
+      "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
     };
 
@@ -56,7 +56,7 @@ class AllCeremonysModel {
     }
 
     Map<String, String> headers = {
-      "Authorization": "Owesis " + token,
+      "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
     };
 
@@ -91,7 +91,7 @@ class AllCeremonysModel {
     }
 
     Map<String, String> headers = {
-      "Authorization": "Owesis " + token,
+      "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
     };
 
@@ -126,7 +126,7 @@ class AllCeremonysModel {
     }
 
     Map<String, String> headers = {
-      "Authorization": "Owesis " + token,
+      "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
     };
 
@@ -161,7 +161,7 @@ class AllCeremonysModel {
     }
 
     Map<String, String> headers = {
-      "Authorization": "Owesis " + token,
+      "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
     };
 
@@ -189,7 +189,7 @@ class AllCeremonysModel {
     }
 
     Map<String, String> headers = {
-      "Authorization": "Owesis " + token,
+      "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
     };
 
@@ -220,7 +220,7 @@ class AllCeremonysModel {
     }
 
     Map<String, String> headers = {
-      "Authorization": "Owesis " + token,
+      "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
     };
 
@@ -236,4 +236,41 @@ class AllCeremonysModel {
       }
     });
   }
+
+   Future<AllCeremonysModel> addCrmnViewr(
+      String token, String dirUrl, String crmId,String position) async {
+    Uri url = Uri.parse(dirUrl);
+
+    if (token.isEmpty) {
+      return AllCeremonysModel.fromJson({
+        "status": 204,
+        "payload": {"error": "Invalid token"}
+      });
+    }
+
+    Map<String, dynamic> toMap() {
+      return <String, dynamic>{'crmId': crmId,
+      'position':position
+      };
+    }
+
+    Map<String, String> headers = {
+      "Authorization": "Owesis $token",
+      "Content-Type": "Application/json"
+    };
+
+    return await http
+        .post(url, body: jsonEncode(toMap()), headers: headers)
+        .then((http.Response r) {
+      if (r.statusCode == 200) {
+        return AllCeremonysModel.fromJson(
+            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+      } else {
+        return AllCeremonysModel.fromJson(
+            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+      }
+    });
+  }
+
+
 }

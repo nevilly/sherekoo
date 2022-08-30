@@ -18,7 +18,7 @@ class CrmDoor extends StatefulWidget {
 
 class _CrmDoorState extends State<CrmDoor> {
   String selectedBusness = 'Subscribe as ..?';
-  final List<String> _busness = ['As Viewer', 'As: friend', 'As: Relative'];
+  final List<String> _busness = ['Viewer', 'Friend', 'Relative'];
   final Preferences _preferences = Preferences();
   String token = '';
   String viewer = '';
@@ -28,7 +28,6 @@ class _CrmDoorState extends State<CrmDoor> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-
         if (widget.crm.cId != '') {
           viewerExist(widget.crm.cId);
         }
@@ -39,7 +38,7 @@ class _CrmDoorState extends State<CrmDoor> {
 
   // My all ceremonie post
   Future viewerExist(id) async {
-    AllCeremonysModel(payload: [], status: 0)
+    await AllCeremonysModel(payload: [], status: 0)
         .getExistCrmnViewr(token, urlGetExistViewrs, widget.crm.cId)
         .then((value) {
       if (value.status == 200) {
@@ -56,14 +55,29 @@ class _CrmDoorState extends State<CrmDoor> {
             viewer = 'isNotIn';
           });
         }
-
-        // setState(() {
-        //   crmV = value.payload
-        //       .map<CrmViewersModel>((e) => CrmViewersModel.fromJson(e))
-        //       .toList();
-        // });
       }
     });
+  }
+
+  // My all ceremonie post
+  Future addViewer() async {
+    if (selectedBusness != 'Subscribe as ..?') {
+      await AllCeremonysModel(payload: [], status: 0)
+          .addCrmnViewr(token, urladdCrmViewrs, widget.crm.cId, selectedBusness)
+          .then((value) {
+        if (value.status == 200) {
+          Navigator.of(context).pop();
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => Livee(
+                        ceremony: widget.crm,
+                      )));
+        }
+      });
+    } else {
+      print('jjajajajaa');
+    }
   }
 
   @override
@@ -72,7 +86,7 @@ class _CrmDoorState extends State<CrmDoor> {
       backgroundColor: OColors.secondary,
       appBar: AppBar(
           backgroundColor: OColors.secondary, actions: const [], elevation: 0),
-      body: viewer != 'isNotIn' && viewer.isNotEmpty
+      body: viewer == 'isNotIn' && viewer.isNotEmpty
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -236,21 +250,26 @@ class _CrmDoorState extends State<CrmDoor> {
                         style: h4.copyWith(color: OColors.primary),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        right: 15.0,
-                        bottom: 15,
+                    GestureDetector(
+                      onTap: () {
+                        addViewer();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          right: 15.0,
+                          bottom: 15,
+                        ),
+                        child: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                color: OColors.sYelow,
+                                borderRadius: BorderRadius.circular(50)),
+                            child: const Icon(
+                              Icons.arrow_forward,
+                              color: Colors.white,
+                            )),
                       ),
-                      child: Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                              color: OColors.sYelow,
-                              borderRadius: BorderRadius.circular(50)),
-                          child: const Icon(
-                            Icons.arrow_forward,
-                            color: Colors.white,
-                          )),
                     ),
                   ],
                 ),

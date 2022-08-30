@@ -38,11 +38,7 @@ class _LiveePostState extends State<LiveePost> {
                     padding: const EdgeInsets.all(4.0),
                     child: CircleAvatar(
                       radius: 15,
-                      backgroundImage: NetworkImage(api +
-                          'public/uploads/' +
-                          widget.post.username +
-                          '/profile/' +
-                          widget.post.avater),
+                      backgroundImage: NetworkImage('${api}public/uploads/${widget.post.username}/profile/${widget.post.avater}'),
                     ),
                   ),
                   Padding(
@@ -72,11 +68,7 @@ class _LiveePostState extends State<LiveePost> {
           child: Container(
               child: widget.post.vedeo != ''
                   ? Image.network(
-                      api +
-                          'public/uploads/' +
-                          widget.post.username +
-                          '/posts/' +
-                          widget.post.vedeo,
+                      '${api}public/uploads/${widget.post.username}/posts/${widget.post.vedeo}',
                       fit: BoxFit.contain,
                     )
                   : const SizedBox(height: 1)),

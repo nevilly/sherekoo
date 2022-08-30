@@ -10,62 +10,63 @@ String api = "http://192.168.43.125/"; // Neheman
 //String api = "http://192.168.43.237/"; // challo
 
 //Authentications
-String login = api + "Users/login";
-String craetAcount = api + 'Users/addAccount';
+String login = "${api}Users/login";
+String craetAcount = '${api}Users/addAccount';
 
 //users
-String urlGetUser = api + 'Users/user';
-String urlUserList = api + 'Users/users';
-String urlUserById = api + 'Users/userById';
-String urlUserProfileById = api + 'Users/getUserProfileById';
-String urlUpdateUserInfo = api + 'Users/updateAccount';
-String urlUpdateUserSetting = api + 'Users/updateSetting';
+String urlGetUser = '${api}Users/user';
+String urlUserList = '${api}Users/users';
+String urlUserById = '${api}Users/userById';
+String urlUserProfileById = '${api}Users/getUserProfileById';
+String urlUpdateUserInfo = '${api}Users/updateAccount';
+String urlUpdateUserSetting = '${api}Users/updateSetting';
 
 //Ceremony
-String urlPostCeremony = api + 'Ceremony/add';
-String urlGetCeremony = api + 'Ceremony/get';
-String urlGetCeremonyById = api + 'Ceremony/getById';
-String urlCrmByDay = api + 'Ceremony/getCeremonyByDay';
-String urlUpdateDayCeremony = api + 'Ceremony/update';
-String urlCrmnByUserId = api + 'Ceremony/getCrmn_by_UserId';
-String urlGetCrmByType = api + 'Ceremony/getCeremonyByType';
+String urlPostCeremony = '${api}Ceremony/add';
+String urlGetCeremony = '${api}Ceremony/get';
+String urlGetCeremonyById = '${api}Ceremony/getById';
+String urlCrmByDay = '${api}Ceremony/getCeremonyByDay';
+String urlUpdateDayCeremony = '${api}Ceremony/update';
+String urlCrmnByUserId = '${api}Ceremony/getCrmn_by_UserId';
+String urlGetCrmByType = '${api}Ceremony/getCeremonyByType';
 
 //Ceremonyt Viewers
-String urlGetCrmViewrs = api + 'CeremonyViewers/get'; //urlshoulBe:./get/../..;
-String urlGetExistViewrs = api + 'CeremonyViewers/viewerExist';
+String urladdCrmViewrs = '${api}CeremonyViewers/add';
+String urlGetCrmViewrs = '${api}CeremonyViewers/get'; //urlshoulBe:./get/../..;
+String urlGetExistViewrs = '${api}CeremonyViewers/viewerExist';
 
 //Busness
-String urlPostBusness = api + 'Busness/add';
-String urlAllBusnessList = api + 'Busness/getBusness';
-String urlBusnessByType = api + 'Busness/getByBusnessType';
-String urlMyBusnessList = api + 'Busness/getByBusnessCeoId';
-String urlMyBsnByCratorId = api + 'Busness/bsnByCreatorId';
-String urlUpdateBusness = api + 'Busness/update';
+String urlPostBusness = '${api}Busness/add';
+String urlAllBusnessList = '${api}Busness/getBusness';
+String urlBusnessByType = '${api}Busness/getByBusnessType';
+String urlMyBusnessList = '${api}Busness/getByBusnessCeoId';
+String urlMyBsnByCratorId = '${api}Busness/bsnByCreatorId';
+String urlUpdateBusness = '${api}Busness/update';
 
-String urlBusnessPhoto = api + 'Busness/getPhoto';
-String urlBusnessMembers = api + 'Busness/getMembers';
+String urlBusnessPhoto = '${api}Busness/getPhoto';
+String urlBusnessMembers = '${api}Busness/getMembers';
 
 //Services List
-String urlPostHostList = api + 'Services/add';
-String urlGetServices = api + 'Services/getById';
-String urlGetBsnToCrmnServices = api + 'Services/getBsnsToCrmInvitation';
-String urlGetInvatation = api + 'Services/getInvatation';
+String urlPostHostList = '${api}Services/add';
+String urlGetServices = '${api}Services/getById';
+String urlGetBsnToCrmnServices = '${api}Services/getBsnsToCrmInvitation';
+String urlGetInvatation = '${api}Services/getInvatation';
 
 //PostsSherekkoo
-String urlPostSherekoo = api + 'MyPost/add';
-String urlGetSherekoo = api + 'MyPost/get';
-String urlGetSherekooByCeremonyId = api + 'MyPost/getPostByCrmId';
-String urlGetSherekooByUid = api + 'MyPost/getPostByUid';
-String urlGetCrmPostByUid = api + 'MyPost/getPostByUid';
-String urlProfileSherekooByUid = api + 'MyPost/getProfileByUid';
-String urlVedioPostSherekoo = api + 'MyPost/addVedeo';
+String urlPostSherekoo = '${api}MyPost/add';
+String urlGetSherekoo = '${api}MyPost/get';
+String urlGetSherekooByCeremonyId = '${api}MyPost/getPostByCrmId';
+String urlGetSherekooByUid = '${api}MyPost/getPostByUid';
+String urlGetCrmPostByUid = '${api}MyPost/getPostByUid';
+String urlProfileSherekooByUid = '${api}MyPost/getProfileByUid';
+String urlVedioPostSherekoo = '${api}MyPost/addVedeo';
 
 //LIkes
-String urlpostLikes = api + 'Likes/add';
+String urlpostLikes = '${api}Likes/add';
 
 //Chats on Post
-String urlPostChats = api + 'Chats/add';
-String urlGetChats = api + 'Chats/get';
+String urlPostChats = '${api}Chats/add';
+String urlGetChats = '${api}Chats/get';
 
 // Categries Varaible Dimensions
 double ctg_hotHeight = 80.0;

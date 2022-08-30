@@ -65,8 +65,8 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
       if (_tabController.indexIsChanging) {
         setState(() {
           tabIndex = _tabController.index;
-          print('is changing index');
-          print(_tabController.index);
+          // print('is changing index');
+          // print(_tabController.index);
           // _tabController.
         });
       }
@@ -183,11 +183,11 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
 
         // icon: const Icon(Icons.upload, color: Colors.white),
         label: tabIndex == 0
-            ? Text('post')
+            ? const Text('post')
             : tabIndex == 1 && currentUser.id == widget.ceremony.admin ||
                     currentUser.id == widget.ceremony.fId
-                ? Text('Choose')
-                : Text('Post'),
+                ? const Text('Choose')
+                : const Text('Post'),
         backgroundColor: Colors.red,
       ),
     );

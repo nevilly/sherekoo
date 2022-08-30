@@ -156,11 +156,7 @@ class _CrmCategoriesWidgetState extends State<CrmCategoriesWidget> {
                                 ),
                                 child: data[index].cImage != ''
                                     ? Image.network(
-                                        api +
-                                            'public/uploads/' +
-                                            data[index].u1 +
-                                            '/ceremony/' +
-                                            data[index].cImage,
+                                        '${api}public/uploads/${data[index].u1}/ceremony/${data[index].cImage}',
                                         fit: BoxFit.cover,
                                         height: 45,
                                       )

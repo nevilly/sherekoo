@@ -81,10 +81,10 @@ class _BusnessScreenState extends State<BusnessScreen> {
                 unselectedLabelColor: Colors.black,
                 tabs: [
                   Tab(
-                    text: 'All ' + widget.bsnType,
+                    text: 'All ${widget.bsnType}',
                   ),
                   Tab(
-                    text: 'Best ' + widget.bsnType,
+                    text: 'Best ${widget.bsnType}',
                   ),
                 ]),
             Expanded(

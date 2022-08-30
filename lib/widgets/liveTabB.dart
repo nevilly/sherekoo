@@ -269,7 +269,7 @@ class _TabBState extends State<TabB> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text('Our ' + bsnInfo[i].busnessType,
+                                  child: Text('Our ${bsnInfo[i].busnessType}',
                                       style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold)),
@@ -295,7 +295,7 @@ class _TabBState extends State<TabB> {
                                               left: 8,
                                               right: 8),
                                           child: Text(
-                                            'Choose ' + bsnInfo[i].busnessType,
+                                            'Choose ${bsnInfo[i].busnessType}',
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white),
@@ -325,11 +325,7 @@ class _TabBState extends State<TabB> {
                                     //         ('assets/ceremony/b1.png')))
 
                                     Image.network(
-                                  api +
-                                      'public/uploads/' +
-                                      bsnInfo[i].bsnUsername +
-                                      '/busness/' +
-                                      bsnInfo[i].coProfile,
+                                  '${api}public/uploads/${bsnInfo[i].bsnUsername}/busness/${bsnInfo[i].coProfile}',
                                   height: 70,
                                   fit: BoxFit.cover,
                                 ),
@@ -341,9 +337,7 @@ class _TabBState extends State<TabB> {
                                     // margin: EdgeInsets.only(top: 1),
                                     child: Center(
                                       child: Text(
-                                        bsnInfo[i].busnessType +
-                                            ': ' +
-                                            bsnInfo[i].knownAs,
+                                        '${bsnInfo[i].busnessType}: ${bsnInfo[i].knownAs}',
                                         style: const TextStyle(
                                           fontSize: 15,
                                         ),

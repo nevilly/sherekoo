@@ -137,11 +137,7 @@ class _CeremonyChatsState extends State<CeremonyChats> {
                                             ? CircleAvatar(
                                                 radius: 12.0,
                                                 backgroundImage: NetworkImage(
-                                                  api +
-                                                      'public/uploads/' +
-                                                      chats[index].username +
-                                                      '/profile/' +
-                                                      chats[index].avater,
+                                                  '${api}public/uploads/${chats[index].username}/profile/${chats[index].avater}',
                                                   // height: 400,
                                                 ),
                                               )

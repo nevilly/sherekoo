@@ -12,6 +12,7 @@ import '../../widgets/imgWigdets/boxImg.dart';
 import '../../widgets/imgWigdets/defaultAvater.dart';
 import '../accounts/login.dart';
 import '../uploadScreens/ceremonyUpload.dart';
+import 'crmDoor.dart';
 
 class CeremonyDay extends StatefulWidget {
   final String day;
@@ -104,8 +105,8 @@ class _CeremonyDayState extends State<CeremonyDay> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => Livee(
-                                        ceremony: data[index],
+                                  builder: (_) => CrmDoor(
+                                        crm: data[index],
                                       )));
                         },
                         child: Stack(children: [

@@ -51,7 +51,7 @@ class Post {
     }
 
     Map<String, String> headers = {
-      "Authorization": "Owesis " + token,
+      "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
     };
 
@@ -85,7 +85,7 @@ class Post {
     }
 
     Map<String, String> headers = {
-      "Authorization": "Owesis " + token,
+      "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
     };
 
@@ -108,7 +108,7 @@ class Post {
 
     Map<String, String> headers = {
       "Accept": "application/json",
-      "Authorization": "Owesis " + token
+      "Authorization": "Owesis $token"
     }; // ignore this headers if there is no authentication
 
     Map<String, String> toMap() =>
@@ -138,7 +138,7 @@ class Post {
 
     String data = await res.stream.bytesToString();
 
-    print(data);
+
 
     return Post.fromJson(
         {"status": res.statusCode, "payload": jsonDecode(data)['payload']});
@@ -162,7 +162,7 @@ class Post {
     }
 
     Map<String, String> headers = {
-      "Authorization": "Owesis " + token,
+      "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
     };
 
@@ -195,7 +195,7 @@ class Post {
     }
 
     Map<String, String> headers = {
-      "Authorization": "Owesis " + token,
+      "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
     };
 
@@ -230,10 +230,9 @@ class Post {
       };
     }
 
-    print(toMap());
-
+   
     Map<String, String> headers = {
-      "Authorization": "Owesis " + token,
+      "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
     };
 
@@ -241,7 +240,7 @@ class Post {
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((r) {
       final rJson = jsonDecode(r.body);
-      print(rJson);
+   
       if (r.statusCode == 200) {
         return Post.fromJson(rJson);
       }

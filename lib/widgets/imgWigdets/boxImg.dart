@@ -25,7 +25,7 @@ class _ImgState extends State<Img> {
   @override
   Widget build(BuildContext context) {
     return Image.network(
-      api + 'public/uploads/' + widget.username + widget.url + widget.avater,
+      '${api}public/uploads/${widget.username}${widget.url}${widget.avater}',
       fit: BoxFit.cover,
       width: widget.width,
       height: widget.height,

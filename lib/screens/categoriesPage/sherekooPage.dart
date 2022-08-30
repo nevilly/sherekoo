@@ -29,7 +29,6 @@ class _SherekooState extends State<Sherekoo> {
   late String ceremonyFid = "";
   late String ceremonySid = "";
 
-  List<CeremonyModel> _allCeremony = [];
   @override
   void initState() {
     _preferences.init();
@@ -49,9 +48,6 @@ class _SherekooState extends State<Sherekoo> {
         .get(token, urlGetCeremony)
         .then((value) {
       setState(() {
-        _allCeremony = value.payload
-            .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
-            .toList();
       });
     });
   }

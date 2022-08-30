@@ -23,11 +23,7 @@ class BusnessProfile extends StatelessWidget {
           child: Center(
               child: data.coProfile != ''
                   ? Image.network(
-                      api +
-                          'public/uploads/' +
-                          data.username +
-                          '/busness/' +
-                          data.coProfile,
+                      '${api}public/uploads/${data.username}/busness/${data.coProfile}',
                       height: 165,
                       fit: BoxFit.cover,
                     )

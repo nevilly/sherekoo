@@ -149,11 +149,7 @@ class _BsnTabState extends State<BsnTab> {
                           ),
                           child: data[index].coProfile != ''
                               ? Image.network(
-                                  api +
-                                      'public/uploads/' +
-                                      data[index].username +
-                                      '/busness/' +
-                                      data[index].coProfile,
+                                  '${api}public/uploads/${data[index].username}/busness/${data[index].coProfile}',
                                   fit: BoxFit.cover,
                                   loadingBuilder: (BuildContext context,
                                       Widget child,
@@ -203,7 +199,7 @@ class _BsnTabState extends State<BsnTab> {
                     alignment: Alignment.center,
                     // padding: const EdgeInsets.only(left: 8.0),
                     child: Text(
-                      data[index].price + ' Tsh',
+                      '${data[index].price} Tsh',
                       style: const TextStyle(
                           fontSize: 14, fontWeight: FontWeight.bold),
                     ),

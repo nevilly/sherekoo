@@ -106,11 +106,7 @@ class _MyPostsState extends State<MyPosts> {
                               //   )
 
                               FadeInImage(
-                                  image: NetworkImage(api +
-                                      'public/uploads/' +
-                                      post[index].username +
-                                      '/posts/' +
-                                      post[index].vedeo),
+                                  image: NetworkImage('${api}public/uploads/${post[index].username}/posts/${post[index].vedeo}'),
                                   fadeInDuration:
                                       const Duration(milliseconds: 100),
                                   placeholder: const AssetImage(

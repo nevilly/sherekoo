@@ -126,11 +126,7 @@ class _SearchCeremonyState extends State<SearchCeremony> {
                               margin: const EdgeInsets.only(right: 10),
                               child: option.cImage != ''
                                   ? Image.network(
-                                      api +
-                                          'public/uploads/' +
-                                          option.u1 +
-                                          '/ceremony/' +
-                                          option.cImage,
+                                      '${api}public/uploads/${option.u1}/ceremony/${option.cImage}',
                                       fit: BoxFit.cover,
                                       height: 45,
                                     )

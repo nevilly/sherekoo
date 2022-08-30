@@ -47,7 +47,7 @@ class _ProfileState extends State<Profile> {
       setState(() {
         token = value;
         widget.user.id != ''
-            ? getUser(urlGetUser + '/' + widget.user.id)
+            ? getUser('$urlGetUser/${widget.user.id}')
             : getUser(urlGetUser);
       });
     });
@@ -230,7 +230,7 @@ class _ProfileState extends State<Profile> {
               ? Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Text(
-                    user.username.substring(0, 3).toUpperCase() + '..',
+                    '${user.username.substring(0, 3).toUpperCase()}..',
                     style: h3,
                   ),
                 )
@@ -313,7 +313,7 @@ class _ProfileState extends State<Profile> {
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
-                      '@' + user.username,
+                      '@${user.username}',
                       style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,

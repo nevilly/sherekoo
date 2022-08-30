@@ -128,7 +128,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
             if (r.status == 200) {
               setState(() {
                 _preferences.add('token', r.token);
-                emptyField("User " + us + " was added successful!...");
+                emptyField("${"User " + us} was added successful!...");
 
                 Navigator.pushAndRemoveUntil(
                     context,

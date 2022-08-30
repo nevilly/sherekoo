@@ -114,11 +114,7 @@ class _MyBusnessState extends State<MyBusness> {
                                     child: Center(
                                         child: myBsn[index].coProfile != ''
                                             ? Image.network(
-                                                api +
-                                                    'public/uploads/' +
-                                                    myBsn[index].username +
-                                                    '/busness/' +
-                                                    myBsn[index].coProfile,
+                                                '${api}public/uploads/${myBsn[index].username}/busness/${myBsn[index].coProfile}',
                                                 height: 60,
                                                 width: 65,
                                                 fit: BoxFit.cover,
@@ -215,7 +211,7 @@ class _MyBusnessState extends State<MyBusness> {
                                           borderRadius:
                                               BorderRadius.circular(105)),
                                       child: Text(
-                                        myBsn[index].price + '/Tsh',
+                                        '${myBsn[index].price}/Tsh',
                                         style: const TextStyle(
                                             fontSize: 11,
                                             color: Colors.white,

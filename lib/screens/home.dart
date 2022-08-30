@@ -92,6 +92,7 @@ class _HomeState extends State<Home> {
           PageView(
             controller: _controller,
             scrollDirection: Axis.vertical,
+            onPageChanged: onPage,
             children: List.generate(post.length, (index) {
               return PostTemplate(
                   postId: post[index].pId,
@@ -117,11 +118,7 @@ class _HomeState extends State<Home> {
                       child: post[index].vedeo.endsWith('.jpg') &&
                               post[index].vedeo.isNotEmpty
                           ? Image.network(
-                              api +
-                                  'public/uploads/' +
-                                  post[index].username +
-                                  '/posts/' +
-                                  post[index].vedeo,
+                              '${api}public/uploads/${post[index].username}/posts/${post[index].vedeo}',
                               // height: 400,
                               fit: BoxFit.cover,
                               loadingBuilder: (BuildContext context,
@@ -151,7 +148,6 @@ class _HomeState extends State<Home> {
                     vedeo: post[index].vedeo,
                   ));
             }),
-            onPageChanged: onPage,
           ),
           Positioned(
               top: 25,

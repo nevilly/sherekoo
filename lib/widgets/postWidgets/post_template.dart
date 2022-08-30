@@ -135,8 +135,7 @@ class _PostTemplateState extends State<PostTemplate> {
       // make App to remember likes, or store
     });
 
-    print('check Status like');
-    print(isLike);
+
   }
 
   @override
@@ -269,11 +268,7 @@ class _PostTemplateState extends State<PostTemplate> {
                 // share
                 GestureDetector(
                   onTap: () async {
-                    final String dirUrl = api +
-                        'public/uploads/' +
-                        widget.username +
-                        '/posts/' +
-                        widget.postVedeo;
+                    final String dirUrl = '${api}public/uploads/${widget.username}/posts/${widget.postVedeo}';
 
                     Uri url = Uri.parse(dirUrl);
                     final response = await http.get(url);
@@ -337,7 +332,7 @@ class _PostTemplateState extends State<PostTemplate> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 //Username info
-                Text('@ ' + widget.username,
+                Text('@ ${widget.username}',
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -403,11 +398,7 @@ class _PostTemplateState extends State<PostTemplate> {
 
           child: widget.avater.isNotEmpty
               ? CircleAvatar(
-                  backgroundImage: NetworkImage(api +
-                      'public/uploads/' +
-                      widget.username +
-                      '/profile/' +
-                      widget.avater),
+                  backgroundImage: NetworkImage('${api}public/uploads/${widget.username}/profile/${widget.avater}'),
                 )
               : const DefaultAvater(
                   height: profileImageSize,
@@ -484,11 +475,7 @@ class _PostTemplateState extends State<PostTemplate> {
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(19),
                       child: Image.network(
-                        api +
-                            'public/uploads/' +
-                            widget.crmUsername +
-                            '/ceremony/' +
-                            widget.cImage,
+                        '${api}public/uploads/${widget.crmUsername}/ceremony/${widget.cImage}',
                         fit: BoxFit.cover,
                       ),
                     )

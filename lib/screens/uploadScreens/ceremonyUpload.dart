@@ -303,18 +303,13 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
         List.generate(4, (index) => _chars[r.nextInt(_chars.length)]).join();
 
     String codeNo = codeName + rand;
-    print('check Details');
-    print(backgroundImg);
-    print(defaultImg);
-    print(sId);
-    print(codeName);
-    print(slcted);
+  
 
     if (sId.isNotEmpty) {
       if (name.text.isNotEmpty) {
         if (dati.text.isNotEmpty) {
           if (widget.getData.cId.isNotEmpty) {
-            print('Am hereeeeeeee2');
+         
             if (backgroundImg != null) {
               List<int> bytes = backgroundImg.readAsBytesSync();
               image = base64Encode(bytes);
@@ -352,9 +347,9 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
               }
             });
           } else {
-            print('Am hereeeeeeee');
+        
             if (backgroundImg != null) {
-              print('Am hereeeeeeeerrrrrrrrrreeeeeeeee');
+            
               List<int> bytes = backgroundImg.readAsBytesSync();
               String image = base64Encode(bytes);
 
@@ -960,10 +955,9 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
                                         )
                                       : CircleAvatar(
                                           backgroundImage: NetworkImage(
-                                          api +
+                                          '${api +
                                               'public/uploads/' +
-                                              C_Username +
-                                              '/profile/' +
+                                              C_Username}/profile/' +
                                               profileImg,
                                           // height: 45,
                                           // fit: BoxFit.cover,
@@ -1115,11 +1109,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
                                 height: 40,
                                 child: currentUser!.avater.isNotEmpty
                                     ? CircleAvatar(
-                                        backgroundImage: NetworkImage(api +
-                                                'public/uploads/' +
-                                                currentUser!.username +
-                                                '/profile/' +
-                                                currentUser!.avater
+                                        backgroundImage: NetworkImage('${api}public/uploads/${currentUser!.username}/profile/${currentUser!.avater}'
                                             // height: 45,
                                             // fit: BoxFit.cover,
                                             ))
@@ -1297,11 +1287,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
                         )
                       : widget.getData.cId.isNotEmpty
                           ? Image.network(
-                              api +
-                                  'public/uploads/' +
-                                  widget.getData.u1 +
-                                  '/ceremony/' +
-                                  widget.getData.cImage,
+                              '${api}public/uploads/${widget.getData.u1}/ceremony/${widget.getData.cImage}',
                               height: 120,
                               fit: BoxFit.cover,
                             )
@@ -1557,13 +1543,9 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
                                                       ? CircleAvatar(
                                                           backgroundImage:
                                                               NetworkImage(
-                                                          api +
-                                                              'public/uploads/' +
-                                                              _foundUsers[index]
-                                                                  .username +
-                                                              '/profile/' +
-                                                              _foundUsers[index]
-                                                                  .avater,
+                                                          '${api}public/uploads/${_foundUsers[index]
+                                                                  .username}/profile/${_foundUsers[index]
+                                                                  .avater}',
                                                           // height: 45,
                                                           // fit: BoxFit.cover,
                                                         ))

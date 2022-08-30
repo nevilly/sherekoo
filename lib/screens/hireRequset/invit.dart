@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../util/Preferences.dart';
 
 class InvitationTime extends StatefulWidget {
   const InvitationTime({Key? key}) : super(key: key);
@@ -10,7 +9,6 @@ class InvitationTime extends StatefulWidget {
 }
 
 class _InvitationTimeState extends State<InvitationTime> {
-  final Preferences _preferences = Preferences();
   String token = '';
 
   @override

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../util/util.dart';
 import '../detailScreen/livee.dart';
+import 'crmDoor.dart';
 
 class CrmSlide extends StatelessWidget {
   const CrmSlide({
@@ -41,8 +42,8 @@ class CrmSlide extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) => Livee(
-                                            ceremony: todayCrm[index],
+                                      builder: (_) => CrmDoor(
+                                            crm: todayCrm[index],
                                           )));
                             },
                             child: ClipRRect(

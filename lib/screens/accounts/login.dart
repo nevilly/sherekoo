@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:sherekoo/screens/profile/profile.dart';
 import '../../model/authentication/loginModel.dart';
 import '../../model/profileMode.dart';
 import '../../util/Locale.dart';
@@ -260,14 +259,14 @@ class _LoginPageState extends State<LoginPage> {
                         builder: (BuildContext context) =>
                             const CreateNewAccount())),
                 child: Container(
-                  child: Text(
-                    OLocale(false, 5).get(),
-                    style: kBodyText_login,
-                  ),
                   decoration: const BoxDecoration(
                       border: Border(
                           bottom:
                               BorderSide(width: 1, color: Colors.lightBlue))),
+                  child: Text(
+                    OLocale(false, 5).get(),
+                    style: kBodyText_login,
+                  ),
                 ),
               ),
               const SizedBox(

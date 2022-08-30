@@ -29,7 +29,7 @@ class _DisplayVedeoState extends State<DisplayVedeo> {
 
   loadVideoPlayer() {
     controller = VideoPlayerController.network(
-      api + 'public/uploads/' + widget.username + '/posts/' + widget.vedeo,
+      '${api}public/uploads/${widget.username}/posts/${widget.vedeo}',
     );
     controller!.addListener(() {
       setState(() {});
@@ -49,11 +49,7 @@ class _DisplayVedeoState extends State<DisplayVedeo> {
       child: Container(
         child: widget.vedeo.endsWith('.jpg')
             ? Image.network(
-                api +
-                    'public/uploads/' +
-                    widget.username +
-                    '/posts/' +
-                    widget.vedeo,
+                '${api}public/uploads/${widget.username}/posts/${widget.vedeo}',
                 fit: BoxFit.contain,
                 loadingBuilder: (BuildContext context, Widget child,
                     ImageChunkEvent? loadingProgress) {
