@@ -18,6 +18,7 @@ import 'package:sherekoo/util/util.dart';
 import '../../model/profileMode.dart';
 import '../../screens/detailScreen/livee.dart';
 import '../../screens/homNav.dart';
+import '../../util/colors.dart';
 import '../imgWigdets/defaultAvater.dart';
 import '../../util/Preferences.dart';
 import '../../util/button.dart';
@@ -61,10 +62,10 @@ class PostTemplate extends StatefulWidget {
       required this.isLike});
 
   @override
-  _PostTemplateState createState() => _PostTemplateState();
+  PostTemplateState createState() => PostTemplateState();
 }
 
-class _PostTemplateState extends State<PostTemplate> {
+class PostTemplateState extends State<PostTemplate> {
   final Preferences _preferences = Preferences();
 
   String token = '';
@@ -103,6 +104,7 @@ class _PostTemplateState extends State<PostTemplate> {
     super.initState();
   }
 
+ 
   onLikeButtonTapped() async {
     Post(
             pId: widget.postId,
@@ -156,6 +158,7 @@ class _PostTemplateState extends State<PostTemplate> {
               bottom: 0,
               child: SizedBox(height: 100, child: bodyPanel(context))),
 
+          //Post Details
           Positioned(
             right: 0,
             bottom: 3,
@@ -216,23 +219,23 @@ class _PostTemplateState extends State<PostTemplate> {
                         child: Column(
                           children: [
                             isLike == 0
-                                ? const Icon(
+                                ?  Icon(
                                     Icons.favorite,
                                     size: 18.0,
-                                    color: Colors.white,
+                                    color: OColors.fontColor,
                                   )
-                                : const Icon(
+                                :  Icon(
                                     Icons.favorite,
                                     size: 18.0,
-                                    color: Colors.red,
+                                    color: OColors.primary,
                                   ),
                             const SizedBox(
                               height: 3,
                             ),
                             Text(
                               totalLikes.toString(),
-                              style: const TextStyle(
-                                  fontSize: 12, color: Colors.white),
+                              style:  TextStyle(
+                                  fontSize: 12, color: OColors.fontColor),
                             ),
                             // const SizedBox(
                             //   height: 8.0,

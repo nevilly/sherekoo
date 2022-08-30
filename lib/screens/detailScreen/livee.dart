@@ -6,6 +6,7 @@ import '../../model/allData.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
+import '../../util/colors.dart';
 import '../../util/util.dart';
 import '../../widgets/liveTabA.dart';
 import '../uploadScreens/uploadSherekoo.dart';
@@ -105,12 +106,13 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: OColors.secondary,
       body: NestedScrollView(
         floatHeaderSlivers: true,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              backgroundColor: Colors.black45,
+              backgroundColor: OColors.secondary,
               // automaticallyImplyLeading: false,
               expandedHeight: 200,
               flexibleSpace: SafeArea(
@@ -119,14 +121,17 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
                     flex: 5,
                     child: widget.ceremony.youtubeLink != 'GoLive'
                         ? YoutubePlayer(
-                            controller: _controller, liveUIColor: Colors.amber)
+                            controller: _controller,
+                            liveUIColor: OColors.primary)
                         : Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [
                               Text(
                                 'Ceremony Loading',
                                 style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
                               ),
                             ],
                           ),
@@ -135,8 +140,9 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
               pinned: true,
               floating: true,
               bottom: TabBar(
-                  indicatorColor: Colors.black,
-                  labelColor: Colors.white,
+                  labelColor: OColors.primary,
+                  indicatorColor: OColors.primary,
+                  // unselectedLabelColor: OColors.darkGrey,
                   labelPadding: const EdgeInsets.only(
                     bottom: 2,
                   ),
@@ -144,9 +150,17 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
                     top: 10,
                   ),
                   controller: _tabController,
-                  tabs: const [
-                    Text("Posts"),
-                    Text("Details"),
+                  tabs: [
+                    Icon(
+                      Icons.grid_on_outlined,
+                      size: 20,
+                      color: OColors.primary,
+                    ),
+                    Icon(
+                      Icons.details,
+                      size: 20,
+                      color: OColors.primary,
+                    )
                   ]),
             ),
           ];
@@ -157,13 +171,15 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
             Expanded(
               flex: 2,
               child: TabA(
-                ceremony: widget.ceremony, user: currentUser,
+                ceremony: widget.ceremony,
+                user: currentUser,
               ),
             ),
             Expanded(
                 flex: 2,
                 child: TabB(
-                  ceremony: widget.ceremony, user: currentUser,
+                  ceremony: widget.ceremony,
+                  user: currentUser,
                 )),
           ],
         ),

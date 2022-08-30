@@ -219,8 +219,8 @@ class _HomeNavState extends State<HomeNav> {
           child: Scaffold(
             extendBody: true,
             bottomNavigationBar: Theme(
-              data: Theme.of(context).copyWith(
-                  iconTheme: const IconThemeData(color: Colors.white)),
+              data: Theme.of(context)
+                  .copyWith(iconTheme: IconThemeData(color: OColors.white)),
               child: CurvedNavigationBar(
                 key: _bottomNavigationKey,
                 index: index,
@@ -264,8 +264,8 @@ class _HomeNavState extends State<HomeNav> {
                     ),
                   ),
                 ],
-                color: Colors.black87,
-                buttonBackgroundColor: Colors.black87,
+                color: OColors.secondary,
+                buttonBackgroundColor: OColors.secondary,
                 backgroundColor: Colors.transparent,
                 animationCurve: Curves.easeInOut,
                 animationDuration: const Duration(milliseconds: 500),

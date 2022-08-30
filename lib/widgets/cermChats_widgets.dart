@@ -25,6 +25,8 @@ class _CeremonyChatsState extends State<CeremonyChats> {
   final TextEditingController _body = TextEditingController();
   int id = 0;
 
+  
+
   @override
   void initState() {
     _preferences.init();

@@ -39,7 +39,8 @@ class _ProfileState extends State<Profile> {
       address: '',
       bio: '',
       meritalStatus: '');
-
+  
+  
   @override
   void initState() {
     _preferences.init();

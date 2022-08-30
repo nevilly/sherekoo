@@ -138,8 +138,6 @@ class Post {
 
     String data = await res.stream.bytesToString();
 
-
-
     return Post.fromJson(
         {"status": res.statusCode, "payload": jsonDecode(data)['payload']});
     //return Post.fromJson({"status": false});
@@ -169,6 +167,7 @@ class Post {
     return await http
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((r) {
+      print(r.body);
       final rJson = jsonDecode(r.body);
 
       if (r.statusCode == 200) {
@@ -223,14 +222,9 @@ class Post {
     }
 
     Map<String, dynamic> toMap() {
-      return <String, dynamic>{
-        'createdBy': createdBy,
-        'isLike': isLike,
-        'postId': pId
-      };
+      return <String, dynamic>{'isLike': isLike, 'postId': pId};
     }
 
-   
     Map<String, String> headers = {
       "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
@@ -240,7 +234,7 @@ class Post {
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((r) {
       final rJson = jsonDecode(r.body);
-   
+
       if (r.statusCode == 200) {
         return Post.fromJson(rJson);
       }
