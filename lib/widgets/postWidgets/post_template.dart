@@ -16,7 +16,7 @@ import 'package:sherekoo/screens/chats.dart';
 import 'package:sherekoo/util/util.dart';
 
 import '../../model/profileMode.dart';
-import '../../screens/detailScreen/livee.dart';
+import '../../screens/crmScreen/crmDoor.dart';
 import '../../screens/homNav.dart';
 import '../../util/colors.dart';
 import '../imgWigdets/defaultAvater.dart';
@@ -434,8 +434,8 @@ class PostTemplateState extends State<PostTemplate> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) => Livee(
-                      ceremony: CeremonyModel(
+                builder: (BuildContext context) => CrmDoor(
+                      crm: CeremonyModel(
                           cId: widget.ceremonyId,
                           codeNo: '',
                           ceremonyType: '',
