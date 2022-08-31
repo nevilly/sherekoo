@@ -60,6 +60,7 @@ String urlGetSherekooByUid = '${api}MyPost/getPostByUid';
 String urlGetCrmPostByUid = '${api}MyPost/getPostByUid';
 String urlProfileSherekooByUid = '${api}MyPost/getProfileByUid';
 String urlVedioPostSherekoo = '${api}MyPost/addVedeo';
+String urlremoveSherekoo = '${api}MyPost/remove';
 
 //LIkes
 String urlpostLikes = '${api}Likes/add';

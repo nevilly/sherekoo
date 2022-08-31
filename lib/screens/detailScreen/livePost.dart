@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/model/post/sherekoModel.dart';
+import 'package:sherekoo/screens/detailScreen/livee.dart';
 
+import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/post/post.dart';
+import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
@@ -9,7 +12,11 @@ import '../../widgets/cermChats_widgets.dart';
 
 class LiveePost extends StatefulWidget {
   final SherekooModel post;
-  const LiveePost({Key? key, required this.post}) : super(key: key);
+  final User user;
+  final CeremonyModel crm; // must be remove after knowing Provider way
+  const LiveePost(
+      {Key? key, required this.post, required this.crm, required this.user})
+      : super(key: key);
 
   @override
   State<LiveePost> createState() => _LiveePostState();
@@ -62,6 +69,31 @@ class _LiveePostState extends State<LiveePost> {
         setState(() {
           totalShare++;
         });
+      }
+      // make App to remember likes, or store
+    });
+  }
+
+  remove() async {
+    Post(
+        pId: widget.post.pId,
+        createdBy: '',
+        body: '',
+        vedeo: '',
+        ceremonyId: '',
+        username: '',
+        avater: '',
+        status: 0,
+        payload: []).remove(token, urlremoveSherekoo).then((value) {
+      if (value.status == 200) {
+        print('am hereee');
+        Navigator.pop(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => Livee(
+                      ceremony: widget.crm,
+                    )));
       }
       // make App to remember likes, or store
     });
@@ -175,9 +207,20 @@ class _LiveePostState extends State<LiveePost> {
             children: [
               Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: footerIcon(Icons.more_vert, 20, OColors.primary),
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) =>
+                            _buildPopupDialog(context),
+                      );
+                    },
+                    child: Container(
+                      color: Colors.green,
+                      margin: const EdgeInsets.only(left: 10.0),
+                      padding: const EdgeInsets.all(8.0),
+                      child: footerIcon(Icons.more_vert, 20, OColors.primary),
+                    ),
                   ),
                   const SizedBox(
                     height: 2.0,
@@ -314,5 +357,58 @@ class _LiveePostState extends State<LiveePost> {
                 child: CeremonyChats(post: p)),
           );
         });
+  }
+
+  // PopUp Widget
+  Widget _buildPopupDialog(BuildContext context) {
+    return AlertDialog(
+      insetPadding: EdgeInsets.all(0),
+      contentPadding: EdgeInsets.all(1),
+      backgroundColor: OColors.secondary,
+      title: Text('Post Settings',
+          style:
+              TextStyle(color: OColors.fontColor, fontWeight: FontWeight.bold)),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          widget.post.userId == widget.user.id
+              ? ListTile(
+                  title: Text('Delete Post',
+                      style: TextStyle(color: OColors.fontColor)),
+                  onTap: () {
+                    remove();
+                  },
+                )
+              : const SizedBox(),
+          ListTile(
+            title:
+                Text('see only me', style: TextStyle(color: OColors.fontColor)),
+            onTap: () {
+              // Navigator.of(context).pop();
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (BuildContext context) => EditProfile(
+              //               data: currentUser,
+              //             )));
+            },
+          ),
+          ListTile(
+            title: Text('see only fallow People',
+                style: TextStyle(color: OColors.fontColor)),
+            onTap: () {
+              Navigator.of(context).pop();
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (BuildContext context) => EditProfile(
+              //               data: currentUser,
+              //             )));
+            },
+          ),
+        ],
+      ),
+    );
   }
 }
