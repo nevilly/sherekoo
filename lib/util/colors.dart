@@ -6,6 +6,7 @@ class OColors {
   static Color primary = const Color(0xfff54b64);  // Buttons Colors
   static Color primary2 = const Color(0xffff566e);
   static Color darkGrey = const Color(0xff4e586e);
+   static Color darGrey = const Color(0xff242a38);
   static Color sPurple = const Color(0xff8028ff);
   static Color sYelow = const Color(0xfffca01c);
   static Color fontColor = const Color(0xffFFFFFF);

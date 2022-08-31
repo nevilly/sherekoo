@@ -9,6 +9,7 @@ import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
 import '../../widgets/cermChats_widgets.dart';
+import '../homNav.dart';
 
 class LiveePost extends StatefulWidget {
   final SherekooModel post;
@@ -130,82 +131,125 @@ class _LiveePostState extends State<LiveePost> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+        padding: const EdgeInsets.only(
+            left: 12.0, right: 12.0, top: 8.0, bottom: 8.0),
+        color: OColors.darGrey,
         child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(
-          height: 30.0,
-        ),
-        //header
-        Padding(
-          padding: const EdgeInsets.only(left: 5.0, right: 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            //header
+            Padding(
+              padding: const EdgeInsets.only(bottom: 18.0, top: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: CircleAvatar(
-                      radius: 15,
-                      backgroundImage: NetworkImage(
-                          '${api}public/uploads/${widget.post.username}/profile/${widget.post.avater}'),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => HomeNav(
+                                    user: User(
+                                        id: widget.post.userId,
+                                        username: widget.post.username,
+                                        avater: widget.post.avater,
+                                        phoneNo: '',
+                                        role: '',
+                                        gender: '',
+                                        email: '',
+                                        firstname: '',
+                                        lastname: '',
+                                        isCurrentUser: '',
+                                        address: '',
+                                        bio: '',
+                                        meritalStatus: ''),
+                                    getIndex: 4,
+                                  )));
+                    },
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 22,
+                          backgroundImage: NetworkImage(
+                              '${api}public/uploads/${widget.post.username}/profile/${widget.post.avater}'),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(widget.post.username,
+                                  style: TextStyle(
+                                    // fontSize: 16,
+                                    color: OColors.fontColor,
+                                    fontWeight: FontWeight.w600,
+                                  )),
+                              const SizedBox(
+                                height: 2,
+                              ),
+                              Text(widget.post.createdDate,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                  )),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 4.0),
-                    child: Text(widget.post.username,
-                        style: TextStyle(
-                          color: OColors.fontColor,
-                          fontWeight: FontWeight.w600,
+                    padding: const EdgeInsets.only(right: 1.0),
+                    child: Container(
+                        width: 80,
+                        height: 26,
+                        margin: const EdgeInsets.only(top: 9),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: OColors.primary),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Center(
+                          child: Text('follow',
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: OColors.primary,
+                              )),
                         )),
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(right: 15.0),
-                child: Text(widget.post.createdDate,
-                    style: TextStyle(
-                      color: OColors.fontColor,
-                    )),
-              ),
-            ],
-          ),
-        ),
+            ),
 
-        const SizedBox(
-          height: 5,
-        ),
+            //Hash Tags
+            Padding(
+              padding: const EdgeInsets.only(left: 4.0),
+              child: Text('#relative',
+                  style: TextStyle(fontSize: 12, color: OColors.primary)),
+            ),
+            //body Message
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 2.0, left: 4, right: 5.0, bottom: 13.0),
+              child: Text(widget.post.body,
+                  style: TextStyle(
+                      fontWeight: FontWeight.normal, color: OColors.fontColor)),
+            ),
+            //body Photo
+            Center(
+              child: Container(
+                  child: widget.post.vedeo != ''
+                      ? Image.network(
+                          '${api}public/uploads/${widget.post.username}/posts/${widget.post.vedeo}',
+                          fit: BoxFit.contain,
+                        )
+                      : const SizedBox(height: 1)),
+            ),
 
-        //body Photo
-        Center(
-          child: Container(
-              child: widget.post.vedeo != ''
-                  ? Image.network(
-                      '${api}public/uploads/${widget.post.username}/posts/${widget.post.vedeo}',
-                      fit: BoxFit.contain,
-                    )
-                  : const SizedBox(height: 1)),
-        ),
-
-        //body Message
-        Padding(
-          padding: const EdgeInsets.only(top: 6.0, left: 8, right: 5.0),
-          child: Text(widget.post.body,
-              style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 14,
-                  color: OColors.fontColor)),
-        ),
-
-        //footer
-        Padding(
-          padding: const EdgeInsets.only(top: 6, bottom: 5.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
+            //footer
+            Padding(
+              padding: const EdgeInsets.only(top: 6, bottom: 2.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
                     onTap: () {
@@ -216,120 +260,110 @@ class _LiveePostState extends State<LiveePost> {
                       );
                     },
                     child: Container(
-                      color: Colors.green,
-                      margin: const EdgeInsets.only(left: 10.0),
-                      padding: const EdgeInsets.all(8.0),
+                      // margin: const EdgeInsets.only(left: 2.0),
+                      padding: const EdgeInsets.all(2.0),
                       child: footerIcon(Icons.more_vert, 20, OColors.primary),
                     ),
                   ),
-                  const SizedBox(
-                    height: 2.0,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          share();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.reply,
+                                size: 20.0,
+                                color: OColors.primary,
+                              ),
+                              const SizedBox(
+                                width: 2.0,
+                              ),
+                              Text(
+                                totalShare.toString(),
+                                style: TextStyle(color: OColors.fontColor),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          onLikeButtonTapped();
+                        },
+                        child: Container(
+                          // color: Colors.green,
+                          margin: const EdgeInsets.all(10),
+                          child: Row(
+                            children: [
+                              isLike == 0
+                                  ? Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Icon(
+                                        Icons.favorite_border,
+                                        size: 18.0,
+                                        color: OColors.primary,
+                                      ),
+                                    )
+                                  : Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, right: 8),
+                                      child: Icon(
+                                        Icons.favorite,
+                                        size: 20.0,
+                                        color: OColors.primary,
+                                      ),
+                                    ),
+                              const SizedBox(
+                                width: 2.0,
+                              ),
+                              Text(
+                                totalLikes.toString(),
+                                style: TextStyle(color: OColors.fontColor),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          oneButtonPressed(widget.post);
+                        },
+                        child: Container(
+                          // color: Colors.yellow,
+                          // margin: const EdgeInsets.only(right: 14.0),
+                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.message,
+                                size: 20.0,
+                                color: OColors.primary,
+                              ),
+                              const SizedBox(
+                                width: 2.0,
+                              ),
+                              Text(
+                                '23',
+                                style: TextStyle(
+                                    fontSize: 13, color: OColors.fontColor),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ],
               ),
-              // IconButton(
-              //     onPressed: () {},
-              //     icon: const Icon(Icons.more_vert)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      share();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.reply,
-                            size: 18.0,
-                            color: OColors.primary,
-                          ),
-                          const SizedBox(
-                            height: 2.0,
-                          ),
-                          Text(
-                            totalShare.toString(),
-                            style: TextStyle(color: OColors.fontColor),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      onLikeButtonTapped();
-                    },
-                    child: Container(
-                      // color: Colors.green,
-                      margin: const EdgeInsets.only(left: 4, right: 8),
-                      child: Column(
-                        children: [
-                          isLike == 0
-                              ? Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 8.0, right: 8),
-                                  child: Icon(
-                                    Icons.favorite_border,
-                                    size: 18.0,
-                                    color: OColors.primary,
-                                  ),
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 8.0, right: 8),
-                                  child: Icon(
-                                    Icons.favorite,
-                                    size: 18.0,
-                                    color: OColors.primary,
-                                  ),
-                                ),
-                          const SizedBox(
-                            height: 2.0,
-                          ),
-                          Text(
-                            totalLikes.toString(),
-                            style: TextStyle(color: OColors.fontColor),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      oneButtonPressed(widget.post);
-                    },
-                    child: Container(
-                      // color: Colors.yellow,
-                      margin: const EdgeInsets.only(right: 14.0),
-                      padding: const EdgeInsets.only(left: 8.0, right: 8),
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.send_outlined,
-                            size: 18.0,
-                            color: OColors.primary,
-                          ),
-                          const SizedBox(
-                            height: 2.0,
-                          ),
-                          Text(
-                            '23',
-                            style: TextStyle(
-                                fontSize: 13, color: OColors.fontColor),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
-    ));
+            ),
+          ],
+        ));
   }
 
   Icon footerIcon(IconData icon, double size, Color color) {

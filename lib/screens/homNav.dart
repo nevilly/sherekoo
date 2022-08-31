@@ -77,17 +77,7 @@ class _HomeNavState extends State<HomeNav> {
 
   @override
   void initState() {
-    notificationInit();
-
-    // FirebaseMessaging.instance
-    //     .getToken(vapidKey: "1:780741266478:android:cadcf8f94da2a4151f63bf")
-    //     .then((value) {
-    //   setState(() {
-    //     notificationToken = value!;
-    //     // print('notificationToken');
-    //     // print(notificationToken);
-    //   });
-    // });
+ 
 
     _preferences.init();
     _preferences.get('token').then((value) {
@@ -131,82 +121,6 @@ class _HomeNavState extends State<HomeNav> {
 
     index = widget.getIndex;
     super.initState();
-  }
-
-  notificationInit() async {
-    /*await notification.init().then((value) {
-      if (mounted)
-        setState(() {
-          token = value;
-        });
-
-      // session.add("token", token);
-      // if (notified) {
-      //   _firebaseMessaging.configure(
-      //     onMessage: (Map<String, dynamic> message) async {
-      //       //print("onMessage: $message");
-      //       //print("token:$token");
-      //       _showItemDialog(
-      //           message: message['notification']['body'],
-      //           action: message['data']['click_action'],
-      //           id: message['data']['id']);
-      //     },
-      //     onBackgroundMessage: myBackgroundMessageHandler,
-      //     onLaunch: (Map<String, dynamic> message) async {
-      //       //print("onLaunch: $message");
-      //       //print("onLaunch:"+message['data']);
-      //       _navigateToItemDetail(
-      //           action: message['data']['click_action'],
-      //           id: message['data']['id'],
-      //           url: message['data']['url']);
-      //     },
-      //     onResume: (Map<String, dynamic> message) async {
-      //       //print("onResume: $message");
-      //       //print("onResume:"+message['data']);
-      //       _navigateToItemDetail(
-      //           action: message['data']['click_action'],
-      //           id: message['data']['id'],
-      //           url: message['data']['url']);
-      //     },
-      //   );
-      // }
-
-      addToken();
-    });
-  */
-  }
-
-  sessionInit() {
-    Preferences().init().then((data) {
-      if (mounted) {
-        setState(() {
-          username = data.getString('username');
-          id = data.getString('id');
-          // print(username);
-          avatar = data.getString('avatar');
-          var n = data.getString('notified');
-          notified = (n != null && n == 'yes');
-          String lang = data.getString('language');
-          // print(n);
-          isLoggedIn = username.isNotEmpty ? true : false;
-          // isSwahili = lang == "Kiswahili";
-          // if (!isLoggedIn) {
-          //   username =
-          //       Locales(type: isSwahili ? 'sw' : 'en', word: 'guest').language;
-          // }
-
-          avatar =
-              "https://images.vexels.com/media/users/3/129733/isolated/preview/a558682b158debb6d6f49d07d854f99f-casual-male-avatar-silhouette-by-vexels.png";
-        });
-      }
-    });
-  }
-
-  Future<Null> addToken() async {
-    await TokenManager(token: token, id: '', page: 'add-token')
-        .set('API2')
-        .then((value) => null);
-    return null;
   }
 
   @override

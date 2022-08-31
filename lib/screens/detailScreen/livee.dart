@@ -112,7 +112,7 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              backgroundColor: OColors.secondary,
+              backgroundColor: OColors.darkGrey,
               // automaticallyImplyLeading: false,
               expandedHeight: 200,
               flexibleSpace: SafeArea(

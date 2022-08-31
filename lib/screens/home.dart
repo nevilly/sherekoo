@@ -13,10 +13,10 @@ class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState();
+  HomeState createState() => HomeState();
 }
 
-class _HomeState extends State<Home> {
+class HomeState extends State<Home> {
   final Preferences _preferences = Preferences();
   String token = '';
   int page = 1, limit = 3, offset = 0;
