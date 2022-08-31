@@ -264,9 +264,8 @@ class Post {
     return await http
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((r) {
-  
       final rJson = jsonDecode(r.body);
-
+      // print(r.body);
       if (r.statusCode == 200) {
         return Post.fromJson(rJson);
       }

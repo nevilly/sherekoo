@@ -186,7 +186,7 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.of(context).pop();
           Navigator.push(
               context,
               MaterialPageRoute(

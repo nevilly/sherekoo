@@ -111,7 +111,7 @@ class PostTemplateState extends State<PostTemplate> {
   }
 
   share() async {
-    print('oress');
+
     Post(
         pId: widget.postId,
         createdBy: '',
@@ -122,10 +122,8 @@ class PostTemplateState extends State<PostTemplate> {
         avater: '',
         status: 0,
         payload: []).share(token, urlpostShare, 'Post').then((value) {
-      // print(value.payload);
 
-      if (value.payload == 200) {
-        // print(value.payload);
+      if (value.status == 200) {
         setState(() {
           totalShare++;
         });
@@ -298,6 +296,7 @@ class PostTemplateState extends State<PostTemplate> {
                 // share
                 GestureDetector(
                   onTap: () async {
+                    share();
                     final String dirUrl =
                         '${api}public/uploads/${widget.username}/posts/${widget.postVedeo}';
 

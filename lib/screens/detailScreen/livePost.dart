@@ -48,7 +48,6 @@ class _LiveePostState extends State<LiveePost> {
   }
 
   share() async {
-     print('oress');
     Post(
         pId: widget.post.pId,
         createdBy: '',
@@ -59,10 +58,7 @@ class _LiveePostState extends State<LiveePost> {
         avater: '',
         status: 0,
         payload: []).share(token, urlpostShare, 'Post').then((value) {
-      // print(value.payload);
-
-      if (value.payload == 200) {
-        // print(value.payload);
+      if (value.status == 200) {
         setState(() {
           totalShare++;
         });
@@ -72,7 +68,6 @@ class _LiveePostState extends State<LiveePost> {
   }
 
   onLikeButtonTapped() async {
-   
     Post(
             pId: widget.post.pId,
             createdBy: '',
@@ -104,10 +99,6 @@ class _LiveePostState extends State<LiveePost> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        // height: 400,
-        // width: double.infinity,
-        // color:
-        //     Colors.primaries[Random().nextInt(Colors.primaries.length)],
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
