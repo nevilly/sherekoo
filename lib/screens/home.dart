@@ -107,6 +107,7 @@ class HomeState extends State<Home> {
                   crmUsername: post[index].crmUsername,
                   crmYoutubeLink: post[index].crmYoutubeLink,
                   postVedeo: post[index].vedeo,
+                  crmViewer: post[index].crmViewer,
                   filterBck: Positioned.fill(
                     child: ImageFiltered(
                       imageFilter: ImageFilter.blur(

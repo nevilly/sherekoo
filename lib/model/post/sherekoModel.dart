@@ -26,6 +26,9 @@ class SherekooModel {
   // Shares info
   final String totalShare;
 
+  //Ceremony Viewer
+  dynamic crmViewer;
+
   SherekooModel(
       {required this.pId,
       required this.createdBy,
@@ -51,7 +54,10 @@ class SherekooModel {
       required this.isLike,
 
       //Share Info
-      required this.totalShare});
+      required this.totalShare,
+
+      //Ceremony Viewer
+      required this.crmViewer});
 
   factory SherekooModel.fromJson(Map<String, dynamic> json) {
     return SherekooModel(
@@ -77,8 +83,10 @@ class SherekooModel {
       //Likes Info
       totalLikes: json['totalLikes'].toString(),
       isLike: json['isLike'] ?? "",
-
+      // Share info
       totalShare: json['totalShare'].toString(),
+      // Crm Viewr info
+      crmViewer: json['crmViewer'] ?? ""
     );
   }
 }

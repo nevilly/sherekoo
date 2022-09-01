@@ -163,7 +163,7 @@ class _LiveePostState extends State<LiveePost> {
                                         isCurrentUser: '',
                                         address: '',
                                         bio: '',
-                                        meritalStatus: ''),
+                                        meritalStatus: '', totalPost: ''),
                                     getIndex: 4,
                                   )));
                     },

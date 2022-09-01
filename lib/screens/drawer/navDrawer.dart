@@ -33,7 +33,7 @@ class _NavDrawerState extends State<NavDrawer> {
       email: '',
       gender: '',
       role: '',
-      isCurrentUser: '', address: '', bio: '', meritalStatus: '');
+      isCurrentUser: '', address: '', bio: '', meritalStatus: '', totalPost: '');
 
   CeremonyModel ceremony = CeremonyModel(
       cId: '',

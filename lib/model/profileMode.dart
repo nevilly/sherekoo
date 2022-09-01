@@ -13,6 +13,8 @@ class User {
   final String bio;
   final dynamic isCurrentUser;
 
+  final String totalPost;
+
   User(
       {required this.id,
       required this.username,
@@ -26,6 +28,7 @@ class User {
       required this.address,
       required this.meritalStatus,
       required this.bio,
+      required this.totalPost,
       required this.isCurrentUser});
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -40,6 +43,7 @@ class User {
         gender: json['gender'] ?? "",
         address: json['address'] ?? "",
         isCurrentUser: json['isCurrentUser'] ?? '',
+        totalPost: json['totalPost'].toString(),
         role: json['role'] ?? "",
         meritalStatus: json['merital_status'] ?? "",
         bio: json['bio'] ?? "");

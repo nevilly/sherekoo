@@ -123,7 +123,7 @@ class _UploadImageState extends State<UploadImage> {
                             isCurrentUser: '',
                             address: '',
                             bio: '',
-                            meritalStatus: ''),
+                            meritalStatus: '', totalPost: ''),
                       )));
         } else if (widget.from == 'Ceremony') {
          Navigator.pop(context);

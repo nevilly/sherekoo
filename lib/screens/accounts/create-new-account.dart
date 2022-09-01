@@ -38,7 +38,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
       isCurrentUser: '',
       address: '',
       bio: '',
-      meritalStatus: '');
+      meritalStatus: '', totalPost: '');
   bool isLoggedIn = false;
   // String _email;
   //String _password;

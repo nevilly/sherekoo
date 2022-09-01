@@ -3,7 +3,6 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 
 import '../model/profileMode.dart';
-import '../model/token.dart';
 import '../util/Preferences.dart';
 import '../util/colors.dart';
 import 'categoriesPage/sherekooPage.dart';
@@ -98,7 +97,7 @@ class _HomeNavState extends State<HomeNav> {
                   isCurrentUser: '',
                   address: '',
                   bio: '',
-                  meritalStatus: '')));
+                  meritalStatus: '', totalPost: '')));
         } else {
           screen.add(Profile(
               user: User(
@@ -114,7 +113,7 @@ class _HomeNavState extends State<HomeNav> {
                   isCurrentUser: '',
                   meritalStatus: '',
                   address: '',
-                  bio: '')));
+                  bio: '', totalPost: '')));
         }
       });
     });

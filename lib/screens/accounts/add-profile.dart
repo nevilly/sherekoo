@@ -38,7 +38,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
       isCurrentUser: '',
       address: '',
       bio: '',
-      meritalStatus: '');
+      meritalStatus: '', totalPost: '');
 
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();

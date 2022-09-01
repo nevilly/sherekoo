@@ -41,7 +41,7 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
       isCurrentUser: '',
       address: '',
       bio: '',
-      meritalStatus: '');
+      meritalStatus: '', totalPost: '');
 
   @override
   void initState() {

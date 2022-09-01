@@ -14,7 +14,8 @@ import 'listTile_widget.dart';
 class TabB extends StatefulWidget {
   final CeremonyModel ceremony;
   final User user;
-  const TabB({Key? key, required this.ceremony,required this.user}) : super(key: key);
+  const TabB({Key? key, required this.ceremony, required this.user})
+      : super(key: key);
 
   @override
   State<TabB> createState() => _TabBState();
@@ -38,7 +39,8 @@ class _TabBState extends State<TabB> {
       isCurrentUser: '',
       address: '',
       bio: '',
-      meritalStatus: '');
+      meritalStatus: '',
+      totalPost: '');
 
   List<SvModel> bsnInfo = [];
 

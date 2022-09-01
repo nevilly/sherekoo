@@ -31,34 +31,18 @@ class _MyCrmnState extends State<MyCrmn> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-        getAllCeremony(widget.userId);
+      
         getCeremonyPosts(widget.userId);
       });
     });
     super.initState();
   }
 
-  // My ceremonies..
-  getAllCeremony(id) async {
-    AllCeremonysModel(payload: [], status: 0)
-        .getCeremonyByUserId(token, urlCrmnByUserId, id)
-        .then((value) {
-      if (value.status == 200) {
-        // print('Am in');
-        // print(value.payload);
-        setState(() {
-          myCeremony = value.payload
-              .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
-              .toList();
-        });
-      }
-    });
-  }
-
+ 
   // My all ceremonie post
   Future getCeremonyPosts(id) async {
     AllCeremonysModel(payload: [], status: 0)
-        .getCrmViewr(token, "$urlGetCrmViewrs/userid/" +id)
+        .getCrmViewr(token, '$urlGetCrmViewrs/userid/$id')
         .then((value) {
       if (value.status == 200) {
         setState(() {

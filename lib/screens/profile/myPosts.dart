@@ -77,7 +77,7 @@ class _MyPostsState extends State<MyPosts> {
                   context,
                   MaterialPageRoute(
                       builder: (_) => PostChats(
-                            postId: post[index].pId,
+                            postId: post[index].pId,chatsNo:  post[index].commentNumber,
                           )));
             },
             child: Padding(

@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
       isCurrentUser: '',
       address: '',
       bio: '',
-      meritalStatus: '');
+      meritalStatus: '', totalPost: '');
 
   @override
   void initState() {

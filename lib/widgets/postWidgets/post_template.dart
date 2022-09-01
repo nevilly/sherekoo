@@ -17,6 +17,7 @@ import 'package:sherekoo/util/util.dart';
 
 import '../../model/profileMode.dart';
 import '../../screens/crmScreen/crmDoor.dart';
+import '../../screens/detailScreen/livee.dart';
 import '../../screens/homNav.dart';
 import '../../util/colors.dart';
 import '../imgWigdets/defaultAvater.dart';
@@ -38,6 +39,7 @@ class PostTemplate extends StatefulWidget {
   final String crmYoutubeLink;
   final String postVedeo;
   final isLike;
+  final crmViewer;
 
   final filterBck;
   final Widget userPost;
@@ -59,7 +61,9 @@ class PostTemplate extends StatefulWidget {
       required this.cImage,
       required this.crmUsername,
       required this.crmYoutubeLink,
-      required this.isLike});
+      required this.isLike,
+      required this.crmViewer
+      });
 
   @override
   PostTemplateState createState() => PostTemplateState();
@@ -111,7 +115,6 @@ class PostTemplateState extends State<PostTemplate> {
   }
 
   share() async {
-
     Post(
         pId: widget.postId,
         createdBy: '',
@@ -122,7 +125,6 @@ class PostTemplateState extends State<PostTemplate> {
         avater: '',
         status: 0,
         payload: []).share(token, urlpostShare, 'Post').then((value) {
-
       if (value.status == 200) {
         setState(() {
           totalShare++;
@@ -214,7 +216,7 @@ class PostTemplateState extends State<PostTemplate> {
                                         isCurrentUser: '',
                                         address: '',
                                         bio: '',
-                                        meritalStatus: ''),
+                                        meritalStatus: '', totalPost: ''),
                                     getIndex: 4,
                                   )));
                     },
@@ -284,6 +286,7 @@ class PostTemplateState extends State<PostTemplate> {
                           MaterialPageRoute(
                               builder: (BuildContext context) => PostChats(
                                     postId: widget.postId,
+                                    chatsNo: widget.numberOfComments,
                                   )));
                     },
                     child: MyButton(
@@ -459,6 +462,8 @@ class PostTemplateState extends State<PostTemplate> {
   Widget get _getCeremonyAvater {
     return GestureDetector(
       onTap: () {
+
+        widget.crmViewer == false ?
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -485,7 +490,39 @@ class PostTemplateState extends State<PostTemplate> {
                           u2Lname: '',
                           u2g: '',
                           youtubeLink: widget.crmYoutubeLink),
+                    )))
+      
+        :
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => Livee(
+                      ceremony:CeremonyModel(
+                          cId: widget.ceremonyId,
+                          codeNo: '',
+                          ceremonyType: '',
+                          cName: '',
+                          fId: '',
+                          sId: '',
+                          cImage: widget.cImage,
+                          ceremonyDate: '',
+                          contact: '',
+                          admin: '',
+                          u1: widget.crmUsername,
+                          u1Avt: '',
+                          u1Fname: '',
+                          u1Lname: '',
+                          u1g: '',
+                          u2: '',
+                          u2Avt: '',
+                          u2Fname: '',
+                          u2Lname: '',
+                          u2g: '',
+                          youtubeLink: widget.crmYoutubeLink),
                     )));
+      
+      
       },
       child: SizedBox(
           // margin: const EdgeInsets.only(top: 10.0),

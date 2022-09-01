@@ -18,10 +18,10 @@ class Profile extends StatefulWidget {
   const Profile({Key? key, required this.user}) : super(key: key);
 
   @override
-  _ProfileState createState() => _ProfileState();
+  ProfileState createState() => ProfileState();
 }
 
-class _ProfileState extends State<Profile> {
+class ProfileState extends State<Profile> {
   final Preferences _preferences = Preferences();
   String token = '';
 
@@ -38,9 +38,9 @@ class _ProfileState extends State<Profile> {
       isCurrentUser: '',
       address: '',
       bio: '',
-      meritalStatus: '');
-  
-  
+      meritalStatus: '',
+      totalPost: '');
+
   @override
   void initState() {
     _preferences.init();
@@ -76,7 +76,6 @@ class _ProfileState extends State<Profile> {
         backgroundColor: OColors.secondary,
         appBar: topBar(),
         drawer: const NavDrawer(),
-
         body: Column(
           children: [
             Padding(
@@ -214,9 +213,6 @@ class _ProfileState extends State<Profile> {
             ),
           ],
         ),
-
-        // Bottom Section
-        // bottomNavigationBar: const BttmNav(),
       ),
     );
   }
@@ -377,7 +373,8 @@ class _ProfileState extends State<Profile> {
           margin: const EdgeInsets.only(left: 20),
           child: Column(
             children: [
-              Text('243', style: h4.copyWith(fontWeight: FontWeight.bold)),
+              Text(user.totalPost,
+                  style: h4.copyWith(fontWeight: FontWeight.bold)),
               const SizedBox(height: 1),
               const Text(
                 'Posts',

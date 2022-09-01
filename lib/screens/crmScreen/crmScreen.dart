@@ -29,7 +29,7 @@ class _CeremonyScreenState extends State<CeremonyScreen> {
       gender: '',
       email: '',
       firstname: '',
-      lastname: '', isCurrentUser: '', address: '', bio: '', meritalStatus: '');
+      lastname: '', isCurrentUser: '', address: '', bio: '', meritalStatus: '', totalPost: '');
   String token = '';
   @override
   void initState() {

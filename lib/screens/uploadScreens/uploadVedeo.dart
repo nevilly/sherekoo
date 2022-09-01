@@ -96,7 +96,7 @@ class _UploadVedeoState extends State<UploadVedeo> {
                             isCurrentUser: '',
                             address: '',
                             bio: '',
-                            meritalStatus: ''),
+                            meritalStatus: '', totalPost: ''),
                       )));
         } else if (widget.from == 'Ceremony') {
           Navigator.push(
