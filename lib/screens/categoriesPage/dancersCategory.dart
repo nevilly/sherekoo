@@ -90,22 +90,24 @@ class _DancersCategoryState extends State<DancersCategory> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  CategoryBody(
-                    title: 'Hot Dancers',
-                    heights: ctg_hotHeight,
-                    crossAxisCountx: 3,
-                    hotStatus: '1',
-                    ceremony: ceremony,
-                    busnessType: 'Dancer',
-                  ),
-                  CategoryBody(
-                    title: 'Dancers',
-                    heights: ctg_bodyHeight,
-                    crossAxisCountx: 3,
-                    hotStatus: '0',
-                    ceremony: ceremony,
-                    busnessType: 'Dancer',
-                  ),
+                 
+                  // CategoryBody(
+                  //   title: 'Hot Dancers',
+                  //   heights: ctg_hotHeight,
+                  //   crossAxisCountx: 3,
+                  //   hotStatus: '1',
+                  //   ceremony: ceremony,
+                  //   busnessType: 'Dancer',
+                  // ),
+                  // CategoryBody(
+                  //   title: 'Dancers',
+                  //   heights: ctg_bodyHeight,
+                  //   crossAxisCountx: 3,
+                  //   hotStatus: '0',
+                  //   ceremony: ceremony,
+                  //   busnessType: 'Dancer',
+                  // ),
+                
                 ],
               ),
             ),

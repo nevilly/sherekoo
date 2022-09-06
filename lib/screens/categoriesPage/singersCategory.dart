@@ -1,6 +1,7 @@
 import '../../../model/busness/busnessModel.dart';
 import '../../../model/ceremony/ceremonyModel.dart';
 import '../../../util/Preferences.dart';
+import '../../util/colors.dart';
 import '../../widgets/categoriesWidgets/ctgrWigets.dart';
 import '../../widgets/categoriesWidgets/ctgrMenu.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +61,7 @@ class _SingersCategoryState extends State<SingersCategory> {
         toolbarHeight: 70,
         flexibleSpace: SafeArea(
             child: Container(
-          color: Colors.white,
+        color: OColors.secondary,
           child: Row(
             children: [
               Expanded(
@@ -95,22 +96,23 @@ class _SingersCategoryState extends State<SingersCategory> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  CategoryBody(
-                    title: 'Hot Singers',
-                    heights: 65,
-                    crossAxisCountx: 3,
-                    hotStatus: '1',
-                    ceremony: ceremony,
-                    busnessType: 'Singer',
-                  ),
-                  CategoryBody(
-                    title: 'Singers',
-                    heights: 390,
-                    crossAxisCountx: 3,
-                    hotStatus: '0',
-                    ceremony: ceremony,
-                    busnessType: 'Singer',
-                  ),
+                  // CategoryBody(
+                  //   title: 'Hot Singers',
+                  //   heights: 65,
+                  //   crossAxisCountx: 3,
+                  //   hotStatus: '1',
+                  //   ceremony: ceremony,
+                  //   busnessType: 'Singer',
+                  // ),
+                  // CategoryBody(
+                  //   title: 'Singers',
+                  //   heights: 390,
+                  //   crossAxisCountx: 3,
+                  //   hotStatus: '0',
+                  //   ceremony: ceremony,
+                  //   busnessType: 'Singer',
+                  // ),
+               
                 ],
               ),
             ),

@@ -58,7 +58,8 @@ class _CrmCategoriesWidgetState extends State<CrmCategoriesWidget> {
       u2Avt: '',
       u2Fname: '',
       u2Lname: '',
-      u2g: '', youtubeLink: '');
+      u2g: '',
+      youtubeLink: '');
   String bsnType = '';
 
   @override
@@ -77,11 +78,15 @@ class _CrmCategoriesWidgetState extends State<CrmCategoriesWidget> {
     AllCeremonysModel(payload: [], status: 0)
         .getCeremonyByType(token, urlGetCrmByType, widget.dataType)
         .then((value) {
-      setState(() {
-        data = value.payload
-            .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
-            .toList();
-      });
+      if (mounted) {
+        if (value.status == 200) {
+          setState(() {
+            data = value.payload
+                .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
+                .toList();
+          });
+        }
+      }
     });
   }
 

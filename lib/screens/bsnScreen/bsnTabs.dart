@@ -49,7 +49,8 @@ class _BsnTabState extends State<BsnTab> {
     u2Avt: '',
     u2Fname: '',
     u2Lname: '',
-    u2g: '', youtubeLink: '',
+    u2g: '',
+    youtubeLink: '',
   );
 
   late User currentUser = User(
@@ -62,7 +63,11 @@ class _BsnTabState extends State<BsnTab> {
     email: '',
     gender: '',
     role: '',
-    isCurrentUser: null, address: '', bio: '', meritalStatus: '', totalPost: '',
+    isCurrentUser: null,
+    address: '',
+    bio: '',
+    meritalStatus: '',
+    totalPost: '',
   );
 
   @override
@@ -94,22 +99,26 @@ class _BsnTabState extends State<BsnTab> {
       AllBusnessModel(payload: [], status: 0)
           .onBusnessType(token, urlBusnessByType, widget.bsnType)
           .then((value) {
-        setState(() {
-          // print(value.payload);
-          data = value.payload.map<BusnessModel>((e) {
-            return BusnessModel.fromJson(e);
-          }).toList();
-        });
+        if (value.status == 200) {
+          setState(() {
+            // print(value.payload);
+            data = value.payload.map<BusnessModel>((e) {
+              return BusnessModel.fromJson(e);
+            }).toList();
+          });
+        }
       });
     } else {
       AllUsersModel(payload: [], status: 0)
           .get(token, urlAllBusnessList)
           .then((value) {
-        setState(() {
-          data = value.payload.map<BusnessModel>((e) {
-            return BusnessModel.fromJson(e);
-          }).toList();
-        });
+        if (value.status == 200) {
+          setState(() {
+            data = value.payload.map<BusnessModel>((e) {
+              return BusnessModel.fromJson(e);
+            }).toList();
+          });
+        }
       });
     }
   }

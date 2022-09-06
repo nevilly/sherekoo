@@ -92,22 +92,23 @@ class _SaloonsCategoryState extends State<SaloonsCategory> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  CategoryBody(
-                    title: 'Hot Saloon',
-                    heights: ctg_hotHeight,
-                    crossAxisCountx: ctg_hotcrossAxisCountx,
-                    hotStatus: '1',
-                    ceremony: ceremony,
-                    busnessType: 'Saloon',
-                  ),
-                  CategoryBody(
-                    title: 'Saloon',
-                    heights: ctg_bodyHeight,
-                    crossAxisCountx: ctg_crossAxisCountx,
-                    hotStatus: '0',
-                    ceremony: ceremony,
-                    busnessType: 'Saloon',
-                  ),
+                  // CategoryBody(
+                  //   title: 'Hot Saloon',
+                  //   heights: ctg_hotHeight,
+                  //   crossAxisCountx: ctg_hotcrossAxisCountx,
+                  //   hotStatus: '1',
+                  //   ceremony: ceremony,
+                  //   busnessType: 'Saloon',
+                  // ),
+                  // CategoryBody(
+                  //   title: 'Saloon',
+                  //   heights: ctg_bodyHeight,
+                  //   crossAxisCountx: ctg_crossAxisCountx,
+                  //   hotStatus: '0',
+                  //   ceremony: ceremony,
+                  //   busnessType: 'Saloon',
+                  // ),
+                
                 ],
               ),
             ),

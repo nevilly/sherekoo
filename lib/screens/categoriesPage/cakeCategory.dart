@@ -62,22 +62,23 @@ class _CakeCategoryState extends State<CakeCategory> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  CategoryBody(
-                    title: 'Hot Cake',
-                    heights: ctg_hotHeight,
-                    crossAxisCountx: 3,
-                    hotStatus: '1',
-                    ceremony: ceremony,
-                    busnessType: 'Cake Bakery',
-                  ),
-                  CategoryBody(
-                    title: 'Cake Bakery',
-                    heights: ctg_bodyHeight,
-                    crossAxisCountx: ctg_crossAxisCountx,
-                    hotStatus: '0',
-                    ceremony: ceremony,
-                    busnessType: 'Cake Bakery',
-                  ),
+                  // CategoryBody(
+                  //   title: 'Hot Cake',
+                  //   heights: ctg_hotHeight,
+                  //   crossAxisCountx: 3,
+                  //   hotStatus: '1',
+                  //   ceremony: ceremony,
+                  //   busnessType: 'Cake Bakery',
+                  // ),
+                  // CategoryBody(
+                  //   title: 'Cake Bakery',
+                  //   heights: ctg_bodyHeight,
+                  //   crossAxisCountx: ctg_crossAxisCountx,
+                  //   hotStatus: '0',
+                  //   ceremony: ceremony,
+                  //   busnessType: 'Cake Bakery',
+                  // ),
+               
                 ],
               ),
             ),

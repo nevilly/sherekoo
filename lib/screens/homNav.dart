@@ -76,8 +76,7 @@ class _HomeNavState extends State<HomeNav> {
 
   @override
   void initState() {
- 
-
+    super.initState();
     _preferences.init();
     _preferences.get('token').then((value) {
       setState(() {
@@ -97,7 +96,8 @@ class _HomeNavState extends State<HomeNav> {
                   isCurrentUser: '',
                   address: '',
                   bio: '',
-                  meritalStatus: '', totalPost: '')));
+                  meritalStatus: '',
+                  totalPost: '')));
         } else {
           screen.add(Profile(
               user: User(
@@ -113,13 +113,13 @@ class _HomeNavState extends State<HomeNav> {
                   isCurrentUser: '',
                   meritalStatus: '',
                   address: '',
-                  bio: '', totalPost: '')));
+                  bio: '',
+                  totalPost: '')));
         }
       });
     });
 
     index = widget.getIndex;
-    super.initState();
   }
 
   @override
@@ -139,7 +139,6 @@ class _HomeNavState extends State<HomeNav> {
                 index: index,
                 height: 35.0,
                 items: <Widget>[
-                 
                   Container(
                     margin: const EdgeInsets.only(bottom: 8),
                     child: const Icon(
@@ -147,7 +146,6 @@ class _HomeNavState extends State<HomeNav> {
                       size: 25,
                     ),
                   ),
-               
                   Container(
                     padding: const EdgeInsets.all(4.0),
                     margin: const EdgeInsets.only(bottom: 8),
@@ -156,7 +154,6 @@ class _HomeNavState extends State<HomeNav> {
                       size: 25,
                     ),
                   ),
-                  
                   Container(
                     margin: const EdgeInsets.only(bottom: 8),
                     child: const Icon(
@@ -164,7 +161,6 @@ class _HomeNavState extends State<HomeNav> {
                       size: 25,
                     ),
                   ),
-                  
                   Container(
                     margin: const EdgeInsets.only(bottom: 8),
                     child: const Icon(
@@ -172,7 +168,6 @@ class _HomeNavState extends State<HomeNav> {
                       size: 25,
                     ),
                   ),
-                 
                   Container(
                     margin: const EdgeInsets.only(bottom: 8),
                     child: const Icon(
@@ -181,7 +176,6 @@ class _HomeNavState extends State<HomeNav> {
                       color: Colors.white,
                     ),
                   ),
-                
                 ],
                 color: OColors.secondary,
                 buttonBackgroundColor: OColors.secondary,

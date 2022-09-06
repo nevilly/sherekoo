@@ -6,9 +6,11 @@ import '../../model/busness/busnessModel.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../screens/detailScreen/DetailPage.dart';
 import '../../util/Preferences.dart';
+import '../../util/colors.dart';
 import '../../util/util.dart';
 
 class CategoryBody extends StatefulWidget {
+  final Stream<String> stream;
   final String busnessType;
   final String title;
   final double heights;
@@ -19,6 +21,7 @@ class CategoryBody extends StatefulWidget {
 
   const CategoryBody(
       {Key? key,
+      required this.stream,
       required this.ceremony,
       required this.busnessType,
       required this.title,
@@ -60,28 +63,37 @@ class _CategoryBodyState extends State<CategoryBody> {
       u2g: '',
       youtubeLink: '');
   String bsnType = '';
+
   @override
   void initState() {
     _preferences.init();
     _preferences.get('token').then((value) {
-      setState(() {
-        token = value;
-        getAll();
+      widget.stream.listen((page) {
+        setState(() {
+          token = value;
+          bsnType = page;
+        });
+
+        getAll(page);
       });
     });
-    bsnType = widget.busnessType;
+
     super.initState();
   }
 
-  getAll() async {
+  getAll(bsn) async {
     AllBusnessModel(payload: [], status: 0)
-        .onBusnessType(token, urlBusnessByType, widget.busnessType)
+        .onBusnessType(token, urlBusnessByType, bsn)
         .then((value) {
-      setState(() {
-        data = value.payload.map<BusnessModel>((e) {
-          return BusnessModel.fromJson(e);
-        }).toList();
-      });
+      if (mounted) {
+        if (value.payload) {
+          setState(() {
+            data = value.payload.map<BusnessModel>((e) {
+              return BusnessModel.fromJson(e);
+            }).toList();
+          });
+        }
+      }
     });
   }
 
@@ -103,7 +115,7 @@ class _CategoryBodyState extends State<CategoryBody> {
                 ),
                 child: Text(
                   widget.title,
-                  style: const TextStyle(color: Colors.black),
+                  style: TextStyle(color: OColors.fontColor),
                 ),
               ),
               GestureDetector(
@@ -112,18 +124,17 @@ class _CategoryBodyState extends State<CategoryBody> {
                       context,
                       MaterialPageRoute(
                           builder: (_) => BusnessScreen(
-                              bsnType: widget.busnessType,
-                              ceremony: ceremony)));
+                              bsnType: bsnType, ceremony: ceremony)));
                 },
-                child: const Padding(
-                  padding: EdgeInsets.only(
+                child: Padding(
+                  padding: const EdgeInsets.only(
                     top: 15.0,
                     bottom: 5,
                     right: 25,
                   ),
                   child: Text(
                     'All',
-                    style: TextStyle(color: Colors.black),
+                    style: TextStyle(color: OColors.fontColor),
                   ),
                 ),
               ),
@@ -174,9 +185,8 @@ class _CategoryBodyState extends State<CategoryBody> {
                               child: Center(
                                 child: Text(
                                   data[index].knownAs,
-                                  style: const TextStyle(
-                                    fontSize: 10,
-                                  ),
+                                  style: TextStyle(
+                                      fontSize: 10, color: OColors.fontColor),
                                 ),
                               ),
                             ),

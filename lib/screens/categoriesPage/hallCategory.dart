@@ -94,22 +94,24 @@ class _HallsCategoryState extends State<HallsCategory> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  CategoryBody(
-                    title: 'Hot Halls',
-                    heights: ctg_hotHeight,
-                    crossAxisCountx: ctg_crossAxisCountx,
-                    hotStatus: '1',
-                    ceremony: ceremony,
-                    busnessType: 'Hall',
-                  ),
-                  CategoryBody(
-                    title: 'Halls',
-                    heights: ctg_bodyHeight,
-                    crossAxisCountx: ctg_crossAxisCountx,
-                    hotStatus: '0',
-                    ceremony: ceremony,
-                    busnessType: 'Hall',
-                  ),
+                 
+                  // CategoryBody(
+                  //   title: 'Hot Halls',
+                  //   heights: ctg_hotHeight,
+                  //   crossAxisCountx: ctg_crossAxisCountx,
+                  //   hotStatus: '1',
+                  //   ceremony: ceremony,
+                  //   busnessType: 'Hall',
+                  // ),
+                  // CategoryBody(
+                  //   title: 'Halls',
+                  //   heights: ctg_bodyHeight,
+                  //   crossAxisCountx: ctg_crossAxisCountx,
+                  //   hotStatus: '0',
+                  //   ceremony: ceremony,
+                  //   busnessType: 'Hall',
+                  // ),
+                
                 ],
               ),
             ),

@@ -118,22 +118,24 @@ class _CarsCategoryState extends State<CarsCategory> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  CategoryBody(
-                    title: 'Hot Cars',
-                    heights: ctg_hotHeight,
-                    crossAxisCountx: ctg_crossAxisCountx,
-                    hotStatus: '1',
-                    ceremony: ceremony,
-                    busnessType: 'Car',
-                  ),
-                  CategoryBody(
-                    title: 'Cars',
-                    heights: ctg_bodyHeight,
-                    crossAxisCountx: ctg_crossAxisCountx,
-                    hotStatus: '0',
-                    ceremony: ceremony,
-                    busnessType: 'Car',
-                  ),
+                 
+                  // CategoryBody(
+                  //   title: 'Hot Cars',
+                  //   heights: ctg_hotHeight,
+                  //   crossAxisCountx: ctg_crossAxisCountx,
+                  //   hotStatus: '1',
+                  //   ceremony: ceremony,
+                  //   busnessType: 'Car',
+                  // ),
+                  // CategoryBody(
+                  //   title: 'Cars',
+                  //   heights: ctg_bodyHeight,
+                  //   crossAxisCountx: ctg_crossAxisCountx,
+                  //   hotStatus: '0',
+                  //   ceremony: ceremony,
+                  //   busnessType: 'Car',
+                  // ),
+                
                 ],
               ),
             ),

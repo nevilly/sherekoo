@@ -11,6 +11,7 @@ import '../../screens/categoriesPage/mcCategory.dart';
 import '../../screens/categoriesPage/saloonsCategory.dart';
 import '../../screens/categoriesPage/sherekooPage.dart';
 import '../../screens/categoriesPage/singersCategory.dart';
+import '../../util/colors.dart';
 
 class CategoryMenu extends StatelessWidget {
   final Color rangi;
@@ -185,6 +186,7 @@ class CategoryMenu extends StatelessWidget {
         ),
       ),
     );
+  
   }
 
   Widget sizedBoxMenu(String value, title) {
@@ -193,13 +195,14 @@ class CategoryMenu extends StatelessWidget {
       child: Container(
           margin: const EdgeInsets.only(bottom: 1.0),
           alignment: Alignment.center,
-          color: title == value ? rangi : Colors.grey.shade300,
+          color: title == value ? rangi : OColors.darGrey,
           padding: const EdgeInsets.only(
               top: 15.0, bottom: 15.0, left: 10, right: 10),
           child: Text(
             value,
-            style: const TextStyle(color: Colors.black),
+            style: TextStyle(color: OColors.fontColor),
           )),
     );
   }
+
 }

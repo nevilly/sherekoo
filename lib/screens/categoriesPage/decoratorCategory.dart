@@ -10,10 +10,10 @@ class DecoratorsCategory extends StatefulWidget {
   const DecoratorsCategory({Key? key}) : super(key: key);
 
   @override
-  _DecoratorsCategoryState createState() => _DecoratorsCategoryState();
+  DecoratorsCategoryState createState() => DecoratorsCategoryState();
 }
 
-class _DecoratorsCategoryState extends State<DecoratorsCategory> {
+class DecoratorsCategoryState extends State<DecoratorsCategory> {
   final Preferences _preferences = Preferences();
   CeremonyModel ceremony = CeremonyModel(
       cId: '',
@@ -35,7 +35,8 @@ class _DecoratorsCategoryState extends State<DecoratorsCategory> {
       u2Avt: '',
       u2Fname: '',
       u2Lname: '',
-      u2g: '', youtubeLink: '');
+      u2g: '',
+      youtubeLink: '');
 
   @override
   void initState() {
@@ -58,22 +59,22 @@ class _DecoratorsCategoryState extends State<DecoratorsCategory> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  CategoryBody(
-                    title: 'Hot Decorators',
-                    heights: 65,
-                    crossAxisCountx: 3,
-                    hotStatus: '1',
-                    ceremony: ceremony,
-                    busnessType: 'Decorator',
-                  ),
-                  CategoryBody(
-                    title: 'Decorators',
-                    heights: 390,
-                    crossAxisCountx: 3,
-                    hotStatus: '0',
-                    ceremony: ceremony,
-                    busnessType: 'Decorator',
-                  ),
+                  // CategoryBody(
+                  //   title: 'Hot Decorators',
+                  //   heights: 65,
+                  //   crossAxisCountx: 3,
+                  //   hotStatus: '1',
+                  //   ceremony: ceremony,
+                  //   busnessType: 'Decorator',
+                  // ),
+                  // CategoryBody(
+                  //   title: 'Decorators',
+                  //   heights: 390,
+                  //   crossAxisCountx: 3,
+                  //   hotStatus: '0',
+                  //   ceremony: ceremony,
+                  //   busnessType: 'Decorator',
+                  // ),
                 ],
               ),
             ),

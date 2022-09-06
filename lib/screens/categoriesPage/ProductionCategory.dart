@@ -90,22 +90,23 @@ class _ProductionCategoryState extends State<ProductionCategory> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  CategoryBody(
-                    title: 'Hot Production',
-                    heights: 65,
-                    crossAxisCountx: 3,
-                    hotStatus: '1',
-                    ceremony: ceremony,
-                    busnessType: 'Production',
-                  ),
-                  CategoryBody(
-                    title: 'Production',
-                    heights: 390,
-                    crossAxisCountx: 3,
-                    hotStatus: '0',
-                    ceremony: ceremony,
-                    busnessType: 'Production',
-                  ),
+                  // CategoryBody(
+                  //   title: 'Hot Production',
+                  //   heights: 65,
+                  //   crossAxisCountx: 3,
+                  //   hotStatus: '1',
+                  //   ceremony: ceremony,
+                  //   busnessType: 'Production',
+                  // ),
+                  // CategoryBody(
+                  //   title: 'Production',
+                  //   heights: 390,
+                  //   crossAxisCountx: 3,
+                  //   hotStatus: '0',
+                  //   ceremony: ceremony,
+                  //   busnessType: 'Production',
+                  // ),
+                
                 ],
               ),
             ),

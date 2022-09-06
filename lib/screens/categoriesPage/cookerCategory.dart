@@ -61,22 +61,24 @@ class _CookerCategoryState extends State<CookerCategory> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  CategoryBody(
-                    title: 'Hot Cookers',
-                    heights: ctg_hotHeight,
-                    crossAxisCountx: 3,
-                    hotStatus: '1',
-                    ceremony: ceremony,
-                    busnessType: 'Cooker',
-                  ),
-                  CategoryBody(
-                    title: 'Cookers',
-                    heights: ctg_bodyHeight,
-                    crossAxisCountx: 3,
-                    hotStatus: '0',
-                    ceremony: ceremony,
-                    busnessType: 'Cooker',
-                  ),
+                
+                  // CategoryBody(
+                  //   title: 'Hot Cookers',
+                  //   heights: ctg_hotHeight,
+                  //   crossAxisCountx: 3,
+                  //   hotStatus: '1',
+                  //   ceremony: ceremony,
+                  //   busnessType: 'Cooker',
+                  // ),
+                  // CategoryBody(
+                  //   title: 'Cookers',
+                  //   heights: ctg_bodyHeight,
+                  //   crossAxisCountx: 3,
+                  //   hotStatus: '0',
+                  //   ceremony: ceremony,
+                  //   busnessType: 'Cooker',
+                  // ),
+                
                 ],
               ),
             ),

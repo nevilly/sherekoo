@@ -88,30 +88,31 @@ class _McCategoryState extends State<McCategory> {
           ),
 
           //Right Navigator
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  CategoryBody(
-                    title: 'Hot Mc',
-                    heights: ctg_hotHeight,
-                    crossAxisCountx: ctg_hotcrossAxisCountx,
-                    hotStatus: '1',
-                    ceremony: ceremony,
-                    busnessType: 'Mc',
-                  ),
-                  CategoryBody(
-                    title: 'Mc',
-                    heights: ctg_bodyHeight,
-                    crossAxisCountx: ctg_crossAxisCountx,
-                    hotStatus: '0',
-                    ceremony: ceremony,
-                    busnessType: 'Mc',
-                  ),
-                ],
-              ),
-            ),
-          )
+          // Expanded(
+          //   child: SingleChildScrollView(
+          //     child: Column(
+          //       children: [
+          //         CategoryBody(
+          //           title: 'Hot Mc',
+          //           heights: ctg_hotHeight,
+          //           crossAxisCountx: ctg_hotcrossAxisCountx,
+          //           hotStatus: '1',
+          //           ceremony: ceremony,
+          //           busnessType: 'Mc', stream: null,
+          //         ),
+          //         CategoryBody(
+          //           title: 'Mc',
+          //           heights: ctg_bodyHeight,
+          //           crossAxisCountx: ctg_crossAxisCountx,
+          //           hotStatus: '0',
+          //           ceremony: ceremony,
+          //           busnessType: 'Mc',
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+         
+          // )
         ],
       ),
 
