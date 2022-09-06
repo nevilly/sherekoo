@@ -97,9 +97,6 @@ class _CeremonyDayState extends State<CeremonyDay> {
               color: OColors.darGrey,
               child: Column(
                 children: [
-                  const SizedBox(
-                    height: 5,
-                  ),
                   InkWell(
                     customBorder: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -124,7 +121,7 @@ class _CeremonyDayState extends State<CeremonyDay> {
                                           url: '/ceremony/',
                                           username: data[index].u1,
                                           width: 145,
-                                          height: 150,
+                                          height: 145,
                                         )
                                       : const SizedBox(height: 1)),
                             ),
