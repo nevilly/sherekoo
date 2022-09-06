@@ -7,6 +7,7 @@ import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
+import '../../util/colors.dart';
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/boxImg.dart';
 import '../../widgets/imgWigdets/defaultAvater.dart';
@@ -85,6 +86,7 @@ class _CeremonyDayState extends State<CeremonyDay> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: OColors.secondary,
       body: ListView.builder(
         itemCount: data.length,
         itemBuilder: (BuildContext context, int index) {
