@@ -29,7 +29,12 @@ class _CeremonyScreenState extends State<CeremonyScreen> {
       gender: '',
       email: '',
       firstname: '',
-      lastname: '', isCurrentUser: '', address: '', bio: '', meritalStatus: '', totalPost: '');
+      lastname: '',
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      meritalStatus: '',
+      totalPost: '');
   String token = '';
   @override
   void initState() {
@@ -72,13 +77,15 @@ class _CeremonyScreenState extends State<CeremonyScreen> {
       u2Avt: '',
       u2Fname: '',
       u2Lname: '',
-      u2g: '', youtubeLink: '');
+      u2g: '',
+      youtubeLink: '');
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        backgroundColor: OColors.secondary,
         appBar: topBar(),
         body: Column(
           children: [
@@ -144,7 +151,7 @@ class _CeremonyScreenState extends State<CeremonyScreen> {
 
   AppBar topBar() {
     return AppBar(
-      backgroundColor:  OColors.appBarColor,
+      backgroundColor: OColors.appBarColor,
       elevation: 1.0,
       toolbarHeight: 70,
       flexibleSpace: SafeArea(

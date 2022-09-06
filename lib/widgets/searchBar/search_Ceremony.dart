@@ -83,89 +83,86 @@ class _SearchCeremonyState extends State<SearchCeremony> {
           decoration: const InputDecoration(
             contentPadding: EdgeInsets.only(left: 8),
             border: InputBorder.none,
-            hintStyle: TextStyle(color: Colors.grey, fontSize: 14, height: 1.5),
-            hintText: "Ceremony Code Number..",
+            hintStyle: TextStyle(color: Colors.grey, fontSize: 12, height: 1.5),
+            hintText: "Ceremony ..",
           ),
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style:
+              const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         );
       },
 
       optionsViewBuilder: (BuildContext context,
           AutocompleteOnSelected<CeremonyModel> onSelected,
           Iterable<CeremonyModel> options) {
-        return Align(
-          alignment: Alignment.topLeft,
-          child: Material(
-            child: Container(
-              width: 300,
-              color: OColors.searchBackground,
-              child: ListView.builder(
-                padding: const EdgeInsets.all(10.0),
-                itemCount: options.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final CeremonyModel option = options.elementAt(index);
+        return Material(
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            color: OColors.secondary,
+            child: ListView.builder(
+              padding: const EdgeInsets.all(10.0),
+              itemCount: options.length,
+              itemBuilder: (BuildContext context, int index) {
+                final CeremonyModel option = options.elementAt(index);
 
-                  return GestureDetector(
-                    onTap: () {
-                      onSelected(option);
-                      Navigator.of(context).pop();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => Livee(
-                                    ceremony: option,
-                                  )));
-                    },
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              width: 35,
-                              height: 35,
-                              margin: const EdgeInsets.only(right: 10),
-                              child: option.cImage != ''
-                                  ? Image.network(
-                                      '${api}public/uploads/${option.u1}/ceremony/${option.cImage}',
-                                      fit: BoxFit.cover,
-                                      height: 45,
-                                    )
-                                  : const SizedBox(height: 1),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(option.codeNo,
-                                    style:
-                                        const TextStyle(color: Colors.white)),
-                                const SizedBox(
-                                  height: 4,
-                                ),
-                                Text(option.ceremonyType,
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                        fontStyle: FontStyle.italic))
-                              ],
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Divider(
-                          height: 1.0,
-                          color: Colors.black.withOpacity(0.24),
-                          thickness: 1.0,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+                return GestureDetector(
+                  onTap: () {
+                    onSelected(option);
+                    Navigator.of(context).pop();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => Livee(
+                                  ceremony: option,
+                                )));
+                  },
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 35,
+                            height: 35,
+                            margin: const EdgeInsets.only(right: 10),
+                            child: option.cImage != ''
+                                ? Image.network(
+                                    '${api}public/uploads/${option.u1}/ceremony/${option.cImage}',
+                                    fit: BoxFit.cover,
+                                    height: 45,
+                                  )
+                                : const SizedBox(height: 1),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(option.codeNo,
+                                  style: const TextStyle(color: Colors.white)),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              Text(option.ceremonyType,
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontStyle: FontStyle.italic))
+                            ],
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Divider(
+                        height: 1.0,
+                        color: Colors.black.withOpacity(0.24),
+                        thickness: 1.0,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
           ),
         );

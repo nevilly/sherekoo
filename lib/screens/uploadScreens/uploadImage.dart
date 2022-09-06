@@ -72,7 +72,7 @@ class _UploadImageState extends State<UploadImage> {
         AndroidUiSettings(
             toolbarTitle: 'Shereko Cropper',
             toolbarColor: OColors.appBarColor,
-            toolbarWidgetColor: Colors.white,
+            toolbarWidgetColor: OColors.secondary,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false),
         IOSUiSettings(
@@ -123,20 +123,18 @@ class _UploadImageState extends State<UploadImage> {
                             isCurrentUser: '',
                             address: '',
                             bio: '',
-                            meritalStatus: '', totalPost: ''),
+                            meritalStatus: '',
+                            totalPost: ''),
                       )));
         } else if (widget.from == 'Ceremony') {
-         Navigator.pop(context);
+          Navigator.pop(context);
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (BuildContext context) => Livee(
                         ceremony: widget.crm,
                       )));
-
-          
         }
-    
       });
     } else {
       fillMessage(
@@ -150,7 +148,7 @@ class _UploadImageState extends State<UploadImage> {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(
         arg,
-        style: const TextStyle(color: Colors.red),
+        style: TextStyle(color: OColors.primary),
         textAlign: TextAlign.center,
       ),
     ));
@@ -169,7 +167,7 @@ class _UploadImageState extends State<UploadImage> {
                 alignment: Alignment.center,
                 // width: double.infinity,
                 // height: _generalimage != null ? 300 : 10,
-                color: Colors.grey[300],
+                color: OColors.secondary,
                 child: _generalimage != null
                     ? Padding(
                         padding: const EdgeInsets.only(left: 8.0),
@@ -185,7 +183,7 @@ class _UploadImageState extends State<UploadImage> {
 
         // ButtonsCamera & Gallary
         Positioned(
-          top: 5,
+          top: 25,
           right: 10,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -195,9 +193,9 @@ class _UploadImageState extends State<UploadImage> {
                 onTap: () {
                   _openImagePicker(ImageSource.camera);
                 },
-                child: const Card(
-                  color: Color.fromARGB(255, 243, 104, 12),
-                  child: Padding(
+                child: Card(
+                  color: OColors.primary,
+                  child: const Padding(
                     padding: EdgeInsets.all(4.0),
                     child: Icon(
                       Icons.camera,
@@ -207,15 +205,15 @@ class _UploadImageState extends State<UploadImage> {
                   ),
                 ),
               ),
-
+              const SizedBox(height: 20.0),
               //cameraa
               GestureDetector(
                 onTap: () {
                   _openImagePicker(ImageSource.gallery);
                 },
-                child: const Card(
-                  color: Color.fromARGB(255, 243, 104, 12),
-                  child: Padding(
+                child: Card(
+                  color: OColors.primary,
+                  child: const Padding(
                     padding: EdgeInsets.all(4.0),
                     child: Icon(
                       Icons.photo_library,
@@ -231,7 +229,7 @@ class _UploadImageState extends State<UploadImage> {
 
         //What On your mind
         Positioned(
-          bottom: 10,
+          bottom: 15,
           left: 5,
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -241,7 +239,7 @@ class _UploadImageState extends State<UploadImage> {
                 //What on your
                 Container(
                   width: MediaQuery.of(context).size.width / 1.3,
-                  height: 70,
+                  height: 55,
                   padding: const EdgeInsets.only(
                     top: 5,
                   ),
@@ -277,20 +275,18 @@ class _UploadImageState extends State<UploadImage> {
                     post();
                   },
                   child: Container(
-                    width: 45,
+                    width: 40,
                     height: 40,
-                    padding: const EdgeInsets.only(top: 8, bottom: 8),
+                    padding: const EdgeInsets.all(8),
                     margin: const EdgeInsets.only(right: 5),
-                    alignment: Alignment.center,
-                    decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 243, 104, 12),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: const Text(
-                      'Post',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                    decoration: BoxDecoration(
+                        color: OColors.primary2,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(50))),
+                    child: Icon(
+                      Icons.send,
+                      size: 20,
+                      color: OColors.fontColor,
                     ),
                   ),
                 ),
@@ -298,6 +294,7 @@ class _UploadImageState extends State<UploadImage> {
             ),
           ),
         ),
+      
       ],
     );
   }

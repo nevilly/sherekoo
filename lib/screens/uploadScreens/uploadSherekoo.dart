@@ -39,20 +39,18 @@ class _SherekooUploadState extends State<SherekooUpload> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: OColors.appBarColor,
-          title: const Text('Upload',
-              style: TextStyle(
-                fontStyle: FontStyle.italic,
-              )),
-          // ignore: prefer_const_literals_to_create_immutables
+          backgroundColor: Colors.transparent,
+          toolbarHeight: 0,
         ),
+        backgroundColor: OColors.secondary,
         body: Column(
           children: [
-            const TabBar(
-                labelColor: Colors.green,
-                unselectedLabelColor: Colors.black,
-                tabs: [
+            TabBar(
+                labelColor: OColors.primary,
+                unselectedLabelColor: OColors.primary,
+                indicatorColor: OColors.primary,
+                labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+                tabs: const [
                   Tab(
                     text: 'Image',
                   ),
@@ -60,6 +58,7 @@ class _SherekooUploadState extends State<SherekooUpload> {
                     text: 'Vedio',
                   ),
                 ]),
+           
             Expanded(
                 child: TabBarView(children: [
               // Image Uploading
@@ -71,6 +70,7 @@ class _SherekooUploadState extends State<SherekooUpload> {
                 crm: widget.crm,
               )
             ])),
+            
             const SizedBox(
               height: 30,
             )

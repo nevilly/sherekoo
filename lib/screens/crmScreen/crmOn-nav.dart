@@ -13,10 +13,10 @@ class CrmOnNav extends StatefulWidget {
   const CrmOnNav({Key? key}) : super(key: key);
 
   @override
-  _CrmOnNavState createState() => _CrmOnNavState();
+  CrmOnNavState createState() => CrmOnNavState();
 }
 
-class _CrmOnNavState extends State<CrmOnNav> {
+class CrmOnNavState extends State<CrmOnNav> {
   final Preferences _preferences = Preferences();
   String token = '';
 
@@ -55,6 +55,7 @@ class _CrmOnNavState extends State<CrmOnNav> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        backgroundColor: OColors.secondary,
         appBar: topBar(),
         body: Column(
           children: [
@@ -67,11 +68,12 @@ class _CrmOnNavState extends State<CrmOnNav> {
                 : const SizedBox(),
 
             //Tabs ..
-            const TabBar(
-                labelColor: Colors.green,
-                unselectedLabelColor: Colors.black,
-                padding: EdgeInsets.all(8),
-                tabs: [
+            TabBar(
+                labelColor: OColors.primary,
+                unselectedLabelColor: OColors.darkGrey,
+                indicatorColor: OColors.primary,
+                padding: const EdgeInsets.all(8),
+                tabs: const [
                   Tab(
                     text: 'UpComing',
                   ),
@@ -99,12 +101,13 @@ class _CrmOnNavState extends State<CrmOnNav> {
 
   AppBar topBar() {
     return AppBar(
-      backgroundColor: OColors.appBarColor,
+      backgroundColor: OColors.secondary,
       elevation: 0,
       toolbarHeight: 70,
+      automaticallyImplyLeading: false,
       flexibleSpace: SafeArea(
           child: Container(
-        color: Colors.white,
+        color: Colors.transparent,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -115,7 +118,8 @@ class _CrmOnNavState extends State<CrmOnNav> {
                 margin: const EdgeInsets.only(
                     left: 10, right: 10, bottom: 15, top: 10),
                 decoration: BoxDecoration(
-                  border: Border.all(width: 1.5, color: Colors.grey),
+                  color: OColors.darGrey,
+                  border: Border.all(width: 1.5, color: OColors.darGrey),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: const SearchCeremony(),

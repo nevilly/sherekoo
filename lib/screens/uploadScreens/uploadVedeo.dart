@@ -8,6 +8,7 @@ import 'package:video_player/video_player.dart';
 import '../../model/post/post.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
+import '../../util/colors.dart';
 import '../../util/util.dart';
 import '../detailScreen/livee.dart';
 import '../homNav.dart';
@@ -96,7 +97,8 @@ class _UploadVedeoState extends State<UploadVedeo> {
                             isCurrentUser: '',
                             address: '',
                             bio: '',
-                            meritalStatus: '', totalPost: ''),
+                            meritalStatus: '',
+                            totalPost: ''),
                       )));
         } else if (widget.from == 'Ceremony') {
           Navigator.push(
@@ -133,7 +135,7 @@ class _UploadVedeoState extends State<UploadVedeo> {
           Expanded(
             child: Container(
                 width: MediaQuery.of(context).size.width,
-                color: Colors.grey[300],
+                color: OColors.secondary,
                 child: Column(
                   children: [
                     if (_video != null)
@@ -154,7 +156,7 @@ class _UploadVedeoState extends State<UploadVedeo> {
 
       // Uploads Buttons
       Positioned(
-        top: 6,
+        top: 25,
         right: 8,
         child: Container(
           color: Colors.transparent,
@@ -164,9 +166,9 @@ class _UploadVedeoState extends State<UploadVedeo> {
               onTap: () {
                 getVideo(state: 1);
               },
-              child: const Card(
-                color: Color.fromARGB(255, 243, 104, 12),
-                child: Padding(
+              child: Card(
+                color: OColors.primary,
+                child: const Padding(
                   padding: EdgeInsets.all(4.0),
                   child: Icon(
                     Icons.camera,
@@ -177,15 +179,15 @@ class _UploadVedeoState extends State<UploadVedeo> {
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
             GestureDetector(
               onTap: () {
                 getVideo(state: 2);
               },
-              child: const Card(
-                color: Color.fromARGB(255, 243, 104, 12),
-                child: Padding(
+              child: Card(
+                color: OColors.primary,
+                child: const Padding(
                   padding: EdgeInsets.all(4.0),
                   child: Icon(
                     Icons.photo_library,
@@ -201,7 +203,7 @@ class _UploadVedeoState extends State<UploadVedeo> {
 
       // Post B utton
       Positioned(
-        bottom: 3,
+        bottom: 15,
         left: 5,
         child: SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -211,7 +213,7 @@ class _UploadVedeoState extends State<UploadVedeo> {
                 //TextField ..
                 Container(
                   // color: Colors.black45,
-                  width: MediaQuery.of(context).size.width / 1.3, height: 70,
+                  width: MediaQuery.of(context).size.width / 1.3, height: 55,
                   margin: const EdgeInsets.only(left: 1, right: 1),
                   padding: const EdgeInsets.only(
                     top: 5,
@@ -220,6 +222,7 @@ class _UploadVedeoState extends State<UploadVedeo> {
                     border: Border.all(width: 1, color: Colors.grey),
                     borderRadius: BorderRadius.circular(10),
                   ),
+
                   child: TextField(
                     controller: _body,
                     maxLines: null,
@@ -248,20 +251,18 @@ class _UploadVedeoState extends State<UploadVedeo> {
                     postVedeo();
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(top: 5, right: 10),
-                    width: 45,
+                    width: 40,
                     height: 40,
-                    padding: const EdgeInsets.only(top: 8, bottom: 8),
-                    alignment: Alignment.center,
-                    decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 243, 104, 12),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: const Text(
-                      'Post',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                    padding: const EdgeInsets.all(8),
+                    margin: const EdgeInsets.only(right: 5),
+                    decoration: BoxDecoration(
+                        color: OColors.primary2,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(50))),
+                    child: Icon(
+                      Icons.send,
+                      size: 20,
+                      color: OColors.fontColor,
                     ),
                   ),
                 ),

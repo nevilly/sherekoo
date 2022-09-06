@@ -139,6 +139,7 @@ class _HomeNavState extends State<HomeNav> {
                 index: index,
                 height: 35.0,
                 items: <Widget>[
+                 
                   Container(
                     margin: const EdgeInsets.only(bottom: 8),
                     child: const Icon(
@@ -146,6 +147,7 @@ class _HomeNavState extends State<HomeNav> {
                       size: 25,
                     ),
                   ),
+               
                   Container(
                     padding: const EdgeInsets.all(4.0),
                     margin: const EdgeInsets.only(bottom: 8),
@@ -154,6 +156,7 @@ class _HomeNavState extends State<HomeNav> {
                       size: 25,
                     ),
                   ),
+                  
                   Container(
                     margin: const EdgeInsets.only(bottom: 8),
                     child: const Icon(
@@ -161,6 +164,7 @@ class _HomeNavState extends State<HomeNav> {
                       size: 25,
                     ),
                   ),
+                  
                   Container(
                     margin: const EdgeInsets.only(bottom: 8),
                     child: const Icon(
@@ -168,6 +172,7 @@ class _HomeNavState extends State<HomeNav> {
                       size: 25,
                     ),
                   ),
+                 
                   Container(
                     margin: const EdgeInsets.only(bottom: 8),
                     child: const Icon(
@@ -176,6 +181,7 @@ class _HomeNavState extends State<HomeNav> {
                       color: Colors.white,
                     ),
                   ),
+                
                 ],
                 color: OColors.secondary,
                 buttonBackgroundColor: OColors.secondary,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../screens/hireRequset/invit.dart';
+import '../../util/colors.dart';
 
 class NotifyWidget extends StatefulWidget {
   const NotifyWidget({Key? key}) : super(key: key);
@@ -20,16 +21,16 @@ class _NotifyWidgetState extends State<NotifyWidget> {
                 builder: (BuildContext context) => const InvitationTime()));
       },
       child: Container(
-        height: 40,
-        width: 40,
-        margin: const EdgeInsets.only(top: 1, right: 15),
+        height: 35,
+        width: 35,
+        margin: const EdgeInsets.only(top: 1, right: 13),
         decoration: BoxDecoration(
-          color: Colors.grey.shade300,
+          color: Colors.transparent,
           borderRadius: BorderRadius.circular(35),
         ),
-        child: const Icon(
+        child: Icon(
           Icons.notifications,
-          color: Colors.black87,
+          color: OColors.primary,
           size: 25,
         ),
       ),
