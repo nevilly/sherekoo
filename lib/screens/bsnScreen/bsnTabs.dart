@@ -20,10 +20,10 @@ class BsnTab extends StatefulWidget {
       : super(key: key);
 
   @override
-  _BsnTabState createState() => _BsnTabState();
+  BsnTabState createState() => BsnTabState();
 }
 
-class _BsnTabState extends State<BsnTab> {
+class BsnTabState extends State<BsnTab> {
   final Preferences _preferences = Preferences();
 
   String token = '';
