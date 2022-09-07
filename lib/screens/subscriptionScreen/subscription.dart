@@ -19,9 +19,9 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
     return Stack(children: [
       // BackgroundImage(image: "assets/login/03.jpg"),
       Scaffold(
-        // backgroundColor: Colors.transparent,
+        backgroundColor: OColors.secondary,
         appBar: AppBar(
-          backgroundColor: OColors.appBarColor,
+          backgroundColor: OColors.secondary,
           title: const Text('Subscription'),
           centerTitle: true,
           actions: const [
@@ -37,14 +37,20 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
         ),
         body: Column(
           children: [
-            const Image(
-              image: AssetImage("assets/subscription/subscription.png"),
-              fit: BoxFit.cover,
-              height: 185,
+            Container(
+              color: OColors.fontColor,
+              width: MediaQuery.of(context).size.width,
+              // height: MediaQuery.of(context).size.height,
+              child: const Image(
+                image: AssetImage("assets/subscription/subscription.png"),
+                fit: BoxFit.cover,
+                height: 185,
+              ),
             ),
-            const Padding(
-              padding:
-                  EdgeInsets.only(top: 2.0, left: 8.0, right: 8.0, bottom: 8.0),
+           
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 2.0, left: 8.0, right: 8.0, bottom: 8.0),
               child: Center(
                   child: Text(
                 'Follow Instruction Step By Step for clear Payment..',
@@ -52,7 +58,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
-                    color: Colors.black),
+                    color: OColors.fontColor),
               )),
             ),
             const SizedBox(

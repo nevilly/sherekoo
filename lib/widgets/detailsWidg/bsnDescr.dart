@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../model/busness/busnessModel.dart';
 import '../../model/busness/busnessPhotoModel.dart';
 import '../../screens/subscriptionScreen/subscription.dart';
+import '../../util/colors.dart';
 
 class BsnDescr extends StatelessWidget {
   const BsnDescr({
@@ -30,10 +31,10 @@ class BsnDescr extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Expanded(
+                  Expanded(
                       child: Text('Name',
                           style: TextStyle(
-                              color: Colors.black,
+                              color: OColors.fontColor,
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.bold))),
                   GestureDetector(
@@ -45,16 +46,18 @@ class BsnDescr extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Container(
-                          decoration: const BoxDecoration(
-                              color: Colors.black87,
+                          decoration: BoxDecoration(
+                              color: OColors.primary,
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          child: const Padding(
-                            padding: EdgeInsets.all(8.0),
+                                  const BorderRadius.all(Radius.circular(10))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
                             child: Text(
                               'Get Contact',
                               style: TextStyle(
-                                  fontSize: 14, color: Colors.white, height: 1),
+                                  fontSize: 14,
+                                  color: OColors.fontColor,
+                                  height: 1),
                             ),
                           )),
                     ),
@@ -74,9 +77,9 @@ class BsnDescr extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     data.companyName,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
-                      color: Colors.grey,
+                      color: OColors.fontColor,
                     ),
                   ),
                 ),
@@ -89,25 +92,28 @@ class BsnDescr extends StatelessWidget {
               padding: const EdgeInsets.only(left: 15.0, bottom: 5.0),
               child: Column(
                 children: [
+                  
                   Container(
                     alignment: Alignment.topLeft,
-                    child: const Text('Origin',
+                    child: Text('Origin',
                         style: TextStyle(
-                            color: Colors.black,
+                            color: OColors.fontColor,
                             fontStyle: FontStyle.italic,
                             fontWeight: FontWeight.bold)),
                   ),
+                 
+
                   Container(
                     alignment: Alignment.topLeft,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: RichText(
-                          text: const TextSpan(children: [
+                          text: TextSpan(children: [
                         TextSpan(
                           text: 'Region: ',
                           style: TextStyle(
                             fontSize: 13,
-                            color: Colors.grey,
+                            color: OColors.fontColor,
                           ),
                         ),
                         TextSpan(
@@ -115,7 +121,7 @@ class BsnDescr extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: Colors.grey,
+                            color: OColors.fontColor,
                           ),
                         ),
                       ])),
@@ -126,7 +132,6 @@ class BsnDescr extends StatelessWidget {
             ),
 
             //Location
-            
             Padding(
               padding: const EdgeInsets.only(left: 15.0, bottom: 5.0),
               child: Column(
@@ -134,9 +139,9 @@ class BsnDescr extends StatelessWidget {
                 children: [
                   Container(
                     alignment: Alignment.topLeft,
-                    child: const Text('Address',
+                    child: Text('Address',
                         style: TextStyle(
-                            color: Colors.black,
+                            color: OColors.fontColor,
                             fontStyle: FontStyle.italic,
                             fontWeight: FontWeight.bold)),
                   ),
@@ -146,11 +151,11 @@ class BsnDescr extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: RichText(
                           text: TextSpan(children: [
-                        const TextSpan(
+                        TextSpan(
                           text: 'Location: ',
                           style: TextStyle(
                             fontSize: 13,
-                            color: Colors.grey,
+                            color: OColors.fontColor,
                           ),
                         ),
                         TextSpan(
@@ -170,7 +175,7 @@ class BsnDescr extends StatelessWidget {
 
             //Bio
             descrInfo('Ceo Bio ', data.aboutCEO),
-           
+
             //Co Bio
             descrInfo('company Bio ', data.aboutCompany),
 
@@ -181,9 +186,9 @@ class BsnDescr extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   alignment: Alignment.topLeft,
-                  child: const Text('Photos / Facilites',
+                  child: Text('Photos / Facilites',
                       style: TextStyle(
-                          color: Colors.black,
+                          color: OColors.fontColor,
                           fontStyle: FontStyle.italic,
                           fontWeight: FontWeight.bold)),
                 ),
@@ -249,43 +254,43 @@ class BsnDescr extends StatelessWidget {
     );
   }
 
-  Padding descrInfo(String label,String dscr) {
+  Padding descrInfo(String label, String dscr) {
     return Padding(
-            padding:  const EdgeInsets.only(left:15.0),
-            child: Column(
-              children: [
-                Container(
-                  alignment: Alignment.topLeft,
-                  child:  Text(label,
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold)),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: RichText(
-                      softWrap: true,
-                      textAlign: TextAlign.left,
-                      text: TextSpan(children: [
-                        TextSpan(
-                          text: dscr,
-                          style: const TextStyle(
-                            fontSize: 13,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        const TextSpan(
-                          text: ' @RealCount',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ])),
-                ),
-              ],
-            ),
-          );
+      padding: const EdgeInsets.only(left: 15.0),
+      child: Column(
+        children: [
+          Container(
+            alignment: Alignment.topLeft,
+            child: Text(label,
+                style: TextStyle(
+                    color: OColors.fontColor,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold)),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: RichText(
+                softWrap: true,
+                textAlign: TextAlign.left,
+                text: TextSpan(children: [
+                  TextSpan(
+                    text: dscr,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  const TextSpan(
+                    text: ' @RealCount',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ])),
+          ),
+        ],
+      ),
+    );
   }
 }
