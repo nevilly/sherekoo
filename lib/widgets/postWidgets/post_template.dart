@@ -19,10 +19,10 @@ import '../../model/profileMode.dart';
 import '../../screens/crmScreen/crmDoor.dart';
 import '../../screens/detailScreen/livee.dart';
 import '../../screens/homNav.dart';
-import '../../util/colors.dart';
 import '../imgWigdets/defaultAvater.dart';
 import '../../util/Preferences.dart';
 import '../../util/button.dart';
+import 'likeLife.dart';
 
 class PostTemplate extends StatefulWidget {
   final String postId;
@@ -62,8 +62,7 @@ class PostTemplate extends StatefulWidget {
       required this.crmUsername,
       required this.crmYoutubeLink,
       required this.isLike,
-      required this.crmViewer
-      });
+      required this.crmViewer});
 
   @override
   PostTemplateState createState() => PostTemplateState();
@@ -109,7 +108,6 @@ class PostTemplateState extends State<PostTemplate> {
     } else {
       totalShare = 0;
     }
-
     isLike = int.parse(widget.isLike);
     super.initState();
   }
@@ -216,7 +214,8 @@ class PostTemplateState extends State<PostTemplate> {
                                         isCurrentUser: '',
                                         address: '',
                                         bio: '',
-                                        meritalStatus: '', totalPost: ''),
+                                        meritalStatus: '',
+                                        totalPost: ''),
                                     getIndex: 4,
                                   )));
                     },
@@ -234,44 +233,7 @@ class PostTemplateState extends State<PostTemplate> {
                   onTap: () {
                     onLikeButtonTapped();
                   },
-                  child: Container(
-                    width: 35,
-                    height: 55,
-                    decoration: BoxDecoration(
-                        color: Colors.black54.withOpacity(.5),
-                        borderRadius: BorderRadius.circular(50)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Center(
-                        child: Column(
-                          children: [
-                            isLike == 0
-                                ? Icon(
-                                    Icons.favorite,
-                                    size: 18.0,
-                                    color: OColors.fontColor,
-                                  )
-                                : Icon(
-                                    Icons.favorite,
-                                    size: 18.0,
-                                    color: OColors.primary,
-                                  ),
-                            const SizedBox(
-                              height: 3,
-                            ),
-                            Text(
-                              totalLikes.toString(),
-                              style: TextStyle(
-                                  fontSize: 12, color: OColors.fontColor),
-                            ),
-                            // const SizedBox(
-                            //   height: 8.0,
-                            // ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  child: LikeLife(isLike: isLike, totalLikes: totalLikes),
                 ),
 
                 const SizedBox(
@@ -462,67 +424,61 @@ class PostTemplateState extends State<PostTemplate> {
   Widget get _getCeremonyAvater {
     return GestureDetector(
       onTap: () {
-
-        widget.crmViewer == false ?
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => CrmDoor(
-                      crm: CeremonyModel(
-                          cId: widget.ceremonyId,
-                          codeNo: '',
-                          ceremonyType: '',
-                          cName: '',
-                          fId: '',
-                          sId: '',
-                          cImage: widget.cImage,
-                          ceremonyDate: '',
-                          contact: '',
-                          admin: '',
-                          u1: widget.crmUsername,
-                          u1Avt: '',
-                          u1Fname: '',
-                          u1Lname: '',
-                          u1g: '',
-                          u2: '',
-                          u2Avt: '',
-                          u2Fname: '',
-                          u2Lname: '',
-                          u2g: '',
-                          youtubeLink: widget.crmYoutubeLink),
-                    )))
-      
-        :
-
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => Livee(
-                      ceremony:CeremonyModel(
-                          cId: widget.ceremonyId,
-                          codeNo: '',
-                          ceremonyType: '',
-                          cName: '',
-                          fId: '',
-                          sId: '',
-                          cImage: widget.cImage,
-                          ceremonyDate: '',
-                          contact: '',
-                          admin: '',
-                          u1: widget.crmUsername,
-                          u1Avt: '',
-                          u1Fname: '',
-                          u1Lname: '',
-                          u1g: '',
-                          u2: '',
-                          u2Avt: '',
-                          u2Fname: '',
-                          u2Lname: '',
-                          u2g: '',
-                          youtubeLink: widget.crmYoutubeLink),
-                    )));
-      
-      
+        widget.crmViewer == false
+            ? Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => CrmDoor(
+                          crm: CeremonyModel(
+                              cId: widget.ceremonyId,
+                              codeNo: '',
+                              ceremonyType: '',
+                              cName: '',
+                              fId: '',
+                              sId: '',
+                              cImage: widget.cImage,
+                              ceremonyDate: '',
+                              contact: '',
+                              admin: '',
+                              u1: widget.crmUsername,
+                              u1Avt: '',
+                              u1Fname: '',
+                              u1Lname: '',
+                              u1g: '',
+                              u2: '',
+                              u2Avt: '',
+                              u2Fname: '',
+                              u2Lname: '',
+                              u2g: '',
+                              youtubeLink: widget.crmYoutubeLink),
+                        )))
+            : Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => Livee(
+                          ceremony: CeremonyModel(
+                              cId: widget.ceremonyId,
+                              codeNo: '',
+                              ceremonyType: '',
+                              cName: '',
+                              fId: '',
+                              sId: '',
+                              cImage: widget.cImage,
+                              ceremonyDate: '',
+                              contact: '',
+                              admin: '',
+                              u1: widget.crmUsername,
+                              u1Avt: '',
+                              u1Fname: '',
+                              u1Lname: '',
+                              u1g: '',
+                              u2: '',
+                              u2Avt: '',
+                              u2Fname: '',
+                              u2Lname: '',
+                              u2g: '',
+                              youtubeLink: widget.crmYoutubeLink),
+                        )));
       },
       child: SizedBox(
           // margin: const EdgeInsets.only(top: 10.0),
