@@ -92,7 +92,9 @@ class _CrmCategoriesWidgetState extends State<CrmCategoriesWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return 
+    
+    Column(
       children: [
         //Top Header
         Row(
@@ -184,5 +186,6 @@ class _CrmCategoriesWidgetState extends State<CrmCategoriesWidget> {
         ), //Top Header
       ],
     );
+  
   }
 }

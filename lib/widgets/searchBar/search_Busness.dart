@@ -97,12 +97,15 @@ class _SearchBusnessState extends State<SearchBusness> {
         return TextField(
           controller: fieldTextEditingController,
           focusNode: fieldFocusNode,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.only(left: 18),
             border: InputBorder.none,
-            hintStyle: TextStyle(color: Colors.grey, fontSize: 14, height: 1.5),
+            hintStyle:
+                TextStyle(color: OColors.primary, fontSize: 14, height: 1.5),
             hintText: "Search Busness..",
           ),
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style:
+              TextStyle(fontWeight: FontWeight.bold, color: OColors.fontColor),
         );
       },
 
@@ -114,7 +117,7 @@ class _SearchBusnessState extends State<SearchBusness> {
           child: Material(
             child: Container(
               width: 300,
-              color: OColors.searchBackground,
+              color: OColors.secondary,
               child: ListView.builder(
                 padding: const EdgeInsets.all(10.0),
                 itemCount: options.length,

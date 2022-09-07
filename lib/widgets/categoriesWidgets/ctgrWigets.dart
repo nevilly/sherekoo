@@ -3,6 +3,7 @@ import 'package:sherekoo/screens/bsnScreen/bsnScrn.dart';
 
 import '../../model/busness/allBusness.dart';
 import '../../model/busness/busnessModel.dart';
+import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../screens/detailScreen/DetailPage.dart';
 import '../../util/Preferences.dart';
@@ -11,10 +12,10 @@ import '../../util/util.dart';
 
 class CategoryBody extends StatefulWidget {
   final Stream<String> stream;
-  final String busnessType;
+  final String sType;
   final String title;
   final double heights;
-
+  final bool crm;
   final int crossAxisCountx;
   final String hotStatus;
   final CeremonyModel ceremony;
@@ -23,9 +24,10 @@ class CategoryBody extends StatefulWidget {
       {Key? key,
       required this.stream,
       required this.ceremony,
-      required this.busnessType,
+      required this.sType,
       required this.title,
       required this.heights,
+      required this.crm,
       required this.crossAxisCountx,
       required this.hotStatus})
       : super(key: key);
@@ -36,8 +38,8 @@ class CategoryBody extends StatefulWidget {
 
 class _CategoryBodyState extends State<CategoryBody> {
   final Preferences _preferences = Preferences();
-
   String token = '';
+
   List<BusnessModel> data = [];
 
   CeremonyModel ceremony = CeremonyModel(
@@ -66,6 +68,7 @@ class _CategoryBodyState extends State<CategoryBody> {
 
   @override
   void initState() {
+    super.initState();
     _preferences.init();
     _preferences.get('token').then((value) {
       widget.stream.listen((page) {
@@ -74,11 +77,14 @@ class _CategoryBodyState extends State<CategoryBody> {
           bsnType = page;
         });
 
+        // ceremonyLIfe
+        if (page == 'Sherekoo') {
+          getAllCrmn(widget.sType);
+        }
+
         getAll(page);
       });
     });
-
-    super.initState();
   }
 
   getAll(bsn) async {
@@ -86,11 +92,25 @@ class _CategoryBodyState extends State<CategoryBody> {
         .onBusnessType(token, urlBusnessByType, bsn)
         .then((value) {
       if (mounted) {
-        if (value.payload) {
+        setState(() {
+          data = value.payload.map<BusnessModel>((e) {
+            return BusnessModel.fromJson(e);
+          }).toList();
+        });
+      }
+    });
+  }
+
+  getAllCrmn(datatype) async {
+    AllCeremonysModel(payload: [], status: 0)
+        .getCeremonyByType(token, urlGetCrmByType, datatype)
+        .then((value) {
+      if (mounted) {
+        if (value.status == 200) {
           setState(() {
-            data = value.payload.map<BusnessModel>((e) {
-              return BusnessModel.fromJson(e);
-            }).toList();
+            data = value.payload
+                .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
+                .toList();
           });
         }
       }
@@ -103,13 +123,13 @@ class _CategoryBodyState extends State<CategoryBody> {
       children: [
         //Top Header
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(top: 2, left: 8, right: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 15.0,
+                  top: 8.0,
                   bottom: 5,
                   left: 10,
                 ),
@@ -130,11 +150,19 @@ class _CategoryBodyState extends State<CategoryBody> {
                   padding: const EdgeInsets.only(
                     top: 15.0,
                     bottom: 5,
-                    right: 25,
+                    right: 4,
                   ),
-                  child: Text(
-                    'All',
-                    style: TextStyle(color: OColors.fontColor),
+                  child: Container(
+                    padding: const EdgeInsets.only(
+                        left: 10, top: 2, right: 10, bottom: 2),
+                    decoration: BoxDecoration(
+                        // color: OColors.primary,
+                        border: Border.all(color: OColors.primary, width: 0.8),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Text(
+                      'All',
+                      style: TextStyle(color: OColors.primary, fontSize: 12),
+                    ),
                   ),
                 ),
               ),
@@ -183,11 +211,19 @@ class _CategoryBodyState extends State<CategoryBody> {
                               alignment: Alignment.center,
                               // margin: EdgeInsets.only(top: 1),
                               child: Center(
-                                child: Text(
-                                  data[index].knownAs,
-                                  style: TextStyle(
-                                      fontSize: 10, color: OColors.fontColor),
-                                ),
+                                child: data[index].knownAs.length >= 5
+                                    ? Text(
+                                        '${data[index].knownAs.substring(0, 5)}...',
+                                        style: TextStyle(
+                                            fontSize: 10,
+                                            color: OColors.fontColor),
+                                      )
+                                    : Text(
+                                        data[index].knownAs,
+                                        style: TextStyle(
+                                            fontSize: 10,
+                                            color: OColors.fontColor),
+                                      ),
                               ),
                             ),
                           ]),

@@ -11,6 +11,7 @@ import '../../util/util.dart';
 import '../../widgets/categoriesWidgets/crmCtgr.dart';
 import '../../widgets/categoriesWidgets/ctgrWigets.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
+import '../../widgets/searchBar/search_Busness.dart';
 
 class Sherekoo extends StatefulWidget {
   const Sherekoo({Key? key}) : super(key: key);
@@ -22,15 +23,6 @@ class Sherekoo extends StatefulWidget {
 class _SherekooState extends State<Sherekoo> {
   final Preferences _preferences = Preferences();
   String token = '';
-  late String ceremonyType = "";
-  late String ceremonyId = "";
-  late String ceremonyCodeNo = "";
-  late String ceremonyDate = "";
-  late String ceremonyContact = "";
-
-  late String ceremonyAdimnId = "";
-  late String ceremonyFid = "";
-  late String ceremonySid = "";
 
   CeremonyModel ceremony = CeremonyModel(
       cId: '',
@@ -57,33 +49,26 @@ class _SherekooState extends State<Sherekoo> {
 
   late String dataType = '';
   late String title = '';
-
   late Color rangi;
 
   final StreamController<String> _controller = StreamController<String>();
   final StreamController<String> _controller2 = StreamController<String>();
   String page = '';
   String page2 = '';
+  String crmTypee = '';
 
   @override
   void initState() {
-    _preferences.init();
-    _preferences.get('token').then((value) {
-      setState(() {
-        token = value;
-        getAllCeremony();
-      });
-    });
-
     super.initState();
-  }
+    _preferences.init();
+    page = 'Mc';
+    page2 = 'Mc';
+    rangi = OColors.darkGrey;
+    title = 'Mc';
+    dataType = 'Mc';
 
-  getAllCeremony() async {
-    AllCeremonysModel(payload: [], status: 0)
-        .get(token, urlGetCeremony)
-        .then((value) {
-      ;
-    });
+    _controller.add(page);
+    _controller2.add(page2);
   }
 
   @override
@@ -93,26 +78,25 @@ class _SherekooState extends State<Sherekoo> {
       appBar: topBar(),
       body: Row(
         children: [
-          // CategoryMenu(
-          //   rangi: OColors.darkGrey,
-          //   title: 'Sherekoo',
-          // ),
+          // Side Menu
           SizedBox(
             width: 100,
             // color: Colors.grey.shade300,
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  //Sherekoo
-                  GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          rangi = OColors.darkGrey;
-                          title = 'Sherekoo';
-                          dataType = 'Sherekoo';
-                        });
-                      },
-                      child: sizedBoxMenu('Sherekoo', title)),
+                  // //Sherekoo
+                  // GestureDetector(
+                  //     onTap: () {
+                  //       setState(() {
+                  //         rangi = OColors.darkGrey;
+                  //         title = 'Sherekoo';
+                  //         dataType = 'Sherekoo';
+                  //         crmTypee = 'Sherekoo';
+                  //       });
+                  //     },
+                  //     child: sizedBoxMenu('Sherekoo', title)),
+
                   // Mc
                   GestureDetector(
                       onTap: () {
@@ -130,6 +114,7 @@ class _SherekooState extends State<Sherekoo> {
                         }
                       },
                       child: sizedBoxMenu('Mc', title)),
+
                   //Halls
                   GestureDetector(
                       onTap: () {
@@ -277,68 +262,30 @@ class _SherekooState extends State<Sherekoo> {
 
           Expanded(
               child: SingleChildScrollView(
-                  child: dataType == 'Sherekoo'
-                      ? Column(
-                          children: const [
-                            CrmCategoriesWidget(
-                              dataType: 'Birthday',
-                              heights: 80,
-                              crossAxisCountx: 3,
-                              title: 'Birthday',
-                              hotStatus: '0',
-                            ),
-                            CrmCategoriesWidget(
-                              dataType: 'Wedding',
-                              heights: 80,
-                              crossAxisCountx: 3,
-                              title: 'Wedding',
-                              hotStatus: '0',
-                            ),
-                            CrmCategoriesWidget(
-                              dataType: 'SendOff',
-                              heights: 80,
-                              crossAxisCountx: 3,
-                              title: 'SendOff',
-                              hotStatus: '0',
-                            ),
-                            CrmCategoriesWidget(
-                              dataType: 'Kitchen Part',
-                              heights: 80,
-                              crossAxisCountx: 3,
-                              title: 'Kitchen Part',
-                              hotStatus: '0',
-                            ),
-                            CrmCategoriesWidget(
-                              dataType: 'Kigodoro',
-                              heights: 80,
-                              crossAxisCountx: 3,
-                              title: 'Kigodoro',
-                              hotStatus: '0',
-                            ),
-                          ],
-                        )
-                      : Column(
-                          children: [
-                            CategoryBody(
-                              stream: _controller.stream,
-                              title: 'Hot $title',
-                              heights: 65,
-                              crossAxisCountx: 3,
-                              hotStatus: '1',
-                              ceremony: ceremony,
-                              busnessType: dataType,
-                            ),
-                            CategoryBody(
-                              stream: _controller2.stream,
-                              title: title,
-                              heights: 380,
-                              crossAxisCountx: 3,
-                              hotStatus: '0',
-                              ceremony: ceremony,
-                              busnessType: dataType,
-                            )
-                          ],
-                        )))
+                  child: Column(
+            children: [
+              CategoryBody(
+                stream: _controller.stream,
+                title: 'Hot $title',
+                heights: 65,
+                crossAxisCountx: 3,
+                hotStatus: '1',
+                ceremony: ceremony,
+                sType: dataType,
+                crm: false,
+              ),
+              CategoryBody(
+                stream: _controller2.stream,
+                title: title,
+                heights: 380,
+                crossAxisCountx: 3,
+                hotStatus: '0',
+                ceremony: ceremony,
+                sType: dataType,
+                crm: false,
+              ),
+            ],
+          )))
         ],
       ),
     );
@@ -365,7 +312,10 @@ class _SherekooState extends State<Sherekoo> {
                     color: OColors.darGrey,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const SearchCeremony()),
+                  child: SearchBusness(
+                    ceremony: ceremony,
+                  )),
+              //const SearchCeremony()),
             ),
             const NotifyWidget()
           ],
