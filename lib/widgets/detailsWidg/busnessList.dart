@@ -4,6 +4,7 @@ import '../../model/busness/busnessModel.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../screens/bsnScreen/bsnScrn.dart';
 import '../../screens/detailScreen/DetailPage.dart';
+import '../../util/colors.dart';
 import '../../util/util.dart';
 
 class BusnessLst extends StatelessWidget {
@@ -27,7 +28,7 @@ class BusnessLst extends StatelessWidget {
 
           // Header: Other Busness
           Padding(
-            padding: const EdgeInsets.only(left: 8.0),
+            padding: const EdgeInsets.only(left: 10.0),
             child: Container(
                 alignment: Alignment.topLeft,
                 child: Row(
@@ -35,18 +36,33 @@ class BusnessLst extends StatelessWidget {
                   children: [
                     Text(
                       'Other ${data.busnessType}',
-                      style: const TextStyle(
-                          fontSize: 15,
+                      style: TextStyle(
+                          fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.italic,
-                          color: Colors.black),
+                          // fontStyle: FontStyle.italic,
+                          color: OColors.fontColor),
                     ),
+
+                    // Padding(
+                    //   padding: const EdgeInsets.only(right: 8.0),
+                    //   child: Container(
+                    //       decoration: BoxDecoration(
+                    //         border: Border.all(color: Colors.grey, width: 2),
+                    //         borderRadius: BorderRadius.circular(50),
+                    //       ),
+                    //       child: Icon(
+                    //         Icons.more_horiz_rounded,
+                    //         size: 15,
+                    //         color: OColors.fontColor,
+                    //       )),
+                    // ),
+
                     IconButton(
                         icon: const Icon(
                           Icons.more_horiz,
                         ),
-                        color: Colors.blueGrey,
-                        iconSize: 30.0,
+                        color: OColors.primary,
+                        iconSize: 20.0,
                         onPressed: () {
                           Navigator.push(
                               context,
@@ -63,12 +79,13 @@ class BusnessLst extends StatelessWidget {
 
         if (otherBsn.isNotEmpty)
           SizedBox(
-            height: 110,
+            // color: OColors.darGrey,
+            height: 95,
             child: GridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: otherBsn.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3),
+                    crossAxisSpacing: 2, crossAxisCount: 3),
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
@@ -80,47 +97,39 @@ class BusnessLst extends StatelessWidget {
                                     ceremonyData: ceremony,
                                   )));
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 2.0),
-                      child: SizedBox(
-                        width: 100,
-                        height: 100,
-                        child: Card(
-                          child: Padding(
+                    child: Container(
+                      // width: 100,
+                      // height: 100,
+                      color: OColors.darGrey,
+                      child: Column(
+                        children: [
+                          Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Center(
-                                  child: CircleAvatar(
-                                    radius: 15.0,
-                                    child: ClipOval(
-                                        child: otherBsn[index].coProfile != ''
-                                            ? Image.network(
-                                                '${api}public/uploads/${otherBsn[index].username}/busness/${otherBsn[index].coProfile}',
-                                                fit: BoxFit.cover,
-                                                width: 90.0,
-                                                height: 90.0,
-                                              )
-                                            : Image.asset(
-                                                'assets/logo/noimage.png',
-                                                fit: BoxFit.fitWidth,
-                                                width: 90.0,
-                                                height: 90.0,
-                                              )),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Center(
-                                  child: Text(otherBsn[index].knownAs,
-                                      style:
-                                          const TextStyle(color: Colors.grey)),
-                                ),
-                              ],
+                            child: Center(
+                              child: CircleAvatar(
+                                radius: 25.0,
+                                child: ClipOval(
+                                    child: otherBsn[index].coProfile != ''
+                                        ? Image.network(
+                                            '${api}public/uploads/${otherBsn[index].username}/busness/${otherBsn[index].coProfile}',
+                                            fit: BoxFit.cover,
+                                            width: 90.0,
+                                            height: 90.0,
+                                          )
+                                        : Image.asset(
+                                            'assets/logo/noimage.png',
+                                            fit: BoxFit.fitWidth,
+                                            width: 90.0,
+                                            height: 90.0,
+                                          )),
+                              ),
                             ),
                           ),
-                        ),
+                          Center(
+                            child: Text(otherBsn[index].knownAs,
+                                style: const TextStyle(color: Colors.grey)),
+                          ),
+                        ],
                       ),
                     ),
                   );

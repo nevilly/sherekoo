@@ -150,22 +150,41 @@ class _BsnDetailsState extends State<BsnDetails> {
     GetAll(id: data.bId, status: 0, payload: [])
         .get(token, urlGetBsnToCrmnServices)
         .then((value) {
-      setState(() {
-        service = value.payload
-            .map<ServicesModel>((e) => ServicesModel.fromJson(e))
-            .toList();
-      });
+      if (value.status == 200) {
+        setState(() {
+          service = value.payload
+              .map<ServicesModel>((e) => ServicesModel.fromJson(e))
+              .toList();
+        });
+      }
     });
   }
+
+  TabBar get _tabBar => TabBar(
+          labelColor: OColors.primary,
+          unselectedLabelColor: Colors.grey,
+          indicatorColor: OColors.primary,
+          indicatorWeight: 2,
+          tabs: const [
+            Tab(
+              text: 'OverView',
+            ),
+            Tab(
+              text: 'Description',
+            )
+          ]);
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
         length: 2,
         child: Scaffold(
+          backgroundColor: OColors.secondary,
           appBar: AppBar(
-            backgroundColor:  OColors.appBarColor,
-            title: Text(data.companyName),
+            backgroundColor: OColors.secondary,
+            title: data.companyName.length >= 4
+                ? Text('${data.companyName.substring(0, 4)}..')
+                : Text(data.companyName),
             centerTitle: true,
           ),
           body: Column(
@@ -175,18 +194,22 @@ class _BsnDetailsState extends State<BsnDetails> {
               BusnessProfile(data: data, widget: widget),
 
               //Tabs
-              const TabBar(
-                  labelColor: Colors.red,
-                  unselectedLabelColor: Colors.black,
-                  labelStyle: TextStyle(fontWeight: FontWeight.w500),
-                  tabs: [
-                    Tab(
-                      text: 'OverView',
-                    ),
-                    Tab(
-                      text: 'Description',
-                    )
-                  ]),
+              const SizedBox(
+                height: 10,
+              ),
+
+              PreferredSize(
+                preferredSize: _tabBar.preferredSize,
+                child: Container(
+                  decoration: const BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(color: Colors.grey, width: 0.8))),
+                  child: ColoredBox(
+                    color: OColors.darGrey,
+                    child: _tabBar,
+                  ),
+                ),
+              ),
 
               //Tabs Views
               Expanded(
@@ -217,6 +240,9 @@ class _BsnDetailsState extends State<BsnDetails> {
                           ceremony: ceremony,
                           data: data,
                         ),
+                          const SizedBox(
+                          height: 20.0,
+                        )
                       ],
                     ),
                   ),
@@ -238,19 +264,21 @@ class _BsnDetailsState extends State<BsnDetails> {
         children: [
           Text(
             '${data.price} Tsh',
-            style: const TextStyle(
-                fontSize: 25, fontWeight: FontWeight.w500, color: Colors.black),
+            style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.w500,
+                color: OColors.fontColor),
           ),
-          const Text(
+          Text(
             'Price/Negotiable',
             style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w200,
                 fontStyle: FontStyle.italic,
-                color: Colors.black),
+                color: OColors.primary2),
           ),
           const SizedBox(height: 5),
-          
+
           //Hire Me Botton
           GestureDetector(
             onTap: () {
@@ -266,21 +294,21 @@ class _BsnDetailsState extends State<BsnDetails> {
               width: 200,
               padding: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
-                color: Colors.red.shade400,
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                // color: OColors.primary,
+                border: Border.all(color: OColors.primary, width: 1),
+                borderRadius: const BorderRadius.all(Radius.circular(30)),
               ),
-              child: const Center(
+              child: Center(
                 child: Text(
                   "Hire Me ",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
-                      color: Colors.white),
+                      color: OColors.fontColor),
                 ),
               ),
             ),
           )
-        
         ],
       ),
     );

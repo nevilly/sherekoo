@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sherekoo/util/colors.dart';
 
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/services/ServicesModelModel.dart';
@@ -26,17 +27,17 @@ class CeremonyList extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       'List Ceremon Host',
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                           fontStyle: FontStyle.italic,
-                          color: Colors.black),
+                          color: OColors.fontColor),
                     ),
                     IconButton(
                         icon: const Icon(Icons.more_horiz),
-                        color: Colors.blueGrey,
+                        color: OColors.primary,
                         iconSize: 30.0,
                         onPressed: () {
                           otherCeremony(context);
@@ -86,80 +87,95 @@ class CeremonyList extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 2.0),
                       child: Card(
-                        child: Column(
-                          children: [
-                            service[index].cImage != ''
-                                ? ClipRRect(
-                                    child: Center(
-                                      child: FadeInImage(
-                                        height: 55,
-                                        image: NetworkImage('${api}public/uploads/${service[index].fIdUname}/ceremony/${service[index].cImage}'),
-                                        // fadeInDuration:
-                                        //     const Duration(
-                                        //         milliseconds:
-                                        //             100),
-                                        placeholder: const AssetImage(
-                                            'assets/logo/noimage.png'),
-                                        imageErrorBuilder:
-                                            (context, error, stackTrace) {
-                                          return Image.asset(
-                                              'assets/logo/noimage.png',
-                                              fit: BoxFit.fitWidth);
-                                        },
-                                        fit: BoxFit.fitWidth,
+                        child: Container(
+                          color: OColors.darGrey,
+                          child: Column(
+                            children: [
+                              service[index].cImage != ''
+                                  ? ClipRRect(
+                                      child: Center(
+                                        child: FadeInImage(
+                                          height: 55,
+                                          image: NetworkImage(
+                                              '${api}public/uploads/${service[index].fIdUname}/ceremony/${service[index].cImage}'),
+                                          // fadeInDuration:
+                                          //     const Duration(
+                                          //         milliseconds:
+                                          //             100),
+                                          placeholder: const AssetImage(
+                                              'assets/logo/noimage.png'),
+                                          imageErrorBuilder:
+                                              (context, error, stackTrace) {
+                                            return Image.asset(
+                                                'assets/logo/noimage.png',
+                                                fit: BoxFit.fitWidth);
+                                          },
+                                          fit: BoxFit.fitWidth,
+                                        ),
                                       ),
-                                    ),
-                                  )
-                                : const SizedBox(),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(service[index].cName,
-                                style: const TextStyle(
-                                    fontSize: 9, fontWeight: FontWeight.bold)),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 8.0, right: 8.0, bottom: 4),
-                              child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: const [
-                                        Icon(
-                                          Icons.remove_red_eye,
-                                          size: 15,
-                                        ),
-                                        SizedBox(
-                                          width: 2,
-                                        ),
-                                        Text('134',
-                                            style: TextStyle(
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w400)),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: const [
-                                        Icon(
-                                          Icons.message,
-                                          size: 15,
-                                        ),
-                                        SizedBox(
-                                          width: 3,
-                                        ),
-                                        Text('25k',
-                                            style: TextStyle(
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w400)),
-                                      ],
-                                    ),
-                                  ]),
-                            )
-                          ],
+                                    )
+                                  : const SizedBox(),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              service[index].cName.length >= 4
+                                  ? Text(
+                                      '${service[index].cName.substring(0, 4)}..',
+                                      style: const TextStyle(
+                                          fontSize: 9,
+                                          fontWeight: FontWeight.bold))
+                                  : Text(service[index].cName,
+                                      style: const TextStyle(
+                                          fontSize: 9,
+                                          fontWeight: FontWeight.bold)),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, right: 8.0, bottom: 4),
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.remove_red_eye,
+                                            size: 15,
+                                            color: OColors.primary,
+                                          ),
+                                          const SizedBox(
+                                            width: 2,
+                                          ),
+                                          Text('134',
+                                              style: TextStyle(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: OColors.fontColor)),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.message,
+                                            size: 15,
+                                            color: OColors.primary,
+                                          ),
+                                          const SizedBox(
+                                            width: 3,
+                                          ),
+                                          Text('25k',
+                                              style: TextStyle(
+                                                  color: OColors.fontColor,
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w400)),
+                                        ],
+                                      ),
+                                    ]),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -217,7 +233,8 @@ class CeremonyList extends StatelessWidget {
                                               child: Center(
                                                 child: FadeInImage(
                                                   height: 55,
-                                                  image: NetworkImage('${api}public/uploads/${service[index].fIdUname}/ceremony/${service[index].cImage}'),
+                                                  image: NetworkImage(
+                                                      '${api}public/uploads/${service[index].fIdUname}/ceremony/${service[index].cImage}'),
                                                   // fadeInDuration:
                                                   //     const Duration(
                                                   //         milliseconds:

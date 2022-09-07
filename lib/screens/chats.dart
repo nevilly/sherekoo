@@ -240,7 +240,9 @@ class _PostChatsState extends State<PostChats> {
                                                   chat: chats[index],
                                                 )));
                                   },
-                                  child: Padding(
+                                  child: 
+                                  
+                                  Padding(
                                     padding: const EdgeInsets.only(right: 8.0),
                                     child: Container(
                                         decoration: BoxDecoration(
@@ -255,6 +257,7 @@ class _PostChatsState extends State<PostChats> {
                                           color: OColors.fontColor,
                                         )),
                                   ),
+                               
                                 ),
                               ],
                             ),

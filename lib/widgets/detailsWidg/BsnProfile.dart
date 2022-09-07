@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../model/busness/busnessModel.dart';
 import '../../screens/detailScreen/DetailPage.dart';
 import '../../screens/subscriptionScreen/hiringPage.dart';
+import '../../util/colors.dart';
 import '../../util/util.dart';
 
 class BusnessProfile extends StatelessWidget {
@@ -41,8 +42,8 @@ class BusnessProfile extends StatelessWidget {
                 Container(
                   decoration: const BoxDecoration(
                     color: Colors.black54,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(10)),
+                    borderRadius:
+                        BorderRadius.only(topRight: Radius.circular(10)),
                   ),
                   padding: const EdgeInsets.only(left: 10),
                   child: Padding(
@@ -52,10 +53,13 @@ class BusnessProfile extends StatelessWidget {
                         text: TextSpan(children: [
                       TextSpan(
                           text: '${data.busnessType}: ',
-                          style: const TextStyle(
+                          style: TextStyle(
+                              color: OColors.fontColor,
                               fontSize: 16,
                               fontWeight: FontWeight.bold)),
-                      TextSpan(text: data.knownAs),
+                      TextSpan(
+                          text: data.knownAs,
+                          style: TextStyle(color: OColors.fontColor)),
                     ])),
                   ),
                 ),
@@ -74,19 +78,19 @@ class BusnessProfile extends StatelessWidget {
                     width: 65,
                     padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
-                      color: Colors.red.shade400,
+                      color: OColors.primary,
                       borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(10),
                         bottomLeft: Radius.circular(10),
                       ),
                     ),
-                    child: const Center(
+                    child: Center(
                       child: Text(
                         "Hire",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
-                            color: Colors.white),
+                            color: OColors.fontColor),
                       ),
                     ),
                   ),
@@ -99,4 +103,3 @@ class BusnessProfile extends StatelessWidget {
     );
   }
 }
-
