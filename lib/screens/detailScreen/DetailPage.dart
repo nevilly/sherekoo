@@ -161,10 +161,10 @@ class _BsnDetailsState extends State<BsnDetails> {
   }
 
   TabBar get _tabBar => TabBar(
-        labelColor: OColors.primary,
-        unselectedLabelColor: Colors.grey,
-        indicatorColor: OColors.primary,
-        indicatorWeight: 2,
+          labelColor: OColors.primary,
+          unselectedLabelColor: Colors.grey,
+          indicatorColor: OColors.primary,
+          indicatorWeight: 2,
           tabs: const [
             Tab(
               text: 'OverView',
@@ -240,7 +240,7 @@ class _BsnDetailsState extends State<BsnDetails> {
                           ceremony: ceremony,
                           data: data,
                         ),
-                          const SizedBox(
+                        const SizedBox(
                           height: 20.0,
                         )
                       ],

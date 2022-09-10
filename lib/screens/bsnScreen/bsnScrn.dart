@@ -94,14 +94,16 @@ class _BusnessScreenState extends State<BusnessScreen> {
               'ADS AREA',
               style: TextStyle(color: Colors.white),
             ),
-            PreferredSize(
-                preferredSize: _tabBar.preferredSize,
-                child: Container(
-                    decoration: const BoxDecoration(
-                        border: Border(
-                            bottom:
-                                BorderSide(color: Colors.grey, width: 0.8))),
-                    child: ColoredBox(color: OColors.darGrey, child: _tabBar))),
+            
+              PreferredSize(
+                  preferredSize: _tabBar.preferredSize,
+                  child: Container(
+                      decoration: const BoxDecoration(
+                          border: Border(
+                              bottom:
+                                  BorderSide(color: Colors.grey, width: 0.8))),
+                      child: ColoredBox(color: OColors.darGrey, child: _tabBar))),
+            
             Expanded(
                 child: TabBarView(children: [
               BsnTab(

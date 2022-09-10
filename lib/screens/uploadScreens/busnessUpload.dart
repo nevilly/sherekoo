@@ -46,7 +46,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
 
   List<User> _allUsers = [];
   List<User> _foundUsers = []; //search
- 
+
   BusnessModel busness = BusnessModel(
       location: '',
       bId: '',
@@ -627,34 +627,478 @@ class _BusnessUploadState extends State<BusnessUpload> {
   fillTheBlanks(String title) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          title,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-              fontSize: 18, color: Colors.red, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: const Color.fromARGB(255, 26, 25, 25),
-      ),
+          content: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+                fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: OColors.danger),
     );
   }
+
+  TabBar get _tabBar => TabBar(
+          labelColor: OColors.primary,
+          unselectedLabelColor: Colors.grey,
+          indicatorColor: OColors.primary,
+          indicatorWeight: 2,
+          tabs: const [
+            Tab(child: Text('Company')),
+            Tab(
+              child: Text('Owner Details'),
+            ),
+
+            // Tab(
+            //   child: Text('Work'),
+            // ),
+            // Tab(
+            //   child: Text('staff'),
+            // ),
+          ]);
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 2,
       child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(35.0),
-          child: AppBar(
-            backgroundColor: OColors.appBarColor,
-            title: const Text('YOUR BUSNESS', style: TextStyle(fontSize: 14)),
-            centerTitle: true,
-          ),
+        backgroundColor: OColors.secondary,
+        appBar: AppBar(
+          backgroundColor: OColors.appBarColor,
+          title: const Text('YOUR BUSNESS', style: TextStyle(fontSize: 14)),
+          centerTitle: true,
+          toolbarHeight: 50,
+          actions: [
+            selectedBusness != 'Please Choose Busness'
+                ? GestureDetector(
+                    onTap: () {
+                      if (selectedBusness == 'Mc') {
+                        if (widget.getData.bId.isEmpty) {
+                          _postBusness(
+                              selectedBusness,
+                              _mcCoKnownController.text,
+                              mcDefaultImg,
+                              _generalimage,
+                              _mcCoPriceController.text,
+                              _mcCoPhoneController.text,
+                              _mcCoLocationController.text,
+                              _mcCoKnownController.text,
+                              mcId,
+                              _mcCeobioController.text,
+                              _mcCoAboutController.text,
+                              'Insert your Brand Name on "CO Tab" pls!...',
+                              'Insert your Price on "Co Tab" pls!...',
+                              'Insert your Phone Number  on "Co Tab" pls!...',
+                              'Insert Contact  on "Co Tab" pls!...',
+                              'msg5');
+                        } else {
+                          _updateBusness(
+                              selectedBusness,
+                              _mcCoKnownController.text,
+                              widget.getData.coProfile,
+                              _generalimage,
+                              _mcCoPriceController.text,
+                              _mcCoPhoneController.text,
+                              _mcCoLocationController.text,
+                              _mcCoKnownController.text,
+                              mcId,
+                              _mcCeobioController.text,
+                              _mcCoAboutController.text,
+                              _mcSubscription,
+                              'Insert your Brand Name on "CO Tab" pls!...',
+                              'Insert your Price on "Co Tab" pls!...',
+                              'Insert your Phone Number  on "Co Tab" pls!...',
+                              'Insert Contact  on "Co Tab" pls!...',
+                              '');
+                        }
+                      }
+
+                      if (selectedBusness == 'Production') {
+                        if (widget.getData.bId.isEmpty) {
+                          _postBusness(
+                              selectedBusness,
+                              _productionCoKnownController.text,
+                              productionDefaultImg,
+                              _generalimage,
+                              _productionCoPriceController.text,
+                              _productionCoPhoneController.text,
+                              _productionCoLocationController.text,
+                              _productionCoKnownController.text,
+                              productionId,
+                              _productionCeobioController.text,
+                              _productionCoAboutController.text,
+                              'Insert your Brand Name on "CO Tab" pls!...',
+                              'Insert your Price on "Co Tab" pls!...',
+                              'Insert your Phone Number  on "Co Tab" pls!...',
+                              'Insert Contact  on "Co Tab" pls!...',
+                              'msg5');
+                        } else {
+                          _updateBusness(
+                              selectedBusness,
+                              _productionCoKnownController.text,
+                              productionDefaultImg,
+                              _generalimage,
+                              _productionCoPriceController.text,
+                              _productionCoPhoneController.text,
+                              _productionCoLocationController.text,
+                              _productionCoKnownController.text,
+                              productionId,
+                              _productionCeobioController.text,
+                              _productionCoAboutController.text,
+                              productionSubscription,
+                              'Insert your Brand Name on "CO Tab" pls!...',
+                              'Insert your Price on "Co Tab" pls!...',
+                              'Insert your Phone Number  on "Co Tab" pls!...',
+                              'Insert Contact  on "Co Tab" pls!...',
+                              '');
+                        }
+                      }
+
+                      if (selectedBusness == 'Decorator') {
+                        if (widget.getData.bId.isEmpty) {
+                          _postBusness(
+                              selectedBusness,
+                              _decoratorCoKnownController.text,
+                              decoratorDefaultImg,
+                              _generalimage,
+                              _decoratorCoPriceController.text,
+                              _decoratorCoPhoneController.text,
+                              _decoratorCoLocationController.text,
+                              _decoratorCoKnownController.text,
+                              decoratorId,
+                              _decoratorCeobioController.text,
+                              _decoratorCoAboutController.text,
+                              'Insert your Brand Name on "CO Tab" pls!...',
+                              'Insert your Price on "Co Tab" pls!...',
+                              'Insert your Phone Number  on "Co Tab" pls!...',
+                              'Insert Contact  on "Co Tab" pls!...',
+                              'msg5');
+                        } else {
+                          _updateBusness(
+                              selectedBusness,
+                              _decoratorCoKnownController.text,
+                              decoratorDefaultImg,
+                              _generalimage,
+                              _decoratorCoPriceController.text,
+                              _decoratorCoPhoneController.text,
+                              _decoratorCoLocationController.text,
+                              _decoratorCoKnownController.text,
+                              decoratorId,
+                              _decoratorCeobioController.text,
+                              _decoratorCoAboutController.text,
+                              decoratorSubscription,
+                              'Insert your Brand Name on "CO Tab" pls!...',
+                              'Insert your Price on "Co Tab" pls!...',
+                              'Insert your Phone Number  on "Co Tab" pls!...',
+                              'Insert Contact  on "Co Tab" pls!...',
+                              '');
+                        }
+                      }
+
+                      if (selectedBusness == 'Halls') {
+                        if (widget.getData.bId.isEmpty) {
+                          _postBusness(
+                              selectedBusness,
+                              _hallCoKnownController.text,
+                              hallDefaultImg,
+                              _generalimage,
+                              _hallCoPriceController.text,
+                              _hallCoPhoneController.text,
+                              _hallCoLocationController.text,
+                              _hallCoKnownController.text,
+                              hallId,
+                              _hallCeobioController.text,
+                              _hallCoAboutController.text,
+                              'Insert your Brand Name on "CO Tab" pls!...',
+                              'Insert your Price on "Co Tab" pls!...',
+                              'Insert your Phone Number  on "Co Tab" pls!...',
+                              'Insert Contact  on "Co Tab" pls!...',
+                              'msg5');
+                          // if (widget.getData.bId.isEmpty) {
+                        } else {
+                          _updateBusness(
+                              selectedBusness,
+                              _hallCoKnownController.text,
+                              hallDefaultImg,
+                              _generalimage,
+                              _hallCoPriceController.text,
+                              _hallCoPhoneController.text,
+                              _hallCoLocationController.text,
+                              _hallCoKnownController.text,
+                              hallId,
+                              _hallCeobioController.text,
+                              _hallCoAboutController.text,
+                              hallSubscription,
+                              'Insert your Brand Name on "CO Tab" pls!...',
+                              'Insert your Price on "Co Tab" pls!...',
+                              'Insert your Phone Number  on "Co Tab" pls!...',
+                              'Insert Contact  on "Co Tab" pls!...',
+                              '');
+                        }
+                      }
+
+                      if (selectedBusness == 'Cake Bakery') {
+                        if (widget.getData.bId.isEmpty) {
+                          _postBusness(
+                              selectedBusness,
+                              _cakeCoKnownController.text,
+                              cakeDefaultImg,
+                              _generalimage,
+                              _cakeCoPriceController.text,
+                              _cakeCoPhoneController.text,
+                              _cakeCoLocationController.text,
+                              _cakeCoKnownController.text,
+                              cakeId,
+                              _cakeCeobioController.text,
+                              _cakeCoAboutController.text,
+                              'Insert your Brand Name on "CO Tab" pls!...',
+                              'Insert your Price on "Co Tab" pls!...',
+                              'Insert your Phone Number  on "Co Tab" pls!...',
+                              'Insert Contact  on "Co Tab" pls!...',
+                              'msg5');
+
+                          // if (widget.getData.bId.isEmpty) {
+                        } else {
+                          _updateBusness(
+                              selectedBusness,
+                              _cakeCoKnownController.text,
+                              cakeDefaultImg,
+                              _generalimage,
+                              _cakeCoPriceController.text,
+                              _cakeCoPhoneController.text,
+                              _cakeCoLocationController.text,
+                              _cakeCoKnownController.text,
+                              cakeId,
+                              _cakeCeobioController.text,
+                              _cakeCoAboutController.text,
+                              cakeSubscription,
+                              'Insert your Brand Name on "CO Tab" pls!...',
+                              'Insert your Price on "Co Tab" pls!...',
+                              'Insert your Phone Number  on "Co Tab" pls!...',
+                              'Insert Contact  on "Co Tab" pls!...',
+                              '');
+                        }
+                      }
+
+                      if (selectedBusness == 'Singer') {
+                        if (widget.getData.bId.isEmpty) {
+                          _postBusness(
+                              selectedBusness,
+                              _singersCoKnownController.text,
+                              singersDefaultImg,
+                              _generalimage,
+                              _singersCoPriceController.text,
+                              _singersCoPhoneController.text,
+                              _singersCoLocationController.text,
+                              _singersCoKnownController.text,
+                              singersId,
+                              _singersCeobioController.text,
+                              _singersCoAboutController.text,
+                              'Insert your Brand Name on "CO Tab" pls!...',
+                              'Insert your Price on "Co Tab" pls!...',
+                              'Insert your Phone Number  on "Co Tab" pls!...',
+                              'Insert Contact  on "Co Tab" pls!...',
+                              'msg5');
+
+                          // if (widget.getData.bId.isEmpty) {
+                        } else {
+                          _updateBusness(
+                              selectedBusness,
+                              _singersCoKnownController.text,
+                              singersDefaultImg,
+                              _generalimage,
+                              _singersCoPriceController.text,
+                              _singersCoPhoneController.text,
+                              _singersCoLocationController.text,
+                              _singersCoKnownController.text,
+                              singersId,
+                              _singersCeobioController.text,
+                              _singersCoAboutController.text,
+                              singersSubscription,
+                              'Insert your Brand Name on "CO Tab" pls!...',
+                              'Insert your Price on "Co Tab" pls!...',
+                              'Insert your Phone Number  on "Co Tab" pls!...',
+                              'Insert Contact  on "Co Tab" pls!...',
+                              '');
+                        }
+                      }
+
+                      if (selectedBusness == 'Dancer') {
+                        if (widget.getData.bId.isEmpty) {
+                          _postBusness(
+                              selectedBusness,
+                              _dancersCoKnownController.text,
+                              dancersDefaultImg,
+                              _generalimage,
+                              _dancersCoPriceController.text,
+                              _dancersCoPhoneController.text,
+                              _dancersCoLocationController.text,
+                              _dancersCoKnownController.text,
+                              dancersId,
+                              _dancersCeobioController.text,
+                              _dancersCoAboutController.text,
+                              'Insert your Brand Name on "CO Tab" pls!...',
+                              'Insert your Price on "Co Tab" pls!...',
+                              'Insert your Phone Number  on "Co Tab" pls!...',
+                              'Insert Contact  on "Co Tab" pls!...',
+                              'msg5');
+
+                          // if (widget.getData.bId.isEmpty) {
+                        } else {
+                          _updateBusness(
+                              selectedBusness,
+                              _dancersCoKnownController.text,
+                              dancersDefaultImg,
+                              _generalimage,
+                              _dancersCoPriceController.text,
+                              _dancersCoPhoneController.text,
+                              _dancersCoLocationController.text,
+                              _dancersCoKnownController.text,
+                              dancersId,
+                              _dancersCeobioController.text,
+                              _dancersCoAboutController.text,
+                              dancersSubscription,
+                              'Insert your Brand Name on "CO Tab" pls!...',
+                              'Insert your Price on "Co Tab" pls!...',
+                              'Insert your Phone Number  on "Co Tab" pls!...',
+                              'Insert Contact  on "Co Tab" pls!...',
+                              '');
+                        }
+                      }
+
+                      if (selectedBusness == 'Cooker') {
+                        if (widget.getData.bId.isEmpty) {
+                          _postBusness(
+                              selectedBusness,
+                              _cookerCoKnownController.text,
+                              cookerDefaultImg,
+                              _generalimage,
+                              _cookerCoPriceController.text,
+                              _cookerCoPhoneController.text,
+                              _cookerCoLocationController.text,
+                              _cookerCoKnownController.text,
+                              cookerId,
+                              _cookerCeobioController.text,
+                              _cookerCoAboutController.text,
+                              'Insert your Brand Name on "CO Tab" pls!...',
+                              'Insert your Price on "Co Tab" pls!...',
+                              'Insert your Phone Number  on "Co Tab" pls!...',
+                              'Insert Contact  on "Co Tab" pls!...',
+                              'msg5');
+
+                          // if (widget.getData.bId.isEmpty) {
+                        } else {
+                          _updateBusness(
+                              selectedBusness,
+                              _cookerCoKnownController.text,
+                              cookerDefaultImg,
+                              _generalimage,
+                              _cookerCoPriceController.text,
+                              _cookerCoPhoneController.text,
+                              _cookerCoLocationController.text,
+                              _cookerCoKnownController.text,
+                              cookerId,
+                              _cookerCeobioController.text,
+                              _cookerCoAboutController.text,
+                              cookerSubscription,
+                              'Insert your Brand Name on "CO Tab" pls!...',
+                              'Insert your Price on "Co Tab" pls!...',
+                              'Insert your Phone Number  on "Co Tab" pls!...',
+                              'Insert Contact  on "Co Tab" pls!...',
+                              '');
+                        }
+                      }
+
+                      if (selectedBusness == 'saloon') {
+                        if (widget.getData.bId.isEmpty) {
+                          _postBusness(
+                              selectedBusness,
+                              _saloonCoKnownController.text,
+                              saloonDefaultImg,
+                              _generalimage,
+                              _saloonCoPriceController.text,
+                              _saloonCoPhoneController.text,
+                              _saloonCoLocationController.text,
+                              _saloonCoKnownController.text,
+                              saloonId,
+                              _saloonCeobioController.text,
+                              _saloonCoAboutController.text,
+                              'Insert your Brand Name on "CO Tab" pls!...',
+                              'Insert your Price on "Co Tab" pls!...',
+                              'Insert your Phone Number  on "Co Tab" pls!...',
+                              'Insert Contact  on "Co Tab" pls!...',
+                              'msg5');
+                          // if (widget.getData.bId.isEmpty) {
+                        } else {
+                          _updateBusness(
+                              selectedBusness,
+                              _saloonCoKnownController.text,
+                              saloonDefaultImg,
+                              _generalimage,
+                              _saloonCoPriceController.text,
+                              _saloonCoPhoneController.text,
+                              _saloonCoLocationController.text,
+                              _saloonCoKnownController.text,
+                              saloonId,
+                              _saloonCeobioController.text,
+                              _saloonCoAboutController.text,
+                              saloonSubscription,
+                              'Insert your Brand Name on "CO Tab" pls!...',
+                              'Insert your Price on "Co Tab" pls!...',
+                              'Insert your Phone Number  on "Co Tab" pls!...',
+                              'Insert Contact  on "Co Tab" pls!...',
+                              '');
+                        }
+                      }
+                      if (selectedBusness == 'Car') {
+                        if (widget.getData.bId.isEmpty) {
+                          _postBusness(
+                              selectedBusness,
+                              _carsCoKnownController.text,
+                              carsDefaultImg,
+                              _generalimage,
+                              _carsCoPriceController.text,
+                              _carsCoPhoneController.text,
+                              _carsCoLocationController.text,
+                              _carsCoKnownController.text,
+                              carsId,
+                              _carsCeobioController.text,
+                              _carsCoAboutController.text,
+                              'Insert your Brand Name on "CO Tab" pls!...',
+                              'Insert your Price on "Co Tab" pls!...',
+                              'Insert your Phone Number  on "Co Tab" pls!...',
+                              'Insert Contact  on "Co Tab" pls!...',
+                              'msg5');
+                          // if (widget.getData.bId.isEmpty) {
+                        } else {
+                          _updateBusness(
+                              selectedBusness,
+                              _carsCoKnownController.text,
+                              carsDefaultImg,
+                              _generalimage,
+                              _carsCoPriceController.text,
+                              _carsCoPhoneController.text,
+                              _carsCoLocationController.text,
+                              _carsCoKnownController.text,
+                              carsId,
+                              _carsCeobioController.text,
+                              _carsCoAboutController.text,
+                              carsSubscription,
+                              'Insert your Brand Name on "CO Tab" pls!...',
+                              'Insert your Price on "Co Tab" pls!...',
+                              'Insert your Phone Number  on "Co Tab" pls!...',
+                              'Insert Contact  on "Co Tab" pls!...',
+                              '');
+                        }
+                      }
+                    },
+                    child: busnessSave())
+                : const SizedBox(),
+          ],
         ),
         body: Column(
           children: [
             const SizedBox(
-              height: 10,
+              height: 8,
             ),
 
             categorySelect,
@@ -665,158 +1109,106 @@ class _BusnessUploadState extends State<BusnessUpload> {
 
             //Background Image Upload
             if (selectedBusness == 'Please Choose Busness')
-              const Text('Select Busness'),
+              Text('Select Busness',
+                  style: TextStyle(color: OColors.fontColor)),
 
             if (selectedBusness != 'Please Choose Busness')
               Card(
-                margin: const EdgeInsets.only(
-                  left: 10,
-                  right: 10,
-                ),
-                child: Column(
-                  children: [
-                    // Busness Profile Image
-                    Stack(children: [
-                      // const Image(
-                      //   image: AssetImage('assets/busness/mc/mc2.png'),
-                      // ),
-
-                      Container(
-                        alignment: Alignment.center,
-                        width: double.infinity,
-                        height: 120,
-                        color: Colors.grey[300],
-                        child: _generalimage != null
-                            ? Image.file(_generalimage!,
-                                width: 300, fit: BoxFit.cover)
-                            : widget.getData.bId.isNotEmpty
-                                ? Image.network(
-                                    '${api}public/uploads/${widget.getData.username}/busness/${widget.getData.coProfile}',
-                                    fit: BoxFit.cover,
-                                  )
-                                : const Image(
-                                    image: AssetImage(
-                                        'assets/busness/mc/mc2.png')),
+                color: OColors.darGrey,
+                child: Stack(children: [
+                  SizedBox(
+                    width: 310,
+                    height: 120,
+                    child: _generalimage != null
+                        ? Image.file(_generalimage!,
+                            width: 300, fit: BoxFit.cover)
+                        : widget.getData.bId.isNotEmpty
+                            ? Image.network(
+                                '${api}public/uploads/${widget.getData.username}/busness/${widget.getData.coProfile}',
+                                fit: BoxFit.cover,
+                              )
+                            : const Image(
+                                fit: BoxFit.cover,
+                                image: AssetImage('assets/logo/noimage.png')),
+                  ),
+                  Positioned(
+                    top: 5,
+                    left: 0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: OColors.primary,
+                        borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
                       ),
-
-                      Container(
-                        margin: const EdgeInsets.only(top: 8),
-                        decoration: const BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              bottomRight: Radius.circular(10)),
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('Upload Photo',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                      ),
-                    ]),
-
-                    //Buttons Image Upload
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 18.0,
-                        right: 18.0,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // Gallary
-                          GestureDetector(
-                            onTap: () {
-                              _openImagePicker(ImageSource.gallery);
-                            },
-                            child: Row(
-                              children: const [
-                                Card(
-                                  color: Colors.red,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(5.0),
-                                    child: Icon(
-                                      Icons.photo_library,
-                                      color: Colors.white,
-                                      size: 16,
-                                    ),
-                                  ),
-                                ),
-                                Card(
-                                  color: Colors.black45,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(6.0),
-                                    child: Text(
-                                      'Gallery',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          GestureDetector(
-                            onTap: () {
-                              _openImagePicker(ImageSource.camera);
-                            },
-                            child: Row(
-                              children: const [
-                                Card(
-                                  color: Colors.red,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(5.0),
-                                    child: Icon(
-                                      Icons.camera,
-                                      color: Colors.white,
-                                      size: 16,
-                                    ),
-                                  ),
-                                ),
-                                Card(
-                                  color: Colors.black45,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(6.0),
-                                    child: Text(
-                                      'Camera',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Upload ',
+                            style: TextStyle(
+                                color: OColors.fontColor,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold)),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  Positioned(
+                    top: 20,
+                    right: 10,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Gallary
+                        GestureDetector(
+                          onTap: () {
+                            _openImagePicker(ImageSource.gallery);
+                          },
+                          child: Card(
+                            color: OColors.primary,
+                            child: const Padding(
+                              padding: EdgeInsets.all(5.0),
+                              child: Icon(
+                                Icons.photo_library,
+                                color: Colors.white,
+                                size: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        GestureDetector(
+                          onTap: () {
+                            _openImagePicker(ImageSource.camera);
+                          },
+                          child: Card(
+                            color: OColors.primary,
+                            child: const Padding(
+                              padding: EdgeInsets.all(5.0),
+                              child: Icon(
+                                Icons.camera,
+                                color: Colors.white,
+                                size: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ]),
               ),
-            const SizedBox(height: 8.0),
 
             //Tabs Bar Buttons
             if (selectedBusness != 'Please Choose Busness')
-              const TabBar(
-                  labelColor: Colors.green,
-                  unselectedLabelColor: Colors.black,
-                  tabs: [
-                    Tab(child: Text('Co')),
-                    Tab(
-                      child: Text('C.E.O'),
-                    ),
-                    Tab(
-                      child: Text('Work'),
-                    ),
-                    Tab(
-                      child: Text('staff'),
-                    ),
-                  ]),
+              PreferredSize(
+                  preferredSize: _tabBar.preferredSize,
+                  child: Container(
+                      decoration: const BoxDecoration(
+                          border: Border(
+                              bottom:
+                                  BorderSide(color: Colors.grey, width: 0.8))),
+                      child:
+                          ColoredBox(color: OColors.darGrey, child: _tabBar))),
+
             //Tabs Views
             if (selectedBusness != 'Please Choose Busness')
               Expanded(
@@ -849,473 +1241,17 @@ class _BusnessUploadState extends State<BusnessUpload> {
                     if (selectedBusness == _busness[9]) carCeoCategory,
                   ],
                 ),
-                Column(
-                  children: [
-                    if (selectedBusness == _busness[0]) mcWorkCategory,
-                    if (selectedBusness == _busness[1]) prodWorkCategory,
-                    if (selectedBusness == _busness[2]) decWorkCategory,
-                    if (selectedBusness == _busness[3]) hallWorkCategory,
-                    if (selectedBusness == _busness[4]) cakeWorkCategory,
-                    if (selectedBusness == _busness[5]) singWorkCategory,
-                    if (selectedBusness == _busness[6]) dancWorkCategory,
-                    if (selectedBusness == _busness[7]) cokWorkCategory,
-                    if (selectedBusness == _busness[8]) salWorkCategory,
-                    if (selectedBusness == _busness[9]) carWorkCategory
-                  ],
-                ),
-                Column(
-                  children: [
-                    if (selectedBusness == _busness[0]) mcStaffCategory,
-                    if (selectedBusness == _busness[1]) prodStaffCategory,
-                    if (selectedBusness == _busness[2]) decStaffCategory,
-                    if (selectedBusness == _busness[3]) hallStaffCategory,
-                    if (selectedBusness == _busness[4]) cakeStaffCategory,
-                    if (selectedBusness == _busness[5]) singStaffCategory,
-                    if (selectedBusness == _busness[6]) dancStaffCategory,
-                    if (selectedBusness == _busness[7]) cokStaffCategory,
-                    if (selectedBusness == _busness[8]) salStaffCategory,
-                    if (selectedBusness == _busness[9]) carStaffCategory,
-                  ],
-                ),
+
+                //Other Tabs Here...
               ])),
           ],
         ),
-        floatingActionButton: selectedBusness != 'Please Choose Busness'
-            ? FloatingActionButton(
-                backgroundColor: const Color.fromARGB(255, 17, 17, 17),
-                //objects will be added to the database when this button is clicked.
-                onPressed: () {
-                  if (selectedBusness == 'Mc') {
-                    if (widget.getData.bId.isEmpty) {
-                      _postBusness(
-                          selectedBusness,
-                          _mcCoKnownController.text,
-                          mcDefaultImg,
-                          _generalimage,
-                          _mcCoPriceController.text,
-                          _mcCoPhoneController.text,
-                          _mcCoLocationController.text,
-                          _mcCoKnownController.text,
-                          mcId,
-                          _mcCeobioController.text,
-                          _mcCoAboutController.text,
-                          'Insert your Brand Name on "CO Tab" pls!...',
-                          'Insert your Price on "Co Tab" pls!...',
-                          'Insert your Phone Number  on "Co Tab" pls!...',
-                          'Insert Contact  on "Co Tab" pls!...',
-                          'msg5');
-                    } else {
-                      _updateBusness(
-                          selectedBusness,
-                          _mcCoKnownController.text,
-                          widget.getData.coProfile,
-                          _generalimage,
-                          _mcCoPriceController.text,
-                          _mcCoPhoneController.text,
-                          _mcCoLocationController.text,
-                          _mcCoKnownController.text,
-                          mcId,
-                          _mcCeobioController.text,
-                          _mcCoAboutController.text,
-                          _mcSubscription,
-                          'Insert your Brand Name on "CO Tab" pls!...',
-                          'Insert your Price on "Co Tab" pls!...',
-                          'Insert your Phone Number  on "Co Tab" pls!...',
-                          'Insert Contact  on "Co Tab" pls!...',
-                          '');
-                    }
-                  }
-
-                  if (selectedBusness == 'Production') {
-                    if (widget.getData.bId.isEmpty) {
-                      _postBusness(
-                          selectedBusness,
-                          _productionCoKnownController.text,
-                          productionDefaultImg,
-                          _generalimage,
-                          _productionCoPriceController.text,
-                          _productionCoPhoneController.text,
-                          _productionCoLocationController.text,
-                          _productionCoKnownController.text,
-                          productionId,
-                          _productionCeobioController.text,
-                          _productionCoAboutController.text,
-                          'Insert your Brand Name on "CO Tab" pls!...',
-                          'Insert your Price on "Co Tab" pls!...',
-                          'Insert your Phone Number  on "Co Tab" pls!...',
-                          'Insert Contact  on "Co Tab" pls!...',
-                          'msg5');
-                    } else {
-                      _updateBusness(
-                          selectedBusness,
-                          _productionCoKnownController.text,
-                          productionDefaultImg,
-                          _generalimage,
-                          _productionCoPriceController.text,
-                          _productionCoPhoneController.text,
-                          _productionCoLocationController.text,
-                          _productionCoKnownController.text,
-                          productionId,
-                          _productionCeobioController.text,
-                          _productionCoAboutController.text,
-                          productionSubscription,
-                          'Insert your Brand Name on "CO Tab" pls!...',
-                          'Insert your Price on "Co Tab" pls!...',
-                          'Insert your Phone Number  on "Co Tab" pls!...',
-                          'Insert Contact  on "Co Tab" pls!...',
-                          '');
-                    }
-                  }
-
-                  if (selectedBusness == 'Decorator') {
-                    if (widget.getData.bId.isEmpty) {
-                      _postBusness(
-                          selectedBusness,
-                          _decoratorCoKnownController.text,
-                          decoratorDefaultImg,
-                          _generalimage,
-                          _decoratorCoPriceController.text,
-                          _decoratorCoPhoneController.text,
-                          _decoratorCoLocationController.text,
-                          _decoratorCoKnownController.text,
-                          decoratorId,
-                          _decoratorCeobioController.text,
-                          _decoratorCoAboutController.text,
-                          'Insert your Brand Name on "CO Tab" pls!...',
-                          'Insert your Price on "Co Tab" pls!...',
-                          'Insert your Phone Number  on "Co Tab" pls!...',
-                          'Insert Contact  on "Co Tab" pls!...',
-                          'msg5');
-                    } else {
-                      _updateBusness(
-                          selectedBusness,
-                          _decoratorCoKnownController.text,
-                          decoratorDefaultImg,
-                          _generalimage,
-                          _decoratorCoPriceController.text,
-                          _decoratorCoPhoneController.text,
-                          _decoratorCoLocationController.text,
-                          _decoratorCoKnownController.text,
-                          decoratorId,
-                          _decoratorCeobioController.text,
-                          _decoratorCoAboutController.text,
-                          decoratorSubscription,
-                          'Insert your Brand Name on "CO Tab" pls!...',
-                          'Insert your Price on "Co Tab" pls!...',
-                          'Insert your Phone Number  on "Co Tab" pls!...',
-                          'Insert Contact  on "Co Tab" pls!...',
-                          '');
-                    }
-                  }
-                  if (selectedBusness == 'Halls') {
-                    if (widget.getData.bId.isEmpty) {
-                      _postBusness(
-                          selectedBusness,
-                          _hallCoKnownController.text,
-                          hallDefaultImg,
-                          _generalimage,
-                          _hallCoPriceController.text,
-                          _hallCoPhoneController.text,
-                          _hallCoLocationController.text,
-                          _hallCoKnownController.text,
-                          hallId,
-                          _hallCeobioController.text,
-                          _hallCoAboutController.text,
-                          'Insert your Brand Name on "CO Tab" pls!...',
-                          'Insert your Price on "Co Tab" pls!...',
-                          'Insert your Phone Number  on "Co Tab" pls!...',
-                          'Insert Contact  on "Co Tab" pls!...',
-                          'msg5');
-                      // if (widget.getData.bId.isEmpty) {
-                    } else {
-                      _updateBusness(
-                          selectedBusness,
-                          _hallCoKnownController.text,
-                          hallDefaultImg,
-                          _generalimage,
-                          _hallCoPriceController.text,
-                          _hallCoPhoneController.text,
-                          _hallCoLocationController.text,
-                          _hallCoKnownController.text,
-                          hallId,
-                          _hallCeobioController.text,
-                          _hallCoAboutController.text,
-                          hallSubscription,
-                          'Insert your Brand Name on "CO Tab" pls!...',
-                          'Insert your Price on "Co Tab" pls!...',
-                          'Insert your Phone Number  on "Co Tab" pls!...',
-                          'Insert Contact  on "Co Tab" pls!...',
-                          '');
-                    }
-                  }
-
-                  if (selectedBusness == 'Cake Bakery') {
-                    if (widget.getData.bId.isEmpty) {
-                      _postBusness(
-                          selectedBusness,
-                          _cakeCoKnownController.text,
-                          cakeDefaultImg,
-                          _generalimage,
-                          _cakeCoPriceController.text,
-                          _cakeCoPhoneController.text,
-                          _cakeCoLocationController.text,
-                          _cakeCoKnownController.text,
-                          cakeId,
-                          _cakeCeobioController.text,
-                          _cakeCoAboutController.text,
-                          'Insert your Brand Name on "CO Tab" pls!...',
-                          'Insert your Price on "Co Tab" pls!...',
-                          'Insert your Phone Number  on "Co Tab" pls!...',
-                          'Insert Contact  on "Co Tab" pls!...',
-                          'msg5');
-
-                      // if (widget.getData.bId.isEmpty) {
-                    } else {
-                      _updateBusness(
-                          selectedBusness,
-                          _cakeCoKnownController.text,
-                          cakeDefaultImg,
-                          _generalimage,
-                          _cakeCoPriceController.text,
-                          _cakeCoPhoneController.text,
-                          _cakeCoLocationController.text,
-                          _cakeCoKnownController.text,
-                          cakeId,
-                          _cakeCeobioController.text,
-                          _cakeCoAboutController.text,
-                          cakeSubscription,
-                          'Insert your Brand Name on "CO Tab" pls!...',
-                          'Insert your Price on "Co Tab" pls!...',
-                          'Insert your Phone Number  on "Co Tab" pls!...',
-                          'Insert Contact  on "Co Tab" pls!...',
-                          '');
-                    }
-                  }
-
-                  if (selectedBusness == 'Singer') {
-                    if (widget.getData.bId.isEmpty) {
-                      _postBusness(
-                          selectedBusness,
-                          _singersCoKnownController.text,
-                          singersDefaultImg,
-                          _generalimage,
-                          _singersCoPriceController.text,
-                          _singersCoPhoneController.text,
-                          _singersCoLocationController.text,
-                          _singersCoKnownController.text,
-                          singersId,
-                          _singersCeobioController.text,
-                          _singersCoAboutController.text,
-                          'Insert your Brand Name on "CO Tab" pls!...',
-                          'Insert your Price on "Co Tab" pls!...',
-                          'Insert your Phone Number  on "Co Tab" pls!...',
-                          'Insert Contact  on "Co Tab" pls!...',
-                          'msg5');
-
-                      // if (widget.getData.bId.isEmpty) {
-                    } else {
-                      _updateBusness(
-                          selectedBusness,
-                          _singersCoKnownController.text,
-                          singersDefaultImg,
-                          _generalimage,
-                          _singersCoPriceController.text,
-                          _singersCoPhoneController.text,
-                          _singersCoLocationController.text,
-                          _singersCoKnownController.text,
-                          singersId,
-                          _singersCeobioController.text,
-                          _singersCoAboutController.text,
-                          singersSubscription,
-                          'Insert your Brand Name on "CO Tab" pls!...',
-                          'Insert your Price on "Co Tab" pls!...',
-                          'Insert your Phone Number  on "Co Tab" pls!...',
-                          'Insert Contact  on "Co Tab" pls!...',
-                          '');
-                    }
-                  }
-
-                  if (selectedBusness == 'Dancer') {
-                    if (widget.getData.bId.isEmpty) {
-                      _postBusness(
-                          selectedBusness,
-                          _dancersCoKnownController.text,
-                          dancersDefaultImg,
-                          _generalimage,
-                          _dancersCoPriceController.text,
-                          _dancersCoPhoneController.text,
-                          _dancersCoLocationController.text,
-                          _dancersCoKnownController.text,
-                          dancersId,
-                          _dancersCeobioController.text,
-                          _dancersCoAboutController.text,
-                          'Insert your Brand Name on "CO Tab" pls!...',
-                          'Insert your Price on "Co Tab" pls!...',
-                          'Insert your Phone Number  on "Co Tab" pls!...',
-                          'Insert Contact  on "Co Tab" pls!...',
-                          'msg5');
-
-                      // if (widget.getData.bId.isEmpty) {
-                    } else {
-                      _updateBusness(
-                          selectedBusness,
-                          _dancersCoKnownController.text,
-                          dancersDefaultImg,
-                          _generalimage,
-                          _dancersCoPriceController.text,
-                          _dancersCoPhoneController.text,
-                          _dancersCoLocationController.text,
-                          _dancersCoKnownController.text,
-                          dancersId,
-                          _dancersCeobioController.text,
-                          _dancersCoAboutController.text,
-                          dancersSubscription,
-                          'Insert your Brand Name on "CO Tab" pls!...',
-                          'Insert your Price on "Co Tab" pls!...',
-                          'Insert your Phone Number  on "Co Tab" pls!...',
-                          'Insert Contact  on "Co Tab" pls!...',
-                          '');
-                    }
-                  }
-
-                  if (selectedBusness == 'Cooker') {
-                    if (widget.getData.bId.isEmpty) {
-                      _postBusness(
-                          selectedBusness,
-                          _cookerCoKnownController.text,
-                          cookerDefaultImg,
-                          _generalimage,
-                          _cookerCoPriceController.text,
-                          _cookerCoPhoneController.text,
-                          _cookerCoLocationController.text,
-                          _cookerCoKnownController.text,
-                          cookerId,
-                          _cookerCeobioController.text,
-                          _cookerCoAboutController.text,
-                          'Insert your Brand Name on "CO Tab" pls!...',
-                          'Insert your Price on "Co Tab" pls!...',
-                          'Insert your Phone Number  on "Co Tab" pls!...',
-                          'Insert Contact  on "Co Tab" pls!...',
-                          'msg5');
-
-                      // if (widget.getData.bId.isEmpty) {
-                    } else {
-                      _updateBusness(
-                          selectedBusness,
-                          _cookerCoKnownController.text,
-                          cookerDefaultImg,
-                          _generalimage,
-                          _cookerCoPriceController.text,
-                          _cookerCoPhoneController.text,
-                          _cookerCoLocationController.text,
-                          _cookerCoKnownController.text,
-                          cookerId,
-                          _cookerCeobioController.text,
-                          _cookerCoAboutController.text,
-                          cookerSubscription,
-                          'Insert your Brand Name on "CO Tab" pls!...',
-                          'Insert your Price on "Co Tab" pls!...',
-                          'Insert your Phone Number  on "Co Tab" pls!...',
-                          'Insert Contact  on "Co Tab" pls!...',
-                          '');
-                    }
-                  }
-
-                  if (selectedBusness == 'saloon') {
-                    if (widget.getData.bId.isEmpty) {
-                      _postBusness(
-                          selectedBusness,
-                          _saloonCoKnownController.text,
-                          saloonDefaultImg,
-                          _generalimage,
-                          _saloonCoPriceController.text,
-                          _saloonCoPhoneController.text,
-                          _saloonCoLocationController.text,
-                          _saloonCoKnownController.text,
-                          saloonId,
-                          _saloonCeobioController.text,
-                          _saloonCoAboutController.text,
-                          'Insert your Brand Name on "CO Tab" pls!...',
-                          'Insert your Price on "Co Tab" pls!...',
-                          'Insert your Phone Number  on "Co Tab" pls!...',
-                          'Insert Contact  on "Co Tab" pls!...',
-                          'msg5');
-                      // if (widget.getData.bId.isEmpty) {
-                    } else {
-                      _updateBusness(
-                          selectedBusness,
-                          _saloonCoKnownController.text,
-                          saloonDefaultImg,
-                          _generalimage,
-                          _saloonCoPriceController.text,
-                          _saloonCoPhoneController.text,
-                          _saloonCoLocationController.text,
-                          _saloonCoKnownController.text,
-                          saloonId,
-                          _saloonCeobioController.text,
-                          _saloonCoAboutController.text,
-                          saloonSubscription,
-                          'Insert your Brand Name on "CO Tab" pls!...',
-                          'Insert your Price on "Co Tab" pls!...',
-                          'Insert your Phone Number  on "Co Tab" pls!...',
-                          'Insert Contact  on "Co Tab" pls!...',
-                          '');
-                    }
-                  }
-                  if (selectedBusness == 'Car') {
-                    if (widget.getData.bId.isEmpty) {
-                      _postBusness(
-                          selectedBusness,
-                          _carsCoKnownController.text,
-                          carsDefaultImg,
-                          _generalimage,
-                          _carsCoPriceController.text,
-                          _carsCoPhoneController.text,
-                          _carsCoLocationController.text,
-                          _carsCoKnownController.text,
-                          carsId,
-                          _carsCeobioController.text,
-                          _carsCoAboutController.text,
-                          'Insert your Brand Name on "CO Tab" pls!...',
-                          'Insert your Price on "Co Tab" pls!...',
-                          'Insert your Phone Number  on "Co Tab" pls!...',
-                          'Insert Contact  on "Co Tab" pls!...',
-                          'msg5');
-                      // if (widget.getData.bId.isEmpty) {
-                    } else {
-                      _updateBusness(
-                          selectedBusness,
-                          _carsCoKnownController.text,
-                          carsDefaultImg,
-                          _generalimage,
-                          _carsCoPriceController.text,
-                          _carsCoPhoneController.text,
-                          _carsCoLocationController.text,
-                          _carsCoKnownController.text,
-                          carsId,
-                          _carsCeobioController.text,
-                          _carsCoAboutController.text,
-                          carsSubscription,
-                          'Insert your Brand Name on "CO Tab" pls!...',
-                          'Insert your Price on "Co Tab" pls!...',
-                          'Insert your Phone Number  on "Co Tab" pls!...',
-                          'Insert Contact  on "Co Tab" pls!...',
-                          '');
-                    }
-                  }
-                },
-
-                child: const Icon(
-                  Icons.save,
-                  color: Colors.white,
-                ),
-              )
-            : const SizedBox(),
       ),
     );
   }
 
   Widget get categorySelect => Container(
+        height: 40,
         margin: selectedBusness != 'Please Choose Busness'
             ? const EdgeInsets.only(left: 20, right: 20)
             : const EdgeInsets.only(left: 20, right: 20, top: 250),
@@ -1325,26 +1261,28 @@ class _BusnessUploadState extends State<BusnessUpload> {
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 20.0, right: 10),
-          child: 
-          
-          DropdownButton<String>(
+          child: DropdownButton<String>(
             isExpanded: true,
             // icon: const Icon(Icons.arrow_circle_down),
             // iconSize: 20,
             // elevation: 16,
+            dropdownColor: OColors.darGrey,
             underline: Container(),
             items: _busness.map((String value) {
               return DropdownMenuItem<String>(
                 value: value,
-                child: Text(value),
+                child: Text(value, style: TextStyle(color: OColors.fontColor)),
               );
             }).toList(),
             hint: Container(
+              // color: OColors.darGrey,
               alignment: Alignment.center,
               child: Text(
                 selectedBusness,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: OColors.fontColor),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -5565,7 +5503,8 @@ class _BusnessUploadState extends State<BusnessUpload> {
             height: 600,
             child: Container(
                 decoration: BoxDecoration(
-                    color: Theme.of(context).canvasColor,
+                    // color: Theme.of(context).canvasColor,
+                    color: OColors.secondary,
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(25),
                       topRight: Radius.circular(25),
@@ -5574,9 +5513,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
                   children: [
                     // Search Container
                     Container(
-                      height: 40,
+                      height: 35,
                       margin:
-                          const EdgeInsets.only(left: 35, top: 20, right: 35),
+                          const EdgeInsets.only(left: 35, top: 10, right: 35),
                       decoration: BoxDecoration(
                         border: Border.all(width: 1.5, color: Colors.grey),
                         borderRadius: BorderRadius.circular(20),
@@ -5598,13 +5537,13 @@ class _BusnessUploadState extends State<BusnessUpload> {
                         onChanged: (value) => _runFilter(value),
                       ),
                     ),
+
                     const SizedBox(
-                      height: 10,
+                      height: 5,
                     ),
 
                     // Searched Results
-                    SizedBox(
-                      height: 330,
+                    Expanded(
                       child: _foundUsers.isNotEmpty
                           ? ListView.builder(
                               itemCount: _foundUsers.length,
@@ -5613,9 +5552,11 @@ class _BusnessUploadState extends State<BusnessUpload> {
                                   child: Column(
                                     children: [
                                       Container(
+                                        color: OColors.darGrey,
                                         margin: const EdgeInsets.only(
                                             top: 1, left: 10, right: 10),
                                         child: Card(
+                                          color: OColors.darGrey,
                                           child: ListTile(
                                               onTap: () {
                                                 setState(() {
@@ -5747,9 +5688,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                                                       ? CircleAvatar(
                                                           backgroundImage:
                                                               NetworkImage(
-                                                          '${api}public/uploads/${_foundUsers[index]
-                                                                  .username}/profile/${_foundUsers[index]
-                                                                  .avater}',
+                                                          '${api}public/uploads/${_foundUsers[index].username}/profile/${_foundUsers[index].avater}',
                                                           // height: 45,
                                                           // fit: BoxFit.cover,
                                                         ))
@@ -5765,23 +5704,34 @@ class _BusnessUploadState extends State<BusnessUpload> {
                                                             height: 110,
                                                           ))),
                                               title: Text(
-                                                  _foundUsers[index].username),
-                                              subtitle:
-                                                  _foundUsers[index].gender ==
-                                                          'f'
-                                                      ? const Text('Female')
-                                                      : const Text('Male'),
+                                                  _foundUsers[index].username,
+                                                  style: TextStyle(
+                                                      color:
+                                                          OColors.fontColor)),
+                                              subtitle: _foundUsers[index]
+                                                          .gender ==
+                                                      'f'
+                                                  ? Text('Female',
+                                                      style: TextStyle(
+                                                          color: OColors
+                                                              .fontColor))
+                                                  : Text('Male',
+                                                      style: TextStyle(
+                                                          color: OColors
+                                                              .fontColor)),
                                               trailing:
                                                   const Icon(Icons.select_all)),
                                         ),
                                       ),
+                                      const SizedBox(height: 5)
                                     ],
                                   ),
                                 );
                               })
-                          : const Text(
+                          : Text(
                               'No results found',
-                              style: TextStyle(fontSize: 24),
+                              style: TextStyle(
+                                  fontSize: 24, color: OColors.fontColor),
                             ),
                     )
                   ],
@@ -5814,6 +5764,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
     return Column(
       children: [
         Card(
+            color: OColors.darGrey,
             margin: const EdgeInsets.only(
               left: 10,
               right: 10,
@@ -5827,8 +5778,10 @@ class _BusnessUploadState extends State<BusnessUpload> {
                   margin: const EdgeInsets.only(left: 20),
                   padding: const EdgeInsets.only(bottom: 8.0),
                   alignment: Alignment.topLeft,
-                  child: const Text('Brand Name',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                  child: Text('Brand Name',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: OColors.fontColor),
                       textAlign: TextAlign.start),
                 ),
                 Container(
@@ -5841,18 +5794,19 @@ class _BusnessUploadState extends State<BusnessUpload> {
                   ),
                   child: TextField(
                     controller: known,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       border: InputBorder.none,
                       prefixIcon: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Icon(
-                          Icons.price_change_rounded,
+                          Icons.person,
                           size: 28,
-                          color: Colors.grey,
+                          color: OColors.primary,
                         ),
                       ),
                       hintText: 'Known',
-                      hintStyle: TextStyle(color: Colors.grey, height: 1.5),
+                      hintStyle:
+                          const TextStyle(color: Colors.grey, height: 1.5),
                     ),
                     style: const TextStyle(
                         fontSize: 15, color: Colors.grey, height: 1.5),
@@ -5868,7 +5822,10 @@ class _BusnessUploadState extends State<BusnessUpload> {
         const SizedBox(
           height: 10,
         ),
+
+        // Price
         Card(
+            color: OColors.darGrey,
             margin: const EdgeInsets.only(
               left: 10,
               right: 10,
@@ -5882,8 +5839,10 @@ class _BusnessUploadState extends State<BusnessUpload> {
                   margin: const EdgeInsets.only(left: 20),
                   padding: const EdgeInsets.only(bottom: 8.0),
                   alignment: Alignment.topLeft,
-                  child: const Text('Price',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                  child: Text('Price',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: OColors.fontColor),
                       textAlign: TextAlign.start),
                 ),
                 Container(
@@ -5896,14 +5855,14 @@ class _BusnessUploadState extends State<BusnessUpload> {
                   ),
                   child: TextField(
                     controller: price,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       border: InputBorder.none,
                       prefixIcon: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Icon(
-                          Icons.price_change_rounded,
+                          Icons.money,
                           size: 28,
-                          color: Colors.grey,
+                          color: OColors.primary,
                         ),
                       ),
                       hintText: 'My Price',
@@ -5923,7 +5882,10 @@ class _BusnessUploadState extends State<BusnessUpload> {
         const SizedBox(
           height: 10,
         ),
+
+        // Contact
         Card(
+            color: OColors.darGrey,
             margin: const EdgeInsets.only(
               left: 10,
               right: 10,
@@ -5937,8 +5899,10 @@ class _BusnessUploadState extends State<BusnessUpload> {
                   margin: const EdgeInsets.only(left: 20),
                   padding: const EdgeInsets.only(bottom: 8.0),
                   alignment: Alignment.topLeft,
-                  child: const Text('Contact',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                  child: Text('Contact',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: OColors.fontColor),
                       textAlign: TextAlign.start),
                 ),
                 Container(
@@ -5951,18 +5915,19 @@ class _BusnessUploadState extends State<BusnessUpload> {
                   ),
                   child: TextField(
                     controller: phone,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       border: InputBorder.none,
                       prefixIcon: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Icon(
                           Icons.price_change_rounded,
                           size: 28,
-                          color: Colors.grey,
+                          color: OColors.primary,
                         ),
                       ),
                       hintText: 'Phone No',
-                      hintStyle: TextStyle(color: Colors.grey, height: 1.5),
+                      hintStyle:
+                          const TextStyle(color: Colors.grey, height: 1.5),
                     ),
                     style: const TextStyle(
                         fontSize: 15, color: Colors.grey, height: 1.5),
@@ -5973,6 +5938,21 @@ class _BusnessUploadState extends State<BusnessUpload> {
                     },
                   ),
                 ),
+              ],
+            )),
+        const SizedBox(
+          height: 10,
+        ),
+
+        // Location
+        Card(
+            color: OColors.darGrey,
+            margin: const EdgeInsets.only(
+              left: 10,
+              right: 10,
+            ),
+            child: Column(
+              children: [
                 const SizedBox(
                   height: 10,
                 ),
@@ -5980,8 +5960,10 @@ class _BusnessUploadState extends State<BusnessUpload> {
                   margin: const EdgeInsets.only(left: 20),
                   padding: const EdgeInsets.only(bottom: 8.0),
                   alignment: Alignment.topLeft,
-                  child: const Text('Contact',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                  child: Text('Location',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: OColors.fontColor),
                       textAlign: TextAlign.start),
                 ),
                 Container(
@@ -5994,14 +5976,14 @@ class _BusnessUploadState extends State<BusnessUpload> {
                   ),
                   child: TextField(
                     controller: location,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       border: InputBorder.none,
                       prefixIcon: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Icon(
-                          Icons.price_change_rounded,
+                          Icons.location_city,
                           size: 28,
-                          color: Colors.grey,
+                          color: OColors.primary,
                         ),
                       ),
                       hintText: 'Regional / Location',
@@ -6018,7 +6000,12 @@ class _BusnessUploadState extends State<BusnessUpload> {
                 ),
               ],
             )),
+        const SizedBox(
+          height: 10,
+        ),
+        // About Group
         Card(
+            color: OColors.darGrey,
             margin: const EdgeInsets.only(
               left: 10,
               right: 10,
@@ -6032,8 +6019,10 @@ class _BusnessUploadState extends State<BusnessUpload> {
                   margin: const EdgeInsets.only(left: 20),
                   padding: const EdgeInsets.only(bottom: 8.0),
                   alignment: Alignment.topLeft,
-                  child: const Text('About Group/Organization',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                  child: Text('About Group/Organization',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: OColors.fontColor),
                       textAlign: TextAlign.start),
                 ),
                 Container(
@@ -6046,18 +6035,19 @@ class _BusnessUploadState extends State<BusnessUpload> {
                   ),
                   child: TextField(
                     controller: coBio,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       border: InputBorder.none,
                       prefixIcon: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
                         child: Icon(
-                          Icons.person,
+                          Icons.group,
                           size: 28,
-                          color: Colors.grey,
+                          color: OColors.primary,
                         ),
                       ),
                       hintText: 'About Group/Organization',
-                      hintStyle: TextStyle(color: Colors.grey, height: 1.5),
+                      hintStyle:
+                          const TextStyle(color: Colors.grey, height: 1.5),
                     ),
                     style: const TextStyle(
                         fontSize: 15, color: Colors.grey, height: 1.5),
@@ -6085,86 +6075,87 @@ class _BusnessUploadState extends State<BusnessUpload> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
+                color: OColors.darGrey,
                 child: Column(
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: Text(
                         'Profile',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: OColors.fontColor),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Container(
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                  color: Colors.grey.shade300,
-                                  borderRadius: BorderRadius.circular(35)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: avater == ''
-                                    ? const CircleAvatar(
-                                        backgroundImage: AssetImage(
-                                            'assets/busness/profile.jpg'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                                color: OColors.primary,
+                                borderRadius: BorderRadius.circular(35)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: avater == ''
+                                  ? const CircleAvatar(
+                                      backgroundImage: AssetImage(
+                                          'assets/busness/profile.jpg'),
+                                    )
+                                  : CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                      // ignore: prefer_interpolation_to_compose_strings
+                                      '${api + 'public/uploads/' + name}/profile/' +
+                                          avater,
+                                    )),
+                            )),
+                        Column(
+                          children: [
+                            Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: name == ''
+                                    ? Text(
+                                        ' User Name',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 13,
+                                            color: OColors.fontColor),
                                       )
-                                    : CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                        '${api +
-                                            'public/uploads/' +
-                                            name}/profile/' +
-                                            avater,
+                                    : Text(
+                                        name,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 13,
+                                            color: OColors.fontColor),
                                       )),
-                              )),
-                          Column(
-                            children: [
-                              Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: name == ''
-                                      ? const Text(
-                                          ' User Name',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 13),
-                                        )
-                                      : Text(
-                                          name,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 13),
-                                        )),
-                              GestureDetector(
-                                onTap: () {
-                                  oneButtonPressed(category);
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.only(bottom: 8),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.red,
-                                  ),
-                                  child: const Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom: 4.0, left: 8, right: 8, top: 4),
-                                    child: Text(
-                                      'Select CEO User ',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                          fontSize: 13),
-                                    ),
+                            GestureDetector(
+                              onTap: () {
+                                oneButtonPressed(category);
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(bottom: 8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: OColors.primary,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 4.0, left: 8, right: 8, top: 4),
+                                  child: Text(
+                                    'Select CEO User ',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: OColors.fontColor,
+                                        fontSize: 13),
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -6178,6 +6169,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
         ),
 
         Card(
+            color: OColors.darGrey,
             margin: const EdgeInsets.only(
               left: 10,
               right: 10,
@@ -6191,8 +6183,10 @@ class _BusnessUploadState extends State<BusnessUpload> {
                   margin: const EdgeInsets.only(left: 20),
                   padding: const EdgeInsets.only(bottom: 8.0),
                   alignment: Alignment.topLeft,
-                  child: const Text('About C.E.O',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                  child: Text('About C.E.O',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: OColors.fontColor),
                       textAlign: TextAlign.start),
                 ),
                 Container(
@@ -6205,18 +6199,19 @@ class _BusnessUploadState extends State<BusnessUpload> {
                   ),
                   child: TextField(
                     controller: bio,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       border: InputBorder.none,
                       prefixIcon: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
                         child: Icon(
-                          Icons.person,
+                          Icons.group,
                           size: 28,
-                          color: Colors.grey,
+                          color: OColors.primary,
                         ),
                       ),
                       hintText: 'Bio',
-                      hintStyle: TextStyle(color: Colors.grey, height: 1.5),
+                      hintStyle:
+                          const TextStyle(color: Colors.grey, height: 1.5),
                     ),
                     style: const TextStyle(
                         fontSize: 15, color: Colors.grey, height: 1.5),
@@ -6233,6 +6228,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
           height: 10,
         ),
         Card(
+            color: OColors.darGrey,
             margin: const EdgeInsets.only(
               left: 10,
               right: 10,
@@ -6246,8 +6242,10 @@ class _BusnessUploadState extends State<BusnessUpload> {
                   margin: const EdgeInsets.only(left: 20),
                   padding: const EdgeInsets.only(bottom: 8.0),
                   alignment: Alignment.topLeft,
-                  child: const Text('Contact',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                  child: Text('Contact',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: OColors.fontColor),
                       textAlign: TextAlign.start),
                 ),
                 Container(
@@ -6260,18 +6258,19 @@ class _BusnessUploadState extends State<BusnessUpload> {
                   ),
                   child: TextField(
                     controller: contact,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       border: InputBorder.none,
                       prefixIcon: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Icon(
                           Icons.price_change_rounded,
                           size: 28,
-                          color: Colors.grey,
+                          color: OColors.primary,
                         ),
                       ),
                       hintText: 'Phone No',
-                      hintStyle: TextStyle(color: Colors.grey, height: 1.5),
+                      hintStyle:
+                          const TextStyle(color: Colors.grey, height: 1.5),
                     ),
                     style: const TextStyle(
                         fontSize: 15, color: Colors.grey, height: 1.5),
@@ -6282,6 +6281,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                     },
                   ),
                 ),
+                const SizedBox(height: 10)
               ],
             )),
       ],
@@ -6385,18 +6385,49 @@ class _BusnessUploadState extends State<BusnessUpload> {
 
   busnessSave() {
     return Container(
-      width: 100,
-      height: 40,
-      padding: const EdgeInsets.only(left: 20, right: 20, top: 8, bottom: 8),
+      margin: const EdgeInsets.only(left: 10, right: 20, top: 8, bottom: 8),
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 4, bottom: 4),
       alignment: Alignment.center,
-      decoration: const BoxDecoration(
-          color: Colors.red,
-          borderRadius: BorderRadius.all(Radius.circular(10))),
+      decoration: BoxDecoration(
+          color: OColors.primary,
+          borderRadius: const BorderRadius.all(Radius.circular(30))),
       child: const Text(
-        'Save',
+        'Submit',
         style: TextStyle(
-            fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+            fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
       ),
     );
   }
 }
+
+
+
+  // Column(
+  //                 children: [
+  //                   if (selectedBusness == _busness[0]) mcWorkCategory,
+  //                   if (selectedBusness == _busness[1]) prodWorkCategory,
+  //                   if (selectedBusness == _busness[2]) decWorkCategory,
+  //                   if (selectedBusness == _busness[3]) hallWorkCategory,
+  //                   if (selectedBusness == _busness[4]) cakeWorkCategory,
+  //                   if (selectedBusness == _busness[5]) singWorkCategory,
+  //                   if (selectedBusness == _busness[6]) dancWorkCategory,
+  //                   if (selectedBusness == _busness[7]) cokWorkCategory,
+  //                   if (selectedBusness == _busness[8]) salWorkCategory,
+  //                   if (selectedBusness == _busness[9]) carWorkCategory
+  //                 ],
+  //               ),
+  //               Column(
+  //                 children: [
+  //                   if (selectedBusness == _busness[0]) mcStaffCategory,
+  //                   if (selectedBusness == _busness[1]) prodStaffCategory,
+  //                   if (selectedBusness == _busness[2]) decStaffCategory,
+  //                   if (selectedBusness == _busness[3]) hallStaffCategory,
+  //                   if (selectedBusness == _busness[4]) cakeStaffCategory,
+  //                   if (selectedBusness == _busness[5]) singStaffCategory,
+  //                   if (selectedBusness == _busness[6]) dancStaffCategory,
+  //                   if (selectedBusness == _busness[7]) cokStaffCategory,
+  //                   if (selectedBusness == _busness[8]) salStaffCategory,
+  //                   if (selectedBusness == _busness[9]) carStaffCategory,
+  //                 ],
+  //               ),
+             

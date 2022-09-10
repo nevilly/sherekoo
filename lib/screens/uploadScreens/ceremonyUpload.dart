@@ -1382,9 +1382,9 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
       margin: const EdgeInsets.only(left: 10, right: 20, top: 8, bottom: 8),
       padding: const EdgeInsets.only(left: 10, right: 10, top: 4, bottom: 4),
       alignment: Alignment.center,
-      decoration: const BoxDecoration(
-          color: Colors.red,
-          borderRadius: BorderRadius.all(Radius.circular(10))),
+      decoration:  BoxDecoration(
+          color: OColors.primary,
+          borderRadius:const BorderRadius.all(Radius.circular(10))),
       child: widget.getData.cId.isNotEmpty
           ? const Text(
               'Update',
