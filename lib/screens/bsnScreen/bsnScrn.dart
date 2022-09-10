@@ -37,7 +37,8 @@ class _BusnessScreenState extends State<BusnessScreen> {
     u2Avt: '',
     u2Fname: '',
     u2Lname: '',
-    u2g: '', youtubeLink: '',
+    u2g: '',
+    youtubeLink: '',
   );
   BusnessModel busness = BusnessModel(
       location: '',
@@ -63,30 +64,44 @@ class _BusnessScreenState extends State<BusnessScreen> {
     super.initState();
   }
 
+  TabBar get _tabBar => TabBar(
+          labelColor: OColors.primary,
+          unselectedLabelColor: Colors.grey,
+          indicatorColor: OColors.primary,
+          indicatorWeight: 2,
+          tabs: [
+            Tab(
+              text: 'All ${widget.bsnType}',
+            ),
+            Tab(
+              text: 'Best ${widget.bsnType}',
+            ),
+          ]);
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        backgroundColor: OColors.secondary,
         appBar: AppBar(
           backgroundColor: OColors.appBarColor,
           title: Text(widget.bsnType),
         ),
         body: Column(
           children: [
-            const Text('Tia Neno'),
-            Text(widget.bsnType),
-            TabBar(
-                labelColor: Colors.green,
-                unselectedLabelColor: Colors.black,
-                tabs: [
-                  Tab(
-                    text: 'All ${widget.bsnType}',
-                  ),
-                  Tab(
-                    text: 'Best ${widget.bsnType}',
-                  ),
-                ]),
+            const Text(
+              'ADS AREA',
+              style: TextStyle(color: Colors.white),
+            ),
+            PreferredSize(
+                preferredSize: _tabBar.preferredSize,
+                child: Container(
+                    decoration: const BoxDecoration(
+                        border: Border(
+                            bottom:
+                                BorderSide(color: Colors.grey, width: 0.8))),
+                    child: ColoredBox(color: OColors.darGrey, child: _tabBar))),
             Expanded(
                 child: TabBarView(children: [
               BsnTab(
@@ -97,12 +112,13 @@ class _BusnessScreenState extends State<BusnessScreen> {
                 bsnType: widget.bsnType,
                 ceremony: ceremony,
               ),
-            ]))
+            ])),
+          
           ],
         ),
 
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.red,
+        floatingActionButton: FloatingActionButton.extended(
+          backgroundColor: OColors.primary,
           onPressed: () {
             Navigator.push(
                 context,
@@ -111,10 +127,12 @@ class _BusnessScreenState extends State<BusnessScreen> {
                           getData: busness,
                         )));
           },
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
+          label: const Text('Busness +'),
+          // child: const Icon(
+          //   Icons.add,
+          //   color: Colors.white,
+
+          // ),
         ), // This trailing comm
       ),
     );
