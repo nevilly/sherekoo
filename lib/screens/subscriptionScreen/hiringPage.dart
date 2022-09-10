@@ -37,7 +37,11 @@ class _HiringPageState extends State<HiringPage> {
       email: '',
       gender: '',
       role: '',
-      isCurrentUser: '', meritalStatus: '', address: '', bio: '', totalPost: '');
+      isCurrentUser: '',
+      meritalStatus: '',
+      address: '',
+      bio: '',
+      totalPost: '');
 
   BusnessModel? bsn;
   CeremonyModel? crm;
@@ -165,9 +169,10 @@ class _HiringPageState extends State<HiringPage> {
   // Empty Input Messages
   fillMessage(String arg) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: OColors.danger,
       content: Text(
         arg,
-        style: const TextStyle(color: Colors.red),
+        style: TextStyle(color: OColors.dangerFontColor),
         textAlign: TextAlign.center,
       ),
     ));
@@ -176,6 +181,7 @@ class _HiringPageState extends State<HiringPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: OColors.secondary,
       appBar: topBar(),
       body: Column(
         children: [
@@ -198,14 +204,16 @@ class _HiringPageState extends State<HiringPage> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(
+                        top: 8.0, bottom: 8.0, left: 18.0, right: 18.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           '${bsn!.busnessType} ${bsn!.companyName}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 20,
+                            color: OColors.fontColor,
                           ),
                         ),
                         RichText(
@@ -237,8 +245,14 @@ class _HiringPageState extends State<HiringPage> {
               ],
             ),
 
-            const SizedBox(
-              height: 15,
+            Padding(
+              padding:
+                  const EdgeInsets.only(left: 18, right: 18, top: 30, bottom: 10),
+              child: Divider(
+                height: 1.0,
+                color: Colors.white.withOpacity(.50),
+                thickness: 1.0,
+              ),
             ),
 
             //ceremony Info
@@ -254,17 +268,16 @@ class _HiringPageState extends State<HiringPage> {
             //   child:
             // ),
 
-            const Padding(
-              padding:
-                  EdgeInsets.only(top: 2.0, left: 8.0, right: 8.0, bottom: 8.0),
-              child: 
-              Text(
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 2.0, left: 8.0, right: 8.0, bottom: 8.0),
+              child: Text(
                 'Your Ceremony Info.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
-                    color: Colors.black),
+                    color: OColors.fontColor),
               ),
             ),
 
@@ -273,7 +286,11 @@ class _HiringPageState extends State<HiringPage> {
             ),
 
             Container(
-              margin: const EdgeInsets.only(left: 15.0, right: 15),
+              color: OColors.darGrey,
+              padding: const EdgeInsets.only(
+                left: 25,
+                right: 25,
+              ),
               child: Column(
                 children: [
                   ceremonDetails(
@@ -289,57 +306,61 @@ class _HiringPageState extends State<HiringPage> {
               ),
             ),
           ]),
-          Card(
-              margin: const EdgeInsets.only(
-                left: 10,
-                right: 10,
-              ),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 5,
+
+          // Contact Enter
+          Container(
+            color: OColors.darGrey,
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 20),
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  alignment: Alignment.topLeft,
+                  child: Text('Change Contact',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: OColors.fontColor),
+                      textAlign: TextAlign.start),
+                ),
+                Container(
+                  height: 45,
+                  margin:
+                      const EdgeInsets.only(left: 20, right: 20, bottom: 15),
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 20),
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    alignment: Alignment.topLeft,
-                    child: const Text('Change Contact',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.start),
-                  ),
-                  Container(
-                    height: 45,
-                    margin:
-                        const EdgeInsets.only(left: 20, right: 20, bottom: 15),
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: TextField(
-                        controller: phoneNo,
-                        // autocorrect: true,
-                        // autofocus: true,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          prefixIcon: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20.0),
-                            child: Icon(
-                              Icons.call,
-                              size: 28,
-                              color: Colors.grey,
-                            ),
+                  child: TextField(
+                      controller: phoneNo,
+                      // autocorrect: true,
+                      // autofocus: true,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Icon(
+                            Icons.call,
+                            size: 28,
+                            color: Colors.grey,
                           ),
-                          hintText: 'Use Another Contact',
-                          hintStyle: TextStyle(color: Colors.grey, height: 1.5),
                         ),
-                        keyboardType: TextInputType.phone,
-                        style: const TextStyle(
-                            fontSize: 15, color: Colors.grey, height: 1.5),
-                        onChanged: _onChanged),
-                  ),
-                ],
-              )),
+                        hintText: 'Use Another Contact',
+                        hintStyle: TextStyle(color: Colors.grey, height: 1.5),
+                      ),
+                      keyboardType: TextInputType.phone,
+                      style: TextStyle(
+                          fontSize: 15, color: OColors.fontColor, height: 1.5),
+                      onChanged: _onChanged),
+                ),
+              ],
+            ),
+          ),
           const Spacer(),
+
+          // Post Button
           GestureDetector(
             onTap: () {
               post();
@@ -350,9 +371,9 @@ class _HiringPageState extends State<HiringPage> {
               padding:
                   const EdgeInsets.only(left: 20, right: 20, top: 8, bottom: 8),
               alignment: Alignment.center,
-              decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 243, 104, 12),
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              decoration: BoxDecoration(
+                  color: OColors.primary,
+                  borderRadius: const BorderRadius.all(Radius.circular(10))),
               child: const Text(
                 'Hire',
                 style: TextStyle(
@@ -365,6 +386,7 @@ class _HiringPageState extends State<HiringPage> {
           const SizedBox(
             height: 8,
           ),
+
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
@@ -380,12 +402,9 @@ class _HiringPageState extends State<HiringPage> {
     );
   }
 
-  Card ceremonDetails(String idHeader, String arg1, msg) {
-    return Card(
-        margin: const EdgeInsets.only(
-          left: 10,
-          right: 10,
-        ),
+  Container ceremonDetails(String idHeader, String arg1, msg) {
+    return Container(
+        color: OColors.darGrey,
         child: Column(
           children: [
             const SizedBox(
@@ -394,15 +413,15 @@ class _HiringPageState extends State<HiringPage> {
 
             //header ..
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  // margin: const EdgeInsets.only(left: 20),
-                  // padding: const EdgeInsets.only(bottom: 4.0),
                   alignment: Alignment.centerLeft,
                   child: Text(idHeader,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          color: OColors.fontColor),
                       textAlign: TextAlign.start),
                 ),
                 Container(
@@ -413,12 +432,17 @@ class _HiringPageState extends State<HiringPage> {
                     child: arg1 != ""
                         ? Text(
                             arg1,
-                            style: const TextStyle(
-                                color: Colors.grey,
+                            style: TextStyle(
+                                color: OColors.fontColor,
                                 fontWeight: FontWeight.bold,
                                 fontStyle: FontStyle.italic),
                           )
-                        : Text(msg)),
+                        : Text(
+                            msg,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                color: OColors.fontColor, fontSize: 13),
+                          )),
               ],
             ),
           ],
@@ -432,7 +456,7 @@ class _HiringPageState extends State<HiringPage> {
       toolbarHeight: 70,
       flexibleSpace: SafeArea(
           child: Container(
-        color: Colors.white,
+        color: OColors.transparent,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -441,9 +465,10 @@ class _HiringPageState extends State<HiringPage> {
                 height: 50,
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 margin: const EdgeInsets.only(
-                    left: 35, right: 10, bottom: 15, top: 10),
+                    left: 45, right: 10, bottom: 15, top: 8),
                 decoration: BoxDecoration(
-                  border: Border.all(width: 1.5, color: Colors.grey),
+                  color: OColors.darGrey,
+                  border: Border.all(width: 1.5, color: OColors.darGrey),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Autocomplete<CeremonyModel>(
@@ -469,18 +494,19 @@ class _HiringPageState extends State<HiringPage> {
                     return TextField(
                       controller: fieldTextEditingController,
                       focusNode: fieldFocusNode,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         border: InputBorder.none,
                         prefixIcon: Icon(
                           Icons.search,
-                          color: Colors.blue,
-                          size: 30,
+                          color: OColors.primary,
+                          size: 25,
                         ),
-                        hintStyle: TextStyle(
-                            color: Colors.grey, fontSize: 15, height: 1.6),
-                        hintText: "Ceremony Code No...",
+                        hintStyle: const TextStyle(
+                            color: Colors.white, fontSize: 14, height: 2),
+                        hintText: "Ceremony CodeNo..",
                       ),
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w400, color: Colors.white),
                     );
                   },
                   onSelected: (CeremonyModel selection) {
@@ -508,8 +534,8 @@ class _HiringPageState extends State<HiringPage> {
                       alignment: Alignment.topLeft,
                       child: Material(
                         child: Container(
-                          width: 300,
-                          color: OColors.searchBackground,
+                          width: 400,
+                          color: OColors.secondary,
                           child: ListView.builder(
                             padding: const EdgeInsets.all(10.0),
                             itemCount: options.length,

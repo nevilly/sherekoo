@@ -41,7 +41,7 @@ class BusnessProfile extends StatelessWidget {
               children: [
                 Container(
                   decoration: const BoxDecoration(
-                    color: Colors.black54,
+                    color: Color.fromARGB(137, 235, 211, 211),
                     borderRadius:
                         BorderRadius.only(topRight: Radius.circular(10)),
                   ),
