@@ -9,6 +9,7 @@ import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
 import '../../widgets/liveTabA.dart';
+import '../admin/crmAdmin.dart';
 import '../uploadScreens/uploadSherekoo.dart';
 
 class Livee extends StatefulWidget {
@@ -41,7 +42,8 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
       isCurrentUser: '',
       address: '',
       bio: '',
-      meritalStatus: '', totalPost: '');
+      meritalStatus: '',
+      totalPost: '');
 
   @override
   void initState() {
@@ -76,7 +78,7 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
           tabIndex = _tabController.animation!.value.floor();
           _tabController.animation;
           // print('is animate index');
-          print(_tabController.animation!.value.floor());
+          // print(_tabController.animation!.value.floor());
         });
       }
     });
@@ -114,27 +116,40 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
             SliverAppBar(
               backgroundColor: OColors.darkGrey,
               // automaticallyImplyLeading: false,
+              actions: [
+                if (currentUser.id == widget.ceremony.fId ||
+                    currentUser.id == widget.ceremony.sId ||
+                    currentUser.id == widget.ceremony.admin)
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => CrmnAdmin(crm: widget.ceremony)));
+                    },
+                    child: admin(),
+                  )
+              ],
               expandedHeight: 200,
               flexibleSpace: SafeArea(
                   bottom: false,
-                  child: Expanded(
-                    flex: 5,
-                    child: widget.ceremony.youtubeLink != 'GoLive'
-                        ? YoutubePlayer(
-                            controller: _controller,
-                            liveUIColor: OColors.primary)
-                        : Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Text(
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      widget.ceremony.youtubeLink != 'GoLive'
+                          ? YoutubePlayer(
+                              controller: _controller,
+                              liveUIColor: OColors.primary)
+                          : const Center(
+                              child: Text(
                                 'Ceremony Loading',
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white),
                               ),
-                            ],
-                          ),
+                            ),
+                    ],
                   )),
 
               pinned: true,
@@ -168,34 +183,43 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
         body: TabBarView(
           controller: _tabController,
           children: [
-            Expanded(
-              flex: 2,
-              child: TabA(
-                ceremony: widget.ceremony,
-                user: currentUser,
-              ),
+            TabA(
+              ceremony: widget.ceremony,
+              user: currentUser,
             ),
-            Expanded(
-                flex: 2,
-                child: TabB(
-                  ceremony: widget.ceremony,
-                  user: currentUser,
-                )),
+            TabB(
+              ceremony: widget.ceremony,
+              user: currentUser,
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.of(context).pop();
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (_) => SherekooUpload(
-                        crm: widget.ceremony,
-                        from: 'Ceremony',
-                      )));
+          if (tabIndex == 0) {
+            Navigator.of(context).pop();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => SherekooUpload(
+                          crm: widget.ceremony,
+                          from: 'Ceremony',
+                        )));
+          }
+
+          if (tabIndex != 1 && currentUser.id != widget.ceremony.admin ||
+              currentUser.id == widget.ceremony.fId) {
+            Navigator.of(context).pop();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => SherekooUpload(
+                          crm: widget.ceremony,
+                          from: 'Ceremony',
+                        )));
+          }
         },
-        splashColor: Colors.yellow,
+        // splashColor: Colors.yellow,
 
         // icon: const Icon(Icons.upload, color: Colors.white),
         label: tabIndex == 0
@@ -204,7 +228,7 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
                     currentUser.id == widget.ceremony.fId
                 ? const Text('Choose')
                 : const Text('Post'),
-        backgroundColor: Colors.red,
+        backgroundColor: OColors.primary,
       ),
     );
   }
@@ -212,7 +236,27 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
   @override
   void dispose() {
     _tabController.dispose();
-    _controller.dispose();
+
+    if (!mounted) {
+      _controller.dispose();
+    }
+
     super.dispose();
+  }
+
+  admin() {
+    return Container(
+      margin: const EdgeInsets.only(left: 10, right: 20, top: 15, bottom: 15),
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 4, bottom: 4),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          color: OColors.primary,
+          borderRadius: const BorderRadius.all(Radius.circular(30))),
+      child: const Text(
+        'Admin',
+        style: TextStyle(
+            fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+      ),
+    );
   }
 }

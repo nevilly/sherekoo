@@ -565,6 +565,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                         createdBy: '',
                         hotStatus: '0')));
           } else {
+            fillTheBlanks('Upload  profile Pls..');
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text('Insert Image, Try Again'),
             ));
@@ -664,7 +665,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
         backgroundColor: OColors.secondary,
         appBar: AppBar(
           backgroundColor: OColors.appBarColor,
-          title: const Text('YOUR BUSNESS', style: TextStyle(fontSize: 14)),
+          title: const Text('Your busness', style: TextStyle(fontSize: 14)),
           centerTitle: true,
           toolbarHeight: 50,
           actions: [
@@ -1256,7 +1257,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             ? const EdgeInsets.only(left: 20, right: 20)
             : const EdgeInsets.only(left: 20, right: 20, top: 250),
         decoration: BoxDecoration(
-          border: Border.all(width: 2, color: Colors.grey.shade300),
+          border: Border.all(width: 2, color: OColors.primary),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Padding(

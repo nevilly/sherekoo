@@ -7,6 +7,7 @@ import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
+import '../../widgets/searchBar/search_Ceremony.dart';
 import '../uploadScreens/ceremonyUpload.dart';
 import 'crmDay.dart';
 
@@ -80,6 +81,23 @@ class _CeremonyScreenState extends State<CeremonyScreen> {
       u2g: '',
       youtubeLink: '');
 
+  TabBar get _tabBar => TabBar(
+          labelColor: OColors.primary,
+          unselectedLabelColor: Colors.grey,
+          indicatorColor: OColors.primary,
+          indicatorWeight: 2,
+          tabs: const [
+            Tab(
+              text: 'inv. Cards',
+            ),
+            Tab(
+              text: 'Shereko',
+            ),
+            Tab(
+              text: 'Past',
+            ),
+          ]);
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -92,11 +110,11 @@ class _CeremonyScreenState extends State<CeremonyScreen> {
             Container(
               margin: const EdgeInsets.only(left: 20.0, top: 10.0),
               alignment: Alignment.topLeft,
-              child: const Text(
+              child: Text(
                 "It's Great Day To Cerebrate.",
                 style: TextStyle(
                     fontSize: 20,
-                    color: Colors.black,
+                    color: OColors.fontColor,
                     letterSpacing: 3,
                     fontWeight: FontWeight.w400),
                 // ,
@@ -105,20 +123,18 @@ class _CeremonyScreenState extends State<CeremonyScreen> {
             const SizedBox(
               height: 15,
             ),
-            const TabBar(
-                labelColor: Colors.green,
-                unselectedLabelColor: Colors.black,
-                tabs: [
-                  Tab(
-                    text: 'inv. Cards',
-                  ),
-                  Tab(
-                    text: 'Shereko',
-                  ),
-                  Tab(
-                    text: 'Past',
-                  ),
-                ]),
+            PreferredSize(
+              preferredSize: _tabBar.preferredSize,
+              child: Container(
+                decoration: const BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(color: Colors.grey, width: 0.8))),
+                child: ColoredBox(
+                  color: OColors.darGrey,
+                  child: _tabBar,
+                ),
+              ),
+            ),
             const Expanded(
                 child: TabBarView(children: [
               CeremonyDay(
@@ -133,7 +149,7 @@ class _CeremonyScreenState extends State<CeremonyScreen> {
             ]))
           ],
         ),
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: FloatingActionButton.extended(
             onPressed: () {
               Navigator.push(
                   context,
@@ -143,57 +159,39 @@ class _CeremonyScreenState extends State<CeremonyScreen> {
                             getcurrentUser: currentUser,
                           )));
             },
-            child: const Icon(Icons.upload, color: Colors.white),
-            backgroundColor: Colors.red),
+            extendedPadding:
+                const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
+            label: const Text('Ceremony +'),
+            // child: const Icon(Icons.upload, color: Colors.white),
+            backgroundColor: OColors.primary),
       ),
     );
   }
 
   AppBar topBar() {
     return AppBar(
-      backgroundColor: OColors.appBarColor,
-      elevation: 1.0,
+      backgroundColor: OColors.secondary,
+      elevation: 0,
       toolbarHeight: 70,
+      // automaticallyImplyLeading: false,
       flexibleSpace: SafeArea(
           child: Container(
-        color: Colors.white,
+        color: Colors.transparent,
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Expanded(
               child: Container(
+                height: 50,
+                padding: const EdgeInsets.only(left: 10, right: 10),
                 margin: const EdgeInsets.only(
-                    top: 18, left: 10, right: 18, bottom: 7),
-                width: 70,
-                height: 45,
+                    left: 45, right: 10, bottom: 15, top: 10),
                 decoration: BoxDecoration(
-                  color: Colors.grey[500]!.withOpacity(0.2),
+                  color: OColors.darGrey,
+                  border: Border.all(width: 1.5, color: OColors.darGrey),
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: TextField(
-                      cursorColor: Colors.grey[500]!.withOpacity(0.2),
-                      decoration: const InputDecoration(
-                          prefixIcon: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 1.0),
-                            child: Icon(
-                              Icons.search,
-                              size: 25,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          border: InputBorder.none,
-                          hintText: 'Search..',
-                          hintStyle: TextStyle(fontSize: 14)),
-                      onChanged: (value) {
-                        setState(() {
-                          //_email = value;
-                        });
-                      },
-                    ),
-                  ),
-                ),
+                child: const SearchCeremony(),
               ),
             ),
             const NotifyWidget()

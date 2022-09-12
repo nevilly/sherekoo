@@ -31,18 +31,17 @@ class _MyCrmnState extends State<MyCrmn> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-      
+
         getCeremonyPosts(widget.userId);
       });
     });
     super.initState();
   }
 
- 
   // My all ceremonie post
   Future getCeremonyPosts(id) async {
     AllCeremonysModel(payload: [], status: 0)
-        .getCrmViewr(token, '$urlGetCrmViewrs/userid/$id')
+        .getCrmViewr(token, '$urlGetCrmViewrs/userId/$id')
         .then((value) {
       if (value.status == 200) {
         setState(() {
@@ -87,9 +86,9 @@ class _MyCrmnState extends State<MyCrmn> {
                                 u2Fname: '',
                                 u2Lname: '',
                                 u2g: '',
-                                admin: '',
-                                fId: '',
-                                sId: '',
+                                admin: crmV[index].admin,
+                                fId: crmV[index].fId,
+                                sId: crmV[index].sId,
                                 youtubeLink: crmV[index].youtubeLink),
                           )));
             },
@@ -104,7 +103,8 @@ class _MyCrmnState extends State<MyCrmn> {
                               borderRadius: BorderRadius.circular(10.0)),
                           child: crmV[index].cImage != ''
                               ? FadeInImage(
-                                  image: NetworkImage('${api}public/uploads/${crmV[index].crmUsername}/ceremony/${crmV[index].cImage}'),
+                                  image: NetworkImage(
+                                      '${api}public/uploads/${crmV[index].crmUsername}/ceremony/${crmV[index].cImage}'),
                                   fadeInDuration:
                                       const Duration(milliseconds: 100),
                                   placeholder: const AssetImage(

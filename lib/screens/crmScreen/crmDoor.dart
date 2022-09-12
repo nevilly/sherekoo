@@ -76,8 +76,21 @@ class _CrmDoorState extends State<CrmDoor> {
         }
       });
     } else {
-      print('jjajajajaa');
+      fillTheBlanks('Fill Subsribe as ... Please!');
     }
+  }
+
+  fillTheBlanks(String title) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 18, color: Colors.white),
+        ),
+        backgroundColor: OColors.danger,
+      ),
+    );
   }
 
   @override
@@ -169,11 +182,7 @@ class _CrmDoorState extends State<CrmDoor> {
                                       child: CircleAvatar(
                                         radius: 20,
                                         backgroundImage: NetworkImage(
-                                          api +
-                                              'public/uploads/' +
-                                              widget.crm.u1 +
-                                              '/ceremony/' +
-                                              widget.crm.cImage,
+                                          '${api}public/uploads/${widget.crm.u1}/ceremony/${widget.crm.cImage}',
                                         ),
                                       ),
                                     )
@@ -186,7 +195,7 @@ class _CrmDoorState extends State<CrmDoor> {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 2),
                   child: Text(
-                    widget.crm.cName,
+                    widget.crm.ceremonyType,
                     style:
                         h4.copyWith(fontWeight: FontWeight.bold, fontSize: 20),
                   ),

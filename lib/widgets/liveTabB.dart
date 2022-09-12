@@ -8,6 +8,7 @@ import '../model/services/svModel.dart';
 import '../screens/hireRequset/InvCeremony.dart';
 import '../screens/bsnScreen/bsnScrn.dart';
 import '../util/Preferences.dart';
+import '../util/colors.dart';
 import '../util/util.dart';
 import 'listTile_widget.dart';
 
@@ -50,6 +51,13 @@ class _TabBState extends State<TabB> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
+        // print('ceremony id');
+        // print(widget.ceremony.cId);
+        // print(widget.ceremony.fId);
+        // print(widget.ceremony.admin);
+
+        // print('user id');
+        // print(widget.user.id);
         getUser();
         getInvatation();
       });
@@ -80,8 +88,8 @@ class _TabBState extends State<TabB> {
             type: 'ceremony')
         .getInvataions(token, urlGetInvatation, widget.ceremony.cId)
         .then((v) {
-      // print('check the payload brother');
-      // print(v.payload);
+      print('check the payload brother');
+      print(v.payload);
       if (v.status == 200) {
         setState(() {
           bsnInfo = v.payload.map<SvModel>((e) => SvModel.fromJson(e)).toList();
@@ -102,7 +110,7 @@ class _TabBState extends State<TabB> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: OColors.primary,
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Padding(
@@ -119,7 +127,7 @@ class _TabBState extends State<TabB> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: OColors.primary,
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Padding(
@@ -168,231 +176,41 @@ class _TabBState extends State<TabB> {
 
           //***TEMPORY , suppose to be in FAB BUTTON */
 
-          if (currentUser.id == widget.ceremony.fId ||
-              currentUser.id == widget.ceremony.sId ||
-              currentUser.id == widget.ceremony.admin)
-            Row(children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => BusnessScreen(
-                              bsnType: 'Mc', ceremony: widget.ceremony)));
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 8.0, right: 8, top: 4, bottom: 4),
-                    child: Row(children: const [
-                      Text('Mc',
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold))
-                    ]),
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => BusnessScreen(
-                              bsnType: 'Production',
-                              ceremony: widget.ceremony)));
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 8.0, right: 8, top: 4, bottom: 4),
-                    child: Row(children: const [
-                      Text('Production',
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold))
-                    ]),
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => BusnessScreen(
-                                bsnType: 'Singer',
-                                ceremony: widget.ceremony,
-                              )));
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 8.0, right: 8, top: 4, bottom: 4),
-                    child: Row(children: const [
-                      Text('Singers',
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold))
-                    ]),
-                  ),
-                ),
-              )
-            ]),
-
-          //*** END TEMPORY , suppose to be in FAB BUTTON */
-
           Expanded(
-            child: ListView.separated(
-              separatorBuilder: (context, child) => const Divider(
-                height: 5,
-              ),
+            child: ListView.builder(
               padding: const EdgeInsets.all(0.0),
               itemCount: bsnInfo.length,
               itemBuilder: (context, i) {
-                return SizedBox(
-                    height: 120,
-                    width: double.infinity,
-                    // color: Colors
-                    //     .primaries[Random().nextInt(Colors.primaries.length)],
-                    child: Card(
-                      child: Column(
-                        children: [
-                          Container(
-                            color: Colors.grey.shade400,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text('Our ${bsnInfo[i].busnessType}',
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                                if (currentUser.id == widget.ceremony.fId ||
-                                    currentUser.id == widget.ceremony.sId ||
-                                    currentUser.id == widget.ceremony.admin)
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: Container(
-                                        margin:
-                                            const EdgeInsets.only(right: 8.0),
-                                        decoration: BoxDecoration(
-                                          color: const Color.fromARGB(
-                                              255, 73, 23, 20),
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 4.0,
-                                              bottom: 4.0,
-                                              left: 8,
-                                              right: 8),
-                                          child: Text(
-                                            'Choose ${bsnInfo[i].busnessType}',
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                          ),
-                                        )),
-                                  )
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              ClipRRect(
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(5.0),
-                                  topRight: Radius.circular(5.0),
-                                  bottomLeft: Radius.circular(5.0),
-                                  bottomRight: Radius.circular(5.0),
-                                ),
-                                child:
-                                    // Image(
-                                    //     height: 50,
-                                    //     image: AssetImage(
-                                    //         ('assets/ceremony/b1.png')))
-
-                                    Image.network(
-                                  '${api}public/uploads/${bsnInfo[i].bsnUsername}/busness/${bsnInfo[i].coProfile}',
-                                  height: 70,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Column(
-                                children: [
-                                  Container(
-                                    alignment: Alignment.center,
-                                    // margin: EdgeInsets.only(top: 1),
-                                    child: Center(
-                                      child: Text(
-                                        '${bsnInfo[i].busnessType}: ${bsnInfo[i].knownAs}',
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  if (currentUser.id == widget.ceremony.fId ||
-                                      currentUser.id == widget.ceremony.sId ||
-                                      currentUser.id == widget.ceremony.admin)
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        InvatationCeremony(
-                                                            id: widget.ceremony
-                                                                .cId)));
-                                      },
-                                      child: Container(
-                                          margin:
-                                              const EdgeInsets.only(right: 8.0),
-                                          decoration: BoxDecoration(
-                                            color: const Color.fromARGB(
-                                                255, 73, 23, 20),
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                          ),
-                                          child: const Padding(
-                                            padding: EdgeInsets.only(
-                                                top: 4.0,
-                                                bottom: 4.0,
-                                                left: 8,
-                                                right: 8),
-                                            child: Text(
-                                              'Bagain Now',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white),
-                                            ),
-                                          )),
-                                    ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ));
+                return Container(
+                  margin: const EdgeInsets.only(top: 5),
+                  child: ListTile(
+                    tileColor: OColors.darGrey,
+                    horizontalTitleGap: 8,
+                    leading: Image.network(
+                      '${api}public/uploads/${bsnInfo[i].bsnUsername}/busness/${bsnInfo[i].coProfile}',
+                      height: 70,
+                      width: 50,
+                      fit: BoxFit.cover,
+                    ),
+                    title: Text(
+                      '${bsnInfo[i].price} Tsh',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: OColors.fontColor),
+                    ),
+                    subtitle: Text(
+                      '${bsnInfo[i].busnessType} : ${bsnInfo[i].knownAs} ',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          color: OColors.fontColor),
+                    ),
+                    trailing: Text(
+                      'Pending',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: OColors.primary),
+                    ),
+                  ),
+                );
               },
             ),
           ),

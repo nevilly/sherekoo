@@ -10,7 +10,7 @@ import '../../model/services/postServices.dart';
 import '../../util/Preferences.dart';
 import '../../util/util.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
-import '../hireRequset/InvCeremony.dart';
+import '../admin/crmAdmin.dart';
 
 class HiringPage extends StatefulWidget {
   final BusnessModel busness;
@@ -44,7 +44,7 @@ class _HiringPageState extends State<HiringPage> {
       totalPost: '');
 
   BusnessModel? bsn;
-  CeremonyModel? crm;
+  late CeremonyModel? crm;
   // This list holds all users
 
   List<CeremonyModel> _allCeremony = [];
@@ -142,11 +142,34 @@ class _HiringPageState extends State<HiringPage> {
             .then((value) {
           if (value.status == 200) {
             setState(() {
+              Navigator.of(context).pop();
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          InvatationCeremony(id: ceremonyId)));
+                      builder: (BuildContext context) => CrmnAdmin(
+                            crm: CeremonyModel(
+                                cId: ceremonyId,
+                                codeNo: '',
+                                ceremonyType: '',
+                                cName: '',
+                                fId: '',
+                                sId: '',
+                                cImage: '',
+                                ceremonyDate: '',
+                                contact: '',
+                                admin: '',
+                                u1: '',
+                                u1Avt: '',
+                                u1Fname: '',
+                                u1Lname: '',
+                                u1g: '',
+                                u2: '',
+                                u2Avt: '',
+                                u2Fname: '',
+                                u2Lname: '',
+                                u2g: '',
+                                youtubeLink: ''),
+                          )));
             });
           } else {
             fillMessage(
@@ -185,127 +208,128 @@ class _HiringPageState extends State<HiringPage> {
       appBar: topBar(),
       body: Column(
         children: [
-          Column(children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: 120,
-                  child: ClipRRect(
-                    child: Center(
-                        child: bsn!.coProfile != ''
-                            ? Image.network(
-                                '${api}public/uploads/${bsn!.username}/busness/${bsn!.coProfile}',
-                                height: 120,
-                                fit: BoxFit.cover,
-                              )
-                            : const SizedBox(height: 1)),
-                  ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: 120,
+                child: ClipRRect(
+                  child: Center(
+                      child: bsn!.coProfile != ''
+                          ? Image.network(
+                              '${api}public/uploads/${bsn!.username}/busness/${bsn!.coProfile}',
+                              height: 120,
+                              fit: BoxFit.cover,
+                            )
+                          : const SizedBox(height: 1)),
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        top: 8.0, bottom: 8.0, left: 18.0, right: 18.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${bsn!.busnessType} ${bsn!.companyName}',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: OColors.fontColor,
-                          ),
-                        ),
-                        RichText(
-                            text: TextSpan(children: [
-                          TextSpan(
-                            text: bsn!.price,
-                            style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red),
-                          ),
-                          const TextSpan(
-                              text: ' Tsh',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 20.0,
-                                  fontStyle: FontStyle.italic,
-                                  color: Colors.red)),
-                        ])),
-                        const Text(
-                          'Negotiable ',
-                          style: TextStyle(
-                              color: Colors.green, fontStyle: FontStyle.italic),
-                        ),
-                      ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 1.0, bottom: 8.0, left: 2.0, right: 18.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(bsn!.busnessType,
+                        style: TextStyle(
+                          fontSize: 19,
+                          color: OColors.fontColor,
+                        )),
+                    Text(
+                      bsn!.companyName,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: OColors.fontColor,
+                      ),
                     ),
-                  ),
-                )
+                    const SizedBox(height: 5),
+                    RichText(
+                        text: TextSpan(children: [
+                      TextSpan(
+                        text: bsn!.price,
+                        style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red),
+                      ),
+                      const TextSpan(
+                          text: ' Tsh',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20.0,
+                              fontStyle: FontStyle.italic,
+                              color: Colors.red)),
+                    ])),
+                    const Text(
+                      'Negotiable ',
+                      style: TextStyle(
+                          color: Colors.green, fontStyle: FontStyle.italic),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 18, right: 18, top: 30, bottom: 10),
+            child: Divider(
+              height: 1.0,
+              color: Colors.white.withOpacity(.50),
+              thickness: 1.0,
+            ),
+          ),
+
+          //ceremony Info
+          // Container(
+          //   height: 45,
+          //   padding: const EdgeInsets.only(left: 20, right: 10),
+          //   margin: const EdgeInsets.only(
+          //       left: 10, right: 10, bottom: 15, top: 10),
+          //   decoration: BoxDecoration(
+          //     border: Border.all(width: 1.5, color: Colors.grey),
+          //     borderRadius: BorderRadius.circular(10),
+          //   ),
+          //   child:
+          // ),
+
+          Padding(
+            padding: const EdgeInsets.only(
+                top: 2.0, left: 8.0, right: 8.0, bottom: 8.0),
+            child: Text(
+              'Your Ceremony Info.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: OColors.fontColor),
+            ),
+          ),
+
+          const SizedBox(
+            height: 5,
+          ),
+
+          Container(
+            color: OColors.darGrey,
+            padding: const EdgeInsets.only(
+              left: 25,
+              right: 25,
+            ),
+            child: Column(
+              children: [
+                ceremonDetails(
+                    'Ceremony ID', ceremonyCodeNo, 'Ceremony CodeNo'),
+                ceremonDetails('Ceremony Date', ceremonyDate, 'Eg: 2022/1/1 '),
+                ceremonDetails(
+                    'Contact', ceremonyContact, 'Enter Your Contact Pls...'),
+                const SizedBox(
+                  height: 15,
+                ),
               ],
             ),
-
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 18, right: 18, top: 30, bottom: 10),
-              child: Divider(
-                height: 1.0,
-                color: Colors.white.withOpacity(.50),
-                thickness: 1.0,
-              ),
-            ),
-
-            //ceremony Info
-            // Container(
-            //   height: 45,
-            //   padding: const EdgeInsets.only(left: 20, right: 10),
-            //   margin: const EdgeInsets.only(
-            //       left: 10, right: 10, bottom: 15, top: 10),
-            //   decoration: BoxDecoration(
-            //     border: Border.all(width: 1.5, color: Colors.grey),
-            //     borderRadius: BorderRadius.circular(10),
-            //   ),
-            //   child:
-            // ),
-
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 2.0, left: 8.0, right: 8.0, bottom: 8.0),
-              child: Text(
-                'Your Ceremony Info.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: OColors.fontColor),
-              ),
-            ),
-
-            const SizedBox(
-              height: 5,
-            ),
-
-            Container(
-              color: OColors.darGrey,
-              padding: const EdgeInsets.only(
-                left: 25,
-                right: 25,
-              ),
-              child: Column(
-                children: [
-                  ceremonDetails(
-                      'Ceremony ID', ceremonyCodeNo, 'Ceremony CodeNo'),
-                  ceremonDetails(
-                      'Ceremony Date', ceremonyDate, 'Eg: 2022/1/1 '),
-                  ceremonDetails(
-                      'Contact', ceremonyContact, 'Enter Your Contact Pls...'),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                ],
-              ),
-            ),
-          ]),
+          ),
 
           // Contact Enter
           Container(
@@ -358,8 +382,10 @@ class _HiringPageState extends State<HiringPage> {
               ],
             ),
           ),
-          const Spacer(),
 
+          const SizedBox(
+            height: 2,
+          ),
           // Post Button
           GestureDetector(
             onTap: () {
@@ -460,154 +486,161 @@ class _HiringPageState extends State<HiringPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Expanded(
-              child: Container(
-                height: 50,
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                margin: const EdgeInsets.only(
-                    left: 45, right: 10, bottom: 15, top: 8),
-                decoration: BoxDecoration(
-                  color: OColors.darGrey,
-                  border: Border.all(width: 1.5, color: OColors.darGrey),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Autocomplete<CeremonyModel>(
-                  optionsBuilder: (TextEditingValue value) {
-                    // When the field is empty
-                    if (value.text.isEmpty) {
-                      return [];
-                    }
+            widget.ceremony.cId.isNotEmpty
+                ? Center(
+                    child: Text(
+                    widget.busness.busnessType,
+                    style: TextStyle(
+                        color: OColors.fontColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  ))
+                : Container(
+                    height: 50,
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    margin: const EdgeInsets.only(
+                        left: 45, right: 10, bottom: 15, top: 8),
+                    decoration: BoxDecoration(
+                      color: OColors.darGrey,
+                      border: Border.all(width: 1.5, color: OColors.darGrey),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Autocomplete<CeremonyModel>(
+                      optionsBuilder: (TextEditingValue value) {
+                        // When the field is empty
+                        if (value.text.isEmpty) {
+                          return [];
+                        }
 
-                    // The logic to find out which ones should appear
-                    return _allCeremony
-                        .where((ceremony) => ceremony.codeNo
-                            .toLowerCase()
-                            .contains(value.text.toLowerCase()))
-                        .toList();
-                  },
-                  displayStringForOption: (CeremonyModel option) =>
-                      option.codeNo,
-                  fieldViewBuilder: (BuildContext context,
-                      TextEditingController fieldTextEditingController,
-                      FocusNode fieldFocusNode,
-                      VoidCallback onFieldSubmitted) {
-                    return TextField(
-                      controller: fieldTextEditingController,
-                      focusNode: fieldFocusNode,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        prefixIcon: Icon(
-                          Icons.search,
-                          color: OColors.primary,
-                          size: 25,
-                        ),
-                        hintStyle: const TextStyle(
-                            color: Colors.white, fontSize: 14, height: 2),
-                        hintText: "Ceremony CodeNo..",
-                      ),
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w400, color: Colors.white),
-                    );
-                  },
-                  onSelected: (CeremonyModel selection) {
-                    setState(() {
-                      ceremonyType = selection.ceremonyType;
-                      ceremonyId = selection.cId;
-                      ceremonyCodeNo = selection.codeNo;
-                      ceremonyDate = selection.ceremonyDate;
-                      ceremonyContact = selection.contact;
+                        // The logic to find out which ones should appear
+                        return _allCeremony
+                            .where((ceremony) => ceremony.codeNo
+                                .toLowerCase()
+                                .contains(value.text.toLowerCase()))
+                            .toList();
+                      },
+                      displayStringForOption: (CeremonyModel option) =>
+                          option.codeNo,
+                      fieldViewBuilder: (BuildContext context,
+                          TextEditingController fieldTextEditingController,
+                          FocusNode fieldFocusNode,
+                          VoidCallback onFieldSubmitted) {
+                        return TextField(
+                          controller: fieldTextEditingController,
+                          focusNode: fieldFocusNode,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            prefixIcon: Icon(
+                              Icons.search,
+                              color: OColors.primary,
+                              size: 25,
+                            ),
+                            hintStyle: const TextStyle(
+                                color: Colors.white, fontSize: 14, height: 2),
+                            hintText: "Ceremony CodeNo..",
+                          ),
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w400, color: Colors.white),
+                        );
+                      },
+                      onSelected: (CeremonyModel selection) {
+                        setState(() {
+                          ceremonyType = selection.ceremonyType;
+                          ceremonyId = selection.cId;
+                          ceremonyCodeNo = selection.codeNo;
+                          ceremonyDate = selection.ceremonyDate;
+                          ceremonyContact = selection.contact;
 
-                      ceremonyAdimnId = selection.admin;
-                      ceremonyFid = selection.fId;
-                      ceremonySid = selection.sId;
-                    });
+                          ceremonyAdimnId = selection.admin;
+                          ceremonyFid = selection.fId;
+                          ceremonySid = selection.sId;
+                        });
 
-                    // print('Selected: ${selection.codeNo}');
-                    // print('fid: ${selection.fId}');
-                    // print('sid: ${selection.sId}');
-                    // print('Selected: ${selection.admin}');
-                  },
-                  optionsViewBuilder: (BuildContext context,
-                      AutocompleteOnSelected<CeremonyModel> onSelected,
-                      Iterable<CeremonyModel> options) {
-                    return Align(
-                      alignment: Alignment.topLeft,
-                      child: Material(
-                        child: Container(
-                          width: 400,
-                          color: OColors.secondary,
-                          child: ListView.builder(
-                            padding: const EdgeInsets.all(10.0),
-                            itemCount: options.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final CeremonyModel option =
-                                  options.elementAt(index);
+                        // print('Selected: ${selection.codeNo}');
+                        // print('fid: ${selection.fId}');
+                        // print('sid: ${selection.sId}');
+                        // print('Selected: ${selection.admin}');
+                      },
+                      optionsViewBuilder: (BuildContext context,
+                          AutocompleteOnSelected<CeremonyModel> onSelected,
+                          Iterable<CeremonyModel> options) {
+                        return Align(
+                          alignment: Alignment.topLeft,
+                          child: Material(
+                            child: Container(
+                              width: 400,
+                              color: OColors.secondary,
+                              child: ListView.builder(
+                                padding: const EdgeInsets.all(10.0),
+                                itemCount: options.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final CeremonyModel option =
+                                      options.elementAt(index);
 
-                              return GestureDetector(
-                                onTap: () {
-                                  onSelected(option);
-                                },
-                                child: Column(
-                                  children: [
-                                    Row(
+                                  return GestureDetector(
+                                    onTap: () {
+                                      onSelected(option);
+                                    },
+                                    child: Column(
                                       children: [
-                                        Container(
-                                          width: 35,
-                                          height: 35,
-                                          margin:
-                                              const EdgeInsets.only(right: 10),
-                                          child: option.cImage != ''
-                                              ? Image.network(
-                                                  '${api}public/uploads/${option.u1}/ceremony/${option.cImage}',
-                                                  fit: BoxFit.cover,
-                                                  height: 45,
-                                                )
-                                              : const SizedBox(height: 1),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                        Row(
                                           children: [
-                                            Text(option.codeNo,
-                                                style: const TextStyle(
-                                                    color: Colors.white)),
-                                            const SizedBox(
-                                              height: 4,
+                                            Container(
+                                              width: 35,
+                                              height: 35,
+                                              margin: const EdgeInsets.only(
+                                                  right: 10),
+                                              child: option.cImage != ''
+                                                  ? Image.network(
+                                                      '${api}public/uploads/${option.u1}/ceremony/${option.cImage}',
+                                                      fit: BoxFit.cover,
+                                                      height: 45,
+                                                    )
+                                                  : const SizedBox(height: 1),
                                             ),
-                                            Text(option.ceremonyType,
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 12,
-                                                    fontStyle:
-                                                        FontStyle.italic))
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(option.codeNo,
+                                                    style: const TextStyle(
+                                                        color: Colors.white)),
+                                                const SizedBox(
+                                                  height: 4,
+                                                ),
+                                                Text(option.ceremonyType,
+                                                    style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12,
+                                                        fontStyle:
+                                                            FontStyle.italic))
+                                              ],
+                                            )
                                           ],
-                                        )
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        Divider(
+                                          height: 1.0,
+                                          color: Colors.black.withOpacity(0.24),
+                                          thickness: 1.0,
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
                                       ],
                                     ),
-                                    const SizedBox(
-                                      height: 8,
-                                    ),
-                                    Divider(
-                                      height: 1.0,
-                                      color: Colors.black.withOpacity(0.24),
-                                      thickness: 1.0,
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
+                                  );
+                                },
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-            const NotifyWidget()
+                        );
+                      },
+                    ),
+                  ),
+            // const NotifyWidget()
           ],
         ),
       )),

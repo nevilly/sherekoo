@@ -66,7 +66,7 @@ class CrmViewersModel {
         cId: json['cId'] ?? '',
         codeNo: json['codeNo'] ?? '',
         ceremonyType: json['ceremonyType'] ?? '',
-        fId: json['crmFid'] ?? '',
+        fId: json['fId'] ?? '',
         sId: json['sId'] ?? '',
         cImage: json['cImage'] ?? '',
         cName: json['cName'] ?? '',

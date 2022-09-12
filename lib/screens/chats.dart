@@ -231,7 +231,6 @@ class _PostChatsState extends State<PostChats> {
                                     )),
                                 GestureDetector(
                                   onTap: () {
-                                   
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -240,9 +239,7 @@ class _PostChatsState extends State<PostChats> {
                                                   chat: chats[index],
                                                 )));
                                   },
-                                  child: 
-                                  
-                                  Padding(
+                                  child: Padding(
                                     padding: const EdgeInsets.only(right: 8.0),
                                     child: Container(
                                         decoration: BoxDecoration(
@@ -257,7 +254,6 @@ class _PostChatsState extends State<PostChats> {
                                           color: OColors.fontColor,
                                         )),
                                   ),
-                               
                                 ),
                               ],
                             ),
@@ -267,8 +263,8 @@ class _PostChatsState extends State<PostChats> {
 
                       //body Message
                       Container(
-                        padding: const EdgeInsets.only(
-                            top: 8.0, left: 12, right: 10),
+                        padding:
+                            const EdgeInsets.only(top: 1.0, left: 55, right: 8),
                         alignment: Alignment.topLeft,
                         child: Text(chats[index].body,
                             textAlign: TextAlign.left,
@@ -282,7 +278,7 @@ class _PostChatsState extends State<PostChats> {
 
                       Padding(
                         padding:
-                            const EdgeInsets.only(top: 8.0, left: 1, right: 10),
+                            const EdgeInsets.only(top: 8.0, left: 40, right: 8),
                         child: Row(
                           children: [
                             Padding(
