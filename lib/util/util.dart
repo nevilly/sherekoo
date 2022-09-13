@@ -51,6 +51,7 @@ String urlPostHostList = '${api}Services/add';
 String urlGetServices = '${api}Services/getById';
 String urlGetBsnToCrmnServices = '${api}Services/getBsnsToCrmInvitation';
 String urlGetInvatation = '${api}Services/getInvatation';
+String urlGetInvRequest = '${api}Services/getInvRequest';
 
 //PostsSherekkoo
 String urlPostSherekoo = '${api}MyPost/add';
