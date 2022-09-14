@@ -148,7 +148,7 @@ class _BsnDetailsState extends State<BsnDetails> {
   //All Ceremony work With Busness
   crmWorkWithBsn() async {
     GetAll(id: data.bId, status: 0, payload: [])
-        .get(token, urlGetBsnToCrmnServices)
+        .get(token, urlGetBsnToCrmRequests)
         .then((value) {
       if (value.status == 200) {
         setState(() {

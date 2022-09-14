@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sherekoo/model/requests/requests.dart';
 import 'package:sherekoo/util/colors.dart';
 
 import '../../model/busness/busnessModel.dart';
@@ -129,7 +130,7 @@ class _HiringPageState extends State<HiringPage> {
 
     if (ceremonyId != "") {
       if (creatorId.isNotEmpty) {
-        Services(
+        Requests(
                 hostId: '',
                 busnessId: bsn!.bId,
                 ceremonyId: ceremonyId,
@@ -138,7 +139,7 @@ class _HiringPageState extends State<HiringPage> {
                 status: 0,
                 createdBy: creatorId,
                 type: '')
-            .post(token, urlPostHostList)
+            .post(token, urlPostRequests)
             .then((value) {
           if (value.status == 200) {
             setState(() {

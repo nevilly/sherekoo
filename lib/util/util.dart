@@ -46,12 +46,19 @@ String urlUpdateBusness = '${api}Busness/update';
 String urlBusnessPhoto = '${api}Busness/getPhoto';
 String urlBusnessMembers = '${api}Busness/getMembers';
 
+//Request List
+String urlPostRequests = '${api}Requests/add';
+String urlGetRequests = '${api}Requests/getById';
+String urlGetBsnToCrmRequests = '${api}Requests/getBsnsToCrmInvitation';
+String urlGetInvatation = '${api}Requests/getInvatation';
+String urlGetInvRequest = '${api}Requests/getInvRequest';
+String urlCancelRequest = '${api}Requests/remove';
+
 //Services List
-String urlPostHostList = '${api}Services/add';
-String urlGetServices = '${api}Services/getById';
-String urlGetBsnToCrmnServices = '${api}Services/getBsnsToCrmInvitation';
-String urlGetInvatation = '${api}Services/getInvatation';
-String urlGetInvRequest = '${api}Services/getInvRequest';
+String urlPostService = '${api}Services/add';
+String urlGetService = '${api}Services/get';
+String urlGetServiceById = '${api}Services/getServiceById_type';
+String urlRemoveServiceById = '${api}Services/remove';
 
 //PostsSherekkoo
 String urlPostSherekoo = '${api}MyPost/add';

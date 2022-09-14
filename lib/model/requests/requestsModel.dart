@@ -1,12 +1,10 @@
-class SvModel {
-  final String svId;
+class RequestsModel {
+  final String hostId;
   final String busnessId;
   final String ceremonyId;
   final String confirm;
   final String createdBy;
   final String createdDate;
-  final String payed;
-  final String amount;
 
 // Ceremony Data
   // final String cId;
@@ -37,14 +35,12 @@ class SvModel {
   final String level;
   final String activeted;
 
-  SvModel(
+  RequestsModel(
       {required this.busnessId,
       // required this.cName,
       // required this.cImage,
       required this.createdDate,
-      required this.svId,
-      required this.payed,
-      required this.amount,
+      required this.hostId,
       required this.confirm,
       // required this.cId,
       // required this.codeNo,
@@ -70,12 +66,10 @@ class SvModel {
       required this.level,
       required this.activeted});
 
-  factory SvModel.fromJson(Map<String, dynamic> json) {
-    return SvModel(
-        svId: json['svId'] ?? "",
+  factory RequestsModel.fromJson(Map<String, dynamic> json) {
+    return RequestsModel(
+        hostId: json['hostId'] ?? "",
         confirm: json['confirm'] ?? "",
-        payed: json['payed'] ?? "",
-        amount: json['amount'] ?? "",
         // cName: json['cName'],
         // cId: json['cId'],
         // codeNo: json['codeNo'],

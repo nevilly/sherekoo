@@ -2,12 +2,11 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-class Services {
-  final String svId;
+class Requests {
+  final String hostId;
   final String busnessId;
-  final String hId;
   final String ceremonyId;
-  final String payed;
+  final String contact;
   final String createdBy;
   final String type;
   //ceremony Type
@@ -15,37 +14,34 @@ class Services {
   late final dynamic status;
   dynamic payload;
 
-  Services(
-      {required this.svId,
-      required this.hId,
+  Requests(
+      {required this.hostId,
       required this.busnessId,
-      required this.payed,
+      required this.contact,
       required this.ceremonyId,
       required this.createdBy,
       required this.type,
       required this.status,
       required this.payload});
 
-  factory Services.fromJson(Map<String, dynamic> json) {
-    return Services(
+  factory Requests.fromJson(Map<String, dynamic> json) {
+    return Requests(
       status: json['status'],
       payload: json['payload'],
-      svId: json['svId'] ?? "",
-      hId: json['hId'] ?? "",
-      payed: json['payed'] ?? "",
+      hostId: json['hostId'] ?? "",
       busnessId: json['busnessId'] ?? "",
       ceremonyId: json['ceremonyId'] ?? "",
       createdBy: json['createdBy'] ?? "",
-  
+      contact: json['contact'] ?? "",
       type: json['type'] ?? "",
     );
   }
 
-  Future<Services> get(String token, String dirUrl) async {
+  Future<Requests> get(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);
 
     if (token.isEmpty) {
-      return Services.fromJson({
+      return Requests.fromJson({
         "status": 204,
         "payload": {"error": "Invalid token"}
       });
@@ -53,7 +49,7 @@ class Services {
 
     Map<String, dynamic> toMap() {
       return <String, dynamic>{
-        'hostId': svId,
+        'hostId': hostId,
       };
     }
 
@@ -67,19 +63,56 @@ class Services {
         .then((r) {
       // final rJson = jsonDecode(r.body);
       if (r.statusCode == 200) {
-        return Services.fromJson(
+        return Requests.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       }
-      return Services.fromJson({'status': false});
+      return Requests.fromJson({'status': false});
     });
   }
 
- 
-  Future<Services> getInvataions(String token, String dirUrl, id) async {
+  Future<Requests> post(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);
 
     if (token.isEmpty) {
-      return Services.fromJson({
+      return Requests.fromJson({
+        "status": 204,
+        "payload": {"error": "Invalid token"}
+      });
+    }
+
+    Map<String, dynamic> toMap() {
+      return <String, dynamic>{
+        'busnessId': busnessId,
+        'ceremonyId': ceremonyId,
+        'createdBy': createdBy,
+        'contact': contact,
+      };
+    }
+
+    Map<String, String> headers = {
+      "Authorization": "Owesis $token",
+      "Content-Type": "Application/json"
+    };
+
+    return await http
+        .post(url, body: jsonEncode(toMap()), headers: headers)
+        .then((r) {
+      // final rJson = jsonDecode(r.body);
+      print(r.body);
+      if (r.statusCode == 200) {
+        return Requests.fromJson(
+            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+      }
+      return Requests.fromJson(
+          {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+    });
+  }
+
+  Future<Requests> getInvataions(String token, String dirUrl, id) async {
+    Uri url = Uri.parse(dirUrl);
+
+    if (token.isEmpty) {
+      return Requests.fromJson({
         "status": 204,
         "payload": {"error": "Invalid token"}
       });
@@ -99,33 +132,26 @@ class Services {
         .then((r) {
       // final rJson = jsonDecode(r.body);
       if (r.statusCode == 200) {
-        return Services.fromJson(
+        return Requests.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       }
-      return Services.fromJson(
+      return Requests.fromJson(
           {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
     });
   }
 
-  // Real SERVICES LIFE
-  Future<Services> addService(
-    String token, String dirUrl, String rId, String payedStatus) async {
+  Future<Requests> cancelRequest(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);
 
     if (token.isEmpty) {
-      return Services.fromJson({
+      return Requests.fromJson({
         "status": 204,
         "payload": {"error": "Invalid token"}
       });
     }
 
     Map<String, dynamic> toMap() {
-      return <String, dynamic>{
-        'busnessId': busnessId,
-        'ceremonyId': ceremonyId,
-        'payedStatus': payedStatus,
-        'requestId': rId
-      };
+      return <String, dynamic>{'id': hostId};
     }
 
     Map<String, String> headers = {
@@ -137,81 +163,11 @@ class Services {
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((r) {
       if (r.statusCode == 200) {
-        return Services.fromJson(
+        return Requests.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       }
-      return Services.fromJson(
+      return Requests.fromJson(
           {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
     });
   }
-
-  Future<Services> getService(String token, String dirUrl) async {
-    Uri url = Uri.parse(dirUrl);
-
-    if (token.isEmpty) {
-      return Services.fromJson({
-        "status": 204,
-        "payload": {"error": "Invalid token"}
-      });
-    }
-
-    Map<String, dynamic> toMap() {
-      return <String, dynamic>{'id': ceremonyId, 'type': type};
-    }
-
- 
-
-    Map<String, String> headers = {
-      "Authorization": "Owesis $token",
-      "Content-Type": "Application/json"
-    };
-
-    return await http
-        .post(url, body: jsonEncode(toMap()), headers: headers)
-        .then((r) {
-
-      if (r.statusCode == 200) {
-        return Services.fromJson(
-            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
-      }
-      return Services.fromJson(
-          {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
-    });
-  }
-
-  Future<Services> removeService(String token, String dirUrl) async {
-    Uri url = Uri.parse(dirUrl);
-
-    if (token.isEmpty) {
-      return Services.fromJson({
-        "status": 204,
-        "payload": {"error": "Invalid token"}
-      });
-    }
-
-    Map<String, dynamic> toMap() {
-      return <String, dynamic>{'id': svId};
-    }
-
- 
-
-    Map<String, String> headers = {
-      "Authorization": "Owesis $token",
-      "Content-Type": "Application/json"
-    };
-
-    return await http
-        .post(url, body: jsonEncode(toMap()), headers: headers)
-        .then((r) {
-
-      if (r.statusCode == 200) {
-        return Services.fromJson(
-            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
-      }
-      return Services.fromJson(
-          {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
-    });
-  }
-
-
 }

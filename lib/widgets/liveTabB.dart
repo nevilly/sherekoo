@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
+import 'package:sherekoo/model/requests/requests.dart';
+import 'package:sherekoo/model/requests/requestsModel.dart';
 
 import '../model/allData.dart';
 import '../model/profileMode.dart';
@@ -43,7 +45,7 @@ class _TabBState extends State<TabB> {
       meritalStatus: '',
       totalPost: '');
 
-  List<SvModel> bsnInfo = [];
+  List<RequestsModel> bsnInfo = [];
 
   @override
   void initState() {
@@ -77,7 +79,7 @@ class _TabBState extends State<TabB> {
   }
 
   getInvatation() async {
-    Services(
+    Requests(
             hostId: '',
             busnessId: '',
             contact: '',
@@ -92,7 +94,7 @@ class _TabBState extends State<TabB> {
       print(v.payload);
       if (v.status == 200) {
         setState(() {
-          bsnInfo = v.payload.map<SvModel>((e) => SvModel.fromJson(e)).toList();
+          bsnInfo = v.payload.map<RequestsModel>((e) => SvModel.fromJson(e)).toList();
         });
       }
     });

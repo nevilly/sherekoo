@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sherekoo/model/requests/requests.dart';
 import 'package:sherekoo/model/services/postServices.dart';
 
 import '../../../model/allData.dart';
@@ -55,7 +56,7 @@ class _InvatationCeremonyState extends State<InvatationCeremony> {
   }
 
   getInvatation() async {
-    Services(
+    Requests(
             hostId: '',
             busnessId: '',
             contact: '',

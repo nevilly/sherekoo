@@ -579,4 +579,5 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
       ],
     );
   }
+
 }
