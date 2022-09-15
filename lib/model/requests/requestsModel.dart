@@ -7,99 +7,146 @@ class RequestsModel {
   final String createdDate;
 
 // Ceremony Data
-  // final String cId;
-  // final String codeNo;
-  // final String cName;
-  // final String ceremonyType;
-  // final String fIdAvater;
-  // final String fIdUname;
-  // final String sIdAvater;
-  // final String sIdUname;
-  // final String crmContact;
+  final String cId;
+  final String codeNo;
+  final String cImage;
+  final String cName;
+  final String ceremonyType;
+  final String fId;
+  final String fIdAvater;
+  final String fIdUname;
+  final String sId;
+  final String sIdAvater;
+  final String sIdUname;
+  final String crmContact;
 
 // Busness Data
-  // final String bId;
+  final String bId;
   final String busnessType;
-  // final String cImage;
   final String knownAs;
   final String coProfile;
   final String price;
   final String bsncontact;
   final String bsncreatedBy;
   final String bsnUsername;
-  // final String ceoId;
+  final String ceoId;
   // final String bsnAvater;
   // final String bsnUname;
 
-  //subscription info
-  final String level;
-  final String activeted;
+  // Service Info
+  final String isInService;
+  final String svId;
+  final String svPayStatus;
+  final String svAmount;
 
-  RequestsModel(
-      {required this.busnessId,
-      // required this.cName,
-      // required this.cImage,
-      required this.createdDate,
-      required this.hostId,
-      required this.confirm,
-      // required this.cId,
-      // required this.codeNo,
-      // required this.ceremonyType,
-      required this.ceremonyId,
-      required this.createdBy,
-      // required this.crmContact,
-      // required this.bId,
-      required this.busnessType,
-      required this.knownAs,
-      required this.coProfile,
-      required this.price,
-      required this.bsncontact,
-      required this.bsncreatedBy,
-      required this.bsnUsername,
-      // required this.ceoId,
-      // required this.fIdAvater,
-      // required this.fIdUname,
-      // required this.sIdAvater,
-      // required this.sIdUname,
-      // required this.bsnAvater,
-      // required this.bsnUname,
-      required this.level,
-      required this.activeted});
+  //subscription Model
+  final String subId;
+  final String level;
+  final String categoryId;
+  final String activeted;
+  final String startTime;
+  final String endTime;
+
+  RequestsModel({
+    //Request Model
+    required this.hostId,
+    required this.busnessId,
+    required this.ceremonyId,
+    required this.createdDate,
+    required this.confirm,
+    required this.createdBy,
+
+    //Busness Model
+    required this.bId,
+    required this.busnessType,
+    required this.knownAs,
+    required this.coProfile,
+    required this.price,
+    required this.bsncontact,
+    required this.bsncreatedBy,
+    required this.bsnUsername,
+    // required this.bsnAvater,
+    // required this.bsnUname,
+
+    //Ceremon Model
+    required this.cId,
+    required this.cName,
+    required this.cImage,
+    required this.codeNo,
+    required this.ceremonyType,
+    required this.crmContact,
+    required this.ceoId,
+    required this.fId,
+    required this.sId,
+    required this.fIdAvater,
+    required this.fIdUname,
+    required this.sIdAvater,
+    required this.sIdUname,
+    required this.level,
+    required this.activeted,
+
+    // Service Model
+    required this.isInService,
+    required this.svId,
+    required this.svPayStatus,
+    required this.svAmount,
+
+    //SubScription Model
+    required this.subId,
+    required this.categoryId,
+    required this.startTime,
+    required this.endTime,
+  });
 
   factory RequestsModel.fromJson(Map<String, dynamic> json) {
     return RequestsModel(
-        hostId: json['hostId'] ?? "",
-        confirm: json['confirm'] ?? "",
-        // cName: json['cName'],
-        // cId: json['cId'],
-        // codeNo: json['codeNo'],
-        // ceremonyType: json['ceremonyType'],
-        // fIdAvater: json['fIdAvater'],
-        // fIdUname: json['fIdUname'],
-        // sIdAvater: json['sIdAvater'],
-        // sIdUname: json['sIdUname'],
-        // cImage: json['cImage'],
-        // crmContact: json['crmContact'],
+      hostId: json['hostId'] ?? "",
+      confirm: json['confirm'] ?? "",
 
-        // Busness Data
-        busnessId: json['busnessId'] ?? "",
-        createdDate: json['createdDate'] ?? "",
-        // bsnAvater: json['bsnAvater'],
-        // bsnUname: json['bsnUname'],
-        price: json['price'] ?? "",
-        knownAs: json['knownAs'] ?? "",
-        createdBy: json['createdBy'] ?? "",
-        coProfile: json['coProfile'] ?? "",
-        bsncontact: json['bsncontact'] ?? "",
-        ceremonyId: json['ceremonyId'] ?? "",
-        // ceoId: json['ceoId'],
-        busnessType: json['busnessType'] ?? "",
-        bsncreatedBy: json['bsncreatedBy'] ?? "",
-        bsnUsername: json['bsnUsername'] ?? "",
-        // bId: json['bId'],
+      //Ceremony Model
+      cId: json['cId'] ?? "",
+      cName: json['cName'] ?? "",
+      codeNo: json['codeNo'] ?? "",
+      ceremonyType: json['ceremonyType'] ?? "",
+      ceoId: json['ceoId'] ?? "",
+      fId: json['fId'] ?? "",
+      sId: json['sId'] ?? "",
+      fIdAvater: json['fIdAvater'] ?? "",
+      fIdUname: json['fIdUname'] ?? "",
+      sIdAvater: json['sIdAvater'] ?? "",
+      sIdUname: json['sIdUname'] ?? "",
+      cImage: json['cImage'] ?? "",
+      crmContact: json['crmContact'] ?? "",
 
-        //Activated Info
-        activeted: json['activeted'] ?? "",
-        level: json['level'] ?? "");
+      // Busness Model
+      bId: json['bId'] ?? "",
+      busnessId: json['busnessId'] ?? "",
+      createdDate: json['createdDate'] ?? "",
+      price: json['price'] ?? "",
+      knownAs: json['knownAs'] ?? "",
+      createdBy: json['createdBy'] ?? "",
+      coProfile: json['coProfile'] ?? "",
+      bsncontact: json['bsncontact'] ?? "",
+      ceremonyId: json['ceremonyId'] ?? "",
+      busnessType: json['busnessType'] ?? "",
+      bsncreatedBy: json['bsncreatedBy'] ?? "",
+      bsnUsername: json['bsnUsername'] ?? "",
+      // bsnAvater: json['bsnAvater'],
+      // bsnUname: json['bsnUname'],
+
+      //SubScription Model
+      subId: json['subId'] ?? "",
+      categoryId: json['categoryId'] ?? "",
+      startTime: json['startTime'] ?? "",
+      endTime: json['endTime'] ?? "",
+      activeted: json['activeted'] ?? "",
+      level: json['level'] ?? "",
+
+      // Services Info
+      isInService: json['isInService'].toString(),
+      svId: json['svId'] ?? "",
+      svPayStatus: json['svPayStatus'] ?? "",
+      svAmount: json['svAmount'] ?? "",
+    );
   }
 }

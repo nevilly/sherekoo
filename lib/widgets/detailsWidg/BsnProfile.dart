@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:sherekoo/screens/bsnScreen/adminBsn.dart';
 
 import '../../model/busness/busnessModel.dart';
+import '../../model/profileMode.dart';
 import '../../screens/detailScreen/DetailPage.dart';
 import '../../screens/subscriptionScreen/hiringPage.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
 
 class BusnessProfile extends StatelessWidget {
-  const BusnessProfile({
-    Key? key,
-    required this.data,
-    required this.widget,
-  }) : super(key: key);
+  const BusnessProfile(
+      {Key? key, required this.data, required this.widget, required this.user})
+      : super(key: key);
 
   final BusnessModel data;
   final BsnDetails widget;
+  final User user;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        ///
+        /// Busness Picture
+        ///
         ClipRRect(
           child: Center(
               child: data.coProfile != ''
@@ -30,6 +34,53 @@ class BusnessProfile extends StatelessWidget {
                     )
                   : const SizedBox(height: 1)),
         ),
+
+        ///
+        /// Only Admin Button
+        ///
+
+        Positioned(
+          top: 5,
+          right: 0,
+          child: data.createdBy == user.id || data.ceoId == user.id
+              ? GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => AdminBsn(
+                                  bsn: data,
+                                )));
+                  },
+                  child: Container(
+                    // width: 30,
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: OColors.primary,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        bottomLeft: Radius.circular(10),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Admin",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: OColors.fontColor),
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox(),
+        ),
+
+        ///
+        /// Busness Name
+        /// && Hiring Buuton
+        ///
+
         Positioned(
           bottom: 0,
           left: 0,
@@ -63,7 +114,10 @@ class BusnessProfile extends StatelessWidget {
                     ])),
                   ),
                 ),
-                //Hire Me Botton
+
+                ///
+                ///Hire Button
+                ///
                 GestureDetector(
                   onTap: () {
                     Navigator.push(

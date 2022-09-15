@@ -55,7 +55,7 @@ class _BusnessScreenState extends State<BusnessScreen> {
       aboutCompany: '',
       username: '',
       ceoId: '',
-      subcrlevel: '');
+      subcrlevel: '', createdBy: '');
   @override
   void initState() {
     ceremony = widget.ceremony;

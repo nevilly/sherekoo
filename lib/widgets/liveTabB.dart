@@ -1,14 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
-import 'package:sherekoo/model/requests/requests.dart';
-import 'package:sherekoo/model/requests/requestsModel.dart';
 
 import '../model/allData.dart';
 import '../model/profileMode.dart';
 import '../model/services/postServices.dart';
 import '../model/services/svModel.dart';
-import '../screens/hireRequset/InvCeremony.dart';
-import '../screens/bsnScreen/bsnScrn.dart';
 import '../util/Preferences.dart';
 import '../util/colors.dart';
 import '../util/util.dart';
@@ -45,7 +43,7 @@ class _TabBState extends State<TabB> {
       meritalStatus: '',
       totalPost: '');
 
-  List<RequestsModel> bsnInfo = [];
+  List<SvModel> bsnInfo = [];
 
   @override
   void initState() {
@@ -61,7 +59,7 @@ class _TabBState extends State<TabB> {
         // print('user id');
         // print(widget.user.id);
         getUser();
-        getInvatation();
+        getservices();
       });
     });
 
@@ -78,23 +76,23 @@ class _TabBState extends State<TabB> {
     });
   }
 
-  getInvatation() async {
-    Requests(
-            hostId: '',
+  getservices() async {
+    Services(
+            svId: '',
             busnessId: '',
-            contact: '',
-            ceremonyId: '',
+            hId: '',
+            payed: '',
+            ceremonyId: widget.ceremony.cId,
             createdBy: '',
             status: 0,
             payload: [],
             type: 'ceremony')
-        .getInvataions(token, urlGetInvatation, widget.ceremony.cId)
-        .then((v) {
-      print('check the payload brother');
-      print(v.payload);
-      if (v.status == 200) {
+        .getService(token, urlGetServiceById)
+        .then((value) {
+      if (value.status == 200) {
         setState(() {
-          bsnInfo = v.payload.map<RequestsModel>((e) => SvModel.fromJson(e)).toList();
+          bsnInfo =
+              value.payload.map<SvModel>((e) => SvModel.fromJson(e)).toList();
         });
       }
     });
@@ -184,38 +182,96 @@ class _TabBState extends State<TabB> {
               itemCount: bsnInfo.length,
               itemBuilder: (context, i) {
                 return Container(
-                  margin: const EdgeInsets.only(top: 5),
-                  child: ListTile(
-                    tileColor: OColors.darGrey,
-                    horizontalTitleGap: 8,
-                    leading: Image.network(
-                      '${api}public/uploads/${bsnInfo[i].bsnUsername}/busness/${bsnInfo[i].coProfile}',
-                      height: 70,
-                      width: 50,
-                      fit: BoxFit.cover,
-                    ),
-                    title: Text(
-                      '${bsnInfo[i].price} Tsh',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: OColors.fontColor),
-                    ),
-                    subtitle: Text(
-                      '${bsnInfo[i].busnessType} : ${bsnInfo[i].knownAs} ',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w300,
-                          color: OColors.fontColor),
-                    ),
-                    trailing: Text(
-                      'Pending',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: OColors.primary),
-                    ),
-                  ),
-                );
+                    margin: const EdgeInsets.only(top: 5),
+                    child: ListTile(
+                      tileColor: OColors.darGrey,
+                      horizontalTitleGap: 8,
+                      leading: bsnInfo[i].payed == '0'
+                          ? ClipRect(
+                              child: ImageFiltered(
+                                imageFilter: ImageFilter.blur(
+                                  tileMode: TileMode.mirror,
+                                  sigmaX: 7.0,
+                                  sigmaY: 7.0,
+                                ),
+                                child: Image.network(
+                                  '${api}public/uploads/${bsnInfo[i].bsnUsername}/busness/${bsnInfo[i].coProfile}',
+                                  height: 70,
+                                  width: 65,
+                                  fit: BoxFit.cover,
+                                  loadingBuilder: (BuildContext context,
+                                      Widget child,
+                                      ImageChunkEvent? loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        value: loadingProgress
+                                                    .expectedTotalBytes !=
+                                                null
+                                            ? loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                loadingProgress
+                                                    .expectedTotalBytes!
+                                            : null,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            )
+                          : Image.network(
+                              '${api}public/uploads/${bsnInfo[i].bsnUsername}/busness/${bsnInfo[i].coProfile}',
+                              height: 70,
+                              width: 65,
+                              fit: BoxFit.cover,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent? loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  ),
+                                );
+                              },
+                            ),
+                      title: Text(
+                        bsnInfo[i].busnessType,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: OColors.fontColor),
+                      ),
+                      subtitle: bsnInfo[i].payed != '0'
+                          ? Text(
+                              bsnInfo[i].knownAs,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  color: OColors.fontColor),
+                            )
+                          : const SizedBox(),
+                      trailing: bsnInfo[i].payed == '0'
+                          ? Text(
+                              'Unconfirm',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: OColors.primary),
+                            )
+                          : Text(
+                              'Confirm',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: OColors.primary),
+                            ),
+                    ));
               },
             ),
           ),
+        
         ],
       ),
     );

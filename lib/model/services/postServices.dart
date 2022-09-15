@@ -36,7 +36,6 @@ class Services {
       busnessId: json['busnessId'] ?? "",
       ceremonyId: json['ceremonyId'] ?? "",
       createdBy: json['createdBy'] ?? "",
-  
       type: json['type'] ?? "",
     );
   }
@@ -74,7 +73,6 @@ class Services {
     });
   }
 
- 
   Future<Services> getInvataions(String token, String dirUrl, id) async {
     Uri url = Uri.parse(dirUrl);
 
@@ -109,7 +107,7 @@ class Services {
 
   // Real SERVICES LIFE
   Future<Services> addService(
-    String token, String dirUrl, String rId, String payedStatus) async {
+      String token, String dirUrl, String rId, String payedStatus) async {
     Uri url = Uri.parse(dirUrl);
 
     if (token.isEmpty) {
@@ -136,6 +134,7 @@ class Services {
     return await http
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((r) {
+      print(r.body);
       if (r.statusCode == 200) {
         return Services.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
@@ -159,8 +158,6 @@ class Services {
       return <String, dynamic>{'id': ceremonyId, 'type': type};
     }
 
- 
-
     Map<String, String> headers = {
       "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
@@ -169,7 +166,7 @@ class Services {
     return await http
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((r) {
-
+      // print(r.body);
       if (r.statusCode == 200) {
         return Services.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
@@ -193,8 +190,6 @@ class Services {
       return <String, dynamic>{'id': svId};
     }
 
- 
-
     Map<String, String> headers = {
       "Authorization": "Owesis $token",
       "Content-Type": "Application/json"
@@ -203,7 +198,6 @@ class Services {
     return await http
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((r) {
-
       if (r.statusCode == 200) {
         return Services.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
@@ -212,6 +206,4 @@ class Services {
           {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
     });
   }
-
-
 }

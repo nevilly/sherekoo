@@ -50,7 +50,7 @@ String urlBusnessMembers = '${api}Busness/getMembers';
 String urlPostRequests = '${api}Requests/add';
 String urlGetRequests = '${api}Requests/getById';
 String urlGetBsnToCrmRequests = '${api}Requests/getBsnsToCrmInvitation';
-String urlGetInvatation = '${api}Requests/getInvatation';
+String urlGetGoldReq = '${api}Requests/getGoldenRequests';
 String urlGetInvRequest = '${api}Requests/getInvRequest';
 String urlCancelRequest = '${api}Requests/remove';
 

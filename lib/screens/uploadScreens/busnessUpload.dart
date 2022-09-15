@@ -62,7 +62,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
       aboutCompany: '',
       username: '',
       ceoId: '',
-      subcrlevel: '');
+      subcrlevel: '', createdBy: '');
 
   CeremonyModel ceremony = CeremonyModel(
       cId: '',

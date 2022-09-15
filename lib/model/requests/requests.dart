@@ -37,39 +37,6 @@ class Requests {
     );
   }
 
-  Future<Requests> get(String token, String dirUrl) async {
-    Uri url = Uri.parse(dirUrl);
-
-    if (token.isEmpty) {
-      return Requests.fromJson({
-        "status": 204,
-        "payload": {"error": "Invalid token"}
-      });
-    }
-
-    Map<String, dynamic> toMap() {
-      return <String, dynamic>{
-        'hostId': hostId,
-      };
-    }
-
-    Map<String, String> headers = {
-      "Authorization": "Owesis $token",
-      "Content-Type": "Application/json"
-    };
-
-    return await http
-        .post(url, body: jsonEncode(toMap()), headers: headers)
-        .then((r) {
-      // final rJson = jsonDecode(r.body);
-      if (r.statusCode == 200) {
-        return Requests.fromJson(
-            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
-      }
-      return Requests.fromJson({'status': false});
-    });
-  }
-
   Future<Requests> post(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);
 
@@ -108,7 +75,7 @@ class Requests {
     });
   }
 
-  Future<Requests> getInvataions(String token, String dirUrl, id) async {
+  Future<Requests> getGoldenRequest(String token, String dirUrl, id) async {
     Uri url = Uri.parse(dirUrl);
 
     if (token.isEmpty) {

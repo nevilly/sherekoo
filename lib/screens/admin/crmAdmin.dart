@@ -55,7 +55,7 @@ class _CrmnAdminState extends State<CrmnAdmin> {
             status: 0,
             payload: [],
             type: 'ceremony')
-        .getInvataions(token, urlGetInvatation, widget.crm.cId)
+        .getGoldenRequest(token, urlGetGoldReq, widget.crm.cId)
         .then((v) {
       // print('check the payload brother');
 
@@ -92,12 +92,12 @@ class _CrmnAdminState extends State<CrmnAdmin> {
           mcReq.removeWhere((element) => element.busnessId.isEmpty);
 
           //Production
-          productionReq = v.payload.map<SvModel>((e) {
+          productionReq = v.payload.map<RequestsModel>((e) {
             // print(e);
             if (e['busnessType'] == 'Production') {
-              return SvModel.fromJson(e);
+              return RequestsModel.fromJson(e);
             }
-            return SvModel.fromJson({
+            return RequestsModel.fromJson({
               'hostId': '',
               'busnessId': '',
               'ceremonyId': '',
@@ -120,12 +120,12 @@ class _CrmnAdminState extends State<CrmnAdmin> {
           productionReq.removeWhere((element) => element.busnessId.isEmpty);
 
           //Decoration
-          decoratorReq = v.payload.map<SvModel>((e) {
+          decoratorReq = v.payload.map<RequestsModel>((e) {
             // print(e);
             if (e['busnessType'] == 'Decorator') {
-              return SvModel.fromJson(e);
+              return RequestsModel.fromJson(e);
             }
-            return SvModel.fromJson({
+            return RequestsModel.fromJson({
               'hostId': '',
               'busnessId': '',
               'ceremonyId': '',
@@ -632,8 +632,16 @@ class _CrmnAdminState extends State<CrmnAdmin> {
                       const SizedBox(
                         height: 6,
                       ),
+
+                      /// Bsn kama amekubali request kutoka kwa crm Admin
                       req.confirm == '0'
-                          ? GestureDetector(
+                          ?
+
+                          ///
+                          ///Bsn not Confirmed Request from Crmn Admin
+                          ///Crmn Admin can Cancel Request
+                          ///
+                          GestureDetector(
                               onTap: () {
                                 cancelRequest(req);
                               },
@@ -653,26 +661,53 @@ class _CrmnAdminState extends State<CrmnAdmin> {
                                 ),
                               ),
                             )
-                          : GestureDetector(
-                              onTap: () {
-                                checkSelection(context, req);
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: OColors.primary,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 4.0, bottom: 4.0, left: 8, right: 8),
-                                  child: Text(
-                                    'Pay..',
-                                    style: TextStyle(
-                                        color: OColors.fontColor, fontSize: 10),
+                          :
+
+                          ///
+                          ///Bsn Confirmed, request send By  Crm Admin
+                          /// Then
+                          ///If Bsn SELECTED: to service table
+                          ///
+                          req.isInService == 'true'
+                              ?
+
+                              ///
+                              /// Bsn SELECTED:
+                              ///
+                              ///
+
+                              Text('Selectedf',
+                                  style: TextStyle(color: Colors.white))
+                              :
+
+                              /// isInService false:  Bsn not SELECTED:
+                              ///
+                              /// Bas Crm Admin anatakawa achague Huduma aipendayo
+                              ///
+                              GestureDetector(
+                                  onTap: () {
+                                    checkSelection(context, req);
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: OColors.primary,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 4.0,
+                                          bottom: 4.0,
+                                          left: 8,
+                                          right: 8),
+                                      child: Text(
+                                        'Choose',
+                                        style: TextStyle(
+                                            color: OColors.fontColor,
+                                            fontSize: 10),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
                       req.confirm == '0'
                           ? Text(
                               'Wait..',

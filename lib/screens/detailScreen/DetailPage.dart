@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import '../../model/allData.dart';
 import '../../model/busness/allBusness.dart';
 import '../../model/busness/busnessMembers.dart';
 import '../../model/busness/busnessModel.dart';
 import '../../model/busness/busnessPhotoModel.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/getAll.dart';
+import '../../model/profileMode.dart';
 import '../../model/services/ServicesModelModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
@@ -31,6 +33,23 @@ class _BsnDetailsState extends State<BsnDetails> {
   final Preferences _preferences = Preferences();
 
   late BusnessModel data;
+
+  late User user = User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      meritalStatus: '',
+      totalPost: '');
+
   CeremonyModel ceremony = CeremonyModel(
     cId: '',
     codeNo: '',
@@ -55,7 +74,7 @@ class _BsnDetailsState extends State<BsnDetails> {
     youtubeLink: '',
   );
 
-  List<ServicesModel> service = [];
+  List<ServicesModel> service = []; // Need To change to SvModel
   List<BusnessModel> info = [];
   List<BusnessModel> otherBsn = [];
   List<BusnessPhotoModel> photo = [];
@@ -70,8 +89,9 @@ class _BsnDetailsState extends State<BsnDetails> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-        getOther();
 
+        getUser(urlGetUser);
+        getOther();
         // getPhoto();
         // getMembers();
         crmWorkWithBsn();
@@ -82,6 +102,18 @@ class _BsnDetailsState extends State<BsnDetails> {
     ceremony = widget.ceremonyData;
 
     super.initState();
+  }
+
+  Future getUser(String dirUrl) async {
+    return await AllUsersModel(payload: [], status: 0)
+        .get(token, dirUrl)
+        .then((value) {
+      if (value.status == 200) {
+        setState(() {
+          user = User.fromJson(value.payload);
+        });
+      }
+    });
   }
 
   getOther() async {
@@ -187,16 +219,24 @@ class _BsnDetailsState extends State<BsnDetails> {
                 : Text(data.companyName),
             centerTitle: true,
           ),
+
+          ///
+          /// body
+          ///
           body: Column(
             children: [
-              // Top Profile
+              ///
+              ///  Bunsess Top Profile
+              ///
+              BusnessProfile(data: data, widget: widget,user:user),
 
-              BusnessProfile(data: data, widget: widget),
-
-              //Tabs
               const SizedBox(
                 height: 10,
               ),
+
+              ///
+              /// Tabs
+              ///
 
               PreferredSize(
                 preferredSize: _tabBar.preferredSize,
@@ -211,10 +251,14 @@ class _BsnDetailsState extends State<BsnDetails> {
                 ),
               ),
 
-              //Tabs Views
+              ///
+              /// Tabs Viewers Start
+              ///
               Expanded(
                   child: TabBarView(children: [
-                //OverView Container
+                ///
+                /// Busness Overviewrs  Container
+                ///
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(
@@ -248,7 +292,10 @@ class _BsnDetailsState extends State<BsnDetails> {
                   ),
                 ),
 
-                //Description
+                ///
+                /// Busness Description
+                ///
+
                 BsnDescr(data: data, photo: photo),
               ])),
             ],
@@ -316,6 +363,5 @@ class _BsnDetailsState extends State<BsnDetails> {
 }
 
 //Future Updating widgets
-  // -> feeds Tabs
-  // -> Busness members Tabs
-
+// -> feeds Tabs
+// -> Busness members Tabs

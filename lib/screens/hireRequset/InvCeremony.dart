@@ -65,7 +65,7 @@ class _InvatationCeremonyState extends State<InvatationCeremony> {
             status: 0,
             payload: [],
             type: 'ceremony')
-        .getInvataions(token, urlGetInvatation, widget.id)
+        .getGoldenRequest(token, urlGetGoldReq, widget.id)
         .then((v) {
       setState(() {
         invites = v.payload.map<SvModel>((e) => SvModel.fromJson(e)).toList();
