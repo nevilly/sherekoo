@@ -82,12 +82,12 @@ class _TabBState extends State<TabB> {
             busnessId: '',
             hId: '',
             payed: '',
-            ceremonyId: widget.ceremony.cId,
+            ceremonyId: '',
             createdBy: '',
             status: 0,
             payload: [],
             type: 'ceremony')
-        .getService(token, urlGetServiceById)
+        .getService(token, urlGetGoldService,widget.ceremony.cId)
         .then((value) {
       if (value.status == 200) {
         setState(() {

@@ -2,11 +2,12 @@ class RequestsModel {
   final String hostId;
   final String busnessId;
   final String ceremonyId;
-  final String confirm;
+  String confirm;
   final String createdBy;
   final String createdDate;
+ 
 
-// Ceremony Data
+// Ceremony Model
   final String cId;
   final String codeNo;
   final String cImage;
@@ -19,6 +20,7 @@ class RequestsModel {
   final String sIdAvater;
   final String sIdUname;
   final String crmContact;
+  final String ceremonyDate;
 
 // Busness Data
   final String bId;
@@ -55,6 +57,7 @@ class RequestsModel {
     required this.createdDate,
     required this.confirm,
     required this.createdBy,
+   
 
     //Busness Model
     required this.bId,
@@ -82,8 +85,7 @@ class RequestsModel {
     required this.fIdUname,
     required this.sIdAvater,
     required this.sIdUname,
-    required this.level,
-    required this.activeted,
+    required this.ceremonyDate,
 
     // Service Model
     required this.isInService,
@@ -93,6 +95,8 @@ class RequestsModel {
 
     //SubScription Model
     required this.subId,
+    required this.level,
+    required this.activeted,
     required this.categoryId,
     required this.startTime,
     required this.endTime,
@@ -101,7 +105,11 @@ class RequestsModel {
   factory RequestsModel.fromJson(Map<String, dynamic> json) {
     return RequestsModel(
       hostId: json['hostId'] ?? "",
+      ceremonyId: json['ceremonyId'] ?? "",
+      busnessId: json['busnessId'] ?? "",
+      busnessType: json['busnessType'] ?? "",
       confirm: json['confirm'] ?? "",
+  
 
       //Ceremony Model
       cId: json['cId'] ?? "",
@@ -116,19 +124,17 @@ class RequestsModel {
       sIdAvater: json['sIdAvater'] ?? "",
       sIdUname: json['sIdUname'] ?? "",
       cImage: json['cImage'] ?? "",
+       ceremonyDate: json['ceremonyDate'] ?? "",
       crmContact: json['crmContact'] ?? "",
 
       // Busness Model
       bId: json['bId'] ?? "",
-      busnessId: json['busnessId'] ?? "",
       createdDate: json['createdDate'] ?? "",
       price: json['price'] ?? "",
       knownAs: json['knownAs'] ?? "",
       createdBy: json['createdBy'] ?? "",
       coProfile: json['coProfile'] ?? "",
       bsncontact: json['bsncontact'] ?? "",
-      ceremonyId: json['ceremonyId'] ?? "",
-      busnessType: json['busnessType'] ?? "",
       bsncreatedBy: json['bsncreatedBy'] ?? "",
       bsnUsername: json['bsnUsername'] ?? "",
       // bsnAvater: json['bsnAvater'],

@@ -157,12 +157,12 @@ class _CrmnAdminState extends State<CrmnAdmin> {
             busnessId: '',
             hId: '',
             payed: '',
-            ceremonyId: widget.crm.cId,
+            ceremonyId: '',
             createdBy: '',
             status: 0,
             payload: [],
             type: 'ceremony')
-        .getService(token, urlGetServiceById)
+        .getService(token, urlGetGoldService, widget.crm.cId)
         .then((value) {
       if (value.status == 200) {
         setState(() {
@@ -237,10 +237,16 @@ class _CrmnAdminState extends State<CrmnAdmin> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            //Selected
+            ///
+            /// Selected Busness for ceremont
+            ///
+            /// Colum
+
             Column(
               children: [
-                //titleBar
+                /// titleBar
+                ///
+
                 Container(
                   color: OColors.darkGrey,
                   width: MediaQuery.of(context).size.width,
@@ -258,7 +264,11 @@ class _CrmnAdminState extends State<CrmnAdmin> {
                     ),
                   ),
                 ),
-                // boody..
+
+                ///
+                /// Selcete Busness..
+                ///
+                ///
                 Container(
                   margin: const EdgeInsets.all(6.0),
                   child: GridView.builder(
@@ -395,12 +405,20 @@ class _CrmnAdminState extends State<CrmnAdmin> {
               ],
             ),
 
-            // All Mc
+            ///
+            /// All  Requst or Invitation
+            /// Start Here
+            ///
+            /// Requst function
+            /// All Mc Invitaion
+            ///
             requestBody(context, 'Mc', mcReq),
 
             const SizedBox(height: 8),
 
-            //Production
+            ///
+            ///  Production Request
+
             Column(
               children: <Widget>[
                 Container(
@@ -537,6 +555,10 @@ class _CrmnAdminState extends State<CrmnAdmin> {
       BuildContext context, String title, List<RequestsModel> arr) {
     return Column(
       children: <Widget>[
+        ///
+        /// Request/invitation Busness title
+        ///
+
         Container(
           color: OColors.darkGrey,
           width: MediaQuery.of(context).size.width,
@@ -572,6 +594,12 @@ class _CrmnAdminState extends State<CrmnAdmin> {
             ),
           ),
         ),
+
+        ///
+        /// Animation container
+        /// open and close by slide up and down
+        ///
+        /// used for desplay all Busness request Or ceremony invitation
         AnimatedClipRect(
           open: _openMc,
           horizontalAnimation: false,
@@ -582,7 +610,13 @@ class _CrmnAdminState extends State<CrmnAdmin> {
           reverseCurve: Curves.bounceIn,
           child: Container(
             margin: const EdgeInsets.all(6.0),
-            child: GridView.builder(
+            child:
+
+                ///
+                /// Grid View for Busness Invitation
+                ///
+
+                GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: arr.length,
@@ -592,6 +626,11 @@ class _CrmnAdminState extends State<CrmnAdmin> {
                   childAspectRatio: 0.6),
               itemBuilder: (context, i) {
                 final req = arr[i];
+
+                ///
+                ///
+                /// Busness Container
+                ///
                 return Container(
                   margin: const EdgeInsets.only(top: 2, bottom: 4),
                   decoration: BoxDecoration(
@@ -634,7 +673,7 @@ class _CrmnAdminState extends State<CrmnAdmin> {
                       ),
 
                       /// Bsn kama amekubali request kutoka kwa crm Admin
-                      req.confirm == '0'
+                      req.confirm == '1'
                           ?
 
                           ///
@@ -676,7 +715,7 @@ class _CrmnAdminState extends State<CrmnAdmin> {
                               ///
                               ///
 
-                              Text('Selectedf',
+                              const Text('Selectedf',
                                   style: TextStyle(color: Colors.white))
                               :
 

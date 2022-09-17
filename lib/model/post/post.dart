@@ -272,6 +272,7 @@ class Post {
       return Post.fromJson({'status': false});
     });
   }
+
 //Get Shares
   Future<Post> remove(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);
@@ -303,5 +304,4 @@ class Post {
       return Post.fromJson({'status': false});
     });
   }
-
 }

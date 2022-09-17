@@ -144,7 +144,7 @@ class Services {
     });
   }
 
-  Future<Services> getService(String token, String dirUrl) async {
+  Future<Services> getService(String token, String dirUrl,String id) async {
     Uri url = Uri.parse(dirUrl);
 
     if (token.isEmpty) {
@@ -155,7 +155,7 @@ class Services {
     }
 
     Map<String, dynamic> toMap() {
-      return <String, dynamic>{'id': ceremonyId, 'type': type};
+      return <String, dynamic>{'id': id, 'type': type};
     }
 
     Map<String, String> headers = {

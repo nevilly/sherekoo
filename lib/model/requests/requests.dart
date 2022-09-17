@@ -137,4 +137,35 @@ class Requests {
           {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
     });
   }
+
+  Future<Requests> updateRequest(String token, String dirUrl) async {
+    Uri url = Uri.parse(dirUrl);
+
+    if (token.isEmpty) {
+      return Requests.fromJson({
+        "status": 204,
+        "payload": {"error": "Invalid token"}
+      });
+    }
+
+    Map<String, dynamic> toMap() {
+      return <String, dynamic>{'id': hostId};
+    }
+
+    Map<String, String> headers = {
+      "Authorization": "Owesis $token",
+      "Content-Type": "Application/json"
+    };
+
+    return await http
+        .post(url, body: jsonEncode(toMap()), headers: headers)
+        .then((r) {
+      if (r.statusCode == 200) {
+        return Requests.fromJson(
+            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+      }
+      return Requests.fromJson(
+          {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+    });
+  }
 }

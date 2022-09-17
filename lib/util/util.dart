@@ -48,16 +48,17 @@ String urlBusnessMembers = '${api}Busness/getMembers';
 
 //Request List
 String urlPostRequests = '${api}Requests/add';
-String urlGetRequests = '${api}Requests/getById';
+String rlGetRequests = '${api}Requests/getById';
 String urlGetBsnToCrmRequests = '${api}Requests/getBsnsToCrmInvitation';
 String urlGetGoldReq = '${api}Requests/getGoldenRequests';
 String urlGetInvRequest = '${api}Requests/getInvRequest';
 String urlCancelRequest = '${api}Requests/remove';
+String urlUpdatelRequest = '${api}Requests/update';
 
 //Services List
 String urlPostService = '${api}Services/add';
 String urlGetService = '${api}Services/get';
-String urlGetServiceById = '${api}Services/getServiceById_type';
+String urlGetGoldService = '${api}Services/getGoldenServices';
 String urlRemoveServiceById = '${api}Services/remove';
 
 //PostsSherekkoo
