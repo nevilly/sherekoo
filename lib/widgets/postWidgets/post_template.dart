@@ -122,7 +122,7 @@ class PostTemplateState extends State<PostTemplate> {
         username: '',
         avater: '',
         status: 0,
-        payload: []).share(token, urlpostShare, 'Post').then((value) {
+        payload: [], hashTag: '').share(token, urlpostShare, 'Post').then((value) {
       if (value.status == 200) {
         setState(() {
           totalShare++;
@@ -142,7 +142,7 @@ class PostTemplateState extends State<PostTemplate> {
             username: '',
             avater: '',
             status: 0,
-            payload: [])
+            payload: [], hashTag: '')
         .likes(token, urlpostLikes, isLike.toString())
         .then((value) {
       // print(value.payload);

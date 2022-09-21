@@ -24,8 +24,7 @@ class UserAvater extends StatefulWidget {
 class _UserAvaterState extends State<UserAvater> {
   @override
   Widget build(BuildContext context) {
-    return ClipOval(
-        child: Image.network(
+    return Image.network(
       '${api}public/uploads/${widget.username}${widget.url}${widget.avater}',
       fit: BoxFit.cover,
       width: widget.width,
@@ -42,6 +41,6 @@ class _UserAvaterState extends State<UserAvater> {
       //     ),
       //   );
       // },
-    ));
+    );
   }
 }

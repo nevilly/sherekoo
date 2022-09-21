@@ -159,6 +159,7 @@ class BsnTabState extends State<BsnTab> {
                               topLeft: Radius.circular(1.0),
                               topRight: Radius.circular(1.0),
                             ),
+                            
                             child: data[index].coProfile != ''
                                 ? Image.network(
                                     '${api}public/uploads/${data[index].username}/busness/${data[index].coProfile}',

@@ -8,6 +8,7 @@ class Post {
   final String body;
   final String vedeo;
   final String ceremonyId;
+  final String hashTag;
 
   final String username;
   final String avater;
@@ -21,6 +22,7 @@ class Post {
       required this.body,
       required this.vedeo,
       required this.ceremonyId,
+      required this.hashTag,
       required this.username,
       required this.avater,
       required this.status,
@@ -34,6 +36,7 @@ class Post {
       createdBy: json['createdBy'] ?? "",
       vedeo: json['vedeo'] ?? "",
       ceremonyId: json['ceremonyId'] ?? "",
+      hashTag: json['hashTag'] ?? "",
       body: json['body'] ?? "",
       username: json['username'] ?? "",
       avater: json['avater'] ?? "",
@@ -80,7 +83,8 @@ class Post {
         'createdBy': createdBy,
         'vedeo': vedeo,
         'ceremonyId': ceremonyId,
-        'body': body
+        'body': body,
+        'hashTag': hashTag
       };
     }
 
@@ -167,6 +171,8 @@ class Post {
     return await http
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((r) {
+      // print('bodyyy');
+      // print(r.body);
       final rJson = jsonDecode(r.body);
 
       if (r.statusCode == 200) {

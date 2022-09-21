@@ -9,6 +9,7 @@ import '../../model/post/post.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
+import '../../util/func.dart';
 import '../../util/util.dart';
 import '../detailScreen/livee.dart';
 import '../homNav.dart';
@@ -31,6 +32,7 @@ class _UploadVedeoState extends State<UploadVedeo> {
   late VideoPlayerController _videoPlayerController;
 
   String token = "";
+  String hashTag = "";
   String? _video;
 
   @override
@@ -77,6 +79,7 @@ class _UploadVedeoState extends State<UploadVedeo> {
         payload: [],
         avater: '',
         username: '',
+        hashTag: hashTag,
       ).set(token, urlVedioPostSherekoo, _video).then((value) {
         if (widget.from == 'Home') {
           Navigator.push(
@@ -200,7 +203,42 @@ class _UploadVedeoState extends State<UploadVedeo> {
           ]),
         ),
       ),
-
+      if (widget.from == 'Ceremony')
+        Positioned(
+            bottom: 78,
+            left: 15,
+            child: Row(
+              children: [
+                GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        hashTag = 'Home';
+                      });
+                    },
+                    child: hashTagFunc(context, 'Home', hashTag)),
+                GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        hashTag = 'Church';
+                      });
+                    },
+                    child: hashTagFunc(context, 'Church', hashTag)),
+                GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        hashTag = 'AtWedding';
+                      });
+                    },
+                    child: hashTagFunc(context, 'AtWedding', hashTag)),
+                GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        hashTag = 'Beach';
+                      });
+                    },
+                    child: hashTagFunc(context, 'Beach', hashTag)),
+              ],
+            )),
       // Post B utton
       Positioned(
         bottom: 15,

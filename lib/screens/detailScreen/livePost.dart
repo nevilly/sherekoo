@@ -65,7 +65,7 @@ class _LiveePostState extends State<LiveePost> {
         username: '',
         avater: '',
         status: 0,
-        payload: []).share(token, urlpostShare, 'Post').then((value) {
+        payload: [], hashTag: '').share(token, urlpostShare, 'Post').then((value) {
       if (value.status == 200) {
         setState(() {
           totalShare++;
@@ -85,9 +85,9 @@ class _LiveePostState extends State<LiveePost> {
         username: '',
         avater: '',
         status: 0,
-        payload: []).remove(token, urlremoveSherekoo).then((value) {
+        payload: [], hashTag: '').remove(token, urlremoveSherekoo).then((value) {
       if (value.status == 200) {
-        print('am hereee');
+   
         Navigator.pop(context);
         Navigator.push(
             context,
@@ -110,7 +110,7 @@ class _LiveePostState extends State<LiveePost> {
             username: '',
             avater: '',
             status: 0,
-            payload: [])
+            payload: [], hashTag: '')
         .likes(token, urlpostLikes, isLike.toString())
         .then((value) {
       if (value.status == 200) {
@@ -286,7 +286,7 @@ class _LiveePostState extends State<LiveePost> {
                               ),
                               Text(
                                 totalShare.toString(),
-                                style: TextStyle(color: OColors.fontColor),
+                                style: ef,
                               ),
                             ],
                           ),
@@ -350,8 +350,7 @@ class _LiveePostState extends State<LiveePost> {
                               ),
                               Text(
                                 '23',
-                                style: TextStyle(
-                                    fontSize: 13, color: OColors.fontColor),
+                                style: header13,
                               ),
                             ],
                           ),

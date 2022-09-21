@@ -12,6 +12,7 @@ import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
+import '../../util/func.dart';
 import '../../util/util.dart';
 import '../bsnScreen/bsnScrn.dart';
 import '../subscriptionScreen/busnessSubscription.dart';
@@ -62,7 +63,8 @@ class _BusnessUploadState extends State<BusnessUpload> {
       aboutCompany: '',
       username: '',
       ceoId: '',
-      subcrlevel: '', createdBy: '');
+      subcrlevel: '',
+      createdBy: '');
 
   CeremonyModel ceremony = CeremonyModel(
       cId: '',
@@ -565,19 +567,19 @@ class _BusnessUploadState extends State<BusnessUpload> {
                         createdBy: '',
                         hotStatus: '0')));
           } else {
-            fillTheBlanks('Upload  profile Pls..');
+            fillTheBlanks(context, 'Upload  profile Pls..');
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text('Insert Image, Try Again'),
             ));
           }
         } else {
-          fillTheBlanks(msg3);
+          fillTheBlanks(context, msg3);
         }
       } else {
-        fillTheBlanks(msg2);
+        fillTheBlanks(context, msg2);
       }
     } else {
-      fillTheBlanks(msg1);
+      fillTheBlanks(context, msg1);
     }
   }
 
@@ -609,7 +611,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
       subscrlevel: lvl,
     ).update(token, urlUpdateBusness, coPro).then((v) {
       if (v.status == 200) {
-        fillTheBlanks(v.payload);
+        fillTheBlanks(context, v.payload);
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -623,19 +625,6 @@ class _BusnessUploadState extends State<BusnessUpload> {
         ));
       }
     });
-  }
-
-  fillTheBlanks(String title) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          content: Text(
-            title,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-                fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-          backgroundColor: OColors.danger),
-    );
   }
 
   TabBar get _tabBar => TabBar(
@@ -686,11 +675,11 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               mcId,
                               _mcCeobioController.text,
                               _mcCoAboutController.text,
-                              'Insert your Brand Name on "CO Tab" pls!...',
-                              'Insert your Price on "Co Tab" pls!...',
-                              'Insert your Phone Number  on "Co Tab" pls!...',
-                              'Insert Contact  on "Co Tab" pls!...',
-                              'msg5');
+                              insertBrandName,
+                              insertPrice,
+                              insertPhoneNumber,
+                              insertContact,
+                              insertLastMsg);
                         } else {
                           _updateBusness(
                               selectedBusness,
@@ -705,11 +694,12 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               _mcCeobioController.text,
                               _mcCoAboutController.text,
                               _mcSubscription,
-                              'Insert your Brand Name on "CO Tab" pls!...',
-                              'Insert your Price on "Co Tab" pls!...',
-                              'Insert your Phone Number  on "Co Tab" pls!...',
-                              'Insert Contact  on "Co Tab" pls!...',
-                              '');
+                              insertBrandName,
+                              insertPrice,
+                              insertPhoneNumber,
+                              insertContact,
+                              insertLastMsg);
+                          ;
                         }
                       }
 
@@ -727,11 +717,11 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               productionId,
                               _productionCeobioController.text,
                               _productionCoAboutController.text,
-                              'Insert your Brand Name on "CO Tab" pls!...',
-                              'Insert your Price on "Co Tab" pls!...',
-                              'Insert your Phone Number  on "Co Tab" pls!...',
-                              'Insert Contact  on "Co Tab" pls!...',
-                              'msg5');
+                              insertBrandName,
+                              insertPrice,
+                              insertPhoneNumber,
+                              insertContact,
+                              insertLastMsg);
                         } else {
                           _updateBusness(
                               selectedBusness,
@@ -746,11 +736,11 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               _productionCeobioController.text,
                               _productionCoAboutController.text,
                               productionSubscription,
-                              'Insert your Brand Name on "CO Tab" pls!...',
-                              'Insert your Price on "Co Tab" pls!...',
-                              'Insert your Phone Number  on "Co Tab" pls!...',
-                              'Insert Contact  on "Co Tab" pls!...',
-                              '');
+                              insertBrandName,
+                              insertPrice,
+                              insertPhoneNumber,
+                              insertContact,
+                              insertLastMsg);
                         }
                       }
 
@@ -768,11 +758,12 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               decoratorId,
                               _decoratorCeobioController.text,
                               _decoratorCoAboutController.text,
-                              'Insert your Brand Name on "CO Tab" pls!...',
-                              'Insert your Price on "Co Tab" pls!...',
-                              'Insert your Phone Number  on "Co Tab" pls!...',
-                              'Insert Contact  on "Co Tab" pls!...',
-                              'msg5');
+                              insertBrandName,
+                              insertPrice,
+                              insertPhoneNumber,
+                              insertContact,
+                              insertLastMsg);
+                          ;
                         } else {
                           _updateBusness(
                               selectedBusness,
@@ -787,11 +778,11 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               _decoratorCeobioController.text,
                               _decoratorCoAboutController.text,
                               decoratorSubscription,
-                              'Insert your Brand Name on "CO Tab" pls!...',
-                              'Insert your Price on "Co Tab" pls!...',
-                              'Insert your Phone Number  on "Co Tab" pls!...',
-                              'Insert Contact  on "Co Tab" pls!...',
-                              '');
+                              insertBrandName,
+                              insertPrice,
+                              insertPhoneNumber,
+                              insertContact,
+                              insertLastMsg);
                         }
                       }
 
@@ -809,11 +800,11 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               hallId,
                               _hallCeobioController.text,
                               _hallCoAboutController.text,
-                              'Insert your Brand Name on "CO Tab" pls!...',
-                              'Insert your Price on "Co Tab" pls!...',
-                              'Insert your Phone Number  on "Co Tab" pls!...',
-                              'Insert Contact  on "Co Tab" pls!...',
-                              'msg5');
+                              insertBrandName,
+                              insertPrice,
+                              insertPhoneNumber,
+                              insertContact,
+                              insertLastMsg);
                           // if (widget.getData.bId.isEmpty) {
                         } else {
                           _updateBusness(
@@ -829,11 +820,11 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               _hallCeobioController.text,
                               _hallCoAboutController.text,
                               hallSubscription,
-                              'Insert your Brand Name on "CO Tab" pls!...',
-                              'Insert your Price on "Co Tab" pls!...',
-                              'Insert your Phone Number  on "Co Tab" pls!...',
-                              'Insert Contact  on "Co Tab" pls!...',
-                              '');
+                              insertBrandName,
+                              insertPrice,
+                              insertPhoneNumber,
+                              insertContact,
+                              insertLastMsg);
                         }
                       }
 
@@ -851,11 +842,11 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               cakeId,
                               _cakeCeobioController.text,
                               _cakeCoAboutController.text,
-                              'Insert your Brand Name on "CO Tab" pls!...',
-                              'Insert your Price on "Co Tab" pls!...',
-                              'Insert your Phone Number  on "Co Tab" pls!...',
-                              'Insert Contact  on "Co Tab" pls!...',
-                              'msg5');
+                              insertBrandName,
+                              insertPrice,
+                              insertPhoneNumber,
+                              insertContact,
+                              insertLastMsg);
 
                           // if (widget.getData.bId.isEmpty) {
                         } else {
@@ -872,11 +863,11 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               _cakeCeobioController.text,
                               _cakeCoAboutController.text,
                               cakeSubscription,
-                              'Insert your Brand Name on "CO Tab" pls!...',
-                              'Insert your Price on "Co Tab" pls!...',
-                              'Insert your Phone Number  on "Co Tab" pls!...',
-                              'Insert Contact  on "Co Tab" pls!...',
-                              '');
+                              insertBrandName,
+                              insertPrice,
+                              insertPhoneNumber,
+                              insertContact,
+                              insertLastMsg);
                         }
                       }
 
@@ -894,11 +885,11 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               singersId,
                               _singersCeobioController.text,
                               _singersCoAboutController.text,
-                              'Insert your Brand Name on "CO Tab" pls!...',
-                              'Insert your Price on "Co Tab" pls!...',
-                              'Insert your Phone Number  on "Co Tab" pls!...',
-                              'Insert Contact  on "Co Tab" pls!...',
-                              'msg5');
+                              insertBrandName,
+                              insertPrice,
+                              insertPhoneNumber,
+                              insertContact,
+                              insertLastMsg);
 
                           // if (widget.getData.bId.isEmpty) {
                         } else {
@@ -915,11 +906,11 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               _singersCeobioController.text,
                               _singersCoAboutController.text,
                               singersSubscription,
-                              'Insert your Brand Name on "CO Tab" pls!...',
-                              'Insert your Price on "Co Tab" pls!...',
-                              'Insert your Phone Number  on "Co Tab" pls!...',
-                              'Insert Contact  on "Co Tab" pls!...',
-                              '');
+                              insertBrandName,
+                              insertPrice,
+                              insertPhoneNumber,
+                              insertContact,
+                              insertLastMsg);
                         }
                       }
 
@@ -937,11 +928,11 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               dancersId,
                               _dancersCeobioController.text,
                               _dancersCoAboutController.text,
-                              'Insert your Brand Name on "CO Tab" pls!...',
-                              'Insert your Price on "Co Tab" pls!...',
-                              'Insert your Phone Number  on "Co Tab" pls!...',
-                              'Insert Contact  on "Co Tab" pls!...',
-                              'msg5');
+                              insertBrandName,
+                              insertPrice,
+                              insertPhoneNumber,
+                              insertContact,
+                              insertLastMsg);
 
                           // if (widget.getData.bId.isEmpty) {
                         } else {
@@ -958,11 +949,11 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               _dancersCeobioController.text,
                               _dancersCoAboutController.text,
                               dancersSubscription,
-                              'Insert your Brand Name on "CO Tab" pls!...',
-                              'Insert your Price on "Co Tab" pls!...',
-                              'Insert your Phone Number  on "Co Tab" pls!...',
-                              'Insert Contact  on "Co Tab" pls!...',
-                              '');
+                              insertBrandName,
+                              insertPrice,
+                              insertPhoneNumber,
+                              insertContact,
+                              insertLastMsg);
                         }
                       }
 
@@ -980,11 +971,11 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               cookerId,
                               _cookerCeobioController.text,
                               _cookerCoAboutController.text,
-                              'Insert your Brand Name on "CO Tab" pls!...',
-                              'Insert your Price on "Co Tab" pls!...',
-                              'Insert your Phone Number  on "Co Tab" pls!...',
-                              'Insert Contact  on "Co Tab" pls!...',
-                              'msg5');
+                              insertBrandName,
+                              insertPrice,
+                              insertPhoneNumber,
+                              insertContact,
+                              insertLastMsg);
 
                           // if (widget.getData.bId.isEmpty) {
                         } else {
@@ -1001,11 +992,11 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               _cookerCeobioController.text,
                               _cookerCoAboutController.text,
                               cookerSubscription,
-                              'Insert your Brand Name on "CO Tab" pls!...',
-                              'Insert your Price on "Co Tab" pls!...',
-                              'Insert your Phone Number  on "Co Tab" pls!...',
-                              'Insert Contact  on "Co Tab" pls!...',
-                              '');
+                              insertBrandName,
+                              insertPrice,
+                              insertPhoneNumber,
+                              insertContact,
+                              insertLastMsg);
                         }
                       }
 
@@ -1023,11 +1014,11 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               saloonId,
                               _saloonCeobioController.text,
                               _saloonCoAboutController.text,
-                              'Insert your Brand Name on "CO Tab" pls!...',
-                              'Insert your Price on "Co Tab" pls!...',
-                              'Insert your Phone Number  on "Co Tab" pls!...',
-                              'Insert Contact  on "Co Tab" pls!...',
-                              'msg5');
+                              insertBrandName,
+                              insertPrice,
+                              insertPhoneNumber,
+                              insertContact,
+                              insertLastMsg);
                           // if (widget.getData.bId.isEmpty) {
                         } else {
                           _updateBusness(
@@ -1043,11 +1034,11 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               _saloonCeobioController.text,
                               _saloonCoAboutController.text,
                               saloonSubscription,
-                              'Insert your Brand Name on "CO Tab" pls!...',
-                              'Insert your Price on "Co Tab" pls!...',
-                              'Insert your Phone Number  on "Co Tab" pls!...',
-                              'Insert Contact  on "Co Tab" pls!...',
-                              '');
+                              insertBrandName,
+                              insertPrice,
+                              insertPhoneNumber,
+                              insertContact,
+                              insertLastMsg);
                         }
                       }
                       if (selectedBusness == 'Car') {
@@ -1064,11 +1055,11 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               carsId,
                               _carsCeobioController.text,
                               _carsCoAboutController.text,
-                              'Insert your Brand Name on "CO Tab" pls!...',
-                              'Insert your Price on "Co Tab" pls!...',
-                              'Insert your Phone Number  on "Co Tab" pls!...',
-                              'Insert Contact  on "Co Tab" pls!...',
-                              'msg5');
+                              insertBrandName,
+                              insertPrice,
+                              insertPhoneNumber,
+                              insertContact,
+                              insertLastMsg);
                           // if (widget.getData.bId.isEmpty) {
                         } else {
                           _updateBusness(
@@ -1084,11 +1075,11 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               _carsCeobioController.text,
                               _carsCoAboutController.text,
                               carsSubscription,
-                              'Insert your Brand Name on "CO Tab" pls!...',
-                              'Insert your Price on "Co Tab" pls!...',
-                              'Insert your Phone Number  on "Co Tab" pls!...',
-                              'Insert Contact  on "Co Tab" pls!...',
-                              '');
+                              insertBrandName,
+                              insertPrice,
+                              insertPhoneNumber,
+                              insertContact,
+                              insertLastMsg);
                         }
                       }
                     },

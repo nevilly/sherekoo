@@ -48,7 +48,18 @@ dependencies:
   path_provider:
   image_watermark:
   curved_navigation_bar:
+  firebase_messaging: ^13.0.2
+  flutter_local_notifications: ^9.9.1
+  flutter_inappwebview: ^5.4.3+7
 
+
+
+  
+dependency_overrides:
+  flutter_inappwebview:
+    git:
+      url: https://github.com/rshrc/flutter_inappwebview
+      ref: master
 
 dev_dependencies:
   flutter_test:

@@ -8,6 +8,8 @@ import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/getAll.dart';
 import '../../model/profileMode.dart';
 import '../../model/services/ServicesModelModel.dart';
+import '../../model/services/postServices.dart';
+import '../../model/services/svModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
@@ -74,7 +76,7 @@ class _BsnDetailsState extends State<BsnDetails> {
     youtubeLink: '',
   );
 
-  List<ServicesModel> service = []; // Need To change to SvModel
+  List<SvModel> service = []; // Need To change to SvModel
   List<BusnessModel> info = [];
   List<BusnessModel> otherBsn = [];
   List<BusnessPhotoModel> photo = [];
@@ -89,12 +91,16 @@ class _BsnDetailsState extends State<BsnDetails> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-
+        print('widget.data.coProfile');
+        print(widget.data.coProfile);
         getUser(urlGetUser);
         getOther();
         // getPhoto();
         // getMembers();
-        crmWorkWithBsn();
+        // crmWorkWithBsn();
+        print('widget.data.bId');
+        print(widget.data.bId);
+        getservices(widget.data.bId);
       });
     });
 
@@ -178,19 +184,43 @@ class _BsnDetailsState extends State<BsnDetails> {
   }
 
   //All Ceremony work With Busness
-  crmWorkWithBsn() async {
-    GetAll(id: data.bId, status: 0, payload: [])
-        .get(token, urlGetBsnToCrmRequests)
+
+  getservices(bsnId) async {
+    Services(
+            svId: '',
+            busnessId: '',
+            hId: '',
+            payed: '',
+            ceremonyId: '',
+            createdBy: '',
+            status: 0,
+            payload: [],
+            type: 'busness')
+        .getService(token, urlGetGoldService, bsnId)
         .then((value) {
       if (value.status == 200) {
+        // print(value.payload);
         setState(() {
-          service = value.payload
-              .map<ServicesModel>((e) => ServicesModel.fromJson(e))
-              .toList();
+          service =
+              value.payload.map<SvModel>((e) => SvModel.fromJson(e)).toList();
         });
       }
     });
   }
+
+  // crmWorkWithBsn() async {
+  //   GetAll(id: data.bId, status: 0, payload: [])
+  //       .get(token, urlGetBsnToCrmRequests)
+  //       .then((value) {
+  //     if (value.status == 200) {
+  //       setState(() {
+  //         service = value.payload
+  //             .map<ServicesModel>((e) => ServicesModel.fromJson(e))
+  //             .toList();
+  //       });
+  //     }
+  //   });
+  // }
 
   TabBar get _tabBar => TabBar(
           labelColor: OColors.primary,
@@ -228,7 +258,7 @@ class _BsnDetailsState extends State<BsnDetails> {
               ///
               ///  Bunsess Top Profile
               ///
-              BusnessProfile(data: data, widget: widget,user:user),
+              BusnessProfile(data: data, widget: widget, user: user),
 
               const SizedBox(
                 height: 10,

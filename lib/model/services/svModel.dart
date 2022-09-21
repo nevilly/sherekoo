@@ -21,11 +21,13 @@ class SvModel {
   final String sIdAvater;
   final String sIdUname;
   final String crmContact;
+  final String ceremonyDate;
 
 // Busness Data
   final String bId;
   final String busnessType;
   final String knownAs;
+  final String companyName;
   final String coProfile;
   final String price;
   final String bsncontact;
@@ -33,6 +35,11 @@ class SvModel {
   final String bsnUsername;
   // final String bsnAvater;
   // final String bsnUname;
+    final String location;
+  final String aboutCEO;
+  final String aboutCompany;
+  final String hotStatus;
+  final String bsnCreatedDate;
 
   //subscription Model
   final String subId;
@@ -65,22 +72,31 @@ class SvModel {
     required this.fIdUname,
     required this.sIdAvater,
     required this.sIdUname,
-    required this.level,
-    required this.activeted,
+    required this.ceremonyDate,
+
+    //Busness Model
     required this.bId,
     required this.busnessType,
     required this.knownAs,
+    required this.companyName,
     required this.coProfile,
     required this.price,
     required this.bsncontact,
     required this.bsncreatedBy,
     required this.bsnUsername,
+    required this.location,
+    required this.aboutCEO,
+    required this.aboutCompany,
+    required this.hotStatus,
+    required this.bsnCreatedDate,
 
     //SubScription Model
     required this.subId,
     required this.categoryId,
     required this.startTime,
     required this.endTime,
+    required this.level,
+    required this.activeted,
   });
 
   factory SvModel.fromJson(Map<String, dynamic> json) {
@@ -89,12 +105,13 @@ class SvModel {
       confirm: json['confirm'] ?? "",
       payed: json['payed'] ?? "",
       amount: json['amount'] ?? "",
-      
+
       //Ceremony Model
       cId: json['cId'] ?? "",
       cName: json['cName'] ?? "",
       codeNo: json['codeNo'] ?? "",
       ceremonyType: json['ceremonyType'] ?? "",
+      ceremonyDate: json['ceremonyDate'] ?? "",
       fId: json['fId'] ?? "",
       sId: json['sId'] ?? "",
       fIdAvater: json['fIdAvater'] ?? "",
@@ -110,12 +127,18 @@ class SvModel {
       createdDate: json['createdDate'] ?? "",
       price: json['price'] ?? "",
       knownAs: json['knownAs'] ?? "",
+      companyName: json['companyName'] ?? "",
       createdBy: json['createdBy'] ?? "",
       coProfile: json['coProfile'] ?? "",
       bsncontact: json['bsncontact'] ?? "",
       ceremonyId: json['ceremonyId'] ?? "",
       // bsnAvater: json['bsnAvater'],
       // bsnUname: json['bsnUname'],
+       location: json['location'] ?? "",
+      aboutCEO: json['aboutCEO'] ?? "",
+      aboutCompany: json['aboutCompany'] ?? "",
+      hotStatus: json['hotStatus'] ?? "",
+      bsnCreatedDate: json['bsnCreatedDate']?? "",
 
       busnessType: json['busnessType'] ?? "",
       bsncreatedBy: json['bsncreatedBy'] ?? "",

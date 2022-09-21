@@ -5,7 +5,6 @@ class RequestsModel {
   String confirm;
   final String createdBy;
   final String createdDate;
- 
 
 // Ceremony Model
   final String cId;
@@ -26,12 +25,18 @@ class RequestsModel {
   final String bId;
   final String busnessType;
   final String knownAs;
+  final String companyName;
   final String coProfile;
   final String price;
   final String bsncontact;
   final String bsncreatedBy;
   final String bsnUsername;
   final String ceoId;
+  final String location;
+  final String aboutCEO;
+  final String aboutCompany;
+  final String hotStatus;
+  final String bsnCreatedDate;
   // final String bsnAvater;
   // final String bsnUname;
 
@@ -57,12 +62,12 @@ class RequestsModel {
     required this.createdDate,
     required this.confirm,
     required this.createdBy,
-   
 
     //Busness Model
     required this.bId,
     required this.busnessType,
     required this.knownAs,
+    required this.companyName,
     required this.coProfile,
     required this.price,
     required this.bsncontact,
@@ -70,6 +75,11 @@ class RequestsModel {
     required this.bsnUsername,
     // required this.bsnAvater,
     // required this.bsnUname,
+    required this.location,
+    required this.aboutCEO,
+    required this.aboutCompany,
+    required this.hotStatus,
+    required this.bsnCreatedDate,
 
     //Ceremon Model
     required this.cId,
@@ -109,7 +119,6 @@ class RequestsModel {
       busnessId: json['busnessId'] ?? "",
       busnessType: json['busnessType'] ?? "",
       confirm: json['confirm'] ?? "",
-  
 
       //Ceremony Model
       cId: json['cId'] ?? "",
@@ -124,7 +133,7 @@ class RequestsModel {
       sIdAvater: json['sIdAvater'] ?? "",
       sIdUname: json['sIdUname'] ?? "",
       cImage: json['cImage'] ?? "",
-       ceremonyDate: json['ceremonyDate'] ?? "",
+      ceremonyDate: json['ceremonyDate'] ?? "",
       crmContact: json['crmContact'] ?? "",
 
       // Busness Model
@@ -132,6 +141,7 @@ class RequestsModel {
       createdDate: json['createdDate'] ?? "",
       price: json['price'] ?? "",
       knownAs: json['knownAs'] ?? "",
+      companyName: json['companyName'] ?? "",
       createdBy: json['createdBy'] ?? "",
       coProfile: json['coProfile'] ?? "",
       bsncontact: json['bsncontact'] ?? "",
@@ -139,6 +149,11 @@ class RequestsModel {
       bsnUsername: json['bsnUsername'] ?? "",
       // bsnAvater: json['bsnAvater'],
       // bsnUname: json['bsnUname'],
+      location: json['location'] ?? "",
+      aboutCEO: json['aboutCEO'] ?? "",
+      aboutCompany: json['aboutCompany'] ?? "",
+      hotStatus: json['hotStatus'] ?? "",
+      bsnCreatedDate: json['bsnCreatedDate']?? "",
 
       //SubScription Model
       subId: json['subId'] ?? "",
@@ -153,6 +168,7 @@ class RequestsModel {
       svId: json['svId'] ?? "",
       svPayStatus: json['svPayStatus'] ?? "",
       svAmount: json['svAmount'] ?? "",
+       
     );
   }
 }

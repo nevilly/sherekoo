@@ -40,6 +40,7 @@ class GetAll {
     return await http
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((r) {
+      print(r.body);
       if (r.statusCode == 200) {
         return GetAll.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});

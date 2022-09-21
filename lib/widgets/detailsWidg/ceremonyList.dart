@@ -3,6 +3,7 @@ import 'package:sherekoo/util/colors.dart';
 
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/services/ServicesModelModel.dart';
+import '../../model/services/svModel.dart';
 import '../../screens/detailScreen/livee.dart';
 import '../../util/util.dart';
 
@@ -12,7 +13,7 @@ class CeremonyList extends StatelessWidget {
     required this.service,
   }) : super(key: key);
 
-  final List<ServicesModel> service;
+  final List<SvModel> service;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +74,7 @@ class CeremonyList extends StatelessWidget {
                                     contact: '',
                                     u1: '',
                                     u1Avt: '',
-                                    u1Fname: '',
+                                    u1Fname: service[index].fIdUname,
                                     u1Lname: '',
                                     u1g: '',
                                     u2: '',
@@ -85,97 +86,88 @@ class CeremonyList extends StatelessWidget {
                                   ))));
                     },
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 2.0),
-                      child: Card(
-                        child: Container(
-                          color: OColors.darGrey,
-                          child: Column(
-                            children: [
-                              service[index].cImage != ''
-                                  ? ClipRRect(
-                                      child: Center(
-                                        child: FadeInImage(
-                                          height: 55,
-                                          image: NetworkImage(
-                                              '${api}public/uploads/${service[index].fIdUname}/ceremony/${service[index].cImage}'),
-                                          // fadeInDuration:
-                                          //     const Duration(
-                                          //         milliseconds:
-                                          //             100),
-                                          placeholder: const AssetImage(
-                                              'assets/logo/noimage.png'),
-                                          imageErrorBuilder:
-                                              (context, error, stackTrace) {
-                                            return Image.asset(
-                                                'assets/logo/noimage.png',
-                                                fit: BoxFit.fitWidth);
-                                          },
-                                          fit: BoxFit.fitWidth,
+                      padding: const EdgeInsets.all(3.0),
+                      child: Container(
+                        color: OColors.darGrey,
+                        child: Column(
+                          children: [
+                            service[index].cImage != ''
+                                ? ClipRRect(
+                                    child: Center(
+                                      child: Image.network(
+                                        '${api}public/uploads/${service[index].fIdUname}/ceremony/${service[index].cImage}',
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                9.5,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  )
+                                : const SizedBox(),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            service[index].cName.length >= 4
+                                ? Text(
+                                    '${service[index].cName.substring(0, 4)}..',
+                                    style: TextStyle(
+                                        color: OColors.fontColor,
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.bold))
+                                : Text(service[index].fIdUname,
+                                    style: TextStyle(
+                                        color: OColors.fontColor,
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.bold)),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 8.0, right: 8.0, bottom: 4),
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.remove_red_eye,
+                                          size: 15,
+                                          color: OColors.primary,
                                         ),
-                                      ),
-                                    )
-                                  : const SizedBox(),
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              service[index].cName.length >= 4
-                                  ? Text(
-                                      '${service[index].cName.substring(0, 4)}..',
-                                      style: const TextStyle(
-                                          fontSize: 9,
-                                          fontWeight: FontWeight.bold))
-                                  : Text(service[index].cName,
-                                      style: const TextStyle(
-                                          fontSize: 9,
-                                          fontWeight: FontWeight.bold)),
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0, right: 8.0, bottom: 4),
-                                child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.remove_red_eye,
-                                            size: 15,
-                                            color: OColors.primary,
-                                          ),
-                                          const SizedBox(
-                                            width: 2,
-                                          ),
-                                          Text('134',
-                                              style: TextStyle(
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: OColors.fontColor)),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.message,
-                                            size: 15,
-                                            color: OColors.primary,
-                                          ),
-                                          const SizedBox(
-                                            width: 3,
-                                          ),
-                                          Text('25k',
-                                              style: TextStyle(
-                                                  color: OColors.fontColor,
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.w400)),
-                                        ],
-                                      ),
-                                    ]),
-                              )
-                            ],
-                          ),
+                                        const SizedBox(
+                                          width: 1,
+                                        ),
+                                        Text('134',
+                                            style: TextStyle(
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.w400,
+                                                color: OColors.fontColor)),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.message,
+                                          size: 15,
+                                          color: OColors.primary,
+                                        ),
+                                        const SizedBox(
+                                          width: 3,
+                                        ),
+                                        Text('25k',
+                                            style: TextStyle(
+                                                color: OColors.fontColor,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.w400)),
+                                      ],
+                                    ),
+                                  ]),
+                            )
+                          ],
                         ),
                       ),
                     ),

@@ -82,180 +82,182 @@ class _SherekooState extends State<Sherekoo> {
           SizedBox(
             width: 100,
             // color: Colors.grey.shade300,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  // //Sherekoo
-                  // GestureDetector(
-                  //     onTap: () {
-                  //       setState(() {
-                  //         rangi = OColors.darkGrey;
-                  //         title = 'Sherekoo';
-                  //         dataType = 'Sherekoo';
-                  //         crmTypee = 'Sherekoo';
-                  //       });
-                  //     },
-                  //     child: sizedBoxMenu('Sherekoo', title)),
-
-                  // Mc
-                  GestureDetector(
-                      onTap: () {
-                        page = 'Mc'; // Mc
-                        page2 = 'Mc';
-                        _controller.add(page);
-                        _controller2.add(page2);
-
-                        if (mounted) {
+            child: Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    // //Sherekoo
+                    // GestureDetector(
+                    //     onTap: () {
+                    //       setState(() {
+                    //         rangi = OColors.darkGrey;
+                    //         title = 'Sherekoo';
+                    //         dataType = 'Sherekoo';
+                    //         crmTypee = 'Sherekoo';
+                    //       });
+                    //     },
+                    //     child: sizedBoxMenu('Sherekoo', title)),
+            
+                    // Mc
+                    GestureDetector(
+                        onTap: () {
+                          page = 'Mc'; // Mc
+                          page2 = 'Mc';
+                          _controller.add(page);
+                          _controller2.add(page2);
+            
+                          if (mounted) {
+                            setState(() {
+                              rangi = OColors.darkGrey;
+                              title = 'Mc';
+                              dataType = 'Mc';
+                            });
+                          }
+                        },
+                        child: sizedBoxMenu('Mc', title)),
+            
+                    //Halls
+                    GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            page = 'Hall'; // Mc
+                            page2 = 'Hall'; // Mc
+                            _controller.add(page);
+                            _controller2.add(page);
+                            rangi = OColors.darkGrey;
+                            title = 'Halls';
+                            dataType = 'Hall';
+                          });
+                        },
+                        child: sizedBoxMenu('Halls', title)),
+                    //Decorators
+                    GestureDetector(
+                        onTap: () {
+                          page = 'Decorator';
+                          page2 = 'Decorator';
+                          _controller.add(page);
+                          _controller2.add(page2);
+            
                           setState(() {
                             rangi = OColors.darkGrey;
-                            title = 'Mc';
-                            dataType = 'Mc';
+                            title = 'Decorators';
+                            dataType = 'Decorators';
                           });
-                        }
-                      },
-                      child: sizedBoxMenu('Mc', title)),
-
-                  //Halls
-                  GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          page = 'Hall'; // Mc
-                          page2 = 'Hall'; // Mc
+            
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (BuildContext context) =>
+                          //             const DecoratorsCategory()));
+                        },
+                        child: sizedBoxMenu('Decorators', title)),
+                    //Saloon
+                    GestureDetector(
+                        onTap: () {
+                          page = 'Saloon';
+                          page2 = 'Saloon';
                           _controller.add(page);
-                          _controller2.add(page);
-                          rangi = OColors.darkGrey;
-                          title = 'Halls';
-                          dataType = 'Hall';
-                        });
-                      },
-                      child: sizedBoxMenu('Halls', title)),
-                  //Decorators
-                  GestureDetector(
-                      onTap: () {
-                        page = 'Decorator';
-                        page2 = 'Decorator';
-                        _controller.add(page);
-                        _controller2.add(page2);
-
-                        setState(() {
-                          rangi = OColors.darkGrey;
-                          title = 'Decorators';
-                          dataType = 'Decorators';
-                        });
-
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (BuildContext context) =>
-                        //             const DecoratorsCategory()));
-                      },
-                      child: sizedBoxMenu('Decorators', title)),
-                  //Saloon
-                  GestureDetector(
-                      onTap: () {
-                        page = 'Saloon';
-                        page2 = 'Saloon';
-                        _controller.add(page);
-                        _controller2.add(page2);
-
-                        setState(() {
-                          rangi = OColors.darkGrey;
-                          title = 'Saloons';
-                          dataType = 'Saloons';
-                        });
-                      },
-                      child: sizedBoxMenu('Saloons', title)),
-                  // Cake Bake
-                  GestureDetector(
-                      onTap: () {
-                        page = 'Cake Bakery';
-                        page2 = 'Cake Bakery';
-                        _controller.add(page);
-                        _controller2.add(page2);
-
-                        setState(() {
-                          rangi = OColors.darkGrey;
-                          title = 'Cake Bakers';
-                          dataType = 'Cake Bakers';
-                        });
-                      },
-                      child: sizedBoxMenu('Cake Bakers', title)),
-                  // Dancers
-                  GestureDetector(
-                      onTap: () {
-                        page = 'Dancer';
-                        page2 = 'Dancer';
-                        _controller.add(page);
-                        _controller2.add(page2);
-                        setState(() {
-                          rangi = OColors.darkGrey;
-                          title = 'Dancers';
-                          dataType = 'Dancers';
-                        });
-                      },
-                      child: sizedBoxMenu('Dancers', title)),
-                  //Production
-                  GestureDetector(
-                      onTap: () {
-                        page = 'Production';
-                        page2 = 'Production';
-                        _controller.add(page);
-                        _controller2.add(page2);
-                        setState(() {
-                          rangi = OColors.darkGrey;
-                          title = 'Productions';
-                          dataType = 'Productions';
-                        });
-                      },
-                      child: sizedBoxMenu('Productions', title)),
-                  //Cars
-                  GestureDetector(
-                      onTap: () {
-                        page = 'Car';
-                        page2 = 'Car';
-                        _controller.add(page);
-                        _controller2.add(page2);
-                        setState(() {
-                          rangi = OColors.darkGrey;
-                          title = 'Cars';
-                          dataType = 'Cars';
-                        });
-                      },
-                      child: sizedBoxMenu('Cars', title)),
-                  //Cooker
-                  GestureDetector(
-                      onTap: () {
-                        page = 'Cooker';
-                        page2 = 'Cooker';
-                        _controller.add(page);
-                        _controller2.add(page2);
-                        setState(() {
-                          rangi = OColors.darkGrey;
-                          title = 'Cookers';
-                          dataType = 'Cookers';
-                        });
-                      },
-                      child: sizedBoxMenu('Cookers', title)),
-
-                  //Singers
-                  GestureDetector(
-                      onTap: () {
-                        page = 'Singer';
-                        page2 = 'Singer';
-                        _controller.add(page);
-                        _controller2.add(page2);
-                        setState(() {
-                          rangi = OColors.darkGrey;
-                          title = 'Singers';
-                          dataType = 'Singers';
-                        });
-                      },
-                      child: sizedBoxMenu('Singers', title)),
-
-                  const SizedBox(
-                    height: 35,
-                  )
-                ],
+                          _controller2.add(page2);
+            
+                          setState(() {
+                            rangi = OColors.darkGrey;
+                            title = 'Saloons';
+                            dataType = 'Saloons';
+                          });
+                        },
+                        child: sizedBoxMenu('Saloons', title)),
+                    // Cake Bake
+                    GestureDetector(
+                        onTap: () {
+                          page = 'Cake Bakery';
+                          page2 = 'Cake Bakery';
+                          _controller.add(page);
+                          _controller2.add(page2);
+            
+                          setState(() {
+                            rangi = OColors.darkGrey;
+                            title = 'Cake Bakers';
+                            dataType = 'Cake Bakers';
+                          });
+                        },
+                        child: sizedBoxMenu('Cake Bakers', title)),
+                    // Dancers
+                    GestureDetector(
+                        onTap: () {
+                          page = 'Dancer';
+                          page2 = 'Dancer';
+                          _controller.add(page);
+                          _controller2.add(page2);
+                          setState(() {
+                            rangi = OColors.darkGrey;
+                            title = 'Dancers';
+                            dataType = 'Dancers';
+                          });
+                        },
+                        child: sizedBoxMenu('Dancers', title)),
+                    //Production
+                    GestureDetector(
+                        onTap: () {
+                          page = 'Production';
+                          page2 = 'Production';
+                          _controller.add(page);
+                          _controller2.add(page2);
+                          setState(() {
+                            rangi = OColors.darkGrey;
+                            title = 'Productions';
+                            dataType = 'Productions';
+                          });
+                        },
+                        child: sizedBoxMenu('Productions', title)),
+                    //Cars
+                    GestureDetector(
+                        onTap: () {
+                          page = 'Car';
+                          page2 = 'Car';
+                          _controller.add(page);
+                          _controller2.add(page2);
+                          setState(() {
+                            rangi = OColors.darkGrey;
+                            title = 'Cars';
+                            dataType = 'Cars';
+                          });
+                        },
+                        child: sizedBoxMenu('Cars', title)),
+                    //Cooker
+                    GestureDetector(
+                        onTap: () {
+                          page = 'Cooker';
+                          page2 = 'Cooker';
+                          _controller.add(page);
+                          _controller2.add(page2);
+                          setState(() {
+                            rangi = OColors.darkGrey;
+                            title = 'Cookers';
+                            dataType = 'Cookers';
+                          });
+                        },
+                        child: sizedBoxMenu('Cookers', title)),
+            
+                    //Singers
+                    GestureDetector(
+                        onTap: () {
+                          page = 'Singer';
+                          page2 = 'Singer';
+                          _controller.add(page);
+                          _controller2.add(page2);
+                          setState(() {
+                            rangi = OColors.darkGrey;
+                            title = 'Singers';
+                            dataType = 'Singers';
+                          });
+                        },
+                        child: sizedBoxMenu('Singers', title)),
+            
+                    const SizedBox(
+                      height: 35,
+                    )
+                  ],
+                ),
               ),
             ),
           ),

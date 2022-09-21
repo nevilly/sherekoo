@@ -12,6 +12,7 @@ import 'package:sherekoo/util/colors.dart';
 import '../../model/post/post.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
+import '../../util/func.dart';
 import '../../util/util.dart';
 import '../detailScreen/livee.dart';
 
@@ -31,6 +32,8 @@ class _UploadImageState extends State<UploadImage> {
   final _picker = ImagePicker();
   File? _generalimage;
   String token = "";
+
+  String hashTag = "";
 
   @override
   void initState() {
@@ -72,7 +75,7 @@ class _UploadImageState extends State<UploadImage> {
         AndroidUiSettings(
             toolbarTitle: 'Shereko Cropper',
             toolbarColor: OColors.appBarColor,
-            toolbarWidgetColor: OColors.secondary,
+            toolbarWidgetColor: OColors.primary,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false),
         IOSUiSettings(
@@ -93,12 +96,16 @@ class _UploadImageState extends State<UploadImage> {
       List<int> bytes = _generalimage!.readAsBytesSync();
       String image = base64Encode(bytes);
 
+      print('hastage');
+      print(hashTag);
+
       Post(
         pId: '',
         createdBy: '',
         body: _body.text,
         vedeo: image,
         ceremonyId: widget.crm.cId,
+        hashTag: hashTag,
         status: 0,
         payload: [],
         avater: '',
@@ -136,22 +143,10 @@ class _UploadImageState extends State<UploadImage> {
                       )));
         }
       });
-    } else {
-      fillMessage(
-        'Select Image/Vedio Please... ',
-      );
-    }
-  }
 
-  // Empty Input Messages
-  fillMessage(String arg) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(
-        arg,
-        style: TextStyle(color: OColors.primary),
-        textAlign: TextAlign.center,
-      ),
-    ));
+    } else {
+      fillTheBlanks(context, 'Select Image/Vedio Please... ');
+    }
   }
 
   @override
@@ -226,7 +221,43 @@ class _UploadImageState extends State<UploadImage> {
             ],
           ),
         ),
-
+        
+        if (widget.from == 'Ceremony')
+        Positioned(
+            bottom: 78,
+            left: 15,
+            child: Row(
+              children: [
+                GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        hashTag = 'Home';
+                      });
+                    },
+                    child: hashTagFunc(context, 'Home', hashTag)),
+                GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        hashTag = 'Church';
+                      });
+                    },
+                    child: hashTagFunc(context, 'Church', hashTag)),
+                GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        hashTag = 'AtWedding';
+                      });
+                    },
+                    child: hashTagFunc(context, 'AtWedding', hashTag)),
+                GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        hashTag = 'Beach';
+                      });
+                    },
+                    child: hashTagFunc(context, 'Beach', hashTag)),
+              ],
+            )),
         //What On your mind
         Positioned(
           bottom: 15,
@@ -294,7 +325,6 @@ class _UploadImageState extends State<UploadImage> {
             ),
           ),
         ),
-      
       ],
     );
   }

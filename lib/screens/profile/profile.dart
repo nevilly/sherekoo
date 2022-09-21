@@ -5,6 +5,7 @@ import 'package:sherekoo/widgets/imgWigdets/defaultAvater.dart';
 import '../../model/allData.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
+import '../../util/func.dart';
 import '../../util/pallets.dart';
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/userAvater.dart';
@@ -165,17 +166,7 @@ class ProfileState extends State<Profile> {
                           user: user,
                         ),
                       )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 40,
-                            child: CircularProgressIndicator(
-                              color: OColors.primary,
-                            ),
-                          )
-                        ],
-                      ),
+                    : loadingFunc(40, OColors.primary),
 
                 // const Text('Photooos'),
                 // My Ceremonies
@@ -183,32 +174,12 @@ class ProfileState extends State<Profile> {
                     ? MyCrmn(
                         userId: user.id,
                       )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 40,
-                            child: CircularProgressIndicator(
-                              color: OColors.primary,
-                            ),
-                          )
-                        ],
-                      ),
+                    : loadingFunc(40, OColors.primary),
                 user.id.isNotEmpty
                     ? MyBusness(
                         user: user,
                       )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 40,
-                            child: CircularProgressIndicator(
-                              color: OColors.primary,
-                            ),
-                          )
-                        ],
-                      ),
+                    :loadingFunc(40, OColors.primary),
               ]),
             ),
           ],
@@ -291,14 +262,18 @@ class ProfileState extends State<Profile> {
                     // User Current Avater
                     Padding(
                         padding: const EdgeInsets.all(4.0),
-                        child: UserAvater(
-                          avater: user.avater,
-                          url: '/profile/',
-                          username: user.username,
-                          width: 85.0,
-                          height: 85.0,
+                        child: ClipOval(
+                          child: UserAvater(
+                            avater: user.avater,
+                            url: '/profile/',
+                            username: user.username,
+                            width: 85.0,
+                            height: 85.0,
+                          ),
                         ))
-                    : const DefaultAvater(height: 85, radius: 35, width: 85),
+                    : const ClipOval(
+                        child:
+                            DefaultAvater(height: 85, radius: 35, width: 85)),
               ),
 
               //username && Followers
@@ -311,10 +286,7 @@ class ProfileState extends State<Profile> {
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       '@${user.username}',
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
+                      style: header18,
                     ),
                   ),
 
@@ -543,7 +515,5 @@ class ProfileState extends State<Profile> {
         ),
       ],
     );
-  
   }
-
 }

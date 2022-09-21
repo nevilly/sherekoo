@@ -29,6 +29,9 @@ class SherekooModel {
   //Ceremony Viewer
   dynamic crmViewer;
 
+  //hashTag
+  final String hashTag;
+
   SherekooModel(
       {required this.pId,
       required this.createdBy,
@@ -38,6 +41,7 @@ class SherekooModel {
       required this.username,
       required this.avater,
       required this.createdDate,
+      
 
       //Chats
       required this.commentNumber,
@@ -56,37 +60,42 @@ class SherekooModel {
       //Share Info
       required this.totalShare,
 
+      //hashTag
+      required this.hashTag,
+
       //Ceremony Viewer
       required this.crmViewer});
 
   factory SherekooModel.fromJson(Map<String, dynamic> json) {
     return SherekooModel(
-      pId: json['pId'] ?? "",
-      createdBy: json['createdBy'] ?? "",
-      vedeo: json['vedeo'] ?? "",
-      body: json['body'] ?? "",
-      userId: json['createdBy'] ?? "",
-      username: json['username'] ?? "",
-      avater: json['avater'] ?? "",
-      createdDate: json['createdDate'] ?? "",
+        pId: json['pId'] ?? "",
+        createdBy: json['createdBy'] ?? "",
+        vedeo: json['vedeo'] ?? "",
+        body: json['body'] ?? "",
+        userId: json['createdBy'] ?? "",
+        username: json['username'] ?? "",
+        avater: json['avater'] ?? "",
+        createdDate: json['createdDate'] ?? "",
 
-      //Ceremony Info
-      ceremonyId: json['ceremonyId'] ?? "",
-      cImage: json['cImage'] ?? "",
-      crmUsername: json['crmUsername'] ?? "",
-      crmYoutubeLink: json['crmYoutubeLink'] ?? "",
-      crmFid: json['crmFid'] ?? "",
+        //Ceremony Info
+        ceremonyId: json['ceremonyId'] ?? "",
+        cImage: json['cImage'] ?? "",
+        crmUsername: json['crmUsername'] ?? "",
+        crmYoutubeLink: json['crmYoutubeLink'] ?? "",
+        crmFid: json['crmFid'] ?? "",
 
-      //Chats
-      commentNumber: json['commentNumber'].toString(),
+        //Chats
+        commentNumber: json['commentNumber'].toString(),
 
-      //Likes Info
-      totalLikes: json['totalLikes'].toString(),
-      isLike: json['isLike'] ?? "",
-      // Share info
-      totalShare: json['totalShare'].toString(),
-      // Crm Viewr info
-      crmViewer: json['crmViewer'] ?? ""
-    );
+        //Likes Info
+        totalLikes: json['totalLikes'].toString(),
+        isLike: json['isLike'] ?? "",
+        // Share info
+        totalShare: json['totalShare'].toString(),
+
+        // hashTag
+        hashTag:json['hashTag']?? "",
+        // Crm Viewr info
+        crmViewer: json['crmViewer'] ?? "");
   }
 }

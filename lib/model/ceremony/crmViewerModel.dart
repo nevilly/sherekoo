@@ -21,13 +21,23 @@ class CrmViewersModel {
   final String u1Lname; //  lastName fid
   final String u1g; // gender fid
 
+  //User info
   final String u2;
   final String u2Avt;
   final String u2Fname;
   final String u2Lname;
   final String u2g;
+  
+  // Admin info
+  final String crmAdminAvater;
+  final String crmAdminUsername;
+  final String crmAdminFname;
+  final String crmAdminLname;
+  final String crmAdminGender;
 
   final String youtubeLink;
+
+ 
 
   CrmViewersModel({
     required this.id,
@@ -55,34 +65,53 @@ class CrmViewersModel {
     required this.u2Lname,
     required this.u2g,
     required this.youtubeLink,
+    required this.crmAdminAvater,
+    required this.crmAdminUsername,
+    required this.crmAdminFname,
+    required this.crmAdminLname,
+    required this.crmAdminGender,
   });
 
   factory CrmViewersModel.fromJson(Map<String, dynamic> json) {
     return CrmViewersModel(
-        id: json['id'] ?? '',
-        username: json['username'] ?? '',
-        avater: json['avater'] ?? '',
-        position: json['position'] ?? '',
-        cId: json['cId'] ?? '',
-        codeNo: json['codeNo'] ?? '',
-        ceremonyType: json['ceremonyType'] ?? '',
-        fId: json['fId'] ?? '',
-        sId: json['sId'] ?? '',
-        cImage: json['cImage'] ?? '',
-        cName: json['cName'] ?? '',
-        ceremonyDate: json['ceremonyDate'] ?? '',
-        contact: json['contact'] ?? '',
-        admin: json['admin'] ?? '',
-        crmUsername: json['crmUsername'] ?? '',
-        u1Avt: json['u1Avt'] ?? '',
-        u1Fname: json['u1Fname'] ?? '',
-        u1g: json['u1g'] ?? '',
-        u2: json['u2'] ?? '',
-        u2Avt: json['u2Avt'] ?? '',
-        u2Fname: json['u2Fname'] ?? '',
-        u2g: json['u2g'] ?? '',
-        u1Lname: json['u1Lname'] ?? '',
-        youtubeLink: json['crmYoutubeLink'] ?? '',
-        u2Lname: json['u2Lname'] ?? '');
+      id: json['id'] ?? '',
+      username: json['username'] ?? '',
+      avater: json['avater'] ?? '',
+      position: json['position'] ?? '',
+
+      cId: json['cId'] ?? '',
+      codeNo: json['codeNo'] ?? '',
+      ceremonyType: json['ceremonyType'] ?? '',
+      fId: json['fId'] ?? '',
+      sId: json['sId'] ?? '',
+      cImage: json['cImage'] ?? '',
+      cName: json['cName'] ?? '',
+      ceremonyDate: json['ceremonyDate'] ?? '',
+      contact: json['contact'] ?? '',
+      admin: json['admin'] ?? '',
+
+      //User info First userId (fId)
+      u1Avt: json['fIdAvater'] ?? '',
+      crmUsername: json['fIdUsername'] ?? '',
+      u1Fname: json['fIdFname'] ?? '',
+      u1Lname: json['fIdLname'] ?? '',
+      u1g: json['fIdGender'] ?? '',
+
+      //User info Second userId (sId)
+      u2: json['sIdUname'] ?? '',
+      u2Avt: json['sIdAvater'] ?? '',
+      u2Fname: json['sIdFname'] ?? '',
+      u2Lname: json['sIdLname'] ?? '',
+      u2g: json['sIdGender'] ?? '',
+
+      //Admin infos
+      crmAdminAvater: json['crmAdminAvater'] ?? '',
+      crmAdminUsername: json['crmAdminUsername'] ?? '',
+      crmAdminFname: json['crmAdminFname'] ?? '',
+      crmAdminLname: json['crmAdminLname'] ?? '',
+      crmAdminGender: json['crmAdminGender'] ?? '',
+
+      youtubeLink: json['crmYoutubeLink'] ?? '',
+    );
   }
 }

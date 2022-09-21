@@ -15,6 +15,7 @@ import '../../model/ceremony/postCeremony.dart';
 import '../../model/profileMode.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
+import '../../util/func.dart';
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/userAvater.dart';
 import '../crmScreen/crmScreen.dart';
@@ -377,32 +378,18 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
                 }
               });
             } else {
-              fillTheBlanks('Choose Photo Pls....');
+              fillTheBlanks(context, choosePhoto);
             }
           }
         } else {
-          fillTheBlanks(msg3);
+          fillTheBlanks(context, msg3);
         }
       } else {
-        fillTheBlanks(msg2);
+        fillTheBlanks(context, msg2);
       }
     } else {
-      fillTheBlanks(msg1);
+      fillTheBlanks(context, msg1);
     }
-  }
-
-  fillTheBlanks(String title) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          title,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-              fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: OColors.danger,
-      ),
-    );
   }
 
   @override
@@ -470,9 +457,9 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
                       _ageController,
                       _birthdayDateController,
                       selectedChereko,
-                      'Select Birthday Boy/Girl',
-                      'Enter Age pls ...',
-                      'Enter Birthday date pls ...');
+                      selectBirthday,
+                      enterAge,
+                      insertBirthday);
                 }
 
                 if (selectedChereko == _sherehe[1]) {
@@ -1649,7 +1636,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
   }
 
   // Date Selecting Function
-  _selectDate(BuildContext context, _textEditingController) async {
+  _selectDate(BuildContext context, textEditingController) async {
     DateTime? newSelectedDate = await showDatePicker(
         locale: const Locale('en', 'IN'),
         context: context,
@@ -1674,10 +1661,10 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
 
     if (newSelectedDate != null) {
       _selectedDate = newSelectedDate;
-      _textEditingController
+      textEditingController
         ..text = DateFormat('yyyy/MM/dd').format(_selectedDate!)
         ..selection = TextSelection.fromPosition(TextPosition(
-            offset: _textEditingController.text.length,
+            offset: textEditingController.text.length,
             affinity: TextAffinity.upstream));
     }
   }

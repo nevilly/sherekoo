@@ -4,19 +4,27 @@ import 'package:flutter/material.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 
 import '../model/allData.dart';
+import '../model/post/post.dart';
+import '../model/post/sherekoModel.dart';
 import '../model/profileMode.dart';
 import '../model/services/postServices.dart';
 import '../model/services/svModel.dart';
 import '../util/Preferences.dart';
 import '../util/colors.dart';
+import '../util/func.dart';
 import '../util/util.dart';
-import 'listTile_widget.dart';
+import 'imgWigdets/defaultAvater.dart';
+import 'imgWigdets/userAvater.dart';
 
 class TabB extends StatefulWidget {
   final CeremonyModel ceremony;
+
   final User user;
-  const TabB({Key? key, required this.ceremony, required this.user})
-      : super(key: key);
+  const TabB({
+    Key? key,
+    required this.ceremony,
+    required this.user,
+  }) : super(key: key);
 
   @override
   State<TabB> createState() => _TabBState();
@@ -52,14 +60,11 @@ class _TabBState extends State<TabB> {
       setState(() {
         token = value;
         // print('ceremony id');
-        // print(widget.ceremony.cId);
-        // print(widget.ceremony.fId);
-        // print(widget.ceremony.admin);
+        // print(widget.ceremony.u1Avt);
 
-        // print('user id');
-        // print(widget.user.id);
         getUser();
         getservices();
+        getHashTagPhoto();
       });
     });
 
@@ -87,7 +92,7 @@ class _TabBState extends State<TabB> {
             status: 0,
             payload: [],
             type: 'ceremony')
-        .getService(token, urlGetGoldService,widget.ceremony.cId)
+        .getService(token, urlGetGoldService, widget.ceremony.cId)
         .then((value) {
       if (value.status == 200) {
         setState(() {
@@ -98,246 +103,653 @@ class _TabBState extends State<TabB> {
     });
   }
 
+  List<SherekooModel> tagHome = [];
+  List<SherekooModel> tagChurch = [];
+  List<SherekooModel> tagWedding = [];
+  List<SherekooModel> tagBeach = [];
+
+  getHashTagPhoto() async {
+    Post(
+      payload: [],
+      status: 0,
+      pId: '',
+      avater: '',
+      body: '',
+      ceremonyId: widget.ceremony.cId,
+      createdBy: '',
+      username: '',
+      vedeo: '',
+      hashTag: '',
+    ).getPostByCeremonyId(token, urlGetSherekooByCeremonyId).then((value) {
+      if (value.status == 200) {
+        setState(() {
+          tagHome = tagFanc(value, 'Home').toList();
+          tagHome.removeWhere((element) => element.hashTag.isEmpty);
+
+          tagChurch = tagFanc(value, 'Church').toList();
+          tagChurch.removeWhere((element) => element.hashTag.isEmpty);
+
+          tagBeach = tagFanc(value, 'Beach').toList();
+          tagBeach.removeWhere((element) => element.hashTag.isEmpty);
+
+          tagWedding = tagFanc(value, 'Wedding').toList();
+          tagWedding.removeWhere((element) => element.hashTag.isEmpty);
+        });
+      }
+    });
+  }
+
+  tagFanc(Post value, String typ) {
+    return value.payload.map<SherekooModel>((e) {
+      if (e['hashTag'] == typ) {
+        return SherekooModel.fromJson(e);
+      }
+      return SherekooModel.fromJson({
+        'pId': '',
+        'createdBy': '',
+        'body': '',
+        'vedeo': '',
+        'userId': '',
+        'username': '',
+        'avater': '',
+        'createdDate': '',
+        'commentNumber': '',
+        'ceremonyId': '',
+        'cImage': '',
+        'crmUsername': '',
+        'crmFid': '',
+        'crmYoutubeLink': '',
+        'totalLikes': '',
+        'isLike': '',
+        'totalShare': '',
+        'hashTag': '',
+        'crmViewer': ''
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 1),
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Column(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: OColors.primary,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 8.0, right: 8, top: 4, bottom: 4),
-                      child: cardFotter(
-                          const Icon(
+                  if (widget.ceremony.ceremonyType == 'Wedding')
+                    weddingProfile(context),
+                  if (widget.ceremony.ceremonyType == 'Birthday')
+                    birthdayProfile(context),
+                  if (widget.ceremony.ceremonyType == 'kigodoro')
+                    kigodoroProfile(context),
+                  if (widget.ceremony.ceremonyType == 'Kitchen Part')
+                    kichernPartProfile(context),
+                  if (widget.ceremony.ceremonyType == 'SendOff')
+                    sendProfile(context),
+                ],
+              ),
+            ),
+
+            Container(
+              margin: const EdgeInsets.only(top: 8),
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    outlilneButton(
+                        Icon(
+                          Icons.group,
+                          size: 16,
+                          color: OColors.primary,
+                        ),
+                        Text(
+                          'Viewers',
+                          style: header12.copyWith(color: OColors.primary),
+                        ),
+                        MediaQuery.of(context).size.width / 2.5, // borderRadius
+                        OColors.primary,
+                        16),
+                    GestureDetector(
+                      onTap: () {
+                        oneButtonPressed(context);
+                      },
+                      child: outlilneButton(
+                          Icon(
                             Icons.group,
-                            color: Colors.white,
-                            size: 14,
+                            size: 16,
+                            color: OColors.primary,
                           ),
-                          '124'),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: OColors.primary,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 8.0, right: 8, top: 4, bottom: 4),
-                      child: cardFotter(
-                          const Icon(
-                            Icons.share,
-                            color: Colors.white,
-                            size: 14,
-                          ),
-                          '99k'),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      oneButtonPressed();
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 8.0, right: 8, top: 4, bottom: 4),
-                        child: Row(children: const [
                           Text(
-                            'Comette',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                            'Commetee',
+                            style: header12.copyWith(color: OColors.primary),
                           ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text('50',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold))
-                        ]),
-                      ),
+                          MediaQuery.of(context).size.width / 2.5,
+                          OColors.primary,
+                          16),
                     ),
-                  )
-                ]),
-          ),
+                  ]),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 1.1,
+              height: 8,
+              child: Divider(
+                height: 1.0,
+                color: OColors.darkGrey,
+                thickness: 1.0,
+              ),
+            ),
 
-          //***TEMPORY , suppose to be in FAB BUTTON */
+            const SizedBox(
+              height: 15,
+            ),
+            //hashTag Circle
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Ceremony Hosts',
+                    style: header15.copyWith(fontWeight: FontWeight.w300),
+                  ),
+                  Text(
+                    ' our Ceremony',
+                    style: header10,
+                  ),
+                ],
+              ),
+            ),
 
-          Expanded(
-            child: ListView.builder(
+            GridView.builder(
               padding: const EdgeInsets.all(0.0),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 6,
+                  childAspectRatio: 0.8),
               itemCount: bsnInfo.length,
               itemBuilder: (context, i) {
                 return Container(
+                    decoration: BoxDecoration(
+                      color: OColors.darGrey,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     margin: const EdgeInsets.only(top: 5),
-                    child: ListTile(
-                      tileColor: OColors.darGrey,
-                      horizontalTitleGap: 8,
-                      leading: bsnInfo[i].payed == '0'
-                          ? ClipRect(
-                              child: ImageFiltered(
-                                imageFilter: ImageFilter.blur(
-                                  tileMode: TileMode.mirror,
-                                  sigmaX: 7.0,
-                                  sigmaY: 7.0,
+                    child: Column(
+                      children: [
+                        bsnInfo[i].payed == '0'
+                            ? ClipRect(
+                                child: ImageFiltered(
+                                  imageFilter: ImageFilter.blur(
+                                    tileMode: TileMode.mirror,
+                                    sigmaX: 7.0,
+                                    sigmaY: 7.0,
+                                  ),
+                                  child: Image.network(
+                                    '${api}public/uploads/${bsnInfo[i].bsnUsername}/busness/${bsnInfo[i].coProfile}',
+                                    height:
+                                        MediaQuery.of(context).size.height / 9,
+                                    width: MediaQuery.of(context).size.width,
+                                    fit: BoxFit.cover,
+                                    loadingBuilder: (BuildContext context,
+                                        Widget child,
+                                        ImageChunkEvent? loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        return child;
+                                      }
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          value: loadingProgress
+                                                      .expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
-                                child: Image.network(
-                                  '${api}public/uploads/${bsnInfo[i].bsnUsername}/busness/${bsnInfo[i].coProfile}',
-                                  height: 70,
-                                  width: 65,
-                                  fit: BoxFit.cover,
-                                  loadingBuilder: (BuildContext context,
-                                      Widget child,
-                                      ImageChunkEvent? loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        value: loadingProgress
-                                                    .expectedTotalBytes !=
-                                                null
-                                            ? loadingProgress
-                                                    .cumulativeBytesLoaded /
-                                                loadingProgress
-                                                    .expectedTotalBytes!
-                                            : null,
-                                      ),
-                                    );
-                                  },
+                              )
+                            : Image.network(
+                                '${api}public/uploads/${bsnInfo[i].bsnUsername}/busness/${bsnInfo[i].coProfile}',
+                                height: MediaQuery.of(context).size.height / 9,
+                                width: MediaQuery.of(context).size.width,
+                                fit: BoxFit.cover,
+                                loadingBuilder: (BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                    ),
+                                  );
+                                },
+                              ),
+                        Text(
+                          bsnInfo[i].busnessType,
+                          style: ef,
+                        ),
+                        bsnInfo[i].payed != '0'
+                            ? Text(
+                                bsnInfo[i].knownAs,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w300,
+                                    color: OColors.fontColor),
+                              )
+                            : const SizedBox(),
+                        bsnInfo[i].payed == '0'
+                            ? SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                child: Column(
+                                  children: [
+                                    if (currentUser.id == widget.ceremony.fId ||
+                                        currentUser.id == widget.ceremony.sId ||
+                                        currentUser.id == widget.ceremony.admin)
+                                      GestureDetector(
+                                        onTap: () {
+                                          //                            Navigator.push(
+                                          // context,
+                                          // MaterialPageRoute(
+                                          //     builder: (BuildContext context) => MyService(
+                                          //           req: req,
+                                          //         )));
+                                        },
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 5),
+                                          child: Text(
+                                            'Pay',
+                                            style: bttnfontprimary,
+                                          ),
+                                        ),
+                                      )
+                                  ],
+                                ),
+                              )
+                            : Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Text(
+                                  'Confirm',
+                                  style: bttnfontprimary,
                                 ),
                               ),
-                            )
-                          : Image.network(
-                              '${api}public/uploads/${bsnInfo[i].bsnUsername}/busness/${bsnInfo[i].coProfile}',
-                              height: 70,
-                              width: 65,
-                              fit: BoxFit.cover,
-                              loadingBuilder: (BuildContext context,
-                                  Widget child,
-                                  ImageChunkEvent? loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                );
-                              },
-                            ),
-                      title: Text(
-                        bsnInfo[i].busnessType,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            color: OColors.fontColor),
-                      ),
-                      subtitle: bsnInfo[i].payed != '0'
-                          ? Text(
-                              bsnInfo[i].knownAs,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  color: OColors.fontColor),
-                            )
-                          : const SizedBox(),
-                      trailing: bsnInfo[i].payed == '0'
-                          ? Text(
-                              'Unconfirm',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: OColors.primary),
-                            )
-                          : Text(
-                              'Confirm',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: OColors.primary),
-                            ),
+                      ],
                     ));
               },
             ),
-          ),
-        
-        ],
+
+            const SizedBox(height: 35),
+            tagHome.isNotEmpty
+                ? tagContainer('Home', 'At home', tagHome)
+                : const SizedBox.shrink(),
+
+            tagBeach.isNotEmpty
+                ? tagContainer('Beach', 'At Beach', tagBeach)
+                : const SizedBox.shrink(),
+
+            tagChurch.isNotEmpty
+                ? tagContainer('Church', 'At church', tagChurch)
+                : const SizedBox.shrink(),
+
+            tagWedding.isNotEmpty
+                ? tagContainer('Wedding', 'At wedding', tagWedding)
+                : const SizedBox.shrink(),
+
+            const SizedBox(
+              height: 40,
+            )
+          ],
+        ),
       ),
     );
   }
 
-  Row cardFotter(Icon icon, String no) {
-    return Row(
+  Column weddingProfile(BuildContext context) {
+    return Column(
       children: [
-        icon,
-        const SizedBox(
-          width: 4,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            widget.ceremony.u1g == 'male' && widget.ceremony.u1Avt.isNotEmpty
+                ? ClipRRect(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(20.0),
+                    ),
+                    child: UserAvater(
+                        avater: widget.ceremony.u1Avt,
+                        url: '/profile/',
+                        username: widget.ceremony.u1,
+                        height: 80,
+                        width: 80),
+                  )
+                : const DefaultAvater(height: 80, radius: 20, width: 80),
+            widget.ceremony.u2g == 'female' && widget.ceremony.u2Avt.isNotEmpty
+                ? ClipRRect(
+                    child: UserAvater(
+                        avater: widget.ceremony.u2Avt,
+                        url: '/profile/',
+                        username: widget.ceremony.u2,
+                        height: 80,
+                        width: 80),
+                  )
+                : const ClipRRect(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20.0),
+                    ),
+                    child: DefaultAvater(height: 80, radius: 20, width: 80)),
+          ],
         ),
-        Text(
-          no,
-          style: const TextStyle(
-              fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
+        SizedBox(
+          height: 18,
         ),
-        const SizedBox(
-          width: 5,
+        Container(
+          child: Column(
+            children: [
+              Text(
+                'Mr&Mrs  ${widget.ceremony.cName}',
+                style: header14.copyWith(fontWeight: FontWeight.w500),
+              ),
+              Text(
+                widget.ceremony.ceremonyType,
+                style: header13.copyWith(fontWeight: FontWeight.w400),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Text(
+                widget.ceremony.ceremonyDate,
+                style: header12.copyWith(
+                    fontWeight: FontWeight.w300, color: Colors.grey),
+              )
+            ],
+          ),
         )
       ],
     );
   }
 
-  void oneButtonPressed() {
-    showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return Container(
-            color: const Color(0xFF737373),
-            height: 560,
-            child: Container(
-                decoration: BoxDecoration(
-                    color: Theme.of(context).canvasColor,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(25),
-                      topRight: Radius.circular(25),
-                    )),
-                child: buildBottomNavigationMenu()),
-          );
-        });
+  Row kichernPartProfile(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 3,
+          child:
+              widget.ceremony.u1g == 'male' && widget.ceremony.u1Avt.isNotEmpty
+                  ? ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(20.0),
+                      ),
+                      child: UserAvater(
+                          avater: widget.ceremony.u1Avt,
+                          url: '/profile/',
+                          username: widget.ceremony.u1,
+                          height: 35,
+                          width: 35),
+                    )
+                  : const DefaultAvater(height: 35, radius: 15, width: 35),
+        ),
+        Expanded(
+          flex: 1,
+          child: widget.ceremony.u2g == 'female' &&
+                  widget.ceremony.u2Avt.isNotEmpty
+              ? ClipRRect(
+                  child: UserAvater(
+                      avater: widget.ceremony.u2Avt,
+                      url: '/profile/',
+                      username: widget.ceremony.u2,
+                      height: 35,
+                      width: 35),
+                )
+              : const DefaultAvater(height: 35, radius: 15, width: 35),
+        )
+      ],
+    );
   }
 
-  Column buildBottomNavigationMenu() {
+  Row sendProfile(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 3,
+          child:
+              widget.ceremony.u1g == 'male' && widget.ceremony.u1Avt.isNotEmpty
+                  ? ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(20.0),
+                      ),
+                      child: UserAvater(
+                          avater: widget.ceremony.u1Avt,
+                          url: '/profile/',
+                          username: widget.ceremony.u1,
+                          height: 35,
+                          width: 35),
+                    )
+                  : const DefaultAvater(height: 35, radius: 15, width: 35),
+        ),
+        Expanded(
+          flex: 1,
+          child: widget.ceremony.u2g == 'female' &&
+                  widget.ceremony.u2Avt.isNotEmpty
+              ? ClipRRect(
+                  child: UserAvater(
+                      avater: widget.ceremony.u2Avt,
+                      url: '/profile/',
+                      username: widget.ceremony.u2,
+                      height: 35,
+                      width: 35),
+                )
+              : const DefaultAvater(height: 35, radius: 15, width: 35),
+        )
+      ],
+    );
+  }
+
+  Row birthdayProfile(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        ClipRRect(
+          borderRadius: const BorderRadius.all(
+            Radius.circular(20.0),
+          ),
+          child: UserAvater(
+              avater: widget.ceremony.cImage,
+              url: '/ceremony/',
+              username: widget.ceremony.u1,
+              height: 100,
+              width: 90),
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width / 1.8,
+          height: 80,
+          // color: Colors.red,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.ceremony.ceremonyType,
+                style: header18.copyWith(fontWeight: FontWeight.w600),
+              ),
+              Text(
+                widget.ceremony.u1,
+                style: header14,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              Text(
+                widget.ceremony.ceremonyDate,
+                style: header10.copyWith(color: Colors.grey),
+              ),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
+  Row kigodoroProfile(BuildContext context) {
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(7.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(20.0),
+                ),
+                child: UserAvater(
+                    avater: widget.ceremony.cImage,
+                    url: '/ceremony/',
+                    username: widget.ceremony.u1,
+                    height: 100,
+                    width: 90),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 1.8,
+                height: 80,
+                // color: Colors.red,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.ceremony.ceremonyType,
+                      style: header18.copyWith(fontWeight: FontWeight.w600),
+                    ),
+                    Text(
+                      widget.ceremony.u1,
+                      style: header14,
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    Text(
+                      widget.ceremony.ceremonyDate,
+                      style: header10.copyWith(color: Colors.grey),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
+  Column tagContainer(String title, String subtitle, List<SherekooModel> tg) {
     return Column(
       children: [
         const SizedBox(
-          height: 10,
+          height: 14,
         ),
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text('Commetee && Participants',
-              style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold)),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  hashTagCircle(),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: header13.copyWith(fontWeight: FontWeight.w300),
+                      ),
+                      Text(
+                        subtitle,
+                        style: header10,
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    '${tg.length} photo',
+                    style: header12.copyWith(fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: OColors.primary,
+                    size: 15,
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
-        // SizedBox(height: 5),
-
-        const SizedBox(height: 10),
-        Expanded(
-          child: ListView.builder(
-              itemCount: 150,
-              itemBuilder: (BuildContext context, index) {
-                return const SingleChildScrollView(child: ListMembers());
-              }),
+        const SizedBox(
+          height: 5,
+        ),
+        GridView.builder(
+          padding: const EdgeInsets.all(0.0),
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3, crossAxisSpacing: 6, childAspectRatio: 0.8),
+          itemCount: tg.length,
+          itemBuilder: (context, i) {
+            final tag = tg[i];
+            return Container(
+                decoration: BoxDecoration(
+                  color: OColors.darGrey,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                margin: const EdgeInsets.only(top: 5),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Stack(
+                      alignment: AlignmentDirectional.center,
+                      children: [
+                        Positioned.fill(
+                          child: ImageFiltered(
+                            imageFilter: ImageFilter.blur(
+                              sigmaX: 10.0,
+                              sigmaY: 10.0,
+                            ),
+                            child: Image.network(
+                              '${api}public/uploads/${tag.username}/posts/${tag.vedeo}',
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                        ),
+                        Image.network(
+                          '${api}public/uploads/${tag.username}/posts/${tag.vedeo}',
+                          fit: BoxFit.contain,
+                        )
+                      ],
+                    )));
+          },
         ),
       ],
     );

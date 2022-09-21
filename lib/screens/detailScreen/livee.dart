@@ -53,6 +53,8 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
       vsync: this,
     );
 
+    //  print(widget.ceremony.);
+
     _preferences.init();
     _preferences.get('token').then((value) {
       setState(() {
@@ -127,7 +129,48 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
                           MaterialPageRoute(
                               builder: (_) => CrmnAdmin(crm: widget.ceremony)));
                     },
-                    child: admin(),
+                    child: Container(
+                      margin: const EdgeInsets.only(
+                          left: 10, right: 20, top: 15, bottom: 15),
+                      padding: const EdgeInsets.only(
+                          left: 15, right: 15, top: 4, bottom: 4),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: OColors.primary,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(80))),
+                      child: const Text(
+                        'Admin',
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ),
+                  )
+                else
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => CrmnAdmin(crm: widget.ceremony)));
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(
+                          left: 10, right: 20, top: 15, bottom: 15),
+                      padding: const EdgeInsets.only(
+                          left: 15, right: 15, top: 4, bottom: 4),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: OColors.primary,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(30))),
+                      child: const Icon(
+                        Icons.share,
+                        color: Colors.white,
+                      ),
+                    ),
                   )
               ],
               expandedHeight: 200,
@@ -242,21 +285,5 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
     }
 
     super.dispose();
-  }
-
-  admin() {
-    return Container(
-      margin: const EdgeInsets.only(left: 10, right: 20, top: 15, bottom: 15),
-      padding: const EdgeInsets.only(left: 15, right: 15, top: 4, bottom: 4),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          color: OColors.primary,
-          borderRadius: const BorderRadius.all(Radius.circular(30))),
-      child: const Text(
-        'Admin',
-        style: TextStyle(
-            fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-      ),
-    );
   }
 }

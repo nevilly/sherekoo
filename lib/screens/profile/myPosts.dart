@@ -50,7 +50,7 @@ class _MyPostsState extends State<MyPosts> {
       ceremonyId: '',
       createdBy: '',
       username: '',
-      vedeo: '',
+      vedeo: '', hashTag: '',
     ).getPostByUserId(token, urlGetSherekooByUid, id).then((value) {
       if (value.status == 200) {
         setState(() {

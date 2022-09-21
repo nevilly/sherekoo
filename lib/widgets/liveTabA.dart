@@ -48,7 +48,7 @@ class _TabAState extends State<TabA> {
       ceremonyId: widget.ceremony.cId,
       createdBy: '',
       username: '',
-      vedeo: '',
+      vedeo: '', hashTag: '',
     ).getPostByCeremonyId(token, urlGetSherekooByCeremonyId).then((value) {
       if (value.status == 200) {
         setState(() {

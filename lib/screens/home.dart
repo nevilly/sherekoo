@@ -69,7 +69,7 @@ class HomeState extends State<Home> {
       ceremonyId: '',
       createdBy: '',
       username: '',
-      vedeo: '',
+      vedeo: '', hashTag: '',
     ).get(token, urlGetSherekoo + d).then((value) {
       if (value.status == 200) {
         setState(() {

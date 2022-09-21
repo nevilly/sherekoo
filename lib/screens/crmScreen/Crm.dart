@@ -38,7 +38,12 @@ class _CrmState extends State<Crm> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '', isCurrentUser: '', address: '', bio: '', meritalStatus: '', totalPost: '');
+      role: '',
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      meritalStatus: '',
+      totalPost: '');
 
   @override
   void initState() {
@@ -496,27 +501,27 @@ class _CrmState extends State<Crm> {
 
   AppBar topBar() {
     return AppBar(
-      backgroundColor:  OColors.appBarColor,
+      backgroundColor: OColors.appBarColor,
       elevation: 1.0,
       toolbarHeight: 70,
       flexibleSpace: SafeArea(
           child: Row(
-            children: [
-              Expanded(
-                child: Container(
-                    margin: const EdgeInsets.only(
-                        top: 10, left: 35, right: 18, bottom: 7),
-                    width: 70,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[500]!.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const SearchCeremony()),
-              ),
-              const NotifyWidget()
-            ],
-          )),
+        children: [
+          Expanded(
+            child: Container(
+                margin: const EdgeInsets.only(
+                    top: 10, left: 35, right: 18, bottom: 7),
+                width: 70,
+                height: 45,
+                decoration: BoxDecoration(
+                  color: Colors.grey[500]!.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const SearchCeremony()),
+          ),
+          const NotifyWidget()
+        ],
+      )),
     );
   }
 }

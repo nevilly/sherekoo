@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:sherekoo/model/busness/busnessModel.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 import 'package:sherekoo/model/requests/requestsModel.dart';
 
@@ -10,6 +13,7 @@ import '../../util/colors.dart';
 import '../../util/util.dart';
 import '../../widgets/animetedClip.dart';
 import '../bsnScreen/bsnScrn.dart';
+import '../detailScreen/DetailPage.dart';
 import 'payment.dart';
 
 class CrmnAdmin extends StatefulWidget {
@@ -25,16 +29,16 @@ class _CrmnAdminState extends State<CrmnAdmin> {
   final Preferences _preferences = Preferences();
 
   String token = '';
-  List<RequestsModel> mcReq = [];
-  List<RequestsModel> productionReq = [];
-  List<RequestsModel> decoratorReq = [];
+  List arr = ['Mc', 'cooker', 'singer', 'decorator'];
 
+  // final Map myCategoryDynamic = {};
   //Selected host for Cereemony
   List<SvModel> myServ = [];
 
   @override
   void initState() {
     super.initState();
+
     _preferences.init();
     _preferences.get('token').then((value) {
       setState(() {
@@ -45,109 +49,31 @@ class _CrmnAdminState extends State<CrmnAdmin> {
     });
   }
 
-  getAllRequests() async {
-    Requests(
-            hostId: '',
-            busnessId: '',
-            contact: '',
-            ceremonyId: '',
-            createdBy: '',
-            status: 0,
-            payload: [],
-            type: 'ceremony')
-        .getGoldenRequest(token, urlGetGoldReq, widget.crm.cId)
-        .then((v) {
-      // print('check the payload brother');
-
-      if (v.status == 200) {
-        // print(v.payload);
-
-        setState(() {
-          mcReq = v.payload.map<RequestsModel>((e) {
-            // print(e);
-            if (e['busnessType'] == 'Mc') {
-              // print(e);
-              return RequestsModel.fromJson(e);
-            }
-            return RequestsModel.fromJson({
-              'hostId': '',
-              'busnessId': '',
-              'ceremonyId': '',
-              'createdBy': '',
-              'contact': '',
-              'confirm': '',
-              'createdDate': '',
-              'coProfile': '',
-              'knownAs': '',
-              'price': '',
-              'bsncontact': '',
-              'busnessType': '',
-              'bsncreatedBy': '',
-              'bsnUsername': '',
-              'level': '',
-              'categoryId': '',
-              'activeted': ''
-            });
-          }).toList();
-          mcReq.removeWhere((element) => element.busnessId.isEmpty);
-
-          //Production
-          productionReq = v.payload.map<RequestsModel>((e) {
-            // print(e);
-            if (e['busnessType'] == 'Production') {
-              return RequestsModel.fromJson(e);
-            }
-            return RequestsModel.fromJson({
-              'hostId': '',
-              'busnessId': '',
-              'ceremonyId': '',
-              'createdBy': '',
-              'contact': '',
-              'confirm': '',
-              'createdDate': '',
-              'coProfile': '',
-              'knownAs': '',
-              'price': '',
-              'bsncontact': '',
-              'busnessType': '',
-              'bsncreatedBy': '',
-              'bsnUsername': '',
-              'level': '',
-              'categoryId': '',
-              'activeted': ''
-            });
-          }).toList();
-          productionReq.removeWhere((element) => element.busnessId.isEmpty);
-
-          //Decoration
-          decoratorReq = v.payload.map<RequestsModel>((e) {
-            // print(e);
-            if (e['busnessType'] == 'Decorator') {
-              return RequestsModel.fromJson(e);
-            }
-            return RequestsModel.fromJson({
-              'hostId': '',
-              'busnessId': '',
-              'ceremonyId': '',
-              'createdBy': '',
-              'contact': '',
-              'confirm': '',
-              'createdDate': '',
-              'coProfile': '',
-              'knownAs': '',
-              'price': '',
-              'bsncontact': '',
-              'busnessType': '',
-              'bsncreatedBy': '',
-              'bsnUsername': '',
-              'level': '',
-              'categoryId': '',
-              'activeted': ''
-            });
-          }).toList();
-          decoratorReq.removeWhere((element) => element.busnessId.isEmpty);
-        });
+  reqPayload(Requests v, String type) {
+    return v.payload.map<RequestsModel>((e) {
+      // print(e);
+      if (e['busnessType'] == type) {
+        return RequestsModel.fromJson(e);
       }
+      return RequestsModel.fromJson({
+        'hostId': '',
+        'busnessId': '',
+        'ceremonyId': '',
+        'createdBy': '',
+        'contact': '',
+        'confirm': '',
+        'createdDate': '',
+        'coProfile': '',
+        'knownAs': '',
+        'price': '',
+        'bsncontact': '',
+        'busnessType': '',
+        'bsncreatedBy': '',
+        'bsnUsername': '',
+        'level': '',
+        'categoryId': '',
+        'activeted': ''
+      });
     });
   }
 
@@ -213,17 +139,135 @@ class _CrmnAdminState extends State<CrmnAdmin> {
           if (ob.busnessType == 'Production') {
             productionReq.removeWhere((element) => element.hostId == ob.hostId);
           }
+          // Decorator
+          if (ob.busnessType == 'Decorator') {
+            decoratorReq.removeWhere((element) => element.hostId == ob.hostId);
+          }
 
           if (ob.busnessType == 'Decorator') {
             decoratorReq.removeWhere((element) => element.hostId == ob.hostId);
+          }
+          // Hall
+          if (ob.busnessType == 'Hall') {
+            hallReq.removeWhere((element) => element.hostId == ob.hostId);
+          }
+          //"Cake Bakery"
+          if (ob.busnessType == 'Cake Bakery') {
+            cakeReq.removeWhere((element) => element.hostId == ob.hostId);
+          }
+          //Singer
+          if (ob.busnessType == 'Singer') {
+            singerReq.removeWhere((element) => element.hostId == ob.hostId);
+          }
+
+          //Dancer
+          if (ob.busnessType == 'Dancer') {
+            dancerReq.removeWhere((element) => element.hostId == ob.hostId);
+          }
+
+          // Saloon
+          if (ob.busnessType == 'Saloon') {
+            saloonReq.removeWhere((element) => element.hostId == ob.hostId);
+          }
+
+          //Car
+          if (ob.busnessType == 'Car') {
+            carReq.removeWhere((element) => element.hostId == ob.hostId);
+          }
+
+          //Cooker
+          if (ob.busnessType == 'Cooker') {
+            cookerReq.removeWhere((element) => element.hostId == ob.hostId);
           }
         });
       }
     });
   }
 
+  // ignore: prefer_final_fields
   bool _openMc = false;
   bool _openProd = false;
+  bool _openDec = false;
+  bool _openHall = false;
+  bool _openCake = false;
+  bool _openSinger = false;
+  bool _openDancer = false;
+  bool _openSaloon = false;
+  bool _openCar = false;
+  bool _openCooker = false;
+
+  List<RequestsModel> mcReq = [];
+  List<RequestsModel> productionReq = [];
+  List<RequestsModel> decoratorReq = [];
+  List<RequestsModel> hallReq = [];
+  List<RequestsModel> cakeReq = [];
+  List<RequestsModel> singerReq = [];
+  List<RequestsModel> dancerReq = [];
+  List<RequestsModel> saloonReq = [];
+  List<RequestsModel> carReq = [];
+  List<RequestsModel> cookerReq = [];
+
+  getAllRequests() async {
+    Requests(
+            hostId: '',
+            busnessId: '',
+            contact: '',
+            ceremonyId: '',
+            createdBy: '',
+            status: 0,
+            payload: [],
+            type: 'ceremony')
+        .getGoldenRequest(token, urlGetGoldReq, widget.crm.cId)
+        .then((v) {
+      // print('check the payload brother');
+
+      if (v.status == 200) {
+        // print(v.payload);
+
+        setState(() {
+          //Mc
+          mcReq = reqPayload(v, 'Mc').toList();
+          mcReq.removeWhere((element) => element.busnessId.isEmpty);
+
+          //Production
+          productionReq = reqPayload(v, 'Production').toList();
+          productionReq.removeWhere((element) => element.busnessId.isEmpty);
+
+          //Decoration
+          decoratorReq = reqPayload(v, 'Decorator').toList();
+          decoratorReq.removeWhere((element) => element.busnessId.isEmpty);
+
+          //Hall
+          hallReq = reqPayload(v, 'Hall').toList();
+          hallReq.removeWhere((element) => element.busnessId.isEmpty);
+
+          //Cake Bakery
+          cakeReq = reqPayload(v, 'Cake Bakery').toList();
+          cakeReq.removeWhere((element) => element.busnessId.isEmpty);
+
+          //Singer
+          singerReq = reqPayload(v, 'Singer').toList();
+          singerReq.removeWhere((element) => element.busnessId.isEmpty);
+
+          //Danceer
+          dancerReq = reqPayload(v, 'Dancer').toList();
+          dancerReq.removeWhere((element) => element.busnessId.isEmpty);
+
+          //Saloon
+          saloonReq = reqPayload(v, 'Saloon').toList();
+          saloonReq.removeWhere((element) => element.busnessId.isEmpty);
+
+          //Car
+          carReq = reqPayload(v, 'Car').toList();
+          carReq.removeWhere((element) => element.busnessId.isEmpty);
+
+          //Cooker
+          cookerReq = reqPayload(v, 'Cooker').toList();
+          cookerReq.removeWhere((element) => element.busnessId.isEmpty);
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -231,46 +275,35 @@ class _CrmnAdminState extends State<CrmnAdmin> {
       backgroundColor: OColors.secondary,
       appBar: AppBar(
         backgroundColor: OColors.secondary,
-        title: const Text('Invitation'),
+        title: Text(
+          'Admin',
+          style: appBarH,
+        ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ///
-            /// Selected Busness for ceremont
-            ///
-            /// Colum
-
             Column(
               children: [
                 /// titleBar
                 ///
 
-                Container(
-                  color: OColors.darkGrey,
+                SizedBox(
+                  // color: OColors.darkGrey,
                   width: MediaQuery.of(context).size.width,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 18.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Selected Host',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: OColors.fontColor)),
-                      ],
-                    ),
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text('Selected Service', style: header18),
                   ),
                 ),
 
                 ///
                 /// Selcete Busness..
                 ///
-                ///
+
                 Container(
-                  margin: const EdgeInsets.all(6.0),
+                  margin: const EdgeInsets.all(4.0),
                   child: GridView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -318,7 +351,7 @@ class _CrmnAdminState extends State<CrmnAdmin> {
                                       ),
                                     )),
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.only(top: 5.0),
                                   child: Center(
                                     child: ClipOval(
                                       child: Image.network(
@@ -333,21 +366,15 @@ class _CrmnAdminState extends State<CrmnAdmin> {
                               ]),
                             ),
                             const SizedBox(
-                              height: 5,
+                              height: 3,
                             ),
                             Text(
                               '${my.busnessType} ',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 13,
-                                  color: OColors.fontColor),
+                              style: header13,
                             ),
                             Text(
                               '${my.knownAs} ',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 12,
-                                  color: OColors.fontColor),
+                              style: header12,
                             ),
                             const SizedBox(
                               height: 4,
@@ -389,9 +416,7 @@ class _CrmnAdminState extends State<CrmnAdmin> {
                                             right: 8),
                                         child: Text(
                                           'Pay Hime..',
-                                          style: TextStyle(
-                                              color: OColors.fontColor,
-                                              fontSize: 10),
+                                          style: header10,
                                         ),
                                       ),
                                     ),
@@ -405,15 +430,17 @@ class _CrmnAdminState extends State<CrmnAdmin> {
               ],
             ),
 
-            ///
-            /// All  Requst or Invitation
-            /// Start Here
-            ///
-            /// Requst function
-            /// All Mc Invitaion
-            ///
-            requestBody(context, 'Mc', mcReq),
+            /// Request Starts
+            SizedBox(
+              // color: OColors.darkGrey,
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Text('Your Requests', style: header18),
+              ),
+            ),
 
+            requestBody(context, 'Mc', mcReq, _openMc),
             const SizedBox(height: 8),
 
             ///
@@ -425,26 +452,42 @@ class _CrmnAdminState extends State<CrmnAdmin> {
                   color: OColors.darkGrey,
                   width: MediaQuery.of(context).size.width,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 18.0),
+                    padding: const EdgeInsets.only(left: 15.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Production',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: OColors.fontColor)),
+                        Container(
+                          margin: const EdgeInsets.only(top: 13),
+                          child: Text('Production',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  color: OColors.fontColor)),
+                        ),
+                        productionReq.isNotEmpty
+                            ? Container(
+                                margin: const EdgeInsets.only(top: 13),
+                                child: Text('Invited (${productionReq.length})',
+                                    style: TextStyle(
+                                        color: OColors.fontColor,
+                                        fontSize: 13)),
+                              )
+                            : Container(
+                                margin: const EdgeInsets.only(top: 13),
+                                child: Text('Requests (0)',
+                                    style: header13.copyWith(
+                                        fontWeight: FontWeight.normal)),
+                              ),
                         IconButton(
-                            color: OColors.fontColor,
+                            color: OColors.primary,
                             highlightColor: OColors.primary,
-                            padding: const EdgeInsets.all(8.0),
                             onPressed: () {
                               setState(() => _openProd ^= true);
                             },
                             icon: _openProd == false
-                                ? Icon(
-                                    Icons.keyboard_arrow_up_outlined,
-                                    color: OColors.fontColor,
-                                  )
+                                ? Icon(Icons.keyboard_arrow_up_outlined,
+                                    color: OColors.fontColor)
                                 : Icon(Icons.keyboard_arrow_down,
                                     color: OColors.fontColor))
                       ],
@@ -469,62 +512,683 @@ class _CrmnAdminState extends State<CrmnAdmin> {
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
                               crossAxisSpacing: 6,
-                              childAspectRatio: 0.7),
+                              childAspectRatio: 0.6),
                       itemBuilder: (context, i) {
                         final req = productionReq[i];
-                        return Container(
-                          margin: const EdgeInsets.only(top: 2, bottom: 4),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              border: Border.all(width: 0.2),
-                              boxShadow: const [
-                                BoxShadow(
-                                    blurRadius: 4.0,
-                                    spreadRadius: 0.2,
-                                    offset: Offset(0.1, 0.5)),
-                              ],
-                              color: OColors.darGrey),
-                          child: Column(
-                            children: [
-                              Image.network(
-                                '${api}public/uploads/${req.bsnUsername}/busness/${req.coProfile}',
-                                height: 60,
-                                fit: BoxFit.cover,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                '${req.price} Tsh',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 14,
-                                    color: OColors.fontColor),
-                              ),
-                              Text(
-                                '${req.knownAs} ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 12,
-                                    color: OColors.fontColor),
-                              ),
-                              const SizedBox(
-                                height: 6,
-                              ),
-                              Text(
-                                'Pending',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: OColors.primary),
-                              ),
-                            ],
-                          ),
-                        );
+
+                        return reqContainer(context, req);
                       },
                     ),
                   ),
                 ),
               ],
+            ),
+            const SizedBox(height: 8),
+
+            ///
+            ///  Decooration Request
+            Column(
+              children: <Widget>[
+                Container(
+                  color: OColors.darkGrey,
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 13),
+                          child: Text('Decoration',
+                              style: header14.copyWith(
+                                  fontWeight: FontWeight.w500)),
+                        ),
+                        decoratorReq.isNotEmpty
+                            ? Container(
+                                margin: const EdgeInsets.only(top: 13),
+                                child: Text('Invited (${decoratorReq.length})',
+                                    style: header13),
+                              )
+                            : Container(
+                                margin: const EdgeInsets.only(top: 13),
+                                child: Text('Requests (0)',
+                                    style: header13.copyWith(
+                                        fontWeight: FontWeight.normal)),
+                              ),
+                        IconButton(
+                            color: OColors.primary,
+                            highlightColor: OColors.primary,
+                            onPressed: () {
+                              setState(() => _openDec ^= true);
+                            },
+                            icon: _openDec == false
+                                ? Icon(Icons.keyboard_arrow_up_outlined,
+                                    color: OColors.fontColor)
+                                : Icon(Icons.keyboard_arrow_down,
+                                    color: OColors.fontColor))
+                      ],
+                    ),
+                  ),
+                ),
+                AnimatedClipRect(
+                  open: _openDec,
+                  horizontalAnimation: false,
+                  verticalAnimation: true,
+                  alignment: Alignment.center,
+                  duration: const Duration(milliseconds: 1000),
+                  curve: Curves.bounceOut,
+                  reverseCurve: Curves.bounceIn,
+                  child: decoratorReq.isNotEmpty
+                      ? Container(
+                          margin: const EdgeInsets.all(6.0),
+                          child: GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: decoratorReq.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 6,
+                                    childAspectRatio: 0.6),
+                            itemBuilder: (context, i) {
+                              final req = decoratorReq[i];
+
+                              return reqContainer(context, req);
+                            },
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(top: 18.0, bottom: 10),
+                          child:
+                              Text('$reqMsgInCrmdAdmin Decoration', style: ef),
+                        ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+
+            ///
+            ///  Hall Request
+            Column(
+              children: <Widget>[
+                Container(
+                  color: OColors.darkGrey,
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 13),
+                          child: Text('Hall',
+                              style: header14.copyWith(
+                                  fontWeight: FontWeight.w500)),
+                        ),
+                        hallReq.isNotEmpty
+                            ? Container(
+                                margin: const EdgeInsets.only(top: 13),
+                                child: Text('Invited (${hallReq.length})',
+                                    style: header13.copyWith(
+                                        fontWeight: FontWeight.normal)),
+                              )
+                            : Center(
+                                child: Container(
+                                  margin: const EdgeInsets.only(top: 13),
+                                  child: Text('Requests (0)',
+                                      style: header13.copyWith(
+                                          fontWeight: FontWeight.normal)),
+                                ),
+                              ),
+                        IconButton(
+                            color: OColors.primary,
+                            highlightColor: OColors.primary,
+                            onPressed: () {
+                              setState(() => _openHall ^= true);
+                            },
+                            icon: _openHall == false
+                                ? Icon(Icons.keyboard_arrow_up_outlined,
+                                    color: OColors.fontColor)
+                                : Icon(Icons.keyboard_arrow_down,
+                                    color: OColors.fontColor))
+                      ],
+                    ),
+                  ),
+                ),
+                AnimatedClipRect(
+                  open: _openHall,
+                  horizontalAnimation: false,
+                  verticalAnimation: true,
+                  alignment: Alignment.center,
+                  duration: const Duration(milliseconds: 1000),
+                  curve: Curves.bounceOut,
+                  reverseCurve: Curves.bounceIn,
+                  child: hallReq.isNotEmpty
+                      ? Container(
+                          margin: const EdgeInsets.all(6.0),
+                          child: GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: hallReq.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 6,
+                                    childAspectRatio: 0.6),
+                            itemBuilder: (context, i) {
+                              final req = hallReq[i];
+
+                              return reqContainer(context, req);
+                            },
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(top: 18.0, bottom: 10),
+                          child: Text('$reqMsgInCrmdAdmin Hall', style: ef),
+                        ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+
+            ///  Cake bakery Request
+            Column(
+              children: <Widget>[
+                Container(
+                  color: OColors.darkGrey,
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 13),
+                          child: Text('Cake Bakery',
+                              style: header14.copyWith(
+                                  fontWeight: FontWeight.w500)),
+                        ),
+                        cakeReq.isNotEmpty
+                            ? Container(
+                                margin: const EdgeInsets.only(top: 13),
+                                child: Text('Invited (${cakeReq.length})',
+                                    style: header13),
+                              )
+                            : Container(
+                                margin: const EdgeInsets.only(top: 13),
+                                child: Text('Requests (0)',
+                                    style: header13.copyWith(
+                                        fontWeight: FontWeight.normal)),
+                              ),
+                        IconButton(
+                            color: OColors.primary,
+                            highlightColor: OColors.primary,
+                            onPressed: () {
+                              setState(() => _openCake ^= true);
+                            },
+                            icon: _openCake == false
+                                ? Icon(Icons.keyboard_arrow_up_outlined,
+                                    color: OColors.fontColor)
+                                : Icon(Icons.keyboard_arrow_down,
+                                    color: OColors.fontColor))
+                      ],
+                    ),
+                  ),
+                ),
+                AnimatedClipRect(
+                  open: _openCake,
+                  horizontalAnimation: false,
+                  verticalAnimation: true,
+                  alignment: Alignment.center,
+                  duration: const Duration(milliseconds: 1000),
+                  curve: Curves.bounceOut,
+                  reverseCurve: Curves.bounceIn,
+                  child: cakeReq.isNotEmpty
+                      ? Container(
+                          margin: const EdgeInsets.all(6.0),
+                          child: GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: cakeReq.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 6,
+                                    childAspectRatio: 0.6),
+                            itemBuilder: (context, i) {
+                              final req = cakeReq[i];
+
+                              return reqContainer(context, req);
+                            },
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(top: 18.0, bottom: 10),
+                          child:
+                              Text('$reqMsgInCrmdAdmin Cake Bakery', style: ef),
+                        ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+
+            ///  Singer Request
+            Column(
+              children: <Widget>[
+                Container(
+                  color: OColors.darkGrey,
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 13),
+                          child: Text('Singer',
+                              style: header14.copyWith(
+                                  fontWeight: FontWeight.w500)),
+                        ),
+                        singerReq.isNotEmpty
+                            ? Container(
+                                margin: const EdgeInsets.only(top: 13),
+                                child: Text('Invited (${singerReq.length})',
+                                    style: header13.copyWith(
+                                        fontWeight: FontWeight.normal)),
+                              )
+                            : Container(
+                                margin: const EdgeInsets.only(top: 13),
+                                child: Text('Requests (0)',
+                                    style: header13.copyWith(
+                                        fontWeight: FontWeight.normal)),
+                              ),
+                        IconButton(
+                            color: OColors.primary,
+                            highlightColor: OColors.primary,
+                            onPressed: () {
+                              setState(() => _openSinger ^= true);
+                            },
+                            icon: _openSinger == false
+                                ? Icon(Icons.keyboard_arrow_up_outlined,
+                                    color: OColors.fontColor)
+                                : Icon(Icons.keyboard_arrow_down,
+                                    color: OColors.fontColor))
+                      ],
+                    ),
+                  ),
+                ),
+                AnimatedClipRect(
+                  open: _openSinger,
+                  horizontalAnimation: false,
+                  verticalAnimation: true,
+                  alignment: Alignment.center,
+                  duration: const Duration(milliseconds: 1000),
+                  curve: Curves.bounceOut,
+                  reverseCurve: Curves.bounceIn,
+                  child: singerReq.isNotEmpty
+                      ? Container(
+                          margin: const EdgeInsets.all(6.0),
+                          child: GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: singerReq.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 6,
+                                    childAspectRatio: 0.6),
+                            itemBuilder: (context, i) {
+                              final req = singerReq[i];
+
+                              return reqContainer(context, req);
+                            },
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(top: 18.0, bottom: 10),
+                          child: Text('$reqMsgInCrmdAdmin Singer', style: ef),
+                        ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+
+            ///  Saloon Request
+            Column(
+              children: <Widget>[
+                Container(
+                  color: OColors.darkGrey,
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 13),
+                          child: Text('Dancer',
+                              style: header14.copyWith(
+                                  fontWeight: FontWeight.w500)),
+                        ),
+                        dancerReq.isNotEmpty
+                            ? Container(
+                                margin: const EdgeInsets.only(top: 13),
+                                child: Text('Invited (${dancerReq.length})',
+                                    style: header13),
+                              )
+                            : Container(
+                                margin: const EdgeInsets.only(top: 13),
+                                child: Text('Requests (0)',
+                                    style: header13.copyWith(
+                                        fontWeight: FontWeight.normal)),
+                              ),
+                        IconButton(
+                            color: OColors.primary,
+                            highlightColor: OColors.primary,
+                            onPressed: () {
+                              setState(() => _openDancer ^= true);
+                            },
+                            icon: _openDancer == false
+                                ? Icon(Icons.keyboard_arrow_up_outlined,
+                                    color: OColors.fontColor)
+                                : Icon(Icons.keyboard_arrow_down,
+                                    color: OColors.fontColor))
+                      ],
+                    ),
+                  ),
+                ),
+                AnimatedClipRect(
+                  open: _openDancer,
+                  horizontalAnimation: false,
+                  verticalAnimation: true,
+                  alignment: Alignment.center,
+                  duration: const Duration(milliseconds: 1000),
+                  curve: Curves.bounceOut,
+                  reverseCurve: Curves.bounceIn,
+                  child: dancerReq.isNotEmpty
+                      ? Container(
+                          margin: const EdgeInsets.all(6.0),
+                          child: GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: dancerReq.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 6,
+                                    childAspectRatio: 0.6),
+                            itemBuilder: (context, i) {
+                              final req = dancerReq[i];
+
+                              return reqContainer(context, req);
+                            },
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(top: 18.0, bottom: 10),
+                          child: Text('$reqMsgInCrmdAdmin Dancer', style: ef),
+                        ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+
+            ///  Saloon Request
+            Column(
+              children: <Widget>[
+                Container(
+                  color: OColors.darkGrey,
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 13),
+                          child: Text('Saloon',
+                              style: header14.copyWith(
+                                  fontWeight: FontWeight.w500)),
+                        ),
+                        saloonReq.isNotEmpty
+                            ? Container(
+                                margin: const EdgeInsets.only(top: 13),
+                                child: Text('Invited (${saloonReq.length})',
+                                    style: header13),
+                              )
+                            : Container(
+                                margin: const EdgeInsets.only(top: 13),
+                                child: Text('Requests (0)',
+                                    style: header13.copyWith(
+                                        fontWeight: FontWeight.normal)),
+                              ),
+                        IconButton(
+                            color: OColors.primary,
+                            highlightColor: OColors.primary,
+                            onPressed: () {
+                              setState(() => _openSaloon ^= true);
+                            },
+                            icon: _openSaloon == false
+                                ? Icon(Icons.keyboard_arrow_up_outlined,
+                                    color: OColors.fontColor)
+                                : Icon(Icons.keyboard_arrow_down,
+                                    color: OColors.fontColor))
+                      ],
+                    ),
+                  ),
+                ),
+                AnimatedClipRect(
+                  open: _openSaloon,
+                  horizontalAnimation: false,
+                  verticalAnimation: true,
+                  alignment: Alignment.center,
+                  duration: const Duration(milliseconds: 1000),
+                  curve: Curves.bounceOut,
+                  reverseCurve: Curves.bounceIn,
+                  child: saloonReq.isNotEmpty
+                      ? Container(
+                          margin: const EdgeInsets.all(6.0),
+                          child: GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: saloonReq.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 6,
+                                    childAspectRatio: 0.6),
+                            itemBuilder: (context, i) {
+                              final req = saloonReq[i];
+
+                              return reqContainer(context, req);
+                            },
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(top: 18.0, bottom: 10),
+                          child: Text('$reqMsgInCrmdAdmin Saloon', style: ef),
+                        ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+
+            ///
+            ///  Car Request
+            Column(
+              children: <Widget>[
+                Container(
+                  color: OColors.darkGrey,
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 13),
+                          child: Text('Vehicles',
+                              style: header14.copyWith(
+                                  fontWeight: FontWeight.w500)),
+                        ),
+                        carReq.isNotEmpty
+                            ? Container(
+                                margin: const EdgeInsets.only(top: 13),
+                                child: Text('Invited (${carReq.length})',
+                                    style: header13.copyWith(
+                                        fontWeight: FontWeight.normal)),
+                              )
+                            : Center(
+                                child: Container(
+                                  margin: const EdgeInsets.only(top: 13),
+                                  child: Text('Requests (0)',
+                                      style: header13.copyWith(
+                                          fontWeight: FontWeight.normal)),
+                                ),
+                              ),
+                        IconButton(
+                            color: OColors.primary,
+                            highlightColor: OColors.primary,
+                            onPressed: () {
+                              setState(() => _openCar ^= true);
+                            },
+                            icon: _openCar == false
+                                ? Icon(Icons.keyboard_arrow_up_outlined,
+                                    color: OColors.fontColor)
+                                : Icon(Icons.keyboard_arrow_down,
+                                    color: OColors.fontColor))
+                      ],
+                    ),
+                  ),
+                ),
+                AnimatedClipRect(
+                  open: _openCar,
+                  horizontalAnimation: false,
+                  verticalAnimation: true,
+                  alignment: Alignment.center,
+                  duration: const Duration(milliseconds: 1000),
+                  curve: Curves.bounceOut,
+                  reverseCurve: Curves.bounceIn,
+                  child: carReq.isNotEmpty
+                      ? Container(
+                          margin: const EdgeInsets.all(6.0),
+                          child: GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: carReq.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 6,
+                                    childAspectRatio: 0.6),
+                            itemBuilder: (context, i) {
+                              final req = carReq[i];
+
+                              return reqContainer(context, req);
+                            },
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(top: 18.0, bottom: 10),
+                          child: Text('$reqMsgInCrmdAdmin Car', style: ef),
+                        ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+
+            ///  Cooker Request
+            Column(
+              children: <Widget>[
+                Container(
+                  color: OColors.darkGrey,
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 13),
+                          child: Text('Cooker',
+                              style: header14.copyWith(
+                                  fontWeight: FontWeight.w500)),
+                        ),
+                        cookerReq.isNotEmpty
+                            ? Container(
+                                margin: const EdgeInsets.only(top: 13),
+                                child: Text('Invited (${cookerReq.length})',
+                                    style: header13.copyWith(
+                                        fontWeight: FontWeight.normal)),
+                              )
+                            : Center(
+                                child: Container(
+                                  margin: const EdgeInsets.only(top: 13),
+                                  child: Text('Requests (0)',
+                                      style: header13.copyWith(
+                                          fontWeight: FontWeight.normal)),
+                                ),
+                              ),
+                        IconButton(
+                            color: OColors.primary,
+                            highlightColor: OColors.primary,
+                            onPressed: () {
+                              setState(() => _openCooker ^= true);
+                            },
+                            icon: _openCooker == false
+                                ? Icon(Icons.keyboard_arrow_up_outlined,
+                                    color: OColors.fontColor)
+                                : Icon(Icons.keyboard_arrow_down,
+                                    color: OColors.fontColor))
+                      ],
+                    ),
+                  ),
+                ),
+                AnimatedClipRect(
+                  open: _openCooker,
+                  horizontalAnimation: false,
+                  verticalAnimation: true,
+                  alignment: Alignment.center,
+                  duration: const Duration(milliseconds: 1000),
+                  curve: Curves.bounceOut,
+                  reverseCurve: Curves.bounceIn,
+                  child: cookerReq.isNotEmpty
+                      ? Container(
+                          margin: const EdgeInsets.all(6.0),
+                          child: GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: cookerReq.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 6,
+                                    childAspectRatio: 0.6),
+                            itemBuilder: (context, i) {
+                              final req = cookerReq[i];
+
+                              return reqContainer(context, req);
+                            },
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(top: 18.0, bottom: 10),
+                          child: Text('$reqMsgInCrmdAdmin Cooker', style: ef),
+                        ),
+                ),
+              ],
+            ),
+
+            const SizedBox(
+              height: 50,
             ),
           ],
         ),
@@ -551,14 +1215,127 @@ class _CrmnAdminState extends State<CrmnAdmin> {
     );
   }
 
+  Container reqContainer(BuildContext context, RequestsModel req) {
+    return Container(
+      margin: const EdgeInsets.only(top: 2, bottom: 4),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(width: 0.2),
+          boxShadow: const [
+            BoxShadow(
+                blurRadius: 4.0, spreadRadius: 0.2, offset: Offset(0.1, 0.5)),
+          ],
+          color: OColors.darGrey),
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => reqBsnDetaOnTap(req)));
+            },
+            child: Image.network(
+              '${api}public/uploads/${req.bsnUsername}/busness/${req.coProfile}',
+              height: MediaQuery.of(context).size.height / 9,
+              width: MediaQuery.of(context).size.width,
+              fit: BoxFit.cover,
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          Text(
+            '${req.price} Tsh',
+            style: header13,
+          ),
+          req.knownAs.length >= 5
+              ? Text(
+                  '${req.knownAs.substring(0, 5).toUpperCase()}..',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 11,
+                      color: OColors.fontColor),
+                )
+              : Text(
+                  req.knownAs,
+                  style: header12,
+                ),
+
+          const SizedBox(
+            height: 8,
+          ),
+
+          /// Bsn kama amekubali request kutoka kwa crm Admin
+          req.confirm == '1'
+              ? GestureDetector(
+                  onTap: () {
+                    cancelRequest(req);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: OColors.primary,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 4.0, bottom: 4.0, left: 8, right: 8),
+                      child: Text(
+                        'Cancel Req..',
+                        style: header10,
+                      ),
+                    ),
+                  ),
+                )
+              :
+
+              ///Bsn Confirmed, request send By  Crm Admin
+              /// Then
+              ///If Bsn SELECTED: to service table
+
+              req.isInService == 'true'
+                  ?
+
+                  ///
+                  /// Bsn SELECTED:
+
+                  const Text('Selectedf', style: TextStyle(color: Colors.white))
+                  :
+
+                  /// isInService false:  Bsn not SELECTED:
+                  ///
+                  /// Bas Crm Admin anatakawa achague Huduma aipendayo
+
+                  GestureDetector(
+                      onTap: () {
+                        checkSelection(context, req);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: OColors.primary,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 4.0, bottom: 4.0, left: 8, right: 8),
+                          child: Text(
+                            'Choose',
+                            style: TextStyle(
+                                color: OColors.fontColor, fontSize: 10),
+                          ),
+                        ),
+                      ),
+                    ),
+        ],
+      ),
+    );
+  }
+
+  /// Request Boddy
   Column requestBody(
-      BuildContext context, String title, List<RequestsModel> arr) {
+      BuildContext context, String title, List<RequestsModel> arr, open) {
     return Column(
       children: <Widget>[
-        ///
-        /// Request/invitation Busness title
-        ///
-
         Container(
           color: OColors.darkGrey,
           width: MediaQuery.of(context).size.width,
@@ -569,37 +1346,29 @@ class _CrmnAdminState extends State<CrmnAdmin> {
               children: [
                 Text(title,
                     style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
                         color: OColors.fontColor)),
                 arr.isNotEmpty
                     ? Text('Invited (${arr.length})',
                         style: TextStyle(color: OColors.fontColor))
                     : const SizedBox(),
                 IconButton(
-                    color: OColors.fontColor,
+                    color: OColors.primary,
                     highlightColor: OColors.primary,
                     padding: const EdgeInsets.all(8.0),
                     onPressed: () {
                       setState(() => _openMc ^= true);
                     },
                     icon: _openMc == false
-                        ? Icon(
-                            Icons.keyboard_arrow_up_outlined,
-                            color: OColors.fontColor,
-                          )
+                        ? Icon(Icons.keyboard_arrow_up_outlined,
+                            color: OColors.fontColor)
                         : Icon(Icons.keyboard_arrow_down,
                             color: OColors.fontColor))
               ],
             ),
           ),
         ),
-
-        ///
-        /// Animation container
-        /// open and close by slide up and down
-        ///
-        /// used for desplay all Busness request Or ceremony invitation
         AnimatedClipRect(
           open: _openMc,
           horizontalAnimation: false,
@@ -626,150 +1395,35 @@ class _CrmnAdminState extends State<CrmnAdmin> {
                   childAspectRatio: 0.6),
               itemBuilder: (context, i) {
                 final req = arr[i];
-
-                ///
-                ///
-                /// Busness Container
-                ///
-                return Container(
-                  margin: const EdgeInsets.only(top: 2, bottom: 4),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(width: 0.2),
-                      boxShadow: const [
-                        BoxShadow(
-                            blurRadius: 4.0,
-                            spreadRadius: 0.2,
-                            offset: Offset(0.1, 0.5)),
-                      ],
-                      color: OColors.darGrey),
-                  child: Column(
-                    children: [
-                      Image.network(
-                        '${api}public/uploads/${req.bsnUsername}/busness/${req.coProfile}',
-                        height: 60,
-                        width: MediaQuery.of(context).size.width,
-                        fit: BoxFit.cover,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        '${req.price} Tsh',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14,
-                            color: OColors.fontColor),
-                      ),
-                      Text(
-                        '${req.knownAs} ',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w300,
-                            fontSize: 12,
-                            color: OColors.fontColor),
-                      ),
-                      const SizedBox(
-                        height: 6,
-                      ),
-
-                      /// Bsn kama amekubali request kutoka kwa crm Admin
-                      req.confirm == '1'
-                          ?
-
-                          ///
-                          ///Bsn not Confirmed Request from Crmn Admin
-                          ///Crmn Admin can Cancel Request
-                          ///
-                          GestureDetector(
-                              onTap: () {
-                                cancelRequest(req);
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: OColors.primary,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 4.0, bottom: 4.0, left: 8, right: 8),
-                                  child: Text(
-                                    'Cancel Req..',
-                                    style: TextStyle(
-                                        color: OColors.fontColor, fontSize: 10),
-                                  ),
-                                ),
-                              ),
-                            )
-                          :
-
-                          ///
-                          ///Bsn Confirmed, request send By  Crm Admin
-                          /// Then
-                          ///If Bsn SELECTED: to service table
-                          ///
-                          req.isInService == 'true'
-                              ?
-
-                              ///
-                              /// Bsn SELECTED:
-                              ///
-                              ///
-
-                              const Text('Selectedf',
-                                  style: TextStyle(color: Colors.white))
-                              :
-
-                              /// isInService false:  Bsn not SELECTED:
-                              ///
-                              /// Bas Crm Admin anatakawa achague Huduma aipendayo
-                              ///
-                              GestureDetector(
-                                  onTap: () {
-                                    checkSelection(context, req);
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: OColors.primary,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 4.0,
-                                          bottom: 4.0,
-                                          left: 8,
-                                          right: 8),
-                                      child: Text(
-                                        'Choose',
-                                        style: TextStyle(
-                                            color: OColors.fontColor,
-                                            fontSize: 10),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                      req.confirm == '0'
-                          ? Text(
-                              'Wait..',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  // fontWeight: FontWeight.bold,
-                                  color: OColors.primary),
-                            )
-                          : Text(
-                              'Select',
-                              style: TextStyle(
-
-                                  // fontWeight: FontWeight.bold,
-                                  color: OColors.primary),
-                            ),
-                    ],
-                  ),
-                );
+                return reqContainer(context, req);
               },
             ),
           ),
         ),
       ],
+    );
+  }
+
+  BsnDetails reqBsnDetaOnTap(RequestsModel req) {
+    return BsnDetails(
+      ceremonyData: widget.crm,
+      data: BusnessModel(
+          location: req.location,
+          bId: req.bId,
+          knownAs: req.knownAs,
+          coProfile: req.coProfile,
+          busnessType: req.busnessType,
+          avater: '',
+          companyName: req.companyName,
+          ceoId: req.ceoId,
+          price: req.price,
+          contact: req.bsncontact,
+          hotStatus: req.hotStatus,
+          aboutCEO: req.aboutCEO,
+          aboutCompany: req.aboutCompany,
+          createdBy: req.bsnCreatedDate,
+          username: req.bsnUsername,
+          subcrlevel: req.activeted),
     );
   }
 
@@ -993,3 +1647,63 @@ class _CrmnAdminState extends State<CrmnAdmin> {
     );
   }
 }
+
+
+
+//  for (int i = 0; i < arr.length; i++) {
+//       List myList = ['${arr[i]}Req'];
+
+//       // print(myList);
+
+//       myCategoryDynamic[myList] = [
+//         {
+//           'hostId': '',
+//           'busnessId': '',
+//           'ceremonyId': '',
+//           'createdBy': '',
+//           'contact': '',
+//           'confirm': '',
+//           'createdDate': '',
+//           'coProfile': '',
+//           'knownAs': '',
+//           'price': '',
+//           'bsncontact': '',
+//           'busnessType': '',
+//           'bsncreatedBy': '',
+//           'bsnUsername': '',
+//           'level': '',
+//           'categoryId': '',
+//           'activeted': ''
+//         }
+//       ];
+//     }
+
+   // myCategoryDynamic.map((key, value) {
+    //   // print('valuee');
+    //   // print(value);
+
+    //   print('keyy');
+    //   print(key);
+
+    //   print('Encodevaluee');
+    //   print(jsonEncode(value));
+    //   final j = jsonEncode(value);
+
+    //   return value;
+    // });
+    // // print('g tyeem');
+    // // print(g);
+
+          /// Proceed
+          // for (int i = 0; i < arr.length; i++) {
+          //   for (var key in myCategoryDynamic.keys) {
+          //     String k = key.join();
+
+          //     if (k.toString().startsWith(arr[i])) {
+          //       print(myCategoryDynamic);
+          //       // key.removeWhere((element) => element.busnessId.isEmpty);
+          //       print('myCategoryDynamic');
+          //       print(myCategoryDynamic);
+          //     }
+          //   }
+          // }
