@@ -5,6 +5,7 @@ import 'package:sherekoo/util/colors.dart';
 import '../../model/allData.dart';
 import '../../model/busness/busnessModel.dart';
 import '../../model/ceremony/ceremonyModel.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/util.dart';
 
@@ -33,16 +34,14 @@ class _SearchBusnessState extends State<SearchBusness> {
     ceremonyDate: '',
     admin: '',
     contact: '',
-    u1: '',
-    u1Avt: '',
-    u1Fname: '',
-    u1Lname: '',
-    u1g: '',
-    u2: '',
-    u2Avt: '',
-    u2Fname: '',
-    u2Lname: '',
-    u2g: '',
+     userFid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
+                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
     youtubeLink: '',
   );
 
@@ -145,7 +144,7 @@ class _SearchBusnessState extends State<SearchBusness> {
                                 margin: const EdgeInsets.only(right: 10),
                                 child: option.coProfile != ''
                                     ? Image.network(
-                                        '${api}public/uploads/${option.username}/busness/${option.coProfile}',
+                                        '${api}public/uploads/${option.user.username}/busness/${option.coProfile}',
                                         fit: BoxFit.cover,
                                         height: 40,
                                       )

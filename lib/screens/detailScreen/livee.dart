@@ -4,7 +4,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../model/allData.dart';
 import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
@@ -43,7 +43,11 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
       address: '',
       bio: '',
       meritalStatus: '',
-      totalPost: '');
+      totalPost: '', isCurrentBsnAdmin: '', 
+      isCurrentCrmAdmin: '',
+      totalFollowers: '', 
+      totalFollowing: '', 
+      totalLikes: '');
 
   @override
   void initState() {

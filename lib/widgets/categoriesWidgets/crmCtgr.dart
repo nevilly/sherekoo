@@ -5,6 +5,7 @@ import 'package:sherekoo/util/colors.dart';
 
 import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/pallets.dart';
 import '../../util/util.dart';
@@ -49,16 +50,14 @@ class _CrmCategoriesWidgetState extends State<CrmCategoriesWidget> {
       ceremonyDate: '',
       admin: '',
       contact: '',
-      u1: '',
-      u1Avt: '',
-      u1Fname: '',
-      u1Lname: '',
-      u1g: '',
-      u2: '',
-      u2Avt: '',
-      u2Fname: '',
-      u2Lname: '',
-      u2g: '',
+         userFid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
+                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
       youtubeLink: '');
   String bsnType = '';
 
@@ -163,7 +162,7 @@ class _CrmCategoriesWidgetState extends State<CrmCategoriesWidget> {
                                 ),
                                 child: data[index].cImage != ''
                                     ? Image.network(
-                                        '${api}public/uploads/${data[index].u1}/ceremony/${data[index].cImage}',
+                                        '${api}public/uploads/${data[index].userFid.username}/ceremony/${data[index].cImage}',
                                         fit: BoxFit.cover,
                                         height: 45,
                                       )

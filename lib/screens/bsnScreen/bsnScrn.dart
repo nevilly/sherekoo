@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sherekoo/model/busness/busnessModel.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 
+import '../../model/userModel.dart';
 import '../../util/colors.dart';
 import 'bsnTabs.dart';
 import '../uploadScreens/busnessUpload.dart';
@@ -28,16 +29,14 @@ class _BusnessScreenState extends State<BusnessScreen> {
     ceremonyDate: '',
     admin: '',
     contact: '',
-    u1: '',
-    u1Avt: '',
-    u1Fname: '',
-    u1Lname: '',
-    u1g: '',
-    u2: '',
-    u2Avt: '',
-    u2Fname: '',
-    u2Lname: '',
-    u2g: '',
+    userFid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
+                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
     youtubeLink: '',
   );
   BusnessModel busness = BusnessModel(
@@ -46,16 +45,37 @@ class _BusnessScreenState extends State<BusnessScreen> {
       knownAs: '',
       coProfile: '',
       busnessType: '',
-      avater: '',
+    
       companyName: '',
       price: '',
       contact: '',
       hotStatus: '',
       aboutCEO: '',
       aboutCompany: '',
-      username: '',
+      createdDate: '',
+
       ceoId: '',
-      subcrlevel: '', createdBy: '');
+      subcrlevel: '', createdBy: '',  user: User(
+              id: '',
+              username: '',
+              firstname: '',
+              lastname: '',
+              avater: '',
+              phoneNo: '',
+              email: '',
+              gender: '',
+              role: '',
+              isCurrentUser: '',
+              address: '',
+              bio: '',
+              meritalStatus: '',
+              totalPost: '',
+              isCurrentBsnAdmin: '',
+              isCurrentCrmAdmin: '',
+              totalFollowers: '',
+              totalFollowing: '',
+              totalLikes: '')
+   );
   @override
   void initState() {
     ceremony = widget.ceremony;

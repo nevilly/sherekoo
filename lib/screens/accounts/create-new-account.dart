@@ -5,7 +5,7 @@ import 'package:sherekoo/util/Locale.dart';
 
 import '../../model/allData.dart';
 import '../../model/authentication/creatAccount.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/pallets.dart';
 import '../../util/util.dart';
@@ -38,7 +38,11 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
       isCurrentUser: '',
       address: '',
       bio: '',
-      meritalStatus: '', totalPost: '');
+      meritalStatus: '', totalPost: '', isCurrentBsnAdmin: '', 
+      isCurrentCrmAdmin: '',
+      totalFollowers: '', 
+      totalFollowing: '', 
+      totalLikes: '');
   bool isLoggedIn = false;
   // String _email;
   //String _password;

@@ -15,7 +15,7 @@ import 'package:sherekoo/model/post/post.dart';
 import 'package:sherekoo/screens/chats.dart';
 import 'package:sherekoo/util/util.dart';
 
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../screens/crmScreen/crmDoor.dart';
 import '../../screens/detailScreen/livee.dart';
 import '../../screens/homNav.dart';
@@ -215,7 +215,11 @@ class PostTemplateState extends State<PostTemplate> {
                                         address: '',
                                         bio: '',
                                         meritalStatus: '',
-                                        totalPost: ''),
+                                        totalPost: '', isCurrentBsnAdmin: '', 
+      isCurrentCrmAdmin: '',
+      totalFollowers: '', 
+      totalFollowing: '', 
+      totalLikes: ''),
                                     getIndex: 4,
                                   )));
                     },
@@ -440,16 +444,16 @@ class PostTemplateState extends State<PostTemplate> {
                               ceremonyDate: '',
                               contact: '',
                               admin: '',
-                              u1: widget.crmUsername,
-                              u1Avt: '',
-                              u1Fname: '',
-                              u1Lname: '',
-                              u1g: '',
-                              u2: '',
-                              u2Avt: '',
-                              u2Fname: '',
-                              u2Lname: '',
-                              u2g: '',
+
+                                 userFid: User(id: '', username: widget.crmUsername, firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
+                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
+                        
                               youtubeLink: widget.crmYoutubeLink),
                         )))
             : Navigator.push(
@@ -467,16 +471,18 @@ class PostTemplateState extends State<PostTemplate> {
                               ceremonyDate: '',
                               contact: '',
                               admin: '',
-                              u1: widget.crmUsername,
-                              u1Avt: '',
-                              u1Fname: '',
-                              u1Lname: '',
-                              u1g: '',
-                              u2: '',
-                              u2Avt: '',
-                              u2Fname: '',
-                              u2Lname: '',
-                              u2g: '',
+
+                               userFid: User(id: '', username: widget.crmUsername, firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
+                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
+
+
+                          
                               youtubeLink: widget.crmYoutubeLink),
                         )));
       },

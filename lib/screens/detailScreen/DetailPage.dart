@@ -6,7 +6,7 @@ import '../../model/busness/busnessModel.dart';
 import '../../model/busness/busnessPhotoModel.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/getAll.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../model/services/ServicesModelModel.dart';
 import '../../model/services/postServices.dart';
 import '../../model/services/svModel.dart';
@@ -50,7 +50,12 @@ class _BsnDetailsState extends State<BsnDetails> {
       address: '',
       bio: '',
       meritalStatus: '',
-      totalPost: '');
+      totalPost: '',
+      isCurrentBsnAdmin: '',
+      isCurrentCrmAdmin: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: '');
 
   CeremonyModel ceremony = CeremonyModel(
     cId: '',
@@ -63,16 +68,14 @@ class _BsnDetailsState extends State<BsnDetails> {
     ceremonyDate: '',
     admin: '',
     contact: '',
-    u1: '',
-    u1Avt: '',
-    u1Fname: '',
-    u1Lname: '',
-    u1g: '',
-    u2: '',
-    u2Avt: '',
-    u2Fname: '',
-    u2Lname: '',
-    u2g: '',
+    userFid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
+                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
     youtubeLink: '',
   );
 
@@ -124,7 +127,7 @@ class _BsnDetailsState extends State<BsnDetails> {
 
   getOther() async {
     AllBusnessModel(payload: [], status: 0)
-        .onBusnessType(token, urlBusnessByType, data.busnessType)
+        .onGoldenBusness(token, urlGoldBusness, data.busnessType, '')
         .then((value) {
       setState(() {
         // print(value.payload);

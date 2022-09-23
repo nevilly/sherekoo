@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../model/allData.dart';
 import '../../model/chats/chatsModel.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
@@ -34,7 +34,11 @@ class _ChatSettingsState extends State<ChatSettings> {
       address: '',
       bio: '',
       meritalStatus: '',
-      totalPost: '');
+      totalPost: '', isCurrentBsnAdmin: '', 
+      isCurrentCrmAdmin: '',
+      totalFollowers: '', 
+      totalFollowing: '', 
+      totalLikes: '');
 
   @override
   void initState() {

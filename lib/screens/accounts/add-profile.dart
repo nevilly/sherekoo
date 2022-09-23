@@ -10,7 +10,7 @@ import 'package:sherekoo/util/colors.dart';
 
 import '../../model/allData.dart';
 import '../../model/authentication/creatAccount.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/util.dart';
 
@@ -38,7 +38,15 @@ class _CompleteProfileState extends State<CompleteProfile> {
       isCurrentUser: '',
       address: '',
       bio: '',
-      meritalStatus: '', totalPost: '');
+      meritalStatus: '', 
+      totalPost: '',
+      isCurrentBsnAdmin: '', 
+      isCurrentCrmAdmin: '',
+      totalFollowers: '', 
+      totalFollowing: '', 
+      totalLikes: ''
+      
+      );
 
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();

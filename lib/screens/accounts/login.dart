@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import '../../model/authentication/loginModel.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../util/Locale.dart';
 import '../../util/Preferences.dart';
 import '../../util/pallets.dart';
@@ -39,7 +39,12 @@ class _LoginPageState extends State<LoginPage> {
       isCurrentUser: '',
       address: '',
       bio: '',
-      meritalStatus: '', totalPost: '');
+      meritalStatus: '', totalPost: '', 
+      isCurrentBsnAdmin: '', 
+      isCurrentCrmAdmin: '',
+      totalFollowers: '', 
+      totalFollowing: '', 
+      totalLikes: '');
 
   @override
   void initState() {

@@ -4,7 +4,7 @@ import 'package:sherekoo/screens/homNav.dart';
 
 import '../model/chats/chatPost.dart';
 import '../model/chats/chatsModel.dart';
-import '../model/profileMode.dart';
+import '../model/userModel.dart';
 import '../util/Preferences.dart';
 import '../util/colors.dart';
 import '../util/util.dart';
@@ -151,7 +151,11 @@ class _PostChatsState extends State<PostChats> {
                                                       address: '',
                                                       bio: '',
                                                       meritalStatus: '',
-                                                      totalPost: ''),
+                                                      totalPost: '', isCurrentBsnAdmin: '', 
+      isCurrentCrmAdmin: '',
+      totalFollowers: '', 
+      totalFollowing: '', 
+      totalLikes: ''),
                                                   getIndex: 4,
                                                 )));
                                   },
@@ -197,7 +201,11 @@ class _PostChatsState extends State<PostChats> {
                                                       address: '',
                                                       bio: '',
                                                       meritalStatus: '',
-                                                      totalPost: ''),
+                                                      totalPost: '', isCurrentBsnAdmin: '', 
+      isCurrentCrmAdmin: '',
+      totalFollowers: '', 
+      totalFollowing: '', 
+      totalLikes: ''),
                                                   getIndex: 4,
                                                 )));
                                   },

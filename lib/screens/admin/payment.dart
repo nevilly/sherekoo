@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sherekoo/model/userModel.dart';
 
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/requests/requestsModel.dart';
@@ -63,16 +64,46 @@ class _MyServiceState extends State<MyService> {
                         ceremonyDate: '',
                         contact: '',
                         admin: '',
-                        u1: '',
-                        u1Avt: '',
-                        u1Fname: '',
-                        u1Lname: '',
-                        u1g: '',
-                        u2: '',
-                        u2Avt: '',
-                        u2Fname: '',
-                        u2Lname: '',
-                        u2g: '',
+                        userFid: User(
+                            id: '',
+                            username: '',
+                            firstname: '',
+                            lastname: '',
+                            avater: '',
+                            phoneNo: '',
+                            email: '',
+                            gender: '',
+                            role: '',
+                            address: '',
+                            meritalStatus: '',
+                            bio: '',
+                            totalPost: '',
+                            isCurrentUser: '',
+                            isCurrentCrmAdmin: '',
+                            isCurrentBsnAdmin: '',
+                            totalFollowers: '',
+                            totalFollowing: '',
+                            totalLikes: ''),
+                        userSid: User(
+                            id: '',
+                            username: '',
+                            firstname: '',
+                            lastname: '',
+                            avater: '',
+                            phoneNo: '',
+                            email: '',
+                            gender: '',
+                            role: '',
+                            address: '',
+                            meritalStatus: '',
+                            bio: '',
+                            totalPost: '',
+                            isCurrentUser: '',
+                            isCurrentCrmAdmin: '',
+                            isCurrentBsnAdmin: '',
+                            totalFollowers: '',
+                            totalFollowing: '',
+                            totalLikes: ''),
                         youtubeLink: ''))));
       }
     });
@@ -124,7 +155,7 @@ class _MyServiceState extends State<MyService> {
                 // mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Image.network(
-                    '${api}public/uploads/${widget.req.bsnUsername}/busness/${widget.req.coProfile}',
+                    '${api}public/uploads/${widget.req.bsnInfo.user.username}/busness/${widget.req.bsnInfo.coProfile}',
                     height: 80,
                     width: 80,
                     fit: BoxFit.cover,
@@ -134,11 +165,11 @@ class _MyServiceState extends State<MyService> {
                     child: Column(
                       children: [
                         Text(
-                          widget.req.knownAs,
+                          widget.req.bsnInfo.knownAs,
                           style: const TextStyle(color: Colors.white),
                         ),
                         Text(
-                          widget.req.price,
+                          widget.req.bsnInfo.price,
                           style: const TextStyle(color: Colors.white),
                         ),
                       ],

@@ -1,3 +1,5 @@
+import 'package:sherekoo/model/userModel.dart';
+
 class BusnessModel {
   final String bId;
   final String busnessType;
@@ -13,9 +15,9 @@ class BusnessModel {
   final String hotStatus;
   final String aboutCompany;
   final String createdBy;
+   final String 	createdDate;
 
-  final String username;
-  final String avater;
+  final User user;
 
   // subscription
   final String subcrlevel;
@@ -26,7 +28,8 @@ class BusnessModel {
     required this.knownAs,
     required this.coProfile,
     required this.busnessType,
-    required this.avater,
+    required this.createdDate,
+
     required this.companyName,
     required this.ceoId,
     required this.price,
@@ -35,7 +38,7 @@ class BusnessModel {
     required this.aboutCEO,
     required this.aboutCompany,
     required this.createdBy,
-    required this.username,
+    required this.user,
     required this.subcrlevel,
   });
 
@@ -48,15 +51,15 @@ class BusnessModel {
       coProfile: json['coProfile'] ?? "",
       knownAs: json['knownAs'] ?? "",
       price: json['price'] ?? "",
-      avater: json['avater'] ?? "",
       ceoId: json['ceoId'] ?? "",
-      username: json['username'] ?? "",
       subcrlevel: json['subcrlevel'] ?? "",
       aboutCompany: json['aboutCompany'] ?? "",
       hotStatus: json['hotStatus'] ?? "",
       contact: json['contact'],
       location: json['location'] ?? "",
       createdBy: json['createdBy'],
+      createdDate: json['createdDate'],
+      user: User.fromJson(json['user']),
     );
   }
 }

@@ -111,7 +111,7 @@ class BusnessLst extends StatelessWidget {
                                 child: ClipOval(
                                     child: otherBsn[index].coProfile != ''
                                         ? Image.network(
-                                            '${api}public/uploads/${otherBsn[index].username}/busness/${otherBsn[index].coProfile}',
+                                            '${api}public/uploads/${otherBsn[index].user.username}/busness/${otherBsn[index].coProfile}',
                                             fit: BoxFit.cover,
                                             width: 90.0,
                                             height: 90.0,

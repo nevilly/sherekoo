@@ -4,7 +4,7 @@ import 'package:sherekoo/util/colors.dart';
 import '../../model/busness/allBusness.dart';
 import '../../model/busness/busnessModel.dart';
 import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/pallets.dart';
 import '../../util/util.dart';
@@ -36,16 +36,14 @@ class _MyBusnessState extends State<MyBusness> {
     ceremonyDate: '',
     admin: '',
     contact: '',
-    u1: '',
-    u1Avt: '',
-    u1Fname: '',
-    u1Lname: '',
-    u1g: '',
-    u2: '',
-    u2Avt: '',
-    u2Fname: '',
-    u2Lname: '',
-    u2g: '',
+   userFid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
+                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
     youtubeLink: '',
   );
 
@@ -114,7 +112,7 @@ class _MyBusnessState extends State<MyBusness> {
                                     child: Center(
                                         child: myBsn[index].coProfile != ''
                                             ? Image.network(
-                                                '${api}public/uploads/${myBsn[index].username}/busness/${myBsn[index].coProfile}',
+                                                '${api}public/uploads/${myBsn[index].user.username}/busness/${myBsn[index].coProfile}',
                                                 height: 60,
                                                 width: 65,
                                                 fit: BoxFit.cover,

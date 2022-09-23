@@ -4,7 +4,7 @@ import 'package:sherekoo/screens/detailScreen/livee.dart';
 import 'package:sherekoo/screens/bsnScreen/bsnScrn.dart';
 
 import '../../model/allData.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
@@ -33,7 +33,11 @@ class _NavDrawerState extends State<NavDrawer> {
       email: '',
       gender: '',
       role: '',
-      isCurrentUser: '', address: '', bio: '', meritalStatus: '', totalPost: '');
+      isCurrentUser: '', address: '', bio: '', meritalStatus: '', totalPost: '', isCurrentBsnAdmin: '', 
+      isCurrentCrmAdmin: '',
+      totalFollowers: '', 
+      totalFollowing: '', 
+      totalLikes: '');
 
   CeremonyModel ceremony = CeremonyModel(
       cId: '',
@@ -46,16 +50,14 @@ class _NavDrawerState extends State<NavDrawer> {
       ceremonyDate: '',
       contact: '',
       admin: '',
-      u1: '',
-      u1Avt: '',
-      u1Fname: '',
-      u1Lname: '',
-      u1g: '',
-      u2: '',
-      u2Avt: '',
-      u2Fname: '',
-      u2Lname: '',
-      u2g: '',
+       userFid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
+                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
       youtubeLink: '');
 
   @override

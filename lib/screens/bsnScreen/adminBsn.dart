@@ -341,7 +341,7 @@ class _AdminBsnState extends State<AdminBsn> {
                                                 sigmaY: 7.0,
                                               ),
                                               child: Image.network(
-                                                '${api}public/uploads/${req[i].fIdUname}/ceremony/${req[i].cImage}',
+                                                '${api}public/uploads/${req[i].crmInfo.userFid.username}/ceremony/${req[i].crmInfo.cImage}',
                                                 height: 70,
                                                 width: 65,
                                                 fit: BoxFit.cover,
@@ -371,7 +371,7 @@ class _AdminBsnState extends State<AdminBsn> {
                                             ),
                                           )
                                         : Image.network(
-                                            '${api}public/uploads/${req[i].fIdUname}/ceremony/${req[i].cImage}',
+                                            '${api}public/uploads/${req[i].crmInfo.userFid.username}/ceremony/${req[i].crmInfo.cImage}',
                                             height: 70,
                                             width: 65,
                                             fit: BoxFit.cover,
@@ -403,7 +403,7 @@ class _AdminBsnState extends State<AdminBsn> {
                                 /// Ceremony Type
                                 ///
                                 title: Text(
-                                  req[i].ceremonyType,
+                                  req[i].crmInfo.ceremonyType,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       color: OColors.fontColor),

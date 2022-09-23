@@ -5,6 +5,7 @@ import '../../model/busness/allBusness.dart';
 import '../../model/busness/busnessModel.dart';
 import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
+import '../../model/userModel.dart';
 import '../../screens/detailScreen/DetailPage.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
@@ -53,16 +54,14 @@ class _CategoryBodyState extends State<CategoryBody> {
       ceremonyDate: '',
       admin: '',
       contact: '',
-      u1: '',
-      u1Avt: '',
-      u1Fname: '',
-      u1Lname: '',
-      u1g: '',
-      u2: '',
-      u2Avt: '',
-      u2Fname: '',
-      u2Lname: '',
-      u2g: '',
+        userFid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
+                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
       youtubeLink: '');
   String bsnType = '';
 
@@ -89,7 +88,7 @@ class _CategoryBodyState extends State<CategoryBody> {
 
   getAll(bsn) async {
     AllBusnessModel(payload: [], status: 0)
-        .onBusnessType(token, urlBusnessByType, bsn)
+        .onGoldenBusness(token, urlGoldBusness, bsn,'')
         .then((value) {
       if (mounted) {
         setState(() {
@@ -202,7 +201,7 @@ class _CategoryBodyState extends State<CategoryBody> {
                                 ),
                                 child: data[index].coProfile != ''
                                     ? Image.network(
-                                        '${api}public/uploads/${data[index].username}/busness/${data[index].coProfile}',
+                                        '${api}public/uploads/${data[index].user.username}/busness/${data[index].coProfile}',
                                         height: 45,
                                         fit: BoxFit.cover,
                                       )

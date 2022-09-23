@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-
-
 class AllUsersModel {
   final int status;
   dynamic payload;
@@ -30,6 +28,7 @@ class AllUsersModel {
 
     return await http.get(url, headers: headers).then((http.Response r) {
       if (r.statusCode == 200) {
+        print(r.body);
         return AllUsersModel.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       } else {

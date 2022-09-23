@@ -1,44 +1,22 @@
+import 'package:sherekoo/model/busness/busnessModel.dart';
+import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
+
+
+
 class RequestsModel {
   final String hostId;
   final String busnessId;
   final String ceremonyId;
-  String confirm;
+ 
   final String createdBy;
   final String createdDate;
-
+  String confirm;
+  
 // Ceremony Model
-  final String cId;
-  final String codeNo;
-  final String cImage;
-  final String cName;
-  final String ceremonyType;
-  final String fId;
-  final String fIdAvater;
-  final String fIdUname;
-  final String sId;
-  final String sIdAvater;
-  final String sIdUname;
-  final String crmContact;
-  final String ceremonyDate;
+  final CeremonyModel crmInfo;
 
 // Busness Data
-  final String bId;
-  final String busnessType;
-  final String knownAs;
-  final String companyName;
-  final String coProfile;
-  final String price;
-  final String bsncontact;
-  final String bsncreatedBy;
-  final String bsnUsername;
-  final String ceoId;
-  final String location;
-  final String aboutCEO;
-  final String aboutCompany;
-  final String hotStatus;
-  final String bsnCreatedDate;
-  // final String bsnAvater;
-  // final String bsnUname;
+  final BusnessModel bsnInfo;
 
   // Service Info
   final String isInService;
@@ -64,38 +42,10 @@ class RequestsModel {
     required this.createdBy,
 
     //Busness Model
-    required this.bId,
-    required this.busnessType,
-    required this.knownAs,
-    required this.companyName,
-    required this.coProfile,
-    required this.price,
-    required this.bsncontact,
-    required this.bsncreatedBy,
-    required this.bsnUsername,
-    // required this.bsnAvater,
-    // required this.bsnUname,
-    required this.location,
-    required this.aboutCEO,
-    required this.aboutCompany,
-    required this.hotStatus,
-    required this.bsnCreatedDate,
+    required this.bsnInfo,
 
     //Ceremon Model
-    required this.cId,
-    required this.cName,
-    required this.cImage,
-    required this.codeNo,
-    required this.ceremonyType,
-    required this.crmContact,
-    required this.ceoId,
-    required this.fId,
-    required this.sId,
-    required this.fIdAvater,
-    required this.fIdUname,
-    required this.sIdAvater,
-    required this.sIdUname,
-    required this.ceremonyDate,
+  required this.crmInfo,
 
     // Service Model
     required this.isInService,
@@ -117,43 +67,18 @@ class RequestsModel {
       hostId: json['hostId'] ?? "",
       ceremonyId: json['ceremonyId'] ?? "",
       busnessId: json['busnessId'] ?? "",
-      busnessType: json['busnessType'] ?? "",
+
       confirm: json['confirm'] ?? "",
 
       //Ceremony Model
-      cId: json['cId'] ?? "",
-      cName: json['cName'] ?? "",
-      codeNo: json['codeNo'] ?? "",
-      ceremonyType: json['ceremonyType'] ?? "",
-      ceoId: json['ceoId'] ?? "",
-      fId: json['fId'] ?? "",
-      sId: json['sId'] ?? "",
-      fIdAvater: json['fIdAvater'] ?? "",
-      fIdUname: json['fIdUname'] ?? "",
-      sIdAvater: json['sIdAvater'] ?? "",
-      sIdUname: json['sIdUname'] ?? "",
-      cImage: json['cImage'] ?? "",
-      ceremonyDate: json['ceremonyDate'] ?? "",
-      crmContact: json['crmContact'] ?? "",
+     crmInfo:CeremonyModel.fromJson(json['crmInfo']),
 
       // Busness Model
-      bId: json['bId'] ?? "",
+      bsnInfo: BusnessModel.fromJson(json['bsnInfo']),
+
       createdDate: json['createdDate'] ?? "",
-      price: json['price'] ?? "",
-      knownAs: json['knownAs'] ?? "",
-      companyName: json['companyName'] ?? "",
+
       createdBy: json['createdBy'] ?? "",
-      coProfile: json['coProfile'] ?? "",
-      bsncontact: json['bsncontact'] ?? "",
-      bsncreatedBy: json['bsncreatedBy'] ?? "",
-      bsnUsername: json['bsnUsername'] ?? "",
-      // bsnAvater: json['bsnAvater'],
-      // bsnUname: json['bsnUname'],
-      location: json['location'] ?? "",
-      aboutCEO: json['aboutCEO'] ?? "",
-      aboutCompany: json['aboutCompany'] ?? "",
-      hotStatus: json['hotStatus'] ?? "",
-      bsnCreatedDate: json['bsnCreatedDate']?? "",
 
       //SubScription Model
       subId: json['subId'] ?? "",
@@ -168,7 +93,6 @@ class RequestsModel {
       svId: json['svId'] ?? "",
       svPayStatus: json['svPayStatus'] ?? "",
       svAmount: json['svAmount'] ?? "",
-       
     );
   }
 }

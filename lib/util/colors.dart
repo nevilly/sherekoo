@@ -75,6 +75,7 @@ TextStyle header13 = TextStyle(
 TextStyle header12 = TextStyle(
     fontSize: 12, color: OColors.fontColor, fontWeight: FontWeight.w300);
 TextStyle header10 = TextStyle(fontSize: 10, color: OColors.fontColor);
+TextStyle header11 = TextStyle(fontSize: 11, color: OColors.fontColor);
 TextStyle ef = TextStyle(color: OColors.fontColor); // empty font
 
 //Button font

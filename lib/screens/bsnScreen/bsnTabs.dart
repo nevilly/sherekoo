@@ -4,7 +4,7 @@ import '../../model/allData.dart';
 import '../../model/busness/allBusness.dart';
 import '../../model/busness/busnessModel.dart';
 import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
@@ -40,16 +40,14 @@ class BsnTabState extends State<BsnTab> {
     ceremonyDate: '',
     admin: '',
     contact: '',
-    u1: '',
-    u1Avt: '',
-    u1Fname: '',
-    u1Lname: '',
-    u1g: '',
-    u2: '',
-    u2Avt: '',
-    u2Fname: '',
-    u2Lname: '',
-    u2g: '',
+    userFid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
+                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
     youtubeLink: '',
   );
 
@@ -68,6 +66,11 @@ class BsnTabState extends State<BsnTab> {
     bio: '',
     meritalStatus: '',
     totalPost: '',
+     isCurrentBsnAdmin: '', 
+      isCurrentCrmAdmin: '',
+      totalFollowers: '', 
+      totalFollowing: '', 
+      totalLikes: ''
   );
 
   @override
@@ -97,7 +100,7 @@ class BsnTabState extends State<BsnTab> {
   getAllBusness(arg) async {
     if (arg != 'all') {
       AllBusnessModel(payload: [], status: 0)
-          .onBusnessType(token, urlBusnessByType, widget.bsnType)
+          .onGoldenBusness(token, urlGoldBusness, widget.bsnType,'')
           .then((value) {
         if (value.status == 200) {
           setState(() {
@@ -162,7 +165,7 @@ class BsnTabState extends State<BsnTab> {
                             
                             child: data[index].coProfile != ''
                                 ? Image.network(
-                                    '${api}public/uploads/${data[index].username}/busness/${data[index].coProfile}',
+                                    '${api}public/uploads/${data[index].user.username}/busness/${data[index].coProfile}',
                                     fit: BoxFit.cover,
                                     loadingBuilder: (BuildContext context,
                                         Widget child,

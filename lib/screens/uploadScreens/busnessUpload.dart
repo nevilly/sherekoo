@@ -9,7 +9,7 @@ import 'package:sherekoo/model/busness/busnessModel.dart';
 import '../../model/allData.dart';
 import '../../model/busness/postBusness.dart';
 import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/func.dart';
@@ -54,17 +54,36 @@ class _BusnessUploadState extends State<BusnessUpload> {
       knownAs: '',
       coProfile: '',
       busnessType: '',
-      avater: '',
       companyName: '',
       price: '',
       contact: '',
       hotStatus: '',
       aboutCEO: '',
       aboutCompany: '',
-      username: '',
       ceoId: '',
       subcrlevel: '',
-      createdBy: '');
+      createdBy: '',
+      user: User(
+          id: '',
+          username: '',
+          firstname: '',
+          lastname: '',
+          avater: '',
+          phoneNo: '',
+          email: '',
+          gender: '',
+          role: '',
+          isCurrentUser: '',
+          address: '',
+          bio: '',
+          meritalStatus: '',
+          totalPost: '',
+          isCurrentBsnAdmin: '',
+          isCurrentCrmAdmin: '',
+          totalFollowers: '',
+          totalFollowing: '',
+          totalLikes: ''),
+      createdDate: '');
 
   CeremonyModel ceremony = CeremonyModel(
       cId: '',
@@ -77,16 +96,46 @@ class _BusnessUploadState extends State<BusnessUpload> {
       ceremonyDate: '',
       contact: '',
       admin: '',
-      u1: '',
-      u1Avt: '',
-      u1Fname: '',
-      u1Lname: '',
-      u1g: '',
-      u2: '',
-      u2Avt: '',
-      u2Fname: '',
-      u2Lname: '',
-      u2g: '',
+      userFid: User(
+          id: '',
+          username: '',
+          firstname: '',
+          lastname: '',
+          avater: '',
+          phoneNo: '',
+          email: '',
+          gender: '',
+          role: '',
+          address: '',
+          meritalStatus: '',
+          bio: '',
+          totalPost: '',
+          isCurrentUser: '',
+          isCurrentCrmAdmin: '',
+          isCurrentBsnAdmin: '',
+          totalFollowers: '',
+          totalFollowing: '',
+          totalLikes: ''),
+      userSid: User(
+          id: '',
+          username: '',
+          firstname: '',
+          lastname: '',
+          avater: '',
+          phoneNo: '',
+          email: '',
+          gender: '',
+          role: '',
+          address: '',
+          meritalStatus: '',
+          bio: '',
+          totalPost: '',
+          isCurrentUser: '',
+          isCurrentCrmAdmin: '',
+          isCurrentBsnAdmin: '',
+          totalFollowers: '',
+          totalFollowing: '',
+          totalLikes: ''),
       youtubeLink: '');
 
   // for_Search Result
@@ -123,9 +172,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
           selectedBusness = widget.getData.busnessType;
 
           if (widget.getData.busnessType == 'Mc') {
-            mcAvater = widget.getData.avater;
+            mcAvater = widget.getData.user.avater;
             mcId = widget.getData.ceoId;
-            mcUsername = widget.getData.username;
+            mcUsername = widget.getData.user.username;
             _mcSubscription = widget.getData.subcrlevel;
             mcDefaultImg = widget.getData.coProfile;
             _mcCoKnownController.text = widget.getData.knownAs;
@@ -138,9 +187,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
           }
 
           if (widget.getData.busnessType == 'Production') {
-            productionAvater = widget.getData.avater;
+            productionAvater = widget.getData.user.avater;
             productionId = widget.getData.ceoId;
-            productionUsername = widget.getData.username;
+            productionUsername = widget.getData.user.username;
             productionSubscription = widget.getData.subcrlevel;
             productionDefaultImg = widget.getData.coProfile;
             _productionCoKnownController.text = widget.getData.knownAs;
@@ -154,9 +203,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _productionCeoPhoneController.text = widget.getData.contact;
           }
           if (widget.getData.busnessType == 'Decorator') {
-            decoratorAvater = widget.getData.avater;
+            decoratorAvater = widget.getData.user.avater;
             decoratorId = widget.getData.ceoId;
-            decoratorUsername = widget.getData.username;
+            decoratorUsername = widget.getData.user.username;
             decoratorSubscription = widget.getData.subcrlevel;
             decoratorDefaultImg = widget.getData.coProfile;
             _decoratorCoKnownController.text = widget.getData.knownAs;
@@ -169,9 +218,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _decoratorCeoPhoneController.text = widget.getData.contact;
           }
           if (widget.getData.busnessType == 'Hall') {
-            hallAvater = widget.getData.avater;
+            hallAvater = widget.getData.user.avater;
             hallId = widget.getData.ceoId;
-            hallUsername = widget.getData.username;
+            hallUsername = widget.getData.user.username;
             hallSubscription = widget.getData.subcrlevel;
             hallDefaultImg = widget.getData.coProfile;
             _hallCoKnownController.text = widget.getData.knownAs;
@@ -183,9 +232,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _hallCeoPhoneController.text = widget.getData.contact;
           }
           if (widget.getData.busnessType == 'Cake Bakery') {
-            cakeAvater = widget.getData.avater;
+            cakeAvater = widget.getData.user.avater;
             cakeId = widget.getData.ceoId;
-            cakeUsername = widget.getData.username;
+            cakeUsername = widget.getData.user.username;
             cakeSubscription = widget.getData.subcrlevel;
             cakeDefaultImg = widget.getData.coProfile;
             _cakeCoKnownController.text = widget.getData.knownAs;
@@ -197,9 +246,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _cakeCeoPhoneController.text = widget.getData.contact;
           }
           if (widget.getData.busnessType == 'Singer') {
-            singersAvater = widget.getData.avater;
+            singersAvater = widget.getData.user.avater;
             singersId = widget.getData.ceoId;
-            singersUsername = widget.getData.username;
+            singersUsername = widget.getData.user.username;
             singersSubscription = widget.getData.subcrlevel;
             singersDefaultImg = widget.getData.coProfile;
             _singersCoKnownController.text = widget.getData.knownAs;
@@ -211,9 +260,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _singersCeoPhoneController.text = widget.getData.contact;
           }
           if (widget.getData.busnessType == 'Dancer') {
-            dancersAvater = widget.getData.avater;
+            dancersAvater = widget.getData.user.avater;
             dancersId = widget.getData.ceoId;
-            dancersUsername = widget.getData.username;
+            dancersUsername = widget.getData.user.username;
             dancersSubscription = widget.getData.subcrlevel;
             dancersDefaultImg = widget.getData.coProfile;
             _dancersCoKnownController.text = widget.getData.knownAs;
@@ -225,9 +274,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _dancersCeoPhoneController.text = widget.getData.contact;
           }
           if (widget.getData.busnessType == 'Cooker') {
-            cookerAvater = widget.getData.avater;
+            cookerAvater = widget.getData.user.avater;
             cookerId = widget.getData.ceoId;
-            cookerUsername = widget.getData.username;
+            cookerUsername = widget.getData.user.username;
             cookerSubscription = widget.getData.subcrlevel;
             cookerDefaultImg = widget.getData.coProfile;
             _cookerCoKnownController.text = widget.getData.knownAs;
@@ -239,9 +288,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _cookerCeoPhoneController.text = widget.getData.contact;
           }
           if (widget.getData.busnessType == 'saloon') {
-            saloonAvater = widget.getData.avater;
+            saloonAvater = widget.getData.user.avater;
             saloonId = widget.getData.ceoId;
-            saloonUsername = widget.getData.username;
+            saloonUsername = widget.getData.user.username;
             saloonSubscription = widget.getData.subcrlevel;
             saloonDefaultImg = widget.getData.coProfile;
             _saloonCoKnownController.text = widget.getData.knownAs;
@@ -253,9 +302,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _saloonCeoPhoneController.text = widget.getData.contact;
           }
           if (widget.getData.busnessType == 'Car') {
-            carsAvater = widget.getData.avater;
+            carsAvater = widget.getData.user.avater;
             carsId = widget.getData.ceoId;
-            carsUsername = widget.getData.username;
+            carsUsername = widget.getData.user.username;
             carsSubscription = widget.getData.subcrlevel;
             carsDefaultImg = widget.getData.coProfile;
             _carsCoKnownController.text = widget.getData.knownAs;
@@ -1116,7 +1165,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                             width: 300, fit: BoxFit.cover)
                         : widget.getData.bId.isNotEmpty
                             ? Image.network(
-                                '${api}public/uploads/${widget.getData.username}/busness/${widget.getData.coProfile}',
+                                '${api}public/uploads/${widget.getData.user.username}/busness/${widget.getData.coProfile}',
                                 fit: BoxFit.cover,
                               )
                             : const Image(

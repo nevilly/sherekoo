@@ -6,7 +6,7 @@ import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../model/post/post.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/func.dart';
@@ -101,7 +101,11 @@ class _UploadVedeoState extends State<UploadVedeo> {
                             address: '',
                             bio: '',
                             meritalStatus: '',
-                            totalPost: ''),
+                            totalPost: '', isCurrentBsnAdmin: '', 
+      isCurrentCrmAdmin: '',
+      totalFollowers: '', 
+      totalFollowing: '', 
+      totalLikes: ''),
                       )));
         } else if (widget.from == 'Ceremony') {
           Navigator.push(

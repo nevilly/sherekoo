@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sherekoo/screens/bsnScreen/adminBsn.dart';
 
 import '../../model/busness/busnessModel.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../screens/detailScreen/DetailPage.dart';
 import '../../screens/subscriptionScreen/hiringPage.dart';
 import '../../util/colors.dart';
@@ -28,7 +28,7 @@ class BusnessProfile extends StatelessWidget {
           child: Center(
               child: data.coProfile != ''
                   ? Image.network(
-                      '${api}public/uploads/${data.username}/busness/${data.coProfile}',
+                      '${api}public/uploads/${data.user.username}/busness/${data.coProfile}',
                       height: 165,
                       fit: BoxFit.cover,
                     )

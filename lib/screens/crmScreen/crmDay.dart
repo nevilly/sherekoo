@@ -5,7 +5,7 @@ import 'package:sherekoo/widgets/imgWigdets/userAvater.dart';
 import '../../model/allData.dart';
 import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
@@ -42,7 +42,11 @@ class _CeremonyDayState extends State<CeremonyDay> {
       address: '',
       bio: '',
       meritalStatus: '',
-      totalPost: '');
+      totalPost: '', isCurrentBsnAdmin: '', 
+      isCurrentCrmAdmin: '',
+      totalFollowers: '', 
+      totalFollowing: '', 
+      totalLikes: '');
 
   @override
   void initState() {
@@ -119,7 +123,7 @@ class _CeremonyDayState extends State<CeremonyDay> {
                                       ? Img(
                                           avater: data[index].cImage,
                                           url: '/ceremony/',
-                                          username: data[index].u1,
+                                          username: data[index].userFid.username,
                                           width: 145,
                                           height: 145,
                                         )
@@ -248,13 +252,13 @@ class _CeremonyDayState extends State<CeremonyDay> {
                                                           'Kigodoro'
                                                   ?
                                                   //if avater not empty
-                                                  data[index].u1Avt.isNotEmpty
+                                                  data[index].userFid.avater.isNotEmpty
                                                       ? UserAvater(
                                                           avater:
-                                                              data[index].u1Avt,
+                                                              data[index].userFid.avater,
                                                           url: '/profile/',
                                                           username:
-                                                              data[index].u1,
+                                                              data[index].userFid.username,
                                                           height: 35,
                                                           width: 35)
                                                       : const DefaultAvater(
@@ -264,13 +268,13 @@ class _CeremonyDayState extends State<CeremonyDay> {
                                                   :
 
                                                   // if birthday is empty must be wedding or send off or kitchn part
-                                                  data[index].u1Avt.isNotEmpty
+                                                  data[index].userFid.avater.isNotEmpty
                                                       ? UserAvater(
                                                           avater:
-                                                              data[index].u1Avt,
+                                                              data[index].userFid.avater,
                                                           url: '/profile/',
                                                           username:
-                                                              data[index].u1,
+                                                              data[index].userFid.username,
                                                           height: 35,
                                                           width: 35)
                                                       : const DefaultAvater(
@@ -295,14 +299,14 @@ class _CeremonyDayState extends State<CeremonyDay> {
                                                 padding:
                                                     const EdgeInsets.all(4.0),
                                                 child: data[index]
-                                                        .u2Avt
+                                                        .userSid.avater
                                                         .isNotEmpty
                                                     ? UserAvater(
                                                         avater:
-                                                            data[index].u2Avt,
+                                                            data[index].userSid.avater,
                                                         url: '/profile/',
                                                         username:
-                                                            data[index].u2,
+                                                            data[index].userSid.username,
                                                         height: 35,
                                                         width: 35)
                                                     : const DefaultAvater(

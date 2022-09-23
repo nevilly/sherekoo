@@ -53,7 +53,7 @@ class CrmSlide extends StatelessWidget {
                                       backgroundImage: NetworkImage(
                                         api +
                                             'public/uploads/' +
-                                            todayCrm[index].u1 +
+                                            todayCrm[index].userFid.username +
                                             '/ceremony/' +
                                             todayCrm[index].cImage,
                                       ),

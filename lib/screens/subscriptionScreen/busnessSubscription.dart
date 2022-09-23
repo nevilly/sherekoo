@@ -4,6 +4,7 @@ import 'package:sherekoo/util/colors.dart';
 
 import '../../model/busness/postBusness.dart';
 import '../../model/ceremony/ceremonyModel.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/util.dart';
 
@@ -97,16 +98,14 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
                           ceremonyDate: '',
                           contact: '',
                           admin: '',
-                          u1: '',
-                          u1Avt: '',
-                          u1Fname: '',
-                          u1Lname: '',
-                          u1g: '',
-                          u2: '',
-                          u2Avt: '',
-                          u2Fname: '',
-                          u2Lname: '',
-                          u2g: '',
+                         userFid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
+                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
                           youtubeLink: ''),
                     )));
       } else {

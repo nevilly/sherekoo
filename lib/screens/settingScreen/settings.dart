@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sherekoo/util/colors.dart';
 
 import '../../model/authentication/creatAccount.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/userAvater.dart';

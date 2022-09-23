@@ -4,7 +4,7 @@ import '../model/ceremony/ceremonyModel.dart';
 import '../model/chats/chatsModel.dart';
 import '../model/post/post.dart';
 import '../model/post/sherekoModel.dart';
-import '../model/profileMode.dart';
+import '../model/userModel.dart';
 import '../screens/detailScreen/livePost.dart';
 import '../util/Preferences.dart';
 import '../util/util.dart';

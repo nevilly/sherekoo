@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sherekoo/util/colors.dart';
 
 import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/services/ServicesModelModel.dart';
 import '../../model/services/svModel.dart';
+import '../../model/userModel.dart';
 import '../../screens/detailScreen/livee.dart';
 import '../../util/util.dart';
 
@@ -72,16 +72,15 @@ class CeremonyList extends StatelessWidget {
                                     ceremonyDate: '',
                                     admin: '',
                                     contact: '',
-                                    u1: '',
-                                    u1Avt: '',
-                                    u1Fname: service[index].fIdUname,
-                                    u1Lname: '',
-                                    u1g: '',
-                                    u2: '',
-                                    u2Avt: '',
-                                    u2Fname: '',
-                                    u2Lname: '',
-                                    u2g: '',
+                                       userFid: User(id: '', username: '', firstname: service[index].fIdUname, lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
+                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
+                               
                                     youtubeLink: '',
                                   ))));
                     },

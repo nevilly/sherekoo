@@ -3,7 +3,7 @@ import 'package:sherekoo/model/requests/requests.dart';
 import 'package:sherekoo/model/services/postServices.dart';
 
 import '../../../model/allData.dart';
-import '../../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../../model/services/svModel.dart';
 import '../../../util/Preferences.dart';
 import '../../../util/util.dart';
@@ -31,7 +31,17 @@ class _InvatationCeremonyState extends State<InvatationCeremony> {
       phoneNo: '',
       email: '',
       gender: '',
-      role: '', isCurrentUser: '', address: '', bio: '', meritalStatus: '', totalPost: '');
+      role: '',
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      meritalStatus: '',
+      totalPost: '',
+      isCurrentBsnAdmin: '',
+      isCurrentCrmAdmin: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: '');
   List<SvModel> invites = [];
   @override
   void initState() {

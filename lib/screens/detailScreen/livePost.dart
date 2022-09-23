@@ -4,7 +4,7 @@ import 'package:sherekoo/screens/detailScreen/livee.dart';
 
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/post/post.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
@@ -163,7 +163,11 @@ class _LiveePostState extends State<LiveePost> {
                                         isCurrentUser: '',
                                         address: '',
                                         bio: '',
-                                        meritalStatus: '', totalPost: ''),
+                                        meritalStatus: '', totalPost: '', isCurrentBsnAdmin: '', 
+      isCurrentCrmAdmin: '',
+      totalFollowers: '', 
+      totalFollowing: '', 
+      totalLikes: ''),
                                     getIndex: 4,
                                   )));
                     },

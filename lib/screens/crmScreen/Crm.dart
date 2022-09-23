@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../model/allData.dart';
 import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
@@ -42,7 +42,11 @@ class _CrmState extends State<Crm> {
       isCurrentUser: '',
       address: '',
       bio: '',
-      meritalStatus: '',
+      meritalStatus: '', isCurrentBsnAdmin: '', 
+      isCurrentCrmAdmin: '',
+      totalFollowers: '', 
+      totalFollowing: '', 
+      totalLikes: '',
       totalPost: '');
 
   @override
@@ -117,7 +121,7 @@ class _CrmState extends State<Crm> {
                                           ? Img(
                                               avater: data[index].cImage,
                                               url: '/ceremony/',
-                                              username: data[index].u1,
+                                              username: data[index].userFid.username,
                                               width: 145,
                                               height: 150,
                                             )
@@ -246,16 +250,16 @@ class _CrmState extends State<Crm> {
                                                       //if avater not empty
                                                       data[
                                                                   index]
-                                                              .u1Avt
+                                                              .userFid.avater
                                                               .isNotEmpty
                                                           ? UserAvater(
                                                               avater: data[index]
-                                                                  .u1Avt,
+                                                                  .userFid.avater,
                                                               url: '/profile/',
                                                               username:
                                                                   data[
                                                                           index]
-                                                                      .u1,
+                                                                      .userFid.username,
                                                               height: 35,
                                                               width: 35)
                                                           : const DefaultAvater(
@@ -267,16 +271,16 @@ class _CrmState extends State<Crm> {
                                                       // if birthday is empty must be wedding or send off or kitchn part
                                                       data[
                                                                   index]
-                                                              .u1Avt
+                                                              .userFid.avater
                                                               .isNotEmpty
                                                           ? UserAvater(
                                                               avater: data[
                                                                       index]
-                                                                  .u1Avt,
+                                                                  .userFid.avater,
                                                               url: '/profile/',
                                                               username:
                                                                   data[index]
-                                                                      .u1,
+                                                                      .userFid.username,
                                                               height: 35,
                                                               width: 35)
                                                           : const DefaultAvater(
@@ -303,14 +307,14 @@ class _CrmState extends State<Crm> {
                                                         const EdgeInsets.all(
                                                             4.0),
                                                     child: data[index]
-                                                            .u2Avt
+                                                            .userSid.avater
                                                             .isNotEmpty
                                                         ? UserAvater(
                                                             avater: data[index]
-                                                                .u2Avt,
+                                                                .userSid.avater,
                                                             url: '/profile/',
                                                             username:
-                                                                data[index].u2,
+                                                                data[index].userSid.username,
                                                             height: 35,
                                                             width: 35)
                                                         : const DefaultAvater(

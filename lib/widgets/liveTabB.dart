@@ -6,7 +6,7 @@ import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 import '../model/allData.dart';
 import '../model/post/post.dart';
 import '../model/post/sherekoModel.dart';
-import '../model/profileMode.dart';
+import '../model/userModel.dart';
 import '../model/services/postServices.dart';
 import '../model/services/svModel.dart';
 import '../util/Preferences.dart';
@@ -49,7 +49,12 @@ class _TabBState extends State<TabB> {
       address: '',
       bio: '',
       meritalStatus: '',
-      totalPost: '');
+      totalPost: '',
+      isCurrentBsnAdmin: '',
+      isCurrentCrmAdmin: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: '');
 
   List<SvModel> bsnInfo = [];
 
@@ -428,25 +433,25 @@ class _TabBState extends State<TabB> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            widget.ceremony.u1g == 'male' && widget.ceremony.u1Avt.isNotEmpty
+            widget.ceremony.userFid.gender == 'male' && widget.ceremony.userFid.avater.isNotEmpty
                 ? ClipRRect(
                     borderRadius: const BorderRadius.all(
                       Radius.circular(20.0),
                     ),
                     child: UserAvater(
-                        avater: widget.ceremony.u1Avt,
+                        avater: widget.ceremony.userFid.avater,
                         url: '/profile/',
-                        username: widget.ceremony.u1,
+                        username: widget.ceremony.userFid.username,
                         height: 80,
                         width: 80),
                   )
                 : const DefaultAvater(height: 80, radius: 20, width: 80),
-            widget.ceremony.u2g == 'female' && widget.ceremony.u2Avt.isNotEmpty
+            widget.ceremony.userSid.gender == 'female' && widget.ceremony.userSid.avater.isNotEmpty
                 ? ClipRRect(
                     child: UserAvater(
-                        avater: widget.ceremony.u2Avt,
+                        avater: widget.ceremony.userSid.avater,
                         url: '/profile/',
-                        username: widget.ceremony.u2,
+                        username: widget.ceremony.userSid.username,
                         height: 80,
                         width: 80),
                   )
@@ -457,7 +462,7 @@ class _TabBState extends State<TabB> {
                     child: DefaultAvater(height: 80, radius: 20, width: 80)),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 18,
         ),
         Container(
@@ -471,7 +476,7 @@ class _TabBState extends State<TabB> {
                 widget.ceremony.ceremonyType,
                 style: header13.copyWith(fontWeight: FontWeight.w400),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Text(
@@ -492,15 +497,15 @@ class _TabBState extends State<TabB> {
         Expanded(
           flex: 3,
           child:
-              widget.ceremony.u1g == 'male' && widget.ceremony.u1Avt.isNotEmpty
+              widget.ceremony.userFid.gender== 'male' && widget.ceremony.userFid.avater.isNotEmpty
                   ? ClipRRect(
                       borderRadius: const BorderRadius.all(
                         Radius.circular(20.0),
                       ),
                       child: UserAvater(
-                          avater: widget.ceremony.u1Avt,
+                          avater: widget.ceremony.userFid.avater,
                           url: '/profile/',
-                          username: widget.ceremony.u1,
+                          username: widget.ceremony.userFid.username,
                           height: 35,
                           width: 35),
                     )
@@ -508,13 +513,13 @@ class _TabBState extends State<TabB> {
         ),
         Expanded(
           flex: 1,
-          child: widget.ceremony.u2g == 'female' &&
-                  widget.ceremony.u2Avt.isNotEmpty
+          child: widget.ceremony.userSid.gender == 'female' &&
+                  widget.ceremony.userSid.avater.isNotEmpty
               ? ClipRRect(
                   child: UserAvater(
-                      avater: widget.ceremony.u2Avt,
+                      avater: widget.ceremony.userSid.avater,
                       url: '/profile/',
-                      username: widget.ceremony.u2,
+                      username: widget.ceremony.userSid.username,
                       height: 35,
                       width: 35),
                 )
@@ -530,15 +535,15 @@ class _TabBState extends State<TabB> {
         Expanded(
           flex: 3,
           child:
-              widget.ceremony.u1g == 'male' && widget.ceremony.u1Avt.isNotEmpty
+              widget.ceremony.userFid.gender == 'male' && widget.ceremony.userFid.avater.isNotEmpty
                   ? ClipRRect(
                       borderRadius: const BorderRadius.all(
                         Radius.circular(20.0),
                       ),
                       child: UserAvater(
-                          avater: widget.ceremony.u1Avt,
+                          avater: widget.ceremony.userFid.avater,
                           url: '/profile/',
-                          username: widget.ceremony.u1,
+                          username: widget.ceremony.userFid.username,
                           height: 35,
                           width: 35),
                     )
@@ -546,13 +551,13 @@ class _TabBState extends State<TabB> {
         ),
         Expanded(
           flex: 1,
-          child: widget.ceremony.u2g == 'female' &&
-                  widget.ceremony.u2Avt.isNotEmpty
+          child: widget.ceremony.userSid.gender== 'female' &&
+                  widget.ceremony.userSid.avater.isNotEmpty
               ? ClipRRect(
                   child: UserAvater(
-                      avater: widget.ceremony.u2Avt,
+                      avater: widget.ceremony.userSid.avater,
                       url: '/profile/',
-                      username: widget.ceremony.u2,
+                      username: widget.ceremony.userSid.username,
                       height: 35,
                       width: 35),
                 )
@@ -573,7 +578,7 @@ class _TabBState extends State<TabB> {
           child: UserAvater(
               avater: widget.ceremony.cImage,
               url: '/ceremony/',
-              username: widget.ceremony.u1,
+              username: widget.ceremony.userFid.username,
               height: 100,
               width: 90),
         ),
@@ -589,7 +594,7 @@ class _TabBState extends State<TabB> {
                 style: header18.copyWith(fontWeight: FontWeight.w600),
               ),
               Text(
-                widget.ceremony.u1,
+                widget.ceremony.userFid.username,
                 style: header14,
               ),
               const SizedBox(
@@ -621,7 +626,7 @@ class _TabBState extends State<TabB> {
                 child: UserAvater(
                     avater: widget.ceremony.cImage,
                     url: '/ceremony/',
-                    username: widget.ceremony.u1,
+                    username: widget.ceremony.userFid.username,
                     height: 100,
                     width: 90),
               ),
@@ -637,7 +642,7 @@ class _TabBState extends State<TabB> {
                       style: header18.copyWith(fontWeight: FontWeight.w600),
                     ),
                     Text(
-                      widget.ceremony.u1,
+                      widget.ceremony.userFid.username,
                       style: header14,
                     ),
                     const SizedBox(

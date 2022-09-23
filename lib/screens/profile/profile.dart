@@ -3,7 +3,7 @@ import 'package:sherekoo/screens/profile/myCrmn.dart';
 import 'package:sherekoo/util/colors.dart';
 import 'package:sherekoo/widgets/imgWigdets/defaultAvater.dart';
 import '../../model/allData.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/func.dart';
 import '../../util/pallets.dart';
@@ -11,6 +11,8 @@ import '../../util/util.dart';
 import '../../widgets/imgWigdets/userAvater.dart';
 import '../accounts/login.dart';
 import '../drawer/navDrawer.dart';
+import '../settingScreen/settings.dart';
+import 'admin.dart';
 import 'myBusness.dart';
 import 'myPosts.dart';
 
@@ -40,7 +42,12 @@ class ProfileState extends State<Profile> {
       address: '',
       bio: '',
       meritalStatus: '',
-      totalPost: '');
+      totalPost: '',
+      isCurrentBsnAdmin: '',
+      isCurrentCrmAdmin: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: '');
 
   @override
   void initState() {
@@ -87,41 +94,51 @@ class ProfileState extends State<Profile> {
             const SizedBox(height: 18),
 
             //button edit Profile
-            IntrinsicHeight(child: profileSetting(context)),
+            IntrinsicHeight(child: profileDetails(context)),
 
             const SizedBox(
               height: 10,
             ),
 
             user.isCurrentUser == true
-                ? Padding(
-                    padding: const EdgeInsets.only(
-                        top: 6.0, bottom: 6.0, left: 20, right: 20),
-                    child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 30,
-                        decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          border: Border.all(color: OColors.primary),
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.settings_suggest,
-                              color: OColors.primary,
-                              size: 20,
-                            ),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            Text(
-                              'Edit Profile',
-                              style: h4.copyWith(color: OColors.primary),
-                            ),
-                          ],
-                        )),
+                ? GestureDetector(
+                    onTap: () {
+                      showAlertDialog(context, 'Admin',
+                          'Are SURE you want remove ..??', '', '');
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 6.0, bottom: 6.0, left: 20, right: 20),
+                      child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            border: Border.all(color: OColors.primary),
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.settings_suggest,
+                                color: OColors.primary,
+                                size: 20,
+                              ),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              user.isCurrentBsnAdmin == true ||
+                                      user.isCurrentCrmAdmin
+                                  ? Text(
+                                      'Admin',
+                                      style:
+                                          h4.copyWith(color: OColors.primary),
+                                    )
+                                  : const Text('Create'),
+                            ],
+                          )),
+                    ),
                   )
                 : const SizedBox(),
             //default tab Controller
@@ -179,7 +196,7 @@ class ProfileState extends State<Profile> {
                     ? MyBusness(
                         user: user,
                       )
-                    :loadingFunc(40, OColors.primary),
+                    : loadingFunc(40, OColors.primary),
               ]),
             ),
           ],
@@ -337,7 +354,7 @@ class ProfileState extends State<Profile> {
   }
 
   // Profile Settings
-  Row profileSetting(BuildContext context) {
+  Row profileDetails(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -383,10 +400,13 @@ class ProfileState extends State<Profile> {
             ),
           ],
         ),
+
         const VerticalDivider(
           color: Colors.grey,
           thickness: 1,
         ),
+
+        //Like Container
         Container(
           margin: const EdgeInsets.only(right: 20),
           child: Column(
@@ -400,62 +420,6 @@ class ProfileState extends State<Profile> {
             ],
           ),
         ),
-
-        //   GestureDetector(
-        //     onTap: () {
-        //       Navigator.push(context,
-        //           MaterialPageRoute(builder: (BuildContext context) {
-        //         return ;
-        //       }));
-        //     },
-        //     child: Container(
-        //         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-        //         decoration: BoxDecoration(
-        //             border: Border.all(color: Colors.grey.shade300),
-        //             borderRadius: BorderRadius.circular(5.0)),
-        //         child: const Text(
-        //           'Busness',
-        //           style: TextStyle(color: Colors.black, fontSize: 16),
-        //         )),
-        //   ),
-        //   // Dispaly all Gallalery & upload function
-        //   user.isCurrentUser == true
-        //       ? GestureDetector(
-        //           onTap: () {
-        //             Navigator.push(
-        //                 context,
-        //                 MaterialPageRoute(
-        //                     builder: (BuildContext context) =>
-        //                         ProfileSetting(user: user)));
-        //           },
-        //           child: Padding(
-        //             padding: const EdgeInsets.symmetric(horizontal: 4.0),
-        //             child: Container(
-        //                 padding: const EdgeInsets.all(5),
-        //                 decoration: BoxDecoration(
-        //                     border: Border.all(color: Colors.grey.shade300),
-        //                     borderRadius: BorderRadius.circular(5.0)),
-        //                 child: const Icon(Icons.camera_alt)),
-        //           ),
-        //         )
-        //       : const SizedBox(),
-        //   user.isCurrentUser == true
-        //       ? GestureDetector(
-        //           onTap: () {
-        //             showDialog(
-        //               context: context,
-        //               builder: (BuildContext context) =>
-        //                   _buildPopupDialog(context),
-        //             );
-        //           },
-        //           child: Container(
-        //               padding: const EdgeInsets.all(5),
-        //               decoration: BoxDecoration(
-        //                   border: Border.all(color: Colors.grey.shade300),
-        //                   borderRadius: BorderRadius.circular(5.0)),
-        //               child: const Icon(Icons.settings)),
-        //         )
-        //       : const SizedBox(),
       ],
     );
   }
@@ -471,13 +435,11 @@ class ProfileState extends State<Profile> {
           ListTile(
             title: const Text('Updata Avater'),
             onTap: () {
-              //   Navigator.of(context).pop();
-              //   Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //           builder: (BuildContext context) => UpdateAvater(
-              //                 data: currentUser,
-              //               )));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          ProfileSetting(user: user)));
             },
           ),
           ListTile(
@@ -514,6 +476,97 @@ class ProfileState extends State<Profile> {
           child: const Text('Close'),
         ),
       ],
+    );
+  }
+
+// Alert Widget
+  showAlertDialog(
+      BuildContext context, String title, String msg, req, String from) async {
+    // set up the buttons
+    Widget ceremonyButton = TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(6),
+        primary: OColors.fontColor,
+        backgroundColor: OColors.primary,
+        // textStyle: const TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
+      ),
+      child: Text("Busness", style: header13),
+      onPressed: () {
+        Navigator.of(context).pop();
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => AdminPage(
+                      from: 'Bsn',
+                      user: user,
+                    )));
+      },
+    );
+    Widget busnessButton = TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(6),
+        primary: OColors.fontColor,
+        backgroundColor: OColors.primary,
+      ),
+      child: Text(
+        "Ceremony",
+        style: header13,
+      ),
+      onPressed: () {
+        Navigator.of(context).pop();
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => AdminPage(
+                      from: 'Crm',
+                      user: user,
+                    )));
+      },
+    );
+
+    Widget setting = Padding(
+        padding: const EdgeInsets.all(8),
+        child: Icon(
+          Icons.settings,
+          color: OColors.primary,
+          size: 20,
+        ));
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: OColors.secondary,
+      title: Center(
+        child: Text(title, style: TextStyle(color: OColors.fontColor)),
+      ),
+      actions: [
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ceremonyButton,
+                busnessButton,
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                GestureDetector(onTap: () {}, child: setting),
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

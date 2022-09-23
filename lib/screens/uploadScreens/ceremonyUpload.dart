@@ -12,7 +12,7 @@ import 'package:sherekoo/widgets/imgWigdets/defaultAvater.dart';
 import '../../model/allData.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/ceremony/postCeremony.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/func.dart';
@@ -185,10 +185,10 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
           if (widget.getData.ceremonyType == 'Birthday') {
             selectedChereko = widget.getData.ceremonyType;
 
-            bAvater = widget.getData.u1Avt;
+            bAvater = widget.getData.userFid.avater;
             bId = widget.getData.fId;
-            bFirstName = widget.getData.u1Fname;
-            bUsername = widget.getData.u1;
+            bFirstName = widget.getData.userFid.firstname;
+            bUsername = widget.getData.userFid.username;
 
             bDflt_img = widget.getData.cImage;
 
@@ -198,10 +198,10 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
 
           // Wedding
           if (widget.getData.ceremonyType == 'Wedding') {
-            wedAvater = widget.getData.u2Avt;
+            wedAvater = widget.getData.userSid.avater;
             wedId = widget.getData.sId;
-            wedLastname = widget.getData.u2Lname;
-            wedUsername = widget.getData.u2;
+            wedLastname = widget.getData.userSid.lastname;
+            wedUsername = widget.getData.userSid.username;
             // File? _wimage; // background image for wedding
             wDflt_img = widget.getData.cImage;
 
@@ -211,10 +211,10 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
 
           //SendOff
           if (widget.getData.ceremonyType == 'SendOff') {
-            sAvater = widget.getData.u2Avt;
+            sAvater = widget.getData.userSid.avater;
             sId = widget.getData.sId;
-            sLastName = widget.getData.u2Lname;
-            sUsername = widget.getData.u2;
+            sLastName = widget.getData.userSid.lastname;
+            sUsername = widget.getData.userSid.username;
 
             sDflt_img = widget.getData.cImage;
 
@@ -224,10 +224,10 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
 
           //kitchenPart data
           if (widget.getData.ceremonyType == 'Kitchen Part') {
-            kAvater = widget.getData.u2Avt;
+            kAvater = widget.getData.userSid.avater;
             kId = widget.getData.sId;
-            kFirstName = widget.getData.u2Lname;
-            kUsername = widget.getData.u2;
+            kFirstName = widget.getData.userSid.lastname;
+            kUsername = widget.getData.userSid.username;
 
             kDflt_img = widget.getData.cImage;
 
@@ -237,10 +237,10 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
 
           //Kigodoro
           if (widget.getData.ceremonyType == 'Kigodoro') {
-            gAvater = widget.getData.u2Avt;
+            gAvater = widget.getData.userSid.avater;
             gId = widget.getData.sId;
-            gFirstName = widget.getData.u2Lname;
-            gUsername = widget.getData.u2;
+            gFirstName = widget.getData.userSid.lastname;
+            gUsername = widget.getData.userSid.username;
 
             gDflt_img = widget.getData.cImage;
 
@@ -1320,7 +1320,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
                         )
                       : widget.getData.cId.isNotEmpty
                           ? Image.network(
-                              '${api}public/uploads/${widget.getData.u1}/ceremony/${widget.getData.cImage}',
+                              '${api}public/uploads/${widget.getData.userFid.username}/ceremony/${widget.getData.cImage}',
                               height: 120,
                               fit: BoxFit.cover,
                             )

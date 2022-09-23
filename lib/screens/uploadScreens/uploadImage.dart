@@ -10,7 +10,7 @@ import 'package:sherekoo/screens/homNav.dart';
 import 'package:sherekoo/util/colors.dart';
 
 import '../../model/post/post.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/func.dart';
 import '../../util/util.dart';
@@ -131,7 +131,11 @@ class _UploadImageState extends State<UploadImage> {
                             address: '',
                             bio: '',
                             meritalStatus: '',
-                            totalPost: ''),
+                            totalPost: '', isCurrentBsnAdmin: '', 
+      isCurrentCrmAdmin: '',
+      totalFollowers: '', 
+      totalFollowing: '', 
+      totalLikes: ''),
                       )));
         } else if (widget.from == 'Ceremony') {
           Navigator.pop(context);

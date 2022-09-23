@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../model/allData.dart';
 import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
@@ -35,7 +35,11 @@ class _CeremonyScreenState extends State<CeremonyScreen> {
       address: '',
       bio: '',
       meritalStatus: '',
-      totalPost: '');
+      totalPost: '', isCurrentBsnAdmin: '', 
+      isCurrentCrmAdmin: '',
+      totalFollowers: '', 
+      totalFollowing: '', 
+      totalLikes: '');
   String token = '';
   @override
   void initState() {
@@ -69,16 +73,14 @@ class _CeremonyScreenState extends State<CeremonyScreen> {
       ceremonyDate: '',
       contact: '',
       admin: '',
-      u1: '',
-      u1Avt: '',
-      u1Fname: '',
-      u1Lname: '',
-      u1g: '',
-      u2: '',
-      u2Avt: '',
-      u2Fname: '',
-      u2Lname: '',
-      u2g: '',
+         userFid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
+                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
       youtubeLink: '');
 
   TabBar get _tabBar => TabBar(

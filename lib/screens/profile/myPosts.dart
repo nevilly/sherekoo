@@ -4,7 +4,7 @@ import 'package:sherekoo/util/colors.dart';
 
 import '../../model/post/post.dart';
 import '../../model/post/sherekoModel.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/util.dart';
 import '../chats.dart';

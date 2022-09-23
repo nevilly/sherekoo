@@ -182,7 +182,7 @@ class _CrmDoorState extends State<CrmDoor> {
                                       child: CircleAvatar(
                                         radius: 20,
                                         backgroundImage: NetworkImage(
-                                          '${api}public/uploads/${widget.crm.u1}/ceremony/${widget.crm.cImage}',
+                                          '${api}public/uploads/${widget.crm.userFid.username}/ceremony/${widget.crm.cImage}',
                                         ),
                                       ),
                                     )

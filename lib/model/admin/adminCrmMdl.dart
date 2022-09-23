@@ -1,24 +1,24 @@
-import '../userModel.dart';
+import 'package:sherekoo/model/userModel.dart';
 
-class CeremonyModel {
-  final String cId;
-  final String codeNo;
-  final String cName;
-  final String ceremonyType;
-  final String fId;
-  final String sId;
-  final String cImage;
-  final String ceremonyDate;
-  final String contact;
-  final String admin;
+class AdminCrmMdl {
+  String cId;
+  String codeNo;
+  String cName;
+  String ceremonyType;
+  String fId;
+  String sId;
+  String cImage;
+  String ceremonyDate;
+  String contact;
+  String admin;
 
-  final User userFid; // gender fid
+  final User userFid;
 
   final User userSid;
 
-  final String youtubeLink;
+  String youtubeLink;
 
-  CeremonyModel({
+  AdminCrmMdl({
     required this.cId,
     required this.codeNo,
     required this.ceremonyType,
@@ -34,8 +34,8 @@ class CeremonyModel {
     required this.youtubeLink,
   });
 
-  factory CeremonyModel.fromJson(Map<String, dynamic> json) {
-    return CeremonyModel(
+  factory AdminCrmMdl.fromJson(Map<String, dynamic> json) {
+    return AdminCrmMdl(
       cId: json['cId'] ?? '',
       codeNo: json['codeNo'] ?? '',
       cName: json['cName'] ?? '',

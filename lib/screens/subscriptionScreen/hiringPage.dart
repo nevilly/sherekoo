@@ -6,7 +6,7 @@ import '../../model/busness/busnessModel.dart';
 import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/allData.dart';
-import '../../model/profileMode.dart';
+import '../../model/userModel.dart';
 import '../../model/services/postServices.dart';
 import '../../util/Preferences.dart';
 import '../../util/util.dart';
@@ -42,7 +42,12 @@ class _HiringPageState extends State<HiringPage> {
       meritalStatus: '',
       address: '',
       bio: '',
-      totalPost: '');
+      totalPost: '',
+       isCurrentBsnAdmin: '', 
+      isCurrentCrmAdmin: '',
+      totalFollowers: '', 
+      totalFollowing: '', 
+      totalLikes: '');
 
   BusnessModel? bsn;
   late CeremonyModel? crm;
@@ -159,16 +164,14 @@ class _HiringPageState extends State<HiringPage> {
                                 ceremonyDate: '',
                                 contact: '',
                                 admin: '',
-                                u1: '',
-                                u1Avt: '',
-                                u1Fname: '',
-                                u1Lname: '',
-                                u1g: '',
-                                u2: '',
-                                u2Avt: '',
-                                u2Fname: '',
-                                u2Lname: '',
-                                u2g: '',
+                             userFid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
+                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
+                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
+                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
+                         totalFollowing: '', totalLikes: ''),
                                 youtubeLink: ''),
                           )));
             });
@@ -218,7 +221,7 @@ class _HiringPageState extends State<HiringPage> {
                   child: Center(
                       child: bsn!.coProfile != ''
                           ? Image.network(
-                              '${api}public/uploads/${bsn!.username}/busness/${bsn!.coProfile}',
+                              '${api}public/uploads/${bsn!.user.username}/busness/${bsn!.coProfile}',
                               height: 120,
                               fit: BoxFit.cover,
                             )
@@ -593,7 +596,7 @@ class _HiringPageState extends State<HiringPage> {
                                                   right: 10),
                                               child: option.cImage != ''
                                                   ? Image.network(
-                                                      '${api}public/uploads/${option.u1}/ceremony/${option.cImage}',
+                                                      '${api}public/uploads/${option.userFid.username}/ceremony/${option.cImage}',
                                                       fit: BoxFit.cover,
                                                       height: 45,
                                                     )
