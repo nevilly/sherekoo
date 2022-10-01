@@ -15,7 +15,7 @@ class BusnessModel {
   final String hotStatus;
   final String aboutCompany;
   final String createdBy;
-   final String 	createdDate;
+  final String createdDate;
 
   final User user;
 

@@ -94,15 +94,15 @@ class _BsnDetailsState extends State<BsnDetails> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-        print('widget.data.coProfile');
-        print(widget.data.coProfile);
+        // print('widget.data.coProfile');
+        // print(widget.data.coProfile);
         getUser(urlGetUser);
         getOther();
         // getPhoto();
         // getMembers();
         // crmWorkWithBsn();
-        print('widget.data.bId');
-        print(widget.data.bId);
+        // print('widget.data.bId');
+        // print(widget.data.bId);
         getservices(widget.data.bId);
       });
     });

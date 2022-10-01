@@ -48,7 +48,8 @@ class _TabAState extends State<TabA> {
       ceremonyId: widget.ceremony.cId,
       createdBy: '',
       username: '',
-      vedeo: '', hashTag: '',
+      vedeo: '',
+      hashTag: '',
     ).getPostByCeremonyId(token, urlGetSherekooByCeremonyId).then((value) {
       if (value.status == 200) {
         setState(() {
@@ -70,7 +71,8 @@ class _TabAState extends State<TabA> {
         padding: const EdgeInsets.all(0.0),
         itemCount: post.length,
         itemBuilder: (context, i) {
-          return LiveePost(post: post[i], crm: widget.ceremony,user: widget.user);
+          return LiveePost(
+              post: post[i], crm: widget.ceremony, user: widget.user);
         },
       ),
     );

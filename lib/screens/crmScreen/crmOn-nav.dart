@@ -59,20 +59,46 @@ class CrmOnNavState extends State<CrmOnNav> {
         appBar: topBar(),
         body: Column(
           children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 25,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  ourServices(context, 'Buy Cards'),
+                  ourServices(context, 'Dress Design'),
+                  ourServices(context, 'Mc GarB'),
+                  ourServices(context, 'Production'),
+                  ourServices(context, 'MyBday Tv Show'),
+                  ourServices(context, 'Mr&Mrs Wangu Tv Show'),
+                  ourServices(context, 'Documentary'),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 12,
+            ),
             //Live Ceremony
             todayCrm.isNotEmpty
                 ? Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(
+                        left: 8.0, right: 8.0, top: 4, bottom: 4),
                     child: CrmSlide(todayCrm: todayCrm),
                   )
                 : const SizedBox(),
 
+            const SizedBox(
+              height: 8,
+            ),
             //Tabs ..
             TabBar(
                 labelColor: OColors.primary,
                 unselectedLabelColor: OColors.darkGrey,
                 indicatorColor: OColors.primary,
-                padding: const EdgeInsets.all(8),
+                labelPadding:
+                    const EdgeInsets.only(left: 1, right: 1, top: 1, bottom: 1),
+                padding:
+                    const EdgeInsets.only(left: 8, right: 8, top: 1, bottom: 1),
                 tabs: const [
                   Tab(
                     text: 'UpComing',
@@ -95,6 +121,23 @@ class CrmOnNavState extends State<CrmOnNav> {
         ),
         // Bottom Section
         // bottomNavigationBar: BottomToolbar()
+      ),
+    );
+  }
+
+  Container ourServices(BuildContext context, String prod) {
+    return Container(
+      margin: const EdgeInsets.only(left: 4, right: 4),
+      height: 20,
+      padding: const EdgeInsets.only(left: 10.0, right: 10),
+      decoration: BoxDecoration(
+          border: Border.all(width: 1.3, color: OColors.primary),
+          borderRadius: BorderRadius.circular(20)),
+      child: Center(
+        child: Text(
+          prod,
+          style: header12.copyWith(color: OColors.primary),
+        ),
       ),
     );
   }
@@ -131,5 +174,4 @@ class CrmOnNavState extends State<CrmOnNav> {
       )),
     );
   }
-
 }

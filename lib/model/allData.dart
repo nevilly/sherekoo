@@ -28,7 +28,8 @@ class AllUsersModel {
 
     return await http.get(url, headers: headers).then((http.Response r) {
       if (r.statusCode == 200) {
-        print(r.body);
+        // print('checkkk vzuriii hapaaa');
+        // print(r.body);
         return AllUsersModel.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       } else {

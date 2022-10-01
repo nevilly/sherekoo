@@ -64,7 +64,7 @@ class User {
 
       //total
       totalPost: json['totalPost'].toString(),
-      totalFollowers: json['totalFollowers'].toString(),
+      totalFollowers: json['totalFollowers'].toString() ,
       totalFollowing: json['totalFollowing'].toString(),
       totalLikes: json['totalLikes'].toString(),
     );

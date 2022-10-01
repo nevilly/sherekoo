@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:sherekoo/widgets/gradientBorder.dart';
 
 import '../../model/ceremony/ceremonyModel.dart';
+import '../../util/colors.dart';
 import '../../util/util.dart';
+import '../../widgets/scrollText.dart';
 import '../detailScreen/livee.dart';
 import 'crmDoor.dart';
 
@@ -16,101 +19,84 @@ class CrmSlide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.only(left: 8.0, top: 4, bottom: 4),
-          child: Text('Live Ceremony'),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0, bottom: 4),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Live',
+                  style: header18.copyWith(fontWeight: FontWeight.w400)),
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0, left: 4),
+                child: Icon(
+                  Icons.live_tv,
+                  size: 20,
+                  color: OColors.primary,
+                ),
+              )
+            ],
+          ),
         ),
         SizedBox(
-          height: 64.0,
+          height: 80.0,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: todayCrm.length,
             itemBuilder: (BuildContext context, int index) {
-              return Column(
-                children: [
-                  InkWell(
-                    customBorder: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: const BorderSide(color: Colors.red)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => CrmDoor(
-                                            crm: todayCrm[index],
-                                          )));
-                            },
-                            child: ClipRRect(
-                              child: todayCrm[index].cImage != ''
-                                  ? CircleAvatar(
-                                      radius: 20,
-                                      backgroundImage: NetworkImage(
-                                        api +
-                                            'public/uploads/' +
-                                            todayCrm[index].userFid.username +
-                                            '/ceremony/' +
-                                            todayCrm[index].cImage,
-                                      ),
-                                    )
-                                  : const SizedBox(height: 1),
-                            ),
-                          ),
-
-                          //Details Ceremony
-                          Column(
-                            children: [
-                              const SizedBox(
-                                height: 1.0,
-                              ),
-
-                              // Title
-                              Container(
-                                margin: const EdgeInsets.only(top: 1),
-                                child: Text(
-                                    todayCrm[index].ceremonyType.toUpperCase(),
-                                    style: const TextStyle(
-                                      fontStyle: FontStyle.italic,
-                                      fontWeight: FontWeight.bold,
-                                    )),
-                              ),
-
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => Livee(
-                                              ceremony: todayCrm[index])));
-                                },
-                                child: Container(
-                                    margin:
-                                        const EdgeInsets.only(top: 5, left: 5),
-                                    padding: const EdgeInsets.all(4),
-                                    decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        borderRadius:
-                                            BorderRadius.circular(105)),
-                                    child: Text(
-                                      todayCrm[index].codeNo,
-                                      style: const TextStyle(
-                                          fontSize: 11,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                              ),
-                            ],
-                          ),
-                        ],
+              return Padding(
+                padding: const EdgeInsets.only(left: 6.0, right: 6),
+                child: SizedBox(
+                  width: 65,
+                  // color: OColors.darGrey,
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => CrmDoor(
+                                        crm: todayCrm[index],
+                                      )));
+                        },
+                        child: todayCrm[index].cImage != ''
+                            ? LiveBorder(
+                                child: CircleAvatar(
+                                radius: 20,
+                                backgroundImage: NetworkImage(
+                                  '${api}public/uploads/${todayCrm[index].userFid.username}/ceremony/${todayCrm[index].cImage}',
+                                ),
+                              ))
+                            : const SizedBox(height: 1),
                       ),
-                    ),
+
+                      //Details Ceremony
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) =>
+                                      Livee(ceremony: todayCrm[index])));
+                        },
+                        child: todayCrm[index].codeNo.length >= 8
+                            ? SizedBox(
+                                height: 20,
+                                width: 70,
+                                child: ScrollingText(
+                                  text: todayCrm[index].codeNo,
+                                  textStyle: const TextStyle(
+                                      fontSize: 12, color: Colors.white),
+                                ))
+                            : Text(todayCrm[index].codeNo,
+                                style: const TextStyle(
+                                    fontSize: 12, color: Colors.white)),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               );
             },
           ),

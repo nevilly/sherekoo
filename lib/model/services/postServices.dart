@@ -144,7 +144,7 @@ class Services {
     });
   }
 
-  Future<Services> getService(String token, String dirUrl,String id) async {
+  Future<Services> getService(String token, String dirUrl, String id) async {
     Uri url = Uri.parse(dirUrl);
 
     if (token.isEmpty) {

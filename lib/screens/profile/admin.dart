@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/model/admin/adminCrmMdl.dart';
+import 'package:sherekoo/screens/uploadScreens/ceremonyUpload.dart';
 import 'package:sherekoo/util/colors.dart';
 
 import '../../model/admin/adminCrm.dart';
 import '../../model/ceremony/allCeremony.dart';
+import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
+import '../../util/func.dart';
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/boxImg.dart';
 
@@ -30,6 +33,7 @@ class _AdminPageState extends State<AdminPage> {
       setState(() {
         token = value;
         widget.from == 'Crm' ? getAllCrm(widget.user.id) : 'jsjs';
+        // getAllCrmReq();
       });
     });
 
@@ -51,18 +55,35 @@ class _AdminPageState extends State<AdminPage> {
     });
   }
 
+  List<AdminCrmMdl> admCrmReq = [];
+  getAllCrmReq() async {
+    AllCeremonysModel(payload: [], status: 0)
+        .get(
+      token,
+      urlAdmCrmnRequests,
+    )
+        .then((v) {
+      if (v.status == 200) {
+        // print('Ceremony Requests');
+        // print(v.payload);
+        setState(() {
+          admCrmReq = v.payload
+              .map<AdminCrmMdl>((e) => AdminCrmMdl.fromJson(e))
+              .toList();
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: OColors.secondary,
-        appBar: AppBar(
-          backgroundColor: OColors.transparent,
-          title: const Text('Admin Page'),
-        ),
+        appBar: toBar(context),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
+              SizedBox(
                 height: 105,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
@@ -113,5 +134,95 @@ class _AdminPageState extends State<AdminPage> {
             ],
           ),
         ));
+  }
+
+  AppBar toBar(BuildContext context) {
+    return AppBar(
+        backgroundColor: OColors.transparent,
+        title: Text(
+          'Admin Page',
+          style: header16,
+        ),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => CeremonyUpload(
+                          getData: CeremonyModel(
+                            cId: '',
+                            codeNo: '',
+                            ceremonyType: '',
+                            cName: '',
+                            fId: '',
+                            sId: '',
+                            cImage: '',
+                            ceremonyDate: '',
+                            admin: '',
+                            contact: '',
+                            userFid: User(
+                                id: '',
+                                username: '',
+                                firstname: '',
+                                lastname: '',
+                                avater: '',
+                                phoneNo: '',
+                                email: '',
+                                gender: '',
+                                role: '',
+                                address: '',
+                                meritalStatus: '',
+                                bio: '',
+                                totalPost: '',
+                                isCurrentUser: '',
+                                isCurrentCrmAdmin: '',
+                                isCurrentBsnAdmin: '',
+                                totalFollowers: '',
+                                totalFollowing: '',
+                                totalLikes: ''),
+                            userSid: User(
+                                id: '',
+                                username: '',
+                                firstname: '',
+                                lastname: '',
+                                avater: '',
+                                phoneNo: '',
+                                email: '',
+                                gender: '',
+                                role: '',
+                                address: '',
+                                meritalStatus: '',
+                                bio: '',
+                                totalPost: '',
+                                isCurrentUser: '',
+                                isCurrentCrmAdmin: '',
+                                isCurrentBsnAdmin: '',
+                                totalFollowers: '',
+                                totalFollowing: '',
+                                totalLikes: ''),
+                            youtubeLink: '',
+                          ),
+                          getcurrentUser: widget.user)));
+            },
+            child: Container(
+              margin: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(9),
+                  border: Border.all(color: OColors.fontColor, width: 1.5)),
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Icon(
+                  Icons.add,
+                  size: 18,
+                  color: OColors.fontColor,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 5,
+          )
+        ]);
   }
 }

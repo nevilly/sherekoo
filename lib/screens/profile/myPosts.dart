@@ -50,7 +50,8 @@ class _MyPostsState extends State<MyPosts> {
       ceremonyId: '',
       createdBy: '',
       username: '',
-      vedeo: '', hashTag: '',
+      vedeo: '',
+      hashTag: '',
     ).getPostByUserId(token, urlGetSherekooByUid, id).then((value) {
       if (value.status == 200) {
         setState(() {
@@ -77,7 +78,8 @@ class _MyPostsState extends State<MyPosts> {
                   context,
                   MaterialPageRoute(
                       builder: (_) => PostChats(
-                            postId: post[index].pId,chatsNo:  post[index].commentNumber,
+                            postId: post[index].pId,
+                            chatsNo: post[index].commentNumber,
                           )));
             },
             child: Padding(
@@ -106,7 +108,8 @@ class _MyPostsState extends State<MyPosts> {
                               //   )
 
                               FadeInImage(
-                                  image: NetworkImage('${api}public/uploads/${post[index].username}/posts/${post[index].vedeo}'),
+                                  image: NetworkImage(
+                                      '${api}public/uploads/${post[index].username}/posts/${post[index].vedeo}'),
                                   fadeInDuration:
                                       const Duration(milliseconds: 100),
                                   placeholder: const AssetImage(
@@ -165,6 +168,5 @@ class _MyPostsState extends State<MyPosts> {
         staggeredTileBuilder: (index) {
           return const StaggeredTile.fit(2);
         });
- 
   }
 }

@@ -21,7 +21,7 @@ class _CrmDoorState extends State<CrmDoor> {
   final List<String> _busness = ['Viewer', 'Friend', 'Relative'];
   final Preferences _preferences = Preferences();
   String token = '';
-  String viewer = '';
+  bool viewer = false;
   @override
   void initState() {
     _preferences.init();
@@ -52,7 +52,7 @@ class _CrmDoorState extends State<CrmDoor> {
                       )));
         } else {
           setState(() {
-            viewer = 'isNotIn';
+            viewer = true;
           });
         }
       }
@@ -99,7 +99,7 @@ class _CrmDoorState extends State<CrmDoor> {
       backgroundColor: OColors.secondary,
       appBar: AppBar(
           backgroundColor: OColors.secondary, actions: const [], elevation: 0),
-      body: viewer == 'isNotIn' && viewer.isNotEmpty
+      body: viewer == true
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -203,7 +203,7 @@ class _CrmDoorState extends State<CrmDoor> {
                 Padding(
                   padding: const EdgeInsets.all(2.0),
                   child: Text(
-                    'On: ' + widget.crm.ceremonyDate,
+                    'On: ${widget.crm.ceremonyDate}',
                     style: h4.copyWith(fontWeight: FontWeight.bold),
                   ),
                 ),

@@ -1,24 +1,22 @@
 import 'package:sherekoo/model/busness/busnessModel.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 
-
-
 class RequestsModel {
   final String hostId;
   final String busnessId;
   final String ceremonyId;
- 
+
   final String createdBy;
   final String createdDate;
   String confirm;
-  
-// Ceremony Model
+
+  //Ceremony Model
   final CeremonyModel crmInfo;
 
-// Busness Data
+  //Busness Data
   final BusnessModel bsnInfo;
 
-  // Service Info
+  //Service Info
   final String isInService;
   final String svId;
   final String svPayStatus;
@@ -45,7 +43,7 @@ class RequestsModel {
     required this.bsnInfo,
 
     //Ceremon Model
-  required this.crmInfo,
+    required this.crmInfo,
 
     // Service Model
     required this.isInService,
@@ -62,7 +60,7 @@ class RequestsModel {
     required this.endTime,
   });
 
-  factory RequestsModel.fromJson(Map<String, dynamic> json) {
+  factory RequestsModel.fromJson(Map<dynamic, dynamic> json) {
     return RequestsModel(
       hostId: json['hostId'] ?? "",
       ceremonyId: json['ceremonyId'] ?? "",
@@ -71,11 +69,10 @@ class RequestsModel {
       confirm: json['confirm'] ?? "",
 
       //Ceremony Model
-     crmInfo:CeremonyModel.fromJson(json['crmInfo']),
+      crmInfo: CeremonyModel.fromJson(json['crmInfo']),
 
       // Busness Model
       bsnInfo: BusnessModel.fromJson(json['bsnInfo']),
-
       createdDate: json['createdDate'] ?? "",
 
       createdBy: json['createdBy'] ?? "",

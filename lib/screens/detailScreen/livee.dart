@@ -22,7 +22,7 @@ class Livee extends StatefulWidget {
 
 class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  late YoutubePlayerController _controller;
+  late YoutubePlayerController? _controller;
   final Preferences _preferences = Preferences();
 
   String token = '';
@@ -43,12 +43,14 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
       address: '',
       bio: '',
       meritalStatus: '',
-      totalPost: '', isCurrentBsnAdmin: '', 
+      totalPost: '',
+      isCurrentBsnAdmin: '',
       isCurrentCrmAdmin: '',
-      totalFollowers: '', 
-      totalFollowing: '', 
+      totalFollowers: '',
+      totalFollowing: '',
       totalLikes: '');
 
+  ScrollController? _cntr;
   @override
   void initState() {
     _tabController = TabController(
@@ -74,17 +76,12 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
       if (_tabController.indexIsChanging) {
         setState(() {
           tabIndex = _tabController.index;
-          // print('is changing index');
-          // print(_tabController.index);
-          // _tabController.
         });
       }
       if (_tabController.animation != null) {
         setState(() {
           tabIndex = _tabController.animation!.value.floor();
           _tabController.animation;
-          // print('is animate index');
-          // print(_tabController.animation!.value.floor());
         });
       }
     });
@@ -116,11 +113,12 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
     return Scaffold(
       backgroundColor: OColors.secondary,
       body: NestedScrollView(
+        controller: _cntr,
         floatHeaderSlivers: true,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              backgroundColor: OColors.darkGrey,
+              backgroundColor: OColors.darGrey,
               // automaticallyImplyLeading: false,
               actions: [
                 if (currentUser.id == widget.ceremony.fId ||
@@ -143,12 +141,18 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
                           color: OColors.primary,
                           borderRadius:
                               const BorderRadius.all(Radius.circular(80))),
-                      child: const Text(
-                        'Admin',
-                        style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(50))),
+                          child: Text(
+                            'Admin',
+                            style:
+                                header11.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       ),
                     ),
                   )
@@ -160,19 +164,18 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
                           MaterialPageRoute(
                               builder: (_) => CrmnAdmin(crm: widget.ceremony)));
                     },
-                    child: Container(
-                      margin: const EdgeInsets.only(
-                          left: 10, right: 20, top: 15, bottom: 15),
-                      padding: const EdgeInsets.only(
-                          left: 15, right: 15, top: 4, bottom: 4),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: OColors.primary,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(30))),
-                      child: const Icon(
-                        Icons.share,
-                        color: Colors.white,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: OColors.primary,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(30))),
+                        child: const Icon(
+                          Icons.share,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   )
@@ -185,17 +188,17 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
                     children: [
                       widget.ceremony.youtubeLink != 'GoLive'
                           ? YoutubePlayer(
-                              controller: _controller,
+                              controller: _controller!,
                               liveUIColor: OColors.primary)
-                          : const Center(
+                          : Center(
                               child: Text(
                                 'Ceremony Loading',
                                 style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 10,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+                                    color: OColors.fontColor),
                               ),
-                            ),
+                            )
                     ],
                   )),
 
@@ -204,25 +207,27 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
               bottom: TabBar(
                   labelColor: OColors.primary,
                   indicatorColor: OColors.primary,
-                  // unselectedLabelColor: OColors.darkGrey,
+                  unselectedLabelColor: OColors.darkGrey,
                   labelPadding: const EdgeInsets.only(
                     bottom: 2,
                   ),
                   indicatorPadding: const EdgeInsets.only(
-                    top: 10,
+                    top: 25,
                   ),
                   controller: _tabController,
                   tabs: [
-                    Icon(
-                      Icons.grid_on_outlined,
-                      size: 20,
-                      color: OColors.primary,
-                    ),
-                    Icon(
-                      Icons.details,
-                      size: 20,
-                      color: OColors.primary,
-                    )
+                    Text('Posts', style: header16),
+                    // Icon(
+                    //   Icons.grid_on_outlined,
+                    //   size: 20,
+                    //   color: OColors.primary,
+                    // ),
+                    Text('Details', style: header16),
+                    // Icon(
+                    //   Icons.details,
+                    //   size: 20,
+                    //   color: OColors.primary,
+                    // )
                   ]),
             ),
           ];
@@ -285,7 +290,7 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
     _tabController.dispose();
 
     if (!mounted) {
-      _controller.dispose();
+      _controller!.dispose();
     }
 
     super.dispose();

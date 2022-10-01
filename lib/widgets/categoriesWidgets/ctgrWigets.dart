@@ -54,14 +54,46 @@ class _CategoryBodyState extends State<CategoryBody> {
       ceremonyDate: '',
       admin: '',
       contact: '',
-        userFid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
-                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
-                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
-                         totalFollowing: '', totalLikes: ''),
-                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
-                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
-                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
-                         totalFollowing: '', totalLikes: ''),
+      userFid: User(
+          id: '',
+          username: '',
+          firstname: '',
+          lastname: '',
+          avater: '',
+          phoneNo: '',
+          email: '',
+          gender: '',
+          role: '',
+          address: '',
+          meritalStatus: '',
+          bio: '',
+          totalPost: '',
+          isCurrentUser: '',
+          isCurrentCrmAdmin: '',
+          isCurrentBsnAdmin: '',
+          totalFollowers: '',
+          totalFollowing: '',
+          totalLikes: ''),
+      userSid: User(
+          id: '',
+          username: '',
+          firstname: '',
+          lastname: '',
+          avater: '',
+          phoneNo: '',
+          email: '',
+          gender: '',
+          role: '',
+          address: '',
+          meritalStatus: '',
+          bio: '',
+          totalPost: '',
+          isCurrentUser: '',
+          isCurrentCrmAdmin: '',
+          isCurrentBsnAdmin: '',
+          totalFollowers: '',
+          totalFollowing: '',
+          totalLikes: ''),
       youtubeLink: '');
   String bsnType = '';
 
@@ -88,14 +120,17 @@ class _CategoryBodyState extends State<CategoryBody> {
 
   getAll(bsn) async {
     AllBusnessModel(payload: [], status: 0)
-        .onGoldenBusness(token, urlGoldBusness, bsn,'')
+        .onGoldenBusness(token, urlGoldBusness, bsn, '')
         .then((value) {
       if (mounted) {
-        setState(() {
-          data = value.payload.map<BusnessModel>((e) {
-            return BusnessModel.fromJson(e);
-          }).toList();
-        });
+        if (value.status == 200) {
+          print(value.payload);
+          setState(() {
+            data = value.payload.map<BusnessModel>((e) {
+              return BusnessModel.fromJson(e);
+            }).toList();
+          });
+        }
       }
     });
   }

@@ -1,15 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:sherekoo/widgets/searchBar/search_Ceremony.dart';
 
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/userModel.dart';
 import '../../util/colors.dart';
-import '../../model/ceremony/allCeremony.dart';
 import '../../util/Preferences.dart';
-import '../../util/util.dart';
-import '../../widgets/categoriesWidgets/crmCtgr.dart';
 import '../../widgets/categoriesWidgets/ctgrWigets.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
 import '../../widgets/searchBar/search_Busness.dart';

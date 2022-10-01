@@ -36,6 +36,152 @@ class _CrmnAdminState extends State<CrmnAdmin> {
   //Selected host for Cereemony
   List<SvModel> myServ = [];
 
+  RequestsModel rew = RequestsModel(
+    hostId: '',
+    busnessId: '',
+    ceremonyId: '',
+    createdDate: '',
+    confirm: '',
+    createdBy: '',
+    isInService: '',
+    svId: '',
+    svPayStatus: '',
+    svAmount: '',
+    subId: '',
+    level: '',
+    activeted: '',
+    categoryId: '',
+    startTime: '',
+    endTime: '',
+    bsnInfo: BusnessModel(
+        location: '',
+        bId: '',
+        knownAs: '',
+        coProfile: '',
+        busnessType: '',
+        createdDate: '',
+        companyName: '',
+        ceoId: '',
+        price: '',
+        contact: '',
+        hotStatus: '',
+        aboutCEO: '',
+        aboutCompany: '',
+        createdBy: '',
+        user: User(
+            id: '',
+            username: '',
+            firstname: '',
+            lastname: '',
+            avater: '',
+            phoneNo: '',
+            email: '',
+            gender: '',
+            role: '',
+            address: '',
+            meritalStatus: '',
+            bio: '',
+            totalPost: '',
+            isCurrentUser: '',
+            isCurrentCrmAdmin: '',
+            isCurrentBsnAdmin: '',
+            totalFollowers: '',
+            totalFollowing: '',
+            totalLikes: ''),
+        subcrlevel: ''),
+    crmInfo: CeremonyModel(
+      cId: '',
+      codeNo: '',
+      ceremonyDate: '',
+      cImage: '',
+      cName: '',
+      ceremonyType: '',
+      contact: '',
+      admin: '',
+      fId: '',
+      sId: '',
+      youtubeLink: '',
+      userFid: User(
+          id: '',
+          username: '',
+          firstname: '',
+          lastname: '',
+          avater: '',
+          phoneNo: '',
+          email: '',
+          gender: '',
+          role: '',
+          address: '',
+          meritalStatus: '',
+          bio: '',
+          totalPost: '',
+          isCurrentUser: '',
+          isCurrentCrmAdmin: '',
+          isCurrentBsnAdmin: '',
+          totalFollowers: '',
+          totalFollowing: '',
+          totalLikes: ''),
+      userSid: User(
+          id: '',
+          username: '',
+          firstname: '',
+          lastname: '',
+          avater: '',
+          phoneNo: '',
+          email: '',
+          gender: '',
+          role: '',
+          address: '',
+          meritalStatus: '',
+          bio: '',
+          totalPost: '',
+          isCurrentUser: '',
+          isCurrentCrmAdmin: '',
+          isCurrentBsnAdmin: '',
+          totalFollowers: '',
+          totalFollowing: '',
+          totalLikes: ''),
+    ),
+  );
+
+  // get crmInfo => CeremonyModel;
+
+  bsnIfo() => BusnessModel(
+      location: '',
+      bId: '',
+      knownAs: '',
+      coProfile: '',
+      busnessType: '',
+      createdDate: '',
+      companyName: '',
+      ceoId: '',
+      price: '',
+      contact: '',
+      hotStatus: '',
+      aboutCEO: '',
+      aboutCompany: '',
+      createdBy: '',
+      user: User(
+          id: '',
+          username: '',
+          firstname: '',
+          lastname: '',
+          avater: '',
+          phoneNo: '',
+          email: '',
+          gender: '',
+          role: '',
+          address: '',
+          meritalStatus: '',
+          bio: '',
+          totalPost: '',
+          isCurrentUser: '',
+          isCurrentCrmAdmin: '',
+          isCurrentBsnAdmin: '',
+          totalFollowers: '',
+          totalFollowing: '',
+          totalLikes: ''),
+      subcrlevel: '');
   @override
   void initState() {
     super.initState();
@@ -46,34 +192,6 @@ class _CrmnAdminState extends State<CrmnAdmin> {
         token = value;
         getservices();
         getAllRequests();
-      });
-    });
-  }
-
-  reqPayload(Requests v, String type) {
-    return v.payload.map<RequestsModel>((e) {
-      // print(e);
-      if (e['busnessType'] == type) {
-        return RequestsModel.fromJson(e);
-      }
-      return RequestsModel.fromJson({
-        'hostId': '',
-        'busnessId': '',
-        'ceremonyId': '',
-        'createdBy': '',
-        'contact': '',
-        'confirm': '',
-        'createdDate': '',
-        'coProfile': '',
-        'knownAs': '',
-        'price': '',
-        'bsncontact': '',
-        'busnessType': '',
-        'bsncreatedBy': '',
-        'bsnUsername': '',
-        'level': '',
-        'categoryId': '',
-        'activeted': ''
       });
     });
   }
@@ -267,6 +385,137 @@ class _CrmnAdminState extends State<CrmnAdmin> {
           cookerReq.removeWhere((element) => element.busnessId.isEmpty);
         });
       }
+    });
+  }
+
+  reqPayload(Requests v, String type) {
+    return v.payload.map<RequestsModel>((e) {
+      // print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+      // print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+      // print(e);
+      // print('nnnnnnnnnnnnn');
+      // print('hiiiiii');
+      // print(e['hostId']);
+      // print(e['bsnIfo']['busnessType']);
+      // print(e['hostId'].runtimeType);
+
+      // print(e.bsnInfo());
+
+      // print(e['bsnInfo'].runtimeType);
+
+      // print('huuuuu');
+      // print(e.hostId);
+
+      if (e['busnessType'] == type) {
+        return RequestsModel.fromJson(e);
+      }
+      return RequestsModel(
+        hostId: '',
+        busnessId: '',
+        ceremonyId: '',
+        createdDate: '',
+        confirm: '',
+        createdBy: '',
+        isInService: '',
+        svId: '',
+        svPayStatus: '',
+        svAmount: '',
+        subId: '',
+        level: '',
+        activeted: '',
+        categoryId: '',
+        startTime: '',
+        endTime: '',
+        bsnInfo: BusnessModel(
+            location: '',
+            bId: '',
+            knownAs: '',
+            coProfile: '',
+            busnessType: '',
+            createdDate: '',
+            companyName: '',
+            ceoId: '',
+            price: '',
+            contact: '',
+            hotStatus: '',
+            aboutCEO: '',
+            aboutCompany: '',
+            createdBy: '',
+            user: User(
+                id: '',
+                username: '',
+                firstname: '',
+                lastname: '',
+                avater: '',
+                phoneNo: '',
+                email: '',
+                gender: '',
+                role: '',
+                address: '',
+                meritalStatus: '',
+                bio: '',
+                totalPost: '',
+                isCurrentUser: '',
+                isCurrentCrmAdmin: '',
+                isCurrentBsnAdmin: '',
+                totalFollowers: '',
+                totalFollowing: '',
+                totalLikes: ''),
+            subcrlevel: ''),
+        crmInfo: CeremonyModel(
+          cId: '',
+          codeNo: '',
+          ceremonyDate: '',
+          cImage: '',
+          cName: '',
+          ceremonyType: '',
+          contact: '',
+          admin: '',
+          fId: '',
+          sId: '',
+          youtubeLink: '',
+          userFid: User(
+              id: '',
+              username: '',
+              firstname: '',
+              lastname: '',
+              avater: '',
+              phoneNo: '',
+              email: '',
+              gender: '',
+              role: '',
+              address: '',
+              meritalStatus: '',
+              bio: '',
+              totalPost: '',
+              isCurrentUser: '',
+              isCurrentCrmAdmin: '',
+              isCurrentBsnAdmin: '',
+              totalFollowers: '',
+              totalFollowing: '',
+              totalLikes: ''),
+          userSid: User(
+              id: '',
+              username: '',
+              firstname: '',
+              lastname: '',
+              avater: '',
+              phoneNo: '',
+              email: '',
+              gender: '',
+              role: '',
+              address: '',
+              meritalStatus: '',
+              bio: '',
+              totalPost: '',
+              isCurrentUser: '',
+              isCurrentCrmAdmin: '',
+              isCurrentBsnAdmin: '',
+              totalFollowers: '',
+              totalFollowing: '',
+              totalLikes: ''),
+        ),
+      );
     });
   }
 
@@ -1444,13 +1693,12 @@ class _CrmnAdminState extends State<CrmnAdmin> {
               totalFollowers: '',
               totalFollowing: '',
               totalLikes: '')),
-   
     );
   }
 
   void checkSelection(BuildContext context, RequestsModel req) {
-    var contain =
-        myServ.where(((element) => element.busnessType == req.bsnInfo.busnessType));
+    var contain = myServ
+        .where(((element) => element.busnessType == req.bsnInfo.busnessType));
 
     if (contain.isEmpty) {
       Navigator.push(

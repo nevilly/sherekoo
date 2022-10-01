@@ -11,12 +11,11 @@ class CeremonyModel {
   final String ceremonyDate;
   final String contact;
   final String admin;
+  final String youtubeLink;
 
   final User userFid; // gender fid
 
   final User userSid;
-
-  final String youtubeLink;
 
   CeremonyModel({
     required this.cId,

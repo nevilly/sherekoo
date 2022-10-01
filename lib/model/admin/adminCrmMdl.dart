@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:sherekoo/model/requests/requestsModel.dart';
 import 'package:sherekoo/model/userModel.dart';
 
 class AdminCrmMdl {
@@ -11,12 +14,13 @@ class AdminCrmMdl {
   String ceremonyDate;
   String contact;
   String admin;
+  String youtubeLink;
 
   final User userFid;
 
   final User userSid;
 
-  String youtubeLink;
+  // List<RequestsModel> req;
 
   AdminCrmMdl({
     required this.cId,
@@ -32,23 +36,29 @@ class AdminCrmMdl {
     required this.userFid,
     required this.userSid,
     required this.youtubeLink,
+    // required this.req,
   });
 
-  factory AdminCrmMdl.fromJson(Map<String, dynamic> json) {
+  factory AdminCrmMdl.fromJson(Map<dynamic, dynamic> json) {
+    // print('am Heree');
+    // print(json['req']);
     return AdminCrmMdl(
-      cId: json['cId'] ?? '',
-      codeNo: json['codeNo'] ?? '',
-      cName: json['cName'] ?? '',
-      ceremonyType: json['ceremonyType'] ?? '',
-      fId: json['fId'] ?? '',
-      sId: json['sId'] ?? '',
-      cImage: json['cImage'] ?? '',
-      ceremonyDate: json['ceremonyDate'] ?? '',
-      contact: json['contact'] ?? '',
-      admin: json['admin'] ?? '',
-      userFid: User.fromJson(json['userFid']),
-      userSid: User.fromJson(json['userSid']),
-      youtubeLink: json['goLiveId'] ?? '',
-    );
+        cId: json['cId'] ?? '',
+        codeNo: json['codeNo'] ?? '',
+        cName: json['cName'] ?? '',
+        ceremonyType: json['ceremonyType'] ?? '',
+        fId: json['fId'] ?? '',
+        sId: json['sId'] ?? '',
+        cImage: json['cImage'] ?? '',
+        ceremonyDate: json['ceremonyDate'] ?? '',
+        contact: json['contact'] ?? '',
+        admin: json['admin'] ?? '',
+        youtubeLink: json['goLiveId'] ?? '',
+        userFid: User.fromJson(json['userFid']),
+        userSid: User.fromJson(json['userSid'])
+        // req: json['req']
+        //     .map<RequestsModel>((e) => RequestsModel.fromJson(e))
+        //     .toList
+        );
   }
 }

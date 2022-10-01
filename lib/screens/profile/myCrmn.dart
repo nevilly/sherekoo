@@ -45,6 +45,7 @@ class _MyCrmnState extends State<MyCrmn> {
         .getCrmViewr(token, '$urlGetCrmViewrs/userId/$id')
         .then((value) {
       if (value.status == 200) {
+        // print(value.payload);
         setState(() {
           crmV = value.payload
               .map<CrmViewersModel>((e) => CrmViewersModel.fromJson(e))
@@ -70,57 +71,67 @@ class _MyCrmnState extends State<MyCrmn> {
                   MaterialPageRoute(
                       builder: (_) => CrmDoor(
                             crm: CeremonyModel(
-                                cId: crmV[index].cId,
-                                codeNo: crmV[index].codeNo,
-                                ceremonyDate: crmV[index].ceremonyDate,
-                                cImage: crmV[index].cImage,
-                                cName: crmV[index].cName,
-                                ceremonyType: crmV[index].ceremonyType,
-                                contact: crmV[index].contact,
-                                userFid: User(
-                                    id: '',
-                                    username: crmV[index].crmUsername,
-                                    firstname: crmV[index].u1Fname,
-                                    lastname: crmV[index].u1Lname,
-                                    avater: crmV[index].u1Avt,
-                                    phoneNo: '',
-                                    email: '',
-                                    gender: '',
-                                    role: '',
-                                    address: '',
-                                    meritalStatus: '',
-                                    bio: '',
-                                    totalPost: '',
-                                    isCurrentUser: '',
-                                    isCurrentCrmAdmin: '',
-                                    isCurrentBsnAdmin: '',
-                                    totalFollowers: '',
-                                    totalFollowing: '',
-                                    totalLikes: ''),
-                                userSid: User(
-                                    id: '',
-                                    username: crmV[index].u2Lname,
-                                    firstname: crmV[index].u2Fname,
-                                    lastname: crmV[index].u2Lname,
-                                    avater: crmV[index].u2Avt,
-                                    phoneNo: '',
-                                    email: '',
-                                    gender: crmV[index].u2g,
-                                    role: '',
-                                    address: '',
-                                    meritalStatus: '',
-                                    bio: '',
-                                    totalPost: '',
-                                    isCurrentUser: '',
-                                    isCurrentCrmAdmin: '',
-                                    isCurrentBsnAdmin: '',
-                                    totalFollowers: '',
-                                    totalFollowing: '',
-                                    totalLikes: ''),
-                                admin: crmV[index].admin,
-                                fId: crmV[index].fId,
-                                sId: crmV[index].sId,
-                                youtubeLink: crmV[index].youtubeLink),
+                              cId: crmV[index].crmInfo.cId,
+                              codeNo: crmV[index].crmInfo.codeNo,
+                              ceremonyDate: crmV[index].crmInfo.ceremonyDate,
+                              cImage: crmV[index].crmInfo.cImage,
+                              cName: crmV[index].crmInfo.cName,
+                              ceremonyType: crmV[index].crmInfo.ceremonyType,
+                              contact: crmV[index].crmInfo.contact,
+                              admin: crmV[index].crmInfo.admin,
+                              fId: crmV[index].crmInfo.fId,
+                              sId: crmV[index].crmInfo.sId,
+                              youtubeLink: crmV[index].crmInfo.youtubeLink,
+                              userFid: User(
+                                  id: crmV[index].crmInfo.userFid.id,
+                                  username:
+                                      crmV[index].crmInfo.userFid.username,
+                                  firstname:
+                                      crmV[index].crmInfo.userFid.firstname,
+                                  lastname:
+                                      crmV[index].crmInfo.userFid.lastname,
+                                  avater: crmV[index].crmInfo.userFid.avater,
+                                  phoneNo: crmV[index].crmInfo.userFid.phoneNo,
+                                  email: crmV[index].crmInfo.userFid.email,
+                                  gender: crmV[index].crmInfo.userFid.gender,
+                                  role: crmV[index].crmInfo.userFid.role,
+                                  address: crmV[index].crmInfo.userFid.address,
+                                  meritalStatus:
+                                      crmV[index].crmInfo.userFid.meritalStatus,
+                                  bio: crmV[index].crmInfo.userFid.bio,
+                                  totalPost: '',
+                                  isCurrentUser: '',
+                                  isCurrentCrmAdmin: '',
+                                  isCurrentBsnAdmin: '',
+                                  totalFollowers: '',
+                                  totalFollowing: '',
+                                  totalLikes: ''),
+                              userSid: User(
+                                  id: crmV[index].crmInfo.userSid.id,
+                                  username:
+                                      crmV[index].crmInfo.userSid.username,
+                                  firstname:
+                                      crmV[index].crmInfo.userSid.firstname,
+                                  lastname:
+                                      crmV[index].crmInfo.userSid.lastname,
+                                  avater: crmV[index].crmInfo.userSid.avater,
+                                  phoneNo: crmV[index].crmInfo.userSid.phoneNo,
+                                  email: crmV[index].crmInfo.userSid.email,
+                                  gender: crmV[index].crmInfo.userSid.gender,
+                                  role: crmV[index].crmInfo.userSid.role,
+                                  address: crmV[index].crmInfo.userSid.address,
+                                  meritalStatus:
+                                      crmV[index].crmInfo.userSid.meritalStatus,
+                                  bio: crmV[index].crmInfo.userSid.bio,
+                                  totalPost: '',
+                                  isCurrentUser: '',
+                                  isCurrentCrmAdmin: '',
+                                  isCurrentBsnAdmin: '',
+                                  totalFollowers: '',
+                                  totalFollowing: '',
+                                  totalLikes: ''),
+                            ),
+                          
                           )));
             },
             child: Padding(
@@ -132,10 +143,10 @@ class _MyCrmnState extends State<MyCrmn> {
                       child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.0)),
-                          child: crmV[index].cImage != ''
+                          child: crmV[index].crmInfo.cImage != ''
                               ? FadeInImage(
                                   image: NetworkImage(
-                                      '${api}public/uploads/${crmV[index].crmUsername}/ceremony/${crmV[index].cImage}'),
+                                      '${api}public/uploads/${crmV[index].crmInfo.userFid.username}/ceremony/${crmV[index].crmInfo.cImage}'),
                                   fadeInDuration:
                                       const Duration(milliseconds: 100),
                                   placeholder: const AssetImage(
@@ -161,7 +172,7 @@ class _MyCrmnState extends State<MyCrmn> {
                               padding: const EdgeInsets.all(4.0),
                               child: Center(
                                 child: Text(
-                                  crmV[index].ceremonyType,
+                                  crmV[index].crmInfo.ceremonyType,
                                   style:
                                       h5.copyWith(fontWeight: FontWeight.bold),
                                 ),

@@ -21,8 +21,9 @@ String urlUserProfileById = '${api}Users/getUserProfileById';
 String urlUpdateUserInfo = '${api}Users/updateAccount';
 String urlUpdateUserSetting = '${api}Users/updateSetting';
 
-//Admin Ceremony 
+//Admin Ceremony
 String urlAdminCrmnByUserId = '${api}Ceremony/getCrmn_by_UserId';
+String urlAdmCrmnRequests = '${api}Ceremony/getAllCrmRequests';
 
 //Ceremony
 String urlPostCeremony = '${api}Ceremony/add';
@@ -36,10 +37,12 @@ String urlGetCrmByType = '${api}Ceremony/getCeremonyByType';
 String urladdCrmViewrs = '${api}CeremonyViewers/add';
 String urlGetCrmViewrs = '${api}CeremonyViewers/get'; //urlshoulBe:./get/../..;
 String urlGetExistViewrs = '${api}CeremonyViewers/viewerExist';
+String urlRemoveCrmViewrs = '${api}CeremonyViewers/removeViewer';
+String urlUpdateCrmViewerPostion = '${api}CeremonyViewers/updateCrmPosition';
 
 //Busness
 String urlPostBusness = '${api}Busness/add';
-String urlAllBusnessList = '${api}Busness/getBusness';
+String urlAllBusnessList = '${api}Busness/getBsn';
 String urlGoldBusness = '${api}Busness/getGoldenBusness';
 String urlusnessByType = '${api}Busness/getByBusnessType';
 String urlMyBusnessList = '${api}Busness/getByBusnessCeoId';

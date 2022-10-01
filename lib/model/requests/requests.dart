@@ -99,11 +99,19 @@ class Requests {
         .then((r) {
       // final rJson = jsonDecode(r.body);
       if (r.statusCode == 200) {
-        return Requests.fromJson(
-            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+        // final my = jsonDecode(""" ${r.body} """);
+        // print(r.body);
+        // print('jsonDecodeeee');
+        // print(my);
+        return Requests.fromJson({
+          'status': r.statusCode,
+          'payload': jsonDecode(""" ${r.body} """)['payload']
+        });
       }
-      return Requests.fromJson(
-          {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+      return Requests.fromJson({
+        'status': r.statusCode,
+        'payload': jsonDecode('"""${r.body}"""')['payload']
+      });
     });
   }
 

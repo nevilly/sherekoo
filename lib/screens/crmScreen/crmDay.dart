@@ -8,6 +8,7 @@ import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
+import '../../util/func.dart';
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/boxImg.dart';
 import '../../widgets/imgWigdets/defaultAvater.dart';
@@ -26,7 +27,14 @@ class CeremonyDay extends StatefulWidget {
 class _CeremonyDayState extends State<CeremonyDay> {
   final Preferences _preferences = Preferences();
   String token = '';
-  List<CeremonyModel> data = [];
+  List<CeremonyModel> crm = [];
+  List ourService = [
+    'ceremony card',
+    'Dressing Design',
+    'Production',
+    'Birthday Shows',
+    'Dating Show'
+  ];
 
   User currentUser = User(
       id: '',
@@ -42,10 +50,11 @@ class _CeremonyDayState extends State<CeremonyDay> {
       address: '',
       bio: '',
       meritalStatus: '',
-      totalPost: '', isCurrentBsnAdmin: '', 
+      totalPost: '',
+      isCurrentBsnAdmin: '',
       isCurrentCrmAdmin: '',
-      totalFollowers: '', 
-      totalFollowing: '', 
+      totalFollowers: '',
+      totalFollowing: '',
       totalLikes: '');
 
   @override
@@ -80,7 +89,7 @@ class _CeremonyDayState extends State<CeremonyDay> {
       if (value.status == 200) {
         // print(value.payload);
         setState(() {
-          data = value.payload
+          crm = value.payload
               .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
               .toList();
         });
@@ -93,13 +102,16 @@ class _CeremonyDayState extends State<CeremonyDay> {
     return Scaffold(
       backgroundColor: OColors.secondary,
       body: ListView.builder(
-        itemCount: data.length,
+        itemCount: crm.length,
         itemBuilder: (BuildContext context, int index) {
+          final itm = crm[index];
           return SingleChildScrollView(
             child: Container(
               margin: const EdgeInsets.only(top: 5),
               color: OColors.darGrey,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   InkWell(
                     customBorder: RoundedRectangleBorder(
@@ -113,17 +125,17 @@ class _CeremonyDayState extends State<CeremonyDay> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (_) => CrmDoor(
-                                          crm: data[index],
+                                          crm: crm[index],
                                         )));
                           },
                           child: Stack(children: [
                             ClipRRect(
                               child: Center(
-                                  child: data[index].cImage != ''
+                                  child: itm.cImage != ''
                                       ? Img(
-                                          avater: data[index].cImage,
+                                          avater: itm.cImage,
                                           url: '/ceremony/',
-                                          username: data[index].userFid.username,
+                                          username: itm.userFid.username,
                                           width: 145,
                                           height: 145,
                                         )
@@ -145,7 +157,7 @@ class _CeremonyDayState extends State<CeremonyDay> {
                                     right: 13.0,
                                     bottom: 4.0),
                                 child: Text(
-                                  data[index].ceremonyType,
+                                  itm.ceremonyType,
                                   style: const TextStyle(
                                       fontSize: 15,
                                       color: Colors.white,
@@ -167,8 +179,7 @@ class _CeremonyDayState extends State<CeremonyDay> {
                               // Title
                               Container(
                                 margin: const EdgeInsets.only(top: 1),
-                                child: Text(
-                                    data[index].ceremonyType.toUpperCase(),
+                                child: Text(itm.ceremonyType.toUpperCase(),
                                     style: TextStyle(
                                         fontStyle: FontStyle.italic,
                                         fontSize: 16,
@@ -189,7 +200,7 @@ class _CeremonyDayState extends State<CeremonyDay> {
                                           color: OColors.fontColor,
                                         )),
                                     TextSpan(
-                                        text: data[index].ceremonyDate,
+                                        text: itm.ceremonyDate,
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 10,
@@ -204,8 +215,8 @@ class _CeremonyDayState extends State<CeremonyDay> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (_) => Livee(
-                                                ceremony: data[index],
+                                          builder: (_) => CrmDoor(
+                                                crm: itm,
                                               )));
                                 },
                                 child: Container(
@@ -216,7 +227,7 @@ class _CeremonyDayState extends State<CeremonyDay> {
                                         borderRadius:
                                             BorderRadius.circular(105)),
                                     child: Text(
-                                      'Code: ${data[index].codeNo}',
+                                      'Code: ${itm.codeNo}',
                                       style: const TextStyle(
                                           fontSize: 11,
                                           color: Colors.white,
@@ -229,92 +240,24 @@ class _CeremonyDayState extends State<CeremonyDay> {
                                 margin: const EdgeInsets.only(top: 8),
                                 padding: const EdgeInsets.only(
                                     left: 8.0, right: 8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    // Profile Photo...
-                                    Container(
-                                      width: 35,
-                                      height: 35,
-                                      decoration: BoxDecoration(
-                                          color: OColors.primary,
-                                          borderRadius:
-                                              BorderRadius.circular(105)),
-                                      child: Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child:
-                                              // check if bday or kigodoro
-                                              data[index].ceremonyType ==
-                                                          'Birthday' ||
-                                                      data[index]
-                                                              .ceremonyType ==
-                                                          'Kigodoro'
-                                                  ?
-                                                  //if avater not empty
-                                                  data[index].userFid.avater.isNotEmpty
-                                                      ? UserAvater(
-                                                          avater:
-                                                              data[index].userFid.avater,
-                                                          url: '/profile/',
-                                                          username:
-                                                              data[index].userFid.username,
-                                                          height: 35,
-                                                          width: 35)
-                                                      : const DefaultAvater(
-                                                          height: 35,
-                                                          radius: 15,
-                                                          width: 35)
-                                                  :
-
-                                                  // if birthday is empty must be wedding or send off or kitchn part
-                                                  data[index].userFid.avater.isNotEmpty
-                                                      ? UserAvater(
-                                                          avater:
-                                                              data[index].userFid.avater,
-                                                          url: '/profile/',
-                                                          username:
-                                                              data[index].userFid.username,
-                                                          height: 35,
-                                                          width: 35)
-                                                      : const DefaultAvater(
-                                                          height: 35,
-                                                          radius: 15,
-                                                          width: 35)),
-                                    ),
-
-                                    data[index].ceremonyType == 'Wedding' ||
-                                            data[index].ceremonyType ==
-                                                'SendOff' ||
-                                            data[index].ceremonyType ==
-                                                'Kitchen Part'
-                                        ? Container(
-                                            width: 35,
-                                            height: 35,
-                                            decoration: BoxDecoration(
-                                                color: OColors.primary,
-                                                borderRadius:
-                                                    BorderRadius.circular(105)),
-                                            child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(4.0),
-                                                child: data[index]
-                                                        .userSid.avater
-                                                        .isNotEmpty
-                                                    ? UserAvater(
-                                                        avater:
-                                                            data[index].userSid.avater,
-                                                        url: '/profile/',
-                                                        username:
-                                                            data[index].userSid.username,
-                                                        height: 35,
-                                                        width: 35)
-                                                    : const DefaultAvater(
-                                                        height: 35,
-                                                        radius: 15,
-                                                        width: 35)),
-                                          )
-                                        : const SizedBox(),
+                                    if (itm.ceremonyType == 'Wedding')
+                                      weddingProfileCrm(
+                                          context, itm, 35, 35, 35),
+                                    if (itm.ceremonyType == 'Kitchen Part')
+                                      kichernPartProfileCrm(
+                                          context, itm, 35, 35, 35),
+                                    if (itm.ceremonyType == 'Birthday')
+                                      birthdayProfileCrm(
+                                          context, itm, 35, 35, 35),
+                                    if (itm.ceremonyType == 'SendOff')
+                                      sendProfileCrm(context, itm, 35, 35, 35),
+                                    if (itm.ceremonyType == 'Kigodoro')
+                                      kigodoroProfileCrm(
+                                          context, itm, 35, 35, 35),
                                   ],
                                 ),
                               ),
@@ -371,25 +314,6 @@ class _CeremonyDayState extends State<CeremonyDay> {
                                     const SizedBox(
                                       width: 5,
                                     ),
-                                    data[index].fId == currentUser.id ||
-                                            data[index].sId == currentUser.id
-                                        ? GestureDetector(
-                                            onTap: () {
-                                              showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        _buildPopupDialog(
-                                                            context, index),
-                                              );
-                                            },
-                                            child: Icon(
-                                              Icons.more_vert,
-                                              size: 13,
-                                              color: OColors.fontColor,
-                                            ),
-                                          )
-                                        : const SizedBox(),
                                   ],
                                 ),
                               )
@@ -400,14 +324,224 @@ class _CeremonyDayState extends State<CeremonyDay> {
                     ),
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 5,
                   ),
+                  Container(
+                    margin: const EdgeInsets.only(left: 8),
+                    // decoration: BoxDecoration(
+                    //     border: Border.all(width: 1, color: OColors.primary),
+                    //     borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 4.0, right: 4),
+                      child: Text('Booking Now',
+                          style:
+                              header10.copyWith(fontStyle: FontStyle.italic)),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 4.0, bottom: 8, right: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            const SizedBox(width: 5),
+                            Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 1, color: OColors.primary),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 6.0, right: 6),
+                                child: Text(
+                                  'Ceremony Card',
+                                  style: header10,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 5),
+                            Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 1, color: OColors.primary),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 4.0, right: 4),
+                                child: Text(
+                                  'Dressing Design',
+                                  style: header10,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 5),
+                            Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 1, color: OColors.primary),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 4.0, right: 4),
+                                child: Text(
+                                  'Production',
+                                  style: header10,
+                                ),
+                              ),
+                            ),
+                          ],
+                       
+                        ),
+                        if (itm.fId == currentUser.id ||
+                            itm.sId == currentUser.id)
+                          GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    _buildPopupDialog(context, index),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Icon(
+                                Icons.more_vert,
+                                size: 13,
+                                color: OColors.fontColor,
+                              ),
+                            ),
+                          )
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
           );
         },
       ),
+    );
+  }
+
+  Row check(CeremonyModel itm) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        itm.userFid.avater.isNotEmpty
+            ? Container(
+                decoration: BoxDecoration(
+                    // gradient: LinearGradient(
+                    //   colors: [
+                    //     OColors.primary2,
+                    //     OColors.darGrey,
+                    //     OColors.fontColor,
+                    //     // OColors.darGrey,
+                    //     OColors.primary2,
+                    //     OColors.darGrey,
+                    //     OColors.primary,
+                    //   ],
+                    // ),
+                    // borderRadius: BorderRadius.circular(20),
+                    ),
+                child: Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(35),
+                    ),
+                    child: UserAvater(
+                        avater: itm.userFid.avater,
+                        url: '/profile/',
+                        username: itm.userFid.username,
+                        height: 35,
+                        width: 35),
+                  ),
+                ),
+              )
+            : Container(
+                decoration: BoxDecoration(
+                    // gradient: LinearGradient(
+                    //   colors: [
+                    //     OColors.primary2,
+                    //     OColors.darGrey,
+                    //     OColors.fontColor,
+                    //     // OColors.darGrey,
+                    //     OColors.primary2,
+                    //     OColors.darGrey,
+                    //     OColors.primary,
+                    //   ],
+                    // ),
+                    // borderRadius: BorderRadius.circular(20),
+                    ),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(35),
+                    ),
+                    child: DefaultAvater(height: 35, radius: 35, width: 35)),
+              ),
+        itm.userSid.avater.isNotEmpty
+            ? Container(
+                decoration: BoxDecoration(
+                    // gradient: LinearGradient(
+                    //   colors: [
+                    //     // OColors.primary2,
+                    //     // OColors.darGrey,
+                    //     // OColors.fontColor,
+                    //     // // OColors.darGrey,
+                    //     // OColors.primary2,
+                    //     // OColors.darGrey,
+                    //     // OColors.primary,
+                    //   ],
+                    // ),
+                    // borderRadius: BorderRadius.circular(20),
+                    ),
+                child: Container(
+                  // decoration: BoxDecoration(
+                  //   gradient: LinearGradient(
+                  //     colors: [
+                  //       OColors.primary2,
+                  //       OColors.darGrey,
+                  //       OColors.fontColor,
+                  //       // OColors.darGrey,
+                  //       OColors.primary2,
+                  //       OColors.darGrey,
+                  //       OColors.primary,
+                  //     ],
+                  //   ),
+                  //   borderRadius: BorderRadius.circular(20),
+                  // ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(35),
+                      ),
+                      child: UserAvater(
+                          avater: itm.userSid.avater,
+                          url: '/profile/',
+                          username: itm.userSid.username,
+                          height: 35,
+                          width: 35),
+                    ),
+                  ),
+                ),
+              )
+            : Container(
+                child: Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(35),
+                      ),
+                      child: DefaultAvater(height: 35, radius: 35, width: 35)),
+                ),
+              ),
+      ],
     );
   }
 
@@ -444,7 +578,7 @@ class _CeremonyDayState extends State<CeremonyDay> {
                   context,
                   MaterialPageRoute(
                       builder: (BuildContext context) => CeremonyUpload(
-                            getData: data[index],
+                            getData: crm[index],
                             getcurrentUser: currentUser,
                           )));
             },
