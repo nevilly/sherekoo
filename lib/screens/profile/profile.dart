@@ -175,7 +175,7 @@ class ProfileState extends State<Profile> {
               child: TabBarView(children: [
                 // My Posts
 
-                user.id.isNotEmpty
+                user.id!.isNotEmpty
                     ? Padding(
                         padding: const EdgeInsets.only(
                             top: 8.0, left: 10, right: 10),
@@ -187,12 +187,12 @@ class ProfileState extends State<Profile> {
 
                 // const Text('Photooos'),
                 // My Ceremonies
-                user.id.isNotEmpty
+                user.id!.isNotEmpty
                     ? MyCrmn(
-                        userId: user.id,
+                        userId: user.id!,
                       )
                     : loadingFunc(40, OColors.primary),
-                user.id.isNotEmpty
+                user.id!.isNotEmpty
                     ? MyBusness(
                         user: user,
                       )
@@ -211,11 +211,11 @@ class ProfileState extends State<Profile> {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          user.username.isNotEmpty
+          user.username!.isNotEmpty
               ? Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Text(
-                    '${user.username.substring(0, 3).toUpperCase()}..',
+                    '${user.username!.substring(0, 3).toUpperCase()}..',
                     style: h3,
                   ),
                 )
@@ -281,9 +281,9 @@ class ProfileState extends State<Profile> {
                         padding: const EdgeInsets.all(4.0),
                         child: ClipOval(
                           child: UserAvater(
-                            avater: user.avater,
+                            avater: user.avater!,
                             url: '/profile/',
-                            username: user.username,
+                            username: user.username!,
                             width: 85.0,
                             height: 85.0,
                           ),
@@ -362,7 +362,7 @@ class ProfileState extends State<Profile> {
           margin: const EdgeInsets.only(left: 20),
           child: Column(
             children: [
-              Text(user.totalPost,
+              Text(user.totalPost!,
                   style: h4.copyWith(fontWeight: FontWeight.bold)),
               const SizedBox(height: 1),
               const Text(

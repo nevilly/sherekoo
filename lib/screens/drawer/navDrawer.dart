@@ -98,12 +98,12 @@ class _NavDrawerState extends State<NavDrawer> {
                 accountName: Padding(
                   padding: const EdgeInsets.only(left: 18.0),
                   child: Text(
-                    currentUser.username,
+                    currentUser.username!,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                 ),
-                accountEmail: Text(currentUser.email),
+                accountEmail: Text(currentUser.email!),
                 currentAccountPicture: CircleAvatar(
                     backgroundImage: NetworkImage(
                   '${api}public/uploads/${currentUser.username}/profile/${currentUser.avater}',

@@ -257,7 +257,7 @@ class _TabBState extends State<TabB> {
                                     fontWeight: FontWeight.w600),
                               ),
                               Text(
-                                widget.ceremony.userFid.username,
+                                widget.ceremony.userFid.username!,
                                 style: header14,
                               ),
                               const SizedBox(
@@ -292,7 +292,7 @@ class _TabBState extends State<TabB> {
                                     fontWeight: FontWeight.w600),
                               ),
                               Text(
-                                widget.ceremony.userFid.username,
+                                widget.ceremony.userFid.username!,
                                 style: header14,
                               ),
                               const SizedBox(

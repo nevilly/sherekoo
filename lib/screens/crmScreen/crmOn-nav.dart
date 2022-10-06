@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sherekoo/screens/ourServices/sherekoService.dart';
 import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../util/Preferences.dart';
@@ -65,13 +66,45 @@ class CrmOnNavState extends State<CrmOnNav> {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
-                  ourServices(context, 'Buy Cards'),
+                  ourServices(context, 'Order Cards'),
                   ourServices(context, 'Dress Design'),
-                  ourServices(context, 'Mc GarB'),
+                  ourServices(context, 'Mc Booking'),
                   ourServices(context, 'Production'),
-                  ourServices(context, 'MyBday Tv Show'),
-                  ourServices(context, 'Mr&Mrs Wangu Tv Show'),
-                  ourServices(context, 'Documentary'),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    const SherekoService(
+                                      from: 'MyBdayShow',
+                                    )));
+                      },
+                      child: ourServices(context, 'MyBday Tv Show')),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    const SherekoService(
+                                      from: 'Mr&MrsMy',
+                                    )));
+                      },
+                      child: ourServices(context, 'Mr&Mrs Wangu Tv Show')),
+                  ourServices(context, 'Documentary make'),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    const SherekoService(
+                                      from: 'crmBundle',
+                                    )));
+                      },
+                      child: ourServices(context, 'Ceremony Bundle')),
+                  ourServices(context, 'Tranport Bandle'),
                 ],
               ),
             ),

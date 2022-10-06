@@ -97,7 +97,7 @@ class _ListMembersState extends State<ListMembers> {
       leading: CircleAvatar(
         radius: 25,
         backgroundColor: OColors.primary,
-        child: widget.data.viewerInfo.avater.isNotEmpty
+        child: widget.data.viewerInfo.avater!.isNotEmpty
             ? Container(
                 decoration: BoxDecoration(
                     color: OColors.primary,
@@ -106,9 +106,9 @@ class _ListMembersState extends State<ListMembers> {
                   padding: const EdgeInsets.all(2.0),
                   child: ClipOval(
                     child: UserAvater(
-                      avater: widget.data.viewerInfo.avater,
+                      avater: widget.data.viewerInfo.avater!,
                       url: '/profile/',
-                      username: widget.data.viewerInfo.username,
+                      username: widget.data.viewerInfo.username!,
                       width: 85.0,
                       height: 85.0,
                     ),
@@ -119,7 +119,7 @@ class _ListMembersState extends State<ListMembers> {
       ),
       title: edit == false
           ? Text(
-              widget.data.viewerInfo.username,
+              widget.data.viewerInfo.username!,
               style: header16,
             )
           : Container(

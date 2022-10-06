@@ -158,7 +158,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
             role: 'n',
             lastname: ln,
             meritalStatus: slt)
-        .updateAccountSetting(token, urlUpdateUserSetting, widget.user.avater);
+        .updateAccountSetting(token, urlUpdateUserSetting, widget.user.avater!);
 
     if (r.status == 200) {
       setState(() {
@@ -184,13 +184,13 @@ class _ProfileSettingState extends State<ProfileSetting> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-        username.text = widget.user.username;
-        firstName.text = widget.user.firstname;
-        lastName.text = widget.user.lastname;
-        selectedRegion = widget.user.address;
-        email.text = widget.user.email;
-        phoneNo.text = widget.user.phoneNo;
-        select = widget.user.meritalStatus;
+        username.text = widget.user.username!;
+        firstName.text = widget.user.firstname!;
+        lastName.text = widget.user.lastname!;
+        selectedRegion = widget.user.address!;
+        email.text = widget.user.email!;
+        phoneNo.text = widget.user.phoneNo!;
+        select = widget.user.meritalStatus!;
       });
     });
 
@@ -293,9 +293,9 @@ class _ProfileSettingState extends State<ProfileSetting> {
                                     radius: 110,
                                     child: ClipOval(
                                       child: UserAvater(
-                                        avater: widget.user.avater,
+                                        avater: widget.user.avater!,
                                         url: '/profile/',
-                                        username: widget.user.username,
+                                        username: widget.user.username!,
                                         width: 80.0,
                                         height: 80.0,
                                       ),

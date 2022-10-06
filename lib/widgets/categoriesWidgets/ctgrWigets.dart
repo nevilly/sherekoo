@@ -124,7 +124,7 @@ class _CategoryBodyState extends State<CategoryBody> {
         .then((value) {
       if (mounted) {
         if (value.status == 200) {
-          print(value.payload);
+          // print(value.payload);
           setState(() {
             data = value.payload.map<BusnessModel>((e) {
               return BusnessModel.fromJson(e);

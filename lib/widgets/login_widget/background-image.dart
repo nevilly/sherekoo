@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../util/colors.dart';
+
 class BackgroundImage extends StatelessWidget {
   final String image;
   // ignore: use_key_in_widget_constructors
@@ -8,10 +10,10 @@ class BackgroundImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ShaderMask(
-      shaderCallback: (rect) => const LinearGradient(
+      shaderCallback: (rect) => LinearGradient(
         begin: Alignment.bottomCenter,
         end: Alignment.center,
-        colors: [Colors.white, Colors.transparent],
+        colors: [OColors.secondary, Colors.transparent],
       ).createShader(rect),
       blendMode: BlendMode.darken,
       child: Container(

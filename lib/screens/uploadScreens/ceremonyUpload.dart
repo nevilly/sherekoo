@@ -174,7 +174,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
         getUser();
         getAllUsers();
 
-        if (widget.getcurrentUser.id.isNotEmpty) {
+        if (widget.getcurrentUser.id!.isNotEmpty) {
           currentUser = widget.getcurrentUser;
         }
 
@@ -185,10 +185,10 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
           if (widget.getData.ceremonyType == 'Birthday') {
             selectedChereko = widget.getData.ceremonyType;
 
-            bAvater = widget.getData.userFid.avater;
+            bAvater = widget.getData.userFid.avater!;
             bId = widget.getData.fId;
-            bFirstName = widget.getData.userFid.firstname;
-            bUsername = widget.getData.userFid.username;
+            bFirstName = widget.getData.userFid.firstname!;
+            bUsername = widget.getData.userFid.username!;
 
             bDflt_img = widget.getData.cImage;
 
@@ -198,10 +198,10 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
 
           // Wedding
           if (widget.getData.ceremonyType == 'Wedding') {
-            wedAvater = widget.getData.userSid.avater;
+            wedAvater = widget.getData.userSid.avater!;
             wedId = widget.getData.sId;
-            wedLastname = widget.getData.userSid.lastname;
-            wedUsername = widget.getData.userSid.username;
+            wedLastname = widget.getData.userSid.lastname!;
+            wedUsername = widget.getData.userSid.username!;
             // File? _wimage; // background image for wedding
             wDflt_img = widget.getData.cImage;
 
@@ -211,10 +211,10 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
 
           //SendOff
           if (widget.getData.ceremonyType == 'SendOff') {
-            sAvater = widget.getData.userSid.avater;
+            sAvater = widget.getData.userSid.avater!;
             sId = widget.getData.sId;
-            sLastName = widget.getData.userSid.lastname;
-            sUsername = widget.getData.userSid.username;
+            sLastName = widget.getData.userSid.lastname!;
+            sUsername = widget.getData.userSid.username!;
 
             sDflt_img = widget.getData.cImage;
 
@@ -224,10 +224,10 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
 
           //kitchenPart data
           if (widget.getData.ceremonyType == 'Kitchen Part') {
-            kAvater = widget.getData.userSid.avater;
+            kAvater = widget.getData.userSid.avater!;
             kId = widget.getData.sId;
-            kFirstName = widget.getData.userSid.lastname;
-            kUsername = widget.getData.userSid.username;
+            kFirstName = widget.getData.userSid.lastname!;
+            kUsername = widget.getData.userSid.username!;
 
             kDflt_img = widget.getData.cImage;
 
@@ -237,10 +237,10 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
 
           //Kigodoro
           if (widget.getData.ceremonyType == 'Kigodoro') {
-            gAvater = widget.getData.userSid.avater;
+            gAvater = widget.getData.userSid.avater!;
             gId = widget.getData.sId;
-            gFirstName = widget.getData.userSid.lastname;
-            gUsername = widget.getData.userSid.username;
+            gFirstName = widget.getData.userSid.lastname!;
+            gUsername = widget.getData.userSid.username!;
 
             gDflt_img = widget.getData.cImage;
 
@@ -263,7 +263,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
       results = _allUsers;
     } else {
       results = _allUsers
-          .where((user) => user.username
+          .where((user) => user.username!
               .toLowerCase()
               .contains(enteredKeyword.toLowerCase()))
           .toList();
@@ -878,10 +878,10 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
                                     height: 40,
                                     child: currentUser!.avater != ""
                                         ? UserAvater(
-                                            avater: currentUser!.avater,
+                                            avater: currentUser!.avater!,
                                             height: 45,
                                             url: '/profile/',
-                                            username: currentUser!.username,
+                                            username: currentUser!.username!,
                                             width: 45)
 
                                         // CircleAvatar(
@@ -900,7 +900,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    currentUser!.lastname,
+                                    currentUser!.lastname!,
                                     style: TextStyle(
                                         color: OColors.fontColor,
                                         fontWeight: FontWeight.w500,
@@ -1132,7 +1132,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
                                 SizedBox(
                                   width: 40,
                                   height: 40,
-                                  child: currentUser!.avater.isNotEmpty
+                                  child: currentUser!.avater!.isNotEmpty
                                       ? CircleAvatar(
                                           backgroundImage: NetworkImage(
                                               '${api}public/uploads/${currentUser!.username}/profile/${currentUser!.avater}'
@@ -1146,7 +1146,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    currentUser!.firstname,
+                                    currentUser!.firstname!,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: OColors.fontColor,
@@ -1512,76 +1512,76 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
                                                         'birthday') {
                                                       bAvater =
                                                           _foundUsers[index]
-                                                              .avater;
+                                                              .avater!;
                                                       bId =
-                                                          _foundUsers[index].id;
+                                                          _foundUsers[index].id!;
                                                       bFirstName =
                                                           _foundUsers[index]
-                                                              .firstname;
+                                                              .firstname!;
 
                                                       bUsername =
                                                           _foundUsers[index]
-                                                              .firstname;
+                                                              .firstname!;
                                                     }
 
                                                     if (ceremonyType ==
                                                         'wedding') {
                                                       wedAvater =
                                                           _foundUsers[index]
-                                                              .avater;
+                                                              .avater!;
                                                       wedId =
-                                                          _foundUsers[index].id;
+                                                          _foundUsers[index].id!;
                                                       wedLastname =
                                                           _foundUsers[index]
-                                                              .lastname;
+                                                              .lastname!;
                                                       wedUsername =
                                                           _foundUsers[index]
-                                                              .username;
+                                                              .username!;
                                                     }
 
                                                     if (ceremonyType ==
                                                         'sendOff') {
                                                       sAvater =
                                                           _foundUsers[index]
-                                                              .avater;
+                                                              .avater!;
                                                       sId =
-                                                          _foundUsers[index].id;
+                                                          _foundUsers[index].id!;
                                                       sLastName =
                                                           _foundUsers[index]
-                                                              .lastname;
+                                                              .lastname!;
                                                       sUsername =
                                                           _foundUsers[index]
-                                                              .username;
+                                                              .username!;
                                                     }
 
                                                     if (ceremonyType ==
                                                         'kitchernPart') {
                                                       kAvater =
                                                           _foundUsers[index]
-                                                              .avater;
+                                                              .avater!;
                                                       kId =
-                                                          _foundUsers[index].id;
+                                                          _foundUsers[index].id!;
                                                       kFirstName =
                                                           _foundUsers[index]
-                                                              .lastname;
+                                                              .lastname!;
                                                       kUsername =
                                                           _foundUsers[index]
-                                                              .username;
+                                                              .username!;
                                                     }
 
                                                     if (ceremonyType ==
                                                         'kigodoro') {
                                                       gAvater =
                                                           _foundUsers[index]
-                                                              .avater;
+                                                              .avater!;
                                                       gId =
-                                                          _foundUsers[index].id;
+                                                          _foundUsers[index].id!;
                                                       gFirstName =
                                                           _foundUsers[index]
-                                                              .lastname;
+                                                              .lastname!;
                                                       gUsername =
                                                           _foundUsers[index]
-                                                              .username;
+                                                              .username!;
                                                     }
                                                   });
                                                   Navigator.pop(context);
@@ -1601,7 +1601,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
                                                             radius: 15,
                                                             width: 40),
                                                 title: Text(
-                                                    _foundUsers[index].username,
+                                                    _foundUsers[index].username!,
                                                     style: TextStyle(
                                                         color:
                                                             OColors.fontColor)),

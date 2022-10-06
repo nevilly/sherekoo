@@ -32,7 +32,7 @@ class _MyPostsState extends State<MyPosts> {
         token = value;
         // print('Need to See widget.user.id');
         // print(widget.user.id);
-        if (widget.user.id.isNotEmpty) {
+        if (widget.user.id!.isNotEmpty) {
           getPost(widget.user.id);
         }
       });

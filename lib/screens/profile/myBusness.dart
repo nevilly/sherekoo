@@ -62,7 +62,7 @@ class _MyBusnessState extends State<MyBusness> {
 
   getAllBusness() async {
     AllBusnessModel(payload: [], status: 0)
-        .bsnByCreatorid(token, urlMyBsnByCratorId, widget.user.id)
+        .bsnByCreatorid(token, urlMyBsnByCratorId, widget.user.id!)
         .then((value) {
       if (value.status == 200) {
         setState(() {

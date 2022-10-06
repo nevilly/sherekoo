@@ -60,7 +60,7 @@ class RequestsModel {
     required this.endTime,
   });
 
-  factory RequestsModel.fromJson(Map<dynamic, dynamic> json) {
+  factory RequestsModel.fromJson(Map<String, dynamic> json) {
     return RequestsModel(
       hostId: json['hostId'] ?? "",
       ceremonyId: json['ceremonyId'] ?? "",

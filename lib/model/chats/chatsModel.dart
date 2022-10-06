@@ -1,3 +1,5 @@
+import '../userModel.dart';
+
 class ChatsModel {
   final String id;
   final String postId;
@@ -5,17 +7,16 @@ class ChatsModel {
   final String date;
   final String body;
 
-  final String username;
-  final String avater;
+  final User userInfo;
 
   ChatsModel({
     required this.postId,
     required this.id,
     required this.userId,
     required this.body,
-    required this.username,
+    required this.userInfo,
     required this.date,
-    required this.avater,
+  
   });
 
   factory ChatsModel.fromJson(Map<String, dynamic> json) {
@@ -25,8 +26,8 @@ class ChatsModel {
       userId: json['userId'] ?? "",
       date: json['createdDate'] ?? "",
       body: json['body'] ?? "",
-      username: json['username'] ?? "",
-      avater: json['avater'] ?? "",
+      userInfo:User.fromJson(json['userInfo']) ,
+      
     );
   }
 }

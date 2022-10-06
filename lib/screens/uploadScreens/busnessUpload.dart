@@ -146,7 +146,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
       results = _allUsers;
     } else {
       results = _allUsers
-          .where((user) => user.username
+          .where((user) => user.username!
               .toLowerCase()
               .contains(enteredKeyword.toLowerCase()))
           .toList();
@@ -172,9 +172,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
           selectedBusness = widget.getData.busnessType;
 
           if (widget.getData.busnessType == 'Mc') {
-            mcAvater = widget.getData.user.avater;
+            mcAvater = widget.getData.user.avater!;
             mcId = widget.getData.ceoId;
-            mcUsername = widget.getData.user.username;
+            mcUsername = widget.getData.user.username!;
             _mcSubscription = widget.getData.subcrlevel;
             mcDefaultImg = widget.getData.coProfile;
             _mcCoKnownController.text = widget.getData.knownAs;
@@ -187,9 +187,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
           }
 
           if (widget.getData.busnessType == 'Production') {
-            productionAvater = widget.getData.user.avater;
+            productionAvater = widget.getData.user.avater!;
             productionId = widget.getData.ceoId;
-            productionUsername = widget.getData.user.username;
+            productionUsername = widget.getData.user.username!;
             productionSubscription = widget.getData.subcrlevel;
             productionDefaultImg = widget.getData.coProfile;
             _productionCoKnownController.text = widget.getData.knownAs;
@@ -203,9 +203,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _productionCeoPhoneController.text = widget.getData.contact;
           }
           if (widget.getData.busnessType == 'Decorator') {
-            decoratorAvater = widget.getData.user.avater;
+            decoratorAvater = widget.getData.user.avater!;
             decoratorId = widget.getData.ceoId;
-            decoratorUsername = widget.getData.user.username;
+            decoratorUsername = widget.getData.user.username!;
             decoratorSubscription = widget.getData.subcrlevel;
             decoratorDefaultImg = widget.getData.coProfile;
             _decoratorCoKnownController.text = widget.getData.knownAs;
@@ -218,9 +218,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _decoratorCeoPhoneController.text = widget.getData.contact;
           }
           if (widget.getData.busnessType == 'Hall') {
-            hallAvater = widget.getData.user.avater;
+            hallAvater = widget.getData.user.avater!;
             hallId = widget.getData.ceoId;
-            hallUsername = widget.getData.user.username;
+            hallUsername = widget.getData.user.username!;
             hallSubscription = widget.getData.subcrlevel;
             hallDefaultImg = widget.getData.coProfile;
             _hallCoKnownController.text = widget.getData.knownAs;
@@ -232,9 +232,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _hallCeoPhoneController.text = widget.getData.contact;
           }
           if (widget.getData.busnessType == 'Cake Bakery') {
-            cakeAvater = widget.getData.user.avater;
+            cakeAvater = widget.getData.user.avater!;
             cakeId = widget.getData.ceoId;
-            cakeUsername = widget.getData.user.username;
+            cakeUsername = widget.getData.user.username!;
             cakeSubscription = widget.getData.subcrlevel;
             cakeDefaultImg = widget.getData.coProfile;
             _cakeCoKnownController.text = widget.getData.knownAs;
@@ -246,9 +246,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _cakeCeoPhoneController.text = widget.getData.contact;
           }
           if (widget.getData.busnessType == 'Singer') {
-            singersAvater = widget.getData.user.avater;
+            singersAvater = widget.getData.user.avater!;
             singersId = widget.getData.ceoId;
-            singersUsername = widget.getData.user.username;
+            singersUsername = widget.getData.user.username!;
             singersSubscription = widget.getData.subcrlevel;
             singersDefaultImg = widget.getData.coProfile;
             _singersCoKnownController.text = widget.getData.knownAs;
@@ -260,9 +260,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _singersCeoPhoneController.text = widget.getData.contact;
           }
           if (widget.getData.busnessType == 'Dancer') {
-            dancersAvater = widget.getData.user.avater;
+            dancersAvater = widget.getData.user.avater!;
             dancersId = widget.getData.ceoId;
-            dancersUsername = widget.getData.user.username;
+            dancersUsername = widget.getData.user.username!;
             dancersSubscription = widget.getData.subcrlevel;
             dancersDefaultImg = widget.getData.coProfile;
             _dancersCoKnownController.text = widget.getData.knownAs;
@@ -274,9 +274,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _dancersCeoPhoneController.text = widget.getData.contact;
           }
           if (widget.getData.busnessType == 'Cooker') {
-            cookerAvater = widget.getData.user.avater;
+            cookerAvater = widget.getData.user.avater!;
             cookerId = widget.getData.ceoId;
-            cookerUsername = widget.getData.user.username;
+            cookerUsername = widget.getData.user.username!;
             cookerSubscription = widget.getData.subcrlevel;
             cookerDefaultImg = widget.getData.coProfile;
             _cookerCoKnownController.text = widget.getData.knownAs;
@@ -288,9 +288,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _cookerCeoPhoneController.text = widget.getData.contact;
           }
           if (widget.getData.busnessType == 'saloon') {
-            saloonAvater = widget.getData.user.avater;
+            saloonAvater = widget.getData.user.avater!;
             saloonId = widget.getData.ceoId;
-            saloonUsername = widget.getData.user.username;
+            saloonUsername = widget.getData.user.username!;
             saloonSubscription = widget.getData.subcrlevel;
             saloonDefaultImg = widget.getData.coProfile;
             _saloonCoKnownController.text = widget.getData.knownAs;
@@ -302,9 +302,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _saloonCeoPhoneController.text = widget.getData.contact;
           }
           if (widget.getData.busnessType == 'Car') {
-            carsAvater = widget.getData.user.avater;
+            carsAvater = widget.getData.user.avater!;
             carsId = widget.getData.ceoId;
-            carsUsername = widget.getData.user.username;
+            carsUsername = widget.getData.user.username!;
             carsSubscription = widget.getData.subcrlevel;
             carsDefaultImg = widget.getData.coProfile;
             _carsCoKnownController.text = widget.getData.knownAs;
@@ -5604,120 +5604,120 @@ class _BusnessUploadState extends State<BusnessUpload> {
                                                   if (categoryType == 'McCEO') {
                                                     mcAvater =
                                                         _foundUsers[index]
-                                                            .avater;
+                                                            .avater!;
                                                     mcId =
-                                                        _foundUsers[index].id;
+                                                        _foundUsers[index].id!;
                                                     mcUsername =
                                                         _foundUsers[index]
-                                                            .username;
+                                                            .username!;
                                                   }
 
                                                   if (categoryType ==
                                                       'ProductionCEO') {
                                                     productionAvater =
                                                         _foundUsers[index]
-                                                            .avater;
+                                                            .avater!;
                                                     productionId =
-                                                        _foundUsers[index].id;
+                                                        _foundUsers[index].id!;
                                                     productionUsername =
                                                         _foundUsers[index]
-                                                            .username;
+                                                            .username!;
                                                   }
 
                                                   if (categoryType ==
                                                       'decoratorCEO') {
                                                     decoratorAvater =
                                                         _foundUsers[index]
-                                                            .avater;
+                                                            .avater!;
                                                     decoratorId =
-                                                        _foundUsers[index].id;
+                                                        _foundUsers[index].id!;
                                                     decoratorUsername =
                                                         _foundUsers[index]
-                                                            .username;
+                                                            .username!;
                                                   }
 
                                                   if (categoryType ==
                                                       'hallCEO') {
                                                     hallAvater =
                                                         _foundUsers[index]
-                                                            .avater;
+                                                            .avater!;
                                                     hallId =
-                                                        _foundUsers[index].id;
+                                                        _foundUsers[index].id!;
                                                     hallUsername =
                                                         _foundUsers[index]
-                                                            .username;
+                                                            .username!;
                                                   }
 
                                                   if (categoryType ==
                                                       'cakeCEO') {
                                                     cakeAvater =
                                                         _foundUsers[index]
-                                                            .avater;
+                                                            .avater!;
                                                     cakeId =
-                                                        _foundUsers[index].id;
+                                                        _foundUsers[index].id!;
                                                     cakeUsername =
                                                         _foundUsers[index]
-                                                            .username;
+                                                            .username!;
                                                   }
 
                                                   if (categoryType ==
                                                       'singersCEO') {
                                                     singersAvater =
                                                         _foundUsers[index]
-                                                            .avater;
+                                                            .avater!;
                                                     singersId =
-                                                        _foundUsers[index].id;
+                                                        _foundUsers[index].id!;
                                                     singersUsername =
                                                         _foundUsers[index]
-                                                            .username;
+                                                            .username!;
                                                   }
 
                                                   if (categoryType ==
                                                       'dancersCEO') {
                                                     dancersAvater =
                                                         _foundUsers[index]
-                                                            .avater;
+                                                            .avater!;
                                                     dancersId =
-                                                        _foundUsers[index].id;
+                                                        _foundUsers[index].id!;
                                                     dancersUsername =
                                                         _foundUsers[index]
-                                                            .username;
+                                                            .username!;
                                                   }
 
                                                   if (categoryType ==
                                                       'cookerCEO') {
                                                     cookerAvater =
                                                         _foundUsers[index]
-                                                            .avater;
+                                                            .avater!;
                                                     cookerId =
-                                                        _foundUsers[index].id;
+                                                        _foundUsers[index].id!;
                                                     cookerUsername =
                                                         _foundUsers[index]
-                                                            .username;
+                                                            .username!;
                                                   }
 
                                                   if (categoryType ==
                                                       'saloonCEO') {
                                                     saloonAvater =
                                                         _foundUsers[index]
-                                                            .avater;
+                                                            .avater!;
                                                     saloonId =
-                                                        _foundUsers[index].id;
+                                                        _foundUsers[index].id!;
                                                     saloonUsername =
                                                         _foundUsers[index]
-                                                            .username;
+                                                            .username!;
                                                   }
 
                                                   if (categoryType ==
                                                       'carsCEO') {
                                                     carsAvater =
                                                         _foundUsers[index]
-                                                            .avater;
+                                                            .avater!;
                                                     carsId =
-                                                        _foundUsers[index].id;
+                                                        _foundUsers[index].id!;
                                                     carsUsername =
                                                         _foundUsers[index]
-                                                            .username;
+                                                            .username!;
                                                   }
                                                 });
 
@@ -5745,7 +5745,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                                                             height: 110,
                                                           ))),
                                               title: Text(
-                                                  _foundUsers[index].username,
+                                                  _foundUsers[index].username!,
                                                   style: TextStyle(
                                                       color:
                                                           OColors.fontColor)),

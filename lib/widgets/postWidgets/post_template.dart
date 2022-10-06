@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
@@ -24,7 +25,7 @@ import '../../util/Preferences.dart';
 import '../../util/button.dart';
 import 'likeLife.dart';
 
-class PostTemplate extends StatefulWidget {
+class PostTemplate extends StatefulWidget  {
   final String postId;
   final String avater;
   final String userId; //post Creator

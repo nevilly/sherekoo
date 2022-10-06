@@ -113,6 +113,7 @@ class _CeremonyChatsState extends State<CeremonyChats> {
             const SizedBox(
               height: 5,
             ),
+           
             Expanded(
               child: ListView.builder(
                 itemCount: chats.length,
@@ -135,11 +136,11 @@ class _CeremonyChatsState extends State<CeremonyChats> {
                                   children: [
                                     Padding(
                                         padding: const EdgeInsets.all(4.0),
-                                        child: chats[index].avater != ''
+                                        child: chats[index].userInfo.avater != ''
                                             ? CircleAvatar(
                                                 radius: 12.0,
                                                 backgroundImage: NetworkImage(
-                                                  '${api}public/uploads/${chats[index].username}/profile/${chats[index].avater}',
+                                                  '${api}public/uploads/${chats[index].userInfo.username}/profile/${chats[index].userInfo.avater}',
                                                   // height: 400,
                                                 ),
                                               )
@@ -155,7 +156,7 @@ class _CeremonyChatsState extends State<CeremonyChats> {
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           left: 6.0, bottom: 8),
-                                      child: Text(chats[index].username,
+                                      child: Text(chats[index].userInfo.username!,
                                           style: const TextStyle(
                                             color: Colors.blueGrey,
                                             fontWeight: FontWeight.w600,

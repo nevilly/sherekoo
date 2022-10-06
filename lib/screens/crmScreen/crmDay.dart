@@ -135,7 +135,7 @@ class _CeremonyDayState extends State<CeremonyDay> {
                                       ? Img(
                                           avater: itm.cImage,
                                           url: '/ceremony/',
-                                          username: itm.userFid.username,
+                                          username: itm.userFid.username!,
                                           width: 145,
                                           height: 145,
                                         )
@@ -432,7 +432,7 @@ class _CeremonyDayState extends State<CeremonyDay> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        itm.userFid.avater.isNotEmpty
+        itm.userFid.avater!.isNotEmpty
             ? Container(
                 decoration: BoxDecoration(
                     // gradient: LinearGradient(
@@ -455,9 +455,9 @@ class _CeremonyDayState extends State<CeremonyDay> {
                       Radius.circular(35),
                     ),
                     child: UserAvater(
-                        avater: itm.userFid.avater,
+                        avater: itm.userFid.avater!,
                         url: '/profile/',
-                        username: itm.userFid.username,
+                        username: itm.userFid.username!,
                         height: 35,
                         width: 35),
                   ),
@@ -484,7 +484,7 @@ class _CeremonyDayState extends State<CeremonyDay> {
                     ),
                     child: DefaultAvater(height: 35, radius: 35, width: 35)),
               ),
-        itm.userSid.avater.isNotEmpty
+        itm.userSid.avater!.isNotEmpty
             ? Container(
                 decoration: BoxDecoration(
                     // gradient: LinearGradient(
@@ -522,9 +522,9 @@ class _CeremonyDayState extends State<CeremonyDay> {
                         Radius.circular(35),
                       ),
                       child: UserAvater(
-                          avater: itm.userSid.avater,
+                          avater: itm.userSid.avater!,
                           url: '/profile/',
-                          username: itm.userSid.username,
+                          username: itm.userSid.username!,
                           height: 35,
                           width: 35),
                     ),

@@ -68,11 +68,14 @@ class _PostChatsState extends State<PostChats> {
       postId: postid,
       userId: '',
     ).get(token, urlGetChats).then((value) {
-      setState(() {
-        chats = value.payload
-            .map<ChatsModel>((e) => ChatsModel.fromJson(e))
-            .toList();
-      });
+      if (mounted) {
+        setState(() {
+          print(value.payload);
+          chats = value.payload
+              .map<ChatsModel>((e) => ChatsModel.fromJson(e))
+              .toList();
+        });
+      }
     });
     id++;
   }
@@ -112,6 +115,11 @@ class _PostChatsState extends State<PostChats> {
                 color: OColors.fontColor,
                 fontWeight: FontWeight.w500)),
         centerTitle: true,
+        // automaticallyImplyLeading: false,
+        // leading: InkWell(
+        //   onTap: ()=> HomeNav(getIndex: 2, user: User()),
+        //   child:Icon(Icons.arrow_back)
+        // ),
       ),
       body: Column(
         children: [
@@ -127,7 +135,7 @@ class _PostChatsState extends State<PostChats> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          chats[index].avater != ''
+                          chats[index].userInfo. avater != ''
                               ? GestureDetector(
                                   onTap: () {
                                     Navigator.push(
@@ -138,9 +146,9 @@ class _PostChatsState extends State<PostChats> {
                                                   user: User(
                                                       id: chats[index].userId,
                                                       username:
-                                                          chats[index].username,
+                                                          chats[index].userInfo.username,
                                                       avater:
-                                                          chats[index].avater,
+                                                          chats[index].userInfo.avater,
                                                       phoneNo: '',
                                                       role: '',
                                                       gender: '',
@@ -151,11 +159,12 @@ class _PostChatsState extends State<PostChats> {
                                                       address: '',
                                                       bio: '',
                                                       meritalStatus: '',
-                                                      totalPost: '', isCurrentBsnAdmin: '', 
-      isCurrentCrmAdmin: '',
-      totalFollowers: '', 
-      totalFollowing: '', 
-      totalLikes: ''),
+                                                      totalPost: '',
+                                                      isCurrentBsnAdmin: '',
+                                                      isCurrentCrmAdmin: '',
+                                                      totalFollowers: '',
+                                                      totalFollowing: '',
+                                                      totalLikes: ''),
                                                   getIndex: 4,
                                                 )));
                                   },
@@ -171,7 +180,7 @@ class _PostChatsState extends State<PostChats> {
                                       child: CircleAvatar(
                                         radius: 10.0,
                                         backgroundImage: NetworkImage(
-                                          '${api}public/uploads/${chats[index].username}/profile/${chats[index].avater}',
+                                          '${api}public/uploads/${chats[index].userInfo.username}/profile/${chats[index].userInfo.avater}',
                                           // height: 400,
                                         ),
                                       ),
@@ -188,9 +197,9 @@ class _PostChatsState extends State<PostChats> {
                                                   user: User(
                                                       id: chats[index].userId,
                                                       username:
-                                                          chats[index].username,
+                                                          chats[index].userInfo.username,
                                                       avater:
-                                                          chats[index].avater,
+                                                          chats[index].userInfo.avater,
                                                       phoneNo: '',
                                                       role: '',
                                                       gender: '',
@@ -201,11 +210,12 @@ class _PostChatsState extends State<PostChats> {
                                                       address: '',
                                                       bio: '',
                                                       meritalStatus: '',
-                                                      totalPost: '', isCurrentBsnAdmin: '', 
-      isCurrentCrmAdmin: '',
-      totalFollowers: '', 
-      totalFollowing: '', 
-      totalLikes: ''),
+                                                      totalPost: '',
+                                                      isCurrentBsnAdmin: '',
+                                                      isCurrentCrmAdmin: '',
+                                                      totalFollowers: '',
+                                                      totalFollowing: '',
+                                                      totalLikes: ''),
                                                   getIndex: 4,
                                                 )));
                                   },
@@ -232,7 +242,7 @@ class _PostChatsState extends State<PostChats> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(chats[index].username,
+                                Text(chats[index].userInfo.username!,
                                     style: TextStyle(
                                       color: OColors.fontColor,
                                       fontWeight: FontWeight.w600,
@@ -386,5 +396,11 @@ class _PostChatsState extends State<PostChats> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 }

@@ -103,15 +103,11 @@ class Requests {
         // print(r.body);
         // print('jsonDecodeeee');
         // print(my);
-        return Requests.fromJson({
-          'status': r.statusCode,
-          'payload': jsonDecode(""" ${r.body} """)['payload']
-        });
+        return Requests.fromJson(
+            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       }
-      return Requests.fromJson({
-        'status': r.statusCode,
-        'payload': jsonDecode('"""${r.body}"""')['payload']
-      });
+      return Requests.fromJson(
+          {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
     });
   }
 

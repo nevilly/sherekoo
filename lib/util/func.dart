@@ -296,7 +296,7 @@ void viewerGrid(
                                                           ),
                                                           Text(
                                                             itm.viewerInfo
-                                                                .username,
+                                                                .username!,
                                                             style: const TextStyle(
                                                                 color: Colors
                                                                     .white,
@@ -855,7 +855,7 @@ Row sendProfileCrm(
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceAround,
     children: [
-      widget.userFid.avater.isNotEmpty
+      widget.userFid.avater!.isNotEmpty
           ? Container(
               decoration: BoxDecoration(
                 border: Border.all(color: OColors.primary, width: 1.5),
@@ -868,9 +868,9 @@ Row sendProfileCrm(
                     Radius.circular(r),
                   ),
                   child: UserAvater(
-                      avater: widget.userFid.avater,
+                      avater: widget.userFid.avater!,
                       url: '/profile/',
-                      username: widget.userFid.username,
+                      username: widget.userFid.username!,
                       height: h,
                       width: w),
                 ),
@@ -887,7 +887,7 @@ Row sendProfileCrm(
                   ),
                   child: DefaultAvater(height: h, radius: r, width: w)),
             ),
-      widget.userSid.avater.isNotEmpty
+      widget.userSid.avater!.isNotEmpty
           ? Container(
               decoration: BoxDecoration(
                 border: Border.all(color: OColors.primary, width: 1.5),
@@ -900,9 +900,9 @@ Row sendProfileCrm(
                     Radius.circular(r),
                   ),
                   child: UserAvater(
-                      avater: widget.userSid.avater,
+                      avater: widget.userSid.avater!,
                       url: '/profile/',
-                      username: widget.userSid.username,
+                      username: widget.userSid.username!,
                       height: h,
                       width: w),
                 ),
@@ -931,7 +931,7 @@ Row kichernPartProfileCrm(
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceAround,
     children: [
-      widget.userFid.avater.isNotEmpty
+      widget.userFid.avater!.isNotEmpty
           ? Container(
               decoration: BoxDecoration(
                 border: Border.all(color: OColors.primary, width: 1.5),
@@ -944,9 +944,9 @@ Row kichernPartProfileCrm(
                     Radius.circular(r),
                   ),
                   child: UserAvater(
-                      avater: widget.userFid.avater,
+                      avater: widget.userFid.avater!,
                       url: '/profile/',
-                      username: widget.userFid.username,
+                      username: widget.userFid.username!,
                       height: h,
                       width: w),
                 ),
@@ -963,7 +963,7 @@ Row kichernPartProfileCrm(
                   ),
                   child: DefaultAvater(height: h, radius: r, width: w)),
             ),
-      widget.userSid.avater.isNotEmpty
+      widget.userSid.avater!.isNotEmpty
           ? Container(
               decoration: BoxDecoration(
                 border: Border.all(color: OColors.primary, width: 1.5),
@@ -976,9 +976,9 @@ Row kichernPartProfileCrm(
                     Radius.circular(r),
                   ),
                   child: UserAvater(
-                      avater: widget.userSid.avater,
+                      avater: widget.userSid.avater!,
                       url: '/profile/',
-                      username: widget.userSid.username,
+                      username: widget.userSid.username!,
                       height: h,
                       width: w),
                 ),
@@ -1018,7 +1018,7 @@ Container birthdayProfileCrm(
         child: UserAvater(
             avater: widget.cImage,
             url: '/ceremony/',
-            username: widget.userFid.username,
+            username: widget.userFid.username!,
             height: h,
             width: w),
       ),
@@ -1042,7 +1042,7 @@ Container kigodoroProfileCrm(
         child: UserAvater(
             avater: itm.cImage,
             url: '/ceremony/',
-            username: itm.userFid.username,
+            username: itm.userFid.username!,
             height: h,
             width: w),
       ),

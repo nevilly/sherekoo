@@ -107,7 +107,7 @@ class _AdminPageState extends State<AdminPage> {
                                           ? Img(
                                               avater: adm.cImage,
                                               url: '/ceremony/',
-                                              username: adm.userFid.username,
+                                              username: adm.userFid.username!,
                                               width: 60,
                                               height: 60,
                                             )
