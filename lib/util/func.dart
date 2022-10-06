@@ -201,6 +201,7 @@ void viewerGrid(
                     const SizedBox(height: 10),
                     Expanded(
                       child: StaggeredGridView.countBuilder(
+                         
                           crossAxisSpacing: 1,
                           mainAxisSpacing: 2,
                           crossAxisCount: 8,
