@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
+import 'package:sherekoo/util/modInstance.dart';
 
 import '../model/allData.dart';
 import '../model/ceremony/allCeremony.dart';
@@ -35,27 +36,7 @@ class _TabBState extends State<TabB> {
   String token = '';
 
   TextEditingController phoneNo = TextEditingController();
-  User currentUser = User(
-      id: '',
-      username: '',
-      firstname: '',
-      lastname: '',
-      avater: '',
-      phoneNo: '',
-      email: '',
-      gender: '',
-      role: '',
-      isCurrentUser: '',
-      address: '',
-      bio: '',
-      meritalStatus: '',
-      totalPost: '',
-      isCurrentBsnAdmin: '',
-      isCurrentCrmAdmin: '',
-      totalFollowers: '',
-      totalFollowing: '',
-      totalLikes: '');
-
+ 
   List<SvModel> bsnInfo = [];
 
   @override
@@ -78,7 +59,7 @@ class _TabBState extends State<TabB> {
     AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
       if (value.status == 200) {
         setState(() {
-          currentUser = User.fromJson(value.payload);
+          user = User.fromJson(value.payload);
         });
       }
     });
@@ -177,8 +158,7 @@ class _TabBState extends State<TabB> {
       payload: [],
     ).get(token, '$urlGetCrmViewrs/crmId/${widget.ceremony.cId}').then((value) {
       if (value.status == 200) {
-        print('cereeeeeeeeeeeeeeeeeeeeeeeeee');
-        print(value.payload);
+        
         setState(() {
           crmViewer = value.payload
               .map<CrmViewersModel>((e) => CrmViewersModel.fromJson(e))
@@ -545,11 +525,11 @@ class _TabBState extends State<TabB> {
                                       width: MediaQuery.of(context).size.width,
                                       child: Column(
                                         children: [
-                                          if (currentUser.id ==
+                                          if (user.id ==
                                                   widget.ceremony.fId ||
-                                              currentUser.id ==
+                                              user.id ==
                                                   widget.ceremony.sId ||
-                                              currentUser.id ==
+                                              user.id ==
                                                   widget.ceremony.admin)
                                             GestureDetector(
                                               onTap: () {

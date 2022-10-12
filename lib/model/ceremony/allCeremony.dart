@@ -95,7 +95,7 @@ class AllCeremonysModel {
     return await http
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((http.Response r) {
-      print(r.body);
+      // print(r.body);
       if (r.statusCode == 200) {
         return AllCeremonysModel.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});

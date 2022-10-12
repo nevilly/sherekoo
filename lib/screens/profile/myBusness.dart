@@ -3,9 +3,9 @@ import 'package:sherekoo/util/colors.dart';
 
 import '../../model/busness/allBusness.dart';
 import '../../model/busness/busnessModel.dart';
-import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
+import '../../util/modInstance.dart';
 import '../../util/pallets.dart';
 import '../../util/util.dart';
 import '../detailScreen/DetailPage.dart';
@@ -25,27 +25,6 @@ class _MyBusnessState extends State<MyBusness> {
   String token = '';
   List<BusnessModel> myBsn = [];
 
-  CeremonyModel ceremony = CeremonyModel(
-    cId: '',
-    codeNo: '',
-    ceremonyType: '',
-    cName: '',
-    fId: '',
-    sId: '',
-    cImage: '',
-    ceremonyDate: '',
-    admin: '',
-    contact: '',
-   userFid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
-                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
-                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
-                         totalFollowing: '', totalLikes: ''),
-                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
-                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
-                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
-                         totalFollowing: '', totalLikes: ''),
-    youtubeLink: '',
-  );
 
   @override
   void initState() {

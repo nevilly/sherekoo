@@ -20,14 +20,8 @@ class _NotifyWidgetState extends State<NotifyWidget> {
             MaterialPageRoute(
                 builder: (BuildContext context) => const InvitationTime()));
       },
-      child: Container(
-        height: 35,
-        width: 35,
-        margin: const EdgeInsets.only(top: 1, right: 13),
-        decoration: BoxDecoration(
-          color: Colors.transparent,
-          borderRadius: BorderRadius.circular(35),
-        ),
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
         child: Icon(
           Icons.notifications,
           color: OColors.primary,

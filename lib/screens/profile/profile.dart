@@ -5,6 +5,7 @@ import 'package:sherekoo/widgets/imgWigdets/defaultAvater.dart';
 import '../../model/allData.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
+import '../../util/modInstance.dart';
 import '../../util/func.dart';
 import '../../util/pallets.dart';
 import '../../util/util.dart';
@@ -27,27 +28,6 @@ class Profile extends StatefulWidget {
 class ProfileState extends State<Profile> {
   final Preferences _preferences = Preferences();
   String token = '';
-
-  late User user = User(
-      id: '',
-      username: '',
-      firstname: '',
-      lastname: '',
-      avater: '',
-      phoneNo: '',
-      email: '',
-      gender: '',
-      role: '',
-      isCurrentUser: '',
-      address: '',
-      bio: '',
-      meritalStatus: '',
-      totalPost: '',
-      isCurrentBsnAdmin: '',
-      isCurrentCrmAdmin: '',
-      totalFollowers: '',
-      totalFollowing: '',
-      totalLikes: '');
 
   @override
   void initState() {

@@ -12,7 +12,7 @@ String api = "http://192.168.43.125/"; // Neheman
 //Authentications
 String login = "${api}Users/login";
 String craetAcount = '${api}Users/addAccount';
-
+//
 //users
 String urlGetUser = '${api}Users/user';
 String urlUserList = '${api}Users/users';
@@ -31,7 +31,13 @@ String urlGetCeremony = '${api}Ceremony/get';
 String urlGetCeremonyById = '${api}Ceremony/getById';
 String urlCrmByDay = '${api}Ceremony/getCeremonyByDay';
 String urlUpdateDayCeremony = '${api}Ceremony/update';
+String urlGetByUserId = '${api}Ceremony/getCrmn_by_UserId';
 String urlGetCrmByType = '${api}Ceremony/getCeremonyByType';
+
+//Invitation Cards
+
+String urlGetInvCards = '${api}InvitationCard/get';
+String urladdInvCards = '${api}InvitationCard/add';
 
 //Ceremonyt Viewers
 String urladdCrmViewrs = '${api}CeremonyViewers/add';
@@ -77,10 +83,10 @@ String urlProfileSherekooByUid = '${api}MyPost/getProfileByUid';
 String urlVedioPostSherekoo = '${api}MyPost/addVedeo';
 String urlremoveSherekoo = '${api}MyPost/remove';
 
-//LIkes
+//Likes
 String urlpostLikes = '${api}Likes/add';
 
-//LIkes
+// Share
 String urlpostShare = '${api}Share/add';
 
 //Chats on Post

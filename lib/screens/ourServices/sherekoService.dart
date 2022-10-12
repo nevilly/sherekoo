@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:sherekoo/screens/ourServices/srvDetails.dart';
 import 'package:sherekoo/util/colors.dart';
-import 'package:sherekoo/util/pallets.dart';
 
 import '../../widgets/login_widget/background-image.dart';
 
@@ -14,6 +14,7 @@ class SherekoService extends StatefulWidget {
 }
 
 class _SherekoServiceState extends State<SherekoService> {
+  final TextEditingController _birthdayDateController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -58,7 +59,7 @@ class _SherekoServiceState extends State<SherekoService> {
                 rowBundlePosition(
                   context,
                   'Register',
-                  'Our Best  MyBirthDay Tv Show ',
+                  'Our Best  MyBirthMonth Tv Show ',
                   'Season 01',
                   "assets/ceremony/hs1.jpg",
                 ),
@@ -70,40 +71,66 @@ class _SherekoServiceState extends State<SherekoService> {
                   height: MediaQuery.of(context).size.height / 2.3,
                   child: Column(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.only(left: 18, top: 5),
-                        child: Text(
-                          'Lorem ipsum  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, Excepteur sint occaecat cupidatat non proident,.',
-                          style: header10,
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 55,
+                      ),
+                      if (widget.from == 'MyBdayShow')
+                        Container(
+                          padding:
+                              const EdgeInsets.only(left: 18, top: 5, right: 4),
+                          child: Text(
+                            'Season 1 it will deal with all those who get berth in january only. The show is going to be more funny and Winner will  do Offer him best ceremony ,.',
+                            style: header12.copyWith(
+                                fontWeight: FontWeight.normal),
+                          ),
                         ),
+                      if (widget.from == 'crmBundle')
+                        Container(
+                          padding:
+                              const EdgeInsets.only(left: 18, top: 5, right: 4),
+                          child: Text(
+                            'Lorem ipsum  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, Excepteur sint occaecat cupidatat non proident,.',
+                            style: header13.copyWith(
+                                fontWeight: FontWeight.normal),
+                          ),
+                        ),
+                      if (widget.from == 'Mr&MrsMy')
+                        Container(
+                          padding:
+                              const EdgeInsets.only(left: 18, top: 5, right: 4),
+                          child: Text(
+                            'Lorem ipsum  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, Excepteur sint occaecat cupidatat non proident,.',
+                            style: header13.copyWith(
+                                fontWeight: FontWeight.normal),
+                          ),
+                        ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 40,
                       ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 18.0),
-                            child: Text(
+                      Padding(
+                        padding: const EdgeInsets.only(left: 18.0, bottom: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
                               'Bundles',
-                              style: header12.copyWith(
+                              style: header16.copyWith(
                                   color: OColors.darkGrey,
                                   fontWeight: FontWeight.w400),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(6.0),
-                            child: Icon(
-                              Icons.more_horiz,
-                              color: OColors.primary,
-                            ),
-                          )
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.all(6.0),
+                              child: Icon(
+                                Icons.more_horiz,
+                                color: OColors.primary,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width,
-                        height: 140,
+                        height: MediaQuery.of(context).size.height / 5,
                         child: ListView(
                           scrollDirection: Axis.horizontal,
                           children: [
@@ -166,7 +193,7 @@ class _SherekoServiceState extends State<SherekoService> {
 
   Positioned crmBundlePosition(BuildContext context) {
     return Positioned(
-      top: MediaQuery.of(context).size.height / 4.5,
+      top: MediaQuery.of(context).size.height / 2.9,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -209,11 +236,12 @@ class _SherekoServiceState extends State<SherekoService> {
   Positioned rowBundlePosition(
       BuildContext context, String subtitle, String title, String season, img) {
     return Positioned(
-      top: MediaQuery.of(context).size.height / 4.5,
+      top: MediaQuery.of(context).size.height / 3.5,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
+          Container(
+            // color: Colors.red,
             width: MediaQuery.of(context).size.width,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -228,7 +256,7 @@ class _SherekoServiceState extends State<SherekoService> {
                     children: [
                       Container(
                         padding: const EdgeInsets.only(
-                            left: 10, right: 10, top: 4, bottom: 4),
+                            left: 15, right: 15, top: 4, bottom: 4),
                         decoration: BoxDecoration(
                             color: OColors.primary,
                             border:
@@ -236,7 +264,7 @@ class _SherekoServiceState extends State<SherekoService> {
                             borderRadius: BorderRadius.circular(30)),
                         child: Text(
                           subtitle,
-                          style: header12,
+                          style: header14,
                         ),
                       ),
                       const SizedBox(
@@ -257,12 +285,13 @@ class _SherekoServiceState extends State<SherekoService> {
                 Container(
                   margin: const EdgeInsets.only(right: 10),
                   width: 100,
-                  height: 130,
+                  height: 140,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         padding: const EdgeInsets.only(
-                            left: 8, right: 8, top: 4, bottom: 4),
+                            left: 0, right: 8, top: 4, bottom: 8),
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.only(
                               topRight: Radius.circular(10),
@@ -270,36 +299,42 @@ class _SherekoServiceState extends State<SherekoService> {
                         ),
                         child: Text(
                           season,
-                          style: header12.copyWith(fontWeight: FontWeight.w500),
+                          style: header14.copyWith(fontWeight: FontWeight.w500),
                         ),
                       ),
-                      Stack(
-                        children: [
-                          InkWell(
-                            child: Image.asset(
-                              img,
-                              // width: 90,
-                              height: 100,
-                              fit: BoxFit.cover,
+                      GestureDetector(
+                        onTap: () {
+                          showAlertDialog(
+                              context, 'Select Ceremony ', '', '', '');
+                        },
+                        child: Stack(
+                          children: [
+                            InkWell(
+                              child: Image.asset(
+                                img,
+                                // width: 90,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                          ),
-                          Positioned(
-                              bottom: 10,
-                              child: Container(
-                                width: 100,
-                                padding: const EdgeInsets.only(
-                                    left: 8, right: 8, top: 4, bottom: 4),
-                                decoration: BoxDecoration(
-                                    color: OColors.primary.withOpacity(.8)),
-                                child: Center(
-                                  child: Text(
-                                    'Register Now',
-                                    style: header11.copyWith(
-                                        fontWeight: FontWeight.w400),
+                            Positioned(
+                                bottom: 0,
+                                child: Container(
+                                  width: 100,
+                                  padding: const EdgeInsets.only(
+                                      left: 8, right: 8, top: 4, bottom: 4),
+                                  decoration: BoxDecoration(
+                                      color: OColors.primary.withOpacity(.8)),
+                                  child: Center(
+                                    child: Text(
+                                      'Register Now',
+                                      style: header11.copyWith(
+                                          fontWeight: FontWeight.w400),
+                                    ),
                                   ),
-                                ),
-                              )),
-                        ],
+                                )),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -364,4 +399,144 @@ class _SherekoServiceState extends State<SherekoService> {
       ]),
     );
   }
+
+  // Alert Widget
+  showAlertDialog(
+      BuildContext context, String title, String msg, req, String from) async {
+    // set up the buttons
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      insetPadding: const EdgeInsets.only(right: 1, left: 1),
+      contentPadding: EdgeInsets.zero,
+      titlePadding: const EdgeInsets.only(top: 5),
+      backgroundColor: OColors.secondary,
+      title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.close,
+              size: 35,
+              color: OColors.fontColor,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 38.0, top: 8, bottom: 8),
+          child: Text('Search',
+              style:
+                  header18.copyWith(fontSize: 25, fontWeight: FontWeight.bold)),
+        ),
+      ]),
+      content: Column(
+        children: [
+          birthDayMonth('Birthday Date', _birthdayDateController),
+        ],
+      ),
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  birthDayMonth(title, dateController) {
+    return Container(
+        width: MediaQuery.of(context).size.width,
+        // color: OColors.fontColor,
+        margin: const EdgeInsets.only(left: 10, right: 10),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              margin: const EdgeInsets.only(left: 20),
+              padding: const EdgeInsets.only(bottom: 8.0),
+              alignment: Alignment.topLeft,
+              child: Text(title,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: OColors.fontColor),
+                  textAlign: TextAlign.start),
+            ),
+            Container(
+              height: 45,
+              margin: const EdgeInsets.only(left: 20, right: 20, bottom: 15),
+              decoration: BoxDecoration(
+                border: Border.all(width: 1, color: Colors.grey),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: TextField(
+                focusNode: AlwaysDisabledFocusNode(),
+                controller: dateController,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Icon(
+                      Icons.calendar_month,
+                      size: 28,
+                      color: OColors.primary,
+                    ),
+                  ),
+                  hintText: 'Date ( DD/MM/YYY )',
+                  hintStyle: const TextStyle(color: Colors.grey, height: 1.5),
+                ),
+                style: const TextStyle(
+                    fontSize: 15, color: Colors.grey, height: 1.5),
+                onTap: () {
+                  _selectDate(context, dateController);
+                },
+              ),
+            ),
+          ],
+        ));
+  }
+
+  DateTime? _selectedDate;
+  // Date Selecting Function
+  _selectDate(BuildContext context, textEditingController) async {
+    DateTime? newSelectedDate = await showDatePicker(
+        locale: const Locale('en', 'IN'),
+        context: context,
+        initialDate: _selectedDate ?? DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2040),
+        fieldHintText: 'yyyy/mm/dd',
+        builder: (BuildContext context, Widget? child) {
+          return Theme(
+            data: ThemeData.dark().copyWith(
+              colorScheme: ColorScheme.dark(
+                primary: OColors.darkGrey,
+                onPrimary: Colors.white,
+                surface: OColors.secondary,
+                onSurface: Colors.yellow,
+              ),
+              dialogBackgroundColor: OColors.darGrey,
+            ),
+            child: child as Widget,
+          );
+        });
+
+    if (newSelectedDate != null) {
+      _selectedDate = newSelectedDate;
+      textEditingController
+        ..text = DateFormat('yyyy/MM/dd').format(_selectedDate!)
+        ..selection = TextSelection.fromPosition(TextPosition(
+            offset: textEditingController.text.length,
+            affinity: TextAffinity.upstream));
+    }
+  }
+}
+
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
 }

@@ -22,12 +22,12 @@ class CrmSlide extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 8.0, bottom: 4),
+          padding: const EdgeInsets.only(left: 8.0, bottom: 2),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Live',
-                  style: header18.copyWith(fontWeight: FontWeight.w400)),
+                  style: header14.copyWith(fontWeight: FontWeight.w400)),
               Padding(
                 padding: const EdgeInsets.only(right: 8.0, left: 4),
                 child: Icon(
@@ -63,12 +63,14 @@ class CrmSlide extends StatelessWidget {
                         },
                         child: todayCrm[index].cImage != ''
                             ? LiveBorder(
+                                live: liveBar(),
+                                radius: 30,
                                 child: CircleAvatar(
-                                radius: 20,
-                                backgroundImage: NetworkImage(
-                                  '${api}public/uploads/${todayCrm[index].userFid.username}/ceremony/${todayCrm[index].cImage}',
-                                ),
-                              ))
+                                  radius: 20,
+                                  backgroundImage: NetworkImage(
+                                    '${api}public/uploads/${todayCrm[index].userFid.username}/ceremony/${todayCrm[index].cImage}',
+                                  ),
+                                ))
                             : const SizedBox(height: 1),
                       ),
 
@@ -102,6 +104,38 @@ class CrmSlide extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Positioned liveBar() {
+    return Positioned(
+      bottom: 0,
+      left: 4,
+      width: 49,
+      height: 15,
+      child: Container(
+          padding: const EdgeInsets.only(left: 3.5, right: 3.5),
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  OColors.primary2,
+                  OColors.primary,
+                  Colors.red,
+                ],
+              ),
+              color: OColors.primary,
+              borderRadius: BorderRadius.circular(10)),
+          child: Row(
+            children: [
+              const SizedBox(width: 4),
+              Icon(Icons.live_tv, size: 13, color: OColors.fontColor),
+              const SizedBox(width: 5),
+              Text(
+                'live',
+                style: header10,
+              )
+            ],
+          )),
     );
   }
 }

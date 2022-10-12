@@ -5,8 +5,10 @@ import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
+import '../../util/modInstance.dart';
 import '../../util/util.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
+import '../../widgets/ourServiceWidg/sherkoSvcWdg.dart';
 import '../../widgets/searchBar/search_Ceremony.dart';
 import '../uploadScreens/ceremonyUpload.dart';
 import 'crmDay.dart';
@@ -35,10 +37,11 @@ class _CeremonyScreenState extends State<CeremonyScreen> {
       address: '',
       bio: '',
       meritalStatus: '',
-      totalPost: '', isCurrentBsnAdmin: '', 
+      totalPost: '',
+      isCurrentBsnAdmin: '',
       isCurrentCrmAdmin: '',
-      totalFollowers: '', 
-      totalFollowing: '', 
+      totalFollowers: '',
+      totalFollowing: '',
       totalLikes: '');
   String token = '';
   @override
@@ -73,14 +76,46 @@ class _CeremonyScreenState extends State<CeremonyScreen> {
       ceremonyDate: '',
       contact: '',
       admin: '',
-         userFid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
-                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
-                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
-                         totalFollowing: '', totalLikes: ''),
-                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
-                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
-                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
-                         totalFollowing: '', totalLikes: ''),
+      userFid: User(
+          id: '',
+          username: '',
+          firstname: '',
+          lastname: '',
+          avater: '',
+          phoneNo: '',
+          email: '',
+          gender: '',
+          role: '',
+          address: '',
+          meritalStatus: '',
+          bio: '',
+          totalPost: '',
+          isCurrentUser: '',
+          isCurrentCrmAdmin: '',
+          isCurrentBsnAdmin: '',
+          totalFollowers: '',
+          totalFollowing: '',
+          totalLikes: ''),
+      userSid: User(
+          id: '',
+          username: '',
+          firstname: '',
+          lastname: '',
+          avater: '',
+          phoneNo: '',
+          email: '',
+          gender: '',
+          role: '',
+          address: '',
+          meritalStatus: '',
+          bio: '',
+          totalPost: '',
+          isCurrentUser: '',
+          isCurrentCrmAdmin: '',
+          isCurrentBsnAdmin: '',
+          totalFollowers: '',
+          totalFollowing: '',
+          totalLikes: ''),
       youtubeLink: '');
 
   TabBar get _tabBar => TabBar(
@@ -109,6 +144,7 @@ class _CeremonyScreenState extends State<CeremonyScreen> {
         appBar: topBar(),
         body: Column(
           children: [
+            const SherekooServices(),
             Container(
               margin: const EdgeInsets.only(left: 20.0, top: 10.0),
               alignment: Alignment.topLeft,
@@ -173,33 +209,127 @@ class _CeremonyScreenState extends State<CeremonyScreen> {
   AppBar topBar() {
     return AppBar(
       backgroundColor: OColors.secondary,
-      elevation: 0,
-      toolbarHeight: 70,
-      // automaticallyImplyLeading: false,
+      elevation: 1.0,
+      toolbarHeight: 75,
       flexibleSpace: SafeArea(
           child: Container(
-        color: Colors.transparent,
+        color: OColors.secondary,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  showAlertDialog(context, 'Search Ceremony ', '', '', '');
+                },
+                child: Container(
+                    margin: const EdgeInsets.only(
+                        top: 12, left: 55, right: 10, bottom: 7),
+                    height: 45,
+                    decoration: BoxDecoration(
+                      color: OColors.darGrey,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(left: 8.0, right: 6),
+                          child: Icon(
+                            Icons.search,
+                            color: Colors.white,
+                            size: 25,
+                          ),
+                        ),
+                        Text(
+                          'Search Ceremony ',
+                          style: header12,
+                        )
+                      ],
+                    )),
+              ),
+              //const SearchCeremony()),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => CeremonyUpload(
+                              getData: ceremony,
+                              getcurrentUser: user,
+                            )));
+              },
               child: Container(
-                height: 50,
-                padding: const EdgeInsets.only(left: 10, right: 10),
                 margin: const EdgeInsets.only(
-                    left: 45, right: 10, bottom: 15, top: 10),
+                    top: 10, left: 5, right: 5, bottom: 10),
                 decoration: BoxDecoration(
-                  color: OColors.darGrey,
-                  border: Border.all(width: 1.5, color: OColors.darGrey),
-                  borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      width: 1,
+                      color: OColors.primary,
+                    ),
+                    borderRadius: BorderRadius.circular(30)),
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Icon(
+                    Icons.add,
+                    color: OColors.primary,
+                    size: 22,
+                  ),
                 ),
-                child: const SearchCeremony(),
               ),
             ),
             const NotifyWidget()
           ],
         ),
       )),
+    );
+  }
+
+  // Alert Widget
+  showAlertDialog(
+      BuildContext context, String title, String msg, req, String from) async {
+    // set up the buttons
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      insetPadding: const EdgeInsets.only(right: 1, left: 1),
+      contentPadding: EdgeInsets.zero,
+      titlePadding: const EdgeInsets.only(top: 5),
+      backgroundColor: OColors.secondary,
+      title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.close,
+              size: 35,
+              color: OColors.fontColor,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 38.0, top: 8, bottom: 8),
+          child: Text('Search',
+              style:
+                  header18.copyWith(fontSize: 25, fontWeight: FontWeight.bold)),
+        ),
+      ]),
+      content: Column(
+        children: [
+          SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: const SearchCeremony())
+        ],
+      ),
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

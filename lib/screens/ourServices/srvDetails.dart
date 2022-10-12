@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 
@@ -144,13 +142,13 @@ class _ServiceDetailsState extends State<ServiceDetails>
                     //   size: 20,
                     //   color: OColors.primary,
                     // ),
-                    Text('Details', style: header16),
+                    Text('Saved By', style: header16),
                     // Icon(
                     //   Icons.details,
                     //   size: 20,
                     //   color: OColors.primary,
                     // )
-                    Text('Schedule', style: header16),
+                    Text('Plan', style: header16),
                   ]),
             ),
           ];
@@ -158,45 +156,21 @@ class _ServiceDetailsState extends State<ServiceDetails>
         body: TabBarView(
           controller: _tabController,
           children: [
-            SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 25),
-                    Column(
-                      children: [
-                        Text(
-                          'Bundle Price',
-                          style: header12,
-                        ),
-                        Text(
-                          '15,000,000 Tsh/',
-                          style: header18.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Container(
-                          width: 100,
-                          height: 30,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: OColors.primary),
-                          child: Center(
-                              child: Text(
-                            'Booking Now',
-                            style: header13,
-                          )),
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 18),
-                    Column(
+            overViews(context),
+            seviceDetails(context),
+            Scrollbar(
+                child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    color: OColors.darGrey,
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'About Bunde',
+                          'About Plan / Schedule',
                           style: header12.copyWith(
                               color: OColors.fontColor,
                               fontWeight: FontWeight.bold),
@@ -205,339 +179,1407 @@ class _ServiceDetailsState extends State<ServiceDetails>
                           height: 5,
                         ),
                         Text(
-                          'Lorem ipsum  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, Excepteur sint occaecat cupidatat non proident,.',
+                          ' This package will start to work Three month before Ceremony.  The aim of this plan is to make things go on Time and make  spouse and ceremony server be known each other and be more confortable to each other..,',
                           style: header11.copyWith(color: Colors.grey),
-                        )
+                        ),
                       ],
                     ),
-                    const SizedBox(height: 18),
-                    Column(
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    color: OColors.darGrey,
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Text(
-                            'Color Code ',
-                            style: header12.copyWith(
-                                color: OColors.fontColor,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Container(
-                            width: 150,
-                            child: Text(
-                              'Ceremony Color Code of the Year',
-                              style: header10.copyWith(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w300),
-                            ),
-                          ),
+                        Text(
+                          'Day 1 of 1st month',
+                          style: header16.copyWith(
+                              color: OColors.fontColor,
+                              fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
-                          height: 8,
+                          height: 5,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            crmColorCode(
-                                context, Colors.black, 5, 50, 40, 'black'),
-                            crmColorCode(
-                                context,
-                                const Color.fromARGB(255, 245, 187, 26),
-                                5,
-                                50,
-                                40,
-                                'Gold'),
-                            crmColorCode(
-                                context,
-                                const Color.fromARGB(255, 245, 187, 26),
-                                5,
-                                50,
-                                40,
-                                'Gold'),
-                            crmColorCode(
-                                context, Colors.white, 5, 50, 40, 'White'),
-                          ],
-                        )
+                        Text(
+                          'Meeting with your  sherekoo Supervisor, for little convarsation about your fillings and wishes on your ceremony and arrange time tables',
+                          style: header11.copyWith(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    color: OColors.darGrey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Day 2 of 1st month',
+                          style: header16.copyWith(
+                              color: OColors.fontColor,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          'Meeting with your  Disgners, for chatting about what kind of clothers is favaorute with you on your wedding day and, arrange shedule for taking body dimension and other staff',
+                          style: header11.copyWith(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    color: OColors.darGrey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Day 3 of 1st month',
+                          style: header16.copyWith(
+                              color: OColors.fontColor,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          'Diamension Day, it day where spouses take diamension for  their wedding clothes ready to start making ',
+                          style: header11.copyWith(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    color: OColors.darGrey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Day 4 of 2nd month',
+                          style: header16.copyWith(
+                              color: OColors.fontColor,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          'Contact Day, it day where spouses having conctact with Mc for more to be more confortable with their master of  Ceremony and get to know each other aking ',
+                          style: header11.copyWith(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    color: OColors.darGrey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Day 5 of 2nd month',
+                          style: header16.copyWith(
+                              color: OColors.fontColor,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          'Having Dinner with Cookers, it day where spouses having special and simple dinner from Cookers who will serve in ceremony for more to be more confortable with their master of  Ceremony and get to know each other aking ',
+                          style: header11.copyWith(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    color: OColors.darGrey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Day 6 of 2nd month',
+                          style: header16.copyWith(
+                              color: OColors.fontColor,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          'Ceremony Vehicle Test Driving, it day where spouses having little Driving in their ceremony ',
+                          style: header11.copyWith(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    color: OColors.darGrey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Day 7 of 2nd month',
+                          style: header16.copyWith(
+                              color: OColors.fontColor,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          'Clothes Testing, its Day where spouse test their clothes ',
+                          style: header11.copyWith(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  )
+                ],
+              ),
+            ))
+          ],
+        ),
+      ),
+    );
+  }
+
+  Scrollbar overViews(BuildContext context) {
+    return Scrollbar(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+          children: [
+            // const SizedBox(height: 25),
+            Column(
+              children: [
+                Text(
+                  'Bundle Price',
+                  style: header12,
+                ),
+                Text(
+                  '15,000,000 Tsh/',
+                  style: header18.copyWith(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  width: 100,
+                  height: 30,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: OColors.primary),
+                  child: Center(
+                      child: Text(
+                    'Booking Now',
+                    style: header13,
+                  )),
+                )
+              ],
+            ),
+            const SizedBox(height: 18),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'About Bunde',
+                  style: header12.copyWith(
+                      color: OColors.fontColor, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  'Lorem ipsum  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, Excepteur sint occaecat cupidatat non proident,.',
+                  style: header11.copyWith(color: Colors.grey),
+                )
+              ],
+            ),
+            const SizedBox(height: 18),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    'Color Code ',
+                    style: header12.copyWith(
+                        color: OColors.fontColor, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: SizedBox(
+                    width: 150,
+                    child: Text(
+                      'Ceremony Color Code of the Year',
+                      style: header10.copyWith(
+                          color: Colors.grey, fontWeight: FontWeight.w300),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    crmColorCode(context, Colors.black, 5, 50, 40, 'black'),
+                    crmColorCode(
+                        context,
+                        const Color.fromARGB(255, 245, 187, 26),
+                        5,
+                        50,
+                        40,
+                        'Gold'),
+                    crmColorCode(
+                        context,
+                        const Color.fromARGB(255, 245, 187, 26),
+                        5,
+                        50,
+                        40,
+                        'Gold'),
+                    crmColorCode(context, Colors.white, 5, 50, 40, 'White'),
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 18,
+            ),
+            // Hall Location
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Hall Location',
+                      style: header12.copyWith(
+                          color: OColors.fontColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'Hall Name: ',
+                          style: header11.copyWith(
+                              color: Colors.grey, fontWeight: FontWeight.w400),
+                        ),
+                        Text(
+                          'Jerusaleem',
+                          style: header11.copyWith(
+                              color: Colors.grey, fontWeight: FontWeight.w400),
+                        ),
                       ],
                     ),
                     const SizedBox(
-                      height: 18,
+                      height: 2.5,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        Text(
+                          'Location: ',
+                          style: header11.copyWith(
+                              color: Colors.grey, fontWeight: FontWeight.w400),
+                        ),
+                        Text(
+                          'Riverside',
+                          style: header11.copyWith(
+                              color: Colors.grey, fontWeight: FontWeight.w400),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Amont of People',
+                      style: header12.copyWith(
+                          color: OColors.fontColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          '200 - 500',
+                          style: header14.copyWith(
+                              color: Colors.grey, fontWeight: FontWeight.w400),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    )
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 18),
+            // Hall Photo
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Hall Photo',
+                      style: header12.copyWith(
+                          color: OColors.fontColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.more_vert,
+                        color: OColors.primary,
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                SizedBox(
+                  height: 80,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/ceremony/uk1.jpg'),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/ceremony/uk2.png'),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/ceremony/uk3.jpg'),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/ceremony/uk1.jpg'),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+
+            const SizedBox(height: 18),
+            // Ceremony Cards Photo
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Cards Sample',
+                      style: header12.copyWith(
+                          color: OColors.fontColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Icon(
+                        Icons.more_vert,
+                        color: OColors.primary,
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  width: 250,
+                  child: Text(
+                    'Ceremony Cards can change according to  arequirements',
+                    style: header11.copyWith(
+                        color: Colors.grey, fontWeight: FontWeight.w300),
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                SizedBox(
+                  height: 80,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/ceremony/uk1.jpg'),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/ceremony/uk2.png'),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/ceremony/uk3.jpg'),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/ceremony/uk1.jpg'),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+
+            const SizedBox(height: 18),
+            // SuperVisors
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'SuperVisor',
+                  style: header12.copyWith(
+                      color: OColors.fontColor, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: Image.asset(
+                        'assets/profile/profile.jpg',
+                        width: 50,
+                        // height: 30,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Jermia David',
+                          style: header13,
+                        ),
+                        const SizedBox(
+                          height: 1,
+                        ),
+                        Text(
+                          'Super Visor',
+                          style: header10,
+                        )
+                      ],
+                    )
+                  ],
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Scrollbar seviceDetails(BuildContext context) {
+    return Scrollbar(
+      child: ListView(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(5),
+            color: OColors.darGrey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'About Package',
+                  style: header12.copyWith(
+                      color: OColors.fontColor, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  ' This package will be saved by proffessioner people. incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, Excepteur sint occaecat cupidatat non proident,.',
+                  style: header11.copyWith(color: Colors.grey),
+                )
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          // Mc
+          Container(
+            color: OColors.darGrey,
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Saved By Mc',
+                  style: header13.copyWith(
+                      color: OColors.fontColor, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(
+                            'assets/busness/mc/garb.jpg',
+                            width: 60,
+                            // height: 30,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Hall Location',
-                              style: header12.copyWith(
-                                  color: OColors.fontColor,
-                                  fontWeight: FontWeight.bold),
+                              'Mc:  Gara B ',
+                              style: header13.copyWith(
+                                  fontWeight: FontWeight.w500),
                             ),
-                            const SizedBox(
-                              height: 5,
+                            Text(
+                              'Master of Ceremony',
+                              style: header11,
                             ),
-                            Row(
-                              children: [
-                                Text(
-                                  'Hall Name: ',
-                                  style: header11.copyWith(
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                Text(
-                                  'Jerusaleem',
-                                  style: header11.copyWith(
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 2.5,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  'Location: ',
-                                  style: header11.copyWith(
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                Text(
-                                  'Riverside',
-                                  style: header11.copyWith(
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ],
-                            )
+                            const SizedBox(height: 5),
                           ],
                         ),
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+
+                    //Rates
+                    // Rate Stars
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          child: starsIcons(Colors.red, 45),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(children: [
+                          starsIcons(Colors.red, 13),
+                          starsIcons(Colors.red, 13),
+                          starsIcons(Colors.red, 13),
+                          starsIcons(Colors.red, 13),
+                          starsIcons(Colors.grey, 13),
+                        ]),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 10),
+                  height: 65,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/busness/mc/garb.jpg'),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/busness/mc/garb.jpg'),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/busness/mc/garb.jpg'),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/busness/mc/garb.jpg'),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 6),
+          // Designer
+          Container(
+            color: OColors.darGrey,
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Our Saloons',
+                  style: header14.copyWith(
+                      color: OColors.fontColor, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    //female Saloon
+                    Row(
+                      children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              'Amont of People',
-                              style: header12.copyWith(
-                                  color: OColors.fontColor,
-                                  fontWeight: FontWeight.bold),
+                              'Female  ',
+                              style: header13,
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  '200 - 500',
-                                  style: header14.copyWith(
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 18),
-                    // Hall Photo
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Hall Photo',
-                              style: header12.copyWith(
-                                  color: OColors.fontColor,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.more_vert,
-                                color: OColors.primary,
-                              ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        SizedBox(
-                          height: 80,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            physics: const NeverScrollableScrollPhysics(),
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.asset('assets/ceremony/uk1.jpg'),
-                              ),
-                              const SizedBox(
-                                width: 6,
-                              ),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.asset('assets/ceremony/uk2.png'),
-                              ),
-                              const SizedBox(
-                                width: 6,
-                              ),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.asset('assets/ceremony/uk3.jpg'),
-                              ),
-                              const SizedBox(
-                                width: 6,
-                              ),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.asset('assets/ceremony/uk1.jpg'),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-
-                    const SizedBox(height: 18),
-                    // Ceremony Cards Photo
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Cards Sample',
-                              style: header12.copyWith(
-                                  color: OColors.fontColor,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Icon(
-                                Icons.more_vert,
-                                color: OColors.primary,
-                              ),
-                            )
-                          ],
-                        ),
-                        Container(
-                          width: 250,
-                          child: Text(
-                            'Ceremony Cards can change according to  arequirements',
-                            style: header11.copyWith(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w300),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        SizedBox(
-                          height: 80,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            physics: const NeverScrollableScrollPhysics(),
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.asset('assets/ceremony/uk1.jpg'),
-                              ),
-                              const SizedBox(
-                                width: 6,
-                              ),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.asset('assets/ceremony/uk2.png'),
-                              ),
-                              const SizedBox(
-                                width: 6,
-                              ),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.asset('assets/ceremony/uk3.jpg'),
-                              ),
-                              const SizedBox(
-                                width: 6,
-                              ),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.asset('assets/ceremony/uk1.jpg'),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-
-                    const SizedBox(height: 18),
-                    // SuperVisors
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'SuperVisor',
-                          style: header12.copyWith(
-                              color: OColors.fontColor,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
                             ClipRRect(
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
                                 'assets/profile/profile.jpg',
-                                width: 50,
+                                width: 60,
                                 // height: 30,
                                 fit: BoxFit.cover,
                               ),
                             ),
                             const SizedBox(
-                              width: 5,
+                              height: 1,
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Jermia David',
-                                  style: header13,
-                                ),
-                                const SizedBox(
-                                  height: 1,
-                                ),
-                                Text(
-                                  'Super Visor',
-                                  style: header10,
-                                )
-                              ],
-                            )
+                            Text(
+                              'Shuu Saloon',
+                              style: header12,
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            starsIcons(Colors.red, 45),
+                            Row(children: [
+                              starsIcons(Colors.red, 13),
+                              starsIcons(Colors.red, 13),
+                              starsIcons(Colors.red, 13),
+                              starsIcons(Colors.red, 13),
+                              starsIcons(Colors.grey, 13),
+                            ]),
                           ],
                         )
+                      ],
+                    ),
+                    //Male Saloon
+                    Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Text(
+                                'Male  ',
+                                style: header13,
+                              ),
+                            ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.asset(
+                                'assets/profile/profile.jpg',
+                                width: 60,
+                                // height: 30,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 1,
+                            ),
+                            Text(
+                              'BerberShop',
+                              style: header12,
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            starsIcons(Colors.red, 45),
+                            Row(children: [
+                              starsIcons(Colors.red, 13),
+                              starsIcons(Colors.red, 13),
+                              starsIcons(Colors.red, 13),
+                              starsIcons(Colors.red, 13),
+                              starsIcons(Colors.grey, 13),
+                            ]),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+          const SizedBox(height: 6),
+          // Designer
+          Container(
+            color: OColors.darGrey,
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Our Clothes Disigner',
+                  style: header14.copyWith(
+                      color: OColors.fontColor, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    //female Saloon
+                    Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Female  ',
+                              style: header13,
+                            ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.asset(
+                                'assets/profile/profile.jpg',
+                                width: 60,
+                                // height: 30,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 1,
+                            ),
+                            Text(
+                              'Shuu Disgner',
+                              style: header12,
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            starsIcons(Colors.red, 45),
+                            Row(children: [
+                              starsIcons(Colors.red, 13),
+                              starsIcons(Colors.red, 13),
+                              starsIcons(Colors.red, 13),
+                              starsIcons(Colors.red, 13),
+                              starsIcons(Colors.grey, 13),
+                            ]),
+                          ],
+                        )
+                      ],
+                    ),
+                    //Male Saloon
+                    Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Text(
+                                'Male  ',
+                                style: header13,
+                              ),
+                            ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.asset(
+                                'assets/profile/profile.jpg',
+                                width: 60,
+                                // height: 30,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 1,
+                            ),
+                            Text(
+                              'Men Suits ',
+                              style: header12,
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            starsIcons(Colors.red, 45),
+                            Row(children: [
+                              starsIcons(Colors.red, 13),
+                              starsIcons(Colors.red, 13),
+                              starsIcons(Colors.red, 13),
+                              starsIcons(Colors.red, 13),
+                              starsIcons(Colors.grey, 13),
+                            ]),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 6),
+          // Decorators
+          Container(
+            color: OColors.darGrey,
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Proffesioner Decorators',
+                  style: header13.copyWith(
+                      color: OColors.fontColor, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(
+                            'assets/busness/mc/garb.jpg',
+                            width: 60,
+                            // height: 30,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Decorators Mens',
+                              style: header13.copyWith(
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            Text(
+                              'Ceremony Decorators',
+                              style: header11,
+                            ),
+                            const SizedBox(height: 5),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+
+                    //Rates
+                    // Rate Stars
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          child: starsIcons(Colors.red, 45),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(children: [
+                          starsIcons(Colors.red, 13),
+                          starsIcons(Colors.red, 13),
+                          starsIcons(Colors.red, 13),
+                          starsIcons(Colors.red, 13),
+                          starsIcons(Colors.grey, 13),
+                        ]),
+                        const SizedBox(
+                          height: 10,
+                        ),
                       ],
                     )
                   ],
                 ),
-              ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 10),
+                  height: 65,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/busness/mc/garb.jpg'),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/busness/mc/garb.jpg'),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/busness/mc/garb.jpg'),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/busness/mc/garb.jpg'),
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
-            const Text('B heree'),
-            const Text('c heree')
-          ],
-        ),
+          ),
+
+          const SizedBox(height: 6),
+          // Cookers
+          Container(
+            color: OColors.darGrey,
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Proffesioner Cookers',
+                  style: header13.copyWith(
+                      color: OColors.fontColor, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(
+                            'assets/busness/mc/garb.jpg',
+                            width: 60,
+                            // height: 30,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Cookers Group Mens',
+                              style: header13.copyWith(
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            Text(
+                              'Ceremony Cooker',
+                              style: header11,
+                            ),
+                            const SizedBox(height: 5),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+
+                    //Rates
+                    // Rate Stars
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          child: starsIcons(Colors.red, 45),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(children: [
+                          starsIcons(Colors.red, 13),
+                          starsIcons(Colors.red, 13),
+                          starsIcons(Colors.red, 13),
+                          starsIcons(Colors.red, 13),
+                          starsIcons(Colors.grey, 13),
+                        ]),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 10),
+                  height: 65,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/busness/mc/garb.jpg'),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/busness/mc/garb.jpg'),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/busness/mc/garb.jpg'),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/busness/mc/garb.jpg'),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 6),
+          // Car
+          Container(
+            color: OColors.darGrey,
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Ceremony Vehicle',
+                  style: header13.copyWith(
+                      color: OColors.fontColor, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(
+                            'assets/busness/mc/garb.jpg',
+                            width: 60,
+                            // height: 30,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Rummble Geen',
+                              style: header13.copyWith(
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            Text(
+                              'Ceremony Vehicle',
+                              style: header11,
+                            ),
+                            const SizedBox(height: 5),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+
+                    //Rates
+                    // Rate Stars
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          child: starsIcons(Colors.red, 45),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(children: [
+                          starsIcons(Colors.red, 13),
+                          starsIcons(Colors.red, 13),
+                          starsIcons(Colors.red, 13),
+                          starsIcons(Colors.red, 13),
+                          starsIcons(Colors.grey, 13),
+                        ]),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 10),
+                  height: 65,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/busness/mc/garb.jpg'),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/busness/mc/garb.jpg'),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/busness/mc/garb.jpg'),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/busness/mc/garb.jpg'),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 6,
+          ),
+          // Car
+          Container(
+            color: OColors.darGrey,
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Offer Transport Bus',
+                  style: header13.copyWith(
+                      color: OColors.fontColor, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(
+                            'assets/busness/mc/garb.jpg',
+                            width: 60,
+                            // height: 30,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Coaster',
+                              style: header13.copyWith(
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            Text(
+                              'Sherekoo Transport',
+                              style: header11,
+                            ),
+                            const SizedBox(height: 5),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+
+                    //Rates
+                    // Rate Stars
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          child: starsIcons(Colors.red, 45),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(children: [
+                          starsIcons(Colors.red, 13),
+                          starsIcons(Colors.red, 13),
+                          starsIcons(Colors.red, 13),
+                          starsIcons(Colors.red, 13),
+                          starsIcons(Colors.grey, 13),
+                        ]),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 10),
+                  height: 65,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/busness/mc/garb.jpg'),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/busness/mc/garb.jpg'),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/busness/mc/garb.jpg'),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/busness/mc/garb.jpg'),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -560,6 +1602,14 @@ class _ServiceDetailsState extends State<ServiceDetails>
           style: header12,
         )
       ],
+    );
+  }
+
+  Icon starsIcons(Color color, double s) {
+    return Icon(
+      Icons.star,
+      size: s,
+      color: color,
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sherekoo/util/modInstance.dart';
 import 'package:sherekoo/widgets/liveTabB.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -29,27 +30,7 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
   int tabIndex = 0;
   // static String myVideoId = '';
 
-  User currentUser = User(
-      id: '',
-      username: '',
-      firstname: '',
-      lastname: '',
-      avater: '',
-      phoneNo: '',
-      email: '',
-      gender: '',
-      role: '',
-      isCurrentUser: '',
-      address: '',
-      bio: '',
-      meritalStatus: '',
-      totalPost: '',
-      isCurrentBsnAdmin: '',
-      isCurrentCrmAdmin: '',
-      totalFollowers: '',
-      totalFollowing: '',
-      totalLikes: '');
-
+ 
   ScrollController? _cntr;
   @override
   void initState() {
@@ -92,7 +73,7 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
     AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
       if (value.status == 200) {
         setState(() {
-          currentUser = User.fromJson(value.payload);
+          user = User.fromJson(value.payload);
         });
       }
     });
@@ -121,9 +102,9 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
               backgroundColor: OColors.darGrey,
               // automaticallyImplyLeading: false,
               actions: [
-                if (currentUser.id == widget.ceremony.fId ||
-                    currentUser.id == widget.ceremony.sId ||
-                    currentUser.id == widget.ceremony.admin)
+                if (user.id == widget.ceremony.fId ||
+                    user.id == widget.ceremony.sId ||
+                    user.id == widget.ceremony.admin)
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -237,11 +218,11 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
           children: [
             TabA(
               ceremony: widget.ceremony,
-              user: currentUser,
+              user: user,
             ),
             TabB(
               ceremony: widget.ceremony,
-              user: currentUser,
+              user: user,
             ),
           ],
         ),
@@ -259,8 +240,8 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
                         )));
           }
 
-          if (tabIndex != 1 && currentUser.id != widget.ceremony.admin ||
-              currentUser.id == widget.ceremony.fId) {
+          if (tabIndex != 1 && user.id != widget.ceremony.admin ||
+              user.id == widget.ceremony.fId) {
             Navigator.of(context).pop();
             Navigator.push(
                 context,
@@ -276,8 +257,8 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
         // icon: const Icon(Icons.upload, color: Colors.white),
         label: tabIndex == 0
             ? const Text('post')
-            : tabIndex == 1 && currentUser.id == widget.ceremony.admin ||
-                    currentUser.id == widget.ceremony.fId
+            : tabIndex == 1 && user.id == widget.ceremony.admin ||
+                    user.id == widget.ceremony.fId
                 ? const Text('Choose')
                 : const Text('Post'),
         backgroundColor: OColors.primary,

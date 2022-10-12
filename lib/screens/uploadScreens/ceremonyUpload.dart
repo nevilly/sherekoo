@@ -1239,7 +1239,8 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
   }
 
   ceremonyDate(title, dateController) {
-    return Card(
+    return
+     Card(
         color: OColors.darGrey,
         margin: const EdgeInsets.only(left: 10, right: 10),
         child: Column(
@@ -1288,6 +1289,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
             ),
           ],
         ));
+  
   }
 
   backgroundProfile(imgType, slctdChereko, img) {
@@ -1669,6 +1671,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
             affinity: TextAffinity.upstream));
     }
   }
+
 }
 
 class AlwaysDisabledFocusNode extends FocusNode {

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:sherekoo/screens/ourServices/sherekoService.dart';
+import 'package:sherekoo/screens/uploadScreens/ceremonyUpload.dart';
+import '../../model/allData.dart';
 import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
+import '../../util/modInstance.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
+import '../../widgets/ourServiceWidg/sherkoSvcWdg.dart';
 import '../../widgets/searchBar/search_Ceremony.dart';
+import '../drawer/navDrawer.dart';
 import 'crmDay-Slide.dart';
 import 'crmDay.dart';
 
@@ -29,10 +34,23 @@ class CrmOnNavState extends State<CrmOnNav> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
+        getUser(urlGetUser);
         getCeremony();
       });
     });
     super.initState();
+  }
+
+  Future getUser(String dirUrl) async {
+    return await AllUsersModel(payload: [], status: 0)
+        .get(token, dirUrl)
+        .then((value) {
+      if (value.status == 200) {
+        setState(() {
+          user = User.fromJson(value.payload);
+        });
+      }
+    });
   }
 
   getCeremony() async {
@@ -58,59 +76,14 @@ class CrmOnNavState extends State<CrmOnNav> {
       child: Scaffold(
         backgroundColor: OColors.secondary,
         appBar: topBar(),
+        drawer: const NavDrawer(),
         body: Column(
           children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: 25,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  ourServices(context, 'Order Cards'),
-                  ourServices(context, 'Dress Design'),
-                  ourServices(context, 'Mc Booking'),
-                  ourServices(context, 'Production'),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    const SherekoService(
-                                      from: 'MyBdayShow',
-                                    )));
-                      },
-                      child: ourServices(context, 'MyBday Tv Show')),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    const SherekoService(
-                                      from: 'Mr&MrsMy',
-                                    )));
-                      },
-                      child: ourServices(context, 'Mr&Mrs Wangu Tv Show')),
-                  ourServices(context, 'Documentary make'),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    const SherekoService(
-                                      from: 'crmBundle',
-                                    )));
-                      },
-                      child: ourServices(context, 'Ceremony Bundle')),
-                  ourServices(context, 'Tranport Bandle'),
-                ],
-              ),
-            ),
+            const SherekooServices(),
             const SizedBox(
-              height: 12,
+              height: 8,
             ),
+
             //Live Ceremony
             todayCrm.isNotEmpty
                 ? Padding(
@@ -121,7 +94,7 @@ class CrmOnNavState extends State<CrmOnNav> {
                 : const SizedBox(),
 
             const SizedBox(
-              height: 8,
+              height: 2,
             ),
             //Tabs ..
             TabBar(
@@ -158,53 +131,130 @@ class CrmOnNavState extends State<CrmOnNav> {
     );
   }
 
-  Container ourServices(BuildContext context, String prod) {
-    return Container(
-      margin: const EdgeInsets.only(left: 4, right: 4),
-      height: 20,
-      padding: const EdgeInsets.only(left: 10.0, right: 10),
-      decoration: BoxDecoration(
-          border: Border.all(width: 1.3, color: OColors.primary),
-          borderRadius: BorderRadius.circular(20)),
-      child: Center(
-        child: Text(
-          prod,
-          style: header12.copyWith(color: OColors.primary),
-        ),
-      ),
-    );
-  }
-
   AppBar topBar() {
     return AppBar(
       backgroundColor: OColors.secondary,
-      elevation: 0,
-      toolbarHeight: 70,
-      automaticallyImplyLeading: false,
+      elevation: 1.0,
+      toolbarHeight: 75,
       flexibleSpace: SafeArea(
           child: Container(
-        color: Colors.transparent,
+        color: OColors.secondary,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  showAlertDialog(context, 'Search busness ', '', '', '');
+                },
+                child: Container(
+                    margin: const EdgeInsets.only(
+                        top: 12, left: 55, right: 10, bottom: 7),
+                    height: 45,
+                    decoration: BoxDecoration(
+                      color: OColors.darGrey,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(left: 8.0, right: 6),
+                          child: Icon(
+                            Icons.search,
+                            color: Colors.white,
+                            size: 25,
+                          ),
+                        ),
+                        Text(
+                          'Search Ceremony',
+                          style: header12,
+                        )
+                      ],
+                    )),
+              ),
+              //const SearchCeremony()),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => CeremonyUpload(
+                              getData: ceremony,
+                              getcurrentUser: user,
+                            )));
+              },
               child: Container(
-                height: 50,
-                padding: const EdgeInsets.only(left: 10, right: 10),
                 margin: const EdgeInsets.only(
-                    left: 10, right: 10, bottom: 15, top: 10),
+                    top: 10, left: 5, right: 5, bottom: 10),
                 decoration: BoxDecoration(
-                  color: OColors.darGrey,
-                  border: Border.all(width: 1.5, color: OColors.darGrey),
-                  borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      width: 1,
+                      color: OColors.primary,
+                    ),
+                    borderRadius: BorderRadius.circular(30)),
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Icon(
+                    Icons.add,
+                    color: OColors.primary,
+                    size: 22,
+                  ),
                 ),
-                child: const SearchCeremony(),
               ),
             ),
             const NotifyWidget()
           ],
         ),
       )),
+    );
+  }
+
+  // Alert Widget
+  showAlertDialog(
+      BuildContext context, String title, String msg, req, String from) async {
+    // set up the buttons
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      insetPadding: const EdgeInsets.only(right: 1, left: 1),
+      contentPadding: EdgeInsets.zero,
+      titlePadding: const EdgeInsets.only(top: 5),
+      backgroundColor: OColors.secondary,
+      title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.close,
+              size: 35,
+              color: OColors.fontColor,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 38.0, top: 8, bottom: 8),
+          child: Text('Search',
+              style:
+                  header18.copyWith(fontSize: 25, fontWeight: FontWeight.bold)),
+        ),
+      ]),
+      content: Column(
+        children: [
+          SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: const SearchCeremony())
+        ],
+      ),
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

@@ -156,7 +156,7 @@ class _CategoryBodyState extends State<CategoryBody> {
     return Column(
       children: [
         //Top Header
-        Padding(
+        Container(
           padding: const EdgeInsets.only(top: 2, left: 8, right: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

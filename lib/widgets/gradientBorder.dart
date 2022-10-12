@@ -5,7 +5,11 @@ import '../util/colors.dart';
 
 class LiveBorder extends StatefulWidget {
   final Widget child;
-  const LiveBorder({Key? key, required this.child}) : super(key: key);
+  final Widget live;
+  final double radius;
+  const LiveBorder(
+      {Key? key, required this.child, required this.live, required this.radius})
+      : super(key: key);
 
   @override
   State<LiveBorder> createState() => _LiveBorderState();
@@ -32,7 +36,9 @@ class _LiveBorderState extends State<LiveBorder> {
     ///Animating for the first time.
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       counter++;
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
 
     const interval = Duration(seconds: 4);
@@ -40,7 +46,9 @@ class _LiveBorderState extends State<LiveBorder> {
       interval,
       (Timer timer) {
         counter++;
-        setState(() {});
+        if (mounted) {
+          setState(() {});
+        }
       },
     );
   }
@@ -75,39 +83,11 @@ class _LiveBorderState extends State<LiveBorder> {
                     padding: const EdgeInsets.all(5.0),
                     color: OColors.secondary,
                     child: ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(widget.radius),
                         child: widget.child))),
           ),
         ),
-        Positioned(
-          bottom: 0,
-          left: 4,
-          width: 49,
-          height: 15,
-          child: Container(
-              padding: const EdgeInsets.only(left: 3.5, right: 3.5),
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      OColors.primary2,
-                      OColors.primary,
-                      Colors.red,
-                    ],
-                  ),
-                  color: OColors.primary,
-                  borderRadius: BorderRadius.circular(10)),
-              child: Row(
-                children: [
-                  const SizedBox(width: 4),
-                  Icon(Icons.live_tv, size: 13, color: OColors.fontColor),
-                  const SizedBox(width: 5),
-                  Text(
-                    'live',
-                    style: header10,
-                  )
-                ],
-              )),
-        ),
+        widget.live
       ],
     );
   }

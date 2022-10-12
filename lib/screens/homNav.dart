@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
+import 'package:sherekoo/util/modInstance.dart';
 
 import '../model/userModel.dart';
 import '../util/Preferences.dart';
@@ -45,60 +45,7 @@ class _HomeNavState extends State<HomeNav> {
   int index = 2;
 
   final screen = [
-    SherekooUpload(
-        from: 'Home',
-        crm: CeremonyModel(
-            cId: '',
-            codeNo: '',
-            ceremonyType: '',
-            cName: '',
-            fId: '',
-            sId: '',
-            cImage: '',
-            ceremonyDate: '',
-            contact: '',
-            admin: '',
-            userFid: User(
-                id: '',
-                username: '',
-                firstname: '',
-                lastname: '',
-                avater: '',
-                phoneNo: '',
-                email: '',
-                gender: '',
-                role: '',
-                address: '',
-                meritalStatus: '',
-                bio: '',
-                totalPost: '',
-                isCurrentUser: '',
-                isCurrentCrmAdmin: '',
-                isCurrentBsnAdmin: '',
-                totalFollowers: '',
-                totalFollowing: '',
-                totalLikes: ''),
-            userSid: User(
-                id: '',
-                username: '',
-                firstname: '',
-                lastname: '',
-                avater: '',
-                phoneNo: '',
-                email: '',
-                gender: '',
-                role: '',
-                address: '',
-                meritalStatus: '',
-                bio: '',
-                totalPost: '',
-                isCurrentUser: '',
-                isCurrentCrmAdmin: '',
-                isCurrentBsnAdmin: '',
-                totalFollowers: '',
-                totalFollowing: '',
-                totalLikes: ''),
-            youtubeLink: '')),
+    SherekooUpload(from: 'Home', crm: ceremony),
     const CrmOnNav(),
     const Home(),
     const Sherekoo()
@@ -134,27 +81,7 @@ class _HomeNavState extends State<HomeNav> {
                   totalFollowing: '',
                   totalLikes: '')));
         } else {
-          screen.add(Profile(
-              user: User(
-                  id: '',
-                  username: '',
-                  firstname: '',
-                  lastname: '',
-                  avater: '',
-                  phoneNo: '',
-                  email: '',
-                  gender: '',
-                  role: '',
-                  isCurrentUser: '',
-                  meritalStatus: '',
-                  address: '',
-                  bio: '',
-                  totalPost: '',
-                  isCurrentBsnAdmin: '',
-                  isCurrentCrmAdmin: '',
-                  totalFollowers: '',
-                  totalFollowing: '',
-                  totalLikes: '')));
+          screen.add(Profile(user: user));
         }
       });
     });
@@ -177,7 +104,7 @@ class _HomeNavState extends State<HomeNav> {
               child: CurvedNavigationBar(
                 key: _bottomNavigationKey,
                 index: index,
-                height: 44.0,
+                height: 50.0,
                 items: <Widget>[
                   Container(
                     margin: const EdgeInsets.only(bottom: 8),
@@ -204,7 +131,7 @@ class _HomeNavState extends State<HomeNav> {
                   Container(
                     margin: const EdgeInsets.only(bottom: 8),
                     child: const Icon(
-                      Icons.list,
+                      Icons.category,
                       size: 25,
                     ),
                   ),

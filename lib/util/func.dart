@@ -1050,3 +1050,29 @@ Container kigodoroProfileCrm(
     ),
   );
 }
+
+
+
+
+ Container ourServices(BuildContext context, String prod) {
+    return Container(
+      margin: const EdgeInsets.only(left: 4, right: 4),
+      height: 20,
+      padding: const EdgeInsets.only(left: 10.0, right: 10),
+      decoration: BoxDecoration(
+          border: Border.all(width: 1.3, color: OColors.primary),
+          borderRadius: BorderRadius.circular(20)),
+      child: Center(
+        child: Text(
+          prod,
+          style: header12.copyWith(color: OColors.primary),
+        ),
+      ),
+    );
+  }
+
+
+  
+  
+
+  

@@ -39,11 +39,12 @@ class _LoginPageState extends State<LoginPage> {
       isCurrentUser: '',
       address: '',
       bio: '',
-      meritalStatus: '', totalPost: '', 
-      isCurrentBsnAdmin: '', 
+      meritalStatus: '',
+      totalPost: '',
+      isCurrentBsnAdmin: '',
       isCurrentCrmAdmin: '',
-      totalFollowers: '', 
-      totalFollowing: '', 
+      totalFollowers: '',
+      totalFollowing: '',
       totalLikes: '');
 
   @override

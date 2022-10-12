@@ -12,6 +12,7 @@ import '../../model/services/postServices.dart';
 import '../../model/services/svModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
+import '../../util/modInstance.dart';
 import '../../util/util.dart';
 import '../../widgets/detailsWidg/BsnProfile.dart';
 import '../../widgets/detailsWidg/bsnDescr.dart';
@@ -57,27 +58,7 @@ class _BsnDetailsState extends State<BsnDetails> {
       totalFollowing: '',
       totalLikes: '');
 
-  CeremonyModel ceremony = CeremonyModel(
-    cId: '',
-    codeNo: '',
-    ceremonyType: '',
-    cName: '',
-    fId: '',
-    sId: '',
-    cImage: '',
-    ceremonyDate: '',
-    admin: '',
-    contact: '',
-    userFid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
-                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
-                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
-                         totalFollowing: '', totalLikes: ''),
-                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
-                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
-                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
-                         totalFollowing: '', totalLikes: ''),
-    youtubeLink: '',
-  );
+
 
   List<SvModel> service = []; // Need To change to SvModel
   List<BusnessModel> info = [];

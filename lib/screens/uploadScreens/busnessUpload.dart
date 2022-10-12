@@ -8,11 +8,11 @@ import 'package:sherekoo/model/busness/busnessModel.dart';
 
 import '../../model/allData.dart';
 import '../../model/busness/postBusness.dart';
-import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/func.dart';
+import '../../util/modInstance.dart';
 import '../../util/util.dart';
 import '../bsnScreen/bsnScrn.dart';
 import '../subscriptionScreen/busnessSubscription.dart';
@@ -40,6 +40,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
   ];
   String selectedBusness = 'Please Choose Busness';
   final Preferences _preferences = Preferences();
+  
   String token = '';
 
   // Image upload
@@ -48,95 +49,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
   List<User> _allUsers = [];
   List<User> _foundUsers = []; //search
 
-  BusnessModel busness = BusnessModel(
-      location: '',
-      bId: '',
-      knownAs: '',
-      coProfile: '',
-      busnessType: '',
-      companyName: '',
-      price: '',
-      contact: '',
-      hotStatus: '',
-      aboutCEO: '',
-      aboutCompany: '',
-      ceoId: '',
-      subcrlevel: '',
-      createdBy: '',
-      user: User(
-          id: '',
-          username: '',
-          firstname: '',
-          lastname: '',
-          avater: '',
-          phoneNo: '',
-          email: '',
-          gender: '',
-          role: '',
-          isCurrentUser: '',
-          address: '',
-          bio: '',
-          meritalStatus: '',
-          totalPost: '',
-          isCurrentBsnAdmin: '',
-          isCurrentCrmAdmin: '',
-          totalFollowers: '',
-          totalFollowing: '',
-          totalLikes: ''),
-      createdDate: '');
 
-  CeremonyModel ceremony = CeremonyModel(
-      cId: '',
-      codeNo: '',
-      ceremonyType: '',
-      cName: '',
-      fId: '',
-      sId: '',
-      cImage: '',
-      ceremonyDate: '',
-      contact: '',
-      admin: '',
-      userFid: User(
-          id: '',
-          username: '',
-          firstname: '',
-          lastname: '',
-          avater: '',
-          phoneNo: '',
-          email: '',
-          gender: '',
-          role: '',
-          address: '',
-          meritalStatus: '',
-          bio: '',
-          totalPost: '',
-          isCurrentUser: '',
-          isCurrentCrmAdmin: '',
-          isCurrentBsnAdmin: '',
-          totalFollowers: '',
-          totalFollowing: '',
-          totalLikes: ''),
-      userSid: User(
-          id: '',
-          username: '',
-          firstname: '',
-          lastname: '',
-          avater: '',
-          phoneNo: '',
-          email: '',
-          gender: '',
-          role: '',
-          address: '',
-          meritalStatus: '',
-          bio: '',
-          totalPost: '',
-          isCurrentUser: '',
-          isCurrentCrmAdmin: '',
-          isCurrentBsnAdmin: '',
-          totalFollowers: '',
-          totalFollowing: '',
-          totalLikes: ''),
-      youtubeLink: '');
 
   // for_Search Result
   void _runFilter(String enteredKeyword) {

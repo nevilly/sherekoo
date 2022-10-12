@@ -6,11 +6,13 @@ import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
+import '../../util/modInstance.dart';
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/boxImg.dart';
 import '../../widgets/imgWigdets/defaultAvater.dart';
 import '../../widgets/imgWigdets/userAvater.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
+import '../../widgets/ourServiceWidg/sherkoSvcWdg.dart';
 import '../../widgets/searchBar/search_Ceremony.dart';
 import '../accounts/login.dart';
 import '../detailScreen/livee.dart';
@@ -42,10 +44,11 @@ class _CrmState extends State<Crm> {
       isCurrentUser: '',
       address: '',
       bio: '',
-      meritalStatus: '', isCurrentBsnAdmin: '', 
+      meritalStatus: '',
+      isCurrentBsnAdmin: '',
       isCurrentCrmAdmin: '',
-      totalFollowers: '', 
-      totalFollowing: '', 
+      totalFollowers: '',
+      totalFollowing: '',
       totalLikes: '',
       totalPost: '');
 
@@ -89,6 +92,15 @@ class _CrmState extends State<Crm> {
       appBar: topBar(),
       body: Column(
         children: [
+          Container(
+              color: OColors.secondary,
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: SherekooServices(),
+              )),
+          const SizedBox(
+            height: 4,
+          ),
           Expanded(
             child: ListView.builder(
               itemCount: data.length,
@@ -121,7 +133,8 @@ class _CrmState extends State<Crm> {
                                           ? Img(
                                               avater: data[index].cImage,
                                               url: '/ceremony/',
-                                              username: data[index].userFid.username!,
+                                              username:
+                                                  data[index].userFid.username!,
                                               width: 145,
                                               height: 150,
                                             )
@@ -248,18 +261,20 @@ class _CrmState extends State<Crm> {
                                                               'Kigodoro'
                                                       ?
                                                       //if avater not empty
-                                                      data[
-                                                                  index]
-                                                              .userFid.avater!
+                                                      data[index]
+                                                              .userFid
+                                                              .avater!
                                                               .isNotEmpty
                                                           ? UserAvater(
-                                                              avater: data[index]
-                                                                  .userFid.avater!,
+                                                              avater:
+                                                                  data[index]
+                                                                      .userFid
+                                                                      .avater!,
                                                               url: '/profile/',
-                                                              username:
-                                                                  data[
-                                                                          index]
-                                                                      .userFid.username!,
+                                                              username: data[
+                                                                      index]
+                                                                  .userFid
+                                                                  .username!,
                                                               height: 35,
                                                               width: 35)
                                                           : const DefaultAvater(
@@ -269,18 +284,20 @@ class _CrmState extends State<Crm> {
                                                       :
 
                                                       // if birthday is empty must be wedding or send off or kitchn part
-                                                      data[
-                                                                  index]
-                                                              .userFid.avater!
+                                                      data[index]
+                                                              .userFid
+                                                              .avater!
                                                               .isNotEmpty
                                                           ? UserAvater(
-                                                              avater: data[
-                                                                      index]
-                                                                  .userFid.avater!,
-                                                              url: '/profile/',
-                                                              username:
+                                                              avater:
                                                                   data[index]
-                                                                      .userFid.username!,
+                                                                      .userFid
+                                                                      .avater!,
+                                                              url: '/profile/',
+                                                              username: data[
+                                                                      index]
+                                                                  .userFid
+                                                                  .username!,
                                                               height: 35,
                                                               width: 35)
                                                           : const DefaultAvater(
@@ -303,18 +320,21 @@ class _CrmState extends State<Crm> {
                                                         BorderRadius.circular(
                                                             105)),
                                                 child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            4.0),
+                                                    padding: const EdgeInsets
+                                                        .all(4.0),
                                                     child: data[index]
-                                                            .userSid.avater!
+                                                            .userSid
+                                                            .avater!
                                                             .isNotEmpty
                                                         ? UserAvater(
                                                             avater: data[index]
-                                                                .userSid.avater!,
+                                                                .userSid
+                                                                .avater!,
                                                             url: '/profile/',
                                                             username:
-                                                                data[index].userSid.username!,
+                                                                data[index]
+                                                                    .userSid
+                                                                    .username!,
                                                             height: 35,
                                                             width: 35)
                                                         : const DefaultAvater(
@@ -505,27 +525,128 @@ class _CrmState extends State<Crm> {
 
   AppBar topBar() {
     return AppBar(
-      backgroundColor: OColors.appBarColor,
+      backgroundColor: OColors.secondary,
       elevation: 1.0,
-      toolbarHeight: 70,
+      toolbarHeight: 75,
       flexibleSpace: SafeArea(
-          child: Row(
-        children: [
-          Expanded(
-            child: Container(
+          child: Container(
+        color: OColors.secondary,
+        child: Row(
+          children: [
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  showAlertDialog(context, 'Search Ceremony ', '', '', '');
+                },
+                child: Container(
+                    margin: const EdgeInsets.only(
+                        top: 12, left: 55, right: 10, bottom: 7),
+                    height: 45,
+                    decoration: BoxDecoration(
+                      color: OColors.darGrey,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(left: 8.0, right: 6),
+                          child: Icon(
+                            Icons.search,
+                            color: Colors.white,
+                            size: 25,
+                          ),
+                        ),
+                        Text(
+                          'Search Ceremony ',
+                          style: header12,
+                        )
+                      ],
+                    )),
+              ),
+              //const SearchCeremony()),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => CeremonyUpload(
+                              getData: ceremony,
+                              getcurrentUser: user,
+                            )));
+              },
+              child: Container(
                 margin: const EdgeInsets.only(
-                    top: 10, left: 35, right: 18, bottom: 7),
-                width: 70,
-                height: 45,
+                    top: 10, left: 5, right: 5, bottom: 10),
                 decoration: BoxDecoration(
-                  color: Colors.grey[500]!.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      width: 1,
+                      color: OColors.primary,
+                    ),
+                    borderRadius: BorderRadius.circular(30)),
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Icon(
+                    Icons.add,
+                    color: OColors.primary,
+                    size: 22,
+                  ),
                 ),
-                child: const SearchCeremony()),
-          ),
-          const NotifyWidget()
-        ],
+              ),
+            ),
+            const NotifyWidget()
+          ],
+        ),
       )),
+    );
+  }
+
+  // Alert Widget
+  showAlertDialog(
+      BuildContext context, String title, String msg, req, String from) async {
+    // set up the buttons
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      insetPadding: const EdgeInsets.only(right: 1, left: 1),
+      contentPadding: EdgeInsets.zero,
+      titlePadding: const EdgeInsets.only(top: 5),
+      backgroundColor: OColors.secondary,
+      title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.close,
+              size: 35,
+              color: OColors.fontColor,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 38.0, top: 8, bottom: 8),
+          child: Text('Search',
+              style:
+                  header18.copyWith(fontSize: 25, fontWeight: FontWeight.bold)),
+        ),
+      ]),
+      content: Column(
+        children: [
+          SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: const SearchCeremony())
+        ],
+      ),
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

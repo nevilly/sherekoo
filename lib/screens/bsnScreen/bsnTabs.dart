@@ -40,38 +40,69 @@ class BsnTabState extends State<BsnTab> {
     ceremonyDate: '',
     admin: '',
     contact: '',
-    userFid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
-                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
-                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
-                         totalFollowing: '', totalLikes: ''),
-                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
-                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
-                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
-                         totalFollowing: '', totalLikes: ''),
+    userFid: User(
+        id: '',
+        username: '',
+        firstname: '',
+        lastname: '',
+        avater: '',
+        phoneNo: '',
+        email: '',
+        gender: '',
+        role: '',
+        address: '',
+        meritalStatus: '',
+        bio: '',
+        totalPost: '',
+        isCurrentUser: '',
+        isCurrentCrmAdmin: '',
+        isCurrentBsnAdmin: '',
+        totalFollowers: '',
+        totalFollowing: '',
+        totalLikes: ''),
+    userSid: User(
+        id: '',
+        username: '',
+        firstname: '',
+        lastname: '',
+        avater: '',
+        phoneNo: '',
+        email: '',
+        gender: '',
+        role: '',
+        address: '',
+        meritalStatus: '',
+        bio: '',
+        totalPost: '',
+        isCurrentUser: '',
+        isCurrentCrmAdmin: '',
+        isCurrentBsnAdmin: '',
+        totalFollowers: '',
+        totalFollowing: '',
+        totalLikes: ''),
     youtubeLink: '',
   );
 
   late User currentUser = User(
-    id: '',
-    username: '',
-    firstname: '',
-    lastname: '',
-    avater: '',
-    phoneNo: '',
-    email: '',
-    gender: '',
-    role: '',
-    isCurrentUser: null,
-    address: '',
-    bio: '',
-    meritalStatus: '',
-    totalPost: '',
-     isCurrentBsnAdmin: '', 
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      isCurrentUser: null,
+      address: '',
+      bio: '',
+      meritalStatus: '',
+      totalPost: '',
+      isCurrentBsnAdmin: '',
       isCurrentCrmAdmin: '',
-      totalFollowers: '', 
-      totalFollowing: '', 
-      totalLikes: ''
-  );
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: '');
 
   @override
   void initState() {
@@ -100,7 +131,7 @@ class BsnTabState extends State<BsnTab> {
   getAllBusness(arg) async {
     if (arg != 'all') {
       AllBusnessModel(payload: [], status: 0)
-          .onGoldenBusness(token, urlGoldBusness, widget.bsnType,'')
+          .onGoldenBusness(token, urlGoldBusness, widget.bsnType, '')
           .then((value) {
         if (value.status == 200) {
           setState(() {
@@ -162,7 +193,6 @@ class BsnTabState extends State<BsnTab> {
                               topLeft: Radius.circular(1.0),
                               topRight: Radius.circular(1.0),
                             ),
-                            
                             child: data[index].coProfile != ''
                                 ? Image.network(
                                     '${api}public/uploads/${data[index].user.username}/busness/${data[index].coProfile}',
@@ -236,38 +266,18 @@ class BsnTabState extends State<BsnTab> {
                     ),
 
                     const SizedBox(height: 3.0),
-
+                    // Rate Stars
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
                           margin: const EdgeInsets.only(left: 8.0, bottom: 4.0),
-                          child: Row(children: const [
-                            Icon(
-                              Icons.star,
-                              size: 16,
-                              color: Colors.red,
-                            ),
-                            Icon(
-                              Icons.star,
-                              size: 16,
-                              color: Colors.red,
-                            ),
-                            Icon(
-                              Icons.star,
-                              size: 16,
-                              color: Colors.red,
-                            ),
-                            Icon(
-                              Icons.star,
-                              size: 16,
-                              color: Colors.grey,
-                            ),
-                            Icon(
-                              Icons.star,
-                              size: 16,
-                              color: Colors.grey,
-                            )
+                          child: Row(children: [
+                            starsIcons(Colors.red),
+                            starsIcons(Colors.red),
+                            starsIcons(Colors.red),
+                            starsIcons(Colors.grey),
+                            starsIcons(Colors.grey),
                           ]),
                         ),
                         Container(
@@ -283,6 +293,7 @@ class BsnTabState extends State<BsnTab> {
                         ),
                       ],
                     ),
+
                     currentUser.id == data[index].ceoId
                         ? GestureDetector(
                             onTap: () {
@@ -321,6 +332,14 @@ class BsnTabState extends State<BsnTab> {
           staggeredTileBuilder: (index) {
             return const StaggeredTile.fit(2);
           }),
+    );
+  }
+
+  Icon starsIcons(Color color) {
+    return Icon(
+      Icons.star,
+      size: 16,
+      color: color,
     );
   }
 }

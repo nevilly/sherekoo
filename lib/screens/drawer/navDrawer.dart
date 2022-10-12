@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 import 'package:sherekoo/screens/detailScreen/livee.dart';
 import 'package:sherekoo/screens/bsnScreen/bsnScrn.dart';
+import 'package:sherekoo/screens/homNav.dart';
+import 'package:sherekoo/screens/ourServices/sherekoCards.dart';
 
 import '../../model/allData.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
+import '../../util/modInstance.dart';
 import '../../util/util.dart';
 import '../accounts/login.dart';
 import '../crmScreen/Crm.dart';
@@ -23,42 +26,6 @@ class NavDrawer extends StatefulWidget {
 class _NavDrawerState extends State<NavDrawer> {
   final Preferences _preferences = Preferences();
   String token = '';
-  User currentUser = User(
-      id: '',
-      username: '',
-      firstname: '',
-      lastname: '',
-      avater: '',
-      phoneNo: '',
-      email: '',
-      gender: '',
-      role: '',
-      isCurrentUser: '', address: '', bio: '', meritalStatus: '', totalPost: '', isCurrentBsnAdmin: '', 
-      isCurrentCrmAdmin: '',
-      totalFollowers: '', 
-      totalFollowing: '', 
-      totalLikes: '');
-
-  CeremonyModel ceremony = CeremonyModel(
-      cId: '',
-      codeNo: '',
-      ceremonyType: '',
-      cName: '',
-      fId: '',
-      sId: '',
-      cImage: '',
-      ceremonyDate: '',
-      contact: '',
-      admin: '',
-       userFid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
-                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
-                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
-                         totalFollowing: '', totalLikes: ''),
-                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
-                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
-                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
-                         totalFollowing: '', totalLikes: ''),
-      youtubeLink: '');
 
   @override
   void initState() {
@@ -78,7 +45,7 @@ class _NavDrawerState extends State<NavDrawer> {
       setState(() {
         if (value.status == 200) {
           setState(() {
-            currentUser = User.fromJson(value.payload);
+            user = User.fromJson(value.payload);
           });
         }
       });
@@ -88,8 +55,9 @@ class _NavDrawerState extends State<NavDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: OColors.darGrey,
       child: ListView(
-        children: <Widget>[
+        children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -98,58 +66,63 @@ class _NavDrawerState extends State<NavDrawer> {
                 accountName: Padding(
                   padding: const EdgeInsets.only(left: 18.0),
                   child: Text(
-                    currentUser.username!,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 18),
+                    user.username!,
+                    style: header18,
                   ),
                 ),
-                accountEmail: Text(currentUser.email!),
+                accountEmail: Text(user.email!),
                 currentAccountPicture: CircleAvatar(
                     backgroundImage: NetworkImage(
-                  '${api}public/uploads/${currentUser.username}/profile/${currentUser.avater}',
+                  '${api}public/uploads/${user.username}/profile/${user.avater}',
                 )),
-                onDetailsPressed: () {},
+                onDetailsPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              HomeNav(getIndex: 4, user: user)));
+                },
               ),
 
               //LIve ceremony
               ListTile(
-                title: const Text('LIve Ceremony'),
-                onTap: () {
-                  // Navigator.of(context).pop();
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (BuildContext context) => const LiveEve()));
-                },
-              ),
-              //ceremony
-              ListTile(
-                title: const Text('All Ceremony'),
+                title: Text(
+                  'Home',
+                  style: header15,
+                ),
                 onTap: () {
                   Navigator.of(context).pop();
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (BuildContext context) =>
-                              const Crm(dataType: 'all')));
+                              HomeNav(getIndex: 2, user: user)));
+                },
+              ),
+              //LIve ceremony
+              ListTile(
+                title: Text(
+                  'Live',
+                  style: header15,
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => Livee(
+                                ceremony: ceremony,
+                              )));
                 },
               ),
 
-              //ceremony
-              ListTile(
-                title: const Text('Ceremony'),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const CeremonyScreen()));
-                },
-              ),
               //All Busness
               ListTile(
-                title: const Text('Busness'),
+                title: Text(
+                  'Busness',
+                  style: header15,
+                ),
                 onTap: () {
                   Navigator.of(context).pop();
                   Navigator.push(
@@ -162,30 +135,59 @@ class _NavDrawerState extends State<NavDrawer> {
                 },
               ),
 
+              // ListTile(
+              //   title: const Text('Mc'),
+              //   onTap: () {
+              //     Navigator.of(context).pop();
+              //     Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //             builder: (BuildContext context) => BusnessScreen(
+              //                   bsnType: 'Mc',
+              //                   ceremony: ceremony,
+              //                 )));
+              //   },
+              // ),
               ListTile(
-                title: const Text('Mc'),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => BusnessScreen(
-                                bsnType: 'Mc',
-                                ceremony: ceremony,
-                              )));
-                },
-              ),
-
-              ListTile(
-                title: const Text('Invatation'),
+                title: Text(
+                  'Ceremony',
+                  style: header15,
+                ),
                 onTap: () {
                   Navigator.of(context).pop();
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (BuildContext context) =>
-                              const InvatationCeremony(
-                                id: 'all',
+                              const CeremonyScreen()));
+                },
+              ),
+              //ceremony
+              ListTile(
+                title: Text('leter use Ceremony...', style: header15),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const Crm(dataType: 'all')));
+                },
+              ),
+
+              ListTile(
+                title: Text(
+                  'Invatation',
+                  style: header15,
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => SherekoCards(
+                                crm: ceremony,
+                                user: user,
                               )));
                 },
               ),
