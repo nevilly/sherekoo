@@ -29,7 +29,6 @@ class BusnessModel {
     required this.coProfile,
     required this.busnessType,
     required this.createdDate,
-
     required this.companyName,
     required this.ceoId,
     required this.price,
@@ -55,10 +54,10 @@ class BusnessModel {
       subcrlevel: json['subcrlevel'] ?? "",
       aboutCompany: json['aboutCompany'] ?? "",
       hotStatus: json['hotStatus'] ?? "",
-      contact: json['contact'],
+      contact: json['contact'] ?? "",
       location: json['location'] ?? "",
-      createdBy: json['createdBy'],
-      createdDate: json['createdDate'],
+      createdBy: json['createdBy'] ?? "",
+      createdDate: json['createdDate'] ?? "",
       user: User.fromJson(json['user']),
     );
   }

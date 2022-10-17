@@ -34,10 +34,19 @@ String urlUpdateDayCeremony = '${api}Ceremony/update';
 String urlGetByUserId = '${api}Ceremony/getCrmn_by_UserId';
 String urlGetCrmByType = '${api}Ceremony/getCeremonyByType';
 
+//Ceremony Bundle
+String urladdCrmBundle = '${api}CeremonyBundle/add';
+String urlGetCrmBundle = '${api}CeremonyBundle/get';
+
+
 //Invitation Cards
 
 String urlGetInvCards = '${api}InvitationCard/get';
 String urladdInvCards = '${api}InvitationCard/add';
+
+//Order/Buy Invitation Cards
+String urlGetOrderInvCards = '${api}InvCardOrders/get';
+String urlOrderInvCards = '${api}InvCardOrders/add';
 
 //Ceremonyt Viewers
 String urladdCrmViewrs = '${api}CeremonyViewers/add';

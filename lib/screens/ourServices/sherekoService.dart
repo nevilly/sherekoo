@@ -3,6 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:sherekoo/screens/ourServices/srvDetails.dart';
 import 'package:sherekoo/util/colors.dart';
 
+import '../../model/crmBundle/bundle.dart';
+import '../../model/crmBundle/crmbundle.dart';
+import '../../util/Preferences.dart';
+import '../../util/util.dart';
 import '../../widgets/login_widget/background-image.dart';
 
 class SherekoService extends StatefulWidget {
@@ -15,64 +19,74 @@ class SherekoService extends StatefulWidget {
 
 class _SherekoServiceState extends State<SherekoService> {
   final TextEditingController _birthdayDateController = TextEditingController();
+  final Preferences _preferences = Preferences();
+  String token = '';
+
+  List<Bundle> bundle = [];
+  @override
+  void initState() {
+    _preferences.init();
+    _preferences.get('token').then((value) {
+      setState(() {
+        token = value;
+        if (widget.from == 'crmBundle') {
+          getCrmBundle();
+        }
+      });
+    });
+    super.initState();
+  }
+
+  getCrmBundle() async {
+    CrmBundle(payload: [], status: 0).get(token, urlGetCrmBundle).then((value) {
+      if (value.status == 200) {
+        setState(() {
+          bundle =
+              value.payload.map<Bundle>((e) => Bundle.fromJson(e)).toList();
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         SizedBox(
-            height: MediaQuery.of(context).size.height / 1.7,
+            height: MediaQuery.of(context).size.height / 1.6,
             child: const BackgroundImage(image: "assets/login/03.jpg")),
         Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            actions: const [
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(
-                  Icons.reply,
-                  color: Colors.white,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(
-                  Icons.more_vert,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
+          appBar: topBar(),
           body: Stack(
             children: [
-              if (widget.from == 'crmBundle') crmBundlePosition(context),
-              if (widget.from == 'Mr&MrsMy')
-                rowBundlePosition(
-                  context,
-                  'Register',
-                  'Our Best Mr&Mrs My Tv Show ',
-                  'Season 01',
-                  "assets/ceremony/hs1.jpg",
-                ),
-              if (widget.from == 'MyBdayShow')
-                rowBundlePosition(
-                  context,
-                  'Register',
-                  'Our Best  MyBirthMonth Tv Show ',
-                  'Season 01',
-                  "assets/ceremony/hs1.jpg",
-                ),
               Positioned(
                 bottom: 0,
-                child: Container(
-                  color: OColors.secondary,
+                child: SizedBox(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 2.3,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      if (widget.from == 'crmBundle')
+                        crmBundlePosition(context),
+                      if (widget.from == 'Mr&MrsMy')
+                        rowBundlePosition(
+                          context,
+                          'Register',
+                          'Our Best Mr&Mrs My Tv Show ',
+                          'Season 01',
+                          "assets/ceremony/hs1.jpg",
+                        ),
+                      if (widget.from == 'MyBdayShow')
+                        rowBundlePosition(
+                          context,
+                          'Register',
+                          'Our Best  MyBirthMonth Tv Show ',
+                          'Season 01',
+                          "assets/ceremony/hs1.jpg",
+                        ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 55,
+                        height: MediaQuery.of(context).size.height / 100,
                       ),
                       if (widget.from == 'MyBdayShow')
                         Container(
@@ -90,7 +104,7 @@ class _SherekoServiceState extends State<SherekoService> {
                               const EdgeInsets.only(left: 18, top: 5, right: 4),
                           child: Text(
                             'Lorem ipsum  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, Excepteur sint occaecat cupidatat non proident,.',
-                            style: header13.copyWith(
+                            style: header10.copyWith(
                                 fontWeight: FontWeight.normal),
                           ),
                         ),
@@ -100,21 +114,21 @@ class _SherekoServiceState extends State<SherekoService> {
                               const EdgeInsets.only(left: 18, top: 5, right: 4),
                           child: Text(
                             'Lorem ipsum  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, Excepteur sint occaecat cupidatat non proident,.',
-                            style: header13.copyWith(
+                            style: header11.copyWith(
                                 fontWeight: FontWeight.normal),
                           ),
                         ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 40,
+                        height: MediaQuery.of(context).size.height / 70,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 18.0, bottom: 8),
+                        padding: const EdgeInsets.only(left: 18.0, bottom: 2),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               'Bundles',
-                              style: header16.copyWith(
+                              style: header14.copyWith(
                                   color: OColors.darkGrey,
                                   fontWeight: FontWeight.w400),
                             ),
@@ -128,57 +142,93 @@ class _SherekoServiceState extends State<SherekoService> {
                           ],
                         ),
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height / 5,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            const ServiceDetails()));
-                              },
-                              child: crmBundle(
-                                  context,
-                                  "assets/ceremony/hs1.jpg",
-                                  '2,500,000',
-                                  'House Part',
-                                  110),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            crmBundle(context, "assets/ceremony/hs2.jpg",
-                                '20,500,000', 'Wedding', 110),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            crmBundle(context, "assets/ceremony/b1.png",
-                                '1,500,000', 'SendOff', 110),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            crmBundle(context, "assets/ceremony/hs2.jpg",
-                                '3,500,000', '5 years', 110),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            crmBundle(context, "assets/ceremony/hs2.jpg",
-                                '3,500,000', '10 years', 110),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            crmBundle(context, "assets/ceremony/hs2.jpg",
-                                '3,500,000', '15 years', 110),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                          ],
+                      if (widget.from == 'crmBundle')
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height / 5,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: bundle.length,
+                            itemBuilder: (context, i) {
+                              final itm = bundle[i];
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              ServiceDetails(bundle: itm)));
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                      left: 1.0, right: 1.0),
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: crmBundle(
+                                      context,
+                                      "assets/ceremony/hs1.jpg",
+                                      itm.price,
+                                      itm.bundleType,
+                                      110),
+                                ),
+                              );
+                            },
+                          ),
                         ),
+                      if (widget.from == 'Mr&MrsMy')
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height / 5,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (BuildContext context) =>
+                                  //             const ServiceDetails()));
+                                },
+                                child: crmBundle(
+                                    context,
+                                    "assets/ceremony/hs1.jpg",
+                                    '2,500,000',
+                                    'House Part',
+                                    110),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              crmBundle(context, "assets/ceremony/hs2.jpg",
+                                  '20,500,000', 'Wedding', 110),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              crmBundle(context, "assets/ceremony/b1.png",
+                                  '1,500,000', 'SendOff', 110),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              crmBundle(context, "assets/ceremony/hs2.jpg",
+                                  '3,500,000', '5 years', 110),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              crmBundle(context, "assets/ceremony/hs2.jpg",
+                                  '3,500,000', '10 years', 110),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              crmBundle(context, "assets/ceremony/hs2.jpg",
+                                  '3,500,000', '15 years', 110),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                            ],
+                          ),
+                        ),
+                      const SizedBox(
+                        height: 15,
                       )
                     ],
                   ),
@@ -191,44 +241,70 @@ class _SherekoServiceState extends State<SherekoService> {
     );
   }
 
+  AppBar topBar() {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      actions: const [
+        Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Icon(
+            Icons.reply,
+            color: Colors.white,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Icon(
+            Icons.more_vert,
+            color: Colors.white,
+          ),
+        ),
+      ],
+    );
+  }
+
   Positioned crmBundlePosition(BuildContext context) {
     return Positioned(
       top: MediaQuery.of(context).size.height / 2.9,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(left: 18.0),
-            padding:
-                const EdgeInsets.only(left: 10, right: 10, top: 4, bottom: 4),
-            decoration: BoxDecoration(
-                color: OColors.primary,
-                border: Border.all(color: OColors.primary, width: 1.2),
-                borderRadius: BorderRadius.circular(30)),
-            child: Text(
-              'Booking',
-              style: header12,
+      left: 0,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(left: 10.0),
+              padding:
+                  const EdgeInsets.only(left: 10, right: 10, top: 4, bottom: 4),
+              decoration: BoxDecoration(
+                  color: OColors.primary,
+                  border: Border.all(color: OColors.primary, width: 1.2),
+                  borderRadius: BorderRadius.circular(30)),
+              child: Text(
+                'Booking',
+                style: header12,
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            // color: Colors.red,
-            margin: const EdgeInsets.only(left: 18.0),
-            padding: const EdgeInsets.only(left: 4),
-            width: MediaQuery.of(context).size.width / 1.7,
-            child: Text(
-              'Our Best Ceremony Service Bundle ',
-              style: header18.copyWith(
-                  fontSize: 19,
-                  letterSpacing: 0.5,
-                  fontWeight: FontWeight.bold,
-                  height: 1.3,
-                  wordSpacing: 4.2),
+            const SizedBox(
+              height: 10,
             ),
-          ),
-        ],
+            Container(
+              margin: const EdgeInsets.only(left: 8.0),
+              padding: const EdgeInsets.only(left: 8),
+              width: MediaQuery.of(context).size.width / 1.7,
+              child: Text(
+                'Our Best Ceremony Service Bundle ',
+                style: header18.copyWith(
+                    fontSize: 19,
+                    letterSpacing: 0.5,
+                    fontWeight: FontWeight.bold,
+                    height: 1.3,
+                    wordSpacing: 4.2),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -236,11 +312,11 @@ class _SherekoServiceState extends State<SherekoService> {
   Positioned rowBundlePosition(
       BuildContext context, String subtitle, String title, String season, img) {
     return Positioned(
-      top: MediaQuery.of(context).size.height / 3.5,
+      top: MediaQuery.of(context).size.height / 1.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
+          SizedBox(
             // color: Colors.red,
             width: MediaQuery.of(context).size.width,
             child: Row(
@@ -351,7 +427,6 @@ class _SherekoServiceState extends State<SherekoService> {
       BuildContext context, url, price, String title, double w) {
     return Container(
       width: w,
-      // height: 50,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10), color: OColors.darGrey),
       child: Stack(children: [
@@ -392,7 +467,7 @@ class _SherekoServiceState extends State<SherekoService> {
               child: Center(
                 child: Text(
                   price + ' Tsh/',
-                  style: header12.copyWith(fontWeight: FontWeight.w400),
+                  style: header11.copyWith(fontWeight: FontWeight.w400),
                 ),
               ),
             )),

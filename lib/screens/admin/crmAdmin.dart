@@ -146,42 +146,6 @@ class _CrmnAdminState extends State<CrmnAdmin> {
 
   // get crmInfo => CeremonyModel;
 
-  bsnIfo() => BusnessModel(
-      location: '',
-      bId: '',
-      knownAs: '',
-      coProfile: '',
-      busnessType: '',
-      createdDate: '',
-      companyName: '',
-      ceoId: '',
-      price: '',
-      contact: '',
-      hotStatus: '',
-      aboutCEO: '',
-      aboutCompany: '',
-      createdBy: '',
-      user: User(
-          id: '',
-          username: '',
-          firstname: '',
-          lastname: '',
-          avater: '',
-          phoneNo: '',
-          email: '',
-          gender: '',
-          role: '',
-          address: '',
-          meritalStatus: '',
-          bio: '',
-          totalPost: '',
-          isCurrentUser: '',
-          isCurrentCrmAdmin: '',
-          isCurrentBsnAdmin: '',
-          totalFollowers: '',
-          totalFollowing: '',
-          totalLikes: ''),
-      subcrlevel: '');
   @override
   void initState() {
     super.initState();
@@ -338,71 +302,47 @@ class _CrmnAdminState extends State<CrmnAdmin> {
             type: 'ceremony')
         .getGoldenRequest(token, urlGetGoldReq, widget.crm.cId)
         .then((v) {
-      // print('check the payload brother');
-
       if (v.status == 200) {
-        // print(v.payload);
-
-        List payload = v.payload;
-
-        print(v.payload);
-        //Production
-        // v.payload.map<RequestsModel>((e) {
-        //   if (e['busnessId'].toString().isNotEmpty) {
-        //     setState(() {
-        //       if (e['bsnInfo']['busnessType'] == 'Mc') {
-        //         mcReq = e;
-        //       }
-        //     });
-        //   }
-        // }).toList();
-
-        for (int x = 0; x >= payload.length; x++) {
-          if (payload[x]['busnessId'].toString().isNotEmpty) {
-            setState(() {
-              if (payload[x]['bsnInfo']['busnessType'] == 'Mc') {
-                mcReq = payload[x];
-              }
-            });
-          }
-        }
-
         setState(() {
-          // //Mc
-          // mcReq = reqPayload(v, 'Mc').toList();
-          // mcReq.removeWhere((element) => element.busnessId.isEmpty);
+          //Mc
+          mcReq = reqPayload(v, 'Mc').toList();
+          mcReq.removeWhere((element) => element.busnessId.isEmpty);
 
-          // //Decoration
-          // decoratorReq = reqPayload(v, 'Decorator').toList();
-          // decoratorReq.removeWhere((element) => element.busnessId.isEmpty);
+          //Decoration
+          decoratorReq = reqPayload(v, 'Decorator').toList();
+          decoratorReq.removeWhere((element) => element.busnessId.isEmpty);
 
-          // //Hall
-          // hallReq = reqPayload(v, 'Hall').toList();
-          // hallReq.removeWhere((element) => element.busnessId.isEmpty);
+          //Production
+          productionReq = reqPayload(v, 'Production').toList();
+          productionReq.removeWhere((element) => element.busnessId.isEmpty);
 
-          // //Cake Bakery
-          // cakeReq = reqPayload(v, 'Cake Bakery').toList();
-          // cakeReq.removeWhere((element) => element.busnessId.isEmpty);
+          //Hall
+          hallReq = reqPayload(v, 'Hall').toList();
+          hallReq.removeWhere((element) => element.busnessId.isEmpty);
 
-          // //Singer
-          // singerReq = reqPayload(v, 'Singer').toList();
-          // singerReq.removeWhere((element) => element.busnessId.isEmpty);
+          //Cake Bakery
+          cakeReq = reqPayload(v, 'Cake Bakery').toList();
+          cakeReq.removeWhere((element) => element.busnessId.isEmpty);
 
-          // //Danceer
-          // dancerReq = reqPayload(v, 'Dancer').toList();
-          // dancerReq.removeWhere((element) => element.busnessId.isEmpty);
+          //Singer
+          singerReq = reqPayload(v, 'Singer').toList();
+          singerReq.removeWhere((element) => element.busnessId.isEmpty);
 
-          // //Saloon
-          // saloonReq = reqPayload(v, 'Saloon').toList();
-          // saloonReq.removeWhere((element) => element.busnessId.isEmpty);
+          //Danceer
+          dancerReq = reqPayload(v, 'Dancer').toList();
+          dancerReq.removeWhere((element) => element.busnessId.isEmpty);
 
-          // //Car
-          // carReq = reqPayload(v, 'Car').toList();
-          // carReq.removeWhere((element) => element.busnessId.isEmpty);
+          //Saloon
+          saloonReq = reqPayload(v, 'Saloon').toList();
+          saloonReq.removeWhere((element) => element.busnessId.isEmpty);
 
-          // //Cooker
-          // cookerReq = reqPayload(v, 'Cooker').toList();
-          // cookerReq.removeWhere((element) => element.busnessId.isEmpty);
+          //Car
+          carReq = reqPayload(v, 'Car').toList();
+          carReq.removeWhere((element) => element.busnessId.isEmpty);
+
+          //Cooker
+          cookerReq = reqPayload(v, 'Cooker').toList();
+          cookerReq.removeWhere((element) => element.busnessId.isEmpty);
         });
       }
     });
@@ -410,34 +350,12 @@ class _CrmnAdminState extends State<CrmnAdmin> {
 
   reqPayload(Requests v, String type) {
     return v.payload.map<RequestsModel>((e) {
-      // print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-      // print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-      // print(e);
-      // print('nnnnnnnnnnnnn');
-      // print('hiiiiii');
-      // print(e['hostId']);
-      // print(e['bsnIfo']['busnessType']);
-      // print(e['hostId'].runtimeType);
-
-      // print(e.bsnInfo());
-
-      // print(e['bsnInfo'].runtimeType);
-
-      // print('huuuuu');
-      // print(e.hostId);
-
-      //print(e['bsnInfo']['busnessType']);
-      // print(type);
-
-      // if (type.isNotEmpty && e['bsnInfo']['busnessType'] == type) {
-      //   return RequestsModel.fromJson(e);
-      // }
-      if (e['bsnInfo']['busnessType'] == 'Mc' &&
+      if (e['bsnInfo']['busnessType'] == type &&
           e['busnessId'].toString().isNotEmpty) {
-        mcReq = e;
+        return RequestsModel.fromJson(e);
+      } else {
+        return rew;
       }
-
-      return RequestsModel.fromJson(e);
     });
   }
 

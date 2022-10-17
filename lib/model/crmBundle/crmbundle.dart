@@ -2,21 +2,21 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-class InvCards {
+class CrmBundle {
   dynamic status;
   dynamic payload;
 
-  InvCards({required this.payload, required this.status});
+  CrmBundle({required this.payload, required this.status});
 
-  factory InvCards.fromJson(Map<String, dynamic> json) {
-    return InvCards(payload: json['payload'], status: json['status']);
+  factory CrmBundle.fromJson(Map<String, dynamic> json) {
+    return CrmBundle(payload: json['payload'], status: json['status']);
   }
 
-  Future<InvCards> get(String token, String dirUrl) async {
+  Future<CrmBundle> get(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);
 
     if (token.isEmpty) {
-      return InvCards.fromJson({
+      return CrmBundle.fromJson({
         "status": 204,
         "payload": {"error": "Invalid token"}
       });
@@ -29,20 +29,22 @@ class InvCards {
 
     return await http.get(url, headers: headers).then((r) {
       if (r.statusCode == 200) {
-        return InvCards.fromJson(
+        print(r.body);
+        return CrmBundle.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       } else {
-        return InvCards.fromJson(
+        return CrmBundle.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       }
     });
   }
 
-  Future<InvCards> updateCard(String token, String dirUrl, id, position) async {
+  Future<CrmBundle> updateCard(
+      String token, String dirUrl, id, position) async {
     Uri url = Uri.parse(dirUrl);
 
     if (token.isEmpty) {
-      return InvCards.fromJson({
+      return CrmBundle.fromJson({
         "status": 204,
         "payload": {"error": "Invalid token"}
       });
@@ -61,20 +63,20 @@ class InvCards {
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((http.Response r) {
       if (r.statusCode == 200) {
-        return InvCards.fromJson(
+        return CrmBundle.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       } else {
-        return InvCards.fromJson(
+        return CrmBundle.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       }
     });
   }
 
-  Future<InvCards> removeCard(String token, String dirUrl, id, userId) async {
+  Future<CrmBundle> removeCard(String token, String dirUrl, id, userId) async {
     Uri url = Uri.parse(dirUrl);
 
     if (token.isEmpty) {
-      return InvCards.fromJson({
+      return CrmBundle.fromJson({
         "status": 204,
         "payload": {"error": "Invalid token"}
       });
@@ -94,16 +96,16 @@ class InvCards {
         .then((http.Response r) {
       // print(r.body);
       if (r.statusCode == 200) {
-        return InvCards.fromJson(
+        return CrmBundle.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       } else {
-        return InvCards.fromJson(
+        return CrmBundle.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       }
     });
   }
 
-  Future<InvCards> postCard(
+  Future<CrmBundle> postCard(
       String token,
       String dirUrl,
       String cardType,
@@ -117,7 +119,7 @@ class InvCards {
     Uri url = Uri.parse(dirUrl);
 
     if (token.isEmpty) {
-      return InvCards.fromJson({
+      return CrmBundle.fromJson({
         "status": 204,
         "payload": {"error": "Invalid token"}
       });
@@ -149,18 +151,18 @@ class InvCards {
       final rJson = jsonDecode(r.body);
 
       if (r.statusCode == 200) {
-        return InvCards.fromJson(rJson);
+        return CrmBundle.fromJson(rJson);
       }
-      return InvCards.fromJson({'status': false});
+      return CrmBundle.fromJson({'status': false});
     });
   }
 
-  Future<InvCards> orderPost(token, dirUrl, date, suggestedCardMsg,
+  Future<CrmBundle> orderPost(token, dirUrl, date, suggestedCardMsg,
       cardsQuantity, totalPrice, id, crmId) async {
     Uri url = Uri.parse(dirUrl);
 
     if (token.isEmpty) {
-      return InvCards.fromJson({
+      return CrmBundle.fromJson({
         "status": 204,
         "payload": {"error": "Invalid token"}
       });
@@ -190,9 +192,9 @@ class InvCards {
       final rJson = jsonDecode(r.body);
       print(rJson);
       if (r.statusCode == 200) {
-        return InvCards.fromJson(rJson);
+        return CrmBundle.fromJson(rJson);
       }
-      return InvCards.fromJson({'status': false});
+      return CrmBundle.fromJson({'status': false});
     });
   }
 }

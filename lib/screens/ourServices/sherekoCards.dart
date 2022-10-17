@@ -92,19 +92,42 @@ class _SherekoCardsState extends State<SherekoCards> {
     });
   }
 
-  OrderCard(TextEditingController date, TextEditingController msg, crm,
-      totalQnty, totalPrice) {
-    if (date.text.isNotEmpty) {
-      print('date not empyt');
+  orderCard(
+      BuildContext context,
+      TextEditingController date,
+      TextEditingController suggestedCardMsg,
+      crm,
+      totalQnty,
+      totalPrice,
+      cardId,
+      crmId) {
+    if (cId != '') {
+      String dedline = '';
+      InvCards(payload: [], status: 0)
+          .orderPost(token, urlOrderInvCards, dedline, suggestedCardMsg.text,
+              totalQnty, totalPrice, cardId, crmId)
+          .then((v) {
+        if (v.status == 200) {
+          Navigator.of(context).pop();
+          print(v.payload);
+        }
+      });
     } else {
-      errorAlertDialog(
-          context, 'Enter CeremonyDate', 'Fill Ceremony Date info Please!..');
+      if (date.text.isNotEmpty) {
+        InvCards(payload: [], status: 0)
+            .orderPost(token, urlOrderInvCards, date.text,
+                suggestedCardMsg.text, totalQnty, totalPrice, cardId, crmId)
+            .then((v) {
+          if (v.status == 200) {
+            Navigator.of(context).pop();
+            print(v.payload);
+          }
+        });
+      } else {
+        errorAlertDialog(
+            context, 'Enter CeremonyDate', 'Fill Ceremony Date info Please!..');
+      }
     }
-
-    print(date.text);
-    print(msg.text);
-    print(totalQnty);
-    print(totalPrice);
   }
 
   @override
@@ -663,6 +686,8 @@ class _SherekoCardsState extends State<SherekoCards> {
     // final TextEditingController _intTotal = TextEditingController();
     _initialtotal.text = itm.quantity;
 
+    String invCardCrmId = '';
+
     // set up the buttons
     Widget cancelButton = TextButton(
       child: Text("Cancel",
@@ -687,11 +712,13 @@ class _SherekoCardsState extends State<SherekoCards> {
       ),
       child: const Text("Buy"),
       onPressed: () {
-        // Navigator.pop(context);
         if (card >= int.parse(itm.quantity)) {
-          OrderCard(_invDateController, _body, widget.crm, _initialtotal.text,
-              totalPrice);
-        } else {}
+          orderCard(context, _invDateController, _body, widget.crm,
+              _initialtotal.text, totalPrice, itm.id, cId);
+        } else {
+          errorAlertDialog(context, 'Lower Card Quanity',
+              'lower card quantity than needed, add More card Please..');
+        }
       },
     );
     // set up the AlertDialog
@@ -799,6 +826,8 @@ class _SherekoCardsState extends State<SherekoCards> {
                                         crmType = '';
                                         _invDateController.clear();
                                         _secInvDateController.text = '';
+
+                                        invCardCrmId = '';
                                       });
                                     },
                                     child: Padding(
@@ -1287,7 +1316,7 @@ class _SherekoCardsState extends State<SherekoCards> {
         padding: const EdgeInsets.all(6),
         primary: OColors.fontColor,
         backgroundColor: OColors.primary,
-        textStyle: const TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
+        textStyle: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
       ),
       child: const Text("Ok"),
       onPressed: () {
@@ -1296,14 +1325,14 @@ class _SherekoCardsState extends State<SherekoCards> {
     );
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      insetPadding: const EdgeInsets.only(left: 20, right: 20),
-      contentPadding: EdgeInsets.zero,
-      titlePadding: const EdgeInsets.only(top: 8, bottom: 8),
+      // insetPadding: const EdgeInsets.only(left: 20, right: 20),
+      // contentPadding: EdgeInsets.zero,
+      // titlePadding: const EdgeInsets.only(top: 8, bottom: 8),
       backgroundColor: OColors.secondary,
       title: Center(
         child: Text(title, style: header18),
       ),
-      content: Text(msg, style: header14),
+      content: Text(msg, style: header12),
       actions: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
