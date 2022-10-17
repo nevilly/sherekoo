@@ -38,7 +38,8 @@ class CrmPackage {
     });
   }
 
-  Future<CrmPackage> updateBundle(String token, String dirUrl, id, position) async {
+  Future<CrmPackage> updateBundle(
+      String token, String dirUrl, id, position) async {
     Uri url = Uri.parse(dirUrl);
 
     if (token.isEmpty) {
@@ -102,7 +103,4 @@ class CrmPackage {
       }
     });
   }
-
-  
- 
 }

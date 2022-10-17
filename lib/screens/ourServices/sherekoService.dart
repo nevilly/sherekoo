@@ -5,7 +5,10 @@ import 'package:sherekoo/util/colors.dart';
 
 import '../../model/crmBundle/bundle.dart';
 import '../../model/crmBundle/crmbundle.dart';
+import '../../model/crmPackage/crmPackage.dart';
+import '../../model/crmPackage/crmPackageModel.dart';
 import '../../util/Preferences.dart';
+import '../../util/modInstance.dart';
 import '../../util/util.dart';
 import '../../widgets/login_widget/background-image.dart';
 
@@ -21,6 +24,7 @@ class _SherekoServiceState extends State<SherekoService> {
   final TextEditingController _birthdayDateController = TextEditingController();
   final Preferences _preferences = Preferences();
   String token = '';
+  String status = '1';
 
   List<Bundle> bundle = [];
   @override
@@ -30,11 +34,25 @@ class _SherekoServiceState extends State<SherekoService> {
       setState(() {
         token = value;
         if (widget.from == 'crmBundle') {
+          getlatestPackage();
           getCrmBundle();
         }
       });
     });
     super.initState();
+  }
+
+  getlatestPackage() {
+    CrmPackage(payload: [], status: 0)
+        .get(token, '$urlGetCrmPackage/status/true')
+        .then((value) {
+      if (value.status == 200) {
+        final e = value.payload;
+        setState(() {
+          pck = CrmPckModel.fromJson(e);
+        });
+      }
+    });
   }
 
   getCrmBundle() async {
@@ -103,7 +121,7 @@ class _SherekoServiceState extends State<SherekoService> {
                           padding:
                               const EdgeInsets.only(left: 18, top: 5, right: 4),
                           child: Text(
-                            'Lorem ipsum  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, Excepteur sint occaecat cupidatat non proident,.',
+                            pck.descr,
                             style: header10.copyWith(
                                 fontWeight: FontWeight.normal),
                           ),
@@ -294,7 +312,7 @@ class _SherekoServiceState extends State<SherekoService> {
               padding: const EdgeInsets.only(left: 8),
               width: MediaQuery.of(context).size.width / 1.7,
               child: Text(
-                'Our Best Ceremony Service Bundle ',
+                pck.title,
                 style: header18.copyWith(
                     fontSize: 19,
                     letterSpacing: 0.5,

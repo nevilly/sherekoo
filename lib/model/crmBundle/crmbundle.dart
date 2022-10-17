@@ -29,7 +29,6 @@ class CrmBundle {
 
     return await http.get(url, headers: headers).then((r) {
       if (r.statusCode == 200) {
-        print(r.body);
         return CrmBundle.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       } else {

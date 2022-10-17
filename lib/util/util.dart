@@ -34,6 +34,11 @@ String urlUpdateDayCeremony = '${api}Ceremony/update';
 String urlGetByUserId = '${api}Ceremony/getCrmn_by_UserId';
 String urlGetCrmByType = '${api}Ceremony/getCeremonyByType';
 
+
+//Ceremony Bundle
+String urladdCrmPackage = '${api}CeremonyPackageInfo/add';
+String urlGetCrmPackage = '${api}CeremonyPackageInfo/get';
+
 //Ceremony Bundle
 String urladdCrmBundle = '${api}CeremonyBundle/add';
 String urlGetCrmBundle = '${api}CeremonyBundle/get';

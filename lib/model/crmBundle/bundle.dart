@@ -44,7 +44,6 @@ class Bundle {
       required this.crmServersInfo});
 
   factory Bundle.fromJson(Map<String, dynamic> json) {
-    print(json['crmPlans']);
     return Bundle(
       id: json['id'] ?? '',
       bImage: json['bImage'] ?? '',
