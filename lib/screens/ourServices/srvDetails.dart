@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../model/InvCards/cards.dart';
 import '../../model/crmBundle/bundle.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
@@ -38,6 +39,8 @@ class _ServiceDetailsState extends State<ServiceDetails>
   //         ]);
 
   String price = '';
+  List<CardsModel> cardsInfo = [];
+  List colorCodeInfo = [];
   @override
   void initState() {
     _tabController = TabController(
@@ -51,6 +54,8 @@ class _ServiceDetailsState extends State<ServiceDetails>
       setState(() {
         token = value;
         price = widget.bundle.price;
+        cardsInfo = widget.bundle.cardsInfo;
+        colorCodeInfo = widget.bundle.crmPackageInfo.colorCode;
       });
     });
 
@@ -437,7 +442,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                   height: 5,
                 ),
                 Text(
-                  'Lorem ipsum  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, Excepteur sint occaecat cupidatat non proident,.',
+                  widget.bundle.aboutBundle,
                   style: header11.copyWith(color: Colors.grey),
                 )
               ],
@@ -468,27 +473,27 @@ class _ServiceDetailsState extends State<ServiceDetails>
                 const SizedBox(
                   height: 8,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    crmColorCode(context, Colors.black, 5, 50, 40, 'black'),
-                    crmColorCode(
-                        context,
-                        const Color.fromARGB(255, 245, 187, 26),
-                        5,
-                        50,
-                        40,
-                        'Gold'),
-                    crmColorCode(
-                        context,
-                        const Color.fromARGB(255, 245, 47, 36),
-                        5,
-                        50,
-                        40,
-                        'Gold'),
-                    crmColorCode(context, Colors.white, 5, 50, 40, 'White'),
-                  ],
-                )
+                SizedBox(
+                  height: 65,
+                  child: GridView.builder(
+                    itemCount: colorCodeInfo.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 6,
+                            childAspectRatio: 0.8),
+                    itemBuilder: (context, i) {
+                      final itm = colorCodeInfo[i];
+                      return crmColorCode(
+                          context,
+                          Color(int.parse(itm['color'])),
+                          5,
+                          50,
+                          40,
+                          itm['colorName']);
+                    },
+                  ),
+                ),
               ],
             ),
             const SizedBox(
@@ -517,8 +522,9 @@ class _ServiceDetailsState extends State<ServiceDetails>
                           style: header11.copyWith(
                               color: Colors.grey, fontWeight: FontWeight.w400),
                         ),
+                        // widget.bundle.crmServersInfo.contains
                         Text(
-                          'Jerusaleem',
+                          "jek",
                           style: header11.copyWith(
                               color: Colors.grey, fontWeight: FontWeight.w400),
                         ),
