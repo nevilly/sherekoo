@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../model/InvCards/cards.dart';
 import '../../model/crmBundle/bundle.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import 'package:sherekoo/model/crmSevers/Servers.dart';
+
+import '../../util/util.dart';
+import '../../widgets/imgWigdets/userAvater.dart';
 
 class ServiceDetails extends StatefulWidget {
   final Bundle bundle;
@@ -39,8 +43,40 @@ class _ServiceDetailsState extends State<ServiceDetails>
   //         ]);
 
   String price = '';
+  String aboutBundle = '';
+  String around = '';
+  String location = '';
+  String bImage = '';
+  String bundleType = '';
+  String amountOfPeople = "";
+  String bundleLevel = "";
+  String aboutPackage = "";
+  String id = "";
+
   List<CardsModel> cardsInfo = [];
   List colorCodeInfo = [];
+
+  User superVisorInfo = User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      meritalStatus: '',
+      totalPost: '',
+      isCurrentBsnAdmin: '',
+      isCurrentCrmAdmin: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: '');
+
   @override
   void initState() {
     _tabController = TabController(
@@ -56,6 +92,16 @@ class _ServiceDetailsState extends State<ServiceDetails>
         price = widget.bundle.price;
         cardsInfo = widget.bundle.cardsInfo;
         colorCodeInfo = widget.bundle.crmPackageInfo.colorCode;
+        bundleType = widget.bundle.bundleType;
+        around = widget.bundle.around;
+        location = widget.bundle.location;
+        bImage = widget.bundle.bImage;
+        aboutBundle = widget.bundle.aboutBundle;
+        amountOfPeople = widget.bundle.amountOfPeople;
+        aboutPackage = widget.bundle.aboutPackage;
+        id = widget.bundle.id;
+        superVisorInfo = widget.bundle.superVisorInfo;
+        cardsInfo = widget.bundle.cardsInfo;
       });
     });
 
@@ -168,231 +214,46 @@ class _ServiceDetailsState extends State<ServiceDetails>
           children: [
             overViews(context),
             seviceDetails(context),
-            Scrollbar(
-                child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
-                itemCount: widget.bundle.crmPlans.plan.length,
-                itemBuilder: (context, i) {
-                  final itm = widget.bundle.crmPlans.plan[i];
-                  return Container(
-                    padding: const EdgeInsets.all(5),
-                    margin: const EdgeInsets.only(top: 5),
-                    color: OColors.darGrey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          itm['title'],
-                          style: header16.copyWith(
-                              color: OColors.fontColor,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          itm['descr'],
-                          style: header11.copyWith(color: Colors.grey),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                // children: [
-                //   Container(
-                //     padding: const EdgeInsets.all(5),
-                //     color: OColors.darGrey,
-                //     child: Column(
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-                //       children: [
-                //         Text(
-                //           'About Plan / Schedule',
-                //           style: header12.copyWith(
-                //               color: OColors.fontColor,
-                //               fontWeight: FontWeight.bold),
-                //         ),
-                //         const SizedBox(
-                //           height: 5,
-                //         ),
-                //         Text(
-                //           ' This package will start to work Three month before Ceremony.  The aim of this plan is to make things go on Time and make  spouse and ceremony server be known each other and be more confortable to each other..,',
-                //           style: header11.copyWith(color: Colors.grey),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                //   const SizedBox(height: 10),
-                //   Container(
-                //     padding: const EdgeInsets.all(5),
-                //     color: OColors.darGrey,
-                //     child: Column(
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-                //       children: [
-                //         Text(
-                //           'Day 1 of 1st month',
-                //           style: header16.copyWith(
-                //               color: OColors.fontColor,
-                //               fontWeight: FontWeight.bold),
-                //         ),
-                //         const SizedBox(
-                //           height: 5,
-                //         ),
-                //         Text(
-                //           'Meeting with your  sherekoo Supervisor, for little convarsation about your fillings and wishes on your ceremony and arrange time tables',
-                //           style: header11.copyWith(color: Colors.grey),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                //   const SizedBox(height: 10),
-                //   Container(
-                //     padding: const EdgeInsets.all(5),
-                //     color: OColors.darGrey,
-                //     child: Column(
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-                //       children: [
-                //         Text(
-                //           'Day 2 of 1st month',
-                //           style: header16.copyWith(
-                //               color: OColors.fontColor,
-                //               fontWeight: FontWeight.bold),
-                //         ),
-                //         const SizedBox(
-                //           height: 5,
-                //         ),
-                //         Text(
-                //           'Meeting with your  Disgners, for chatting about what kind of clothers is favaorute with you on your wedding day and, arrange shedule for taking body dimension and other staff',
-                //           style: header11.copyWith(color: Colors.grey),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                //   const SizedBox(height: 10),
-                //   Container(
-                //     padding: const EdgeInsets.all(5),
-                //     color: OColors.darGrey,
-                //     child: Column(
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-                //       children: [
-                //         Text(
-                //           'Day 3 of 1st month',
-                //           style: header16.copyWith(
-                //               color: OColors.fontColor,
-                //               fontWeight: FontWeight.bold),
-                //         ),
-                //         const SizedBox(
-                //           height: 5,
-                //         ),
-                //         Text(
-                //           'Diamension Day, it day where spouses take diamension for  their wedding clothes ready to start making ',
-                //           style: header11.copyWith(color: Colors.grey),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                //   const SizedBox(height: 10),
-                //   Container(
-                //     padding: const EdgeInsets.all(5),
-                //     color: OColors.darGrey,
-                //     child: Column(
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-                //       children: [
-                //         Text(
-                //           'Day 4 of 2nd month',
-                //           style: header16.copyWith(
-                //               color: OColors.fontColor,
-                //               fontWeight: FontWeight.bold),
-                //         ),
-                //         const SizedBox(
-                //           height: 5,
-                //         ),
-                //         Text(
-                //           'Contact Day, it day where spouses having conctact with Mc for more to be more confortable with their master of  Ceremony and get to know each other aking ',
-                //           style: header11.copyWith(color: Colors.grey),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                //   const SizedBox(height: 10),
-                //   Container(
-                //     padding: const EdgeInsets.all(5),
-                //     color: OColors.darGrey,
-                //     child: Column(
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-                //       children: [
-                //         Text(
-                //           'Day 5 of 2nd month',
-                //           style: header16.copyWith(
-                //               color: OColors.fontColor,
-                //               fontWeight: FontWeight.bold),
-                //         ),
-                //         const SizedBox(
-                //           height: 5,
-                //         ),
-                //         Text(
-                //           'Having Dinner with Cookers, it day where spouses having special and simple dinner from Cookers who will serve in ceremony for more to be more confortable with their master of  Ceremony and get to know each other aking ',
-                //           style: header11.copyWith(color: Colors.grey),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                //   const SizedBox(height: 10),
-                //   Container(
-                //     padding: const EdgeInsets.all(5),
-                //     color: OColors.darGrey,
-                //     child: Column(
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-                //       children: [
-                //         Text(
-                //           'Day 6 of 2nd month',
-                //           style: header16.copyWith(
-                //               color: OColors.fontColor,
-                //               fontWeight: FontWeight.bold),
-                //         ),
-                //         const SizedBox(
-                //           height: 5,
-                //         ),
-                //         Text(
-                //           'Ceremony Vehicle Test Driving, it day where spouses having little Driving in their ceremony ',
-                //           style: header11.copyWith(color: Colors.grey),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                //   const SizedBox(height: 10),
-                //   Container(
-                //     padding: const EdgeInsets.all(5),
-                //     color: OColors.darGrey,
-                //     child: Column(
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-                //       children: [
-                //         Text(
-                //           'Day 7 of 2nd month',
-                //           style: header16.copyWith(
-                //               color: OColors.fontColor,
-                //               fontWeight: FontWeight.bold),
-                //         ),
-                //         const SizedBox(
-                //           height: 5,
-                //         ),
-                //         Text(
-                //           'Clothes Testing, its Day where spouse test their clothes ',
-                //           style: header11.copyWith(color: Colors.grey),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                //   const SizedBox(
-                //     height: 10,
-                //   )
-                // ],
-              ),
-            ))
+            servicePlan(context)
           ],
         ),
       ),
     );
+  }
+
+  Scrollbar servicePlan(BuildContext context) {
+    return Scrollbar(
+        child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListView.builder(
+        itemCount: widget.bundle.crmPlans.plan.length,
+        itemBuilder: (context, i) {
+          final itm = widget.bundle.crmPlans.plan[i];
+          return Container(
+            padding: const EdgeInsets.all(5),
+            margin: const EdgeInsets.only(top: 5),
+            color: OColors.darGrey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  itm['title'],
+                  style: header16.copyWith(
+                      color: OColors.fontColor, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  itm['descr'],
+                  style: header11.copyWith(color: Colors.grey),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    ));
   }
 
   Scrollbar overViews(BuildContext context) {
@@ -430,6 +291,8 @@ class _ServiceDetailsState extends State<ServiceDetails>
               ],
             ),
             const SizedBox(height: 18),
+
+            /** About Bundle */
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -448,6 +311,8 @@ class _ServiceDetailsState extends State<ServiceDetails>
               ],
             ),
             const SizedBox(height: 18),
+
+            /** ColorCode Start */
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -473,9 +338,13 @@ class _ServiceDetailsState extends State<ServiceDetails>
                 const SizedBox(
                   height: 8,
                 ),
+
+                // Color Code List
                 SizedBox(
                   height: 65,
                   child: GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: colorCodeInfo.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
@@ -499,7 +368,8 @@ class _ServiceDetailsState extends State<ServiceDetails>
             const SizedBox(
               height: 18,
             ),
-            // Hall Location
+
+            /** Ceremony Location Start */
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -507,7 +377,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Hall Location',
+                      'Ceremony Location',
                       style: header12.copyWith(
                           color: OColors.fontColor,
                           fontWeight: FontWeight.bold),
@@ -518,13 +388,13 @@ class _ServiceDetailsState extends State<ServiceDetails>
                     Row(
                       children: [
                         Text(
-                          'Hall Name: ',
+                          'Around: ',
                           style: header11.copyWith(
                               color: Colors.grey, fontWeight: FontWeight.w400),
                         ),
                         // widget.bundle.crmServersInfo.contains
                         Text(
-                          "jek",
+                          around,
                           style: header11.copyWith(
                               color: Colors.grey, fontWeight: FontWeight.w400),
                         ),
@@ -541,7 +411,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                               color: Colors.grey, fontWeight: FontWeight.w400),
                         ),
                         Text(
-                          'Riverside',
+                          location,
                           style: header11.copyWith(
                               color: Colors.grey, fontWeight: FontWeight.w400),
                         ),
@@ -564,7 +434,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                     Row(
                       children: [
                         Text(
-                          '200 - 500',
+                          amountOfPeople,
                           style: header14.copyWith(
                               color: Colors.grey, fontWeight: FontWeight.w400),
                         ),
@@ -578,7 +448,8 @@ class _ServiceDetailsState extends State<ServiceDetails>
               ],
             ),
             const SizedBox(height: 18),
-            // Hall Photo
+
+            /** Hall Sample Photo Start */
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -616,32 +487,14 @@ class _ServiceDetailsState extends State<ServiceDetails>
                       const SizedBox(
                         width: 6,
                       ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Image.asset('assets/ceremony/uk2.png'),
-                      ),
-                      const SizedBox(
-                        width: 6,
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Image.asset('assets/ceremony/uk3.jpg'),
-                      ),
-                      const SizedBox(
-                        width: 6,
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Image.asset('assets/ceremony/uk1.jpg'),
-                      ),
                     ],
                   ),
                 )
               ],
             ),
-
             const SizedBox(height: 18),
-            // Ceremony Cards Photo
+
+            /** Ceremony Card Start */
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -666,7 +519,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                 SizedBox(
                   width: 250,
                   child: Text(
-                    'Ceremony Cards can change according to  arequirements',
+                    'Ceremony Cards can change according to a requirements',
                     style: header11.copyWith(
                         color: Colors.grey, fontWeight: FontWeight.w300),
                   ),
@@ -676,36 +529,68 @@ class _ServiceDetailsState extends State<ServiceDetails>
                 ),
                 SizedBox(
                   height: 80,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Image.asset('assets/ceremony/uk1.jpg'),
-                      ),
-                      const SizedBox(
-                        width: 6,
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Image.asset('assets/ceremony/uk2.png'),
-                      ),
-                      const SizedBox(
-                        width: 6,
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Image.asset('assets/ceremony/uk3.jpg'),
-                      ),
-                      const SizedBox(
-                        width: 6,
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Image.asset('assets/ceremony/uk1.jpg'),
-                      ),
-                    ],
+                  child: GridView.builder(
+                    padding: const EdgeInsets.all(0.0),
+                    shrinkWrap: true,
+                    // physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 6,
+                            childAspectRatio: 0.8),
+                    itemCount: cardsInfo.length,
+                    itemBuilder: (context, i) {
+                      final itm = cardsInfo[i];
+                      return GestureDetector(
+                        onTap: () {
+                          prevCardDialog(context, itm);
+                        },
+                        child: Container(
+                            decoration: BoxDecoration(
+                              color: OColors.darGrey,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            margin: const EdgeInsets.only(top: 5),
+                            child: Column(
+                              children: [
+                                fadeImg(
+                                    itm,
+                                    context,
+                                    '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.cardImage}',
+                                    MediaQuery.of(context).size.height / 7.1),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        // prevCardDialog(context, itm);
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.only(
+                                            left: 8,
+                                            right: 8,
+                                            top: 2,
+                                            bottom: 2),
+                                        decoration: BoxDecoration(
+                                            color: OColors.primary,
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
+                                        child: Text(
+                                          'prev',
+                                          style: header11,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            )),
+                      );
+                    },
                   ),
                 )
               ],
@@ -726,13 +611,23 @@ class _ServiceDetailsState extends State<ServiceDetails>
                 ),
                 Row(
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: Image.asset(
-                        'assets/profile/profile.jpg',
-                        width: 50,
-                        // height: 30,
-                        fit: BoxFit.cover,
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: OColors.primary,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(30),
+                          child: UserAvater(
+                            avater: superVisorInfo.avater!,
+                            url: '/profile/',
+                            username: superVisorInfo.username!,
+                            width: 40.0,
+                            height: 40.0,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(
@@ -742,7 +637,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Jermia David',
+                          superVisorInfo.username!,
                           style: header13,
                         ),
                         const SizedBox(
@@ -755,6 +650,9 @@ class _ServiceDetailsState extends State<ServiceDetails>
                       ],
                     )
                   ],
+                ),
+                const SizedBox(
+                  height: 15,
                 )
               ],
             )
@@ -1028,6 +926,19 @@ class _ServiceDetailsState extends State<ServiceDetails>
     );
   }
 
+  FadeInImage fadeImg(CardsModel itm, BuildContext context, url, double h) {
+    return FadeInImage(
+      image: NetworkImage(url),
+      fadeInDuration: const Duration(milliseconds: 100),
+      placeholder: const AssetImage('assets/logo/noimage.png'),
+      imageErrorBuilder: (context, error, stackTrace) {
+        return Image.asset('assets/logo/noimage.png', fit: BoxFit.fitWidth);
+      },
+      height: h,
+      fit: BoxFit.fitWidth,
+    );
+  }
+
   Column crmColorCode(
       BuildContext context, Color color, double r, double w, double h, title) {
     return Column(
@@ -1054,6 +965,179 @@ class _ServiceDetailsState extends State<ServiceDetails>
       Icons.star,
       size: s,
       color: color,
+    );
+  }
+
+  prevCardDialog(BuildContext context, CardsModel itm) async {
+    String imgUrl =
+        '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.cardImage}';
+    double h = 50;
+    double w = 50;
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: const SizedBox(),
+      onPressed: () {
+        // Navigator.of(context).pop();
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (BuildContext context) => CeremonyUpload(
+        //             getData: ceremony, getcurrentUser: widget.user)));
+      },
+    );
+    Widget continueButton = TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(6),
+        primary: OColors.fontColor,
+        backgroundColor: OColors.primary,
+      ),
+      child: const Text("cancel"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      insetPadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.zero,
+      titlePadding: const EdgeInsets.only(top: 8, bottom: 8),
+      backgroundColor: OColors.secondary,
+      title: Container(
+        alignment: Alignment.topLeft,
+        child: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Container(
+            margin: const EdgeInsets.all(8),
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Icon(
+                Icons.close,
+                size: 20,
+                color: OColors.fontColor,
+              ),
+            ),
+          ),
+        ),
+      ),
+      content: StatefulBuilder(builder: (BuildContext context, setState) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              // color: Colors.red,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height / 2,
+              child: fadeImg(
+                  itm, context, imgUrl, MediaQuery.of(context).size.height),
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      imgUrl =
+                          '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.font}';
+                      h = 70;
+                      w = 60;
+                    });
+                  },
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: w,
+                        height: h,
+                        child: fadeImg(
+                            itm,
+                            context,
+                            '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.font}',
+                            MediaQuery.of(context).size.height / 7.1),
+                      ),
+                      Text(
+                        'fontSide',
+                        style: header10,
+                      )
+                    ],
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      imgUrl =
+                          '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.middle}';
+                      h = 70;
+                      w = 60;
+                    });
+                  },
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: w,
+                        height: h,
+                        child: fadeImg(
+                            itm,
+                            context,
+                            '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.middle}',
+                            MediaQuery.of(context).size.height / 7.1),
+                      ),
+                      Text(
+                        'Middle',
+                        style: header10,
+                      )
+                    ],
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      imgUrl =
+                          '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.back}';
+                      h = 70;
+                      w = 60;
+                    });
+                  },
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: w,
+                        height: h,
+                        child: fadeImg(
+                            itm,
+                            context,
+                            '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.back}',
+                            MediaQuery.of(context).size.height / 7.1),
+                      ),
+                      Text(
+                        'fontSide',
+                        style: header10,
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            )
+          ],
+        );
+      }),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            cancelButton,
+            continueButton,
+          ],
+        ),
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 
@@ -1088,3 +1172,193 @@ class _ServiceDetailsState extends State<ServiceDetails>
 //                           return const StaggeredTile.fit(3);
 //                         }),
 //                   ),
+
+
+ // children: [
+        //   Container(
+        //     padding: const EdgeInsets.all(5),
+        //     color: OColors.darGrey,
+        //     child: Column(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         Text(
+        //           'About Plan / Schedule',
+        //           style: header12.copyWith(
+        //               color: OColors.fontColor,
+        //               fontWeight: FontWeight.bold),
+        //         ),
+        //         const SizedBox(
+        //           height: 5,
+        //         ),
+        //         Text(
+        //           ' This package will start to work Three month before Ceremony.  The aim of this plan is to make things go on Time and make  spouse and ceremony server be known each other and be more confortable to each other..,',
+        //           style: header11.copyWith(color: Colors.grey),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        //   const SizedBox(height: 10),
+        //   Container(
+        //     padding: const EdgeInsets.all(5),
+        //     color: OColors.darGrey,
+        //     child: Column(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         Text(
+        //           'Day 1 of 1st month',
+        //           style: header16.copyWith(
+        //               color: OColors.fontColor,
+        //               fontWeight: FontWeight.bold),
+        //         ),
+        //         const SizedBox(
+        //           height: 5,
+        //         ),
+        //         Text(
+        //           'Meeting with your  sherekoo Supervisor, for little convarsation about your fillings and wishes on your ceremony and arrange time tables',
+        //           style: header11.copyWith(color: Colors.grey),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        //   const SizedBox(height: 10),
+        //   Container(
+        //     padding: const EdgeInsets.all(5),
+        //     color: OColors.darGrey,
+        //     child: Column(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         Text(
+        //           'Day 2 of 1st month',
+        //           style: header16.copyWith(
+        //               color: OColors.fontColor,
+        //               fontWeight: FontWeight.bold),
+        //         ),
+        //         const SizedBox(
+        //           height: 5,
+        //         ),
+        //         Text(
+        //           'Meeting with your  Disgners, for chatting about what kind of clothers is favaorute with you on your wedding day and, arrange shedule for taking body dimension and other staff',
+        //           style: header11.copyWith(color: Colors.grey),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        //   const SizedBox(height: 10),
+        //   Container(
+        //     padding: const EdgeInsets.all(5),
+        //     color: OColors.darGrey,
+        //     child: Column(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         Text(
+        //           'Day 3 of 1st month',
+        //           style: header16.copyWith(
+        //               color: OColors.fontColor,
+        //               fontWeight: FontWeight.bold),
+        //         ),
+        //         const SizedBox(
+        //           height: 5,
+        //         ),
+        //         Text(
+        //           'Diamension Day, it day where spouses take diamension for  their wedding clothes ready to start making ',
+        //           style: header11.copyWith(color: Colors.grey),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        //   const SizedBox(height: 10),
+        //   Container(
+        //     padding: const EdgeInsets.all(5),
+        //     color: OColors.darGrey,
+        //     child: Column(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         Text(
+        //           'Day 4 of 2nd month',
+        //           style: header16.copyWith(
+        //               color: OColors.fontColor,
+        //               fontWeight: FontWeight.bold),
+        //         ),
+        //         const SizedBox(
+        //           height: 5,
+        //         ),
+        //         Text(
+        //           'Contact Day, it day where spouses having conctact with Mc for more to be more confortable with their master of  Ceremony and get to know each other aking ',
+        //           style: header11.copyWith(color: Colors.grey),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        //   const SizedBox(height: 10),
+        //   Container(
+        //     padding: const EdgeInsets.all(5),
+        //     color: OColors.darGrey,
+        //     child: Column(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         Text(
+        //           'Day 5 of 2nd month',
+        //           style: header16.copyWith(
+        //               color: OColors.fontColor,
+        //               fontWeight: FontWeight.bold),
+        //         ),
+        //         const SizedBox(
+        //           height: 5,
+        //         ),
+        //         Text(
+        //           'Having Dinner with Cookers, it day where spouses having special and simple dinner from Cookers who will serve in ceremony for more to be more confortable with their master of  Ceremony and get to know each other aking ',
+        //           style: header11.copyWith(color: Colors.grey),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        //   const SizedBox(height: 10),
+        //   Container(
+        //     padding: const EdgeInsets.all(5),
+        //     color: OColors.darGrey,
+        //     child: Column(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         Text(
+        //           'Day 6 of 2nd month',
+        //           style: header16.copyWith(
+        //               color: OColors.fontColor,
+        //               fontWeight: FontWeight.bold),
+        //         ),
+        //         const SizedBox(
+        //           height: 5,
+        //         ),
+        //         Text(
+        //           'Ceremony Vehicle Test Driving, it day where spouses having little Driving in their ceremony ',
+        //           style: header11.copyWith(color: Colors.grey),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        //   const SizedBox(height: 10),
+        //   Container(
+        //     padding: const EdgeInsets.all(5),
+        //     color: OColors.darGrey,
+        //     child: Column(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         Text(
+        //           'Day 7 of 2nd month',
+        //           style: header16.copyWith(
+        //               color: OColors.fontColor,
+        //               fontWeight: FontWeight.bold),
+        //         ),
+        //         const SizedBox(
+        //           height: 5,
+        //         ),
+        //         Text(
+        //           'Clothes Testing, its Day where spouse test their clothes ',
+        //           style: header11.copyWith(color: Colors.grey),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        //   const SizedBox(
+        //     height: 10,
+        //   )
+        // ],

@@ -534,19 +534,20 @@ class _SherekoCardsState extends State<SherekoCards> {
   }
 
   prevCardDialog(BuildContext context, CardsModel itm) async {
+    String imgUrl =
+        '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.cardImage}';
+    double h = 50;
+    double w = 50;
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: Text("Create",
-          style: TextStyle(
-            color: OColors.primary,
-          )),
+      child: const SizedBox(),
       onPressed: () {
-        Navigator.of(context).pop();
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => CeremonyUpload(
-                    getData: ceremony, getcurrentUser: widget.user)));
+        // Navigator.of(context).pop();
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (BuildContext context) => CeremonyUpload(
+        //             getData: ceremony, getcurrentUser: widget.user)));
       },
     );
     Widget continueButton = TextButton(
@@ -554,9 +555,8 @@ class _SherekoCardsState extends State<SherekoCards> {
         padding: const EdgeInsets.all(6),
         primary: OColors.fontColor,
         backgroundColor: OColors.primary,
-        textStyle: const TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
       ),
-      child: const Text("Order Now"),
+      child: const Text("cancel"),
       onPressed: () {
         Navigator.pop(context);
       },
@@ -573,12 +573,15 @@ class _SherekoCardsState extends State<SherekoCards> {
           onTap: () {
             Navigator.of(context).pop();
           },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.close,
-              size: 20,
-              color: OColors.fontColor,
+          child: Container(
+            margin: const EdgeInsets.all(8),
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Icon(
+                Icons.close,
+                size: 20,
+                color: OColors.fontColor,
+              ),
             ),
           ),
         ),
@@ -590,66 +593,94 @@ class _SherekoCardsState extends State<SherekoCards> {
             SizedBox(
               // color: Colors.red,
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 4,
+              height: MediaQuery.of(context).size.height / 2,
               child: fadeImg(
-                  itm,
-                  context,
-                  '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.cardImage}',
-                  MediaQuery.of(context).size.height),
+                  itm, context, imgUrl, MediaQuery.of(context).size.height),
             ),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Column(
-                  children: [
-                    SizedBox(
-                      width: 50,
-                      height: 40,
-                      child: fadeImg(
-                          itm,
-                          context,
-                          '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.cardImage}',
-                          MediaQuery.of(context).size.height / 7.1),
-                    ),
-                    Text(
-                      'fontSide',
-                      style: header10,
-                    )
-                  ],
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      imgUrl =
+                          '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.font}';
+                      h = 70;
+                      w = 60;
+                    });
+                  },
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: w,
+                        height: h,
+                        child: fadeImg(
+                            itm,
+                            context,
+                            '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.font}',
+                            MediaQuery.of(context).size.height / 7.1),
+                      ),
+                      Text(
+                        'fontSide',
+                        style: header10,
+                      )
+                    ],
+                  ),
                 ),
-                Column(
-                  children: [
-                    SizedBox(
-                      width: 50,
-                      height: 40,
-                      child: fadeImg(
-                          itm,
-                          context,
-                          '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.cardImage}',
-                          MediaQuery.of(context).size.height / 7.1),
-                    ),
-                    Text(
-                      'fontSide',
-                      style: header10,
-                    )
-                  ],
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      imgUrl =
+                          '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.middle}';
+                      h = 70;
+                      w = 60;
+                    });
+                  },
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: w,
+                        height: h,
+                        child: fadeImg(
+                            itm,
+                            context,
+                            '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.middle}',
+                            MediaQuery.of(context).size.height / 7.1),
+                      ),
+                      Text(
+                        'Middle',
+                        style: header10,
+                      )
+                    ],
+                  ),
                 ),
-                Column(
-                  children: [
-                    SizedBox(
-                      width: 50,
-                      height: 40,
-                      child: fadeImg(
-                          itm,
-                          context,
-                          '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.cardImage}',
-                          MediaQuery.of(context).size.height / 7.1),
-                    ),
-                    Text(
-                      'fontSide',
-                      style: header10,
-                    )
-                  ],
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      imgUrl =
+                          '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.back}';
+                      h = 70;
+                      w = 60;
+                    });
+                  },
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: w,
+                        height: h,
+                        child: fadeImg(
+                            itm,
+                            context,
+                            '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.back}',
+                            MediaQuery.of(context).size.height / 7.1),
+                      ),
+                      Text(
+                        'fontSide',
+                        style: header10,
+                      )
+                    ],
+                  ),
                 ),
               ],
             )

@@ -2,6 +2,7 @@ import '../InvCards/cards.dart';
 import '../crmPackage/crmPackageModel.dart';
 import '../crmPlan/plan.dart';
 import '../crmSevers/Servers.dart';
+import '../userModel.dart';
 
 class Bundle {
   String id;
@@ -10,6 +11,7 @@ class Bundle {
   String aboutPackage;
   String bImage;
   String location;
+  String around;
   String aboutBundle;
   String superVisorId;
   String bundleLevel;
@@ -21,6 +23,8 @@ class Bundle {
 
   String cardSampleId;
   Plan crmPlans;
+
+  User superVisorInfo;
   List<ServersModel> crmServersInfo;
   List<CardsModel> cardsInfo;
 
@@ -31,6 +35,7 @@ class Bundle {
       required this.bundleType,
       required this.bImage,
       required this.location,
+      required this.around,
       required this.aboutBundle,
       required this.cardSampleId,
       required this.superVisorId,
@@ -41,7 +46,9 @@ class Bundle {
       required this.crmPlans,
       required this.cardsInfo,
       required this.crmPackageInfo,
-      required this.crmServersInfo});
+      required this.crmServersInfo,
+      required this.superVisorInfo
+      });
 
   factory Bundle.fromJson(Map<String, dynamic> json) {
     return Bundle(
@@ -49,6 +56,7 @@ class Bundle {
       bImage: json['bImage'] ?? '',
       price: json['price'] ?? "",
       location: json['location'] ?? '',
+      around: json['around'] ?? "",
       bundleType: json['bundleType'] ?? '',
       aboutBundle: json['aboutBundle'] ?? '',
       aboutPackage: json['aboutPackage'] ?? '',
@@ -60,6 +68,7 @@ class Bundle {
       amountOfPeople: json['amountOfPeople'],
       crmPlans: Plan.fromJson(json['crmPlans']),
       crmPackageInfo: CrmPckModel.fromJson(json['crmPackageInfo']),
+      superVisorInfo: User.fromJson(json['superVisorInfo']),
       crmServersInfo: json['crmServersInfo']
           .map<ServersModel>((e) => ServersModel.fromJson(e))
           .toList(),
