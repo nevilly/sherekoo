@@ -103,4 +103,76 @@ class CrmPackage {
       }
     });
   }
+
+  Future<CrmPackage> post(String token, String dirUrl, title, descr, colorCode,
+      image, inYear) async {
+    Uri url = Uri.parse(dirUrl);
+
+    if (token.isEmpty) {
+      return CrmPackage.fromJson({
+        "status": 204,
+        "payload": {"error": "Invalid token"}
+      });
+    }
+
+    Map<String, dynamic> toMap() {
+      return <String, dynamic>{
+        'title': title,
+        'descr': descr,
+        'colorCode': jsonEncode(colorCode),
+        'year': inYear,
+        'image': image,
+      };
+    }
+
+    Map<String, String> headers = {
+      "Authorization": "Owesis $token",
+      "Content-Type": "Application/json"
+    };
+
+    return await http
+        .post(url, body: jsonEncode(toMap()), headers: headers)
+        .then((r) {
+      if (r.statusCode == 200) {
+        return CrmPackage.fromJson(
+            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+      }
+      return CrmPackage.fromJson(
+          {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+    });
+  }
+
+  Future<CrmPackage> activate(String token, String dirUrl, id, stats) async {
+    Uri url = Uri.parse(dirUrl);
+
+    if (token.isEmpty) {
+      return CrmPackage.fromJson({
+        "status": 204,
+        "payload": {"error": "Invalid token"}
+      });
+    }
+
+    Map<String, dynamic> toMap() {
+      return <String, dynamic>{
+        'packageId': id,
+        'isActive': stats,
+      };
+    }
+
+    Map<String, String> headers = {
+      "Authorization": "Owesis $token",
+      "Content-Type": "Application/json"
+    };
+
+    return await http
+        .post(url, body: jsonEncode(toMap()), headers: headers)
+        .then((r) {
+      if (r.statusCode == 200) {
+        return CrmPackage.fromJson(
+            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+      }
+      return CrmPackage.fromJson(
+          {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+    });
+  }
 }

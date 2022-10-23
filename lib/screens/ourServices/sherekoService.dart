@@ -3,14 +3,19 @@ import 'package:intl/intl.dart';
 import 'package:sherekoo/screens/ourServices/srvDetails.dart';
 import 'package:sherekoo/util/colors.dart';
 
+import '../../model/allData.dart';
 import '../../model/crmBundle/bundle.dart';
 import '../../model/crmBundle/crmbundle.dart';
 import '../../model/crmPackage/crmPackage.dart';
 import '../../model/crmPackage/crmPackageModel.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/modInstance.dart';
 import '../../util/util.dart';
 import '../../widgets/login_widget/background-image.dart';
+import '../admin/crmPackageAdd.dart';
+import '../admin/crmPckSelect.dart';
+import '../admin/crnBundleOrders.dart';
 
 class SherekoService extends StatefulWidget {
   final String from;
@@ -27,6 +32,27 @@ class _SherekoServiceState extends State<SherekoService> {
   String status = '1';
 
   List<Bundle> bundle = [];
+  User currentUser = User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      meritalStatus: '',
+      totalPost: '',
+      isCurrentBsnAdmin: '',
+      isCurrentCrmAdmin: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: '');
+
   @override
   void initState() {
     _preferences.init();
@@ -36,10 +62,23 @@ class _SherekoServiceState extends State<SherekoService> {
         if (widget.from == 'crmBundle') {
           getlatestPackage();
           getCrmBundle();
+          getUser(urlGetUser);
         }
       });
     });
     super.initState();
+  }
+
+  Future getUser(String dirUrl) async {
+    return await AllUsersModel(payload: [], status: 0)
+        .get(token, dirUrl)
+        .then((value) {
+      if (value.status == 200) {
+        setState(() {
+          currentUser = User.fromJson(value.payload);
+        });
+      }
+    });
   }
 
   getlatestPackage() {
@@ -175,7 +214,7 @@ class _SherekoServiceState extends State<SherekoService> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (BuildContext context) =>
-                                              ServiceDetails(bundle: itm)));
+                                              ServiceDetails(bundle: itm,currentUser:currentUser)));
                                 },
                                 child: Container(
                                   margin: const EdgeInsets.only(
@@ -263,66 +302,76 @@ class _SherekoServiceState extends State<SherekoService> {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      actions: const [
-        Padding(
+      actions: [
+        const Padding(
           padding: EdgeInsets.all(8.0),
           child: Icon(
             Icons.reply,
             color: Colors.white,
           ),
         ),
-        Padding(
+        const Padding(
           padding: EdgeInsets.all(8.0),
           child: Icon(
-            Icons.more_vert,
+            Icons.notifications,
             color: Colors.white,
           ),
         ),
+        currentUser.role == 'a'
+            ? GestureDetector(
+                onTap: () {
+                  adminOnly();
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.more_vert,
+                    color: Colors.white,
+                  ),
+                ),
+              )
+            : const SizedBox.shrink(),
       ],
     );
   }
 
-  Positioned crmBundlePosition(BuildContext context) {
-    return Positioned(
-      top: MediaQuery.of(context).size.height / 2.9,
-      left: 0,
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              margin: const EdgeInsets.only(left: 10.0),
-              padding:
-                  const EdgeInsets.only(left: 10, right: 10, top: 4, bottom: 4),
-              decoration: BoxDecoration(
-                  color: OColors.primary,
-                  border: Border.all(color: OColors.primary, width: 1.2),
-                  borderRadius: BorderRadius.circular(30)),
-              child: Text(
-                'Booking',
-                style: header12,
-              ),
+  SizedBox crmBundlePosition(BuildContext context) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(left: 10.0),
+            padding:
+                const EdgeInsets.only(left: 10, right: 10, top: 4, bottom: 4),
+            decoration: BoxDecoration(
+                color: OColors.primary,
+                border: Border.all(color: OColors.primary, width: 1.2),
+                borderRadius: BorderRadius.circular(30)),
+            child: Text(
+              'Booking',
+              style: header12,
             ),
-            const SizedBox(
-              height: 10,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            margin: const EdgeInsets.only(left: 8.0),
+            padding: const EdgeInsets.only(left: 8),
+            width: MediaQuery.of(context).size.width / 1.7,
+            child: Text(
+              pck.title,
+              style: header18.copyWith(
+                  fontSize: 19,
+                  letterSpacing: 0.5,
+                  fontWeight: FontWeight.bold,
+                  height: 1.3,
+                  wordSpacing: 4.2),
             ),
-            Container(
-              margin: const EdgeInsets.only(left: 8.0),
-              padding: const EdgeInsets.only(left: 8),
-              width: MediaQuery.of(context).size.width / 1.7,
-              child: Text(
-                pck.title,
-                style: header18.copyWith(
-                    fontSize: 19,
-                    letterSpacing: 0.5,
-                    fontWeight: FontWeight.bold,
-                    height: 1.3,
-                    wordSpacing: 4.2),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -626,6 +675,76 @@ class _SherekoServiceState extends State<SherekoService> {
             offset: textEditingController.text.length,
             affinity: TextAffinity.upstream));
     }
+  }
+
+  void adminOnly() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            color: const Color(0xFF737373),
+            height: 190,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: OColors.secondary,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    )),
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          const CrmPackageAdd()));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('Add Package', style: header14),
+                            )),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          const CrmPckList()));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('View Package', style: header14),
+                            )),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          const CrmBundleOrders()));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('Booking Orders', style: header14),
+                            )),
+                      ],
+                    ))),
+          );
+        });
   }
 }
 

@@ -39,7 +39,7 @@ class AllBusnessModel {
   }
 
   Future<AllBusnessModel> onGoldenBusness(
-      String token, String dirUrl, String bsnType,String id) async {
+      String token, String dirUrl, String bsnType, String id) async {
     Uri url = Uri.parse(dirUrl);
 
     if (token.isEmpty) {
@@ -55,15 +55,14 @@ class AllBusnessModel {
     };
 
     Map<String, dynamic> toMap() {
-      return <String, dynamic>{
-        'id':  id,
-      'type': bsnType};
+      return <String, dynamic>{'id': id, 'type': bsnType};
     }
 
     return await http
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((r) {
       if (r.statusCode == 200) {
+        print(jsonDecode(r.body)['payload']);
         return AllBusnessModel.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       }

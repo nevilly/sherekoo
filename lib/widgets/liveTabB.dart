@@ -36,7 +36,7 @@ class _TabBState extends State<TabB> {
   String token = '';
 
   TextEditingController phoneNo = TextEditingController();
- 
+
   List<SvModel> bsnInfo = [];
 
   @override
@@ -158,7 +158,6 @@ class _TabBState extends State<TabB> {
       payload: [],
     ).get(token, '$urlGetCrmViewrs/crmId/${widget.ceremony.cId}').then((value) {
       if (value.status == 200) {
-        
         setState(() {
           crmViewer = value.payload
               .map<CrmViewersModel>((e) => CrmViewersModel.fromJson(e))
@@ -525,12 +524,9 @@ class _TabBState extends State<TabB> {
                                       width: MediaQuery.of(context).size.width,
                                       child: Column(
                                         children: [
-                                          if (user.id ==
-                                                  widget.ceremony.fId ||
-                                              user.id ==
-                                                  widget.ceremony.sId ||
-                                              user.id ==
-                                                  widget.ceremony.admin)
+                                          if (user.id == widget.ceremony.fId ||
+                                              user.id == widget.ceremony.sId ||
+                                              user.id == widget.ceremony.admin)
                                             GestureDetector(
                                               onTap: () {
                                                 //                            Navigator.push(

@@ -116,4 +116,11 @@ BusnessModel busness = BusnessModel(
     createdDate: '');
 
 CrmPckModel pck = CrmPckModel(
-    id: '', title: '', descr: '', status: '', colorCode: [], createdDate: '');
+    id: '',
+    title: '',
+    descr: '',
+    status: '',
+    colorCode: [],
+    createdDate: '',
+    inYear: '',
+    pImage: '');

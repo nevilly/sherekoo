@@ -229,6 +229,7 @@ class _CategoryBodyState extends State<CategoryBody> {
                                         )));
                           },
                           child: Column(children: [
+                          
                             ClipRRect(
                                 borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(1.0),
@@ -241,6 +242,7 @@ class _CategoryBodyState extends State<CategoryBody> {
                                         fit: BoxFit.cover,
                                       )
                                     : const SizedBox(height: 1)),
+                         
                             Container(
                               alignment: Alignment.center,
                               // margin: EdgeInsets.only(top: 1),

@@ -171,7 +171,9 @@ class _LiveePostState extends State<LiveePost> {
                                     getIndex: 4,
                                   )));
                     },
-                    child: Row(
+                    child: 
+                    
+                    Row(
                       children: [
                         CircleAvatar(
                           radius: 22,
@@ -202,6 +204,7 @@ class _LiveePostState extends State<LiveePost> {
                         ),
                       ],
                     ),
+                
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 1.0),

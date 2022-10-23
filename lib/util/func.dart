@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 import '../model/ceremony/ceremonyModel.dart';
 import '../model/ceremony/crmViewerModel.dart';
@@ -201,7 +204,6 @@ void viewerGrid(
                     const SizedBox(height: 10),
                     Expanded(
                       child: StaggeredGridView.countBuilder(
-                         
                           crossAxisSpacing: 1,
                           mainAxisSpacing: 2,
                           crossAxisCount: 8,
@@ -1051,28 +1053,51 @@ Container kigodoroProfileCrm(
   );
 }
 
-
-
-
- Container ourServices(BuildContext context, String prod) {
-    return Container(
-      margin: const EdgeInsets.only(left: 4, right: 4),
-      height: 20,
-      padding: const EdgeInsets.only(left: 10.0, right: 10),
-      decoration: BoxDecoration(
-          border: Border.all(width: 1.3, color: OColors.primary),
-          borderRadius: BorderRadius.circular(20)),
-      child: Center(
-        child: Text(
-          prod,
-          style: header12.copyWith(color: OColors.primary),
-        ),
+Container ourServices(BuildContext context, String prod) {
+  return Container(
+    margin: const EdgeInsets.only(left: 4, right: 4),
+    height: 20,
+    padding: const EdgeInsets.only(left: 10.0, right: 10),
+    decoration: BoxDecoration(
+        border: Border.all(width: 1.3, color: OColors.primary),
+        borderRadius: BorderRadius.circular(20)),
+    child: Center(
+      child: Text(
+        prod,
+        style: header12.copyWith(color: OColors.primary),
       ),
+    ),
+  );
+}
+
+
+
+  // Image Croping
+  Future cropImage(File imageFile) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: imageFile.path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Shereko Cropper',
+            toolbarColor: OColors.appBarColor,
+            toolbarWidgetColor: OColors.primary,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Sherekoo Cropper',
+        ),
+        // WebUiSettings(
+        //   context: context,
+        // ),
+      ],
     );
+    if (croppedFile == null) return null;
+    return File(croppedFile.path);
   }
-
-
-  
-  
-
-  

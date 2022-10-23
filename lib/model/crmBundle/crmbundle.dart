@@ -12,6 +12,76 @@ class CrmBundle {
     return CrmBundle(payload: json['payload'], status: json['status']);
   }
 
+  Future<CrmBundle> postBundle(
+      String token,
+      String dirUrl,
+      String price,
+      String bundleType,
+      String amountOfPeople,
+      String aboutBundle,
+      String crmPackageInfo,
+      String location,
+      String around,
+      List cardId,
+      List bsnId,
+      String superVisorId,
+      String bundleImage,
+      List hallImageSample,
+      List plan) async {
+    Uri url = Uri.parse(dirUrl);
+
+    if (token.isEmpty) {
+      return CrmBundle.fromJson({
+        "status": 204,
+        "payload": {"error": "Invalid token"}
+      });
+    }
+
+    String arr = cardId.toString();
+    // print('cardId.runtimeType');
+    // List l = ['mama', 'dada'];
+    // print(l);
+
+
+    Map<String, dynamic> toMap() {
+      return <String, dynamic>{
+        'price': price,
+        'bImage': bundleImage,
+        'crmPackageId': crmPackageInfo,
+        'location': location,
+        'around': around,
+        'aboutBundle': aboutBundle,
+        'aboutPackage': aboutBundle,
+        'superVisorId': superVisorId,
+        'bundleLevel': '1',
+        'amountOfPeople': amountOfPeople,
+        // 'bsnId': jsonEncode(bsnId),
+        'cardSampleId': cardId.toString(),
+        'hallImageSample': hallImageSample,
+        // 'plan': jsonEncode(plan),
+      };
+    }
+
+    // print(toMap());
+
+    Map<String, String> headers = {
+      "Authorization": "Owesis $token",
+      "Content-Type": "Application/json"
+    };
+
+    return await http
+        .post(url, body: jsonEncode(toMap()), headers: headers)
+        .then((r) {
+      print(jsonDecode(r.body)['payload']);
+      if (r.statusCode == 200) {
+        return CrmBundle.fromJson(
+            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+      }
+      return CrmBundle.fromJson(
+          {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+    });
+  }
+
   Future<CrmBundle> get(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);
 

@@ -1,9 +1,9 @@
-
-
 class CrmPckModel {
   String id;
   String title;
   String descr;
+  String pImage;
+  String inYear;
   String status;
   List colorCode;
   String createdDate;
@@ -12,6 +12,8 @@ class CrmPckModel {
       {required this.id,
       required this.title,
       required this.descr,
+      required this.pImage,
+      required this.inYear,
       required this.status,
       required this.colorCode,
       required this.createdDate});
@@ -22,6 +24,8 @@ class CrmPckModel {
         title: json['title'] ?? '',
         descr: json['descr'] ?? "",
         status: json['status'] ?? "",
+        pImage: json['pImage']?? "",
+        inYear:json['inYear']?? "",
         colorCode: json['colorCode'],
         createdDate: json['createdDate'] ?? "");
   }

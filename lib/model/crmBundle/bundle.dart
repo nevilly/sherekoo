@@ -18,6 +18,7 @@ class Bundle {
   String createdBy;
   String createdDate;
   String amountOfPeople;
+  String isBooking;
 
   CrmPckModel crmPackageInfo;
 
@@ -47,8 +48,8 @@ class Bundle {
       required this.cardsInfo,
       required this.crmPackageInfo,
       required this.crmServersInfo,
-      required this.superVisorInfo
-      });
+      required this.superVisorInfo,
+      required this.isBooking});
 
   factory Bundle.fromJson(Map<String, dynamic> json) {
     return Bundle(
@@ -66,6 +67,7 @@ class Bundle {
       createdDate: json['createdDate'] ?? "",
       cardSampleId: json['cardSampleId'],
       amountOfPeople: json['amountOfPeople'],
+      isBooking: json['isBooking'].toString(),
       crmPlans: Plan.fromJson(json['crmPlans']),
       crmPackageInfo: CrmPckModel.fromJson(json['crmPackageInfo']),
       superVisorInfo: User.fromJson(json['superVisorInfo']),

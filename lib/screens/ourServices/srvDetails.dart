@@ -1,5 +1,9 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../model/InvCards/cards.dart';
+import '../../model/bundleBooking/bundle-orders.dart';
 import '../../model/crmBundle/bundle.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
@@ -8,10 +12,14 @@ import 'package:sherekoo/model/crmSevers/Servers.dart';
 
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/userAvater.dart';
+import '../admin/crmBundleAdmin.dart';
 
 class ServiceDetails extends StatefulWidget {
+  final User currentUser;
   final Bundle bundle;
-  const ServiceDetails({Key? key, required this.bundle}) : super(key: key);
+  const ServiceDetails(
+      {Key? key, required this.bundle, required this.currentUser})
+      : super(key: key);
 
   @override
   State<ServiceDetails> createState() => _ServiceDetailsState();
@@ -20,6 +28,9 @@ class ServiceDetails extends StatefulWidget {
 class _ServiceDetailsState extends State<ServiceDetails>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  // ScrollController? _scrollController;
+  final TextEditingController _contact = TextEditingController();
+  final TextEditingController _crmDate = TextEditingController();
 
   String token = '';
   int tabIndex = 0;
@@ -41,7 +52,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
   //             text: 'Schedule',
   //           )
   //         ]);
-
+  String id = "";
   String price = '';
   String aboutBundle = '';
   String around = '';
@@ -51,7 +62,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
   String amountOfPeople = "";
   String bundleLevel = "";
   String aboutPackage = "";
-  String id = "";
+  String isBooking = "";
 
   List<CardsModel> cardsInfo = [];
   List colorCodeInfo = [];
@@ -84,6 +95,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
       length: 3,
       vsync: this,
     );
+    _tabController.addListener(() {});
 
     _preferences.init();
     _preferences.get('token').then((value) {
@@ -102,9 +114,16 @@ class _ServiceDetailsState extends State<ServiceDetails>
         id = widget.bundle.id;
         superVisorInfo = widget.bundle.superVisorInfo;
         cardsInfo = widget.bundle.cardsInfo;
+        isBooking = widget.bundle.isBooking;
+        print('aaaaaaaaaaaaaaaaaa');
+        print(isBooking);
       });
     });
 
+    // _scrollController!.addListener(() {
+    //   _scrollController!.createScrollPosition(_tabController);
+    //   print(_scrollController!.positions);
+    // });
     _tabController.addListener(() {
       if (_tabController.indexIsChanging) {
         setState(() {
@@ -121,107 +140,262 @@ class _ServiceDetailsState extends State<ServiceDetails>
     super.initState();
   }
 
+  orderCrmBundle(BuildContext context, TextEditingController contact,
+      TextEditingController date, crmId) {
+    if (date.text.isNotEmpty) {
+      if (contact.text.isNotEmpty) {
+        if (widget.bundle.id != '') {
+          BundleOrders(payload: [], status: 0)
+              .postOrders(token, urlOrderCrmBundle, date.text, contact.text,
+                  widget.bundle.id, crmId)
+              .then((v) {
+            if (v.status == 200) {
+              Navigator.of(context).pop();
+              errorAlertDialog(context, 'Booking Complete!',
+                  'Your SuperVisor (0743882455) will Contact  you soon with 2hrs... Thank you');
+              setState(() {
+                isBooking = 'true';
+              });
+           
+            }
+          });
+        } else {
+          errorAlertDialog(
+              context, 'Network is low!', 'Please Comeback leter..');
+        }
+      } else {
+        errorAlertDialog(
+            context, 'Enter CeremonyDate', 'Fill Ceremony Date info Please!..');
+      }
+    } else {
+      errorAlertDialog(
+          context, 'Enter CeremonyDate', 'Fill Ceremony Date info Please!..');
+    }
+  }
+
+  TabBar get _tabBar => TabBar(
+          labelColor: OColors.primary,
+          unselectedLabelColor: Colors.grey,
+          indicatorColor: OColors.primary,
+          indicatorWeight: 2,
+          controller: _tabController,
+          tabs: const [
+            Tab(
+              text: 'OverView',
+            ),
+            Tab(
+              text: 'Saved By',
+            ),
+            Tab(
+              text: 'Bundle Plan',
+            )
+          ]);
+
+  // Alert Widget
+  errorAlertDialog(BuildContext context, String title, String msg) async {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("cancel",
+          style: TextStyle(
+            color: OColors.primary,
+          )),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget continueButton = TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(6),
+        primary: OColors.fontColor,
+        backgroundColor: OColors.primary,
+        textStyle: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
+      ),
+      child: const Text("Ok"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      // insetPadding: const EdgeInsets.only(left: 20, right: 20),
+      // contentPadding: EdgeInsets.zero,
+      // titlePadding: const EdgeInsets.only(top: 8, bottom: 8),
+      backgroundColor: OColors.secondary,
+      title: Center(
+        child: Text(title, style: header18),
+      ),
+      content: Text(msg, style: header12),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            cancelButton,
+            continueButton,
+          ],
+        ),
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: OColors.secondary,
-      body: NestedScrollView(
-        floatHeaderSlivers: true,
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-              backgroundColor: OColors.darGrey,
-              // automaticallyImplyLeading: false,
-              actions: [
-                GestureDetector(
-                  // onTap: () {
-                  //   Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //           builder: (_) => CrmnAdmin(crm: widget.ceremony)));
-                  //},
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                        left: 10, right: 20, top: 15, bottom: 15),
-                    padding: const EdgeInsets.only(
-                        left: 15, right: 15, top: 4, bottom: 4),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: OColors.primary,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(80))),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(50))),
-                        child: Text(
-                          'Booking Now',
-                          style: header11.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
+    final size = MediaQuery.of(context).size;
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: OColors.secondary,
+        body: NestedScrollView(
+          floatHeaderSlivers: true,
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                backgroundColor: OColors.darGrey,
+                // automaticallyImplyLeading: false,
+                actions: actionBar(context, size),
+
+                expandedHeight: 200,
+
+                flexibleSpace: bundleImage(size),
+
+                pinned: true,
+                floating: false,
+              ),
+            ];
+          },
+          body: Column(
+            children: [
+              SizedBox(
+                height: size.height / (25 * 10),
+              ),
+              PreferredSize(
+                preferredSize: _tabBar.preferredSize,
+                child: Container(
+                  decoration: const BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(color: Colors.grey, width: 0.8))),
+                  child: ColoredBox(
+                    color: OColors.darGrey,
+                    child: _tabBar,
                   ),
                 ),
-              ],
-              expandedHeight: 200,
-              flexibleSpace: SafeArea(
-                  bottom: false,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      Text(
-                        'Upprt Bar',
-                        style: header10,
-                      )
-                    ],
-                  )),
-
-              pinned: true,
-              floating: true,
-              bottom: TabBar(
-                  labelColor: OColors.primary,
-                  indicatorColor: OColors.primary,
-                  unselectedLabelColor: OColors.darkGrey,
-                  labelPadding: const EdgeInsets.only(
-                    bottom: 2,
-                  ),
-                  indicatorPadding: const EdgeInsets.only(
-                    top: 25,
-                  ),
+              ),
+              Expanded(
+                child: TabBarView(
                   controller: _tabController,
-                  tabs: [
-                    Text('Overview', style: header16),
-                    // Icon(
-                    //   Icons.grid_on_outlined,
-                    //   size: 20,
-                    //   color: OColors.primary,
-                    // ),
-                    Text('Saved By', style: header16),
-                    // Icon(
-                    //   Icons.details,
-                    //   size: 20,
-                    //   color: OColors.primary,
-                    // )
-                    Text('Plan', style: header16),
-                  ]),
-            ),
-          ];
-        },
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            overViews(context),
-            seviceDetails(context),
-            servicePlan(context)
-          ],
+                  children: [
+                    overViews(context, size),
+                    seviceDetails(context, size),
+                    servicePlan(context, size)
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Scrollbar servicePlan(BuildContext context) {
+  List<Widget> actionBar(BuildContext context, size) {
+    return [
+      isBooking != 'true'
+          ? GestureDetector(
+              onTap: () {
+                bookinDialog(context, size);
+              },
+              child: flatButton('Booking Now', 40))
+          : Icon(Icons.shopping_cart_checkout,
+              size: 18, color: OColors.primary),
+      widget.currentUser.role == 'a'
+          ? GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => CrmBundleAdmin(
+                              crmPackageInfo: widget.bundle.crmPackageInfo,
+                            )));
+              },
+              child: Container(
+                margin: const EdgeInsets.only(top: 8, bottom: 8, right: 5),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.add, size: 20, color: Colors.red),
+                ),
+              ))
+          : const SizedBox.shrink()
+    ];
+  }
+
+  Container flatButton(String text, double h) {
+    return Container(
+      width: MediaQuery.of(context).size.width / 2.5,
+      height: h,
+      margin: const EdgeInsets.only(left: 10, right: 20, top: 15, bottom: 15),
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 4, bottom: 4),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          color: OColors.primary,
+          borderRadius: const BorderRadius.all(Radius.circular(80))),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(50),
+        child: Container(
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(50))),
+          child: Text(
+            text,
+            style: header11.copyWith(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+    );
+  }
+
+  SafeArea bundleImage(Size size) {
+    return SafeArea(
+        bottom: false,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            bImage == ''
+                ? ClipRect(
+                    child: Stack(
+                      children: [
+                        Positioned.fill(
+                          child: ImageFiltered(
+                            imageFilter: ImageFilter.blur(
+                              sigmaX: 10.0,
+                              sigmaY: 10.0,
+                            ),
+                            child: Image.network(
+                              '${api}public/uploads/sherekooAdmin/crmBundle/$bImage',
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                        ),
+                        Image.network(
+                          '${api}public/uploads/sherekooAdmin/crmBundle/$bImage',
+                          fit: BoxFit.contain,
+                        )
+                      ],
+                    ),
+                  )
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Image.asset('assets/ceremony/uk1.jpg',
+                        width: size.width, fit: BoxFit.cover),
+                  ),
+          ],
+        ));
+  }
+
+  Scrollbar servicePlan(BuildContext context, size) {
     return Scrollbar(
         child: Padding(
       padding: const EdgeInsets.all(8.0),
@@ -256,7 +430,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
     ));
   }
 
-  Scrollbar overViews(BuildContext context) {
+  Scrollbar overViews(BuildContext context, size) {
     return Scrollbar(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -276,18 +450,13 @@ class _ServiceDetailsState extends State<ServiceDetails>
                 const SizedBox(
                   height: 5,
                 ),
-                Container(
-                  width: 100,
-                  height: 30,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: OColors.primary),
-                  child: Center(
-                      child: Text(
-                    'Booking Now',
-                    style: header13,
-                  )),
-                )
+                isBooking != 'true'
+                    ? GestureDetector(
+                        onTap: () {
+                          bookinDialog(context, size);
+                        },
+                        child: flatButton('Booking Now', 40))
+                    : flatButton('Already Booking', 35),
               ],
             ),
             const SizedBox(height: 18),
@@ -662,7 +831,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
     );
   }
 
-  Scrollbar seviceDetails(BuildContext context) {
+  Scrollbar seviceDetails(BuildContext context, size) {
     return Scrollbar(
       child: ListView.builder(
         itemCount: widget.bundle.crmServersInfo.length,
@@ -1141,6 +1310,242 @@ class _ServiceDetailsState extends State<ServiceDetails>
     );
   }
 
+  bookinDialog(BuildContext context, size) async {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(
+        'cancel',
+        style: header13.copyWith(
+            fontWeight: FontWeight.normal, color: OColors.fontColor),
+      ),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget continueButton = TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(6),
+        primary: OColors.fontColor,
+        backgroundColor: OColors.primary,
+      ),
+      child: const Text("Booking"),
+      onPressed: () {
+        orderCrmBundle(context, _contact, _crmDate, '');
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      insetPadding: const EdgeInsets.all(10),
+      // contentPadding: EdgeInsets.zero,
+      titlePadding: const EdgeInsets.only(top: 4, bottom: 4),
+      backgroundColor: OColors.secondary,
+      title: Container(
+        alignment: Alignment.topLeft,
+        child: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Row(
+            children: [
+              Container(
+                width: 80,
+                height: 50,
+                margin: const EdgeInsets.all(8),
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Icon(
+                    Icons.close,
+                    size: 20,
+                    color: OColors.fontColor,
+                  ),
+                ),
+              ),
+              Text(
+                'Bookin Now',
+                style: header18.copyWith(
+                    fontStyle: FontStyle.italic, color: OColors.primary),
+              )
+            ],
+          ),
+        ),
+      ),
+      content: SizedBox(
+        height: 250,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          SizedBox(
+            width: size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Bundle Price',
+                  style: header18.copyWith(
+                    fontSize: 22,
+                  ),
+                ),
+                Text(price,
+                    style: header18.copyWith(
+                        fontSize: 30, fontWeight: FontWeight.bold))
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 25,
+          ),
+          Text('Your Contact', style: header13),
+          Container(
+            width: MediaQuery.of(context).size.width / 1.5,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(2),
+            ),
+            padding: const EdgeInsets.all(6.0),
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 40,
+              padding: const EdgeInsets.only(
+                top: 5,
+              ),
+              decoration: BoxDecoration(
+                  border: Border.all(width: 1, color: Colors.grey),
+                  borderRadius: BorderRadius.circular(10),
+                  color: OColors.darGrey),
+              child: TextField(
+                controller: _contact,
+                maxLines: null,
+                expands: true,
+                textAlign: TextAlign.left,
+                keyboardType: TextInputType.multiline,
+                decoration: InputDecoration(
+                  contentPadding:
+                      const EdgeInsets.only(left: 20.0, right: 20.0),
+                  border: InputBorder.none,
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Icon(
+                      Icons.call,
+                      size: 20,
+                      color: OColors.primary,
+                    ),
+                  ),
+                  hintText: "Enter your contact.. \n \n \n",
+                  hintStyle: const TextStyle(color: Colors.grey, height: 1.5),
+                ),
+                style: const TextStyle(
+                    fontSize: 12, color: Colors.grey, height: 1.5),
+                onChanged: (value) {
+                  setState(() {
+                    //_email = value;
+                  });
+                },
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          ceremonyDate('Ceremony Day', _crmDate, size)
+        ]),
+      ),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            cancelButton,
+            continueButton,
+          ],
+        ),
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  ceremonyDate(title, dateController, size) {
+    return SizedBox(
+        width: size.width / 1.4,
+        // color: OColors.fontColor,
+        // margin: const EdgeInsets.only(left: 10, right: 10),
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              alignment: Alignment.topLeft,
+              child: Text(title, style: header13),
+            ),
+            Container(
+              height: 40,
+              margin: const EdgeInsets.only(left: 0, right: 20, bottom: 1),
+              decoration: BoxDecoration(
+                border: Border.all(width: 1, color: Colors.grey),
+                borderRadius: BorderRadius.circular(10),
+                color: OColors.darGrey,
+              ),
+              child: TextField(
+                focusNode: AlwaysDisabledFocusNode(),
+                controller: dateController,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Icon(
+                      Icons.calendar_month,
+                      size: 20,
+                      color: OColors.primary,
+                    ),
+                  ),
+                  hintText: 'Date ( DD/MM/YYY )',
+                  hintStyle: header12.copyWith(color: Colors.grey, height: 1.1),
+                ),
+                style: header12.copyWith(color: Colors.grey, height: 1.1),
+                onTap: () {
+                  _selectDate(context, dateController);
+                },
+              ),
+            ),
+          ],
+        ));
+  }
+
+  DateTime? _selectedDate;
+  // Date Selecting Function
+  _selectDate(BuildContext context, textEditingController) async {
+    DateTime? newSelectedDate = await showDatePicker(
+        locale: const Locale('en', 'IN'),
+        context: context,
+        initialDate: _selectedDate ?? DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2040),
+        fieldHintText: 'yyyy/mm/dd',
+        builder: (BuildContext context, Widget? child) {
+          return Theme(
+            data: ThemeData.dark().copyWith(
+              colorScheme: ColorScheme.dark(
+                primary: OColors.darkGrey,
+                onPrimary: Colors.white,
+                surface: OColors.secondary,
+                onSurface: Colors.yellow,
+              ),
+              dialogBackgroundColor: OColors.darGrey,
+            ),
+            child: child as Widget,
+          );
+        });
+
+    if (newSelectedDate != null) {
+      _selectedDate = newSelectedDate;
+      textEditingController
+        ..text = DateFormat('yyyy/MM/dd').format(_selectedDate!)
+        ..selection = TextSelection.fromPosition(TextPosition(
+            offset: textEditingController.text.length,
+            affinity: TextAffinity.upstream));
+    }
+  }
+
   @override
   void dispose() {
     _tabController.dispose();
@@ -1153,212 +1558,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
   }
 }
 
-// SizedBox(
-//                     height: 200,
-//                     child: StaggeredGridView.countBuilder(
-//                         physics: const NeverScrollableScrollPhysics(),
-//                         crossAxisSpacing: 2,
-//                         mainAxisSpacing: 2,
-//                         crossAxisCount: 8,
-//                         shrinkWrap: true,
-//                         itemCount: 5,
-//                         itemBuilder: (context, i) {
-//                           return ClipRRect(
-//                             borderRadius: BorderRadius.circular(5),
-//                             child: Image.asset('assets/ceremony/uk1.jpg'),
-//                           );
-//                         },
-//                         staggeredTileBuilder: (index) {
-//                           return const StaggeredTile.fit(3);
-//                         }),
-//                   ),
-
-
- // children: [
-        //   Container(
-        //     padding: const EdgeInsets.all(5),
-        //     color: OColors.darGrey,
-        //     child: Column(
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       children: [
-        //         Text(
-        //           'About Plan / Schedule',
-        //           style: header12.copyWith(
-        //               color: OColors.fontColor,
-        //               fontWeight: FontWeight.bold),
-        //         ),
-        //         const SizedBox(
-        //           height: 5,
-        //         ),
-        //         Text(
-        //           ' This package will start to work Three month before Ceremony.  The aim of this plan is to make things go on Time and make  spouse and ceremony server be known each other and be more confortable to each other..,',
-        //           style: header11.copyWith(color: Colors.grey),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        //   const SizedBox(height: 10),
-        //   Container(
-        //     padding: const EdgeInsets.all(5),
-        //     color: OColors.darGrey,
-        //     child: Column(
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       children: [
-        //         Text(
-        //           'Day 1 of 1st month',
-        //           style: header16.copyWith(
-        //               color: OColors.fontColor,
-        //               fontWeight: FontWeight.bold),
-        //         ),
-        //         const SizedBox(
-        //           height: 5,
-        //         ),
-        //         Text(
-        //           'Meeting with your  sherekoo Supervisor, for little convarsation about your fillings and wishes on your ceremony and arrange time tables',
-        //           style: header11.copyWith(color: Colors.grey),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        //   const SizedBox(height: 10),
-        //   Container(
-        //     padding: const EdgeInsets.all(5),
-        //     color: OColors.darGrey,
-        //     child: Column(
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       children: [
-        //         Text(
-        //           'Day 2 of 1st month',
-        //           style: header16.copyWith(
-        //               color: OColors.fontColor,
-        //               fontWeight: FontWeight.bold),
-        //         ),
-        //         const SizedBox(
-        //           height: 5,
-        //         ),
-        //         Text(
-        //           'Meeting with your  Disgners, for chatting about what kind of clothers is favaorute with you on your wedding day and, arrange shedule for taking body dimension and other staff',
-        //           style: header11.copyWith(color: Colors.grey),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        //   const SizedBox(height: 10),
-        //   Container(
-        //     padding: const EdgeInsets.all(5),
-        //     color: OColors.darGrey,
-        //     child: Column(
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       children: [
-        //         Text(
-        //           'Day 3 of 1st month',
-        //           style: header16.copyWith(
-        //               color: OColors.fontColor,
-        //               fontWeight: FontWeight.bold),
-        //         ),
-        //         const SizedBox(
-        //           height: 5,
-        //         ),
-        //         Text(
-        //           'Diamension Day, it day where spouses take diamension for  their wedding clothes ready to start making ',
-        //           style: header11.copyWith(color: Colors.grey),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        //   const SizedBox(height: 10),
-        //   Container(
-        //     padding: const EdgeInsets.all(5),
-        //     color: OColors.darGrey,
-        //     child: Column(
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       children: [
-        //         Text(
-        //           'Day 4 of 2nd month',
-        //           style: header16.copyWith(
-        //               color: OColors.fontColor,
-        //               fontWeight: FontWeight.bold),
-        //         ),
-        //         const SizedBox(
-        //           height: 5,
-        //         ),
-        //         Text(
-        //           'Contact Day, it day where spouses having conctact with Mc for more to be more confortable with their master of  Ceremony and get to know each other aking ',
-        //           style: header11.copyWith(color: Colors.grey),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        //   const SizedBox(height: 10),
-        //   Container(
-        //     padding: const EdgeInsets.all(5),
-        //     color: OColors.darGrey,
-        //     child: Column(
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       children: [
-        //         Text(
-        //           'Day 5 of 2nd month',
-        //           style: header16.copyWith(
-        //               color: OColors.fontColor,
-        //               fontWeight: FontWeight.bold),
-        //         ),
-        //         const SizedBox(
-        //           height: 5,
-        //         ),
-        //         Text(
-        //           'Having Dinner with Cookers, it day where spouses having special and simple dinner from Cookers who will serve in ceremony for more to be more confortable with their master of  Ceremony and get to know each other aking ',
-        //           style: header11.copyWith(color: Colors.grey),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        //   const SizedBox(height: 10),
-        //   Container(
-        //     padding: const EdgeInsets.all(5),
-        //     color: OColors.darGrey,
-        //     child: Column(
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       children: [
-        //         Text(
-        //           'Day 6 of 2nd month',
-        //           style: header16.copyWith(
-        //               color: OColors.fontColor,
-        //               fontWeight: FontWeight.bold),
-        //         ),
-        //         const SizedBox(
-        //           height: 5,
-        //         ),
-        //         Text(
-        //           'Ceremony Vehicle Test Driving, it day where spouses having little Driving in their ceremony ',
-        //           style: header11.copyWith(color: Colors.grey),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        //   const SizedBox(height: 10),
-        //   Container(
-        //     padding: const EdgeInsets.all(5),
-        //     color: OColors.darGrey,
-        //     child: Column(
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       children: [
-        //         Text(
-        //           'Day 7 of 2nd month',
-        //           style: header16.copyWith(
-        //               color: OColors.fontColor,
-        //               fontWeight: FontWeight.bold),
-        //         ),
-        //         const SizedBox(
-        //           height: 5,
-        //         ),
-        //         Text(
-        //           'Clothes Testing, its Day where spouse test their clothes ',
-        //           style: header11.copyWith(color: Colors.grey),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        //   const SizedBox(
-        //     height: 10,
-        //   )
-        // ],
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
+}

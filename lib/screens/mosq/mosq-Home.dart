@@ -1,55 +1,36 @@
-import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:sherekoo/util/modInstance.dart';
+import 'package:flutter/material.dart';
 
-import '../model/userModel.dart';
-import '../util/Preferences.dart';
-import '../util/colors.dart';
-import 'categoriesPage/sherekooPage.dart';
-import 'crmScreen/crmOn-nav.dart';
-import 'home.dart';
-import 'profile/profile.dart';
-import 'uploadScreens/uploadSherekoo.dart';
-// import 'package:firebase_messaging/firebase_messaging.dart';
+import '../../model/userModel.dart';
+import '../../util/Preferences.dart';
+import '../../util/colors.dart';
+import '../../util/modInstance.dart';
+import 'mosq-Profile.dart';
+import 'mosq-post.dart';
+import 'mosq-timeline.dart';
 
-class HomeNav extends StatefulWidget {
+class MosqProject extends StatefulWidget {
   final dynamic getIndex;
   final User user;
 
-  const HomeNav({Key? key, required this.getIndex, required this.user})
+  const MosqProject({Key? key, required this.getIndex, required this.user})
       : super(key: key);
 
   @override
-  State<HomeNav> createState() => _HomeNavState();
+  State<MosqProject> createState() => _MosqProjectState();
 }
 
-class _HomeNavState extends State<HomeNav> {
+class _MosqProjectState extends State<MosqProject> {
   final Preferences _preferences = Preferences();
-  String token = '', notificationToken = '';
+  String token = "";
 
-  bool bottom = false,
-      noInsights = true,
-      isSwitched = false,
-      isLoggedIn = false,
-      notified = true;
-
-  late String messages = "",
-      selected = '',
-      category = '',
-      username,
-      id,
-      avatar,
-      nodata = '';
+  final screen = [
+    const MosqPost(),
+    const MosqTimeLine(),
+  ];
 
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   int index = 2;
-
-  final screen = [
-    SherekooUpload(from: 'Home', crm: ceremony),
-    const CrmOnNav(),
-    const Home(),
-    const Sherekoo()
-  ];
 
   @override
   void initState() {
@@ -59,7 +40,7 @@ class _HomeNavState extends State<HomeNav> {
       setState(() {
         token = value;
         if (widget.user.id != '') {
-          screen.add(Profile(
+          screen.add(MosqProfile(
               user: User(
                   id: widget.user.id,
                   username: '',
@@ -81,12 +62,12 @@ class _HomeNavState extends State<HomeNav> {
                   totalFollowing: '',
                   totalLikes: '')));
         } else {
-          screen.add(Profile(user: user));
+          screen.add(MosqProfile(user: user));
         }
       });
     });
 
-    index = widget.getIndex;
+    // index = widget.getIndex;
   }
 
   @override
@@ -109,18 +90,11 @@ class _HomeNavState extends State<HomeNav> {
                   Container(
                     margin: const EdgeInsets.only(bottom: 8),
                     child: const Icon(
-                      Icons.upload,
+                      Icons.add,
                       size: 25,
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(4.0),
-                    margin: const EdgeInsets.only(bottom: 8),
-                    child: const Icon(
-                      Icons.live_tv,
-                      size: 25,
-                    ),
-                  ),
+
                   Container(
                     margin: const EdgeInsets.only(bottom: 8),
                     child: const Icon(
@@ -128,21 +102,32 @@ class _HomeNavState extends State<HomeNav> {
                       size: 25,
                     ),
                   ),
+
                   Container(
+                    padding: const EdgeInsets.all(4.0),
                     margin: const EdgeInsets.only(bottom: 8),
                     child: const Icon(
-                      Icons.category,
+                      Icons.person,
                       size: 25,
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 8),
-                    child: const Icon(
-                      Icons.perm_identity,
-                      size: 25,
-                      color: Colors.white,
-                    ),
-                  ),
+
+                  // Container(
+                  //   margin: const EdgeInsets.only(bottom: 8),
+                  //   child: const Icon(
+                  //     Icons.category,
+                  //     size: 25,
+                  //   ),
+                  // ),
+
+                  // Container(
+                  //   margin: const EdgeInsets.only(bottom: 8),
+                  //   child: const Icon(
+                  //     Icons.perm_identity,
+                  //     size: 25,
+                  //     color: Colors.white,
+                  //   ),
+                  // ),
                 ],
                 color: OColors.secondary,
                 buttonBackgroundColor: OColors.secondary,
@@ -162,6 +147,5 @@ class _HomeNavState extends State<HomeNav> {
         ),
       ),
     );
-  
   }
 }

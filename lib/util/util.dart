@@ -38,6 +38,7 @@ String urlGetCrmByType = '${api}Ceremony/getCeremonyByType';
 //Ceremony Bundle
 String urladdCrmPackage = '${api}CeremonyPackageInfo/add';
 String urlGetCrmPackage = '${api}CeremonyPackageInfo/get';
+String urlActivateCrmPackage = '${api}CeremonyPackageInfo/activate';
 
 //Ceremony Bundle
 String urladdCrmBundle = '${api}CeremonyBundle/add';
@@ -45,13 +46,16 @@ String urlGetCrmBundle = '${api}CeremonyBundle/get';
 
 
 //Invitation Cards
-
 String urlGetInvCards = '${api}InvitationCard/get';
 String urladdInvCards = '${api}InvitationCard/add';
 
 //Order/Buy Invitation Cards
 String urlGetOrderInvCards = '${api}InvCardOrders/get';
 String urlOrderInvCards = '${api}InvCardOrders/add';
+
+//Order/Buy Crm Bundle 
+String urlGetCrmBundleOrder = '${api}CrmBundleOrders/get';
+String urlOrderCrmBundle = '${api}CrmBundleOrders/add';
 
 //Ceremonyt Viewers
 String urladdCrmViewrs = '${api}CeremonyViewers/add';
