@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'dart:convert';
 
 import 'package:image_picker/image_picker.dart';
@@ -9,7 +8,9 @@ import 'package:sherekoo/util/colors.dart';
 
 import '../../model/crmPackage/crmPackage.dart';
 import '../../util/Preferences.dart';
+import '../../util/appWords.dart';
 import '../../util/func.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import 'crmPckSelect.dart';
 
@@ -59,35 +60,7 @@ class _CrmPackageAddState extends State<CrmPackageAdd> {
     });
   }
 
-  // Image Croping
-  Future cropImage(File imageFile) async {
-    CroppedFile? croppedFile = await ImageCropper().cropImage(
-      sourcePath: imageFile.path,
-      aspectRatioPresets: [
-        CropAspectRatioPreset.square,
-        CropAspectRatioPreset.ratio3x2,
-        CropAspectRatioPreset.original,
-        CropAspectRatioPreset.ratio4x3,
-        CropAspectRatioPreset.ratio16x9
-      ],
-      uiSettings: [
-        AndroidUiSettings(
-            toolbarTitle: 'Shereko Cropper',
-            toolbarColor: OColors.appBarColor,
-            toolbarWidgetColor: OColors.primary,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false),
-        IOSUiSettings(
-          title: 'Sherekoo Cropper',
-        ),
-        // WebUiSettings(
-        //   context: context,
-        // ),
-      ],
-    );
-    if (croppedFile == null) return null;
-    return File(croppedFile.path);
-  }
+
 
   // Posting
   Future<void> post() async {
@@ -109,10 +82,12 @@ class _CrmPackageAddState extends State<CrmPackageAdd> {
                   builder: (BuildContext context) => const CrmPckList()));
         });
       } else {
-        fillTheBlanks(context, 'Select Image Please... ');
+      
+         fillTheBlanks(context,imgInsertAlt,altSty,odng);
       }
     } else {
-      fillTheBlanks(context, 'Enter Color COde of the year... ');
+
+       fillTheBlanks(context,clrCodeAlert,altSty,odng);
     }
   }
 

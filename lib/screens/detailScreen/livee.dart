@@ -8,6 +8,7 @@ import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/liveTabA.dart';
 import '../admin/crmAdmin.dart';

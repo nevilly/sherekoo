@@ -7,6 +7,7 @@ import '../../model/post/post.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/cermChats_widgets.dart';
 import '../homNav.dart';
@@ -402,8 +403,8 @@ class _LiveePostState extends State<LiveePost> {
   // PopUp Widget
   Widget _buildPopupDialog(BuildContext context) {
     return AlertDialog(
-      insetPadding: EdgeInsets.all(0),
-      contentPadding: EdgeInsets.all(1),
+      insetPadding: const EdgeInsets.all(0),
+      contentPadding: const EdgeInsets.all(1),
       backgroundColor: OColors.secondary,
       title: Text('Post Settings',
           style:

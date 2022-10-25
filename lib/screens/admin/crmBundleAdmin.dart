@@ -16,7 +16,9 @@ import '../../model/busness/busnessModel.dart';
 import '../../model/crmPackage/crmPackageModel.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
+import '../../util/appWords.dart';
 import '../../util/func.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/defaultAvater.dart';
 import '../../widgets/imgWigdets/userAvater.dart';
@@ -245,30 +247,39 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
                         hallImageSample,
                         plan)
                     .then((value) {
-                  print('observe heree');
-                  print(value.payload);
+                  // print('observe heree');
+                  // print(value.payload);
                   // Navigator.push(
                   //     context,
                   //     MaterialPageRoute(
                   //         builder: (BuildContext context) => const CrmPckList()));
                 });
               } else {
-                fillTheBlanks(context, 'Select Image Please... ');
+                
+                
+                fillTheBlanks(context,imgInsertAlt,altSty,odng);
+                
               }
             } else {
-              fillTheBlanks(context, 'Enter Price Of Bundle... ');
+              
+              fillTheBlanks(context,priceBundleAlt,altSty,odng);
             }
           } else {
-            fillTheBlanks(context, 'Select Bundle type');
+            
+            fillTheBlanks(context,bundleTypeAlt,altSty,odng);
+            
           }
         } else {
-          fillTheBlanks(context, 'Write Bundle Plan Pleas...');
+          
+          fillTheBlanks(context,bundlePlanAlt,altSty,odng);
         }
       } else {
-        fillTheBlanks(context, 'Choose superVisor Pleas...');
+    
+        fillTheBlanks(context,superVisorAlt,altSty,odng);
       }
     } else {
-      fillTheBlanks(context, 'Select Crm Package Please... ');
+      
+      fillTheBlanks(context,crmPackgSltAlt,altSty,odng);
     }
   }
 

@@ -6,11 +6,13 @@ import 'dart:convert';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:sherekoo/util/colors.dart';
+import 'package:sherekoo/util/textStyle-pallet.dart';
 
 import '../../model/mosqModle/moModel.dart';
 import '../../model/post/post.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
+import '../../util/appWords.dart';
 import '../../util/func.dart';
 import '../../util/util.dart';
 import 'mosq-Home.dart';
@@ -132,7 +134,8 @@ class _MosqPostState extends State<MosqPost> {
                     )));
       });
     } else {
-      fillTheBlanks(context, 'Select Image/Vedio Please... ');
+    
+       fillTheBlanks(context,imgOrVdoUploadAlt,altSty,odng);
     }
   }
 

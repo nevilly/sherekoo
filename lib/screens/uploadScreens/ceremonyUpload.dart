@@ -14,8 +14,10 @@ import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/ceremony/postCeremony.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
+import '../../util/appWords.dart';
 import '../../util/colors.dart';
 import '../../util/func.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/userAvater.dart';
 import '../crmScreen/crmScreen.dart';
@@ -340,9 +342,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
                         builder: (BuildContext context) =>
                             const CeremonyScreen()));
               } else {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text('System Error, Try Again'),
-                ));
+               fillTheBlanks(context,sysErr,altSty,odng);
               }
             });
           } else {
@@ -372,23 +372,23 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
                           builder: (BuildContext context) =>
                               const CeremonyScreen()));
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('System Error, Try Again'),
-                  ));
+                 fillTheBlanks(context,sysErr,altSty,odng);
                 }
               });
             } else {
-              fillTheBlanks(context, choosePhoto);
+              
+                fillTheBlanks(context,imgInsertAlt,altSty,odng);
             }
           }
         } else {
-          fillTheBlanks(context, msg3);
+        
+          fillTheBlanks(context,msg3,altSty,odng);
         }
       } else {
-        fillTheBlanks(context, msg2);
+        fillTheBlanks(context,msg2,altSty,odng);
       }
     } else {
-      fillTheBlanks(context, msg1);
+      fillTheBlanks(context,msg1,altSty,odng);
     }
   }
 

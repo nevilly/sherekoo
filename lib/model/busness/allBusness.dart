@@ -62,7 +62,7 @@ class AllBusnessModel {
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((r) {
       if (r.statusCode == 200) {
-        print(jsonDecode(r.body)['payload']);
+        // print(jsonDecode(r.body)['payload']);
         return AllBusnessModel.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       }

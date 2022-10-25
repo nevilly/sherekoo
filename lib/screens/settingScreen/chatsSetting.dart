@@ -153,7 +153,7 @@ class _ChatSettingsState extends State<ChatSettings> {
               : // Radio Button
               Padding(
                   padding: const EdgeInsets.only(left: 1.0),
-                  child: Container(
+                  child: SizedBox(
                     height: 400,
                     child: SingleChildScrollView(
                       child: Column(

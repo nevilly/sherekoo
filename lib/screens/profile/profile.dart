@@ -8,6 +8,7 @@ import '../../util/Preferences.dart';
 import '../../util/modInstance.dart';
 import '../../util/func.dart';
 import '../../util/pallets.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/userAvater.dart';
 import '../accounts/login.dart';
@@ -67,6 +68,8 @@ class ProfileState extends State<Profile> {
         drawer: const NavDrawer(),
         body: Column(
           children: [
+           
+           //Profile
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 5.0, right: 8.0),
               child: topProfile(),

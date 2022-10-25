@@ -4,7 +4,9 @@ import 'package:sherekoo/util/func.dart';
 import '../model/ceremony/allCeremony.dart';
 import '../model/ceremony/crmViewerModel.dart';
 import '../util/Preferences.dart';
+import '../util/appWords.dart';
 import '../util/colors.dart';
+import '../util/textStyle-pallet.dart';
 import '../util/util.dart';
 import 'imgWigdets/userAvater.dart';
 
@@ -65,7 +67,9 @@ class _ListMembersState extends State<ListMembers> {
         }
       });
     } else {
-      fillTheBlanks(context, viewerPositionMsg);
+    
+      fillTheBlanks(context,viewerPositionMsg,altSty,odng);
+    
     }
   }
 

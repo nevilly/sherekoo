@@ -9,6 +9,7 @@ import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/func.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/boxImg.dart';
 import '../../widgets/imgWigdets/defaultAvater.dart';
@@ -85,9 +86,7 @@ class _CeremonyDayState extends State<CeremonyDay> {
     AllCeremonysModel(payload: [], status: 0)
         .getDayCeremony(token, urlCrmByDay, widget.day)
         .then((value) {
-      // print('alll ceremoniewss');
       if (value.status == 200) {
-        // print(value.payload);
         setState(() {
           crm = value.payload
               .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
@@ -395,7 +394,6 @@ class _CeremonyDayState extends State<CeremonyDay> {
                               ),
                             ),
                           ],
-                       
                         ),
                         if (itm.fId == currentUser.id ||
                             itm.sId == currentUser.id)
@@ -434,7 +432,7 @@ class _CeremonyDayState extends State<CeremonyDay> {
       children: [
         itm.userFid.avater!.isNotEmpty
             ? Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     // gradient: LinearGradient(
                     //   colors: [
                     //     OColors.primary2,
@@ -451,8 +449,8 @@ class _CeremonyDayState extends State<CeremonyDay> {
                 child: Padding(
                   padding: const EdgeInsets.all(3.0),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(35),
+                    borderRadius: const BorderRadius.all(
+                      const Radius.circular(35),
                     ),
                     child: UserAvater(
                         avater: itm.userFid.avater!,
@@ -464,7 +462,7 @@ class _CeremonyDayState extends State<CeremonyDay> {
                 ),
               )
             : Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     // gradient: LinearGradient(
                     //   colors: [
                     //     OColors.primary2,
@@ -478,15 +476,15 @@ class _CeremonyDayState extends State<CeremonyDay> {
                     // ),
                     // borderRadius: BorderRadius.circular(20),
                     ),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.all(
+                child: const ClipRRect(
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(35),
                     ),
                     child: DefaultAvater(height: 35, radius: 35, width: 35)),
               ),
         itm.userSid.avater!.isNotEmpty
             ? Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     // gradient: LinearGradient(
                     //   colors: [
                     //     // OColors.primary2,
@@ -518,8 +516,8 @@ class _CeremonyDayState extends State<CeremonyDay> {
                   child: Padding(
                     padding: const EdgeInsets.all(3.0),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
+                      borderRadius: const BorderRadius.all(
+                        const Radius.circular(35),
                       ),
                       child: UserAvater(
                           avater: itm.userSid.avater!,
@@ -531,15 +529,13 @@ class _CeremonyDayState extends State<CeremonyDay> {
                   ),
                 ),
               )
-            : Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      child: DefaultAvater(height: 35, radius: 35, width: 35)),
-                ),
+            : const Padding(
+                padding: EdgeInsets.all(3.0),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.all(
+                      const Radius.circular(35),
+                    ),
+                    child: DefaultAvater(height: 35, radius: 35, width: 35)),
               ),
       ],
     );

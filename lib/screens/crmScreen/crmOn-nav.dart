@@ -7,6 +7,7 @@ import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/modInstance.dart';
 import '../../util/colors.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
 import '../../widgets/ourServiceWidg/sherkoSvcWdg.dart';
@@ -36,6 +37,7 @@ class CrmOnNavState extends State<CrmOnNav> {
         token = value;
         getUser(urlGetUser);
         getCeremony();
+
       });
     });
     super.initState();
@@ -57,6 +59,7 @@ class CrmOnNavState extends State<CrmOnNav> {
     AllCeremonysModel(payload: [], status: 0)
         .getDayCeremony(token, urlCrmByDay, 'Today')
         .then((value) {
+          
       setState(() {
         if (value.status == 200) {
           setState(() {

@@ -11,6 +11,7 @@ import '../../model/crmPackage/crmPackageModel.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/modInstance.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/login_widget/background-image.dart';
 import '../admin/crmPackageAdd.dart';
@@ -331,6 +332,7 @@ class _SherekoServiceState extends State<SherekoService> {
                 ),
               )
             : const SizedBox.shrink(),
+     
       ],
     );
   }

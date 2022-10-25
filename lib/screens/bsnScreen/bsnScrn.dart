@@ -3,6 +3,7 @@ import 'package:sherekoo/model/busness/busnessModel.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 import '../../model/userModel.dart';
 import '../../util/colors.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
 import '../../widgets/ourServiceWidg/sherkoSvcWdg.dart';
 import '../../widgets/searchBar/search_Busness.dart';

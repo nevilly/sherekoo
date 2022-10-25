@@ -7,10 +7,8 @@ import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/allData.dart';
 import '../../model/userModel.dart';
-import '../../model/services/postServices.dart';
 import '../../util/Preferences.dart';
 import '../../util/util.dart';
-import '../../widgets/notifyWidget/notifyWidget.dart';
 import '../admin/crmAdmin.dart';
 
 class HiringPage extends StatefulWidget {

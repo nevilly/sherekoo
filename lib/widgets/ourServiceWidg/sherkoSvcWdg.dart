@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../screens/ourServices/bigMonth-TvShow.dart';
 import '../../screens/ourServices/sherekoCards.dart';
 import '../../screens/ourServices/sherekoService.dart';
 import '../../util/func.dart';
@@ -36,7 +37,7 @@ class SherekooServices extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) => const SherekoService(
+                        builder: (BuildContext context) => const BigMonthTvShow(
                               from: 'MyBdayShow',
                             )));
               },

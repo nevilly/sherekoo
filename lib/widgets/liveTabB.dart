@@ -15,6 +15,7 @@ import '../model/services/svModel.dart';
 import '../util/Preferences.dart';
 import '../util/colors.dart';
 import '../util/func.dart';
+import '../util/textStyle-pallet.dart';
 import '../util/util.dart';
 
 class TabB extends StatefulWidget {
@@ -491,8 +492,9 @@ class _TabBState extends State<TabB> {
                                       loadingBuilder: (BuildContext context,
                                           Widget child,
                                           ImageChunkEvent? loadingProgress) {
-                                        if (loadingProgress == null)
+                                        if (loadingProgress == null) {
                                           return child;
+                                        }
                                         return Center(
                                           child: CircularProgressIndicator(
                                             value: loadingProgress

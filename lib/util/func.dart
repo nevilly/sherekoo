@@ -3,36 +3,22 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:intl/intl.dart';
 
 import '../model/ceremony/ceremonyModel.dart';
 import '../model/ceremony/crmViewerModel.dart';
+
 
 import '../widgets/imgWigdets/defaultAvater.dart';
 import '../widgets/imgWigdets/userAvater.dart';
 import '../widgets/listTile_widget.dart';
 import 'colors.dart';
+import 'textStyle-pallet.dart';
 import 'util.dart';
 
 List<CrmViewersModel> crmViewer = [];
 
-///
-///Mesage
-///
-/// In Ceremony upoload
-///  Upload Message
-String choosePhoto = 'Choose Photo Pls....';
-String selectBirthday = 'Select Birthday Boy/Girl';
-String enterAge = 'Enter Age pls ...';
-String insertBirthday = 'Enter Birthday date pls ...';
 
-String insertBrandName = 'Insert your Brand Name on "CO Tab" pls!...';
-String insertPrice = 'Insert your Price on "Co Tab" pls!...';
-String insertPhoneNumber = 'Insert your Phone Number  on "Co Tab" pls!...';
-String insertContact = 'Insert Contact  on "Co Tab" pls!...';
-String insertLastMsg = 'No message';
-
-//Livee => DetailsTab (TabB), commetee Viewers
-String viewerPositionMsg = 'Select Position Please';
 
 final List<String> viewerPositionList = [
   'Viewer',
@@ -50,7 +36,9 @@ final List<String> viewerPositionList = [
   'Mc Commetee'
 ];
 
+///
 /// Buttons
+///
 Container outlilneButton(
     Icon icon, Widget child, double width, Color borderColor, double r) {
   return Container(
@@ -78,6 +66,53 @@ Container outlilneButton(
   );
 }
 
+Container ourServices(BuildContext context, String prod) {
+  return Container(
+    margin: const EdgeInsets.only(left: 4, right: 4),
+    height: 20,
+    padding: const EdgeInsets.only(left: 10.0, right: 10),
+    decoration: BoxDecoration(
+        border: Border.all(width: 1.3, color: OColors.primary),
+        borderRadius: BorderRadius.circular(20)),
+    child: Center(
+      child: Text(
+        prod,
+        style: header12.copyWith(color: OColors.primary),
+      ),
+    ),
+  );
+}
+
+Container flatButton(
+  BuildContext context,
+  String text,
+  TextStyle style,
+  double h,
+  double w,
+  Color backgroundColor,
+  double radCircular,
+) {
+  return Container(
+    width: MediaQuery.of(context).size.width / w,
+    height: h,
+    margin: const EdgeInsets.only(left: 10, right: 20, top: 15, bottom: 15),
+    padding: const EdgeInsets.only(left: 10, right: 10, top: 4, bottom: 4),
+    alignment: Alignment.center,
+    decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.all(Radius.circular(radCircular)),
+        border: Border.all(color: OColors.primary)),
+    child: Container(
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(50))),
+      child: Text(
+        text,
+        style: style,
+      ),
+    ),
+  );
+}
+
 //hash Tag Button
 Container hashTagCircle() {
   return Container(
@@ -100,28 +135,26 @@ Container hashTagCircle() {
   );
 }
 
-Container hashTagFunc(context, String title, String hashTag) {
-  return Container(
-    child: Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Row(children: [
-        Text(
-          '#',
-          style: header13.copyWith(
-              color: title != hashTag ? OColors.primary : OColors.darkGrey,
-              fontWeight: FontWeight.w400),
-        ),
-        const SizedBox(
-          width: 2,
-        ),
-        Text(
-          title,
-          style: header13.copyWith(
-              color: title != hashTag ? OColors.primary : OColors.darkGrey,
-              fontWeight: FontWeight.w400),
-        )
-      ]),
-    ),
+Padding hashTagFunc(context, String title, String hashTag) {
+  return Padding(
+    padding: const EdgeInsets.all(4.0),
+    child: Row(children: [
+      Text(
+        '#',
+        style: header13.copyWith(
+            color: title != hashTag ? OColors.primary : OColors.darkGrey,
+            fontWeight: FontWeight.w400),
+      ),
+      const SizedBox(
+        width: 2,
+      ),
+      Text(
+        title,
+        style: header13.copyWith(
+            color: title != hashTag ? OColors.primary : OColors.darkGrey,
+            fontWeight: FontWeight.w400),
+      )
+    ]),
   );
 }
 
@@ -169,7 +202,9 @@ void oneButtonPressed(context, List<CrmViewersModel> list, Function funct) {
       });
 }
 
-//Griv Viewer
+///
+///Griv Viewer
+///
 
 void viewerGrid(
   context,
@@ -328,20 +363,10 @@ void viewerGrid(
       });
 }
 
-//Ceremony Uploading
-fillTheBlanks(context, String title) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-        content: Text(
-          title,
-          textAlign: TextAlign.center,
-          style: header16,
-        ),
-        backgroundColor: OColors.danger),
-  );
-}
+///
+///Loading
+///
 
-//Loading
 Column loadingFunc(double height, Color color) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
@@ -356,8 +381,8 @@ Column loadingFunc(double height, Color color) {
   );
 }
 
-//Livee
-
+///
+///
 //Ceremony Profile
 Row weddingProfile(BuildContext context, widget) {
   return Row(
@@ -1053,51 +1078,355 @@ Container kigodoroProfileCrm(
   );
 }
 
-Container ourServices(BuildContext context, String prod) {
-  return Container(
-    margin: const EdgeInsets.only(left: 4, right: 4),
-    height: 20,
-    padding: const EdgeInsets.only(left: 10.0, right: 10),
-    decoration: BoxDecoration(
-        border: Border.all(width: 1.3, color: OColors.primary),
-        borderRadius: BorderRadius.circular(20)),
-    child: Center(
-      child: Text(
-        prod,
-        style: header12.copyWith(color: OColors.primary),
+///
+///PersonalProfile
+///
+
+Column personalProfile(
+    String uname, String avater, Widget info1, double r, double h, double w) {
+  return Column(
+    children: [
+      Container(
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(r)),
+        child: avater != ''
+            ? Image.network(
+                '${api}public/uploads/$uname/profile/$avater',
+                fit: BoxFit.cover,
+                height: h,
+                width: w,
+              )
+            : ClipOval(child: DefaultAvater(height: h, radius: r, width: w)),
       ),
+      info1,
+    ],
+  );
+}
+
+Column personProfile(BuildContext context, url, user, itm) {
+  return Column(
+    children: [
+      const SizedBox(
+        height: 10,
+      ),
+      const ClipOval(
+        child: Icon(
+          Icons.person,
+          size: 20,
+        ),
+      ),
+      Text(
+        'Jimy Kerry',
+        style: header11,
+      ),
+      Text(
+        'Born: January',
+        style: header10,
+      )
+    ],
+  );
+}
+
+///
+/// Uploading
+/// Image Croping
+Future cropImage(File imageFile) async {
+  CroppedFile? croppedFile = await ImageCropper().cropImage(
+    sourcePath: imageFile.path,
+    aspectRatioPresets: [
+      CropAspectRatioPreset.square,
+      CropAspectRatioPreset.ratio3x2,
+      CropAspectRatioPreset.original,
+      CropAspectRatioPreset.ratio4x3,
+      CropAspectRatioPreset.ratio16x9
+    ],
+    uiSettings: [
+      AndroidUiSettings(
+          toolbarTitle: 'Shereko Cropper',
+          toolbarColor: OColors.appBarColor,
+          toolbarWidgetColor: OColors.primary,
+          initAspectRatio: CropAspectRatioPreset.original,
+          lockAspectRatio: false),
+      IOSUiSettings(
+        title: 'Sherekoo Cropper',
+      ),
+      // WebUiSettings(
+      //   context: context,
+      // ),
+    ],
+  );
+  if (croppedFile == null) return null;
+  return File(croppedFile.path);
+}
+
+///
+/// Alert Widget
+///
+
+//Errors Alerts
+fillTheBlanks(context, String title,TextStyle style,Color color) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+        content: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: style,
+        ),
+        backgroundColor: color),
+  );
+}
+
+// Alert Desing 1
+errorAlertDialog(BuildContext context, String title, String msg) async {
+  // set up the buttons
+  Widget cancelButton = TextButton(
+    child: Text("cancel",
+        style: TextStyle(
+          color: OColors.primary,
+        )),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+  Widget continueButton = TextButton(
+    style: TextButton.styleFrom(
+      padding: const EdgeInsets.all(6),
+      primary: OColors.fontColor,
+      backgroundColor: OColors.primary,
+      textStyle: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
+    ),
+    child: const Text("Ok"),
+    onPressed: () {
+      Navigator.pop(context);
+    },
+  );
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    // insetPadding: const EdgeInsets.only(left: 20, right: 20),
+    // contentPadding: EdgeInsets.zero,
+    // titlePadding: const EdgeInsets.only(top: 8, bottom: 8),
+    backgroundColor: OColors.secondary,
+    title: Center(
+      child: Text(title, style: header18),
+    ),
+    content: Text(msg, style: header12),
+    actions: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          cancelButton,
+          continueButton,
+        ],
+      ),
+    ],
+  );
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+// Alert Desing 2
+showAlertDialog(BuildContext context, Widget title, Widget content,
+    Widget cancelButton, Widget continueButton) async {
+  AlertDialog alert = AlertDialog(
+    insetPadding: const EdgeInsets.only(right: 1, left: 1),
+    contentPadding: EdgeInsets.zero,
+    titlePadding: const EdgeInsets.only(top: 5),
+    backgroundColor: OColors.secondary,
+    actionsPadding: EdgeInsets.zero,
+    title: title,
+    content: content,
+    actions: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          cancelButton,
+          continueButton,
+        ],
+      ),
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+//Dialog title
+Row titleDIalog(BuildContext context, String title) {
+  return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    GestureDetector(
+      onTap: () {
+        Navigator.of(context).pop();
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Icon(
+          Icons.close,
+          size: 15,
+          color: OColors.fontColor,
+        ),
+      ),
+    ),
+    Padding(
+      padding: const EdgeInsets.only(left: 20.0, top: 8, bottom: 8),
+      child: Text(title,
+          style: header18.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
+    ),
+  ]);
+}
+
+//Dialog set up the buttons
+Widget dialogButton(BuildContext context, text, ButtonStyle bttnStyl, funct) {
+  return TextButton(
+    style: bttnStyl,
+    onPressed: () {
+      funct;
+    },
+    child: Text(
+      text,
+      style: header13.copyWith(
+          fontWeight: FontWeight.normal, color: OColors.fontColor),
     ),
   );
 }
 
+ButtonStyle bttnStyl(double padding, Color backgroundColorlor, Color primary) {
+  return TextButton.styleFrom(
+      padding: const EdgeInsets.all(0),
+      primary: primary,
+      backgroundColor: backgroundColorlor);
+}
 
+///
+/// TextField Template
+///
+Container textFieldContainer(
+    BuildContext context,
+    String subtitle,
+    TextEditingController controller,
+    double w,
+    double h,
+    double topPadding,
+    double radius,
+    Color bkcolor,
+    prefixIco,
+    TextStyle style) {
+  return Container(
+    width: MediaQuery.of(context).size.width / w,
+    height: h,
+    padding: EdgeInsets.only(
+      top: topPadding,
+    ),
+    decoration: BoxDecoration(
+        border: Border.all(width: 1, color: Colors.grey),
+        borderRadius: BorderRadius.circular(radius),
+        color: bkcolor),
+    child: TextField(
+      controller: controller,
+      maxLines: null,
+      expands: true,
+      textAlign: TextAlign.left,
+      keyboardType: TextInputType.multiline,
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.only(left: 20.0, right: 20.0),
+        border: InputBorder.none,
+        prefixIcon: prefixIco,
+        hintText: subtitle,
+        hintStyle: style,
+      ),
+      style: style,
+      onChanged: (value) {},
+    ),
+  );
+}
 
-  // Image Croping
-  Future cropImage(File imageFile) async {
-    CroppedFile? croppedFile = await ImageCropper().cropImage(
-      sourcePath: imageFile.path,
-      aspectRatioPresets: [
-        CropAspectRatioPreset.square,
-        CropAspectRatioPreset.ratio3x2,
-        CropAspectRatioPreset.original,
-        CropAspectRatioPreset.ratio4x3,
-        CropAspectRatioPreset.ratio16x9
-      ],
-      uiSettings: [
-        AndroidUiSettings(
-            toolbarTitle: 'Shereko Cropper',
-            toolbarColor: OColors.appBarColor,
-            toolbarWidgetColor: OColors.primary,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false),
-        IOSUiSettings(
-          title: 'Sherekoo Cropper',
+// Date
+dateDialog(
+    BuildContext context, dateController, double w, double h,double r, Color bckColor,TextStyle style) {
+  return Container(
+    width: MediaQuery.of(context).size.width / w,
+    height: h,
+    margin: const EdgeInsets.only(
+      left: 10,
+      right: 10,
+    ),
+    decoration: BoxDecoration(
+        border: Border.all(width: 1, color: Colors.grey),
+        borderRadius: BorderRadius.circular(r),
+        color: bckColor),
+    child: TextField(
+      focusNode: AlwaysDisabledFocusNode(),
+      controller: dateController,
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        prefixIcon: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Icon(
+            Icons.calendar_month,
+            size: 23,
+            color: OColors.primary,
+          ),
         ),
-        // WebUiSettings(
-        //   context: context,
-        // ),
-      ],
-    );
-    if (croppedFile == null) return null;
-    return File(croppedFile.path);
+        hintText: 'Date ( DD/MM/YYY )',
+        hintStyle:
+            style,
+      ),
+      style: style,
+      onTap: () {
+        _selectDate(context, dateController);
+      },
+    ),
+  );
+}
+
+// Date Show
+DateTime? _selectedDate;
+_selectDate(BuildContext context, textEditingController) async {
+  DateTime? newSelectedDate = await showDatePicker(
+      locale: const Locale('en', 'IN'),
+      context: context,
+      initialDate: _selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2040),
+      fieldHintText: 'yyyy/mm/dd',
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.dark().copyWith(
+            colorScheme: ColorScheme.dark(
+              primary: OColors.darkGrey,
+              onPrimary: Colors.white,
+              surface: OColors.secondary,
+              onSurface: Colors.yellow,
+            ),
+            dialogBackgroundColor: OColors.darGrey,
+          ),
+          child: child as Widget,
+        );
+      });
+
+  if (newSelectedDate != null) {
+    _selectedDate = newSelectedDate;
+    textEditingController
+      ..text = DateFormat('yyyy/MM/dd').format(_selectedDate!)
+      ..selection = TextSelection.fromPosition(TextPosition(
+          offset: textEditingController.text.length,
+          affinity: TextAffinity.upstream));
   }
+}
+
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
+}
+
+/// understanif GLOBAL SETSTATE
+// void setState(Null Function() param0) {
+//   print('has shown');
+
+// }

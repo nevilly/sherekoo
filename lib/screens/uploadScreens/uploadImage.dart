@@ -12,7 +12,9 @@ import 'package:sherekoo/util/colors.dart';
 import '../../model/post/post.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
+import '../../util/appWords.dart';
 import '../../util/func.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../detailScreen/livee.dart';
 
@@ -96,8 +98,7 @@ class _UploadImageState extends State<UploadImage> {
       List<int> bytes = _generalimage!.readAsBytesSync();
       String image = base64Encode(bytes);
 
-      print('hastage');
-      print(hashTag);
+   
 
       Post(
         pId: '',
@@ -149,7 +150,8 @@ class _UploadImageState extends State<UploadImage> {
       });
 
     } else {
-      fillTheBlanks(context, 'Select Image/Vedio Please... ');
+
+      fillTheBlanks(context,imgOrVdoUploadAlt,altSty,odng);
     }
   }
 

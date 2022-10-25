@@ -1,3 +1,4 @@
+import '../model/bundleBooking/bundle-orders.dart';
 import '../model/busness/busnessModel.dart';
 import '../model/ceremony/ceremonyModel.dart';
 import '../model/crmPackage/crmPackageModel.dart';
@@ -124,3 +125,19 @@ CrmPckModel pck = CrmPckModel(
     createdDate: '',
     inYear: '',
     pImage: '');
+
+
+
+
+Map<String, String> myHttpHeaders(String token) {
+  return {"Authorization": "Owesis $token", "Content-Type": "Application/json"};
+}
+
+invalidToken(token , model) {
+  if (token.isEmpty) {
+    return model.fromJson({
+      "status": 204,
+      "payload": {"error": "Invalid token"}
+    });
+  }
+}

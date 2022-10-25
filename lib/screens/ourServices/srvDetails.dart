@@ -10,6 +10,8 @@ import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import 'package:sherekoo/model/crmSevers/Servers.dart';
 
+import '../../util/func.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/userAvater.dart';
 import '../admin/crmBundleAdmin.dart';
@@ -115,8 +117,6 @@ class _ServiceDetailsState extends State<ServiceDetails>
         superVisorInfo = widget.bundle.superVisorInfo;
         cardsInfo = widget.bundle.cardsInfo;
         isBooking = widget.bundle.isBooking;
-        print('aaaaaaaaaaaaaaaaaa');
-        print(isBooking);
       });
     });
 
@@ -152,11 +152,13 @@ class _ServiceDetailsState extends State<ServiceDetails>
             if (v.status == 200) {
               Navigator.of(context).pop();
               errorAlertDialog(context, 'Booking Complete!',
-                  'Your SuperVisor (0743882455) will Contact  you soon with 2hrs... Thank you');
+                  'Your SuperVisor "0743882455"  will contact you with in 5hrs Thanks..');
+
               setState(() {
                 isBooking = 'true';
+                date.text = '';
+                contact.text = '';
               });
-           
             }
           });
         } else {
@@ -164,13 +166,50 @@ class _ServiceDetailsState extends State<ServiceDetails>
               context, 'Network is low!', 'Please Comeback leter..');
         }
       } else {
-        errorAlertDialog(
-            context, 'Enter CeremonyDate', 'Fill Ceremony Date info Please!..');
+        // errorAlertDialog(
+        //     context, 'Enter CeremonyDate', 'Fill Ceremony Date info Please!..');
+        showAlertDialog(
+            context,
+            Text('Enter CeremonyDate', style: header18),
+            Text('Fill Ceremony Date info Please!..', style: header12),
+            flatButton(
+              context,
+              'd',
+              header10,
+              0,
+              0,
+              trans,
+              0,
+            ),
+            flatButton(
+              context,
+              'u',
+              header13,
+              0,
+              0,
+              trans,
+              0,
+            ));
       }
     } else {
       errorAlertDialog(
           context, 'Enter CeremonyDate', 'Fill Ceremony Date info Please!..');
     }
+  }
+
+  Widget continueButton() {
+    return TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(6),
+        primary: OColors.fontColor,
+        backgroundColor: OColors.primary,
+        textStyle: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
+      ),
+      child: const Text("Ok"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
   }
 
   TabBar get _tabBar => TabBar(
@@ -190,59 +229,6 @@ class _ServiceDetailsState extends State<ServiceDetails>
               text: 'Bundle Plan',
             )
           ]);
-
-  // Alert Widget
-  errorAlertDialog(BuildContext context, String title, String msg) async {
-    // set up the buttons
-    Widget cancelButton = TextButton(
-      child: Text("cancel",
-          style: TextStyle(
-            color: OColors.primary,
-          )),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-    Widget continueButton = TextButton(
-      style: TextButton.styleFrom(
-        padding: const EdgeInsets.all(6),
-        primary: OColors.fontColor,
-        backgroundColor: OColors.primary,
-        textStyle: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
-      ),
-      child: const Text("Ok"),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      // insetPadding: const EdgeInsets.only(left: 20, right: 20),
-      // contentPadding: EdgeInsets.zero,
-      // titlePadding: const EdgeInsets.only(top: 8, bottom: 8),
-      backgroundColor: OColors.secondary,
-      title: Center(
-        child: Text(title, style: header18),
-      ),
-      content: Text(msg, style: header12),
-      actions: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            cancelButton,
-            continueButton,
-          ],
-        ),
-      ],
-    );
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -309,9 +295,10 @@ class _ServiceDetailsState extends State<ServiceDetails>
               onTap: () {
                 bookinDialog(context, size);
               },
-              child: flatButton('Booking Now', 40))
-          : Icon(Icons.shopping_cart_checkout,
-              size: 18, color: OColors.primary),
+              child:
+                  flatButton(context, 'Booking', header12, 35, 3.3, prmry, 10))
+          : flatButton(
+              context, 'Already Booking', header13, 35, 3.3, prmry, 10),
       widget.currentUser.role == 'a'
           ? GestureDetector(
               onTap: () {
@@ -333,29 +320,27 @@ class _ServiceDetailsState extends State<ServiceDetails>
     ];
   }
 
-  Container flatButton(String text, double h) {
-    return Container(
-      width: MediaQuery.of(context).size.width / 2.5,
-      height: h,
-      margin: const EdgeInsets.only(left: 10, right: 20, top: 15, bottom: 15),
-      padding: const EdgeInsets.only(left: 10, right: 10, top: 4, bottom: 4),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          color: OColors.primary,
-          borderRadius: const BorderRadius.all(Radius.circular(80))),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(50),
-        child: Container(
-          decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(50))),
-          child: Text(
-            text,
-            style: header11.copyWith(fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
-    );
-  }
+  // Container flatButton(String text) {
+  //   return Container(
+  //     margin: const EdgeInsets.only(left: 10, right: 20, top: 15, bottom: 15),
+  //     padding: const EdgeInsets.only(left: 15, right: 15, top: 4, bottom: 4),
+  //     alignment: Alignment.center,
+  //     decoration: BoxDecoration(
+  //         color: OColors.primary,
+  //         borderRadius: const BorderRadius.all(Radius.circular(80))),
+  //     child: ClipRRect(
+  //       borderRadius: BorderRadius.circular(50),
+  //       child: Container(
+  //         decoration: const BoxDecoration(
+  //             borderRadius: BorderRadius.all(Radius.circular(50))),
+  //         child: Text(
+  //           text,
+  //           style: header11.copyWith(fontWeight: FontWeight.bold),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   SafeArea bundleImage(Size size) {
     return SafeArea(
@@ -363,7 +348,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
         child: Stack(
           fit: StackFit.expand,
           children: [
-            bImage == ''
+            bImage != ''
                 ? ClipRect(
                     child: Stack(
                       children: [
@@ -450,13 +435,23 @@ class _ServiceDetailsState extends State<ServiceDetails>
                 const SizedBox(
                   height: 5,
                 ),
-                isBooking != 'true'
-                    ? GestureDetector(
-                        onTap: () {
-                          bookinDialog(context, size);
-                        },
-                        child: flatButton('Booking Now', 40))
-                    : flatButton('Already Booking', 35),
+                GestureDetector(
+                  onTap: () {
+                    bookinDialog(context, size);
+                  },
+                  child: Container(
+                    width: 100,
+                    height: 30,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: OColors.primary),
+                    child: Center(
+                        child: Text(
+                      'Booking Now',
+                      style: header13,
+                    )),
+                  ),
+                )
               ],
             ),
             const SizedBox(height: 18),

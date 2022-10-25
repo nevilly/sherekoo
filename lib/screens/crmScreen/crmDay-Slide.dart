@@ -3,6 +3,7 @@ import 'package:sherekoo/widgets/gradientBorder.dart';
 
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../util/colors.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/scrollText.dart';
 import '../detailScreen/livee.dart';

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 import 'package:sherekoo/screens/detailScreen/livee.dart';
 import 'package:sherekoo/screens/bsnScreen/bsnScrn.dart';
 import 'package:sherekoo/screens/homNav.dart';
@@ -10,11 +9,11 @@ import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/modInstance.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../accounts/login.dart';
 import '../crmScreen/Crm.dart';
 import '../crmScreen/crmScreen.dart';
-import '../hireRequset/InvCeremony.dart';
 import '../mosq/mosq-Home.dart';
 
 class NavDrawer extends StatefulWidget {

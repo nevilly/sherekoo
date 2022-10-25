@@ -5,16 +5,13 @@ import 'package:intl/intl.dart';
 
 import '../../util/colors.dart';
 import '../../util/Preferences.dart';
-import '../../util/func.dart';
 import '../../util/modInstance.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../widgets/categoriesWidgets/ctgrWigets.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
 import '../../widgets/ourServiceWidg/sherkoSvcWdg.dart';
 import '../../widgets/searchBar/search_Busness.dart';
-import '../../widgets/searchBar/search_Ceremony.dart';
 import '../drawer/navDrawer.dart';
-import '../ourServices/sherekoCards.dart';
-import '../ourServices/sherekoService.dart';
 import '../uploadScreens/busnessUpload.dart';
 
 class Sherekoo extends StatefulWidget {

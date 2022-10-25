@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/model/requests/requests.dart';
-import 'package:sherekoo/model/services/postServices.dart';
 
 import '../../../model/allData.dart';
 import '../../model/userModel.dart';

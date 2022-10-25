@@ -1,39 +1,30 @@
 class BundleOrderModel {
   String id;
-
-  String cardType;
-  String cardImage;
-  String font;
-  String middle;
-  String back;
-  String msg;
-  String price;
-  String quantity;
+  String 	crmBundleId;
+  String crmId;
+  String ceremonyDate;
+  String contact;
+  String createdById;
   String createdDate;
 
-  BundleOrderModel(
-      {required this.id,
-      required this.cardType,
-      required this.font,
-      required this.middle,
-      required this.back,
-      required this.msg,
-      required this.price,
-      required this.quantity,
+  BundleOrderModel({
+    required this.id,
+      required this.crmBundleId,
+      required this.crmId,
+      required this.ceremonyDate,
+      required this.contact,
+      required this.createdById,
       required this.createdDate,
-      required this.cardImage});
+      });
 
   factory BundleOrderModel.fromJson(Map<String, dynamic> json) {
     return BundleOrderModel(
         id: json['id'] ?? '',
-        cardType: json['cardType'] ?? "",
-        cardImage: json['cardImage'] ?? "",
-        font: json['font'] ?? "",
-        middle: json['middle'] ?? "",
-        back: json['back'] ?? "",
-        msg: json['msg'] ?? "",
-        price: json['price'] ?? "",
-        quantity: json['quantity'] ?? "",
-        createdDate: json['createdDate'] ?? "");
+        crmBundleId: json['cardType'] ?? "",
+        crmId: json['crmId'] ?? "",
+        ceremonyDate: json['ceremonyDate'] ?? "",
+        contact: json['contact'] ?? "",
+        createdById: json['createdById'] ?? "",
+        createdDate: json['createdDate'] ?? "",);
   }
 }

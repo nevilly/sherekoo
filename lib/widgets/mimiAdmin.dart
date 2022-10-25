@@ -7,17 +7,15 @@ import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
 import 'package:sherekoo/model/InvCards/invCards.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
-import 'package:sherekoo/screens/homNav.dart';
 import 'package:sherekoo/screens/ourServices/sherekoCards.dart';
 import 'package:sherekoo/util/colors.dart';
 import 'package:sherekoo/util/modInstance.dart';
 
-import '../../model/post/post.dart';
-import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/func.dart';
 import '../../util/util.dart';
-import '../screens/detailScreen/livee.dart';
+import '../util/appWords.dart';
+import '../util/textStyle-pallet.dart';
 
 class MkweriWaMaisha extends StatefulWidget {
   final String from;
@@ -106,7 +104,7 @@ class _MkweriWaMaishaState extends State<MkweriWaMaisha> {
           .postCard(token, urladdInvCards, 'Wedding', image, image, image,
               image, 'Mchumba waa', '1000', '50')
           .then((value) {
-        print(value.payload);
+     
         if (value.status == 200) {
           Navigator.pop(context);
           Navigator.push(
@@ -119,7 +117,7 @@ class _MkweriWaMaishaState extends State<MkweriWaMaisha> {
         }
       });
     } else {
-      fillTheBlanks(context, 'Select Image/Vedio Please... ');
+        fillTheBlanks(context,imgOrVdoUploadAlt,altSty,odng);
     }
   }
 
@@ -205,7 +203,7 @@ class _MkweriWaMaishaState extends State<MkweriWaMaisha> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 200,
                 ),
                 //What on your

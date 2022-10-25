@@ -188,7 +188,7 @@ class InvCards {
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((r) {
       final rJson = jsonDecode(r.body);
-      print(rJson);
+   
       if (r.statusCode == 200) {
         return InvCards.fromJson(rJson);
       }

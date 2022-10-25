@@ -11,11 +11,11 @@ class _MosqTimeLineState extends State<MosqTimeLine> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Recods'),
+        title: const Text('Recods'),
       ),
 
       body: Column(
-        children: [
+        children: const [
           
         ],
       ),

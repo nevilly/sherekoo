@@ -9,6 +9,7 @@ import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/gradientBorder.dart';
 import '../../widgets/imgWigdets/boxImg.dart';
@@ -109,7 +110,7 @@ class _SherekoCardsState extends State<SherekoCards> {
           .then((v) {
         if (v.status == 200) {
           Navigator.of(context).pop();
-          print(v.payload);
+        
         }
       });
     } else {
@@ -120,7 +121,7 @@ class _SherekoCardsState extends State<SherekoCards> {
             .then((v) {
           if (v.status == 200) {
             Navigator.of(context).pop();
-            print(v.payload);
+       
           }
         });
       } else {

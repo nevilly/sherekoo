@@ -3,12 +3,12 @@ import 'package:sherekoo/model/admin/adminCrmMdl.dart';
 import 'package:sherekoo/screens/uploadScreens/ceremonyUpload.dart';
 import 'package:sherekoo/util/colors.dart';
 
-import '../../model/admin/adminCrm.dart';
+
 import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
-import '../../util/func.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/boxImg.dart';
 

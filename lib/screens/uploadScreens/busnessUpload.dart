@@ -10,9 +10,11 @@ import '../../model/allData.dart';
 import '../../model/busness/postBusness.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
+import '../../util/appWords.dart';
 import '../../util/colors.dart';
 import '../../util/func.dart';
 import '../../util/modInstance.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../bsnScreen/bsnScrn.dart';
 import '../subscriptionScreen/busnessSubscription.dart';
@@ -529,19 +531,20 @@ class _BusnessUploadState extends State<BusnessUpload> {
                         createdBy: '',
                         hotStatus: '0')));
           } else {
-            fillTheBlanks(context, 'Upload  profile Pls..');
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Insert Image, Try Again'),
-            ));
+             fillTheBlanks(context,imgInsertAlt,altSty,odng);
+       
           }
         } else {
-          fillTheBlanks(context, msg3);
+          
+           fillTheBlanks(context,msg3,altSty,odng);
         }
       } else {
-        fillTheBlanks(context, msg2);
+  
+        fillTheBlanks(context,msg2,altSty,odng);
       }
     } else {
-      fillTheBlanks(context, msg1);
+      
+       fillTheBlanks(context,msg1,altSty,odng);
     }
   }
 
@@ -573,7 +576,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
       subscrlevel: lvl,
     ).update(token, urlUpdateBusness, coPro).then((v) {
       if (v.status == 200) {
-        fillTheBlanks(context, v.payload);
+        fillTheBlanks(context, v.payload,altSty,odng);
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -582,9 +585,8 @@ class _BusnessUploadState extends State<BusnessUpload> {
                       ceremony: ceremony,
                     )));
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('System Error, Try Again'),
-        ));
+         fillTheBlanks(context,sysErr,altSty,odng);
+       
       }
     });
   }
@@ -661,7 +663,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               insertPhoneNumber,
                               insertContact,
                               insertLastMsg);
-                          ;
+                          
                         }
                       }
 
@@ -725,7 +727,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               insertPhoneNumber,
                               insertContact,
                               insertLastMsg);
-                          ;
+                          
                         } else {
                           _updateBusness(
                               selectedBusness,
@@ -5820,7 +5822,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                         ),
                       ),
                       hintText: 'My Price',
-                      hintStyle: TextStyle(color: Colors.grey, height: 1.5),
+                      hintStyle: const TextStyle(color: Colors.grey, height: 1.5),
                     ),
                     style: const TextStyle(
                         fontSize: 15, color: Colors.grey, height: 1.5),
@@ -5941,7 +5943,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                         ),
                       ),
                       hintText: 'Regional / Location',
-                      hintStyle: TextStyle(color: Colors.grey, height: 1.5),
+                      hintStyle: const TextStyle(color: Colors.grey, height: 1.5),
                     ),
                     style: const TextStyle(
                         fontSize: 15, color: Colors.grey, height: 1.5),

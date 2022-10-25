@@ -4,6 +4,7 @@ import 'package:sherekoo/model/crmPackage/crmPackageModel.dart';
 import '../../model/crmPackage/crmPackage.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 
 class PackageList extends StatefulWidget {
