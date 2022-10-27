@@ -41,7 +41,8 @@ TextStyle appBarH = header15;
 TextStyle altSty = header15;
 
 //textField
-TextStyle title = header16;
+TextStyle t1 = header16;
+TextStyle tft = header13;
 TextStyle dateStyl = header13.copyWith(color: Colors.grey, height: 1.2);
 
 

@@ -111,10 +111,8 @@ String urlpostShare = '${api}Share/add';
 String urlPostChats = '${api}Chats/add';
 String urlGetChats = '${api}Chats/get';
 
-// Categries Varaible Dimensions
-double ctg_hotHeight = 80.0;
-double ctg_bodyHeight = 390.0;
-int ctg_bodyItemCountx = 16;
-int ctg_hotItemCountx = 3;
-int ctg_crossAxisCountx = 3;
-int ctg_hotcrossAxisCountx = 3;
+//BIGMONTH Tv Show
+String urlAddBigMonth = '${api}TvshowBigMonth/add';
+String urlGetBigMonth = '${api}TvshowBigMonth/get';
+
+

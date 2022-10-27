@@ -1,50 +1,109 @@
+String ei = 'Enter';
+String wr = 'Write';
+String ud = 'Upload';
+String slt = 'Select';
+String cos = 'Choose';
+String inst = 'Insert';
+
+String pls = 'Please..';
+String tra = 'Try again..';
+
 ///
-///Mesage
+///Title & placeholders
 ///
 
-String sysErr = 'System Error, Try Again..';
-String netwErr = 'Network Error, Try Again..';
-String lowNetErr = 'Low Network, wait...';
+// persenal
+String en = '$ei Name';
+String eu = '$ei Username';
+String ea = '$ei your age';
+String sg = '$ei  gender';
 
-// Images
-String dpUploadAlt = 'Upload profile Please..';
-String imgInsertAlt = 'Insert Image Please..';
-String imgOrVdoUploadAlt = 'Upload Image/Vedio Please..';
+//Images
+String ui = '$ud your Image';
+String up = '$ud your profile';
 
-// TextField
-String titleAlt = 'Enter title please..';
-String bodyAlt = 'Enter body please..';
-String descrAlt = 'Enter description please..';
-String priceAlt = 'Enter price please..';
+//title
+String et = '$ei title';
+
+//body
+String bdy = 'body..';
+String ds = 'Description..';
+String wd = 'Write $ds';
+String eb = 'Write your $bdy';
+
+// price
+String p = 'price';
+String ep = 'Enter $p';
+
+//Date
+String ad = 'Add Date';
+String sd = 'Start Date';
+String ed = 'End Date';
+String rd = 'Registration DeadLine';
+String ss = 'Show Start Date';
+
+// Season & Epison
+String ee = '$ei episode';
+String es = '$ei season';
+
+///
+/// Alerts & Erros
+///
+
+// Network & system Alerts
+String sysErr = 'System Error, $tra';
+String netwErr = 'Network Error, $tra';
+String lowNetErr = 'Low Network, $tra';
+
+// Images alert
+String dpUploadAlt = 'Upload profile ';
+String imgInsertAlt = 'Insert Image, $pls';
+String imgOrVdoUploadAlt = 'Upload Image/Vedio, $pls';
+
+// TextField Alert
+String titleAlt = 'Enter title, $pls';
+String bodyAlt = '$eb, $pls';
+String descrAlt = '$wd, $pls';
+String priceAlt = '$ep, $pls';
 
 // Msg
 String reqMsgInCrmdAdmin = 'Empty';
 
 ///Ceremony upoload
-String choosePhoto = 'Choose Photo Pls....';
-String selectBirthday = 'Select Birthday Boy/Girl';
-String enterAge = 'Enter Age pls ...';
-String insertBirthday = 'Enter Birthday date pls ...';
+String choosePhoto = '$cos Photo $pls';
+String selectBirthday = '$slt Birthday Boy/Girl';
+String enterAge = '$ea, $pls';
+String insertBirthday = '$ei Birthday date, $pls';
 
-String insertBrandName = 'Insert your Brand Name on "CO Tab" pls!...';
-String insertPrice = 'Insert your Price on "Co Tab" pls!...';
-String insertPhoneNumber = 'Insert your Phone Number  on "Co Tab" pls!...';
-String insertContact = 'Insert Contact  on "Co Tab" pls!...';
+String insertBrandName = '$inst your Brand Name on "CO Tab", $pls';
+String insertPrice = '$inst your $p on "Co Tab" pls!...';
+String insertPhoneNumber = '$inst your Phone Number  on "Co Tab", $pls';
+String insertContact = '$inst Contact  on "Co Tab" , $pls';
 String insertLastMsg = 'No message';
 
 ///In CrmPackageAdd
-String clrCodeAlert = 'Enter Color COde of the year... ';
+String clrCodeAlert = '$ei Color COde of the year... ';
 
 ///crmBundleAdmin
-String priceBundleAlt = 'Enter bundle price please..';
-String bundleTypeAlt = 'Select bundle Type Please..';
-String bundlePlanAlt = 'Write bundle Plans Please..';
-String superVisorAlt = 'Choose SuperVisor Please..';
-String crmPackgSltAlt = 'Select Ceremony Package Please..';
+String priceBundleAlt = '$ei bundle $p, $pls';
+String bundleTypeAlt = '$slt bundle Type, $pls';
+String bundlePlanAlt = '$wr bundle Plans, $pls';
+String superVisorAlt = '$cos SuperVisor, $pls';
+String crmPackgSltAlt = '$slt Ceremony Package, $pls';
 
+///
 /// BigMonth-Admin
-String judgesSltAlt = 'Select Only four Judges ';
-String starsSltAlt = 'Select Only two Star Candidate';
+///
+
+String judgesSltAlt = '$slt Only four Judges ';
+String starsSltAlt = '$slt Only two Star Candidate';
+String tst = 'Tv show title';
+String sno = 'Season No';
+String epno = 'Episode No';
+String sj =   "Search Judges.." ;
+String sStar =    "Search Stars..";
+//Title
+String endRegDate = 'DedLIne Date';
 
 //Livee => DetailsTab (TabB), commetee Viewers
-String viewerPositionMsg = 'Select Position Please';
+String viewerPositionMsg = '$slt Position, $pls';

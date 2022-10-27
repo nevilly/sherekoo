@@ -14,7 +14,6 @@ import '../../util/appWords.dart';
 import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
-import 'crmPckSelect.dart';
 
 class AddBigMonthTvShow extends StatefulWidget {
   const AddBigMonthTvShow({Key? key}) : super(key: key);
@@ -24,12 +23,14 @@ class AddBigMonthTvShow extends StatefulWidget {
 }
 
 class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
+  bool sw = false;
   final Preferences _preferences = Preferences();
   final TextEditingController _body = TextEditingController();
   final TextEditingController _title = TextEditingController();
   final TextEditingController _season = TextEditingController();
   final TextEditingController _episode = TextEditingController();
   final TextEditingController _tvShowDateController = TextEditingController();
+  final TextEditingController _dedlineDateController = TextEditingController();
 
   final _picker = ImagePicker();
   File? _generalimage;
@@ -47,8 +48,9 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
   List superStar = [];
   List superStarId = [];
 
-
   List<User> data = [];
+
+  double sbxh = 15; // SizedBox height
   @override
   void initState() {
     _preferences.init();
@@ -97,22 +99,21 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
           status: 0,
           payload: [],
         )
- 
-            .post(token, urladdCrmPackage, _title.text, _season.text, _episode.text, _body.text,judgesId,superStarId,image
-                )
+            .post(token, urlAddBigMonth, _title.text, _season.text,
+                _episode.text, _body.text,_tvShowDateController.text,_dedlineDateController.text, judgesId, superStarId, image)
             .then((value) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => const CrmPckList()));
+          // Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (BuildContext context) => const CrmPckList()));
+
+          print(value.payload);
         });
       } else {
-       
-        fillTheBlanks(context,imgInsertAlt,altSty,odng);
+        fillTheBlanks(context, l(sw, 43), altSty, odng);
       }
     } else {
-    
-      fillTheBlanks(context,titleAlt,altSty,odng);
+      fillTheBlanks(context, l(sw, 44), altSty, odng);
     }
   }
 
@@ -120,195 +121,223 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: topBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 15,
-            ),
-            //Details
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  //Title
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                    child: textFieldContainer(
-                        context,
-                        'Tv show title',
-                        _title,
-                        1.5,
-                        40,
-                        13,
-                        10,
-                        gry1,
-                        null,
-                        header15.copyWith(height: 1.0, color: fntClr)),
-                  ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 15,
+              ),
+              //Details
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
+                child: Text(l(sw, 32), style: tft.copyWith(color: gry1)),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
+                child: textFieldContainer(
+                    context,
+                    l(sw, 33), //'Tv show title'
+                    _title,
+                    1.5,
+                    40,
+                    13,
+                    10,
+                    gry1,
+                    null,
+                    header15.copyWith(height: 1.0, color: fntClr)),
+              ),
 
-                  const SizedBox(
-                    height: 10,
-                  ),
-                   //Season 
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                    child: textFieldContainer(
-                        context,
-                        'Season No',
-                        _season,
-                        1.5,
-                        40,
-                        13,
-                        10,
-                        gry1,
-                        null,
-                        header15.copyWith(height: 1.0, color: fntClr)),
-                  ),
-                   const SizedBox(
-                    height: 10,
-                  ),
-                   //Episode 
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                    child: textFieldContainer(
-                        context,
-                        'Episode No',
-                        _episode,
-                        1.5,
-                        40,
-                        13,
-                        10,
-                        gry1,
-                        null,
-                        header15.copyWith(height: 1.0, color: fntClr)),
-                  ),
+              SizedBox(
+                height: sbxh,
+              ),
 
-                  // Season
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                    child: textFieldContainer(
-                        context,
-                        'Description...',
-                        _body,
-                        1.5,
-                        70,
-                        13,
-                        10,
-                        gry1,
-                        null,
-                        header15.copyWith(height: 1.0, color: fntClr)),
-                  ),
+              //Season
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
+                child: Text(l(sw, 34), style: tft.copyWith(color: gry1)),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
+                child: textFieldContainer(
+                    context,
+                    l(sw, 35), //Season No
+                    _season,
+                    1.5,
+                    40,
+                    13,
+                    10,
+                    gry1,
+                    null,
+                    header15.copyWith(height: 1.0, color: fntClr)),
+              ),
 
-                  const SizedBox(
-                    height: 8,
-                  ),
+              SizedBox(
+                height: sbxh,
+              ),
 
-                  dateDialog(
-     context, _tvShowDateController, 1.5,  40,10,  gry1,dateStyl), 
+              //Episode
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
+                child: Text(l(sw, 36), style: tft.copyWith(color: gry1)),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
+                child: textFieldContainer(
+                    context,
+                    l(sw, 37), //Episode no
+                    _episode,
+                    1.5,
+                    40,
+                    13,
+                    10,
+                    gry1,
+                    null,
+                    header15.copyWith(height: 1.0, color: fntClr)),
+              ),
 
-                  judge(context),
+              SizedBox(
+                height: sbxh,
+              ),
 
-                  superStars(context),
+              // Description
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
+                child: Text(l(sw, 38), style: tft.copyWith(color: gry1)),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
+                child: textFieldContainer(
+                    context,
+                    l(sw, 39), //Description
+                    _body,
+                    1.5,
+                    70,
+                    13,
+                    10,
+                    gry1,
+                    null,
+                    header15.copyWith(height: 1.0, color: fntClr)),
+              ),
 
-                  //ColorName
+              SizedBox(
+                height: sbxh,
+              ),
 
+              //DeadLime
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
+                child: Text(l(sw, 40), style: tft.copyWith(color: gry1)),
+              ),
+              dateDialog(
+                  context, _tvShowDateController, 1.5, 40, 10, gry1, dateStyl),
               
-                
+                 //DeadLime
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
+                child: Text(l(sw, 40), style: tft.copyWith(color: gry1)),
+              ),
+              dateDialog(
+                  context, _dedlineDateController, 1.5, 40, 10, gry1, dateStyl),
+
+              SizedBox(
+                height: sbxh,
+              ),
+
+              judge(context),
+              SizedBox(
+                height: sbxh,
+              ),
+              superStars(context),
+
+              SizedBox(
+                height: sbxh,
+              ),
+
+              // Photo Display
+              Container(
+                  color: Colors.grey,
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Title(
+                        color: Colors.red,
+                        child: const Text('BigMonth  BackGround Image')),
+                  )),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    height: 90,
+                    width: 250,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      alignment: Alignment.center,
+                      // width: double.infinity,
+                      // height: _generalimage != null ? 300 : 10,
+                      color: Colors.grey,
+                      child: _generalimage != null
+                          ? Padding(
+                              padding: const EdgeInsets.only(left: 1.0),
+                              child: Image.file(
+                                _generalimage!,
+                              ),
+                            )
+                          : const SizedBox(height: 1),
+                    ),
+                  ),
+                  Positioned(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Gallary
+                        GestureDetector(
+                          onTap: () {
+                            _openImagePicker(ImageSource.camera);
+                          },
+                          child: Card(
+                            color: OColors.primary,
+                            child: const Padding(
+                              padding: EdgeInsets.all(4.0),
+                              child: Icon(
+                                Icons.camera,
+                                color: Colors.white,
+                                size: 24,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20.0),
+                        //cameraa
+                        GestureDetector(
+                          onTap: () {
+                            _openImagePicker(ImageSource.gallery);
+                          },
+                          child: Card(
+                            color: OColors.primary,
+                            child: const Padding(
+                              padding: EdgeInsets.all(4.0),
+                              child: Icon(
+                                Icons.photo_library,
+                                size: 24,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ),
 
-            const SizedBox(
-              height: 18,
-            ),
-
-            // Photo Display
-            Container(
-                color: Colors.grey,
-                width: MediaQuery.of(context).size.width,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Title(
-                      color: Colors.red,
-                      child: const Text('BigMonth BackGround Image')),
-                )),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  height: 90,
-                  width: 250,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    alignment: Alignment.center,
-                    // width: double.infinity,
-                    // height: _generalimage != null ? 300 : 10,
-                    color: Colors.grey,
-                    child: _generalimage != null
-                        ? Padding(
-                            padding: const EdgeInsets.only(left: 1.0),
-                            child: Image.file(
-                              _generalimage!,
-                            ),
-                          )
-                        : const SizedBox(height: 1),
-                  ),
-                ),
-                Positioned(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Gallary
-                      GestureDetector(
-                        onTap: () {
-                          _openImagePicker(ImageSource.camera);
-                        },
-                        child: Card(
-                          color: OColors.primary,
-                          child: const Padding(
-                            padding: EdgeInsets.all(4.0),
-                            child: Icon(
-                              Icons.camera,
-                              color: Colors.white,
-                              size: 24,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20.0),
-                      //cameraa
-                      GestureDetector(
-                        onTap: () {
-                          _openImagePicker(ImageSource.gallery);
-                        },
-                        child: Card(
-                          color: OColors.primary,
-                          child: const Padding(
-                            padding: EdgeInsets.all(4.0),
-                            child: Icon(
-                              Icons.photo_library,
-                              size: 24,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(
-              height: 6,
-            ),
-           
-
-           
-          ],
+              SizedBox(
+                height: sbxh,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -412,47 +441,6 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
 
   Autocomplete<User> uSearch(from) {
     return Autocomplete<User>(
-      optionsBuilder: (TextEditingValue value) {
-        // When the field is empty
-        if (value.text.isEmpty) {
-          setState(() {
-            onTapText = 'false';
-          });
-          return data
-              .where((d) =>
-                  d.username!.toLowerCase().contains(value.text.toLowerCase()))
-              .toList();
-        }
-        setState(() {
-          onTapText = 'true';
-        });
-
-        // The logic to find out which ones should appear
-        return data
-            .where((d) =>
-                d.username!.toLowerCase().contains(value.text.toLowerCase()))
-            .toList();
-      },
-      displayStringForOption: (User option) => option.username!,
-      fieldViewBuilder: (BuildContext context,
-          TextEditingController fieldTextEditingController,
-          FocusNode fieldFocusNode,
-          VoidCallback onFieldSubmitted) {
-        return Container(
-          decoration: const BoxDecoration(color: Colors.grey),
-          child: TextField(
-            controller: fieldTextEditingController,
-            focusNode: fieldFocusNode,
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsets.only(left: 18),
-              border: InputBorder.none,
-              hintStyle: TextStyle(color: gry1, fontSize: 14, height: 1.5),
-              hintText: from == 'judge' ? "Search Judges.." : "Search Stars..",
-            ),
-            style: TextStyle(fontWeight: FontWeight.bold, color: gry1),
-          ),
-        );
-      },
       optionsViewBuilder: (BuildContext context,
           AutocompleteOnSelected<User> onSelected, Iterable<User> options) {
         return Align(
@@ -509,17 +497,15 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
                             judges.add(v);
                             judgesId.add(id);
                           } else {
-                           
-                                  fillTheBlanks(context,judgesSltAlt,header15,odng);
+                            fillTheBlanks(
+                                context, judgesSltAlt, header15, odng);
                           }
                         } else {
                           if (superStar.length <= 1) {
                             superStar.add(v);
                             superStarId.add(id);
                           } else {
-                           
-
-                                fillTheBlanks(context,starsSltAlt,header15,odng);
+                            fillTheBlanks(context, starsSltAlt, header15, odng);
                           }
                         }
                       });
@@ -536,19 +522,46 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
           ),
         );
       },
-      onSelected: (User selection) {
-        // setState(() {
-        //   username = selection.username!;
-        //   avater = selection.avater!;
-        //   id = selection.id!;
+      optionsBuilder: (TextEditingValue value) {
+        // When the field is empty
+        if (value.text.isEmpty) {
+          setState(() {
+            onTapText = 'false';
+          });
+          return data
+              .where((d) =>
+                  d.username!.toLowerCase().contains(value.text.toLowerCase()))
+              .toList();
+        }
+        setState(() {
+          onTapText = 'true';
+        });
 
-        //   Map v = {"id": id, "username": username, "avater": avater};
-        //   judges.add(v);
-        //   judgesId.add(id);
-
-        //   print('ok chek if it work heree');
-        //   print(judges);
-        // });
+        // The logic to find out which ones should appear
+        return data
+            .where((d) =>
+                d.username!.toLowerCase().contains(value.text.toLowerCase()))
+            .toList();
+      },
+      displayStringForOption: (User option) => option.username!,
+      fieldViewBuilder: (BuildContext context,
+          TextEditingController fieldTextEditingController,
+          FocusNode fieldFocusNode,
+          VoidCallback onFieldSubmitted) {
+        return Container(
+          decoration: const BoxDecoration(color: Colors.grey),
+          child: TextField(
+            controller: fieldTextEditingController,
+            focusNode: fieldFocusNode,
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.only(left: 18),
+              border: InputBorder.none,
+              hintStyle: TextStyle(color: gry1, fontSize: 14, height: 1.5),
+              hintText: from == 'judge' ? l(sw, 41) : l(sw, 42),
+            ),
+            style: TextStyle(fontWeight: FontWeight.bold, color: gry1),
+          ),
+        );
       },
     );
   }
@@ -556,7 +569,7 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
   AppBar topBar() {
     return AppBar(
       backgroundColor: osec,
-      title: const Text('New TV Show'),
+      title: const Text('BIGMONTH TV SHOW'),
       actions: [
         GestureDetector(
           onTap: () {
@@ -580,6 +593,4 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
       ],
     );
   }
-
-  
 }

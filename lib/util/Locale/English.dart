@@ -1,5 +1,4 @@
-
-
+import 'package:sherekoo/util/appWords.dart';
 
 class English {
   English(this.key) : super();
@@ -38,6 +37,21 @@ class English {
     "Register your orphanage for better health services",
     "Back",
     "Submit",
+    et, //  32
+    tst,
+    es,
+    sno,  //35
+    ee,
+    epno,
+    wd,
+    ds,
+    rd,  //40
+   sj,
+   sStar,
+   imgInsertAlt,
+   titleAlt,
+
+
   ];
 
   words() {

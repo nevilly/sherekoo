@@ -8,17 +8,15 @@ import 'package:intl/intl.dart';
 import '../model/ceremony/ceremonyModel.dart';
 import '../model/ceremony/crmViewerModel.dart';
 
-
 import '../widgets/imgWigdets/defaultAvater.dart';
 import '../widgets/imgWigdets/userAvater.dart';
 import '../widgets/listTile_widget.dart';
+import 'Locale.dart';
 import 'colors.dart';
 import 'textStyle-pallet.dart';
 import 'util.dart';
 
 List<CrmViewersModel> crmViewer = [];
-
-
 
 final List<String> viewerPositionList = [
   'Viewer',
@@ -37,6 +35,13 @@ final List<String> viewerPositionList = [
 ];
 
 ///
+/// Languege Dictionary
+///
+
+l(bool isSwahili, position) {
+  return OLocale(isSwahili, position).get();
+}
+
 /// Buttons
 ///
 Container outlilneButton(
@@ -1163,7 +1168,7 @@ Future cropImage(File imageFile) async {
 ///
 
 //Errors Alerts
-fillTheBlanks(context, String title,TextStyle style,Color color) {
+fillTheBlanks(context, String title, TextStyle style, Color color) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
         content: Text(
@@ -1347,8 +1352,8 @@ Container textFieldContainer(
 }
 
 // Date
-dateDialog(
-    BuildContext context, dateController, double w, double h,double r, Color bckColor,TextStyle style) {
+dateDialog(BuildContext context, dateController, double w, double h, double r,
+    Color bckColor, TextStyle style) {
   return Container(
     width: MediaQuery.of(context).size.width / w,
     height: h,
@@ -1374,8 +1379,7 @@ dateDialog(
           ),
         ),
         hintText: 'Date ( DD/MM/YYY )',
-        hintStyle:
-            style,
+        hintStyle: style,
       ),
       style: style,
       onTap: () {

@@ -73,7 +73,8 @@ class BigMonthShowCall {
     return postHttp(url, toMap, headers);
   }
 
-  Future<BigMonthShowCall> removeCard(String token, String dirUrl, id, userId) async {
+  Future<BigMonthShowCall> removeCard(
+      String token, String dirUrl, id, userId) async {
     Uri url = Uri.parse(dirUrl);
     Map<String, dynamic> toMap() {
       return <String, dynamic>{'id': id, 'userId': userId};
@@ -85,16 +86,18 @@ class BigMonthShowCall {
   }
 
   Future<BigMonthShowCall> post(
-      String token,
-      String dirUrl,
-      String title,
-      String season,
-      String episode,
-      String description,
-      List judgesId,
-      List superStarId,
-      String showImage,
-      ) async {
+    String token,
+    String dirUrl,
+    String title,
+    String season,
+    String episode,
+    String description,
+    String tvshowDate,
+    String dedline,
+    List judgesId,
+    List superStarId,
+    String showImage,
+  ) async {
     Uri url = Uri.parse(dirUrl);
     Map<String, dynamic> toMap() {
       return <String, dynamic>{
@@ -102,10 +105,11 @@ class BigMonthShowCall {
         'season': season,
         'episode': episode,
         'description': description,
-        'judgesId': judgesId,
-        'superStarId': superStarId,
+        'showDate': tvshowDate,
+        'dedline': dedline,
+        'judgesId': judgesId.toString(),
+        'superStarsId': superStarId.toString(),
         'showImage': showImage,
-       
       };
     }
 
@@ -148,11 +152,13 @@ invalidToken(token) {
   }
 }
 
-Future<BigMonthShowCall> postHttp(Uri url, Map<String, dynamic> Function() toMap,
-    Map<String, String> headers) async {
+Future<BigMonthShowCall> postHttp(Uri url,
+    Map<String, dynamic> Function() toMap, Map<String, String> headers) async {
   return await http
       .post(url, body: jsonEncode(toMap()), headers: headers)
       .then((r) {
+    print('Error View PosHttp Level');
+    print(jsonDecode(r.body)['payload']);
     if (r.statusCode == 200) {
       return BigMonthShowCall.fromJson(
           {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});

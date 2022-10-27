@@ -20,6 +20,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool isSwahili = false, isVisibleDrawer = true, r = false;
+  
   final Preferences _preferences = Preferences();
   String u = '';
   bool isLoggedIn = false;

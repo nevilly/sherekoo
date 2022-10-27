@@ -24,6 +24,23 @@ class Swahili {
     "Ingiza yuzanemu yako. Tafadhari..", //15
     "Tayari, Nina Akaunti ...",
     "Already have an account..? "
+ "",
+ "",
+ "",
+ "",
+ "",
+ "",
+ "",
+ "",
+ "",
+ "",
+ "",
+ "",
+ "",
+ "",
+ "",  //32
+ "",
+   
   ];
 
   words() {

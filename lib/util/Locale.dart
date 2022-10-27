@@ -14,3 +14,4 @@ class OLocale {
     return swahili ? Swahili(key).words() : English(key).words();
   }
 }
+
