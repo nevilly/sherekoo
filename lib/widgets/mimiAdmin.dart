@@ -14,6 +14,7 @@ import 'package:sherekoo/util/modInstance.dart';
 import '../../util/Preferences.dart';
 import '../../util/func.dart';
 import '../../util/util.dart';
+import '../model/userModel.dart';
 import '../util/appWords.dart';
 import '../util/textStyle-pallet.dart';
 
@@ -35,6 +36,26 @@ class _MkweriWaMaishaState extends State<MkweriWaMaisha> {
   String token = "";
 
   String hashTag = "";
+User user =  User(
+    id: '',
+    username: '',
+    firstname: '',
+    lastname: '',
+    avater: '',
+    phoneNo: '',
+    email: '',
+    gender: '',
+    role: '',
+    isCurrentUser: '',
+    address: '',
+    bio: '',
+    meritalStatus: '',
+    totalPost: '',
+    isCurrentBsnAdmin: '',
+    isCurrentCrmAdmin: '',
+    totalFollowers: '',
+    totalFollowing: '',
+    totalLikes: '');
 
   @override
   void initState() {
@@ -46,6 +67,8 @@ class _MkweriWaMaishaState extends State<MkweriWaMaisha> {
     });
     super.initState();
   }
+
+
 
   // Image Picking
   _openImagePicker(ImageSource source) async {

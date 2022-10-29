@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'colors.dart';
 
-
 //font
-
-
 
 TextStyle header18 = TextStyle(
   fontSize: 18,
@@ -28,11 +25,9 @@ TextStyle bttnfontprimary = TextStyle(fontSize: 10, color: OColors.primary);
 TextStyle bttnfontwhite = TextStyle(fontSize: 10, color: OColors.white);
 TextStyle bttnfontblack = const TextStyle(fontSize: 10, color: Colors.black);
 
-
 ///
 /// More Complex Short Var
 ///
-
 
 //AppBar
 TextStyle appBarH = header15;
@@ -44,5 +39,4 @@ TextStyle altSty = header15;
 TextStyle t1 = header16;
 TextStyle tft = header13;
 TextStyle dateStyl = header13.copyWith(color: Colors.grey, height: 1.2);
-
-
+TextStyle textStyl = header13.copyWith(color: Colors.grey, height: 1.2);

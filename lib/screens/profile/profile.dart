@@ -5,7 +5,6 @@ import 'package:sherekoo/widgets/imgWigdets/defaultAvater.dart';
 import '../../model/allData.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
-import '../../util/modInstance.dart';
 import '../../util/func.dart';
 import '../../util/pallets.dart';
 import '../../util/textStyle-pallet.dart';
@@ -29,6 +28,27 @@ class Profile extends StatefulWidget {
 class ProfileState extends State<Profile> {
   final Preferences _preferences = Preferences();
   String token = '';
+
+  User user = User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      meritalStatus: '',
+      totalPost: '',
+      isCurrentBsnAdmin: '',
+      isCurrentCrmAdmin: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: '');
 
   @override
   void initState() {
@@ -57,7 +77,6 @@ class ProfileState extends State<Profile> {
     });
   }
 
- 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -68,8 +87,7 @@ class ProfileState extends State<Profile> {
         drawer: const NavDrawer(),
         body: Column(
           children: [
-           
-           //Profile
+            //Profile
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 5.0, right: 8.0),
               child: topProfile(),

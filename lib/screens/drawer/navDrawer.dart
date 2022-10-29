@@ -27,6 +27,27 @@ class _NavDrawerState extends State<NavDrawer> {
   final Preferences _preferences = Preferences();
   String token = '';
 
+User user =  User(
+    id: '',
+    username: '',
+    firstname: '',
+    lastname: '',
+    avater: '',
+    phoneNo: '',
+    email: '',
+    gender: '',
+    role: '',
+    isCurrentUser: '',
+    address: '',
+    bio: '',
+    meritalStatus: '',
+    totalPost: '',
+    isCurrentBsnAdmin: '',
+    isCurrentCrmAdmin: '',
+    totalFollowers: '',
+    totalFollowing: '',
+    totalLikes: '');
+
   @override
   void initState() {
     _preferences.init();

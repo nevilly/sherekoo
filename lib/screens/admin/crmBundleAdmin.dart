@@ -5,7 +5,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'dart:convert';
 
 import 'package:image_picker/image_picker.dart';
-import 'package:sherekoo/model/crmBundle/crmbundle.dart';
+import 'package:sherekoo/model/crmBundle/crmbundle-call.dart';
 import 'package:sherekoo/util/colors.dart';
 
 import '../../model/InvCards/cards.dart';
@@ -226,7 +226,7 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
                 // print('hallImageSample');
                 // print(hallImageSample);
 
-                CrmBundle(
+                CrmBundleCall(
                   status: 0,
                   payload: [],
                 )

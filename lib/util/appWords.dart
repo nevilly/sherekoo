@@ -17,6 +17,7 @@ String en = '$ei Name';
 String eu = '$ei Username';
 String ea = '$ei your age';
 String sg = '$ei  gender';
+String cntct = '$ei contact';
 
 //Images
 String ui = '$ud your Image';
@@ -36,11 +37,13 @@ String p = 'price';
 String ep = 'Enter $p';
 
 //Date
+String dt = 'date..';
 String ad = 'Add Date';
 String sd = 'Start Date';
 String ed = 'End Date';
 String rd = 'Registration DeadLine';
 String ss = 'Show Start Date';
+String eidt = '$ei $dt ';
 
 // Season & Epison
 String ee = '$ei episode';
@@ -100,8 +103,8 @@ String starsSltAlt = '$slt Only two Star Candidate';
 String tst = 'Tv show title';
 String sno = 'Season No';
 String epno = 'Episode No';
-String sj =   "Search Judges.." ;
-String sStar =    "Search Stars..";
+String sj = "Search Judges..";
+String sStar = "Search Stars..";
 //Title
 String endRegDate = 'DedLIne Date';
 

@@ -1087,46 +1087,59 @@ Container kigodoroProfileCrm(
 ///PersonalProfile
 ///
 
-Column personalProfile(
-    String uname, String avater, Widget info1, double r, double h, double w) {
+Column personalProfile(BuildContext context, String avater, String url,
+    Widget info1, double r, double w, double h) {
   return Column(
     children: [
       Container(
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(r)),
         child: avater != ''
-            ? Image.network(
-                '${api}public/uploads/$uname/profile/$avater',
-                fit: BoxFit.cover,
-                height: h,
-                width: w,
-              )
-            : ClipOval(child: DefaultAvater(height: h, radius: r, width: w)),
+            ? CircleAvatar(radius: r, child: fadeImg(context, url, w, h))
+            : ClipOval(
+                child: DefaultAvater(
+                    height: MediaQuery.of(context).size.height / h,
+                    radius: r,
+                    width: MediaQuery.of(context).size.width / w)),
       ),
       info1,
     ],
   );
 }
 
-Column personProfile(BuildContext context, url, user, itm) {
+Column personProfileClipOval(BuildContext context, String avater, String url,
+    Widget info1, double r, double w, double h, Color bkColor) {
   return Column(
     children: [
-      const SizedBox(
-        height: 10,
-      ),
-      const ClipOval(
-        child: Icon(
-          Icons.person,
-          size: 20,
-        ),
+      avater != ''
+          ? CircleAvatar(
+              backgroundColor: bkColor,
+              radius: r,
+              child: ClipOval(child: fadeImg(context, url, w, h)))
+          : CircleAvatar(
+              backgroundColor: bkColor,
+              radius: r,
+              child: ClipOval(
+                  child: DefaultAvater(height: h, radius: r, width: w))),
+      info1,
+    ],
+  );
+}
+
+Column infoPersonalProfile(String uname, TextStyle unameStyle1, String talent,
+    TextStyle talentStyle, double sbHeight1, double sbHeight2) {
+  return Column(
+    children: [
+      SizedBox(
+        height: sbHeight1,
       ),
       Text(
-        'Jimy Kerry',
-        style: header11,
+        uname,
+        style: unameStyle1,
       ),
-      Text(
-        'Born: January',
-        style: header10,
-      )
+      SizedBox(
+        height: sbHeight2,
+      ),
+      Text(talent, style: talentStyle),
     ],
   );
 }
@@ -1161,6 +1174,21 @@ Future cropImage(File imageFile) async {
   );
   if (croppedFile == null) return null;
   return File(croppedFile.path);
+}
+
+// Fade Image
+FadeInImage fadeImg(BuildContext context, img, double w, double h) {
+  return FadeInImage(
+    image: NetworkImage(img),
+    fadeInDuration: const Duration(milliseconds: 100),
+    placeholder: const AssetImage('assets/logo/noimage.png'),
+    imageErrorBuilder: (context, error, stackTrace) {
+      return Image.asset('assets/logo/noimage.png', fit: BoxFit.fitWidth);
+    },
+    width: w,
+    height: h,
+    fit: BoxFit.cover,
+  );
 }
 
 ///
@@ -1323,7 +1351,7 @@ Container textFieldContainer(
     prefixIco,
     TextStyle style) {
   return Container(
-    width: MediaQuery.of(context).size.width / w,
+    width: w,
     height: h,
     padding: EdgeInsets.only(
       top: topPadding,
@@ -1355,7 +1383,7 @@ Container textFieldContainer(
 dateDialog(BuildContext context, dateController, double w, double h, double r,
     Color bckColor, TextStyle style) {
   return Container(
-    width: MediaQuery.of(context).size.width / w,
+    width: w,
     height: h,
     margin: const EdgeInsets.only(
       left: 10,

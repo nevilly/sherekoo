@@ -12,40 +12,15 @@ class BigMonthShowCall {
     return BigMonthShowCall(payload: json['payload'], status: json['status']);
   }
 
-  Future<BigMonthShowCall> postBundle(
-      String token,
-      String dirUrl,
-      String price,
-      String bundleType,
-      String amountOfPeople,
-      String aboutBundle,
-      String crmPackageInfo,
-      String location,
-      String around,
-      List cardId,
-      List bsnId,
-      String superVisorId,
-      String bundleImage,
-      List hallImageSample,
-      List plan) async {
+  Future<BigMonthShowCall> postBigMonthRegistration(String token, String dirUrl,
+      String tvShowId, String dateBirth, String contact) async {
     Uri url = Uri.parse(dirUrl);
 
     Map<String, dynamic> toMap() {
       return <String, dynamic>{
-        'price': price,
-        'bImage': bundleImage,
-        'crmPackageId': crmPackageInfo,
-        'location': location,
-        'around': around,
-        'aboutBundle': aboutBundle,
-        'aboutPackage': aboutBundle,
-        'superVisorId': superVisorId,
-        'bundleLevel': '1',
-        'amountOfPeople': amountOfPeople,
-        // 'bsnId': jsonEncode(bsnId),
-        'cardSampleId': cardId.toString(),
-        'hallImageSample': hallImageSample,
-        // 'plan': jsonEncode(plan),
+        'tvShowId': tvShowId,
+        'dateBirth': dateBirth,
+        'contact': contact
       };
     }
 
@@ -157,25 +132,27 @@ Future<BigMonthShowCall> postHttp(Uri url,
   return await http
       .post(url, body: jsonEncode(toMap()), headers: headers)
       .then((r) {
-    print('Error View PosHttp Level');
-    print(jsonDecode(r.body)['payload']);
+    // print('Error View PosHttp Level');
+    // print(jsonDecode(r.body)['payload']);
     if (r.statusCode == 200) {
-      return BigMonthShowCall.fromJson(
-          {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+      return rBody(r);
     }
-    return BigMonthShowCall.fromJson(
-        {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+    return rBody(r);
   });
 }
 
 Future<BigMonthShowCall> getHttp(Uri url, Map<String, String> headers) async {
   return await http.get(url, headers: headers).then((r) {
     if (r.statusCode == 200) {
-      return BigMonthShowCall.fromJson(
-          {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+      // print(jsonDecode(r.body)['payload']);
+      return rBody(r);
     } else {
-      return BigMonthShowCall.fromJson(
-          {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+      return rBody(r);
     }
   });
+}
+
+BigMonthShowCall rBody(http.Response r) {
+  return BigMonthShowCall.fromJson(
+      {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
 }

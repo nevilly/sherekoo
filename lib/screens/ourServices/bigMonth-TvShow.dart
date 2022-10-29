@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:sherekoo/screens/ourServices/srvDetails.dart';
 import 'package:sherekoo/util/colors.dart';
 
 import '../../model/allData.dart';
-import '../../model/crmBundle/bundle.dart';
-import '../../model/crmBundle/crmbundle.dart';
-import '../../model/crmPackage/crmPackage.dart';
-import '../../model/crmPackage/crmPackageModel.dart';
+import '../../model/bigMontTvShow/bigMonth-Model.dart';
+import '../../model/bigMontTvShow/bigMonth-call.dart';
+
 import '../../model/userModel.dart';
-import '../../util/Preferences.dart';
+import '../../util/app-variables.dart';
 import '../../util/func.dart';
 import '../../util/modInstance.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
-import '../../widgets/login_widget/background-image.dart';
+import '../../widgets/login_widget/service-background.dart.dart';
 import '../admin/crmPckSelect.dart';
 import '../admin/crnBundleOrders.dart';
 import '../admin/bigMonth-admin.dart';
@@ -28,46 +26,100 @@ class BigMonthTvShow extends StatefulWidget {
 
 class _BigMonthTvShowState extends State<BigMonthTvShow> {
   final TextEditingController _birthdayDateController = TextEditingController();
-  final Preferences _preferences = Preferences();
-  String token = '';
-  String status = '1';
+  final TextEditingController _contactController = TextEditingController();
 
-  List<Bundle> bundle = [];
-  User currentUser = User(
+  List<BigMonthModel> shows = [];
+
+  BigMonthModel show = BigMonthModel(
       id: '',
-      username: '',
-      firstname: '',
-      lastname: '',
-      avater: '',
-      phoneNo: '',
-      email: '',
-      gender: '',
-      role: '',
-      isCurrentUser: '',
-      address: '',
-      bio: '',
-      meritalStatus: '',
-      totalPost: '',
-      isCurrentBsnAdmin: '',
-      isCurrentCrmAdmin: '',
-      totalFollowers: '',
-      totalFollowing: '',
-      totalLikes: '');
+      title: '',
+      description: '',
+      season: '',
+      episode: '',
+      showImage: '',
+      dedline: '',
+      showDate: '',
+      judgesId: '',
+      superStarsId: '',
+      status: '',
+      isRegistered: '',
+      judgesInfo: [
+        User(
+            id: '',
+            username: '',
+            firstname: '',
+            lastname: '',
+            avater: '',
+            phoneNo: '',
+            email: '',
+            gender: '',
+            role: '',
+            isCurrentUser: '',
+            address: '',
+            bio: '',
+            meritalStatus: '',
+            totalPost: '',
+            isCurrentBsnAdmin: '',
+            isCurrentCrmAdmin: '',
+            totalFollowers: '',
+            totalFollowing: '',
+            totalLikes: '')
+      ],
+      superStarInfo: [
+        User(
+            id: '',
+            username: '',
+            firstname: '',
+            lastname: '',
+            avater: '',
+            phoneNo: '',
+            email: '',
+            gender: '',
+            role: '',
+            isCurrentUser: '',
+            address: '',
+            bio: '',
+            meritalStatus: '',
+            totalPost: '',
+            isCurrentBsnAdmin: '',
+            isCurrentCrmAdmin: '',
+            totalFollowers: '',
+            totalFollowing: '',
+            totalLikes: '')
+      ],
+      createdDate: '');
 
-  _regstrationBigMonth(BuildContext context, date) {
-    //  BundleOrders(status:0,payload:[]).postOrders(token, dirUrl, ceremonyDate, showBundleId, crmBundleId, crmId)
+  _regstrationBigMonth(BuildContext context, TextEditingController date,
+      TextEditingController contact) {
+    if (date.text.isNotEmpty) {
+      if (contact.text.isNotEmpty) {
+        BigMonthShowCall(payload: [], status: 0)
+            .postBigMonthRegistration(token, urlBigMonthRegistration, show.id,
+                date.text, contact.text)
+            .then((v) {
+          setState(() {
+            Navigator.of(context).pop();
+            errorAlertDialog(context, l(sw, 23), v.payload);
+          });
+        });
+      } else {
+        errorAlertDialog(
+            context, l(sw, 8), 'Enter your contact for contact you Please..');
+      }
+    } else {
+      errorAlertDialog(context, l(sw, 45), 'Enter your Birthdate  Please..');
+    }
   }
 
   @override
   void initState() {
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
-
-        getlatestPackage();
-        getCrmBundle();
         getUser(urlGetUser);
+        getShow('$urlGetBigMonthPacakge/status/$bigMonthShowStatus', 'new');
+        getShow(urlGetBigMonth, 'all');
       });
     });
     super.initState();
@@ -85,25 +137,18 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
     });
   }
 
-  getlatestPackage() {
-    CrmPackage(payload: [], status: 0)
-        .get(token, '$urlGetCrmPackage/status/true')
-        .then((value) {
+  getShow(url, tvShow) {
+    BigMonthShowCall(payload: [], status: 0).get(token, url).then((value) {
       if (value.status == 200) {
         final e = value.payload;
         setState(() {
-          pck = CrmPckModel.fromJson(e);
-        });
-      }
-    });
-  }
-
-  getCrmBundle() async {
-    CrmBundle(payload: [], status: 0).get(token, urlGetCrmBundle).then((value) {
-      if (value.status == 200) {
-        setState(() {
-          bundle =
-              value.payload.map<Bundle>((e) => Bundle.fromJson(e)).toList();
+          if (tvShow == 'new') {
+            show = BigMonthModel.fromJson(e);
+          } else {
+            shows = value.payload
+                .map<BigMonthModel>((e) => BigMonthModel.fromJson(e))
+                .toList();
+          }
         });
       }
     });
@@ -111,119 +156,133 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SizedBox(
-            height: MediaQuery.of(context).size.height / 1.6,
-            child: const BackgroundImage(image: "assets/login/03.jpg")),
-        Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: topBar(),
-          body: Stack(
+    final urlImg = '${api}public/uploads/SherekooAdmin/bigMonthTvShow/';
+    final size = MediaQuery.of(context).size;
+    return show.id != ''
+        ? Stack(
             children: [
-              Positioned(
-                bottom: 0,
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // SizedBox(
-                      //   height: MediaQuery.of(context).size.height / 100,
-                      // ),
-                      rowBundlePosition(
-                        context,
-                        'Register',
-                        'The Only Best BigMonthy Tv Show ',
-                        'Season 01',
-                        "assets/ceremony/hs1.jpg",
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 100,
-                      ),
-                      Container(
-                        padding:
-                            const EdgeInsets.only(left: 18, top: 5, right: 4),
-                        child: Text(
-                          'Season 1 it will deal with all those who get berth in january only. The show is going to be more funny and Winner will  do Offer him best ceremony ,.',
-                          style:
-                              header12.copyWith(fontWeight: FontWeight.normal),
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 70,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 18.0, bottom: 2),
-                        child: Row(
+              SizedBox(
+                  height: MediaQuery.of(context).size.height / 1.6,
+                  child:
+                      ServicesBackgroundImage(image: urlImg + show.showImage)),
+              Scaffold(
+                backgroundColor: Colors.transparent,
+                appBar: topBar(),
+                body: Stack(
+                  children: [
+                    Positioned(
+                      bottom: 0,
+                      child: SizedBox(
+                        width: size.width,
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              'Tv Shows Seasons',
-                              style: header14.copyWith(
-                                  color: OColors.darkGrey,
-                                  fontWeight: FontWeight.w400),
+                            rowBundlePosition(
+                              context,
+                              size,
+                              l(sw, 12),
+                              show.title,
+                              'Season ${show.season}',
+                              urlImg + show.showImage,
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height / 100,
+                            ),
+                            Container(
+                              padding: const EdgeInsets.only(
+                                  left: 18, top: 5, right: 4),
+                              child: Text(
+                                show.description,
+                                style: header12.copyWith(
+                                    fontWeight: FontWeight.normal),
+                              ),
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height / 70,
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(6.0),
-                              child: Icon(
-                                Icons.more_horiz,
-                                color: OColors.primary,
+                              padding:
+                                  const EdgeInsets.only(left: 18.0, bottom: 2),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Tv Shows Seasons',
+                                    style: header14.copyWith(
+                                        color: OColors.darkGrey,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(6.0),
+                                    child: Icon(
+                                      Icons.more_horiz,
+                                      color: OColors.primary,
+                                    ),
+                                  )
+                                ],
                               ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height / 5,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: shows.length,
+                                itemBuilder: (context, i) {
+                                  final itm = shows[i];
+                                  return GestureDetector(
+                                    onTap: () {
+                                      // Navigator.push(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (BuildContext context) =>
+                                      //             ServiceDetails(
+                                      //                 bundle: itm,
+                                      //                 currentUser: currentUser)));
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.only(
+                                          left: 1.0, right: 1.0),
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: crmBundle(
+                                          context,
+                                          urlImg + itm.showImage,
+                                          'BigJune',
+                                          'SE ${itm.season} Ep ${itm.episode}',
+                                          110),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 15,
                             )
                           ],
                         ),
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height / 5,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: bundle.length,
-                          itemBuilder: (context, i) {
-                            final itm = bundle[i];
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            ServiceDetails(
-                                                bundle: itm,
-                                                currentUser: currentUser)));
-                              },
-                              child: Container(
-                                margin: const EdgeInsets.only(
-                                    left: 1.0, right: 1.0),
-                                padding: const EdgeInsets.all(4.0),
-                                child: crmBundle(
-                                    context,
-                                    "assets/ceremony/hs1.jpg",
-                                    itm.price,
-                                    itm.bundleType,
-                                    110),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 ),
               )
             ],
-          ),
-        )
-      ],
-    );
+          )
+        : SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                loadingFunc(37, prmry),
+              ],
+            ),
+          );
   }
 
   AppBar topBar() {
     return AppBar(
-      backgroundColor: Colors.transparent,
+      backgroundColor: osec.withOpacity(.1),
+      toolbarHeight: 40,
       elevation: 0,
       actions: [
         const Padding(
@@ -258,132 +317,126 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
     );
   }
 
-  Column rowBundlePosition(
-      BuildContext context, String subtitle, String title, String season, img) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          // color: Colors.red,
-          width: MediaQuery.of(context).size.width,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              //Tv Show Title
-              Container(
-                // color: Colors.red,
-                margin: const EdgeInsets.only(left: 18.0),
-                padding: const EdgeInsets.only(left: 4),
-                width: MediaQuery.of(context).size.width / 2.0,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(
-                          left: 15, right: 15, top: 4, bottom: 4),
-                      decoration: BoxDecoration(
-                          color: OColors.primary,
-                          border:
-                              Border.all(color: OColors.primary, width: 1.2),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Text(
-                        subtitle,
-                        style: header14,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      title,
-                      style: header18.copyWith(
-                          fontSize: 19,
-                          letterSpacing: 0.5,
-                          fontWeight: FontWeight.bold,
-                          height: 1.3,
-                          wordSpacing: 4.2),
-                    ),
-                  ],
-                ),
-              ),
-
-              //New Tv Show Register
-              GestureDetector(
-                onTap: () {
-                  showAlertDialog(
-                    context,
-                    titleDIalog(context, 'Registor'),
-                    choosingAplication(context),
-                    dialogButton(context, 'cancel', bttnStyl(0, fntClr, trans),
-                        () {
-                      Navigator.of(context).pop();
-                    }),
-                    dialogButton(context, '', bttnStyl(0, trans, trans), () {
-                      Navigator.of(context).pop();
-                    }),
-                  );
-                  // showAlertDialog(context, 'Select Ceremony ', '', '', '');
-                },
-                child: Container(
-                  // color: Colors.red,
-                  margin: const EdgeInsets.only(right: 10),
-                  width: 105,
-                  height: 140,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      //Title
-                      Container(
-                        padding: const EdgeInsets.only(
-                            left: 0, right: 8, top: 4, bottom: 8),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              bottomRight: Radius.circular(10)),
-                        ),
-                        child: Text(
-                          season,
-                          style: header14.copyWith(fontWeight: FontWeight.w500),
-                        ),
-                      ),
-
-                      // TImage
-                      Stack(
-                        children: [
-                          InkWell(
-                            child: Image.asset(
-                              img,
-                              // width: 90,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          Positioned(
-                              bottom: 0,
-                              child: Container(
-                                width: 100,
-                                padding: const EdgeInsets.only(
-                                    left: 8, right: 8, top: 4, bottom: 4),
-                                decoration: BoxDecoration(
-                                    color: OColors.primary.withOpacity(.8)),
-                                child: Center(
-                                  child: Text(
-                                    'Register Now',
-                                    style: header11.copyWith(
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                              )),
-                        ],
-                      ),
-                    ],
+  SizedBox rowBundlePosition(BuildContext context, size, String subtitle,
+      String title, String season, img) {
+    return SizedBox(
+      // color: Colors.red,
+      width: size.width,
+      // height: size.height / 10,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          //Tv Show Title
+          Container(
+            // color: Colors.red,
+            margin: const EdgeInsets.only(left: 18.0),
+            padding: const EdgeInsets.only(left: 4),
+            width: MediaQuery.of(context).size.width / 2.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(
+                      left: 15, right: 15, top: 4, bottom: 4),
+                  decoration: BoxDecoration(
+                      color: OColors.primary,
+                      border: Border.all(color: OColors.primary, width: 1.2),
+                      borderRadius: BorderRadius.circular(30)),
+                  child: Text(
+                    subtitle,
+                    style: header14,
                   ),
                 ),
-              )
-            ],
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  title,
+                  style: header18.copyWith(
+                      fontSize: 19,
+                      letterSpacing: 0.5,
+                      fontWeight: FontWeight.bold,
+                      height: 1.3,
+                      wordSpacing: 4.2),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+
+          //New Tv Show Register
+          GestureDetector(
+            onTap: () {
+              show.isRegistered != 'true'
+                  ? showAlertDialog(
+                      context,
+                      titleDIalog(context, l(sw, 12)),
+                      choosingAplication(context, size),
+                      dialogButton(
+                          context, 'cancel', bttnStyl(0, fntClr, trans), () {
+                        Navigator.of(context).pop();
+                      }),
+                      dialogButton(context, '', bttnStyl(0, trans, trans), () {
+                        Navigator.of(context).pop();
+                      }),
+                    )
+                  : print('Registered');
+            },
+            child: Container(
+              // color: Colors.red,
+              margin: const EdgeInsets.only(right: 10),
+              width: 105,
+              height: 140,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //Title
+                  Container(
+                    padding: const EdgeInsets.only(
+                        left: 0, right: 8, top: 4, bottom: 8),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(10),
+                          bottomRight: Radius.circular(10)),
+                    ),
+                    child: Text(
+                      season,
+                      style: header14.copyWith(fontWeight: FontWeight.w500),
+                    ),
+                  ),
+
+                  // TImage
+                  Stack(
+                    children: [
+                      InkWell(
+                          child: fadeImg(
+                              context, img, size.width / 3, size.height / 6.5)),
+                      Positioned(
+                          bottom: 0,
+                          child: Container(
+                              width: 100,
+                              padding: const EdgeInsets.only(
+                                  left: 8, right: 8, top: 4, bottom: 4),
+                              decoration: BoxDecoration(
+                                  color: OColors.primary.withOpacity(.8)),
+                              child: Center(
+                                child: show.isRegistered != 'true'
+                                    ? Text(l(sw, 12) + ' Now',
+                                        style: header11.copyWith(
+                                            fontWeight: FontWeight.w400))
+                                    : Text(
+                                        l(sw, 46),
+                                        style: header11.copyWith(
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                              ))),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -400,11 +453,8 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
       child: Stack(children: [
         ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              url,
-              height: 140,
-              fit: BoxFit.cover,
-            )),
+            child: fadeImg(context, url, MediaQuery.of(context).size.width / 1,
+                MediaQuery.of(context).size.height / 5)),
         Positioned(
             top: 8,
             left: 0,
@@ -434,7 +484,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
                   color: OColors.secondary.withOpacity(.8)),
               child: Center(
                 child: Text(
-                  price + ' Tsh/',
+                  price,
                   style: header11.copyWith(fontWeight: FontWeight.w400),
                 ),
               ),
@@ -444,7 +494,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
   }
 
   /// first Content DialogBox for user to choose Register type
-  SizedBox choosingAplication(BuildContext context) {
+  SizedBox choosingAplication(BuildContext context, size) {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 1.1,
       height: 70,
@@ -473,27 +523,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
               //Show Alert Dialog Alert function
 
               Navigator.of(context).pop();
-              showAlertDialog(
-                  context,
-                  titleDIalog(context, 'THE BIGMONTH TV SHOW'), //Title
-                  bigMonthRegistration(context), // Content
-                  dialogButton(context, 'cancel', bttnStyl(6, trans, fntClr),
-                      reggster(context)), //Cancel Button
-                  GestureDetector(
-                    onTap: () {
-                      _regstrationBigMonth(
-                          context, _birthdayDateController.text);
-                    },
-                    child: flatButton(
-                      context,
-                      'Regiter',
-                      header13,
-                      30,
-                      2.5,
-                      prmry,
-                      10,
-                    ),
-                  ));
+              showAlert(context, size);
             },
             child: flatButton(
                 context,
@@ -510,78 +540,252 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
   }
 
   // Second Content Dialog for Register user Widget
-  SizedBox bigMonthRegistration(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 1,
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            'Judges On Show',
-            style: header14,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              personProfile(context, 'url', 'userInfo', 'itm'),
-              personProfile(context, 'url', 'userInfo', 'itm'),
-              personProfile(context, 'url', 'userInfo', 'itm'),
-            ],
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Text(
-            'Famous On BigMonth Show',
-            style: header14,
-          ),
-          // Team show
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Column(
-                children: [
-                  Text(
-                    'TEAM A',
-                    style: header13,
-                  ),
-                  personProfile(context, 'url', 'userInfo', 'itm'),
-                ],
-              ),
-              Column(
-                children: [
-                  Text(
-                    'TEAM B',
-                    style: header13,
-                  ),
-                  personProfile(context, 'url', 'userInfo', 'itm'),
-                ],
-              ),
-            ],
-          ),
+  SizedBox bigMonthRegistration(BuildContext context, size) {
+    var sStarAvater0 =
+        '${api}public/uploads/${show.superStarInfo[0].username!}/profile/${show.superStarInfo[0].avater!}';
+    var sStarAvater1 =
+        '${api}public/uploads/${show.superStarInfo[1].username!}/profile/${show.superStarInfo[1].avater!}';
 
-          const Spacer(),
-          Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(left: 20),
-                padding: const EdgeInsets.only(bottom: 8.0),
-                alignment: Alignment.topLeft,
-                child: Text('Enter  your BirthDate',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w400, color: OColors.fontColor),
-                    textAlign: TextAlign.start),
+    double pwidth = 50;
+    double pheight = 50;
+    return SizedBox(
+      width: size.width / 1,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 13,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 155,
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        alignment: Alignment.topLeft,
+                        child: Text('Enter  your BirthDate',
+                            style:
+                                header12.copyWith(fontWeight: FontWeight.w400)),
+                      ),
+                      const SizedBox(
+                        height: 3,
+                      ),
+                      dateDialog(
+                          context,
+                          _birthdayDateController,
+                          MediaQuery.of(context).size.width / 1.5,
+                          40,
+                          5,
+                          gry1,
+                          dateStyl),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 155,
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(left: 20),
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        alignment: Alignment.topLeft,
+                        child: Text('Enter  your Contact',
+                            style:
+                                header12.copyWith(fontWeight: FontWeight.w400)),
+                      ),
+                      const SizedBox(
+                        height: 3,
+                      ),
+                      textFieldContainer(
+                          context,
+                          'Enter Contact',
+                          _contactController,
+                          MediaQuery.of(context).size.width / 1.5,
+                          40,
+                          10,
+                          10,
+                          gry1,
+                          Icon(
+                            Icons.call,
+                            size: 20,
+                            color: prmry,
+                          ),
+                          textStyl),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 1.1,
+              height: 8,
+              child: Divider(
+                height: 1.0,
+                color: OColors.darkGrey,
+                thickness: 1.0,
               ),
-              const SizedBox(
-                height: 6,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Judges On Show',
+                style: header14.copyWith(),
               ),
-              dateDialog(context, _birthdayDateController, 1, 40,10, gry1,dateStyl)
-            ],
-          )
-        ],
+            ),
+
+            // Judges List
+
+            SizedBox(
+              height: 100,
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: show.judgesInfo.length,
+                  itemBuilder: (context, i) {
+                    final itm = show.judgesInfo[i];
+                    final judgeAvater =
+                        '${api}public/uploads/${itm.username!}/profile/${itm.avater!}';
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                      child: personProfileClipOval(
+                          context,
+                          itm.avater!,
+                          judgeAvater,
+                          infoPersonalProfile(
+                              itm.username!, header12, 'Judge', header10, 5, 0),
+                          30,
+                          pwidth,
+                          pheight,
+                          prmry),
+                    );
+                  }),
+            ),
+
+            const SizedBox(
+              height: 15,
+            ),
+            //Header
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Text(
+                'Famous On BigMonth Show',
+                style: header14,
+              ),
+            ),
+            // Team show
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                //Team A
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        'TEAM A',
+                        style: header13,
+                      ),
+                    ),
+                    personProfileClipOval(
+                        context,
+                        show.superStarInfo[0].avater!,
+                        sStarAvater0,
+                        infoPersonalProfile(show.superStarInfo[0].username!,
+                            header12, 'Musician', header10, 5, 0),
+                        30,
+                        pwidth,
+                        pheight,
+                        prmry),
+                  ],
+                ),
+                // Team B
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        'TEAM B',
+                        style: header13,
+                      ),
+                    ),
+                    personProfileClipOval(
+                        context,
+                        show.superStarInfo[1].avater!,
+                        sStarAvater1,
+                        infoPersonalProfile(show.superStarInfo[1].username!,
+                            header12, 'Actor', header10, 5, 0),
+                        30,
+                        pwidth,
+                        pheight,
+                        prmry),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
+    );
+  }
+
+  showAlert(BuildContext context, size) {
+    AlertDialog alert = AlertDialog(
+      insetPadding: const EdgeInsets.only(right: 1, left: 1),
+      contentPadding: EdgeInsets.zero,
+      titlePadding: const EdgeInsets.only(top: 5),
+      backgroundColor: OColors.secondary,
+      actionsPadding: EdgeInsets.zero,
+      title: titleDIalog(context, 'THE BIGMONTH TV SHOW'),
+      content: bigMonthRegistration(context, size),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            TextButton(
+              style: bttnStyl(6, trans, fntClr),
+              onPressed: () {
+                reggster(context);
+              },
+              child: Text(
+                l(sw, 19),
+                style: header13.copyWith(
+                    fontWeight: FontWeight.normal, color: OColors.fontColor),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                _regstrationBigMonth(
+                    context, _birthdayDateController, _contactController);
+              },
+              child: flatButton(
+                context,
+                l(sw, 12),
+                header13,
+                30,
+                2.5,
+                prmry,
+                10,
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 
@@ -632,7 +836,8 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text('View BigMonth Shows', style: header14),
+                              child:
+                                  Text('View BigMonth Shows', style: header14),
                             )),
                         const SizedBox(
                           height: 10,

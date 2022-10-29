@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
-import 'package:sherekoo/util/modInstance.dart';
 
 import '../model/allData.dart';
 import '../model/ceremony/allCeremony.dart';
@@ -55,6 +54,28 @@ class _TabBState extends State<TabB> {
 
     super.initState();
   }
+
+ User user =  User(
+    id: '',
+    username: '',
+    firstname: '',
+    lastname: '',
+    avater: '',
+    phoneNo: '',
+    email: '',
+    gender: '',
+    role: '',
+    isCurrentUser: '',
+    address: '',
+    bio: '',
+    meritalStatus: '',
+    totalPost: '',
+    isCurrentBsnAdmin: '',
+    isCurrentCrmAdmin: '',
+    totalFollowers: '',
+    totalFollowing: '',
+    totalLikes: '');
+
 
   getUser() async {
     AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {

@@ -5,7 +5,7 @@ import 'package:sherekoo/util/colors.dart';
 
 import '../../model/allData.dart';
 import '../../model/crmBundle/bundle.dart';
-import '../../model/crmBundle/crmbundle.dart';
+import '../../model/crmBundle/crmbundle-call.dart';
 import '../../model/crmPackage/crmPackage.dart';
 import '../../model/crmPackage/crmPackageModel.dart';
 import '../../model/userModel.dart';
@@ -96,7 +96,7 @@ class _SherekoServiceState extends State<SherekoService> {
   }
 
   getCrmBundle() async {
-    CrmBundle(payload: [], status: 0).get(token, urlGetCrmBundle).then((value) {
+    CrmBundleCall(payload: [], status: 0).get(token, urlGetCrmBundle).then((value) {
       if (value.status == 200) {
         setState(() {
           bundle =

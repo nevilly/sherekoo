@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sherekoo/util/modInstance.dart';
 import 'package:sherekoo/widgets/liveTabB.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -33,6 +32,31 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
 
  
   ScrollController? _cntr;
+
+User user =  User(
+    id: '',
+    username: '',
+    firstname: '',
+    lastname: '',
+    avater: '',
+    phoneNo: '',
+    email: '',
+    gender: '',
+    role: '',
+    isCurrentUser: '',
+    address: '',
+    bio: '',
+    meritalStatus: '',
+    totalPost: '',
+    isCurrentBsnAdmin: '',
+    isCurrentCrmAdmin: '',
+    totalFollowers: '',
+    totalFollowing: '',
+    totalLikes: '');
+
+
+
+
   @override
   void initState() {
     _tabController = TabController(

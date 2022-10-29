@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../model/userModel.dart';
 import '../../screens/ourServices/bigMonth-TvShow.dart';
 import '../../screens/ourServices/sherekoCards.dart';
 import '../../screens/ourServices/sherekoService.dart';
@@ -10,6 +11,9 @@ class SherekooServices extends StatelessWidget {
   const SherekooServices({
     Key? key,
   }) : super(key: key);
+
+  
+
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +31,27 @@ class SherekooServices extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (BuildContext context) => SherekoCards(
                               crm: ceremony,
-                              user: user,
+                              user: User(
+    id: '',
+    username: '',
+    firstname: '',
+    lastname: '',
+    avater: '',
+    phoneNo: '',
+    email: '',
+    gender: '',
+    role: '',
+    isCurrentUser: '',
+    address: '',
+    bio: '',
+    meritalStatus: '',
+    totalPost: '',
+    isCurrentBsnAdmin: '',
+    isCurrentCrmAdmin: '',
+    totalFollowers: '',
+    totalFollowing: '',
+    totalLikes: '')
+,
                             )));
               },
               child: ourServices(context, 'Order Cards')),

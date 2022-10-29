@@ -114,5 +114,9 @@ String urlGetChats = '${api}Chats/get';
 //BIGMONTH Tv Show
 String urlAddBigMonth = '${api}TvshowBigMonth/add';
 String urlGetBigMonth = '${api}TvshowBigMonth/get';
+String urlGetBigMonthPacakge = '${api}TvshowBigMonth/get_as_Package';
+
+//BigMonth Registration
+String urlBigMonthRegistration = '${api}TvBmontRegistration/add';
 
 

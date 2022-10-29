@@ -381,8 +381,8 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
                       );
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: personalProfile(
-                            itm['username'], itm['avater'], info, 5, 60, 60),
+                        child: personalProfile(context,
+                            itm['avater'], "${api}public/uploads/$itm['username]/profile/$itm['avater']", info, 5, 60, 60),
                       );
                     }),
               )
@@ -429,8 +429,8 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
                       );
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: personalProfile(
-                            itm['username'], itm['avater'], info, 5, 60, 60),
+                        child: personalProfile(context,
+                            itm['avater'], "${api}public/uploads/$itm['username]/profile/$itm['avater']", info, 5, 3, 3)
                       );
                     }),
               )
@@ -479,6 +479,7 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
                       )
                     ],
                   );
+                
                   return GestureDetector(
                     onTap: () {
                       setState(() {
@@ -512,8 +513,8 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: personalProfile(
-                          option.username!, option.avater!, info, 10, 40, 40),
+                      child: personalProfile(context,
+                            option.avater!, '${api}public/uploads/${option.username!}/profile/${option.avater!}', info, 5, 3, 3),
                     ),
                   );
                 },

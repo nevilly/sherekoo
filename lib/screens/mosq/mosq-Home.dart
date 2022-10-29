@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
-import '../../util/modInstance.dart';
 import 'mosq-Profile.dart';
 import 'mosq-post.dart';
 import 'mosq-timeline.dart';
@@ -23,6 +22,27 @@ class MosqProject extends StatefulWidget {
 class _MosqProjectState extends State<MosqProject> {
   final Preferences _preferences = Preferences();
   String token = "";
+
+User user =  User(
+    id: '',
+    username: '',
+    firstname: '',
+    lastname: '',
+    avater: '',
+    phoneNo: '',
+    email: '',
+    gender: '',
+    role: '',
+    isCurrentUser: '',
+    address: '',
+    bio: '',
+    meritalStatus: '',
+    totalPost: '',
+    isCurrentBsnAdmin: '',
+    isCurrentCrmAdmin: '',
+    totalFollowers: '',
+    totalFollowing: '',
+    totalLikes: '');
 
   final screen = [
     const MosqPost(),

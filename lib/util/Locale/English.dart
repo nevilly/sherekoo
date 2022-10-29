@@ -24,34 +24,34 @@ class English {
     "Already have an account..? ",
     "TigoPesa",
     "Airtel Money",
-    "",
-    "",
+    "cancel",
+    "", //20
     "TRANSACTIONS HISTORY",
     "ALL",
+    "Congraturation",
     "",
-    "",
-    "LOGIN",
+    "LOGIN", //25
     "SIGN UP",
     "SIGN IN",
     "Plot listing, properties, real estate",
     "Register your orphanage for better health services",
-    "Back",
+    "Back", //30
     "Submit",
     et, //  32
     tst,
     es,
-    sno,  //35
+    sno, //35
     ee,
     epno,
     wd,
     ds,
-    rd,  //40
-   sj,
-   sStar,
-   imgInsertAlt,
-   titleAlt,
-
-
+    rd, //40
+    sj,
+    sStar,
+    imgInsertAlt,
+    titleAlt,
+    eidt, //45
+    ei
   ];
 
   words() {
