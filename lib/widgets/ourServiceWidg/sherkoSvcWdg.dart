@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../model/userModel.dart';
 import '../../screens/ourServices/bigMonth-TvShow.dart';
+import '../../screens/ourServices/mshengaWar-TvShow.dart';
 import '../../screens/ourServices/sherekoCards.dart';
 import '../../screens/ourServices/sherekoService.dart';
 import '../../util/func.dart';
@@ -11,9 +12,6 @@ class SherekooServices extends StatelessWidget {
   const SherekooServices({
     Key? key,
   }) : super(key: key);
-
-  
-
 
   @override
   Widget build(BuildContext context) {
@@ -32,50 +30,28 @@ class SherekooServices extends StatelessWidget {
                         builder: (BuildContext context) => SherekoCards(
                               crm: ceremony,
                               user: User(
-    id: '',
-    username: '',
-    firstname: '',
-    lastname: '',
-    avater: '',
-    phoneNo: '',
-    email: '',
-    gender: '',
-    role: '',
-    isCurrentUser: '',
-    address: '',
-    bio: '',
-    meritalStatus: '',
-    totalPost: '',
-    isCurrentBsnAdmin: '',
-    isCurrentCrmAdmin: '',
-    totalFollowers: '',
-    totalFollowing: '',
-    totalLikes: '')
-,
+                                  id: '',
+                                  username: '',
+                                  firstname: '',
+                                  lastname: '',
+                                  avater: '',
+                                  phoneNo: '',
+                                  email: '',
+                                  gender: '',
+                                  role: '',
+                                  isCurrentUser: '',
+                                  address: '',
+                                  bio: '',
+                                  meritalStatus: '',
+                                  totalPost: '',
+                                  isCurrentBsnAdmin: '',
+                                  isCurrentCrmAdmin: '',
+                                  totalFollowers: '',
+                                  totalFollowing: '',
+                                  totalLikes: ''),
                             )));
               },
               child: ourServices(context, 'Order Cards')),
-
-          GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => const BigMonthTvShow(
-                              from: 'MyBdayShow',
-                            )));
-              },
-              child: ourServices(context, 'MyBday Tv Show')),
-          GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => const SherekoService(
-                              from: 'Mr&MrsMy',
-                            )));
-              },
-              child: ourServices(context, 'Mr&Mrs Wangu Tv Show')),
 
           GestureDetector(
               onTap: () {
@@ -87,6 +63,29 @@ class SherekooServices extends StatelessWidget {
                             )));
               },
               child: ourServices(context, 'Ceremony Bundle')),
+
+          GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => const BigMonthTvShow(
+                              from: '',
+                            )));
+              },
+              child: ourServices(context, 'BigMonth Tv Show')),
+          GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const MshengaWarTvShow(
+                              from: '&',
+                            )));
+              },
+              child: ourServices(context, 'Mshenga War Tv Show')),
+
           // ourServices(context, 'Documentary make'),
           // ourServices(context, 'Tranport Bandle'),
           // ourServices(context, 'Dress Design'),

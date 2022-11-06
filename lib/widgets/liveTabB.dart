@@ -12,6 +12,7 @@ import '../model/userModel.dart';
 import '../model/services/postServices.dart';
 import '../model/services/svModel.dart';
 import '../util/Preferences.dart';
+import '../util/app-variables.dart';
 import '../util/colors.dart';
 import '../util/func.dart';
 import '../util/textStyle-pallet.dart';
@@ -32,8 +33,7 @@ class TabB extends StatefulWidget {
 }
 
 class _TabBState extends State<TabB> {
-  final Preferences _preferences = Preferences();
-  String token = '';
+
 
   TextEditingController phoneNo = TextEditingController();
 
@@ -41,8 +41,8 @@ class _TabBState extends State<TabB> {
 
   @override
   void initState() {
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
         getUser();

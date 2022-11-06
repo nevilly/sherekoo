@@ -1,6 +1,6 @@
 import 'package:sherekoo/model/userModel.dart';
 
-class BigMonthModel {
+class MshengaWarModel {
   String id;
   String title;
   String description;
@@ -9,15 +9,13 @@ class BigMonthModel {
   String showImage;
   String dedline;
   String showDate;
-  String judgesId;
-  String superStarsId;
+  String washengaId;
   String status;
-  String isUserIdRegister;
-  List<User> judgesInfo;
-  List<User> superStarInfo;
+  String isRegistered;
+  List<User> washengaInfo;
   String createdDate;
 
-  BigMonthModel({
+  MshengaWarModel({
     required this.id,
     required this.title,
     required this.description,
@@ -26,18 +24,16 @@ class BigMonthModel {
     required this.showImage,
     required this.dedline,
     required this.showDate,
-    required this.judgesId,
-    required this.superStarsId,
+    required this.washengaId,
     required this.status,
-    required this.isUserIdRegister,
-    required this.judgesInfo,
-    required this.superStarInfo,
+    required this.isRegistered,
+    required this.washengaInfo,
     required this.createdDate,
   });
 
-  factory BigMonthModel.fromJson(Map<String, dynamic> json) {
+  factory MshengaWarModel.fromJson(Map<String, dynamic> json) {
     // print(json['isRegistered']);
-    return BigMonthModel(
+    return MshengaWarModel(
       id: json['id'] ?? '',
       title: json['title'] ?? "",
       description: json['description'] ?? "",
@@ -46,14 +42,11 @@ class BigMonthModel {
       showImage: json['showImage'] ?? "",
       dedline: json['dedline'] ?? "",
       showDate: json['showDate'] ?? "",
-      judgesId: json['judgesId'] ?? "",
-      superStarsId: json['superStarsId'] ?? "",
+      washengaId: json['washengaId'] ?? "",
       status: json['status'].toString(),
-      isUserIdRegister: json['isUserIdRegister'].toString(),
-      superStarInfo:
-          json['superStarsInfo'].map<User>((e) => User.fromJson(e)).toList(),
-      judgesInfo:
-          json['judgesInfo'].map<User>((e) => User.fromJson(e)).toList(),
+      isRegistered: json['isRegistered'].toString(),
+      washengaInfo:
+          json['washengaInfo'].map<User>((e) => User.fromJson(e)).toList(),
       createdDate: json['createdDate'] ?? "",
     );
   }

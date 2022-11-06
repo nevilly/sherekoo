@@ -115,8 +115,20 @@ String urlGetChats = '${api}Chats/get';
 String urlAddBigMonth = '${api}TvshowBigMonth/add';
 String urlGetBigMonth = '${api}TvshowBigMonth/get';
 String urlGetBigMonthPacakge = '${api}TvshowBigMonth/get_as_Package';
+String urlActivateGigMonthList = '${api}TvshowBigMonth/activate';
+String urlRemoveBigMonthList = '${api}TvshowBigMonth/remove';
+
 
 //BigMonth Registration
 String urlBigMonthRegistration = '${api}TvBmontRegistration/add';
+
+//MshengaWar Tv Show
+String urlAddMshengaWar = '${api}TvShowMshengaWar/add';
+String urlGetMshengaWar = '${api}TvShowMshengaWar/get';
+String urlGeMshengaWarPacakge = '${api}TvShowMshengaWar/get_as_Package';
+String urlActivateMshengaList = '${api}TvShowMshengaWar/activate';
+String urlRemoveMshengaList = '${api}TvShowMshengaWar/remove';
+
+String urlUpdateMshenga = '${api}TvShowMshengaWar/update';
 
 

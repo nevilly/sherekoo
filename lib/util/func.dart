@@ -96,11 +96,13 @@ Container flatButton(
   double w,
   Color backgroundColor,
   double radCircular,
+  double marginTop,
+double marginbtn
 ) {
   return Container(
-    width: MediaQuery.of(context).size.width / w,
+    width: w,
     height: h,
-    margin: const EdgeInsets.only(left: 10, right: 20, top: 15, bottom: 15),
+    margin:  EdgeInsets.only(left: 10, right: 10, top: marginTop, bottom: marginbtn),
     padding: const EdgeInsets.only(left: 10, right: 10, top: 4, bottom: 4),
     alignment: Alignment.center,
     decoration: BoxDecoration(

@@ -3,9 +3,10 @@ import 'package:sherekoo/util/colors.dart';
 import 'package:sherekoo/util/pallets.dart';
 
 import '../../model/allData.dart';
-import '../../model/bigMontTvShow/bigMonth-Model.dart';
 import '../../model/bigMontTvShow/bigMonth-call.dart';
 
+import '../../model/mshengaWar/mshengaWar-Model.dart';
+import '../../model/mshengaWar/mshengaWar-call.dart';
 import '../../model/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/func.dart';
@@ -13,26 +14,26 @@ import '../../util/modInstance.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/login_widget/service-background.dart.dart';
-import '../admin/bgMonth-registered.dart';
-import '../admin/bigMonth-List.dart';
-import '../admin/bigMonth-admin.dart';
-import 'bigMontth-wall.dart';
+import '../admin/crnBundleOrders.dart';
+import '../admin/mshenga-admin.dart';
+import '../admin/mshengaShow-list.dart';
+import 'mshengaWall.dart';
 
-class BigMonthTvShow extends StatefulWidget {
+class MshengaWarTvShow extends StatefulWidget {
   final String from;
-  const BigMonthTvShow({Key? key, required this.from}) : super(key: key);
+  const MshengaWarTvShow({Key? key, required this.from}) : super(key: key);
 
   @override
-  State<BigMonthTvShow> createState() => _BigMonthTvShowState();
+  State<MshengaWarTvShow> createState() => _MshengaWarTvShowState();
 }
 
-class _BigMonthTvShowState extends State<BigMonthTvShow> {
+class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
   final TextEditingController _birthdayDateController = TextEditingController();
   final TextEditingController _contactController = TextEditingController();
 
-  List<BigMonthModel> shows = [];
+  List<MshengaWarModel> shows = [];
 
-  BigMonthModel show = BigMonthModel(
+  MshengaWarModel show = MshengaWarModel(
       id: '',
       title: '',
       description: '',
@@ -41,11 +42,9 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
       showImage: '',
       dedline: '',
       showDate: '',
-      judgesId: '',
-      superStarsId: '',
       status: '',
-      isUserIdRegister: '',
-      judgesInfo: [
+      isRegistered: '',
+      washengaInfo: [
         User(
             id: '',
             username: '',
@@ -67,88 +66,8 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
             totalFollowing: '',
             totalLikes: '')
       ],
-      superStarInfo: [
-        User(
-            id: '',
-            username: '',
-            firstname: '',
-            lastname: '',
-            avater: '',
-            phoneNo: '',
-            email: '',
-            gender: '',
-            role: '',
-            isCurrentUser: '',
-            address: '',
-            bio: '',
-            meritalStatus: '',
-            totalPost: '',
-            isCurrentBsnAdmin: '',
-            isCurrentCrmAdmin: '',
-            totalFollowers: '',
-            totalFollowing: '',
-            totalLikes: '')
-      ],
-      createdDate: '');
-
-  BigMonthModel newShow = BigMonthModel(
-      id: '',
-      title: '',
-      description: '',
-      season: '',
-      episode: '',
-      showImage: '',
-      dedline: '',
-      showDate: '',
-      judgesId: '',
-      superStarsId: '',
-      status: '',
-      isUserIdRegister: '',
-      judgesInfo: [
-        User(
-            id: '',
-            username: '',
-            firstname: '',
-            lastname: '',
-            avater: '',
-            phoneNo: '',
-            email: '',
-            gender: '',
-            role: '',
-            isCurrentUser: '',
-            address: '',
-            bio: '',
-            meritalStatus: '',
-            totalPost: '',
-            isCurrentBsnAdmin: '',
-            isCurrentCrmAdmin: '',
-            totalFollowers: '',
-            totalFollowing: '',
-            totalLikes: '')
-      ],
-      superStarInfo: [
-        User(
-            id: '',
-            username: '',
-            firstname: '',
-            lastname: '',
-            avater: '',
-            phoneNo: '',
-            email: '',
-            gender: '',
-            role: '',
-            isCurrentUser: '',
-            address: '',
-            bio: '',
-            meritalStatus: '',
-            totalPost: '',
-            isCurrentBsnAdmin: '',
-            isCurrentCrmAdmin: '',
-            totalFollowers: '',
-            totalFollowing: '',
-            totalLikes: '')
-      ],
-      createdDate: '');
+      createdDate: '',
+      washengaId: '');
 
   _regstrationBigMonth(BuildContext context, TextEditingController date,
       TextEditingController contact) {
@@ -160,7 +79,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
             .then((v) {
           setState(() {
             Navigator.of(context).pop();
-            show.isUserIdRegister = 'true';
+            show.isRegistered = 'true';
             errorAlertDialog(context, l(sw, 23), v.payload);
           });
         });
@@ -180,8 +99,8 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
       setState(() {
         token = value;
         getUser(urlGetUser);
-        getShow('$urlGetBigMonthPacakge/status/$bigMonthShowStatus', 'new');
-        getShow(urlGetBigMonth, 'all');
+        getShow('$urlGeMshengaWarPacakge/status/$mshengaWarShowStatus', 'new');
+        getShow(urlGetMshengaWar, 'all');
       });
     });
     super.initState();
@@ -200,15 +119,15 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
   }
 
   getShow(url, tvShow) {
-    BigMonthShowCall(payload: [], status: 0).get(token, url).then((value) {
+    MshengaWarCall(payload: [], status: 0).get(token, url).then((value) {
       if (value.status == 200) {
         final e = value.payload;
         setState(() {
           if (tvShow == 'new') {
-            show = BigMonthModel.fromJson(e);
+            show = MshengaWarModel.fromJson(e);
           } else {
             shows = value.payload
-                .map<BigMonthModel>((e) => BigMonthModel.fromJson(e))
+                .map<MshengaWarModel>((e) => MshengaWarModel.fromJson(e))
                 .toList();
           }
         });
@@ -225,7 +144,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
               SizedBox(
                   height: MediaQuery.of(context).size.height / 1.6,
                   child: ServicesBackgroundImage(
-                      image: urlBigShowImg + show.showImage)),
+                      image: urlMshenngaShowImg + show.showImage)),
               Scaffold(
                 backgroundColor: Colors.transparent,
                 appBar: topBar(),
@@ -244,7 +163,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
                               l(sw, 12),
                               show.title,
                               'Season ${show.season}',
-                              urlBigShowImg + show.showImage,
+                              urlMshenngaShowImg + show.showImage,
                             ),
                             SizedBox(
                               height: MediaQuery.of(context).size.height / 100,
@@ -300,28 +219,29 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
                                   return GestureDetector(
                                     onTap: () {
                                       if (show.status == 'true') {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        BigMonthWall(
-                                                          currentUser:
-                                                              currentUser,
-                                                          show: itm,
-                                                        )));
+                                        // Navigator.push(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //         builder:
+                                        //             (BuildContext context) =>
+                                        //                 BigMonthWall(
+                                        //                   currentUser:
+                                        //                       currentUser,
+                                        //                   show: itm,
+                                        //                 )));
                                       } else {
-                                        itm.isUserIdRegister == 'true'
-                                            ? Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (BuildContext
-                                                            context) =>
-                                                        BigMonthWall(
-                                                          currentUser:
-                                                              currentUser,
-                                                          show: itm,
-                                                        )))
+                                        itm.isRegistered == 'true'
+                                            ? print('ok')
+                                            // Navigator.push(
+                                            //     context,
+                                            //     MaterialPageRoute(
+                                            //         builder: (BuildContext
+                                            //                 context) =>
+                                            //             BigMonthWall(
+                                            //               currentUser:
+                                            //                   currentUser,
+                                            //               show: itm,
+                                            //             )))
                                             : showAlertDialog(
                                                 context,
                                                 titleDIalog(context, l(sw, 12)),
@@ -346,7 +266,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
                                       padding: const EdgeInsets.all(4.0),
                                       child: crmBundle(
                                           context,
-                                          urlBigShowImg + itm.showImage,
+                                          urlMshenngaShowImg + itm.showImage,
                                           'BigJune',
                                           'SE ${itm.season} Ep ${itm.episode}',
                                           110),
@@ -465,7 +385,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
           //New Tv Show Register
           GestureDetector(
             onTap: () {
-              show.isUserIdRegister != 'true'
+              show.isRegistered != 'true'
                   ? showAlertDialog(
                       context,
                       titleDIalog(context, l(sw, 12)),
@@ -481,7 +401,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
                   : Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (BuildContext context) => BigMonthWall(
+                          builder: (BuildContext context) => MshengaWarWall(
                                 currentUser: currentUser,
                                 show: show,
                               )));
@@ -525,7 +445,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
                               decoration: BoxDecoration(
                                   color: OColors.primary.withOpacity(.8)),
                               child: Center(
-                                child: show.isUserIdRegister != 'true'
+                                child: show.isRegistered != 'true'
                                     ? Text(l(sw, 12) + ' Now',
                                         style: header11.copyWith(
                                             fontWeight: FontWeight.w400))
@@ -618,7 +538,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
                   'As audience',
                   header11.copyWith(fontWeight: FontWeight.bold),
                   40,
-                  70,
+                  60,
                   OColors.primary.withOpacity(.3),
                   80,
                   10,
@@ -651,9 +571,9 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
   // Second Content Dialog for Register user Widget
   SizedBox bigMonthRegistration(BuildContext context, size) {
     var sStarAvater0 =
-        '${api}public/uploads/${show.superStarInfo[0].username!}/profile/${show.superStarInfo[0].avater!}';
+        '${api}public/uploads/${show.washengaInfo[0].username!}/profile/${show.washengaInfo[0].avater!}';
     var sStarAvater1 =
-        '${api}public/uploads/${show.superStarInfo[1].username!}/profile/${show.superStarInfo[1].avater!}';
+        '${api}public/uploads/${show.washengaInfo[1].username!}/profile/${show.washengaInfo[1].avater!}';
 
     double pwidth = 50;
     double pheight = 50;
@@ -745,12 +665,12 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                'Judges On Show',
+                'Washenga On Show',
                 style: header14.copyWith(),
               ),
             ),
 
-            // Judges List
+            // Washenga List
 
             SizedBox(
               height: 100,
@@ -758,9 +678,9 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: show.judgesInfo.length,
+                  itemCount: show.washengaInfo.length,
                   itemBuilder: (context, i) {
-                    final itm = show.judgesInfo[i];
+                    final itm = show.washengaInfo[i];
 
                     final judgeAvater =
                         '${api}public/uploads/${itm.username!}/profile/${itm.avater!}';
@@ -782,64 +702,6 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
 
             const SizedBox(
               height: 15,
-            ),
-            //Header
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Text(
-                'Famous On BigMonth Show',
-                style: header14,
-              ),
-            ),
-            // Team show
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                //Team A
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text(
-                        'TEAM A',
-                        style: header13,
-                      ),
-                    ),
-                    personProfileClipOval(
-                        context,
-                        show.superStarInfo[0].avater!,
-                        sStarAvater0,
-                        infoPersonalProfile(show.superStarInfo[0].username!,
-                            header12, 'Musician', header10, 5, 0),
-                        30,
-                        pPbigMnthWidth,
-                        pPbigMnthHeight,
-                        prmry),
-                  ],
-                ),
-                // Team B
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text(
-                        'TEAM B',
-                        style: header13,
-                      ),
-                    ),
-                    personProfileClipOval(
-                        context,
-                        show.superStarInfo[1].avater!,
-                        sStarAvater1,
-                        infoPersonalProfile(show.superStarInfo[1].username!,
-                            header12, 'Actor', header10, 5, 0),
-                        30,
-                        pwidth,
-                        pheight,
-                        prmry),
-                  ],
-                ),
-              ],
             ),
           ],
         ),
@@ -898,7 +760,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
         builder: (context) {
           return Container(
             color: const Color(0xFF737373),
-            height: 250,
+            height: 190,
             child: Container(
                 decoration: BoxDecoration(
                     color: OColors.secondary,
@@ -921,66 +783,48 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (BuildContext context) =>
-                                          AddBigMonthTvShow(
-                                            show: newShow,
-                                          )));
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('Add BigMonth Show', style: header14),
-                            )),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          const BigMonthShowList()));
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child:
-                                  Text('View BigMonth Shows', style: header14),
-                            )),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          const BigMonthRegistered()));
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('View Registers', style: header14),
-                            )),
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          AddBigMonthTvShow(
+                                          AddMshengaWarTvShow(
                                             show: show,
                                           )));
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child:
-                                  Text('Edit BigMonth Show', style: header14),
+                                  Text('Add MshengaWar Show', style: header14),
                             )),
                         const SizedBox(
                           height: 10,
                         ),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          const MshengaShowList()));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('View MshengaWar Shows',
+                                  style: header14),
+                            )),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          const CrmBundleOrders()));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('View Registers', style: header14),
+                            )),
                       ],
                     ))),
           );
@@ -1030,19 +874,19 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (BuildContext context) =>
-                                                  BigMonthWall(
+                                                  MshengaWarWall(
                                                     currentUser: currentUser,
                                                     show: itm,
                                                   )));
                                     } else {
-                                      if (itm.isUserIdRegister == 'true') {
+                                      if (itm.isRegistered == 'true') {
                                         Navigator.of(context).pop();
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder:
                                                     (BuildContext context) =>
-                                                        BigMonthWall(
+                                                        MshengaWarWall(
                                                           currentUser:
                                                               currentUser,
                                                           show: itm,
@@ -1069,7 +913,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
                                     width: 70,
                                     child: fadeImg(
                                         context,
-                                        urlBigShowImg + itm.showImage,
+                                        urlMshenngaShowImg + itm.showImage,
                                         size.width / 1,
                                         size.height / 1.5),
                                   ),

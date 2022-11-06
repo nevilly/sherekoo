@@ -180,6 +180,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
               0,
               trans,
               0,
+              0,0
             ),
             flatButton(
               context,
@@ -188,7 +189,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
               0,
               0,
               trans,
-              0,
+              0,0,0
             ));
       }
     } else {
@@ -296,9 +297,9 @@ class _ServiceDetailsState extends State<ServiceDetails>
                 bookinDialog(context, size);
               },
               child:
-                  flatButton(context, 'Booking', header12, 35, 3.3, prmry, 10))
+                  flatButton(context, 'Booking', header12, 35, 60, prmry, 10,10,10))
           : flatButton(
-              context, 'Already Booking', header13, 35, 3.3, prmry, 10),
+              context, 'Already Booking', header13, 35, 60, prmry, 10,10,10),
       widget.currentUser.role == 'a'
           ? GestureDetector(
               onTap: () {

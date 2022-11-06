@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 
 import 'package:image_picker/image_picker.dart';
-import 'package:sherekoo/model/bigMontTvShow/bigMonth-Model.dart';
-import 'package:sherekoo/screens/admin/bigMonth-List.dart';
 import 'package:sherekoo/util/colors.dart';
 
 import '../../model/allData.dart';
-import '../../model/bigMontTvShow/bigMonth-call.dart';
+import '../../model/mshengaWar/mshengaWar-Model.dart';
 import '../../model/mshengaWar/mshengaWar-call.dart';
 import '../../model/userModel.dart';
 import '../../util/app-variables.dart';
@@ -17,16 +15,19 @@ import '../../util/appWords.dart';
 import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
+import 'mshengaShow-list.dart';
 
-class AddBigMonthTvShow extends StatefulWidget {
-  final BigMonthModel show;
-  const AddBigMonthTvShow({Key? key, required this.show}) : super(key: key);
+class AddMshengaWarTvShow extends StatefulWidget {
+  final MshengaWarModel show;
+  const AddMshengaWarTvShow({Key? key, required this.show}) : super(key: key);
 
   @override
-  State<AddBigMonthTvShow> createState() => _AddBigMonthTvShowState();
+  State<AddMshengaWarTvShow> createState() => _AddMshengaWarTvShowState();
 }
 
-class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
+class _AddMshengaWarTvShowState extends State<AddMshengaWarTvShow> {
+  bool sw = false;
+
   final TextEditingController _body = TextEditingController();
   final TextEditingController _title = TextEditingController();
   final TextEditingController _season = TextEditingController();
@@ -43,15 +44,13 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
   String username = '';
   String avater = '';
 
-  List judges = [];
-  List judgesId = [];
+  List washengaId = [];
+ 
 
-  List superStar = [];
-  List superStarId = [];
+  List washenga = [];
 
   List<User> data = [];
-
-  String judgeIdEdited = '';
+   String washengaIdEdited = '';
   String showImage = '';
   String showId = '';
 
@@ -73,7 +72,7 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
           _tvShowDateController.text = widget.show.showDate;
           _dedlineDateController.text = widget.show.dedline;
           showImage = widget.show.showImage;
-          judgeIdEdited = widget.show.judgesId;
+          washengaIdEdited = widget.show.washengaId;
         }
       });
     });
@@ -82,7 +81,7 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
 
   getAll() async {
     AllUsersModel(payload: [], status: 0).get(token, urlUserList).then((value) {
-
+      // print(value.payload);
       if (value.status == 200) {
         setState(() {
           data = value.payload.map<User>((e) => User.fromJson(e)).toList();
@@ -129,27 +128,27 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
         List<int> bytes = _generalimage!.readAsBytesSync();
         String image = base64Encode(bytes);
 
-        BigMonthShowCall(
+        MshengaWarCall(
           status: 0,
           payload: [],
         )
             .post(
                 token,
-                urlAddBigMonth,
+                urlAddMshengaWar,
                 _title.text,
                 _season.text,
                 _episode.text,
                 _body.text,
                 _tvShowDateController.text,
                 _dedlineDateController.text,
-                judgesId,
-                superStarId,
+                washengaId,
                 image)
             .then((value) {
-          // Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //         builder: (BuildContext context) => const CrmPckList()));
+          Navigator.of(context).pop();
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => const MshengaShowList()));
 
           // print(value.payload);
         });
@@ -175,7 +174,7 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
         isChanged = 'false';
       }
 
-      BigMonthShowCall(
+      MshengaWarCall(
         status: 0,
         payload: [],
       )
@@ -189,16 +188,19 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
               _body.text,
               _tvShowDateController.text,
               _dedlineDateController.text,
-              judgesId,
-              judgeIdEdited,
+              washengaId,
+              washengaIdEdited,
               edtImg,
               isChanged)
           .then((value) {
+        print(value.payload);
         Navigator.of(context).pop();
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) => const BigMonthShowList()));
+                builder: (BuildContext context) => const MshengaShowList()));
+
+        // print(value.payload);
       });
     } else {
       fillTheBlanks(context, l(sw, 44), altSty, odng);
@@ -273,7 +275,6 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
             SizedBox(
               height: sbxh,
             ),
-            judge(context),
             SizedBox(
               height: sbxh,
             ),
@@ -467,7 +468,7 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
                               ),
                             )
                           : fadeImg(
-                              context, urlBigShowImg + showImage, 100, 80),
+                              context, urlMshenngaShowImg + showImage, 100, 80),
                     ),
                   ),
                   Positioned(
@@ -521,79 +522,24 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
     );
   }
 
-  Column judge(BuildContext context) {
-    return Column(
-      children: [
-        uSearch('judge'),
-        onTapText == 'false'
-            ? SizedBox(height: judges.isNotEmpty ? 115 : 10)
-            : const SizedBox(
-                height: 10,
-              ),
-        judges.isNotEmpty
-            ? Container(
-                color: OColors.darkGrey,
-                height: 120,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: judges.length,
-                    itemBuilder: (BuildContext context, i) {
-                      final itm = judges[i];
-                      Column info = Column(
-                        children: [
-                          const SizedBox(
-                            height: 3,
-                          ),
-                          Text(
-                            itm['username'],
-                            style: header12.copyWith(color: gry1),
-                          ),
-                          const SizedBox(
-                            height: 2,
-                          ),
-                          Text(
-                            'Judge',
-                            style: header10.copyWith(color: gry1),
-                          )
-                        ],
-                      );
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: personProfileClipOval(
-                            context,
-                            itm['avater'],
-                            "${api}public/uploads/$itm['username]/profile/$itm['avater']",
-                            info,
-                            30,
-                            pPbigMnthWidth,
-                            pPbigMnthHeight,
-                            prmry),
-                      );
-                    }),
-              )
-            : const SizedBox.shrink(),
-      ],
-    );
-  }
-
   Column superStars(BuildContext context) {
     return Column(
       children: [
         uSearch('superStar'),
         onTapText == 'false'
-            ? SizedBox(height: judges.isNotEmpty ? 115 : 10)
+            ? SizedBox(height: washenga.isNotEmpty ? 115 : 10)
             : const SizedBox(
                 height: 10,
               ),
-        superStar.isNotEmpty
+        washenga.isNotEmpty
             ? Container(
                 color: OColors.darkGrey,
                 height: 120,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: superStar.length,
+                    itemCount: washenga.length,
                     itemBuilder: (BuildContext context, i) {
-                      final itm = superStar[i];
+                      final itm = washenga[i];
                       Column info = Column(
                         children: [
                           const SizedBox(
@@ -601,13 +547,13 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
                           ),
                           Text(
                             itm['username'],
-                            style: header12.copyWith(color: gry1),
+                            style: header12.copyWith(color: prmry),
                           ),
                           const SizedBox(
                             height: 2,
                           ),
                           Text(
-                            'SuperStar',
+                            'Mshenga',
                             style: header10.copyWith(color: gry1),
                           )
                         ],
@@ -688,21 +634,11 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
                           "avater": avater
                         };
 
-                        if (from == 'judge') {
-                          if (judges.length <= 3) {
-                            judges.add(v);
-                            judgesId.add(id);
-                          } else {
-                            fillTheBlanks(
-                                context, judgesSltAlt, header15, odng);
-                          }
+                        if (washenga.length <= 1) {
+                          washenga.add(v);
+                          washengaId.add(id);
                         } else {
-                          if (superStar.length <= 1) {
-                            superStar.add(v);
-                            superStarId.add(id);
-                          } else {
-                            fillTheBlanks(context, starsSltAlt, header15, odng);
-                          }
+                          fillTheBlanks(context, starsSltAlt, header15, odng);
                         }
                       });
                     },
@@ -772,7 +708,7 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
   AppBar topBar() {
     return AppBar(
       backgroundColor: osec,
-      title: const Text('BIGMONTH TV SHOW'),
+      title: const Text('MSHENGA TV SHOW'),
       actions: [
         GestureDetector(
           onTap: () {
