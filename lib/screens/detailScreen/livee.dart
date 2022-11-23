@@ -30,32 +30,28 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
   int tabIndex = 0;
   // static String myVideoId = '';
 
- 
   ScrollController? _cntr;
 
-User user =  User(
-    id: '',
-    username: '',
-    firstname: '',
-    lastname: '',
-    avater: '',
-    phoneNo: '',
-    email: '',
-    gender: '',
-    role: '',
-    isCurrentUser: '',
-    address: '',
-    bio: '',
-    meritalStatus: '',
-    totalPost: '',
-    isCurrentBsnAdmin: '',
-    isCurrentCrmAdmin: '',
-    totalFollowers: '',
-    totalFollowing: '',
-    totalLikes: '');
-
-
-
+  User user = User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      meritalStatus: '',
+      totalPost: '',
+      isCurrentBsnAdmin: '',
+      isCurrentCrmAdmin: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: '');
 
   @override
   void initState() {
@@ -209,11 +205,11 @@ User user =  User(
                   )),
 
               pinned: true,
-              floating: true,
+              floating: false,
               bottom: TabBar(
                   labelColor: OColors.primary,
                   indicatorColor: OColors.primary,
-                  unselectedLabelColor: OColors.darkGrey,
+                  unselectedLabelColor: OColors.primary,
                   labelPadding: const EdgeInsets.only(
                     bottom: 2,
                   ),
@@ -235,6 +231,7 @@ User user =  User(
                     //   color: OColors.primary,
                     // )
                   ]),
+           
             ),
           ];
         },

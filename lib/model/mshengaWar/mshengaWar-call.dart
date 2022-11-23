@@ -48,6 +48,34 @@ class MshengaWarCall {
     return postHttp(url, toMap, headers);
   }
 
+  Future<MshengaWarCall> addRegisterMember(
+      String token, String dirUrl, id, contact, String registerAs) async {
+    Uri url = Uri.parse(dirUrl);
+    Map<String, dynamic> toMap() {
+      return <String, dynamic>{
+        'tvShowId': id,
+        'contact': contact,
+        'registerAs': registerAs
+      };
+    }
+
+    invalidToken(token);
+    Map<String, String> headers = myHttpHeaders(token);
+    return postHttp(url, toMap, headers);
+  }
+
+  Future<MshengaWarCall> getRegisteredMember(
+      String token, String dirUrl, id, isSelected) async {
+    Uri url = Uri.parse(dirUrl);
+    Map<String, dynamic> toMap() {
+      return <String, dynamic>{'tvShowId': id, 'isSelected': isSelected};
+    }
+
+    invalidToken(token);
+    Map<String, String> headers = myHttpHeaders(token);
+    return postHttp(url, toMap, headers);
+  }
+
   Future<MshengaWarCall> removeShow(
       String token, String dirUrl, id, userId) async {
     Uri url = Uri.parse(dirUrl);
@@ -187,7 +215,7 @@ Future<MshengaWarCall> getHttp(Uri url, Map<String, String> headers) async {
 }
 
 MshengaWarCall rBody(http.Response r) {
-  print(jsonDecode(r.body)['payload']);
+  // print(jsonDecode(r.body)['payload']);
   return MshengaWarCall.fromJson(
       {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
 }

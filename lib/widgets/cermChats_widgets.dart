@@ -25,12 +25,10 @@ class _CeremonyChatsState extends State<CeremonyChats> {
   final TextEditingController _body = TextEditingController();
   int id = 0;
 
-  
-
   @override
   void initState() {
     _preferences.init();
-      postid = widget.post.pId;
+    postid = widget.post.pId;
     backgroundTask();
     _preferences.get('token').then((value) {
       setState(() {
@@ -39,7 +37,6 @@ class _CeremonyChatsState extends State<CeremonyChats> {
       });
     });
 
- 
     super.initState();
   }
 
@@ -113,7 +110,6 @@ class _CeremonyChatsState extends State<CeremonyChats> {
             const SizedBox(
               height: 5,
             ),
-           
             Expanded(
               child: ListView.builder(
                 itemCount: chats.length,
@@ -131,12 +127,12 @@ class _CeremonyChatsState extends State<CeremonyChats> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                
                                 Row(
                                   children: [
                                     Padding(
                                         padding: const EdgeInsets.all(4.0),
-                                        child: chats[index].userInfo.avater != ''
+                                        child: chats[index].userInfo.avater !=
+                                                ''
                                             ? CircleAvatar(
                                                 radius: 12.0,
                                                 backgroundImage: NetworkImage(
@@ -156,11 +152,12 @@ class _CeremonyChatsState extends State<CeremonyChats> {
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           left: 6.0, bottom: 8),
-                                      child: Text(chats[index].userInfo.username!,
-                                          style: const TextStyle(
-                                            color: Colors.blueGrey,
-                                            fontWeight: FontWeight.w600,
-                                          )),
+                                      child:
+                                          Text(chats[index].userInfo.username!,
+                                              style: const TextStyle(
+                                                color: Colors.blueGrey,
+                                                fontWeight: FontWeight.w600,
+                                              )),
                                     ),
                                   ],
                                 ),
@@ -183,7 +180,7 @@ class _CeremonyChatsState extends State<CeremonyChats> {
                             margin: const EdgeInsets.only(
                                 top: 1.0, left: 30.0, bottom: 6),
                             alignment: Alignment.topLeft,
-                            child: Text(chats[index].body,
+                            child: Text(chats[index].body!,
                                 textAlign: TextAlign.left,
                                 style: const TextStyle(
                                     fontWeight: FontWeight.normal,

@@ -36,7 +36,7 @@ class BigMonthShowCall {
     return getHttp(url, headers);
   }
 
-   Future<BigMonthShowCall> isActive(
+  Future<BigMonthShowCall> isActive(
       String token, String dirUrl, id, isActive) async {
     Uri url = Uri.parse(dirUrl);
     Map<String, dynamic> toMap() {
@@ -48,7 +48,31 @@ class BigMonthShowCall {
     return postHttp(url, toMap, headers);
   }
 
-    Future<BigMonthShowCall> editShow(
+  Future<BigMonthShowCall> isRegistered(
+      String token, String dirUrl, id, isSelected) async {
+    Uri url = Uri.parse(dirUrl);
+    Map<String, dynamic> toMap() {
+      return <String, dynamic>{'packageIxd': id, 'isSelected': isSelected};
+    }
+
+    invalidToken(token);
+    Map<String, String> headers = myHttpHeaders(token);
+    return postHttp(url, toMap, headers);
+  }
+
+  Future<BigMonthShowCall> getRegisteredMember(
+      String token, String dirUrl, id, isSelected) async {
+    Uri url = Uri.parse(dirUrl);
+    Map<String, dynamic> toMap() {
+      return <String, dynamic>{'tvShowId': id, 'isSelected': isSelected};
+    }
+
+    invalidToken(token);
+    Map<String, String> headers = myHttpHeaders(token);
+    return postHttp(url, toMap, headers);
+  }
+
+  Future<BigMonthShowCall> editShow(
       String token,
       String dirUrl,
       String id,
@@ -84,8 +108,7 @@ class BigMonthShowCall {
     return postHttp(url, toMap, headers);
   }
 
-
-    Future<BigMonthShowCall> removeShow(
+  Future<BigMonthShowCall> removeShow(
       String token, String dirUrl, id, userId) async {
     Uri url = Uri.parse(dirUrl);
     Map<String, dynamic> toMap() {

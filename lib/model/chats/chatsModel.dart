@@ -1,3 +1,4 @@
+import '../likesModel.dart';
 import '../userModel.dart';
 
 class ChatsModel {
@@ -5,9 +6,12 @@ class ChatsModel {
   final String postId;
   final String userId;
   final String date;
-  final String body;
+  String? body;
+      
+  final String chatInitiator;
 
   final User userInfo;
+   Likes likeInfo;
 
   ChatsModel({
     required this.postId,
@@ -15,8 +19,9 @@ class ChatsModel {
     required this.userId,
     required this.body,
     required this.userInfo,
+    required this.likeInfo,
     required this.date,
-  
+    required this.chatInitiator,
   });
 
   factory ChatsModel.fromJson(Map<String, dynamic> json) {
@@ -26,8 +31,9 @@ class ChatsModel {
       userId: json['userId'] ?? "",
       date: json['createdDate'] ?? "",
       body: json['body'] ?? "",
-      userInfo:User.fromJson(json['userInfo']) ,
-      
+      chatInitiator: json['chatInitiator'].toString(),
+      userInfo: User.fromJson(json['userInfo']),
+      likeInfo: Likes.fromJson(json['likeInfo']),
     );
   }
 }

@@ -89,20 +89,20 @@ Container ourServices(BuildContext context, String prod) {
 }
 
 Container flatButton(
-  BuildContext context,
-  String text,
-  TextStyle style,
-  double h,
-  double w,
-  Color backgroundColor,
-  double radCircular,
-  double marginTop,
-double marginbtn
-) {
+    BuildContext context,
+    String text,
+    TextStyle style,
+    double h,
+    double w,
+    Color backgroundColor,
+    double radCircular,
+    double marginTop,
+    double marginbtn) {
   return Container(
     width: w,
     height: h,
-    margin:  EdgeInsets.only(left: 10, right: 10, top: marginTop, bottom: marginbtn),
+    margin:
+        EdgeInsets.only(left: 10, right: 10, top: marginTop, bottom: marginbtn),
     padding: const EdgeInsets.only(left: 10, right: 10, top: 4, bottom: 4),
     alignment: Alignment.center,
     decoration: BoxDecoration(
@@ -1222,6 +1222,7 @@ errorAlertDialog(BuildContext context, String title, String msg) async {
       Navigator.of(context).pop();
     },
   );
+
   Widget continueButton = TextButton(
     style: TextButton.styleFrom(
       padding: const EdgeInsets.all(6),
@@ -1287,6 +1288,7 @@ showAlertDialog(BuildContext context, Widget title, Widget content,
   showDialog(
     context: context,
     builder: (BuildContext context) {
+      Navigator.of(context).pop();
       return alert;
     },
   );
@@ -1294,7 +1296,9 @@ showAlertDialog(BuildContext context, Widget title, Widget content,
 
 //Dialog title
 Row titleDIalog(BuildContext context, String title) {
-  return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+  return 
+  
+  Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
     GestureDetector(
       onTap: () {
         Navigator.of(context).pop();
@@ -1314,11 +1318,14 @@ Row titleDIalog(BuildContext context, String title) {
           style: header18.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
     ),
   ]);
+
 }
 
 //Dialog set up the buttons
 Widget dialogButton(BuildContext context, text, ButtonStyle bttnStyl, funct) {
-  return TextButton(
+  return 
+  
+  TextButton(
     style: bttnStyl,
     onPressed: () {
       funct;
@@ -1329,6 +1336,7 @@ Widget dialogButton(BuildContext context, text, ButtonStyle bttnStyl, funct) {
           fontWeight: FontWeight.normal, color: OColors.fontColor),
     ),
   );
+
 }
 
 ButtonStyle bttnStyl(double padding, Color backgroundColorlor, Color primary) {

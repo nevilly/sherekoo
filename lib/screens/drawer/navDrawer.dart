@@ -14,7 +14,6 @@ import '../../util/util.dart';
 import '../accounts/login.dart';
 import '../crmScreen/Crm.dart';
 import '../crmScreen/crmScreen.dart';
-import '../mosq/mosq-Home.dart';
 
 class NavDrawer extends StatefulWidget {
   const NavDrawer({Key? key}) : super(key: key);
@@ -107,22 +106,22 @@ User user =  User(
               ),
 
               //LIve ceremony
-              ListTile(
-                title: Text(
-                  'Mosq Project',
-                  style: header15,
-                ),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => MosqProject(
-                                getIndex: 1,
-                                user: user,
-                              )));
-                },
-              ),
+              // ListTile(
+              //   title: Text(
+              //     'Mosq Project',
+              //     style: header15,
+              //   ),
+              //   onTap: () {
+              //     Navigator.of(context).pop();
+              //     Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //             builder: (BuildContext context) => MosqProject(
+              //                   getIndex: 1,
+              //                   user: user,
+              //                 )));
+              //   },
+              // ),
 
               //LIve ceremony
               ListTile(

@@ -3,7 +3,6 @@ import 'package:sherekoo/util/colors.dart';
 import 'package:sherekoo/util/pallets.dart';
 
 import '../../model/allData.dart';
-import '../../model/bigMontTvShow/bigMonth-call.dart';
 
 import '../../model/mshengaWar/mshengaWar-Model.dart';
 import '../../model/mshengaWar/mshengaWar-call.dart';
@@ -69,29 +68,6 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
       createdDate: '',
       washengaId: '');
 
-  _regstrationBigMonth(BuildContext context, TextEditingController date,
-      TextEditingController contact) {
-    if (date.text.isNotEmpty) {
-      if (contact.text.isNotEmpty) {
-        BigMonthShowCall(payload: [], status: 0)
-            .postBigMonthRegistration(token, urlBigMonthRegistration, show.id,
-                date.text, contact.text)
-            .then((v) {
-          setState(() {
-            Navigator.of(context).pop();
-            show.isRegistered = 'true';
-            errorAlertDialog(context, l(sw, 23), v.payload);
-          });
-        });
-      } else {
-        errorAlertDialog(
-            context, l(sw, 8), 'Enter your contact for contact you Please..');
-      }
-    } else {
-      errorAlertDialog(context, l(sw, 45), 'Enter your Birthdate  Please..');
-    }
-  }
-
   @override
   void initState() {
     preferences.init();
@@ -135,6 +111,24 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
     });
   }
 
+  _regstrationMshengaTvShow(BuildContext context, MshengaWarModel itm,
+      TextEditingController date, TextEditingController contact, registerAs) {
+    if (contact.text.isNotEmpty) {
+      MshengaWarCall(payload: [], status: 0)
+          .addRegisterMember(token, urlGetMshengaRegistration, show.id,
+              contact.text, registerAs)
+          .then((v) {
+        setState(() {
+          Navigator.of(context).pop();
+          onPageAlertDialog(context, l(sw, 23), v.payload);
+        });
+      });
+    } else {
+      errorAlertDialog(
+          context, l(sw, 8), 'Enter your contact for contact you Please..');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -157,6 +151,7 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+                            // Register Row
                             rowBundlePosition(
                               context,
                               size,
@@ -165,9 +160,11 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
                               'Season ${show.season}',
                               urlMshenngaShowImg + show.showImage,
                             ),
+
                             SizedBox(
                               height: MediaQuery.of(context).size.height / 100,
                             ),
+
                             Container(
                               padding: const EdgeInsets.only(
                                   left: 18, top: 5, right: 4),
@@ -177,9 +174,12 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
                                     fontWeight: FontWeight.normal),
                               ),
                             ),
+
                             SizedBox(
                               height: MediaQuery.of(context).size.height / 70,
                             ),
+
+                            /// Past Seasons Header
                             Padding(
                               padding:
                                   const EdgeInsets.only(left: 18.0, bottom: 2),
@@ -188,14 +188,14 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Tv Shows Seasons',
+                                    'MshengaWar Seasons',
                                     style: header14.copyWith(
                                         color: OColors.darkGrey,
                                         fontWeight: FontWeight.w400),
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      bisShowsViewers(size);
+                                      listShowsViewers(size);
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.all(6.0),
@@ -208,6 +208,8 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
                                 ],
                               ),
                             ),
+
+                            /// Past Seasons
                             SizedBox(
                               width: MediaQuery.of(context).size.width,
                               height: MediaQuery.of(context).size.height / 5,
@@ -218,46 +220,33 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
                                   final itm = shows[i];
                                   return GestureDetector(
                                     onTap: () {
-                                      if (show.status == 'true') {
-                                        // Navigator.push(
-                                        //     context,
-                                        //     MaterialPageRoute(
-                                        //         builder:
-                                        //             (BuildContext context) =>
-                                        //                 BigMonthWall(
-                                        //                   currentUser:
-                                        //                       currentUser,
-                                        //                   show: itm,
-                                        //                 )));
+                                      if (itm.status == 'true') {
+                                        if (itm.isRegistered == 'true') {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          MshengaWarWall(
+                                                            currentUser:
+                                                                currentUser,
+                                                            show: itm,
+                                                          )));
+                                        } else {
+                                          registerAs(
+                                              context, 'Register As', itm);
+                                        }
                                       } else {
-                                        itm.isRegistered == 'true'
-                                            ? print('ok')
-                                            // Navigator.push(
-                                            //     context,
-                                            //     MaterialPageRoute(
-                                            //         builder: (BuildContext
-                                            //                 context) =>
-                                            //             BigMonthWall(
-                                            //               currentUser:
-                                            //                   currentUser,
-                                            //               show: itm,
-                                            //             )))
-                                            : showAlertDialog(
-                                                context,
-                                                titleDIalog(context, l(sw, 12)),
-                                                choosingAplication(
-                                                    context, size),
-                                                dialogButton(context, 'cancel',
-                                                    bttnStyl(0, fntClr, trans),
-                                                    () {
-                                                  Navigator.of(context).pop();
-                                                }),
-                                                dialogButton(context, '',
-                                                    bttnStyl(0, trans, trans),
-                                                    () {
-                                                  Navigator.of(context).pop();
-                                                }),
-                                              );
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        MshengaWarWall(
+                                                          currentUser:
+                                                              currentUser,
+                                                          show: itm,
+                                                        )));
                                       }
                                     },
                                     child: Container(
@@ -267,7 +256,7 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
                                       child: crmBundle(
                                           context,
                                           urlMshenngaShowImg + itm.showImage,
-                                          'BigJune',
+                                          'Tv Show',
                                           'SE ${itm.season} Ep ${itm.episode}',
                                           110),
                                     ),
@@ -386,18 +375,7 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
           GestureDetector(
             onTap: () {
               show.isRegistered != 'true'
-                  ? showAlertDialog(
-                      context,
-                      titleDIalog(context, l(sw, 12)),
-                      choosingAplication(context, size),
-                      dialogButton(
-                          context, 'cancel', bttnStyl(0, fntClr, trans), () {
-                        Navigator.of(context).pop();
-                      }),
-                      dialogButton(context, '', bttnStyl(0, trans, trans), () {
-                        Navigator.of(context).pop();
-                      }),
-                    )
+                  ? registerAs(context, 'Register As', show)
                   : Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -466,10 +444,6 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
     );
   }
 
-  reggster(BuildContext context) {
-    Navigator.of(context).pop();
-  }
-
   Container crmBundle(
       BuildContext context, url, price, String title, double w) {
     return Container(
@@ -519,64 +493,8 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
     );
   }
 
-  /// first Content DialogBox for user to choose Register type
-  SizedBox choosingAplication(BuildContext context, size) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 1.1,
-      height: 70,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: GestureDetector(
-              onTap: () {},
-              child: flatButton(
-                  context,
-                  'As audience',
-                  header11.copyWith(fontWeight: FontWeight.bold),
-                  40,
-                  60,
-                  OColors.primary.withOpacity(.3),
-                  80,
-                  10,
-                  10),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              //Show Alert Dialog Alert function
-
-              Navigator.of(context).pop();
-              showAlert(context, size);
-            },
-            child: flatButton(
-                context,
-                'As Participant',
-                header11.copyWith(fontWeight: FontWeight.bold),
-                40,
-                70,
-                OColors.primary,
-                80,
-                10,
-                10),
-          ),
-        ],
-      ),
-    );
-  }
-
   // Second Content Dialog for Register user Widget
-  SizedBox bigMonthRegistration(BuildContext context, size) {
-    var sStarAvater0 =
-        '${api}public/uploads/${show.washengaInfo[0].username!}/profile/${show.washengaInfo[0].avater!}';
-    var sStarAvater1 =
-        '${api}public/uploads/${show.washengaInfo[1].username!}/profile/${show.washengaInfo[1].avater!}';
-
-    double pwidth = 50;
-    double pheight = 50;
+  SizedBox mshengaWarRegistration(BuildContext context, Size size) {
     return SizedBox(
       width: size.width / 1,
       child: SingleChildScrollView(
@@ -585,67 +503,38 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
             const SizedBox(
               height: 13,
             ),
-            Row(
-              children: [
-                SizedBox(
-                  width: 155,
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        alignment: Alignment.topLeft,
-                        child: Text('Enter  your BirthDate',
-                            style:
-                                header12.copyWith(fontWeight: FontWeight.w400)),
-                      ),
-                      const SizedBox(
-                        height: 3,
-                      ),
-                      dateDialog(
-                          context,
-                          _birthdayDateController,
-                          MediaQuery.of(context).size.width / 1.5,
-                          40,
-                          5,
-                          gry1,
-                          dateStyl),
-                    ],
+
+            SizedBox(
+              width: size.width / 1.5,
+              child: Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(left: 20),
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    alignment: Alignment.topLeft,
+                    child: Text('Enter your Contact',
+                        style: header12.copyWith(fontWeight: FontWeight.w400)),
                   ),
-                ),
-                SizedBox(
-                  width: 155,
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(left: 20),
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        alignment: Alignment.topLeft,
-                        child: Text('Enter  your Contact',
-                            style:
-                                header12.copyWith(fontWeight: FontWeight.w400)),
-                      ),
-                      const SizedBox(
-                        height: 3,
-                      ),
-                      textFieldContainer(
-                          context,
-                          'Enter Contact',
-                          _contactController,
-                          MediaQuery.of(context).size.width / 1.5,
-                          40,
-                          10,
-                          10,
-                          gry1,
-                          Icon(
-                            Icons.call,
-                            size: 20,
-                            color: prmry,
-                          ),
-                          textStyl),
-                    ],
+                  const SizedBox(
+                    height: 3,
                   ),
-                )
-              ],
+                  textFieldContainer(
+                      context,
+                      'Enter Contact',
+                      _contactController,
+                      MediaQuery.of(context).size.width / 1.5,
+                      40,
+                      10,
+                      10,
+                      gry1,
+                      Icon(
+                        Icons.call,
+                        size: 20,
+                        color: prmry,
+                      ),
+                      textStyl),
+                ],
+              ),
             ),
             const SizedBox(
               height: 10,
@@ -671,7 +560,6 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
             ),
 
             // Washenga List
-
             SizedBox(
               height: 100,
               child: ListView.builder(
@@ -709,58 +597,13 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
     );
   }
 
-  showAlert(BuildContext context, size) {
-    AlertDialog alert = AlertDialog(
-      insetPadding: const EdgeInsets.only(right: 1, left: 1),
-      contentPadding: EdgeInsets.zero,
-      titlePadding: const EdgeInsets.only(top: 5),
-      backgroundColor: OColors.secondary,
-      actionsPadding: EdgeInsets.zero,
-      title: titleDIalog(context, 'THE BIGMONTH TV SHOW'),
-      content: bigMonthRegistration(context, size),
-      actions: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            TextButton(
-              style: bttnStyl(6, trans, fntClr),
-              onPressed: () {
-                reggster(context);
-              },
-              child: Text(
-                l(sw, 19),
-                style: header13.copyWith(
-                    fontWeight: FontWeight.normal, color: OColors.fontColor),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                _regstrationBigMonth(
-                    context, _birthdayDateController, _contactController);
-              },
-              child: flatButton(
-                  context, l(sw, 12), header13, 30, 70, prmry, 10, 10, 10),
-            )
-          ],
-        ),
-      ],
-    );
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
   void adminOnly() {
     showModalBottomSheet(
         context: context,
         builder: (context) {
           return Container(
             color: const Color(0xFF737373),
-            height: 190,
+            height: 200,
             child: Container(
                 decoration: BoxDecoration(
                     color: OColors.secondary,
@@ -774,7 +617,7 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(
-                          height: 20,
+                          height: 18,
                         ),
                         GestureDetector(
                             onTap: () {
@@ -784,7 +627,41 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
                                   MaterialPageRoute(
                                       builder: (BuildContext context) =>
                                           AddMshengaWarTvShow(
-                                            show: show,
+                                            show: MshengaWarModel(
+                                                id: '',
+                                                title: '',
+                                                description: '',
+                                                season: '',
+                                                episode: '',
+                                                showImage: '',
+                                                dedline: '',
+                                                showDate: '',
+                                                status: '',
+                                                isRegistered: '',
+                                                washengaInfo: [
+                                                  User(
+                                                      id: '',
+                                                      username: '',
+                                                      firstname: '',
+                                                      lastname: '',
+                                                      avater: '',
+                                                      phoneNo: '',
+                                                      email: '',
+                                                      gender: '',
+                                                      role: '',
+                                                      isCurrentUser: '',
+                                                      address: '',
+                                                      bio: '',
+                                                      meritalStatus: '',
+                                                      totalPost: '',
+                                                      isCurrentBsnAdmin: '',
+                                                      isCurrentCrmAdmin: '',
+                                                      totalFollowers: '',
+                                                      totalFollowing: '',
+                                                      totalLikes: '')
+                                                ],
+                                                createdDate: '',
+                                                washengaId: ''),
                                           )));
                             },
                             child: Padding(
@@ -792,8 +669,22 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
                               child:
                                   Text('Add MshengaWar Show', style: header14),
                             )),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          AddMshengaWarTvShow(show: show)));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child:
+                                  Text('Edit MshengaWar Show', style: header14),
+                            )),
                         const SizedBox(
-                          height: 10,
+                          height: 8,
                         ),
                         GestureDetector(
                             onTap: () {
@@ -810,7 +701,7 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
                                   style: header14),
                             )),
                         const SizedBox(
-                          height: 10,
+                          height: 8,
                         ),
                         GestureDetector(
                             onTap: () {
@@ -831,7 +722,7 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
         });
   }
 
-  void bisShowsViewers(size) {
+  void listShowsViewers(size) {
     showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -853,7 +744,7 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            'BIGMONTH TV  SHOWS',
+                            'MSHENGA TV  SHOWS',
                             style: title.copyWith(fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -868,17 +759,7 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
                                 final itm = shows[i];
                                 return ListTile(
                                   onTap: () {
-                                    if (show.status == 'true') {
-                                      Navigator.of(context).pop();
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  MshengaWarWall(
-                                                    currentUser: currentUser,
-                                                    show: itm,
-                                                  )));
-                                    } else {
+                                    if (itm.status == 'true') {
                                       if (itm.isRegistered == 'true') {
                                         Navigator.of(context).pop();
                                         Navigator.push(
@@ -892,20 +773,18 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
                                                           show: itm,
                                                         )));
                                       } else {
-                                        showAlertDialog(
-                                          context,
-                                          titleDIalog(context, l(sw, 12)),
-                                          choosingAplication(context, size),
-                                          dialogButton(context, 'cancel',
-                                              bttnStyl(0, fntClr, trans), () {
-                                            Navigator.of(context).pop();
-                                          }),
-                                          dialogButton(context, '',
-                                              bttnStyl(0, trans, trans), () {
-                                            Navigator.of(context).pop();
-                                          }),
-                                        );
+                                        registerAs(context, 'Register As', itm);
                                       }
+                                    } else {
+                                      Navigator.of(context).pop();
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  MshengaWarWall(
+                                                    currentUser: currentUser,
+                                                    show: itm,
+                                                  )));
                                     }
                                   },
                                   leading: SizedBox(
@@ -936,5 +815,214 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
                     ))),
           );
         });
+  }
+
+  registerAs(BuildContext context, String title, MshengaWarModel itm) async {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("cancel",
+          style: TextStyle(
+            color: OColors.primary,
+          )),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    Widget continueButton = TextButton(
+      child: const SizedBox.shrink(),
+      onPressed: () {
+        // deletePost(context, itm);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      insetPadding: const EdgeInsets.only(left: 20, right: 20),
+      contentPadding: EdgeInsets.zero,
+      // titlePadding: const EdgeInsets.only(top: 8, bottom: 8),
+      backgroundColor: OColors.secondary,
+      title: Center(
+        child: Text(title, style: header18),
+      ),
+      content: SizedBox(
+        width: MediaQuery.of(context).size.width / 1.1,
+        height: 70,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+                registerTvShow(context, '', itm, 'audience');
+              },
+              child: flatButton(
+                  context,
+                  'Audience',
+                  header11.copyWith(fontWeight: FontWeight.bold),
+                  40,
+                  90,
+                  OColors.primary.withOpacity(.3),
+                  80,
+                  10,
+                  10),
+            ),
+            GestureDetector(
+              onTap: () {
+                //Show Alert Dialog Alert function
+
+                Navigator.of(context).pop();
+                registerTvShow(context, '', itm, 'cast');
+              },
+              child: flatButton(
+                  context,
+                  'Participant',
+                  header11.copyWith(fontWeight: FontWeight.bold),
+                  40,
+                  95,
+                  OColors.primary,
+                  80,
+                  10,
+                  10),
+            ),
+          ],
+        ),
+      ),
+
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            cancelButton,
+            continueButton,
+          ],
+        ),
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  registerTvShow(BuildContext context, String title, MshengaWarModel itm,
+      String rgstType) async {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("cancel",
+          style: TextStyle(
+            color: OColors.primary,
+          )),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    Widget continueButton = TextButton(
+      child: Text(
+        'Register',
+        style: header14,
+      ),
+      onPressed: () {
+        // deletePost(context, itm);
+        _regstrationMshengaTvShow(context, itm, _birthdayDateController,
+            _contactController, rgstType);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      insetPadding: const EdgeInsets.only(right: 1, left: 1),
+      contentPadding: EdgeInsets.zero,
+      titlePadding: const EdgeInsets.only(top: 5),
+      backgroundColor: OColors.secondary,
+      actionsPadding: EdgeInsets.zero,
+      title: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.close,
+              size: 15,
+              color: OColors.fontColor,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, top: 8, bottom: 8),
+          child: Text('MSHENGA TV SHOW REGISTER : $rgstType',
+              style:
+                  header18.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
+        ),
+      ]),
+      content: mshengaWarRegistration(context, MediaQuery.of(context).size),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            cancelButton,
+            continueButton,
+          ],
+        ),
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  onPageAlertDialog(BuildContext context, String title, String msg) async {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Ok",
+          style: TextStyle(
+            color: OColors.primary,
+          )),
+      onPressed: () {
+        Navigator.of(context).pop();
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (BuildContext context) => super.widget));
+      },
+    );
+
+    Widget continueButton = TextButton(
+      child: const SizedBox.shrink(),
+      onPressed: () {},
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      // insetPadding: const EdgeInsets.only(left: 20, right: 20),
+      // contentPadding: EdgeInsets.zero,
+      // titlePadding: const EdgeInsets.only(top: 8, bottom: 8),
+      backgroundColor: OColors.secondary,
+      title: Center(
+        child: Text(title, style: header18),
+      ),
+      content: Text(msg, style: header12),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            cancelButton,
+            continueButton,
+          ],
+        ),
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

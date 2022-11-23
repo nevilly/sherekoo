@@ -51,7 +51,8 @@ class English {
     imgInsertAlt,
     titleAlt,
     eidt, //45
-    ei
+    ei,
+    'Talk to Mshenga'
   ];
 
   words() {

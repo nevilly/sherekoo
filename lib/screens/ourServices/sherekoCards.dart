@@ -9,6 +9,7 @@ import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
+import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/gradientBorder.dart';
@@ -1236,7 +1237,7 @@ class _SherekoCardsState extends State<SherekoCards> {
   Column cardsView(url, double w, double h, String exp) {
     return Column(
       children: [
-        Container(
+        SizedBox(
           width: w,
           height: w,
           child: Image.asset(
@@ -1332,59 +1333,7 @@ class _SherekoCardsState extends State<SherekoCards> {
     }
   }
 
-  // Alert Widget
-  errorAlertDialog(BuildContext context, String title, String msg) async {
-    // set up the buttons
-    Widget cancelButton = TextButton(
-      child: Text("cancel",
-          style: TextStyle(
-            color: OColors.primary,
-          )),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-    Widget continueButton = TextButton(
-      style: TextButton.styleFrom(
-        padding: const EdgeInsets.all(6),
-        primary: OColors.fontColor,
-        backgroundColor: OColors.primary,
-        textStyle: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
-      ),
-      child: const Text("Ok"),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      // insetPadding: const EdgeInsets.only(left: 20, right: 20),
-      // contentPadding: EdgeInsets.zero,
-      // titlePadding: const EdgeInsets.only(top: 8, bottom: 8),
-      backgroundColor: OColors.secondary,
-      title: Center(
-        child: Text(title, style: header18),
-      ),
-      content: Text(msg, style: header12),
-      actions: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            cancelButton,
-            continueButton,
-          ],
-        ),
-      ],
-    );
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
+ 
 }
 
 class AlwaysDisabledFocusNode extends FocusNode {

@@ -1,5 +1,6 @@
-
 import 'package:flutter/material.dart';
+import 'package:sherekoo/model/bigMontTvShow/bigMonth-call.dart';
+import '../../model/bigMontTvShow/bigMnth-Reg-Memb.dart';
 import '../../model/bigMontTvShow/bigMonth-Model.dart';
 import '../../model/userModel.dart';
 import '../../util/app-variables.dart';
@@ -27,22 +28,7 @@ class _BigMonthWallState extends State<BigMonthWall>
 
   int tabIndex = 0;
 
-  // TabBar get _tabBar => TabBar(
-  //         labelColor: OColors.primary,
-  //         unselectedLabelColor: Colors.grey,
-  //         indicatorColor: OColors.primary,
-  //         indicatorWeight: 2,
-  //         tabs: const [
-  //           Tab(
-  //             text: 'OverView',
-  //           ),
-  //           Tab(
-  //             text: 'Description',
-  //           ),
-  //           Tab(
-  //             text: 'Schedule',
-  //           )
-  //         ]);
+  List<BgMnthRegMembersModel> registered = [];
   String id = "";
   String title = '';
   String description = '';
@@ -85,6 +71,8 @@ class _BigMonthWallState extends State<BigMonthWall>
 
         judgesInfo = widget.show.judgesInfo;
         superStarInfo = widget.show.superStarInfo;
+
+        getRegistered(id, '1');
       });
     });
 
@@ -108,62 +96,23 @@ class _BigMonthWallState extends State<BigMonthWall>
     super.initState();
   }
 
-  // orderCrmBundle(BuildContext context, TextEditingController contact,
-  //     TextEditingController date, crmId) {
-  //   if (date.text.isNotEmpty) {
-  //     if (contact.text.isNotEmpty) {
-  //       if (widget.bundle.id != '') {
-  //         BundleOrders(payload: [], status: 0)
-  //             .postOrders(token, urlOrderCrmBundle, date.text, contact.text,
-  //                 widget.bundle.id, crmId)
-  //             .then((v) {
-  //           if (v.status == 200) {
-  //             Navigator.of(context).pop();
-  //             errorAlertDialog(context, 'Booking Complete!',
-  //                 'Your SuperVisor "0743882455"  will contact you with in 5hrs Thanks..');
+  getRegistered(id, isElected) {
+    BigMonthShowCall(status: 0, payload: [])
+        .getRegisteredMember(token, urlGetBiMonthWallMembers, id, isElected)
+        .then((value) {
+      final v = value.payload;
 
-  //             setState(() {
-  //               isBooking = 'true';
-  //               date.text = '';
-  //               contact.text = '';
-  //             });
-  //           }
-  //         });
-  //       } else {
-  //         errorAlertDialog(
-  //             context, 'Network is low!', 'Please Comeback leter..');
-  //       }
-  //     } else {
-  //       // errorAlertDialog(
-  //       //     context, 'Enter CeremonyDate', 'Fill Ceremony Date info Please!..');
-  //       showAlertDialog(
-  //           context,
-  //           Text('Enter CeremonyDate', style: header18),
-  //           Text('Fill Ceremony Date info Please!..', style: header12),
-  //           flatButton(
-  //             context,
-  //             'd',
-  //             header10,
-  //             0,
-  //             0,
-  //             trans,
-  //             0,
-  //           ),
-  //           flatButton(
-  //             context,
-  //             'u',
-  //             header13,
-  //             0,
-  //             0,
-  //             trans,
-  //             0,
-  //           ));
-  //     }
-  //   } else {
-  //     errorAlertDialog(
-  //         context, 'Enter CeremonyDate', 'Fill Ceremony Date info Please!..');
-  //   }
-  // }
+      // print(v);
+      if (value.status == 200) {
+        setState(() {
+          registered = v
+              .map<BgMnthRegMembersModel>(
+                  (e) => BgMnthRegMembersModel.fromJson(e))
+              .toList();
+        });
+      }
+    });
+  }
 
   Widget continueButton() {
     return TextButton(
@@ -377,7 +326,7 @@ class _BigMonthWallState extends State<BigMonthWall>
             ),
 
             SizedBox(
-              height: 200,
+              height: 120,
               child: ListView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
@@ -403,6 +352,48 @@ class _BigMonthWallState extends State<BigMonthWall>
                 },
               ),
             ),
+
+          Text(
+            'Selected Show Members',
+            style: header16,
+          ),
+            const SizedBox(
+              height: 5,
+            ),
+
+            Container(
+              padding: const EdgeInsets.all(6),
+              height: size.height / 2.5,
+              child: GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 6,
+                    childAspectRatio: 1.1),
+                itemCount: registered.length,
+                itemBuilder: (context, i) {
+                  final itm = registered[i];
+
+                  final urlImg =
+                      '${api}public/uploads/${itm.userInfo.username!}/profile/${itm.userInfo.avater!}';
+                  return Stack(
+                    children: [
+                      fadeImg(context, urlImg, size.width, size.height),
+                      Positioned(
+                        bottom: 0,
+                        child: Container(
+                          width: 115,
+                          color: OColors.secondary.withOpacity(.6),
+                          child: infoPersonalProfile(itm.userInfo.username!,
+                              header11, 'member', header10, 5, 0),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            )
+          
           ],
         ),
       ),

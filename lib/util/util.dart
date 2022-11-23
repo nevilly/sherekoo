@@ -4,10 +4,11 @@
 
 // ignore_for_file: non_constant_identifier_names
 
-// String api = "http://192.168.43.237/"; // Devota
+// String api = "http://192.168.43.125/"; // Devota
 //String api = "http://172.20.10.13/"; // Reddeath
 String api = "http://192.168.43.125/"; // Neheman
 //String api = "http://192.168.43.237/"; // challo
+
 
 //Authentications
 String login = "${api}Users/login";
@@ -34,7 +35,6 @@ String urlUpdateDayCeremony = '${api}Ceremony/update';
 String urlGetByUserId = '${api}Ceremony/getCrmn_by_UserId';
 String urlGetCrmByType = '${api}Ceremony/getCeremonyByType';
 
-
 //Ceremony Bundle
 String urladdCrmPackage = '${api}CeremonyPackageInfo/add';
 String urlGetCrmPackage = '${api}CeremonyPackageInfo/get';
@@ -44,7 +44,6 @@ String urlActivateCrmPackage = '${api}CeremonyPackageInfo/activate';
 String urladdCrmBundle = '${api}CeremonyBundle/add';
 String urlGetCrmBundle = '${api}CeremonyBundle/get';
 
-
 //Invitation Cards
 String urlGetInvCards = '${api}InvitationCard/get';
 String urladdInvCards = '${api}InvitationCard/add';
@@ -53,7 +52,7 @@ String urladdInvCards = '${api}InvitationCard/add';
 String urlGetOrderInvCards = '${api}InvCardOrders/get';
 String urlOrderInvCards = '${api}InvCardOrders/add';
 
-//Order/Buy Crm Bundle 
+//Order/Buy Crm Bundle
 String urlGetCrmBundleOrder = '${api}CrmBundleOrders/get';
 String urlOrderCrmBundle = '${api}CrmBundleOrders/add';
 
@@ -117,10 +116,14 @@ String urlGetBigMonth = '${api}TvshowBigMonth/get';
 String urlGetBigMonthPacakge = '${api}TvshowBigMonth/get_as_Package';
 String urlActivateGigMonthList = '${api}TvshowBigMonth/activate';
 String urlRemoveBigMonthList = '${api}TvshowBigMonth/remove';
-
+String urlUpdateBigShow = '${api}TvshowBigMonth/update';
 
 //BigMonth Registration
 String urlBigMonthRegistration = '${api}TvBmontRegistration/add';
+String urlGetBigMonthRegistration =
+    '${api}TvBmontRegistration/getRegisteredMembers';
+String urlisSelectedInBiMonthMembers = '${api}TvBmontRegistration/isSelected';
+String urlGetBiMonthWallMembers = '${api}TvBmontRegistration/getMembers';
 
 //MshengaWar Tv Show
 String urlAddMshengaWar = '${api}TvShowMshengaWar/add';
@@ -128,7 +131,19 @@ String urlGetMshengaWar = '${api}TvShowMshengaWar/get';
 String urlGeMshengaWarPacakge = '${api}TvShowMshengaWar/get_as_Package';
 String urlActivateMshengaList = '${api}TvShowMshengaWar/activate';
 String urlRemoveMshengaList = '${api}TvShowMshengaWar/remove';
-
 String urlUpdateMshenga = '${api}TvShowMshengaWar/update';
 
+//Mshenga War Chats
+String urlMshengaPostChats = '${api}MshengaChats/add';
+String urlMshengaGetChats = '${api}MshengaChats/get';
+String urlMshengaGetLikes = '${api}MshengaChats/getAllLike';
+String urlMshengaAddLikes = '${api}MshengaChats/addLike';
+String urlMshengaRemoveChat = '${api}MshengaChats/remove';
+String urlMshengaUpdateChat = '${api}MshengaChats/update';
+
+
+
+// Mshenga Registration
+String urlGetMshengaRegistration = '${api}TvShowMshengaWarReigistration/add';
+String urlGetMshengaMembars = '${api}TvShowMshengaWarReigistration/getMembers';
 

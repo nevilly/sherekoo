@@ -45,9 +45,11 @@ class _DisplayVedeoState extends State<DisplayVedeo> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        child: widget.vedeo.endsWith('.jpg')
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        widget.vedeo.endsWith('.jpg')
             ? Image.network(
                 '${api}public/uploads/${widget.username}/posts/${widget.vedeo}',
                 fit: BoxFit.contain,
@@ -108,7 +110,7 @@ class _DisplayVedeoState extends State<DisplayVedeo> {
                       : const CircularProgressIndicator(),
                 ],
               ),
-      ),
+      ],
     );
   }
 

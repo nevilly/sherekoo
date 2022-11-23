@@ -79,13 +79,13 @@ class _BigMonthShowListState extends State<BigMonthShowList> {
       createdDate: '');
 
   String tvShow = '';
+  
   @override
   void initState() {
     preferences.init();
     preferences.get('token').then((value) {
       setState(() {
         token = value;
-
         getShow(urlGetBigMonth, 'all');
         // getCrmBundle();
       });
@@ -137,6 +137,7 @@ class _BigMonthShowListState extends State<BigMonthShowList> {
         });
       }
     });
+ 
   }
 
   removePackage(
@@ -268,6 +269,7 @@ class _BigMonthShowListState extends State<BigMonthShowList> {
                       ),
                     ),
                   );
+                
                 }),
           )
         ],

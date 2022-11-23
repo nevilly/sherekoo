@@ -7,6 +7,7 @@ import '../model/chats/chatsModel.dart';
 import '../model/userModel.dart';
 import '../util/Preferences.dart';
 import '../util/colors.dart';
+import '../util/func.dart';
 import '../util/util.dart';
 import 'settingScreen/chatsSetting.dart';
 
@@ -127,6 +128,9 @@ class _PostChatsState extends State<PostChats> {
             child: ListView.builder(
               itemCount: chats.length,
               itemBuilder: (BuildContext context, index) {
+                final itm = chats[index];
+                final urlProfile =
+                    '${api}public/uploads/${itm.userInfo.username}/profile/';
                 return Padding(
                   padding:
                       const EdgeInsets.only(top: 16.0, left: 10.0, bottom: 10),
@@ -135,108 +139,49 @@ class _PostChatsState extends State<PostChats> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          chats[index].userInfo. avater != ''
-                              ? GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                HomeNav(
-                                                  user: User(
-                                                      id: chats[index].userId,
-                                                      username:
-                                                          chats[index].userInfo.username,
-                                                      avater:
-                                                          chats[index].userInfo.avater,
-                                                      phoneNo: '',
-                                                      role: '',
-                                                      gender: '',
-                                                      email: '',
-                                                      firstname: '',
-                                                      lastname: '',
-                                                      isCurrentUser: '',
-                                                      address: '',
-                                                      bio: '',
-                                                      meritalStatus: '',
-                                                      totalPost: '',
-                                                      isCurrentBsnAdmin: '',
-                                                      isCurrentCrmAdmin: '',
-                                                      totalFollowers: '',
-                                                      totalFollowing: '',
-                                                      totalLikes: ''),
-                                                  getIndex: 4,
-                                                )));
-                                  },
-                                  child: Container(
-                                    width: 35,
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey,
-                                        borderRadius:
-                                            BorderRadius.circular(50)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(1.0),
-                                      child: CircleAvatar(
-                                        radius: 10.0,
-                                        backgroundImage: NetworkImage(
-                                          '${api}public/uploads/${chats[index].userInfo.username}/profile/${chats[index].userInfo.avater}',
-                                          // height: 400,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                HomeNav(
-                                                  user: User(
-                                                      id: chats[index].userId,
-                                                      username:
-                                                          chats[index].userInfo.username,
-                                                      avater:
-                                                          chats[index].userInfo.avater,
-                                                      phoneNo: '',
-                                                      role: '',
-                                                      gender: '',
-                                                      email: '',
-                                                      firstname: '',
-                                                      lastname: '',
-                                                      isCurrentUser: '',
-                                                      address: '',
-                                                      bio: '',
-                                                      meritalStatus: '',
-                                                      totalPost: '',
-                                                      isCurrentBsnAdmin: '',
-                                                      isCurrentCrmAdmin: '',
-                                                      totalFollowers: '',
-                                                      totalFollowing: '',
-                                                      totalLikes: ''),
-                                                  getIndex: 4,
-                                                )));
-                                  },
-                                  child: Container(
-                                    width: 35,
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey,
-                                        borderRadius:
-                                            BorderRadius.circular(50)),
-                                    child: const CircleAvatar(
-                                        // backgroundColor: Colors.grey,
-                                        radius: 15,
-                                        child: ClipOval(
-                                            child: Image(
-                                          image: AssetImage(
-                                              'assets/profile/profile.jpg'),
-                                          fit: BoxFit.cover,
-                                        ))),
-                                  ),
-                                ),
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            HomeNav(
+                                              user: User(
+                                                  id: itm.userId,
+                                                  username:
+                                                      itm.userInfo.username,
+                                                  avater: chats[index]
+                                                      .userInfo
+                                                      .avater,
+                                                  phoneNo: '',
+                                                  role: '',
+                                                  gender: '',
+                                                  email: '',
+                                                  firstname: '',
+                                                  lastname: '',
+                                                  isCurrentUser: '',
+                                                  address: '',
+                                                  bio: '',
+                                                  meritalStatus: '',
+                                                  totalPost: '',
+                                                  isCurrentBsnAdmin: '',
+                                                  isCurrentCrmAdmin: '',
+                                                  totalFollowers: '',
+                                                  totalFollowing: '',
+                                                  totalLikes: ''),
+                                              getIndex: 4,
+                                            )));
+                              },
+                              child: personProfileClipOval(
+                                context,
+                                itm.userInfo.avater!,
+                                urlProfile + itm.userInfo.avater!,
+                                const SizedBox.shrink(),
+                                15,
+                                35,
+                                35,
+                                Colors.grey,
+                              )),
                           SizedBox(
                             width: MediaQuery.of(context).size.width / 1.3,
                             child: Row(
@@ -255,6 +200,7 @@ class _PostChatsState extends State<PostChats> {
                                             builder: (BuildContext context) =>
                                                 ChatSettings(
                                                   chat: chats[index],
+                                                  fromScrn: 'homeChats',
                                                 )));
                                   },
                                   child: Padding(
@@ -284,7 +230,7 @@ class _PostChatsState extends State<PostChats> {
                         padding:
                             const EdgeInsets.only(top: 1.0, left: 55, right: 8),
                         alignment: Alignment.topLeft,
-                        child: Text(chats[index].body,
+                        child: Text(chats[index].body!,
                             textAlign: TextAlign.left,
                             overflow: TextOverflow.clip,
                             style: TextStyle(

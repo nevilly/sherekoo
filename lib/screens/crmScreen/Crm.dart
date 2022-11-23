@@ -247,7 +247,7 @@ class _CrmState extends State<Crm> {
                                             borderRadius:
                                                 BorderRadius.circular(105)),
                                         child: Text(
-                                          'Code: ' + data[index].codeNo,
+                                          'Code: ${data[index].codeNo}',
                                           style: const TextStyle(
                                               fontSize: 11,
                                               color: Colors.white,

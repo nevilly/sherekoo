@@ -1,17 +1,25 @@
+import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:sherekoo/model/mshengaWar/mshengaWar-call.dart';
+import '../../model/allData.dart';
+import '../../model/chats/chatPost.dart';
+import '../../model/chats/chatsModel.dart';
 import '../../model/mshengaWar/mshengaWar-Model.dart';
+import '../../model/mshengaWar/mshengaWar-registration.dart';
 import '../../model/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/colors.dart';
 import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
+import '../homNav.dart';
 
 class MshengaWarWall extends StatefulWidget {
   final User currentUser;
   final MshengaWarModel show;
-  const MshengaWarWall({Key? key, required this.show, required this.currentUser})
+  const MshengaWarWall(
+      {Key? key, required this.show, required this.currentUser})
       : super(key: key);
 
   @override
@@ -21,28 +29,45 @@ class MshengaWarWall extends StatefulWidget {
 class _MshengaWarWallState extends State<MshengaWarWall>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  // ScrollController? _scrollController;
-  final TextEditingController _contact = TextEditingController();
-  final TextEditingController _crmDate = TextEditingController();
+
+  final TextEditingController _body = TextEditingController();
+  final TextEditingController _edtChat = TextEditingController();
 
   int tabIndex = 0;
+  int idpost = 0;
 
-  // TabBar get _tabBar => TabBar(
-  //         labelColor: OColors.primary,
-  //         unselectedLabelColor: Colors.grey,
-  //         indicatorColor: OColors.primary,
-  //         indicatorWeight: 2,
-  //         tabs: const [
-  //           Tab(
-  //             text: 'OverView',
-  //           ),
-  //           Tab(
-  //             text: 'Description',
-  //           ),
-  //           Tab(
-  //             text: 'Schedule',
-  //           )
-  //         ]);
+  List gender = [
+    "Hate Speech",
+    "Harrashment or bullying",
+    "Mislaeading information",
+    "Ponography & nudity",
+    "Violent & graphic contents",
+    "Scams & Frauds",
+    "Spam",
+    "Dangerous organization/individuals",
+    "Other"
+  ];
+  late User user = User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      meritalStatus: '',
+      totalPost: '',
+      isCurrentBsnAdmin: '',
+      isCurrentCrmAdmin: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: '');
+
   String id = "";
   String title = '';
   String description = '';
@@ -55,6 +80,7 @@ class _MshengaWarWallState extends State<MshengaWarWall>
   String washengaId = '';
   String status = '';
   String isRegistered = '';
+  String isSelected = '1';
 
   List<User> washengaInfo = [];
 
@@ -67,6 +93,7 @@ class _MshengaWarWallState extends State<MshengaWarWall>
     );
     _tabController.addListener(() {});
 
+    backgroundTask();
     preferences.init();
     preferences.get('token').then((value) {
       setState(() {
@@ -81,15 +108,16 @@ class _MshengaWarWallState extends State<MshengaWarWall>
         status = widget.show.status;
         isRegistered = widget.show.isRegistered;
         showDate = widget.show.showDate;
-
         washengaInfo = widget.show.washengaInfo;
+
+        widget.currentUser.id != ''
+            ? getUser('$urlGetUser/${widget.currentUser.id}')
+            : getUser(urlGetUser);
       });
+
+      getRegistered(widget.show.id, isSelected);
     });
 
-    // _scrollController!.addListener(() {
-    //   _scrollController!.createScrollPosition(_tabController);
-    //   print(_scrollController!.positions);
-    // });
     _tabController.addListener(() {
       if (_tabController.indexIsChanging) {
         setState(() {
@@ -106,62 +134,71 @@ class _MshengaWarWallState extends State<MshengaWarWall>
     super.initState();
   }
 
-  // orderCrmBundle(BuildContext context, TextEditingController contact,
-  //     TextEditingController date, crmId) {
-  //   if (date.text.isNotEmpty) {
-  //     if (contact.text.isNotEmpty) {
-  //       if (widget.bundle.id != '') {
-  //         BundleOrders(payload: [], status: 0)
-  //             .postOrders(token, urlOrderCrmBundle, date.text, contact.text,
-  //                 widget.bundle.id, crmId)
-  //             .then((v) {
-  //           if (v.status == 200) {
-  //             Navigator.of(context).pop();
-  //             errorAlertDialog(context, 'Booking Complete!',
-  //                 'Your SuperVisor "0743882455"  will contact you with in 5hrs Thanks..');
+  Future getUser(String dirUrl) async {
+    return await AllUsersModel(payload: [], status: 0)
+        .get(token, dirUrl)
+        .then((value) {
+      if (value.status == 200) {
+        setState(() {
+          user = User.fromJson(value.payload);
+        });
+      }
+    });
+  }
 
-  //             setState(() {
-  //               isBooking = 'true';
-  //               date.text = '';
-  //               contact.text = '';
-  //             });
-  //           }
-  //         });
-  //       } else {
-  //         errorAlertDialog(
-  //             context, 'Network is low!', 'Please Comeback leter..');
-  //       }
-  //     } else {
-  //       // errorAlertDialog(
-  //       //     context, 'Enter CeremonyDate', 'Fill Ceremony Date info Please!..');
-  //       showAlertDialog(
-  //           context,
-  //           Text('Enter CeremonyDate', style: header18),
-  //           Text('Fill Ceremony Date info Please!..', style: header12),
-  //           flatButton(
-  //             context,
-  //             'd',
-  //             header10,
-  //             0,
-  //             0,
-  //             trans,
-  //             0,
-  //           ),
-  //           flatButton(
-  //             context,
-  //             'u',
-  //             header13,
-  //             0,
-  //             0,
-  //             trans,
-  //             0,
-  //           ));
-  //     }
-  //   } else {
-  //     errorAlertDialog(
-  //         context, 'Enter CeremonyDate', 'Fill Ceremony Date info Please!..');
-  //   }
-  // }
+  backgroundTask() async {
+    // print("Hello");
+    getPost();
+    Timer.periodic(const Duration(seconds: 4), getPosts);
+  }
+
+  getPosts(Timer timer) {
+    // print("Hello World ${ID}");
+    getPost();
+    idpost++;
+
+    return timer;
+  }
+
+  List<ChatsModel> chats = [];
+  getPost() async {
+    // print(widget.show.id);
+    PostAllChats(
+      payload: [],
+      status: 0,
+      body: '',
+      postId: widget.show.id,
+      userId: '',
+    ).get(token, urlMshengaGetChats).then((value) {
+      final v = value.payload;
+      if (mounted) {
+        if (v != 'No content') {
+          setState(() {
+            chats = value.payload
+                .map<ChatsModel>((e) => ChatsModel.fromJson(e))
+                .toList();
+          });
+        }
+      }
+    });
+    idpost++;
+  }
+
+  Future<void> post() async {
+    if (_body.text != '') {
+      PostAllChats(
+        postId: widget.show.id,
+        userId: '',
+        body: _body.text,
+        status: 0,
+        payload: [],
+      ).post(token, urlMshengaPostChats).then((value) {
+        setState(() {});
+      });
+    } else {
+      fillTheBlanks(context, 'Type Something..', altSty, prmry);
+    }
+  }
 
   Widget continueButton() {
     return TextButton(
@@ -189,9 +226,125 @@ class _MshengaWarWallState extends State<MshengaWarWall>
               text: 'OverView',
             ),
             Tab(
-              text: 'Saved By',
+              text: 'Members',
             ),
           ]);
+
+  List<MshengaWarRegisteredMembersModel> registered = [];
+  getRegistered(id, isElected) {
+    // print(id);
+    // print(isElected);
+    MshengaWarCall(status: 0, payload: [])
+        .getRegisteredMember(token, urlGetMshengaMembars, id, isElected)
+        .then((value) {
+      final v = value.payload;
+
+      // print(v);
+      if (value.status == 200) {
+        setState(() {
+          registered = v
+              .map<MshengaWarRegisteredMembersModel>(
+                  (e) => MshengaWarRegisteredMembersModel.fromJson(e))
+              .toList();
+        });
+      }
+    });
+  }
+
+  likeUpdate(BuildContext context, ChatsModel itm) {
+    String isLike = itm.likeInfo.isLike! == 'false' ? '0' : '1';
+
+    PostAllChats(
+      payload: [],
+      status: 0,
+      body: '',
+      postId: itm.id,
+      userId: '',
+    ).updateLike(token, urlMshengaAddLikes, isLike).then((value) {
+      final v = value.payload;
+
+      if (isLike == '0') {
+        setState(() {
+          itm.likeInfo.isLike = 'true';
+          int likeNo = int.parse(itm.likeInfo.number!) + 1;
+          itm.likeInfo.number = likeNo.toString();
+        });
+      } else {
+        setState(() {
+          itm.likeInfo.isLike = 'false';
+          int likeNo = int.parse(itm.likeInfo.number!) - 1;
+          itm.likeInfo.number = likeNo.toString();
+        });
+      }
+    });
+  }
+
+  // Delete Function
+  String select = "";
+  Row addRadioButton(int btnValue, String title) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Radio<String>(
+          activeColor: OColors.primary,
+          value: gender[btnValue],
+          groupValue: select,
+          onChanged: (value) {
+            setState(() {
+              // print(value);
+              select = value!;
+            });
+          },
+        ),
+        Text(title, style: header13)
+      ],
+    );
+  }
+
+  deletePost(BuildContext context, ChatsModel itm) {
+    PostAllChats(
+      payload: [],
+      status: 0,
+      body: '',
+      postId: itm.id,
+      userId: '',
+    ).deleteChat(token, urlMshengaRemoveChat).then((value) {
+      final v = value.payload;
+      if (value.status == 200) {
+        setState(() {
+          chats.removeWhere((element) => element.id == itm.id);
+          Navigator.of(context).pop();
+
+          print(v);
+        });
+      }
+    });
+  }
+
+  updateChat(
+      BuildContext context, ChatsModel itm, TextEditingController newBody) {
+    if (newBody.text.isNotEmpty) {
+      PostAllChats(
+        payload: [],
+        status: 0,
+        body: newBody.text,
+        postId: itm.id,
+        userId: '',
+      ).editChat(token, urlMshengaUpdateChat).then((value) {
+        final v = value.payload;
+        if (value.status == 200) {
+          setState(() {
+            itm.body = newBody.text;
+            Navigator.of(context).pop();
+
+            print(v);
+          });
+        }
+      });
+    } else {
+      errorAlertDialog(context, 'Empty', 'Update your Post Please..');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -251,28 +404,6 @@ class _MshengaWarWallState extends State<MshengaWarWall>
     return [];
   }
 
-  // Container flatButton(String text) {
-  //   return Container(
-  //     margin: const EdgeInsets.only(left: 10, right: 20, top: 15, bottom: 15),
-  //     padding: const EdgeInsets.only(left: 15, right: 15, top: 4, bottom: 4),
-  //     alignment: Alignment.center,
-  //     decoration: BoxDecoration(
-  //         color: OColors.primary,
-  //         borderRadius: const BorderRadius.all(Radius.circular(80))),
-  //     child: ClipRRect(
-  //       borderRadius: BorderRadius.circular(50),
-  //       child: Container(
-  //         decoration: const BoxDecoration(
-  //             borderRadius: BorderRadius.all(Radius.circular(50))),
-  //         child: Text(
-  //           text,
-  //           style: header11.copyWith(fontWeight: FontWeight.bold),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   SafeArea bundleImage(Size size) {
     return SafeArea(
         bottom: false,
@@ -285,7 +416,7 @@ class _MshengaWarWallState extends State<MshengaWarWall>
                       fit: StackFit.expand,
                       children: [
                         Image.network(
-                          urlBigShowImg + showImage,
+                          urlMshenngaShowImg + showImage,
                           fit: BoxFit.cover,
                         )
                       ],
@@ -304,16 +435,78 @@ class _MshengaWarWallState extends State<MshengaWarWall>
     return Scrollbar(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: ListView(
-          children: [
-            // const SizedBox(height: 25),
+        child: Column(children: [
+          // const SizedBox(height: 25),
+          tvShowChats(),
 
-            Text('Chats', style: header12)
-          ],
-        ),
+          Container(
+            height: 40,
+            width: MediaQuery.of(context).size.width * 4.8,
+            margin: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: OColors.primary.withOpacity(.1),
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: Stack(
+              children: [
+                TextFormField(
+                  controller: _body,
+                  maxLines: null,
+                  expands: true,
+                  textAlign: TextAlign.left,
+                  keyboardType: TextInputType.multiline,
+                  style: header13,
+                  decoration: InputDecoration(
+                    hintStyle: TextStyle(color: OColors.white, fontSize: 12),
+
+                    contentPadding: const EdgeInsets.only(
+                        left: 20.0, right: 20.0, top: 1, bottom: 5),
+
+                    prefixIcon:
+                        Icon(Icons.tag_faces_sharp, color: OColors.primary),
+
+                    suffixIcon: GestureDetector(
+                        onTap: () {
+                          post();
+                          _body.text = '';
+                        },
+                        child: Icon(
+                          Icons.send,
+                          color: OColors.primary,
+                          size: 20,
+                        )),
+                    // suffixIcon: Icon(Icons.send_rounded),
+                    hintText: l(sw, 47),
+
+                    border: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: OColors.primary,
+                      ),
+                    ),
+
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: OColors.primary,
+                        width: 1,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: OColors.primary,
+                          width: 1,
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(20.0))),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ]),
       ),
     );
   }
+
 
   Scrollbar seviceDetails(BuildContext context, size) {
     return Scrollbar(
@@ -327,11 +520,12 @@ class _MshengaWarWallState extends State<MshengaWarWall>
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                'Judges',
+                'Washenga',
                 style: header15,
               ),
             ),
 
+            //Washenga Profile
             SizedBox(
               height: 100,
               child: ListView.builder(
@@ -350,7 +544,7 @@ class _MshengaWarWallState extends State<MshengaWarWall>
                         itm.avater!,
                         judgeAvater,
                         infoPersonalProfile(
-                            itm.username!, header12, 'Judge', header10, 5, 0),
+                            itm.username!, header12, 'Mshenga', header10, 5, 0),
                         30,
                         pPbigMnthWidth,
                         pPbigMnthHeight,
@@ -362,14 +556,489 @@ class _MshengaWarWallState extends State<MshengaWarWall>
 
             //Regisetered
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
 
-           
-         
+            registered.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Nomineted Members',
+                          style: header14,
+                        ),
+                        const SizedBox(
+                          height: 6,
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(6),
+                          height: size.height / 2.5,
+                          child: GridView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 4,
+                                    childAspectRatio: 1),
+                            itemCount: registered.length,
+                            itemBuilder: (context, i) {
+                              final itm = registered[i];
+
+                              final urlImg =
+                                  '${api}public/uploads/${itm.userInfo.username!}/profile/${itm.userInfo.avater!}';
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, right: 8.0),
+                                child: personProfileClipOval(
+                                    context,
+                                    itm.userInfo.avater!,
+                                    urlImg,
+                                    infoPersonalProfile(itm.userInfo.username!,
+                                        header12, 'Members', header10, 5, 0),
+                                    20,
+                                    35,
+                                    35,
+                                    prmry),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : const SizedBox.shrink(),
           ],
         ),
       ),
+    );
+  }
+
+
+  Expanded tvShowChats() {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: chats.length,
+        itemBuilder: (BuildContext context, index) {
+          final itm = chats[index];
+          final urlProfile =
+              '${api}public/uploads/${itm.userInfo.username}/profile/';
+          return Padding(
+            padding: const EdgeInsets.only(top: 16.0, left: 10.0, bottom: 10),
+            child: Column(
+              children: [
+                // Profile Details
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) => HomeNav(
+                                        user: User(
+                                            id: itm.userId,
+                                            username: itm.userInfo.username,
+                                            avater: itm.userInfo.avater,
+                                            phoneNo: '',
+                                            role: '',
+                                            gender: '',
+                                            email: '',
+                                            firstname: '',
+                                            lastname: '',
+                                            isCurrentUser: '',
+                                            address: '',
+                                            bio: '',
+                                            meritalStatus: '',
+                                            totalPost: '',
+                                            isCurrentBsnAdmin: '',
+                                            isCurrentCrmAdmin: '',
+                                            totalFollowers: '',
+                                            totalFollowing: '',
+                                            totalLikes: ''),
+                                        getIndex: 4,
+                                      )));
+                        },
+                        child: personProfileClipOval(
+                          context,
+                          itm.userInfo.avater!,
+                          urlProfile + itm.userInfo.avater!,
+                          const SizedBox.shrink(),
+                          18,
+                          30,
+                          30,
+                          Colors.grey,
+                        )),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 1.3,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(chats[index].userInfo.username!,
+                              style: TextStyle(
+                                color: OColors.fontColor,
+                                fontWeight: FontWeight.w600,
+                              )),
+                          GestureDetector(
+                            onTap: () {
+                              settngChat(context, itm);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 4.0),
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.grey, width: 2),
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  child: Icon(
+                                    Icons.more_horiz_rounded,
+                                    size: 12,
+                                    color: OColors.fontColor,
+                                  )),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+
+                //body Message
+                Container(
+                  padding: const EdgeInsets.only(left: 45, right: 8),
+                  alignment: Alignment.topLeft,
+                  child: Text(chats[index].body!,
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.clip,
+                      style: chatsFnts),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, left: 30, right: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5.0, right: 5),
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                likeUpdate(context, itm);
+                              },
+                              child: Icon(
+                                itm.likeInfo.isLike == 'false'
+                                    ? Icons.favorite_border_outlined
+                                    : Icons.favorite,
+                                color: OColors.primary,
+                                size: 16,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            itm.likeInfo.number == '0'
+                                ? const SizedBox.shrink()
+                                : Text(itm.likeInfo.number!, style: emjFnts),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 2),
+                      Text(chats[index].date, style: chatsTimeFnts),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  void settngChat(BuildContext context, ChatsModel itm) {
+    double settingWdth = 100;
+    double settingHegt = 30;
+
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+              color: const Color(0xFF737373),
+              height: itm.chatInitiator == 'false' ? 300 : 200,
+              child: Container(
+                  decoration: BoxDecoration(
+                      color: OColors.secondary,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25),
+                      )),
+                  child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          itm.chatInitiator == 'false'
+                              ? Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 19.0, top: 8.0, bottom: 8.0),
+                                  child: Text('Select a reason',
+                                      style: TextStyle(
+                                          color: OColors.fontColor,
+                                          fontSize: 16)))
+                              : const SizedBox(),
+                          itm.chatInitiator == 'true'
+                              ? Padding(
+                                  padding: const EdgeInsets.all(18.0),
+                                  child: Column(
+                                    children: [
+                                      ListTile(
+                                        title:
+                                            Text('Edit chat', style: header13),
+                                        onTap: () {
+                                          // Navigator.of(context).pop();
+                                          // Navigator.push(
+                                          //     context,
+                                          //     MaterialPageRoute(
+                                          //         builder: (BuildContext context) => const LiveEve()));
+
+                                          editChatDialog(context, itm);
+                                        },
+                                      ),
+                                      ListTile(
+                                        title: Text('Delete chat',
+                                            style: header13),
+                                        onTap: () {
+                                          // Navigator.push(
+                                          //     context,
+                                          //     MaterialPageRoute(
+                                          //         builder: (BuildContext context) => const LiveEve()));
+
+                                          newErrorAlertDialog(
+                                              context,
+                                              'Delete',
+                                              'Are Sure you want to Delete...?',
+                                              itm);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : // Radio Button
+                              SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height / 2.8,
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        addRadioButton(0, 'Hate Speech'),
+                                        addRadioButton(
+                                            1, 'Harrashment or bullying'),
+                                        addRadioButton(
+                                            2, 'Mislaeading information'),
+                                        addRadioButton(
+                                            3, 'Ponography & nudity'),
+                                        addRadioButton(
+                                            4, 'Violent & graphic contents'),
+                                        addRadioButton(5, 'Scams & Frauds'),
+                                        addRadioButton(6, 'Spam'),
+                                        addRadioButton(7,
+                                            'Dangerous organization/individuals'),
+                                        addRadioButton(8, 'Others'),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                          itm.chatInitiator == 'false'
+                              ? Column(
+                                  children: [
+                                    // const Spacer(),
+                                    Padding(
+                                      padding: const EdgeInsets.all(3.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          //cancel
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Container(
+                                              width: settingWdth,
+                                              height: settingHegt,
+                                              decoration: BoxDecoration(
+                                                  color: OColors.darGrey,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20)),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(4.0),
+                                                child: Center(
+                                                    child: Text(
+                                                  'Cancel',
+                                                  style: header12,
+                                                )),
+                                              ),
+                                            ),
+                                          ),
+                                          //Submit
+                                          GestureDetector(
+                                            onTap: () {},
+                                            child: Container(
+                                              width: settingWdth,
+                                              height: settingHegt,
+                                              decoration: BoxDecoration(
+                                                  color: OColors.primary,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20)),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(4.0),
+                                                child: Center(
+                                                    child: Text('Submit',
+                                                        style: header12)),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : const SizedBox.shrink()
+                        ],
+                      ))));
+        });
+  }
+
+  newErrorAlertDialog(
+      BuildContext context, String title, String msg, ChatsModel itm) async {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("cancel",
+          style: TextStyle(
+            color: OColors.primary,
+          )),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    Widget continueButton = TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(6),
+        primary: OColors.fontColor,
+        backgroundColor: OColors.primary,
+        textStyle: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
+      ),
+      child: const Text("Ok"),
+      onPressed: () {
+        deletePost(context, itm);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      // insetPadding: const EdgeInsets.only(left: 20, right: 20),
+      // contentPadding: EdgeInsets.zero,
+      // titlePadding: const EdgeInsets.only(top: 8, bottom: 8),
+      backgroundColor: OColors.secondary,
+      title: Center(
+        child: Text(title, style: header18),
+      ),
+      content: Text(msg, style: header12),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            cancelButton,
+            continueButton,
+          ],
+        ),
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  editChatDialog(BuildContext context, ChatsModel itm) async {
+    _edtChat.text = itm.body!;
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("cancel",
+          style: TextStyle(
+            color: OColors.primary,
+          )),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    Widget continueButton = TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(6),
+        primary: OColors.fontColor,
+        backgroundColor: OColors.primary,
+        textStyle: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
+      ),
+      child: const Text("Ok"),
+      onPressed: () {
+        updateChat(context, itm, _edtChat);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      // insetPadding: const EdgeInsets.only(left: 20, right: 20),
+      // contentPadding: EdgeInsets.zero,
+      // titlePadding: const EdgeInsets.only(top: 8, bottom: 8),
+      backgroundColor: OColors.secondary,
+      title: Center(
+        child: Text('Update', style: header18),
+      ),
+      content: SizedBox(
+        height: 120,
+        child: Column(
+          children: [
+            textFieldContainer(
+                context,
+                'Edit Chat',
+                _edtChat,
+                MediaQuery.of(context).size.width / 1.4,
+                90,
+                8,
+                10,
+                OColors.darGrey,
+                null,
+                header12)
+          ],
+        ),
+      ),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            cancelButton,
+            continueButton,
+          ],
+        ),
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

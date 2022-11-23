@@ -40,3 +40,10 @@ TextStyle t1 = header16;
 TextStyle tft = header13;
 TextStyle dateStyl = header13.copyWith(color: Colors.grey, height: 1.2);
 TextStyle textStyl = header13.copyWith(color: Colors.grey, height: 1.2);
+
+
+TextStyle chatsFnts = header11;
+TextStyle emjFnts = header10;
+TextStyle chatsTimeFnts = header10;
+
+

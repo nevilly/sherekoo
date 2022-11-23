@@ -45,12 +45,11 @@ class _AddMshengaWarTvShowState extends State<AddMshengaWarTvShow> {
   String avater = '';
 
   List washengaId = [];
- 
 
   List washenga = [];
 
   List<User> data = [];
-   String washengaIdEdited = '';
+  String washengaIdEdited = '';
   String showImage = '';
   String showId = '';
 
