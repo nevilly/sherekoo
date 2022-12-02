@@ -60,12 +60,12 @@ class _LikeLifeState extends State<LikeLife>
   }
 
   @override
-  // TODO: implement wantKeepAlive
+
   bool get wantKeepAlive => false;
   
   @override
   void updateKeepAlive() {
-    // TODO: implement updateKeepAlive
+    
     super.updateKeepAlive();
   }
 }

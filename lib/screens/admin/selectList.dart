@@ -36,8 +36,8 @@ class _PackageListState extends State<PackageList> {
         .activate(token, urlActivateCrmPackage, itm.id, isActive)
         .then((value) {
       if (value.status == 200) {
-        print(isActive);
-        final v = value.payload;
+  
+
 
         // print(v);
         setState(() {
@@ -48,8 +48,7 @@ class _PackageListState extends State<PackageList> {
           if (isActive == 'true') {
             isActive = 'false';
           }
-          print('after Change');
-          print(isActive);
+     
 
           // if (v == 'true') {
           //   isActive = 'false';

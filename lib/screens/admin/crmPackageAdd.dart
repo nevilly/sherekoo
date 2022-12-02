@@ -212,14 +212,13 @@ class _CrmPackageAddState extends State<CrmPackageAdd> {
                 ),
 
                 //ColorName
-                Container(
-                    child: Padding(
+                Padding(
                   padding: const EdgeInsets.all(6.0),
                   child: Title(
-                    color: Colors.grey,
-                    child: const Text('ColorCode of The Years'),
+                color: Colors.grey,
+                child: const Text('ColorCode of The Years'),
                   ),
-                )),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(6.0),
                   child: Row(

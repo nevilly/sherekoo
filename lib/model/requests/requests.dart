@@ -65,7 +65,7 @@ class Requests {
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((r) {
       // final rJson = jsonDecode(r.body);
-      print(r.body);
+      
       if (r.statusCode == 200) {
         return Requests.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
@@ -133,7 +133,7 @@ class Requests {
     return await http
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((r) {
-      print(r.body);
+     
       if (r.statusCode == 200) {
         return Requests.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});

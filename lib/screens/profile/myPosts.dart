@@ -30,8 +30,7 @@ class _MyPostsState extends State<MyPosts> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-        // print('Need to See widget.user.id');
-        // print(widget.user.id);
+
         if (widget.user.id!.isNotEmpty) {
           getPost(widget.user.id);
         }
@@ -55,6 +54,7 @@ class _MyPostsState extends State<MyPosts> {
     ).getPostByUserId(token, urlGetSherekooByUid, id).then((value) {
       if (value.status == 200) {
         setState(() {
+          // print(value.payload);
           post = value.payload
               .map<SherekooModel>((e) => SherekooModel.fromJson(e))
               .toList();
@@ -72,14 +72,15 @@ class _MyPostsState extends State<MyPosts> {
         shrinkWrap: true,
         itemCount: post.length,
         itemBuilder: (context, index) {
+          final itm = post[index];
           return GestureDetector(
             onTap: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (_) => PostChats(
-                            postId: post[index].pId,
-                            chatsNo: post[index].commentNumber,
+                            postId: itm.pId,
+                            chatsNo: itm.commentNumber,
                           )));
             },
             child: Padding(
@@ -109,7 +110,7 @@ class _MyPostsState extends State<MyPosts> {
 
                               FadeInImage(
                                   image: NetworkImage(
-                                      '${api}public/uploads/${post[index].username}/posts/${post[index].vedeo}'),
+                                      '${api}public/uploads/${itm.creatorInfo.username}/posts/${itm.vedeo}'),
                                   fadeInDuration:
                                       const Duration(milliseconds: 100),
                                   placeholder: const AssetImage(
@@ -149,7 +150,7 @@ class _MyPostsState extends State<MyPosts> {
                                       width: 3,
                                     ),
                                     Text(
-                                      post[index].commentNumber,
+                                      itm.commentNumber,
                                       style: const TextStyle(
                                           color: Colors.white, fontSize: 10),
                                     ),

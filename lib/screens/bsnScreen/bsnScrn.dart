@@ -32,6 +32,11 @@ class _BusnessScreenState extends State<BusnessScreen> {
     ceremonyDate: '',
     admin: '',
     contact: '',
+    isCrmAdmin: '',
+    isInFuture: '',
+      likeNo:'',
+      chatNo: '',
+      viwersNo: '',
     userFid: User(
         id: '',
         username: '',

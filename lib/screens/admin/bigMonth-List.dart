@@ -31,7 +31,7 @@ class _BigMonthShowListState extends State<BigMonthShowList> {
       judgesId: '',
       superStarsId: '',
       status: '',
-      isUserIdRegister: '',
+      isRegistered: '',
       judgesInfo: [
         User(
             id: '',
@@ -79,7 +79,7 @@ class _BigMonthShowListState extends State<BigMonthShowList> {
       createdDate: '');
 
   String tvShow = '';
-  
+
   @override
   void initState() {
     preferences.init();
@@ -121,7 +121,6 @@ class _BigMonthShowListState extends State<BigMonthShowList> {
         .isActive(token, urlActivateGigMonthList, itm.id, itm.status)
         .then((value) {
       if (value.status == 200) {
-        final v = value.payload;
 
         setState(() {
           setState(() {
@@ -137,7 +136,6 @@ class _BigMonthShowListState extends State<BigMonthShowList> {
         });
       }
     });
- 
   }
 
   removePackage(
@@ -148,7 +146,6 @@ class _BigMonthShowListState extends State<BigMonthShowList> {
         .removeShow(token, urlRemoveBigMonthList, itm.id, itm.status)
         .then((value) {
       if (value.status == 200) {
-        final v = value.payload;
 
         setState(() {
           setState(() {
@@ -261,15 +258,14 @@ class _BigMonthShowListState extends State<BigMonthShowList> {
                               onTap: () {
                                 removePackage(context, itm);
                               },
-                              child: Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: const Icon(Icons.delete),
+                              child: const Padding(
+                                padding: EdgeInsets.all(3.0),
+                                child: Icon(Icons.delete),
                               )),
                         ],
                       ),
                     ),
                   );
-                
                 }),
           )
         ],

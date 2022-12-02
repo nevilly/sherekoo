@@ -161,6 +161,11 @@ class _AdminPageState extends State<AdminPage> {
                             ceremonyDate: '',
                             admin: '',
                             contact: '',
+                            isInFuture:'',
+                            isCrmAdmin: '',
+                              likeNo:'',
+      chatNo: '',
+      viwersNo: '',
                             userFid: User(
                                 id: '',
                                 username: '',

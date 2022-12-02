@@ -93,20 +93,21 @@ class HomeState extends State<Home> {
             scrollDirection: Axis.vertical,
             onPageChanged: onPage,
             children: List.generate(post.length, (index) {
+              final itm = post[index];
               return PostTemplate(
-                  postId: post[index].pId,
-                  avater: post[index].avater,
-                  numberOfComments: post[index].commentNumber,
-                  numberOfLikes: post[index].totalLikes,
-                  isLike: post[index].isLike,
-                  numberOfShere: post[index].totalShare,
-                  userId: post[index].userId,
-                  username: post[index].username,
-                  videoDescription: post[index].body,
-                  ceremonyId: post[index].ceremonyId,
-                  cImage: post[index].cImage,
-                  crmUsername: post[index].crmUsername,
-                  crmYoutubeLink: post[index].crmYoutubeLink,
+                  postId: itm.pId,
+                  avater: itm.creatorInfo.avater!,
+                  numberOfComments: itm.commentNumber,
+                  numberOfLikes: itm.totalLikes,
+                  isLike: itm.isLike,
+                  numberOfShere: itm.totalShare,
+                  userId: itm.creatorInfo.id!,
+                  username:  itm.creatorInfo.username!,
+                  videoDescription: itm.body,
+                  ceremonyId: itm.ceremonyId,
+                  cImage: itm.crmInfo.cImage,
+                  crmUsername: itm.crmInfo.userFid.username!,
+                  crmYoutubeLink: itm.crmInfo.youtubeLink,
                   postVedeo: post[index].vedeo,
                   crmViewer: post[index].crmViewer,
                   filterBck: Positioned.fill(
@@ -118,7 +119,7 @@ class HomeState extends State<Home> {
                       child: post[index].vedeo.endsWith('.jpg') &&
                               post[index].vedeo.isNotEmpty
                           ? Image.network(
-                              '${api}public/uploads/${post[index].username}/posts/${post[index].vedeo}',
+                              '${api}public/uploads/${itm.crmInfo.userFid.username}/posts/${itm.vedeo}',
                               // height: 400,
                               fit: BoxFit.cover,
                               loadingBuilder: (BuildContext context,
@@ -144,8 +145,8 @@ class HomeState extends State<Home> {
                     ),
                   ),
                   userPost: DisplayVedeo(
-                    username: post[index].username,
-                    vedeo: post[index].vedeo,
+                    username: itm.creatorInfo.username!,
+                    vedeo: itm.vedeo,
                   ));
             }),
           ),

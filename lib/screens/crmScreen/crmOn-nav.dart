@@ -29,27 +29,26 @@ class CrmOnNavState extends State<CrmOnNav> {
 
   List<CeremonyModel> todayCrm = [];
 
-
-User user =  User(
-    id: '',
-    username: '',
-    firstname: '',
-    lastname: '',
-    avater: '',
-    phoneNo: '',
-    email: '',
-    gender: '',
-    role: '',
-    isCurrentUser: '',
-    address: '',
-    bio: '',
-    meritalStatus: '',
-    totalPost: '',
-    isCurrentBsnAdmin: '',
-    isCurrentCrmAdmin: '',
-    totalFollowers: '',
-    totalFollowing: '',
-    totalLikes: '');
+  User user = User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      meritalStatus: '',
+      totalPost: '',
+      isCurrentBsnAdmin: '',
+      isCurrentCrmAdmin: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: '');
 
   @override
   void initState() {
@@ -58,8 +57,7 @@ User user =  User(
       setState(() {
         token = value;
         getUser(urlGetUser);
-        getCeremony();
-
+        // getCeremony();
       });
     });
     super.initState();
@@ -77,22 +75,22 @@ User user =  User(
     });
   }
 
-  getCeremony() async {
-    AllCeremonysModel(payload: [], status: 0)
-        .getDayCeremony(token, urlCrmByDay, 'Today')
-        .then((value) {
-          
-      setState(() {
-        if (value.status == 200) {
-          setState(() {
-            todayCrm = value.payload
-                .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
-                .toList();
-          });
-        }
-      });
-    });
-  }
+  // getCeremony() async {
+  //   AllCeremonysModel(payload: [], status: 0)
+  //       .getDayCeremony(token, urlCrmByDay, 'Today')
+  //       .then((value) {
+
+  //     setState(() {
+  //       if (value.status == 200) {
+  //         setState(() {
+  //           todayCrm = value.payload
+  //               .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
+  //               .toList();
+  //         });
+  //       }
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -150,8 +148,6 @@ User user =  User(
             ]))
           ],
         ),
-        // Bottom Section
-        // bottomNavigationBar: BottomToolbar()
       ),
     );
   }

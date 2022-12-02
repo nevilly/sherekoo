@@ -24,7 +24,7 @@ import '../../util/Preferences.dart';
 import '../../util/button.dart';
 import 'likeLife.dart';
 
-class PostTemplate extends StatefulWidget  {
+class PostTemplate extends StatefulWidget {
   final String postId;
   final String avater;
   final String userId; //post Creator
@@ -114,15 +114,18 @@ class PostTemplateState extends State<PostTemplate> {
 
   share() async {
     Post(
-        pId: widget.postId,
-        createdBy: '',
-        body: '',
-        vedeo: '',
-        ceremonyId: '',
-        username: '',
-        avater: '',
-        status: 0,
-        payload: [], hashTag: '').share(token, urlpostShare, 'Post').then((value) {
+            pId: widget.postId,
+            createdBy: '',
+            body: '',
+            vedeo: '',
+            ceremonyId: '',
+            username: '',
+            avater: '',
+            status: 0,
+            payload: [],
+            hashTag: '')
+        .share(token, urlpostShare, 'Post')
+        .then((value) {
       if (value.status == 200) {
         setState(() {
           totalShare++;
@@ -142,7 +145,8 @@ class PostTemplateState extends State<PostTemplate> {
             username: '',
             avater: '',
             status: 0,
-            payload: [], hashTag: '')
+            payload: [],
+            hashTag: '')
         .likes(token, urlpostLikes, isLike.toString())
         .then((value) {
       // print(value.payload);
@@ -215,11 +219,12 @@ class PostTemplateState extends State<PostTemplate> {
                                         address: '',
                                         bio: '',
                                         meritalStatus: '',
-                                        totalPost: '', isCurrentBsnAdmin: '', 
-      isCurrentCrmAdmin: '',
-      totalFollowers: '', 
-      totalFollowing: '', 
-      totalLikes: ''),
+                                        totalPost: '',
+                                        isCurrentBsnAdmin: '',
+                                        isCurrentCrmAdmin: '',
+                                        totalFollowers: '',
+                                        totalFollowing: '',
+                                        totalLikes: ''),
                                     getIndex: 4,
                                   )));
                     },
@@ -444,16 +449,51 @@ class PostTemplateState extends State<PostTemplate> {
                               ceremonyDate: '',
                               contact: '',
                               admin: '',
-
-                                 userFid: User(id: '', username: widget.crmUsername, firstname: '', lastname: '', avater: '', phoneNo: '',
-                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
-                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
-                         totalFollowing: '', totalLikes: ''),
-                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
-                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
-                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
-                         totalFollowing: '', totalLikes: ''),
-                        
+                              isInFuture: '',
+                              isCrmAdmin: '',
+                              likeNo: '',
+                              chatNo: '',
+                              viwersNo: '',
+                              userFid: User(
+                                  id: '',
+                                  username: widget.crmUsername,
+                                  firstname: '',
+                                  lastname: '',
+                                  avater: '',
+                                  phoneNo: '',
+                                  email: '',
+                                  gender: '',
+                                  role: '',
+                                  address: '',
+                                  meritalStatus: '',
+                                  bio: '',
+                                  totalPost: '',
+                                  isCurrentUser: '',
+                                  isCurrentCrmAdmin: '',
+                                  isCurrentBsnAdmin: '',
+                                  totalFollowers: '',
+                                  totalFollowing: '',
+                                  totalLikes: ''),
+                              userSid: User(
+                                  id: '',
+                                  username: '',
+                                  firstname: '',
+                                  lastname: '',
+                                  avater: '',
+                                  phoneNo: '',
+                                  email: '',
+                                  gender: '',
+                                  role: '',
+                                  address: '',
+                                  meritalStatus: '',
+                                  bio: '',
+                                  totalPost: '',
+                                  isCurrentUser: '',
+                                  isCurrentCrmAdmin: '',
+                                  isCurrentBsnAdmin: '',
+                                  totalFollowers: '',
+                                  totalFollowing: '',
+                                  totalLikes: ''),
                               youtubeLink: widget.crmYoutubeLink),
                         )))
             : Navigator.push(
@@ -471,18 +511,51 @@ class PostTemplateState extends State<PostTemplate> {
                               ceremonyDate: '',
                               contact: '',
                               admin: '',
-
-                               userFid: User(id: '', username: widget.crmUsername, firstname: '', lastname: '', avater: '', phoneNo: '',
-                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
-                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
-                         totalFollowing: '', totalLikes: ''),
-                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
-                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
-                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
-                         totalFollowing: '', totalLikes: ''),
-
-
-                          
+                              isInFuture: '',
+                              isCrmAdmin: '',
+                              likeNo: '',
+                              chatNo: '',
+                              viwersNo: '',
+                              userFid: User(
+                                  id: '',
+                                  username: widget.crmUsername,
+                                  firstname: '',
+                                  lastname: '',
+                                  avater: '',
+                                  phoneNo: '',
+                                  email: '',
+                                  gender: '',
+                                  role: '',
+                                  address: '',
+                                  meritalStatus: '',
+                                  bio: '',
+                                  totalPost: '',
+                                  isCurrentUser: '',
+                                  isCurrentCrmAdmin: '',
+                                  isCurrentBsnAdmin: '',
+                                  totalFollowers: '',
+                                  totalFollowing: '',
+                                  totalLikes: ''),
+                              userSid: User(
+                                  id: '',
+                                  username: '',
+                                  firstname: '',
+                                  lastname: '',
+                                  avater: '',
+                                  phoneNo: '',
+                                  email: '',
+                                  gender: '',
+                                  role: '',
+                                  address: '',
+                                  meritalStatus: '',
+                                  bio: '',
+                                  totalPost: '',
+                                  isCurrentUser: '',
+                                  isCurrentCrmAdmin: '',
+                                  isCurrentBsnAdmin: '',
+                                  totalFollowers: '',
+                                  totalFollowing: '',
+                                  totalLikes: ''),
                               youtubeLink: widget.crmYoutubeLink),
                         )));
       },

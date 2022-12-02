@@ -30,7 +30,7 @@ class MkweriWaMaisha extends StatefulWidget {
 
 class _MkweriWaMaishaState extends State<MkweriWaMaisha> {
   final Preferences _preferences = Preferences();
-  final TextEditingController _body = TextEditingController();
+  // final TextEditingController _body = TextEditingController();
   final _picker = ImagePicker();
   File? _generalimage;
   String token = "";

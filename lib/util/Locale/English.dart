@@ -52,7 +52,8 @@ class English {
     titleAlt,
     eidt, //45
     ei,
-    'Talk to Mshenga'
+    'Talk to Mshenga..',
+    'Say something..'
   ];
 
   words() {

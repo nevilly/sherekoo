@@ -213,7 +213,7 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
 
   // Posting
   Future<void> post() async {
-    print(hallImageSample);
+   
     hallImageSampleFunc();
     if (crmPackageInfo.id != '') {
       if (superVisorId.isNotEmpty) {
@@ -370,7 +370,7 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
   Column plansBundle(BuildContext context, size) {
     return Column(
       children: [
-        Container(
+        SizedBox(
           width: size.width,
           // color: OColors.darGrey,
           height: size.height / 1.5,
@@ -628,7 +628,7 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('Selected Busness'),
-                Container(
+                SizedBox(
                     width: size.width,
                     height: size.height,
                     child: bsnArr.isNotEmpty
@@ -706,7 +706,7 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
                                           bsnArr.remove(itm);
                                           bsnId.remove(itm.bId);
 
-                                          print(bsnId);
+                                        
                                         });
                                       },
                                       child: Container(
@@ -1516,8 +1516,7 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
                                 bsnId.add(itm.bId);
                                 bsnArr.add(itm);
 
-                                print(bsnId);
-                                print(bsnArr);
+                              
                               });
                             },
                             child: Stack(children: [
@@ -1534,8 +1533,9 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
                                               Widget child,
                                               ImageChunkEvent?
                                                   loadingProgress) {
-                                            if (loadingProgress == null)
+                                            if (loadingProgress == null) {
                                               return child;
+                                            }
                                             return Center(
                                               child: CircularProgressIndicator(
                                                 value: loadingProgress
@@ -1719,7 +1719,7 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
           ),
         ),
       ),
-      content: Container(
+      content: SizedBox(
         width: size.width / 1.8,
         height: size.height / 3.5,
         child: Column(

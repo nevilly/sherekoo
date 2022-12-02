@@ -37,9 +37,9 @@ class _BigMonthRegisteredState extends State<BigMonthRegistered> {
   getShow(url, tvShow) {
     BigMonthShowCall(payload: [], status: 0).get(token, url).then((value) {
       if (value.status == 200) {
-        final e = value.payload;
+       
         setState(() {
-          print(e);
+       
           registered = value.payload
               .map<BigMonthRegisteredModel>(
                   (e) => BigMonthRegisteredModel.fromJson(e))
@@ -66,8 +66,8 @@ class _BigMonthRegisteredState extends State<BigMonthRegistered> {
         .isRegistered(token, urlisSelectedInBiMonthMembers, itmid, isSelected)
         .then((value) {
       if (value.status == 200) {
-        final v = value.payload;
-        print('Slelected');
+        // final v = value.payload;
+   
         setState(() {
           setState(() {
             Navigator.of(context).pop();
@@ -180,9 +180,9 @@ class _BigMonthRegisteredState extends State<BigMonthRegistered> {
                                     onTap: () {
                                       // removePackage(context, itm);
                                     },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(3.0),
-                                      child: const Icon(Icons.delete),
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(3.0),
+                                      child: Icon(Icons.delete),
                                     )),
                               ],
                             ),
@@ -266,7 +266,7 @@ class _BigMonthRegisteredState extends State<BigMonthRegistered> {
                         ),
                       ],
                     );
-                    ;
+                    
                   }),
             ),
           ],

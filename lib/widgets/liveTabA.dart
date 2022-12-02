@@ -72,7 +72,7 @@ class _TabAState extends State<TabA> {
         itemCount: post.length,
         itemBuilder: (context, i) {
           return LiveePost(
-              post: post[i], crm: widget.ceremony, user: widget.user);
+              post: post[i], crm: widget.ceremony,);
         },
       ),
     );

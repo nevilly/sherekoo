@@ -71,7 +71,7 @@ class _PostChatsState extends State<PostChats> {
     ).get(token, urlGetChats).then((value) {
       if (mounted) {
         setState(() {
-          print(value.payload);
+      
           chats = value.payload
               .map<ChatsModel>((e) => ChatsModel.fromJson(e))
               .toList();

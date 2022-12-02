@@ -47,7 +47,6 @@ class _MyServiceState extends State<MyService> {
         .addService(token, urlPostService, requestId, payedStatus)
         .then((value) {
       if (value.status == 200) {
-        print(value.status);
 
         Navigator.push(
             context,
@@ -64,6 +63,11 @@ class _MyServiceState extends State<MyService> {
                         ceremonyDate: '',
                         contact: '',
                         admin: '',
+                        isInFuture: '',
+                        isCrmAdmin: '',
+                          likeNo:'',
+      chatNo: '',
+      viwersNo: '',
                         userFid: User(
                             id: '',
                             username: '',

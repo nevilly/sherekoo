@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sherekoo/util/colors.dart';
 
 import '../../model/crmPackage/crmPackage.dart';
 import '../../model/crmPackage/crmPackageModel.dart';
@@ -51,8 +50,7 @@ class _CrmPckListState extends State<CrmPckList> {
         .activate(token, urlActivateCrmPackage, itm.id, itm.status)
         .then((value) {
       if (value.status == 200) {
-        final v = value.payload;
-        print(v);
+     
         setState(() {
           // pck = v.map<CrmPckModel>((e) => CrmPckModel.fromJson(e)).toList();
         });

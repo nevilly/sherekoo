@@ -1,24 +1,24 @@
 // ignore: file_names
+import '../ceremony/ceremonyModel.dart';
+import '../userModel.dart';
+
 class SherekooModel {
   final String pId;
   final String createdBy;
+  final String ceremonyId;
   final String body;
   final String vedeo;
 
-  final String userId;
-  final String username;
-  final String avater;
+  final String isPostAdmin;
+
+  final User creatorInfo;
 
   // total Comments
   final String commentNumber;
   final String createdDate;
 
   //Ceremony Info
-  final String ceremonyId;
-  final String cImage;
-  final String crmUsername;
-  final String crmFid;
-  final String crmYoutubeLink;
+  final CeremonyModel crmInfo;
 
   //Likes Info
   final String totalLikes;
@@ -35,23 +35,17 @@ class SherekooModel {
   SherekooModel(
       {required this.pId,
       required this.createdBy,
+      required this.ceremonyId,
       required this.body,
       required this.vedeo,
-      required this.userId,
-      required this.username,
-      required this.avater,
+      required this.creatorInfo,
       required this.createdDate,
-      
 
       //Chats
       required this.commentNumber,
 
       //Ceremony Info
-      required this.ceremonyId,
-      required this.cImage,
-      required this.crmUsername,
-      required this.crmFid,
-      required this.crmYoutubeLink,
+      required this.crmInfo,
 
       //Likes Info
       required this.totalLikes,
@@ -63,6 +57,9 @@ class SherekooModel {
       //hashTag
       required this.hashTag,
 
+      // Is Post Admin
+      required this.isPostAdmin,
+
       //Ceremony Viewer
       required this.crmViewer});
 
@@ -72,20 +69,16 @@ class SherekooModel {
         createdBy: json['createdBy'] ?? "",
         vedeo: json['vedeo'] ?? "",
         body: json['body'] ?? "",
-        userId: json['createdBy'] ?? "",
-        username: json['username'] ?? "",
-        avater: json['avater'] ?? "",
+        ceremonyId: json['ceremonyId'].toString(),
+        creatorInfo: User.fromJson(json['creatorInfo']),
         createdDate: json['createdDate'] ?? "",
 
         //Ceremony Info
-        ceremonyId: json['ceremonyId'] ?? "",
-        cImage: json['cImage'] ?? "",
-        crmUsername: json['crmUsername'] ?? "",
-        crmYoutubeLink: json['crmYoutubeLink'] ?? "",
-        crmFid: json['crmFid'] ?? "",
+        crmInfo: CeremonyModel.fromJson(json['crmInfo']),
 
         //Chats
         commentNumber: json['commentNumber'].toString(),
+        isPostAdmin: json['isPostAdmin'].toString(),
 
         //Likes Info
         totalLikes: json['totalLikes'].toString(),
@@ -94,7 +87,7 @@ class SherekooModel {
         totalShare: json['totalShare'].toString(),
 
         // hashTag
-        hashTag:json['hashTag']?? "",
+        hashTag: json['hashTag'] ?? "",
         // Crm Viewr info
         crmViewer: json['crmViewer'] ?? "");
   }

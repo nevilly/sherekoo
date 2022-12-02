@@ -9,11 +9,10 @@
 String api = "http://192.168.43.125/"; // Neheman
 //String api = "http://192.168.43.237/"; // challo
 
-
 //Authentications
 String login = "${api}Users/login";
 String craetAcount = '${api}Users/addAccount';
-//
+
 //users
 String urlGetUser = '${api}Users/user';
 String urlUserList = '${api}Users/users';
@@ -22,14 +21,20 @@ String urlUserProfileById = '${api}Users/getUserProfileById';
 String urlUpdateUserInfo = '${api}Users/updateAccount';
 String urlUpdateUserSetting = '${api}Users/updateSetting';
 
+// Follow System 
+String urlAddFollow = '${api}Followers/add';
+String urlUnFollow = '${api}Followers/anfollow';
+String urlUnFollowback = '${api}Followers/update';
+
 //Admin Ceremony
 String urlAdminCrmnByUserId = '${api}Ceremony/getCrmn_by_UserId';
 String urlAdmCrmnRequests = '${api}Ceremony/getAllCrmRequests';
 
+
 //Ceremony
 String urlPostCeremony = '${api}Ceremony/add';
 String urlGetCeremony = '${api}Ceremony/get';
-String urlGetCeremonyById = '${api}Ceremony/getById';
+String urlGetCeremonyById = '${api}Ceremony/getById'; // not used
 String urlCrmByDay = '${api}Ceremony/getCeremonyByDay';
 String urlUpdateDayCeremony = '${api}Ceremony/update';
 String urlGetByUserId = '${api}Ceremony/getCrmn_by_UserId';
@@ -125,6 +130,14 @@ String urlGetBigMonthRegistration =
 String urlisSelectedInBiMonthMembers = '${api}TvBmontRegistration/isSelected';
 String urlGetBiMonthWallMembers = '${api}TvBmontRegistration/getMembers';
 
+//BigMonth Chats
+String urlBigMonthPostChats = '${api}BigMonthChats/add';
+String urlBigMonthGetChats = '${api}BigMonthChats/get';
+// String urlMshengaGetLikes = '${api}MshengaChats/getAllLike';
+String urlBigMonthAddLikes = '${api}BigMonthChats/addLike';
+String urlBigMonthRemoveChat = '${api}BigMonthChats/remove';
+String urlBigMOnthUpdateChat = '${api}BigMonthChats/update';
+
 //MshengaWar Tv Show
 String urlAddMshengaWar = '${api}TvShowMshengaWar/add';
 String urlGetMshengaWar = '${api}TvShowMshengaWar/get';
@@ -141,9 +154,6 @@ String urlMshengaAddLikes = '${api}MshengaChats/addLike';
 String urlMshengaRemoveChat = '${api}MshengaChats/remove';
 String urlMshengaUpdateChat = '${api}MshengaChats/update';
 
-
-
 // Mshenga Registration
 String urlGetMshengaRegistration = '${api}TvShowMshengaWarReigistration/add';
 String urlGetMshengaMembars = '${api}TvShowMshengaWarReigistration/getMembers';
-

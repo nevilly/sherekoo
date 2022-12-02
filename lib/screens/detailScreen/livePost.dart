@@ -14,10 +14,10 @@ import '../homNav.dart';
 
 class LiveePost extends StatefulWidget {
   final SherekooModel post;
-  final User user;
+
   final CeremonyModel crm; // must be remove after knowing Provider way
   const LiveePost(
-      {Key? key, required this.post, required this.crm, required this.user})
+      {Key? key, required this.post, required this.crm, })
       : super(key: key);
 
   @override
@@ -152,9 +152,9 @@ class _LiveePostState extends State<LiveePost> {
                           MaterialPageRoute(
                               builder: (BuildContext context) => HomeNav(
                                     user: User(
-                                        id: widget.post.userId,
-                                        username: widget.post.username,
-                                        avater: widget.post.avater,
+                                        id: widget.post.creatorInfo.id,
+                                        username: widget.post.creatorInfo.username,
+                                        avater: widget.post.creatorInfo.avater,
                                         phoneNo: '',
                                         role: '',
                                         gender: '',
@@ -179,14 +179,14 @@ class _LiveePostState extends State<LiveePost> {
                         CircleAvatar(
                           radius: 22,
                           backgroundImage: NetworkImage(
-                              '${api}public/uploads/${widget.post.username}/profile/${widget.post.avater}'),
+                              '${api}public/uploads/${widget.post.creatorInfo.username}/profile/${widget.post.creatorInfo.avater}'),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 15.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(widget.post.username,
+                              Text(widget.post.creatorInfo.username!,
                                   style: TextStyle(
                                     // fontSize: 16,
                                     color: OColors.fontColor,
@@ -247,7 +247,7 @@ class _LiveePostState extends State<LiveePost> {
               child: Container(
                   child: widget.post.vedeo != ''
                       ? Image.network(
-                          '${api}public/uploads/${widget.post.username}/posts/${widget.post.vedeo}',
+                          '${api}public/uploads/${widget.post.creatorInfo.username}/posts/${widget.post.vedeo}',
                           fit: BoxFit.contain,
                         )
                       : const SizedBox(height: 1)),
@@ -413,7 +413,7 @@ class _LiveePostState extends State<LiveePost> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          widget.post.userId == widget.user.id
+          widget.post.isPostAdmin == 'true'
               ? ListTile(
                   title: Text('Delete Post',
                       style: TextStyle(color: OColors.fontColor)),

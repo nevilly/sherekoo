@@ -212,9 +212,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                     ModalRoute.withName('/'));
               });
             } else {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text('System Error, Try Again'),
-              ));
+                emptyField('System Error, Try Again');  
             }
           } else {
             emptyField("Select your Location Please...");
@@ -261,6 +259,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
 
       body: Column(
         children: [
+          
           Expanded(
             flex: 5,
             child: Column(

@@ -47,6 +47,7 @@ class _MshengaWarWallState extends State<MshengaWarWall>
     "Dangerous organization/individuals",
     "Other"
   ];
+ 
   late User user = User(
       id: '',
       username: '',
@@ -156,11 +157,11 @@ class _MshengaWarWallState extends State<MshengaWarWall>
     // print("Hello World ${ID}");
     getPost();
     idpost++;
-
     return timer;
   }
 
   List<ChatsModel> chats = [];
+  
   getPost() async {
     // print(widget.show.id);
     PostAllChats(
@@ -261,7 +262,7 @@ class _MshengaWarWallState extends State<MshengaWarWall>
       postId: itm.id,
       userId: '',
     ).updateLike(token, urlMshengaAddLikes, isLike).then((value) {
-      final v = value.payload;
+      // final v = value.payload;
 
       if (isLike == '0') {
         setState(() {
@@ -309,13 +310,13 @@ class _MshengaWarWallState extends State<MshengaWarWall>
       postId: itm.id,
       userId: '',
     ).deleteChat(token, urlMshengaRemoveChat).then((value) {
-      final v = value.payload;
+      // final v = value.payload;
       if (value.status == 200) {
         setState(() {
           chats.removeWhere((element) => element.id == itm.id);
           Navigator.of(context).pop();
 
-          print(v);
+          // print(v);
         });
       }
     });
@@ -331,13 +332,13 @@ class _MshengaWarWallState extends State<MshengaWarWall>
         postId: itm.id,
         userId: '',
       ).editChat(token, urlMshengaUpdateChat).then((value) {
-        final v = value.payload;
+        // final v = value.payload;
         if (value.status == 200) {
           setState(() {
             itm.body = newBody.text;
             Navigator.of(context).pop();
 
-            print(v);
+            // print(v);
           });
         }
       });
@@ -435,7 +436,8 @@ class _MshengaWarWallState extends State<MshengaWarWall>
     return Scrollbar(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(children: [
+        child:
+         Column(children: [
           // const SizedBox(height: 25),
           tvShowChats(),
 
@@ -503,6 +505,7 @@ class _MshengaWarWallState extends State<MshengaWarWall>
             ),
           ),
         ]),
+     
       ),
     );
   }
@@ -1041,4 +1044,5 @@ class _MshengaWarWallState extends State<MshengaWarWall>
       },
     );
   }
+
 }

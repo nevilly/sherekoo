@@ -192,7 +192,7 @@ class _AddMshengaWarTvShowState extends State<AddMshengaWarTvShow> {
               edtImg,
               isChanged)
           .then((value) {
-        print(value.payload);
+   
         Navigator.of(context).pop();
         Navigator.push(
             context,

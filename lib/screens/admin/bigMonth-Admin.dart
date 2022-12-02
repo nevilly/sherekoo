@@ -10,7 +10,6 @@ import 'package:sherekoo/util/colors.dart';
 
 import '../../model/allData.dart';
 import '../../model/bigMontTvShow/bigMonth-call.dart';
-import '../../model/mshengaWar/mshengaWar-call.dart';
 import '../../model/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/appWords.dart';

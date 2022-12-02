@@ -31,7 +31,7 @@ class _PostDetailState extends State<PostDetail> {
                   child: Container(
                       child: widget.post.vedeo != ''
                           ? Image.network(
-                              '${api}public/uploads/${widget.post.username}/posts/${widget.post.vedeo}',
+                              '${api}public/uploads/${widget.post.creatorInfo.username}/posts/${widget.post.vedeo}',
                               height: 100,
                               fit: BoxFit.cover,
                             )

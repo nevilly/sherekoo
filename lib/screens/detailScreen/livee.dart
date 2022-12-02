@@ -231,7 +231,6 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
                     //   color: OColors.primary,
                     // )
                   ]),
-           
             ),
           ];
         },
@@ -244,7 +243,6 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
             ),
             TabB(
               ceremony: widget.ceremony,
-              user: user,
             ),
           ],
         ),

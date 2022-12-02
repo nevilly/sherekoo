@@ -99,7 +99,6 @@ class _MshengaShowListState extends State<MshengaShowList> {
         .isActive(token, urlActivateMshengaList, itm.id, itm.status)
         .then((value) {
       if (value.status == 200) {
-        final v = value.payload;
 
         setState(() {
           setState(() {
@@ -125,7 +124,7 @@ class _MshengaShowListState extends State<MshengaShowList> {
         .removeShow(token, urlRemoveMshengaList, itm.id, itm.status)
         .then((value) {
       if (value.status == 200) {
-        final v = value.payload;
+    
 
         setState(() {
           setState(() {

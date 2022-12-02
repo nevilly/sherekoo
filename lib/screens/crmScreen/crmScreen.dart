@@ -99,6 +99,11 @@ class _CeremonyScreenState extends State<CeremonyScreen> {
       ceremonyDate: '',
       contact: '',
       admin: '',
+      isInFuture:'',
+      isCrmAdmin: '',
+        likeNo:'',
+      chatNo: '',
+      viwersNo: '',
       userFid: User(
           id: '',
           username: '',

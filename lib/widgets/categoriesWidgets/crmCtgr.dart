@@ -50,14 +50,51 @@ class _CrmCategoriesWidgetState extends State<CrmCategoriesWidget> {
       ceremonyDate: '',
       admin: '',
       contact: '',
-         userFid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
-                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
-                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
-                         totalFollowing: '', totalLikes: ''),
-                        userSid: User(id: '', username: '', firstname: '', lastname: '', avater: '', phoneNo: '',
-                         email: '', gender: '', role: '', address: '', meritalStatus: '', bio: '', totalPost: '', 
-                         isCurrentUser: '', isCurrentCrmAdmin: '', isCurrentBsnAdmin: '', totalFollowers: '', 
-                         totalFollowing: '', totalLikes: ''),
+       isCrmAdmin:'',
+      isInFuture: '',
+        likeNo:'',
+      chatNo: '',
+      viwersNo: '',
+      userFid: User(
+          id: '',
+          username: '',
+          firstname: '',
+          lastname: '',
+          avater: '',
+          phoneNo: '',
+          email: '',
+          gender: '',
+          role: '',
+          address: '',
+          meritalStatus: '',
+          bio: '',
+          totalPost: '',
+          isCurrentUser: '',
+          isCurrentCrmAdmin: '',
+          isCurrentBsnAdmin: '',
+          totalFollowers: '',
+          totalFollowing: '',
+          totalLikes: ''),
+      userSid: User(
+          id: '',
+          username: '',
+          firstname: '',
+          lastname: '',
+          avater: '',
+          phoneNo: '',
+          email: '',
+          gender: '',
+          role: '',
+          address: '',
+          meritalStatus: '',
+          bio: '',
+          totalPost: '',
+          isCurrentUser: '',
+          isCurrentCrmAdmin: '',
+          isCurrentBsnAdmin: '',
+          totalFollowers: '',
+          totalFollowing: '',
+          totalLikes: ''),
       youtubeLink: '');
   String bsnType = '';
 
@@ -91,9 +128,7 @@ class _CrmCategoriesWidgetState extends State<CrmCategoriesWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    
-    Column(
+    return Column(
       children: [
         //Top Header
         Row(
@@ -185,6 +220,5 @@ class _CrmCategoriesWidgetState extends State<CrmCategoriesWidget> {
         ), //Top Header
       ],
     );
-  
   }
 }

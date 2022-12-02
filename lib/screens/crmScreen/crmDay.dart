@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sherekoo/screens/detailScreen/livee.dart';
-import 'package:sherekoo/widgets/imgWigdets/userAvater.dart';
 
 import '../../model/allData.dart';
 import '../../model/ceremony/allCeremony.dart';
@@ -12,8 +10,7 @@ import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/boxImg.dart';
-import '../../widgets/imgWigdets/defaultAvater.dart';
-import '../accounts/login.dart';
+import '../ourServices/sherekoCards.dart';
 import '../uploadScreens/ceremonyUpload.dart';
 import 'crmDoor.dart';
 
@@ -26,8 +23,10 @@ class CeremonyDay extends StatefulWidget {
 }
 
 class _CeremonyDayState extends State<CeremonyDay> {
+  final _controller = ScrollController();
   final Preferences _preferences = Preferences();
   String token = '';
+
   List<CeremonyModel> crm = [];
   List ourService = [
     'ceremony card',
@@ -57,6 +56,7 @@ class _CeremonyDayState extends State<CeremonyDay> {
       totalFollowers: '',
       totalFollowing: '',
       totalLikes: '');
+  int page = 1, limit = 3, offset = 0;
 
   @override
   void initState() {
@@ -65,8 +65,13 @@ class _CeremonyDayState extends State<CeremonyDay> {
       setState(() {
         token = value;
         getUser();
-        getAllCeremony();
+        getAllCeremony(offset: page, limit: limit);
       });
+    });
+
+    _controller.addListener(() {
+      // print(_controller.offset.floor());
+      onPage(_controller.offset.floor());
     });
 
     super.initState();
@@ -82,9 +87,28 @@ class _CeremonyDayState extends State<CeremonyDay> {
     });
   }
 
-  getAllCeremony() async {
+  onPage(int pag) {
+    // print("Pages");
+    // print(pag);
+    if (page > pag) {
+      page--;
+    } else {
+      page++;
+    }
+    //page = pag;
+    print('post Length :');
+    print(crm.length);
+    if (pag == crm.length - 1) {
+      offset = page;
+      print("Select * from posts order by id limit ${offset}, ${limit}");
+      getAllCeremony(offset: offset, limit: limit);
+    }
+  }
+
+  getAllCeremony({int? offset, int? limit}) {
+    String d = offset != null && limit != null ? "/$offset/$limit" : '';
     AllCeremonysModel(payload: [], status: 0)
-        .getDayCeremony(token, urlCrmByDay, widget.day)
+        .getDayCeremony(token, urlCrmByDay, widget.day, offset, limit)
         .then((value) {
       if (value.status == 200) {
         setState(() {
@@ -101,9 +125,15 @@ class _CeremonyDayState extends State<CeremonyDay> {
     return Scaffold(
       backgroundColor: OColors.secondary,
       body: ListView.builder(
+        controller: _controller,
         itemCount: crm.length,
         itemBuilder: (BuildContext context, int index) {
           final itm = crm[index];
+
+          double crmdpWdth = 30;
+          double crmdphght = 30;
+          double crmdpradius = 35;
+
           return SingleChildScrollView(
             child: Container(
               margin: const EdgeInsets.only(top: 5),
@@ -118,6 +148,7 @@ class _CeremonyDayState extends State<CeremonyDay> {
                         side: BorderSide(color: OColors.primary)),
                     child: Row(
                       children: [
+                        // Ceremony Profile
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -135,15 +166,15 @@ class _CeremonyDayState extends State<CeremonyDay> {
                                           avater: itm.cImage,
                                           url: '/ceremony/',
                                           username: itm.userFid.username!,
-                                          width: 145,
-                                          height: 145,
+                                          width: 125,
+                                          height: 125,
                                         )
                                       : const SizedBox(height: 1)),
                             ),
 
                             // Red TAGs ceremony Type
                             Container(
-                              margin: const EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(top: 8),
                               decoration: const BoxDecoration(
                                   color: Color.fromARGB(255, 136, 64, 64),
                                   borderRadius: BorderRadius.only(
@@ -153,13 +184,11 @@ class _CeremonyDayState extends State<CeremonyDay> {
                                 padding: const EdgeInsets.only(
                                     top: 4.0,
                                     left: 8.0,
-                                    right: 13.0,
+                                    right: 10.0,
                                     bottom: 4.0),
                                 child: Text(
                                   itm.ceremonyType,
-                                  style: const TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.white,
+                                  style: header12.copyWith(
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
@@ -171,20 +200,31 @@ class _CeremonyDayState extends State<CeremonyDay> {
                         Expanded(
                           child: Column(
                             children: [
-                              const SizedBox(
-                                height: 8,
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => CrmDoor(
+                                                crm: itm,
+                                              )));
+                                },
+                                child: Container(
+                                    margin: const EdgeInsets.only(top: 10),
+                                    padding: const EdgeInsets.only(
+                                        left: 8, right: 8, top: 4, bottom: 4),
+                                    decoration: BoxDecoration(
+                                        color: OColors.primary,
+                                        borderRadius:
+                                            BorderRadius.circular(105)),
+                                    child: Text(
+                                      'Code: ${itm.codeNo}',
+                                      style: header10.copyWith(
+                                          fontWeight: FontWeight.bold),
+                                    )),
                               ),
-
-                              // Title
-                              Container(
-                                margin: const EdgeInsets.only(top: 1),
-                                child: Text(itm.ceremonyType.toUpperCase(),
-                                    style: TextStyle(
-                                        fontStyle: FontStyle.italic,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: OColors.fontColor,
-                                        letterSpacing: 1)),
+                              const SizedBox(
+                                height: 6,
                               ),
 
                               Container(
@@ -194,8 +234,8 @@ class _CeremonyDayState extends State<CeremonyDay> {
                                     TextSpan(
                                         text: 'On: ',
                                         style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 10,
                                           color: OColors.fontColor,
                                         )),
                                     TextSpan(
@@ -209,31 +249,6 @@ class _CeremonyDayState extends State<CeremonyDay> {
                                 ),
                               ),
 
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => CrmDoor(
-                                                crm: itm,
-                                              )));
-                                },
-                                child: Container(
-                                    margin: const EdgeInsets.only(top: 10),
-                                    padding: const EdgeInsets.all(4),
-                                    decoration: BoxDecoration(
-                                        color: OColors.primary,
-                                        borderRadius:
-                                            BorderRadius.circular(105)),
-                                    child: Text(
-                                      'Code: ${itm.codeNo}',
-                                      style: const TextStyle(
-                                          fontSize: 11,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                              ),
-
                               // Profile Details
                               Container(
                                 margin: const EdgeInsets.only(top: 8),
@@ -244,19 +259,20 @@ class _CeremonyDayState extends State<CeremonyDay> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     if (itm.ceremonyType == 'Wedding')
-                                      weddingProfileCrm(
-                                          context, itm, 35, 35, 35),
+                                      weddingProfileCrm(context, itm, crmdpWdth,
+                                          crmdphght, crmdpradius),
                                     if (itm.ceremonyType == 'Kitchen Part')
-                                      kichernPartProfileCrm(
-                                          context, itm, 35, 35, 35),
+                                      kichernPartProfileCrm(context, itm,
+                                          crmdpWdth, crmdphght, crmdpradius),
                                     if (itm.ceremonyType == 'Birthday')
-                                      birthdayProfileCrm(
-                                          context, itm, 35, 35, 35),
+                                      birthdayProfileCrm(context, itm,
+                                          crmdpWdth, crmdphght, crmdpradius),
                                     if (itm.ceremonyType == 'SendOff')
-                                      sendProfileCrm(context, itm, 35, 35, 35),
+                                      sendProfileCrm(context, itm, crmdpWdth,
+                                          crmdphght, crmdpradius),
                                     if (itm.ceremonyType == 'Kigodoro')
-                                      kigodoroProfileCrm(
-                                          context, itm, 35, 35, 35),
+                                      kigodoroProfileCrm(context, itm,
+                                          crmdpWdth, crmdphght, crmdpradius),
                                   ],
                                 ),
                               ),
@@ -275,43 +291,54 @@ class _CeremonyDayState extends State<CeremonyDay> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        cardFotter(
-                                            Icon(
-                                              Icons.group,
-                                              size: 14,
-                                              color: OColors.primary,
-                                            ),
-                                            '1k'),
-                                        cardFotter(
-                                            Icon(
-                                              Icons.reply,
-                                              size: 12,
-                                              color: OColors.primary,
-                                            ),
-                                            '2k'),
-                                        cardFotter(
-                                            const Icon(
-                                              Icons.favorite,
-                                              color: Colors.red,
-                                              size: 12,
-                                            ),
-                                            '99+'),
-                                      ],
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.4,
+                                      // color: Colors.blue,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          cardFotter(
+                                              Icon(
+                                                Icons.group,
+                                                size: 14,
+                                                color: OColors.primary,
+                                              ),
+                                              itm.viwersNo),
+                                          cardFotter(
+                                              Icon(
+                                                Icons.message,
+                                                size: 12,
+                                                color: OColors.primary,
+                                              ),
+                                              itm.chatNo),
+                                          cardFotter(
+                                              const Icon(
+                                                Icons.favorite,
+                                                color: Colors.red,
+                                                size: 12,
+                                              ),
+                                              itm.likeNo),
+                                        ],
+                                      ),
                                     ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Icon(
-                                      Icons.share,
-                                      size: 13,
-                                      color: OColors.primary,
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
+                                    GestureDetector(
+                                      onTap: () {
+                                        // print('Share function');
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 8.0,
+                                            right: 8,
+                                            top: 4,
+                                            bottom: 4),
+                                        child: Icon(
+                                          Icons.share,
+                                          size: 13,
+                                          color: OColors.primary,
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -322,101 +349,11 @@ class _CeremonyDayState extends State<CeremonyDay> {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 8),
-                    // decoration: BoxDecoration(
-                    //     border: Border.all(width: 1, color: OColors.primary),
-                    //     borderRadius: BorderRadius.circular(10)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 4.0, right: 4),
-                      child: Text('Booking Now',
-                          style:
-                              header10.copyWith(fontStyle: FontStyle.italic)),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 4.0, bottom: 8, right: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            const SizedBox(width: 5),
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 1, color: OColors.primary),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 6.0, right: 6),
-                                child: Text(
-                                  'Ceremony Card',
-                                  style: header10,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 5),
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 1, color: OColors.primary),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 4.0, right: 4),
-                                child: Text(
-                                  'Dressing Design',
-                                  style: header10,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 5),
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 1, color: OColors.primary),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 4.0, right: 4),
-                                child: Text(
-                                  'Production',
-                                  style: header10,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        if (itm.fId == currentUser.id ||
-                            itm.sId == currentUser.id)
-                          GestureDetector(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    _buildPopupDialog(context, index),
-                              );
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Icon(
-                                Icons.more_vert,
-                                size: 13,
-                                color: OColors.fontColor,
-                              ),
-                            ),
-                          )
-                      ],
-                    ),
-                  )
+                  itm.isCrmAdmin == 'true'
+                      ? itm.isInFuture == 'true'
+                          ? bookingPanel(itm, context, index)
+                          : crmSettings(context, index)
+                      : const SizedBox.shrink()
                 ],
               ),
             ),
@@ -426,117 +363,168 @@ class _CeremonyDayState extends State<CeremonyDay> {
     );
   }
 
-  Row check(CeremonyModel itm) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+  GestureDetector crmSettings(BuildContext context, int index) {
+    return GestureDetector(
+      onTap: () {
+        _buildPopupDialog(context, index);
+      },
+      child: Padding(
+        padding:
+            const EdgeInsets.only(left: 8.0, right: 8.0, top: 4.0, bottom: 4),
+        child: Icon(
+          Icons.more_vert,
+          size: 13,
+          color: OColors.fontColor,
+        ),
+      ),
+    );
+  }
+
+  Column bookingPanel(CeremonyModel itm, BuildContext context, int index) {
+    return Column(
       children: [
-        itm.userFid.avater!.isNotEmpty
-            ? Container(
-                decoration: const BoxDecoration(
-                    // gradient: LinearGradient(
-                    //   colors: [
-                    //     OColors.primary2,
-                    //     OColors.darGrey,
-                    //     OColors.fontColor,
-                    //     // OColors.darGrey,
-                    //     OColors.primary2,
-                    //     OColors.darGrey,
-                    //     OColors.primary,
-                    //   ],
-                    // ),
-                    // borderRadius: BorderRadius.circular(20),
-                    ),
-                child: Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(
-                      const Radius.circular(35),
-                    ),
-                    child: UserAvater(
-                        avater: itm.userFid.avater!,
-                        url: '/profile/',
-                        username: itm.userFid.username!,
-                        height: 35,
-                        width: 35),
-                  ),
-                ),
-              )
-            : Container(
-                decoration: const BoxDecoration(
-                    // gradient: LinearGradient(
-                    //   colors: [
-                    //     OColors.primary2,
-                    //     OColors.darGrey,
-                    //     OColors.fontColor,
-                    //     // OColors.darGrey,
-                    //     OColors.primary2,
-                    //     OColors.darGrey,
-                    //     OColors.primary,
-                    //   ],
-                    // ),
-                    // borderRadius: BorderRadius.circular(20),
-                    ),
-                child: const ClipRRect(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(35),
-                    ),
-                    child: DefaultAvater(height: 35, radius: 35, width: 35)),
+        const SizedBox(
+          height: 5,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(left: 8),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 4.0, right: 4),
+                child: Text('Booking Now',
+                    style: header10.copyWith(fontStyle: FontStyle.italic)),
               ),
-        itm.userSid.avater!.isNotEmpty
-            ? Container(
-                decoration: const BoxDecoration(
-                    // gradient: LinearGradient(
-                    //   colors: [
-                    //     // OColors.primary2,
-                    //     // OColors.darGrey,
-                    //     // OColors.fontColor,
-                    //     // // OColors.darGrey,
-                    //     // OColors.primary2,
-                    //     // OColors.darGrey,
-                    //     // OColors.primary,
-                    //   ],
-                    // ),
-                    // borderRadius: BorderRadius.circular(20),
-                    ),
-                child: Container(
-                  // decoration: BoxDecoration(
-                  //   gradient: LinearGradient(
-                  //     colors: [
-                  //       OColors.primary2,
-                  //       OColors.darGrey,
-                  //       OColors.fontColor,
-                  //       // OColors.darGrey,
-                  //       OColors.primary2,
-                  //       OColors.darGrey,
-                  //       OColors.primary,
-                  //     ],
-                  //   ),
-                  //   borderRadius: BorderRadius.circular(20),
-                  // ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(3.0),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.all(
-                        const Radius.circular(35),
+            ),
+            const SizedBox(),
+          ],
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 1.1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => SherekoCards(
+                                    crm: CeremonyModel(
+                                        cId: itm.cId,
+                                        codeNo: itm.codeNo,
+                                        ceremonyType: itm.ceremonyType,
+                                        cName: itm.cName,
+                                        fId: itm.fId,
+                                        sId: itm.sId,
+                                        cImage: itm.cImage,
+                                        ceremonyDate: itm.ceremonyDate,
+                                        contact: itm.contact,
+                                        admin: itm.admin,
+                                        userFid: itm.userFid,
+                                        userSid: itm.userSid,
+                                        youtubeLink: itm.youtubeLink,
+                                        likeNo: '',
+                                        chatNo: '',
+                                        viwersNo: '',
+                                        isCrmAdmin: itm.isCrmAdmin,
+                                        isInFuture: itm.isInFuture),
+                                    user: User(
+                                        id: '',
+                                        username: '',
+                                        firstname: '',
+                                        lastname: '',
+                                        avater: '',
+                                        phoneNo: '',
+                                        email: '',
+                                        gender: '',
+                                        role: '',
+                                        isCurrentUser: '',
+                                        address: '',
+                                        bio: '',
+                                        meritalStatus: '',
+                                        totalPost: '',
+                                        isCurrentBsnAdmin: '',
+                                        isCurrentCrmAdmin: '',
+                                        totalFollowers: '',
+                                        totalFollowing: '',
+                                        totalLikes: ''),
+                                  )));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: OColors.primary),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 6.0, right: 6),
+                        child: Text(
+                          'Order Cards',
+                          style: header10,
+                        ),
                       ),
-                      child: UserAvater(
-                          avater: itm.userSid.avater!,
-                          url: '/profile/',
-                          username: itm.userSid.username!,
-                          height: 35,
-                          width: 35),
                     ),
                   ),
-                ),
-              )
-            : const Padding(
-                padding: EdgeInsets.all(3.0),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.all(
-                      const Radius.circular(35),
+                  Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: OColors.primary),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 4.0, right: 4),
+                      child: Text(
+                        'Design',
+                        style: header10,
+                      ),
                     ),
-                    child: DefaultAvater(height: 35, radius: 35, width: 35)),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: OColors.primary),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 4.0, right: 4),
+                      child: Text(
+                        'Production',
+                        style: header10,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: OColors.primary),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 4.0, right: 4),
+                      child: Text(
+                        'our Best Mc',
+                        style: header10,
+                      ),
+                    ),
+                  ),
+                ],
               ),
+            ),
+            GestureDetector(
+              onTap: () {
+                _buildPopupDialog(context, index);
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Icon(
+                  Icons.more_vert,
+                  size: 13,
+                  color: OColors.fontColor,
+                ),
+              ),
+            )
+          ],
+        ),
       ],
     );
   }
@@ -548,10 +536,12 @@ class _CeremonyDayState extends State<CeremonyDay> {
         const SizedBox(
           width: 2,
         ),
-        Text(
-          no,
-          style: TextStyle(color: OColors.fontColor, fontSize: 12),
-        ),
+        no != '0' && no.isNotEmpty
+            ? Text(
+                no,
+                style: TextStyle(color: OColors.fontColor, fontSize: 12),
+              )
+            : const SizedBox.shrink(),
         const SizedBox(
           width: 5,
         )
@@ -559,70 +549,79 @@ class _CeremonyDayState extends State<CeremonyDay> {
     );
   }
 
-  Widget _buildPopupDialog(BuildContext context, index) {
-    return AlertDialog(
-      title: const Text('Ceremony Settings'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ListTile(
-            title: const Text('Editing Update'),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => CeremonyUpload(
-                            getData: crm[index],
-                            getcurrentUser: currentUser,
-                          )));
-            },
-          ),
-          ListTile(
-            title: const Text('hide your ceremony'),
-            onTap: () {
-              _preferences.logout();
-              Navigator.of(context).pop();
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => const LoginPage()));
-            },
-          ),
-          ListTile(
-            title: const Text('Only you see ceremony'),
-            onTap: () {
-              _preferences.logout();
-              Navigator.of(context).pop();
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => const LoginPage()));
-            },
-          ),
-          ListTile(
-            title: const Text('Delete ceremony'),
-            onTap: () {
-              _preferences.logout();
-              Navigator.of(context).pop();
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => const LoginPage()));
-            },
-          ),
-        ],
-      ),
-      actions: <Widget>[
-        ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          // Color: Theme.of(context).primaryColor,
-          child: const Text('Close'),
-        ),
-      ],
-    );
+  void _buildPopupDialog(BuildContext context, index) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+              color: const Color(0xFF737373),
+              height: 250,
+              child: Container(
+                  decoration: BoxDecoration(
+                      color: OColors.secondary,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25),
+                      )),
+                  child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ListTile(
+                            title: Text(
+                              'Editing Update',
+                              style: header13,
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          CeremonyUpload(
+                                            getData: crm[index],
+                                            getcurrentUser: currentUser,
+                                          )));
+                            },
+                          ),
+                          ListTile(
+                            title: Text('hide your ceremony', style: header13),
+                            onTap: () {
+                              // _preferences.logout();
+                              // Navigator.of(context).pop();
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (BuildContext context) => const LoginPage()));
+                            },
+                          ),
+                          ListTile(
+                            title:
+                                Text('Only you see ceremony', style: header13),
+                            onTap: () {
+                              // _preferences.logout();
+                              // Navigator.of(context).pop();
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (BuildContext context) => const LoginPage()));
+                            },
+                          ),
+                          ListTile(
+                            title: Text('Delete ceremony', style: header13),
+                            onTap: () {
+                              // _preferences.logout();
+                              // Navigator.of(context).pop();
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (BuildContext context) => const LoginPage()));
+                            },
+                          ),
+                        ],
+                      ))));
+        });
   }
 }

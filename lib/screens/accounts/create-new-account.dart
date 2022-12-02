@@ -132,7 +132,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
             if (r.status == 200) {
               setState(() {
                 _preferences.add('token', r.token);
-                emptyField("${"User " + us} was added successful!...");
+                emptyField(" $us was added successful!...");
 
                 Navigator.pushAndRemoveUntil(
                     context,
@@ -146,9 +146,9 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                   "Sorry a user with the same information exists on our system. Please login!") {
                 emptyField(OLocale(isSwahili, 13).get());
               } else {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text('System Error, Try Again'),
-                ));
+            
+                  emptyField('System Error, Try Again');  
+           
               }
             }
           } else {

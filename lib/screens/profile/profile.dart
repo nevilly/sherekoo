@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sherekoo/model/follow/followCall.dart';
 import 'package:sherekoo/screens/profile/myCrmn.dart';
 import 'package:sherekoo/util/colors.dart';
 import 'package:sherekoo/widgets/imgWigdets/defaultAvater.dart';
@@ -29,6 +30,8 @@ class ProfileState extends State<Profile> {
   final Preferences _preferences = Preferences();
   String token = '';
 
+  TextStyle styl =
+      header13.copyWith(fontWeight: FontWeight.bold, color: OColors.primary);
   User user = User(
       id: '',
       username: '',
@@ -42,6 +45,7 @@ class ProfileState extends State<Profile> {
       isCurrentUser: '',
       address: '',
       bio: '',
+      followInfo: '',
       meritalStatus: '',
       totalPost: '',
       isCurrentBsnAdmin: '',
@@ -72,6 +76,40 @@ class ProfileState extends State<Profile> {
       if (value.status == 200) {
         setState(() {
           user = User.fromJson(value.payload);
+        });
+      }
+    });
+  }
+
+  addfollowSyst(id, urlDr, String typ) {
+    FollowCall(payload: [], status: 0).follow(token, urlDr, id).then((value) {
+      if (value.status == 200) {
+        setState(() {
+          user.followInfo = 'unfollow';
+          int incFolower = int.parse(user.totalFollowers!) + 1;
+          user.totalFollowers = incFolower.toString();
+        });
+      }
+    });
+  }
+
+  unfollowSyst(id, urlDr, String typ) {
+    FollowCall(payload: [], status: 0).follow(token, urlDr, id).then((value) {
+      if (value.status == 200) {
+        setState(() {
+          user.followInfo = 'Follow';
+          int incFolower = int.parse(user.totalFollowers!) - 1;
+          user.totalFollowers = incFolower.toString();
+        });
+      }
+    });
+  }
+
+  followbackSyst(id, urlDr, String typ) {
+    FollowCall(payload: [], status: 0).follow(token, urlDr, id).then((value) {
+      if (value.status == 200) {
+        setState(() {
+          user.followInfo = 'unfollow';
         });
       }
     });
@@ -328,24 +366,36 @@ class ProfileState extends State<Profile> {
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: Column(
-                      children: const [
-                        // Text('34',
-                        //     style: TextStyle(
-                        //         color: Colors.black,
-                        //         fontWeight: FontWeight.bold,
-                        //         fontSize: 20)),
-                        // SizedBox(
-                        //   height: 5.0,
-                        // ),
-                        Text(' Follow + ',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold))
-                      ],
+                  GestureDetector(
+                    onTap: () {
+                      if (user.followInfo! == 'Follow') {
+                        addfollowSyst(user.id, urlAddFollow, 'addFollow');
+                      }
+
+                      if (user.followInfo! == 'unfollow') {
+                        unfollowSyst(user.id, urlUnFollow, 'unfollow');
+                      }
+
+                      if (user.followInfo! == 'followback') {
+                        followbackSyst(
+                            user.currentFllwId, urlUnFollowback, 'followback');
+                      }
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.only(right: 6),
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                        children: [
+                          if (user.followInfo! == 'Follow')
+                            Text('Follow + ', style: styl),
+                          if (user.followInfo! == 'unfollow')
+                            Text('Unfollow', style: styl),
+                          if (user.followInfo! == 'followback')
+                            Text('followback', style: styl),
+                          if (user.followInfo! == 'false')
+                            const SizedBox.shrink()
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -380,7 +430,8 @@ class ProfileState extends State<Profile> {
         ),
         Column(
           children: [
-            Text('243', style: h4.copyWith(fontWeight: FontWeight.bold)),
+            Text(user.totalFollowers!,
+                style: h4.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 1),
             const Text(
               'Followers',
@@ -394,7 +445,8 @@ class ProfileState extends State<Profile> {
         ),
         Column(
           children: [
-            Text('243', style: h4.copyWith(fontWeight: FontWeight.bold)),
+            Text(user.totalFollowing!,
+                style: h4.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 1),
             const Text(
               'Following',
@@ -413,7 +465,8 @@ class ProfileState extends State<Profile> {
           margin: const EdgeInsets.only(right: 20),
           child: Column(
             children: [
-              Text('243', style: h4.copyWith(fontWeight: FontWeight.bold)),
+              Text(user.totalLikes!,
+                  style: h4.copyWith(fontWeight: FontWeight.bold)),
               const SizedBox(height: 1),
               const Text(
                 'Likes',

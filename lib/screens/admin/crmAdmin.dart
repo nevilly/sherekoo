@@ -1,4 +1,4 @@
-import 'dart:convert';
+
 
 import 'package:flutter/material.dart';
 import 'package:sherekoo/model/busness/busnessModel.dart';
@@ -103,6 +103,11 @@ class _CrmnAdminState extends State<CrmnAdmin> {
       fId: '',
       sId: '',
       youtubeLink: '',
+      isInFuture: '',
+      isCrmAdmin: '',
+      likeNo:'',
+      chatNo: '',
+      viwersNo: '',
       userFid: User(
           id: '',
           username: '',

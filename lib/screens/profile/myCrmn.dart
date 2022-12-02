@@ -64,6 +64,7 @@ class _MyCrmnState extends State<MyCrmn> {
         shrinkWrap: true,
         itemCount: crmV.length,
         itemBuilder: (context, index) {
+          final itm = crmV[index];
           return GestureDetector(
             onTap: () {
               Navigator.push(
@@ -71,34 +72,36 @@ class _MyCrmnState extends State<MyCrmn> {
                   MaterialPageRoute(
                       builder: (_) => CrmDoor(
                             crm: CeremonyModel(
-                              cId: crmV[index].crmInfo.cId,
-                              codeNo: crmV[index].crmInfo.codeNo,
-                              ceremonyDate: crmV[index].crmInfo.ceremonyDate,
-                              cImage: crmV[index].crmInfo.cImage,
-                              cName: crmV[index].crmInfo.cName,
-                              ceremonyType: crmV[index].crmInfo.ceremonyType,
-                              contact: crmV[index].crmInfo.contact,
-                              admin: crmV[index].crmInfo.admin,
-                              fId: crmV[index].crmInfo.fId,
-                              sId: crmV[index].crmInfo.sId,
-                              youtubeLink: crmV[index].crmInfo.youtubeLink,
+                              cId: itm.crmInfo.cId,
+                              codeNo: itm.crmInfo.codeNo,
+                              ceremonyDate: itm.crmInfo.ceremonyDate,
+                              cImage: itm.crmInfo.cImage,
+                              cName: itm.crmInfo.cName,
+                              ceremonyType: itm.crmInfo.ceremonyType,
+                              contact: itm.crmInfo.contact,
+                              admin: itm.crmInfo.admin,
+                              fId: itm.crmInfo.fId,
+                              sId: itm.crmInfo.sId,
+                              youtubeLink: itm.crmInfo.youtubeLink,
+                              isInFuture: itm.crmInfo.isInFuture,
+                              isCrmAdmin: itm.isAdmin,
+                                likeNo:'',
+      chatNo: '',
+      viwersNo: '',
                               userFid: User(
-                                  id: crmV[index].crmInfo.userFid.id,
-                                  username:
-                                      crmV[index].crmInfo.userFid.username,
-                                  firstname:
-                                      crmV[index].crmInfo.userFid.firstname,
-                                  lastname:
-                                      crmV[index].crmInfo.userFid.lastname,
-                                  avater: crmV[index].crmInfo.userFid.avater,
-                                  phoneNo: crmV[index].crmInfo.userFid.phoneNo,
-                                  email: crmV[index].crmInfo.userFid.email,
-                                  gender: crmV[index].crmInfo.userFid.gender,
-                                  role: crmV[index].crmInfo.userFid.role,
-                                  address: crmV[index].crmInfo.userFid.address,
+                                  id: itm.crmInfo.userFid.id,
+                                  username: itm.crmInfo.userFid.username,
+                                  firstname: itm.crmInfo.userFid.firstname,
+                                  lastname: itm.crmInfo.userFid.lastname,
+                                  avater: itm.crmInfo.userFid.avater,
+                                  phoneNo: itm.crmInfo.userFid.phoneNo,
+                                  email: itm.crmInfo.userFid.email,
+                                  gender: itm.crmInfo.userFid.gender,
+                                  role: itm.crmInfo.userFid.role,
+                                  address: itm.crmInfo.userFid.address,
                                   meritalStatus:
-                                      crmV[index].crmInfo.userFid.meritalStatus,
-                                  bio: crmV[index].crmInfo.userFid.bio,
+                                      itm.crmInfo.userFid.meritalStatus,
+                                  bio: itm.crmInfo.userFid.bio,
                                   totalPost: '',
                                   isCurrentUser: '',
                                   isCurrentCrmAdmin: '',
@@ -107,22 +110,19 @@ class _MyCrmnState extends State<MyCrmn> {
                                   totalFollowing: '',
                                   totalLikes: ''),
                               userSid: User(
-                                  id: crmV[index].crmInfo.userSid.id,
-                                  username:
-                                      crmV[index].crmInfo.userSid.username,
-                                  firstname:
-                                      crmV[index].crmInfo.userSid.firstname,
-                                  lastname:
-                                      crmV[index].crmInfo.userSid.lastname,
-                                  avater: crmV[index].crmInfo.userSid.avater,
-                                  phoneNo: crmV[index].crmInfo.userSid.phoneNo,
-                                  email: crmV[index].crmInfo.userSid.email,
-                                  gender: crmV[index].crmInfo.userSid.gender,
-                                  role: crmV[index].crmInfo.userSid.role,
-                                  address: crmV[index].crmInfo.userSid.address,
+                                  id: itm.crmInfo.userSid.id,
+                                  username: itm.crmInfo.userSid.username,
+                                  firstname: itm.crmInfo.userSid.firstname,
+                                  lastname: itm.crmInfo.userSid.lastname,
+                                  avater: itm.crmInfo.userSid.avater,
+                                  phoneNo: itm.crmInfo.userSid.phoneNo,
+                                  email: itm.crmInfo.userSid.email,
+                                  gender: itm.crmInfo.userSid.gender,
+                                  role: itm.crmInfo.userSid.role,
+                                  address: itm.crmInfo.userSid.address,
                                   meritalStatus:
-                                      crmV[index].crmInfo.userSid.meritalStatus,
-                                  bio: crmV[index].crmInfo.userSid.bio,
+                                      itm.crmInfo.userSid.meritalStatus,
+                                  bio: itm.crmInfo.userSid.bio,
                                   totalPost: '',
                                   isCurrentUser: '',
                                   isCurrentCrmAdmin: '',
@@ -131,7 +131,6 @@ class _MyCrmnState extends State<MyCrmn> {
                                   totalFollowing: '',
                                   totalLikes: ''),
                             ),
-                          
                           )));
             },
             child: Padding(

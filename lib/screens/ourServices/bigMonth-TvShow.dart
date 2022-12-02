@@ -44,7 +44,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
       judgesId: '',
       superStarsId: '',
       status: '',
-      isUserIdRegister: '',
+      isRegistered: '',
       judgesInfo: [
         User(
             id: '',
@@ -103,7 +103,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
       judgesId: '',
       superStarsId: '',
       status: '',
-      isUserIdRegister: '',
+      isRegistered: '',
       judgesInfo: [
         User(
             id: '',
@@ -151,17 +151,16 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
       createdDate: '');
 
   _regstrationBigMonth(BuildContext context, TextEditingController date,
-      TextEditingController contact) {
+      TextEditingController contact, registerAs) {
     if (date.text.isNotEmpty) {
       if (contact.text.isNotEmpty) {
         BigMonthShowCall(payload: [], status: 0)
             .postBigMonthRegistration(token, urlBigMonthRegistration, show.id,
-                date.text, contact.text)
+                date.text, contact.text, registerAs)
             .then((v) {
           setState(() {
             Navigator.of(context).pop();
-            show.isUserIdRegister = 'true';
-            errorAlertDialog(context, l(sw, 23), v.payload);
+            onPageAlertDialog(context, l(sw, 23), v.payload);
           });
         });
       } else {
@@ -299,7 +298,23 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
                                   final itm = shows[i];
                                   return GestureDetector(
                                     onTap: () {
-                                      if (show.status == 'true') {
+                                      if (itm.status == 'true') {
+                                        if (itm.isRegistered == 'true') {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          BigMonthWall(
+                                                            currentUser:
+                                                                currentUser,
+                                                            show: itm,
+                                                          )));
+                                        } else {
+                                          registerAs(
+                                              context, 'Register As', itm);
+                                        }
+                                      } else {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -310,34 +325,6 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
                                                               currentUser,
                                                           show: itm,
                                                         )));
-                                      } else {
-                                        itm.isUserIdRegister == 'true'
-                                            ? Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (BuildContext
-                                                            context) =>
-                                                        BigMonthWall(
-                                                          currentUser:
-                                                              currentUser,
-                                                          show: itm,
-                                                        )))
-                                            : showAlertDialog(
-                                                context,
-                                                titleDIalog(context, l(sw, 12)),
-                                                choosingAplication(
-                                                    context, size),
-                                                dialogButton(context, 'cancel',
-                                                    bttnStyl(0, fntClr, trans),
-                                                    () {
-                                                  Navigator.of(context).pop();
-                                                }),
-                                                dialogButton(context, '',
-                                                    bttnStyl(0, trans, trans),
-                                                    () {
-                                                  Navigator.of(context).pop();
-                                                }),
-                                              );
                                       }
                                     },
                                     child: Container(
@@ -465,26 +452,27 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
           //New Tv Show Register
           GestureDetector(
             onTap: () {
-              show.isUserIdRegister != 'true'
-                  ? showAlertDialog(
-                      context,
-                      titleDIalog(context, l(sw, 12)),
-                      choosingAplication(context, size),
-                      dialogButton(
-                          context, 'cancel', bttnStyl(0, fntClr, trans), () {
-                        Navigator.of(context).pop();
-                      }),
-                      dialogButton(context, '', bttnStyl(0, trans, trans), () {
-                        Navigator.of(context).pop();
-                      }),
-                    )
-                  : Navigator.push(
+              if (show.status == 'true') {
+                if (show.isRegistered == 'true') {
+                  Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (BuildContext context) => BigMonthWall(
                                 currentUser: currentUser,
                                 show: show,
                               )));
+                } else {
+                  registerAs(context, 'Register As', show);
+                }
+              } else {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => BigMonthWall(
+                              currentUser: currentUser,
+                              show: show,
+                            )));
+              }
             },
             child: Container(
               // color: Colors.red,
@@ -525,7 +513,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
                               decoration: BoxDecoration(
                                   color: OColors.primary.withOpacity(.8)),
                               child: Center(
-                                child: show.isUserIdRegister != 'true'
+                                child: show.isRegistered != 'true'
                                     ? Text(l(sw, 12) + ' Now',
                                         style: header11.copyWith(
                                             fontWeight: FontWeight.w400))
@@ -544,10 +532,6 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
         ],
       ),
     );
-  }
-
-  reggster(BuildContext context) {
-    Navigator.of(context).pop();
   }
 
   Container crmBundle(
@@ -599,52 +583,94 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
     );
   }
 
-  /// first Content DialogBox for user to choose Register type
-  SizedBox choosingAplication(BuildContext context, size) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 1.1,
-      height: 70,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: GestureDetector(
-              onTap: () {},
+  registerAs(BuildContext context, String title, BigMonthModel itm) async {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("cancel",
+          style: TextStyle(
+            color: OColors.primary,
+          )),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    Widget continueButton = TextButton(
+      child: const SizedBox.shrink(),
+      onPressed: () {
+        // deletePost(context, itm);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      insetPadding: const EdgeInsets.only(left: 20, right: 20),
+      contentPadding: EdgeInsets.zero,
+      // titlePadding: const EdgeInsets.only(top: 8, bottom: 8),
+      backgroundColor: OColors.secondary,
+      title: Center(
+        child: Text(title, style: header18),
+      ),
+      content: SizedBox(
+        width: MediaQuery.of(context).size.width / 1.1,
+        height: 70,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+                registerTvShow(context, '', itm, 'audience');
+              },
               child: flatButton(
                   context,
-                  'As audience',
+                  'Audience',
                   header11.copyWith(fontWeight: FontWeight.bold),
                   40,
-                  70,
+                  90,
                   OColors.primary.withOpacity(.3),
                   80,
                   10,
                   10),
             ),
-          ),
-          GestureDetector(
-            onTap: () {
-              //Show Alert Dialog Alert function
+            GestureDetector(
+              onTap: () {
+                //Show Alert Dialog Alert function
 
-              Navigator.of(context).pop();
-              showAlert(context, size);
-            },
-            child: flatButton(
-                context,
-                'As Participant',
-                header11.copyWith(fontWeight: FontWeight.bold),
-                40,
-                70,
-                OColors.primary,
-                80,
-                10,
-                10),
-          ),
-        ],
+                Navigator.of(context).pop();
+                registerTvShow(context, '', itm, 'cast');
+              },
+              child: flatButton(
+                  context,
+                  'Participant',
+                  header11.copyWith(fontWeight: FontWeight.bold),
+                  40,
+                  95,
+                  OColors.primary,
+                  80,
+                  10,
+                  10),
+            ),
+          ],
+        ),
       ),
+
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            cancelButton,
+            continueButton,
+          ],
+        ),
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 
@@ -847,7 +873,8 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
     );
   }
 
-  showAlert(BuildContext context, size) {
+  registerTvShow(
+      BuildContext context, String title, BigMonthModel itm, String rgstType) {
     AlertDialog alert = AlertDialog(
       insetPadding: const EdgeInsets.only(right: 1, left: 1),
       contentPadding: EdgeInsets.zero,
@@ -855,7 +882,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
       backgroundColor: OColors.secondary,
       actionsPadding: EdgeInsets.zero,
       title: titleDIalog(context, 'THE BIGMONTH TV SHOW'),
-      content: bigMonthRegistration(context, size),
+      content: bigMonthRegistration(context, MediaQuery.of(context).size),
       actions: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -863,7 +890,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
             TextButton(
               style: bttnStyl(6, trans, fntClr),
               onPressed: () {
-                reggster(context);
+                Navigator.of(context).pop();
               },
               child: Text(
                 l(sw, 19),
@@ -873,11 +900,11 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
             ),
             GestureDetector(
               onTap: () {
-                _regstrationBigMonth(
-                    context, _birthdayDateController, _contactController);
+                _regstrationBigMonth(context, _birthdayDateController,
+                    _contactController, rgstType);
               },
               child: flatButton(
-                  context, l(sw, 12), header13, 30, 70, prmry, 10, 10, 10),
+                  context, l(sw, 12), header13, 30, 80, prmry, 10, 10, 10),
             )
           ],
         ),
@@ -1024,19 +1051,8 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
                                 final itm = shows[i];
                                 return ListTile(
                                   onTap: () {
-                                    if (show.status == 'true') {
-                                      Navigator.of(context).pop();
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  BigMonthWall(
-                                                    currentUser: currentUser,
-                                                    show: itm,
-                                                  )));
-                                    } else {
-                                      if (itm.isUserIdRegister == 'true') {
-                                        Navigator.of(context).pop();
+                                    if (itm.status == 'true') {
+                                      if (itm.isRegistered == 'true') {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -1048,20 +1064,17 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
                                                           show: itm,
                                                         )));
                                       } else {
-                                        showAlertDialog(
-                                          context,
-                                          titleDIalog(context, l(sw, 12)),
-                                          choosingAplication(context, size),
-                                          dialogButton(context, 'cancel',
-                                              bttnStyl(0, fntClr, trans), () {
-                                            Navigator.of(context).pop();
-                                          }),
-                                          dialogButton(context, '',
-                                              bttnStyl(0, trans, trans), () {
-                                            Navigator.of(context).pop();
-                                          }),
-                                        );
+                                        registerAs(context, 'Register As', itm);
                                       }
+                                    } else {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  BigMonthWall(
+                                                    currentUser: currentUser,
+                                                    show: itm,
+                                                  )));
                                     }
                                   },
                                   leading: SizedBox(
@@ -1092,5 +1105,52 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
                     ))),
           );
         });
+  }
+
+  onPageAlertDialog(BuildContext context, String title, String msg) async {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Ok",
+          style: TextStyle(
+            color: OColors.primary,
+          )),
+      onPressed: () {
+        Navigator.of(context).pop();
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (BuildContext context) => super.widget));
+      },
+    );
+
+    Widget continueButton = TextButton(
+      child: const SizedBox.shrink(),
+      onPressed: () {},
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      // insetPadding: const EdgeInsets.only(left: 20, right: 20),
+      // contentPadding: EdgeInsets.zero,
+      // titlePadding: const EdgeInsets.only(top: 8, bottom: 8),
+      backgroundColor: OColors.secondary,
+      title: Center(
+        child: Text(title, style: header18),
+      ),
+      content: Text(msg, style: header12),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            cancelButton,
+            continueButton,
+          ],
+        ),
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

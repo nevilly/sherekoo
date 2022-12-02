@@ -13,14 +13,15 @@ class BigMonthShowCall {
   }
 
   Future<BigMonthShowCall> postBigMonthRegistration(String token, String dirUrl,
-      String tvShowId, String dateBirth, String contact) async {
+      String tvShowId, String dateBirth, String contact,String registerAs) async {
     Uri url = Uri.parse(dirUrl);
 
     Map<String, dynamic> toMap() {
       return <String, dynamic>{
         'tvShowId': tvShowId,
         'dateBirth': dateBirth,
-        'contact': contact
+        'contact': contact,
+        'registerAs':registerAs
       };
     }
 

@@ -114,7 +114,7 @@ class _ChatSettingsState extends State<ChatSettings> {
         postId: widget.chat.id,
         userId: '',
       ).deleteChat(token, urlMshengaRemoveChat).then((value) {
-        final v = value.payload;
+        // final v = value.payload;
         if (value.status == 200) {
            Navigator.of(context).pop();
           //    Navigator.of(context).pop();
@@ -122,7 +122,7 @@ class _ChatSettingsState extends State<ChatSettings> {
           //                           context,
           //                           MaterialPageRoute(
           //                               builder: (BuildContext context) =>  MshengaWarWall(currentUser: user, show: null,)));
-          print(v);
+          // print(v);
         }
       });
     }

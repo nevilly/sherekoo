@@ -12,7 +12,7 @@ class BigMonthModel {
   String judgesId;
   String superStarsId;
   String status;
-  String isUserIdRegister;
+  String isRegistered;
   List<User> judgesInfo;
   List<User> superStarInfo;
   String createdDate;
@@ -29,7 +29,7 @@ class BigMonthModel {
     required this.judgesId,
     required this.superStarsId,
     required this.status,
-    required this.isUserIdRegister,
+    required this.isRegistered,
     required this.judgesInfo,
     required this.superStarInfo,
     required this.createdDate,
@@ -49,7 +49,7 @@ class BigMonthModel {
       judgesId: json['judgesId'] ?? "",
       superStarsId: json['superStarsId'] ?? "",
       status: json['status'].toString(),
-      isUserIdRegister: json['isUserIdRegister'].toString(),
+      isRegistered: json['isRegistered'].toString(),
       superStarInfo:
           json['superStarsInfo'].map<User>((e) => User.fromJson(e)).toList(),
       judgesInfo:

@@ -11,7 +11,6 @@ import '../model/post/sherekoModel.dart';
 import '../model/userModel.dart';
 import '../model/services/postServices.dart';
 import '../model/services/svModel.dart';
-import '../util/Preferences.dart';
 import '../util/app-variables.dart';
 import '../util/colors.dart';
 import '../util/func.dart';
@@ -21,11 +20,11 @@ import '../util/util.dart';
 class TabB extends StatefulWidget {
   final CeremonyModel ceremony;
 
-  final User user;
+
   const TabB({
     Key? key,
     required this.ceremony,
-    required this.user,
+
   }) : super(key: key);
 
   @override
@@ -694,13 +693,13 @@ class _TabBState extends State<TabB> {
                               sigmaY: 10.0,
                             ),
                             child: Image.network(
-                              '${api}public/uploads/${tag.username}/posts/${tag.vedeo}',
+                              '${api}public/uploads/${tag.creatorInfo.username}/posts/${tag.vedeo}',
                               fit: BoxFit.contain,
                             ),
                           ),
                         ),
                         Image.network(
-                          '${api}public/uploads/${tag.username}/posts/${tag.vedeo}',
+                          '${api}public/uploads/${tag.creatorInfo.username}/posts/${tag.vedeo}',
                           fit: BoxFit.contain,
                         )
                       ],
