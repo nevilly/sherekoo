@@ -102,7 +102,7 @@ class HomeState extends State<Home> {
                   isLike: itm.isLike,
                   numberOfShere: itm.totalShare,
                   userId: itm.creatorInfo.id!,
-                  username:  itm.creatorInfo.username!,
+                  username: itm.creatorInfo.username!,
                   videoDescription: itm.body,
                   ceremonyId: itm.ceremonyId,
                   cImage: itm.crmInfo.cImage,

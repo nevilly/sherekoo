@@ -130,15 +130,3 @@ CrmPckModel pck = CrmPckModel(
     inYear: '',
     pImage: '');
 
-Map<String, String> myHttpHeaders(String token) {
-  return {"Authorization": "Owesis $token", "Content-Type": "Application/json"};
-}
-
-invalidToken(token, model) {
-  if (token.isEmpty) {
-    return model.fromJson({
-      "status": 204,
-      "payload": {"error": "Invalid token"}
-    });
-  }
-}

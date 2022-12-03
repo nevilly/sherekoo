@@ -18,73 +18,22 @@ class FollowCall {
     return myGetHttp(url, headers);
   }
 
-  Future<FollowCall> updateCrmViewer(
-      String token, String dirUrl, id, position) async {
-    Uri url = Uri.parse(dirUrl);
-    Map<String, dynamic> toMap() {
-      return <String, dynamic>{'id': id, 'position': position};
-    }
-
-    invalidToken(token);
-    Map<String, String> headers = myHttpHeaders(token);
-    return myPostHttp(url, toMap, headers);
-  }
-
-  Future<FollowCall> unfollow(String token, String dirUrl, id, userId) async {
-    Uri url = Uri.parse(dirUrl);
-    Map<String, dynamic> toMap() {
-      return <String, dynamic>{'id': id, 'userId': userId};
-    }
-
-    invalidToken(token);
-    Map<String, String> headers = myHttpHeaders(token);
-    return myPostHttp(url, toMap, headers);
-  }
-
-  Future<FollowCall> getCeremonyById(
-      String token, String dirUrl, String day) async {
-    Uri url = Uri.parse(dirUrl);
-    Map<String, dynamic> toMap() {
-      return <String, dynamic>{
-        'cId': day,
-      };
-    }
-
-    invalidToken(token);
-    Map<String, String> headers = myHttpHeaders(token);
-    return myPostHttp(url, toMap, headers);
-  }
-
-  Future<FollowCall> fallowback(
-      String token, String dirUrl, String type) async {
-    Uri url = Uri.parse(dirUrl);
-    Map<String, dynamic> toMap() {
-      return <String, dynamic>{
-        'ceremonyType': type,
-      };
-    }
-
-    invalidToken(token);
-    Map<String, String> headers = myHttpHeaders(token);
-    return myPostHttp(url, toMap, headers);
-  }
-
-  Future<FollowCall> getExistCrmnViewr(
-      String token, String dirUrl, String crmId) async {
-    Uri url = Uri.parse(dirUrl);
-    Map<String, dynamic> toMap() {
-      return <String, dynamic>{'crmId': crmId};
-    }
-
-    invalidToken(token);
-    Map<String, String> headers = myHttpHeaders(token);
-    return myPostHttp(url, toMap, headers);
-  }
-
   Future<FollowCall> follow(String token, String dirUrl, String id) async {
     Uri url = Uri.parse(dirUrl);
     Map<String, dynamic> toMap() {
       return <String, dynamic>{'followId': id};
+    }
+
+    invalidToken(token);
+    Map<String, String> headers = myHttpHeaders(token);
+    return myPostHttp(url, toMap, headers);
+  }
+
+  Future<FollowCall> getfollow(
+      String token, String dirUrl, String id, String typ) async {
+    Uri url = Uri.parse(dirUrl);
+    Map<String, dynamic> toMap() {
+      return <String, dynamic>{'followId': id, 'followType': typ};
     }
 
     invalidToken(token);

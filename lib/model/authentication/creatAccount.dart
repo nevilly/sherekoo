@@ -121,7 +121,8 @@ class CreateAccountModel {
     });
   }
 
-  Future updateAccountSetting(String token, dirUrl, String normalAvater) async {
+  Future updateAccountSetting(
+      String token, dirUrl, String normalAvater, wyd) async {
     Uri url = Uri.parse(dirUrl);
 
     if (token.isEmpty) {
@@ -141,7 +142,8 @@ class CreateAccountModel {
         'meritalStatus': meritalStatus,
         'address': address,
         'avater': avater,
-        'normalAvater': normalAvater
+        'normalAvater': normalAvater,
+        'WhatYouDo': wyd
       };
     }
 

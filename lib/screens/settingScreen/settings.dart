@@ -11,6 +11,8 @@ import 'package:sherekoo/util/colors.dart';
 import '../../model/authentication/creatAccount.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
+import '../../util/func.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/userAvater.dart';
 import '../homNav.dart';
@@ -34,6 +36,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
   TextEditingController lastName = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController phoneNo = TextEditingController();
+  TextEditingController whatYouDo = TextEditingController();
 
   String selectedRegion = 'Select Your Location';
   final List<String> _region = [
@@ -86,36 +89,6 @@ class _ProfileSettingState extends State<ProfileSetting> {
     });
   }
 
-  // Image Croping
-  Future cropImage(File imageFile) async {
-    CroppedFile? croppedFile = await ImageCropper().cropImage(
-      sourcePath: imageFile.path,
-      aspectRatioPresets: [
-        CropAspectRatioPreset.square,
-        CropAspectRatioPreset.ratio3x2,
-        CropAspectRatioPreset.original,
-        CropAspectRatioPreset.ratio4x3,
-        CropAspectRatioPreset.ratio16x9
-      ],
-      uiSettings: [
-        AndroidUiSettings(
-            toolbarTitle: 'Shereko Cropper',
-            toolbarColor: OColors.appBarColor,
-            toolbarWidgetColor: Colors.white,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false),
-        IOSUiSettings(
-          title: 'Sherekoo Cropper',
-        ),
-        // WebUiSettings(
-        //   context: context,
-        // ),
-      ],
-    );
-    if (croppedFile == null) return null;
-    return File(croppedFile.path);
-  }
-
   Row addRadioButton(int btnValue, String title) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -137,7 +110,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
   }
 
   dynamic image;
-  void creatAccount(u, fn, ln, e, m, p, img, rgn, slt) async {
+  void creatAccount(u, fn, ln, e, m, p, img, rgn, slt,wyd) async {
     if (img != null) {
       List<int> bytes = img.readAsBytesSync();
       image = base64Encode(bytes);
@@ -158,7 +131,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
             role: 'n',
             lastname: ln,
             meritalStatus: slt)
-        .updateAccountSetting(token, urlUpdateUserSetting, widget.user.avater!);
+        .updateAccountSetting(token, urlUpdateUserSetting, widget.user.avater!,wyd);
 
     if (r.status == 200) {
       setState(() {
@@ -191,6 +164,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
         email.text = widget.user.email!;
         phoneNo.text = widget.user.phoneNo!;
         select = widget.user.meritalStatus!;
+        whatYouDo.text = widget.user.whatYouDo!;
       });
     });
 
@@ -200,6 +174,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: OColors.secondary,
       appBar: AppBar(
         backgroundColor: OColors.appBarColor,
         title: const Text('Profile Settings'),
@@ -217,22 +192,22 @@ class _ProfileSettingState extends State<ProfileSetting> {
                   phoneNo.text,
                   _generalimage,
                   selectedRegion,
-                  select);
+                  select,
+                  whatYouDo.text
+                  
+                  );
             },
             child: Container(
-              margin: const EdgeInsets.only(top: 10, right: 10, bottom: 10),
+              margin: const EdgeInsets.only(top: 10, right: 15, bottom: 10),
               padding:
                   const EdgeInsets.only(top: 8, bottom: 8, left: 6, right: 6),
               alignment: Alignment.center,
-              decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 243, 104, 12),
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: const Text(
+              decoration: BoxDecoration(
+                  color: prmry,
+                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+              child: Text(
                 'Update',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                style: header12,
               ),
             ),
           ),
@@ -417,19 +392,17 @@ class _ProfileSettingState extends State<ProfileSetting> {
                                   Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
-                                      children: const [
+                                      children: [
                                         Padding(
-                                          padding: EdgeInsets.only(
+                                          padding: const EdgeInsets.only(
                                               left: 8.0,
                                               right: 8.0,
                                               top: 5.0,
                                               bottom: 5.0),
                                           child: Text(
-                                            'Edit Your information',
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.grey),
+                                            'Edit information',
+                                            style: header15.copyWith(
+                                                color: OColors.darGrey),
                                           ),
                                         ),
                                       ]),
@@ -450,24 +423,25 @@ class _ProfileSettingState extends State<ProfileSetting> {
                                     ),
                                     child: TextField(
                                       controller: username,
-                                      decoration: const InputDecoration(
+                                      decoration: InputDecoration(
                                         border: InputBorder.none,
                                         prefixIcon: Padding(
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                               horizontal: 20.0),
                                           child: Icon(
                                             Icons.person,
                                             size: 20,
-                                            color: Colors.grey,
+                                            color: OColors.darGrey,
                                           ),
                                         ),
                                         hintText: 'First Name',
                                         hintStyle: TextStyle(
-                                            color: Colors.grey, height: 1.5),
+                                            color: OColors.darGrey,
+                                            height: 1.5),
                                       ),
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                           fontSize: 13,
-                                          color: Colors.grey,
+                                          color: OColors.darGrey,
                                           height: 1.5),
                                       onChanged: (value) {
                                         setState(() {
@@ -489,9 +463,9 @@ class _ProfileSettingState extends State<ProfileSetting> {
                                     ),
                                     child: TextField(
                                       controller: firstName,
-                                      decoration: const InputDecoration(
+                                      decoration: InputDecoration(
                                         border: InputBorder.none,
-                                        prefixIcon: Padding(
+                                        prefixIcon: const Padding(
                                           padding: EdgeInsets.symmetric(
                                               horizontal: 20.0),
                                           child: Icon(
@@ -502,11 +476,12 @@ class _ProfileSettingState extends State<ProfileSetting> {
                                         ),
                                         hintText: 'First Name',
                                         hintStyle: TextStyle(
-                                            color: Colors.grey, height: 1.5),
+                                            color: OColors.darGrey,
+                                            height: 1.5),
                                       ),
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                           fontSize: 13,
-                                          color: Colors.grey,
+                                          color: OColors.darGrey,
                                           height: 1.5),
                                       onChanged: (value) {
                                         setState(() {
@@ -543,9 +518,9 @@ class _ProfileSettingState extends State<ProfileSetting> {
                                         hintStyle: TextStyle(
                                             color: Colors.grey, height: 1.5),
                                       ),
-                                      style: const TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.grey,
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          color: OColors.darGrey,
                                           height: 1.5),
                                       onChanged: (value) {
                                         setState(() {
@@ -566,10 +541,50 @@ class _ProfileSettingState extends State<ProfileSetting> {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: TextField(
-                                      controller: email,
-                                      decoration: const InputDecoration(
+                                      controller: whatYouDo,
+                                      decoration: InputDecoration(
                                         border: InputBorder.none,
-                                        prefixIcon: Padding(
+                                        prefixIcon: const Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 20.0),
+                                          child: Icon(
+                                            Icons.person_add_alt_rounded,
+                                            size: 20,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        hintText: 'What You Do',
+                                        hintStyle: TextStyle(
+                                            color: OColors.darGrey,
+                                            height: 1.5),
+                                      ),
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          color: OColors.darGrey,
+                                          height: 1.5),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          //_email = value;
+                                        });
+                                      },
+                                    ),
+                                  ),
+
+                                  // What You Do
+                                  Container(
+                                    height: 40,
+                                    margin: const EdgeInsets.only(
+                                        left: 20, right: 20, bottom: 15),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 1, color: Colors.grey),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: TextField(
+                                      controller: email,
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        prefixIcon: const Padding(
                                           padding: EdgeInsets.symmetric(
                                               horizontal: 20.0),
                                           child: Icon(
@@ -580,11 +595,12 @@ class _ProfileSettingState extends State<ProfileSetting> {
                                         ),
                                         hintText: 'Email',
                                         hintStyle: TextStyle(
-                                            color: Colors.grey, height: 1.5),
+                                            color: OColors.darGrey,
+                                            height: 1.5),
                                       ),
-                                      style: const TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.grey,
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          color: OColors.darGrey,
                                           height: 1.5),
                                       onChanged: (value) {
                                         setState(() {
@@ -641,9 +657,9 @@ class _ProfileSettingState extends State<ProfileSetting> {
                                         Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
-                                            children: const [
+                                            children: [
                                               Padding(
-                                                padding: EdgeInsets.only(
+                                                padding: const EdgeInsets.only(
                                                     left: 8.0,
                                                     right: 8.0,
                                                     top: 5.0,
@@ -651,10 +667,10 @@ class _ProfileSettingState extends State<ProfileSetting> {
                                                 child: Text(
                                                   'Select Your region',
                                                   style: TextStyle(
-                                                      fontSize: 15,
+                                                      fontSize: 13,
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      color: Colors.grey),
+                                                      color: OColors.darGrey),
                                                 ),
                                               ),
                                             ]),
@@ -696,7 +712,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
                                                 child: Text(
                                                   selectedRegion,
                                                   style: const TextStyle(
-                                                      fontSize: 16,
+                                                      fontSize: 13,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                   textAlign: TextAlign.center,
@@ -719,17 +735,13 @@ class _ProfileSettingState extends State<ProfileSetting> {
                                   ),
 
                                   // Radio Button
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 1.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        addRadioButton(0, 'Single'),
-                                        addRadioButton(1, 'merriage'),
-                                        addRadioButton(2, 'engaged'),
-                                      ],
-                                    ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      addRadioButton(0, 'Single'),
+                                      addRadioButton(1, 'merriage'),
+                                      addRadioButton(2, 'engaged'),
+                                    ],
                                   ),
                                 ],
                               ),

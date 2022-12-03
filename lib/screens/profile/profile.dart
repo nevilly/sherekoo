@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/model/follow/followCall.dart';
 import 'package:sherekoo/screens/profile/myCrmn.dart';
+import 'package:sherekoo/screens/profile/viewFollowers.dart';
 import 'package:sherekoo/util/colors.dart';
 import 'package:sherekoo/widgets/imgWigdets/defaultAvater.dart';
 import '../../model/allData.dart';
@@ -45,11 +46,13 @@ class ProfileState extends State<Profile> {
       isCurrentUser: '',
       address: '',
       bio: '',
+      whatYouDo: '',
       followInfo: '',
       meritalStatus: '',
       totalPost: '',
       isCurrentBsnAdmin: '',
       isCurrentCrmAdmin: '',
+      currentFllwId: '',
       totalFollowers: '',
       totalFollowing: '',
       totalLikes: '');
@@ -192,11 +195,6 @@ class ProfileState extends State<Profile> {
                     Icons.grid_on_outlined,
                     size: 20,
                   )),
-                  // Tab(
-                  //     icon: Icon(
-                  //   Icons.photo,
-                  //   size: 20,
-                  // )),
                   Tab(
                     icon: Icon(
                       Icons.celebration,
@@ -284,7 +282,7 @@ class ProfileState extends State<Profile> {
           onTap: () {
             showDialog(
               context: context,
-              builder: (BuildContext context) => _buildPopupDialog(context),
+              builder: (BuildContext context) => profileSettings(context),
             );
           },
           child: Container(
@@ -334,28 +332,28 @@ class ProfileState extends State<Profile> {
               ),
 
               //username && Followers
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  //Username
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4),
-                    child: Text(
-                      '@${user.username}',
-                      style: header18,
+              Padding(
+                padding: const EdgeInsets.only(left: 18.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    //Username
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Text(
+                        '@${user.username}',
+                        style: header18,
+                      ),
                     ),
-                  ),
 
-                  //Fan
-                  const Padding(
-                    padding: EdgeInsets.only(left: 18.0, top: 4),
-                    child: Text(
-                      '~ Mc & Comedian',
+                    //Fan
+                    Text(
+                      user.whatYouDo!,
                       style: h5,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
@@ -428,31 +426,53 @@ class ProfileState extends State<Profile> {
           color: Colors.grey,
           thickness: 1,
         ),
-        Column(
-          children: [
-            Text(user.totalFollowers!,
-                style: h4.copyWith(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 1),
-            const Text(
-              'Followers',
-              style: h5,
-            ),
-          ],
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => ViewFollowers(
+                          typ: 'followers',
+                          usrId: user.id!,
+                        )));
+          },
+          child: Column(
+            children: [
+              Text(user.totalFollowers!,
+                  style: h4.copyWith(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 1),
+              const Text(
+                'Followers',
+                style: h5,
+              ),
+            ],
+          ),
         ),
         const VerticalDivider(
           color: Colors.grey,
           thickness: 1,
         ),
-        Column(
-          children: [
-            Text(user.totalFollowing!,
-                style: h4.copyWith(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 1),
-            const Text(
-              'Following',
-              style: h5,
-            ),
-          ],
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => ViewFollowers(
+                          typ: 'following',
+                          usrId: user.id!,
+                        )));
+          },
+          child: Column(
+            children: [
+              Text(user.totalFollowing!,
+                  style: h4.copyWith(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 1),
+              const Text(
+                'Following',
+                style: h5,
+              ),
+            ],
+          ),
         ),
 
         const VerticalDivider(
@@ -480,16 +500,25 @@ class ProfileState extends State<Profile> {
   }
 
 // PopUp Widget
-  Widget _buildPopupDialog(BuildContext context) {
+  Widget profileSettings(BuildContext context) {
     return AlertDialog(
-      title: const Text('Our Settings'),
+      backgroundColor: osec,
+      title: Text(
+        'Profile Settings',
+        style: header18,
+      ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
-            title: const Text('Updata Avater'),
+            textColor: OColors.fontColor,
+            title: Text(
+              'Updata Avater',
+              style: header13,
+            ),
             onTap: () {
+              Navigator.of(context).pop();
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -498,19 +527,11 @@ class ProfileState extends State<Profile> {
             },
           ),
           ListTile(
-            title: const Text('Profile Update'),
-            onTap: () {
-              // Navigator.of(context).pop();
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (BuildContext context) => EditProfile(
-              //               data: currentUser,
-              //             )));
-            },
-          ),
-          ListTile(
-            title: const Text('Log Out'),
+            textColor: OColors.fontColor,
+            title: Text(
+              'Log Out',
+              style: header13,
+            ),
             onTap: () {
               _preferences.logout();
               Navigator.of(context).pop();
@@ -523,12 +544,23 @@ class ProfileState extends State<Profile> {
         ],
       ),
       actions: <Widget>[
-        ElevatedButton(
-          onPressed: () {
+        GestureDetector(
+          onTap: () {
             Navigator.of(context).pop();
           },
-          // Color: Theme.of(context).primaryColor,
-          child: const Text('Close'),
+          child: Container(
+              height: 30,
+              width: 80,
+              decoration: BoxDecoration(
+                color: prmry,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Center(
+                child: Text(
+                  'Close',
+                  style: header12.copyWith(fontWeight: FontWeight.bold),
+                ),
+              )),
         ),
       ],
     );

@@ -21,15 +21,16 @@ String urlUserProfileById = '${api}Users/getUserProfileById';
 String urlUpdateUserInfo = '${api}Users/updateAccount';
 String urlUpdateUserSetting = '${api}Users/updateSetting';
 
-// Follow System 
+// Follow System
 String urlAddFollow = '${api}Followers/add';
 String urlUnFollow = '${api}Followers/anfollow';
 String urlUnFollowback = '${api}Followers/update';
+String urlGetFollowers = '${api}Followers/getFollowers';
+String urlGetFollowing = '${api}Followers/getFollowings';
 
 //Admin Ceremony
 String urlAdminCrmnByUserId = '${api}Ceremony/getCrmn_by_UserId';
 String urlAdmCrmnRequests = '${api}Ceremony/getAllCrmRequests';
-
 
 //Ceremony
 String urlPostCeremony = '${api}Ceremony/add';

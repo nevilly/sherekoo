@@ -52,26 +52,25 @@ class _HomeNavState extends State<HomeNav> {
   ];
 
   User user = User(
-    id: '',
-    username: '',
-    firstname: '',
-    lastname: '',
-    avater: '',
-    phoneNo: '',
-    email: '',
-    gender: '',
-    role: '',
-    isCurrentUser: '',
-    address: '',
-    bio: '',
-    meritalStatus: '',
-    totalPost: '',
-    isCurrentBsnAdmin: '',
-    isCurrentCrmAdmin: '',
-    totalFollowers: '',
-    totalFollowing: '',
-    totalLikes: '');
-
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      meritalStatus: '',
+      totalPost: '',
+      isCurrentBsnAdmin: '',
+      isCurrentCrmAdmin: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: '');
 
   @override
   void initState() {
@@ -103,7 +102,27 @@ class _HomeNavState extends State<HomeNav> {
                   totalFollowing: '',
                   totalLikes: '')));
         } else {
-          screen.add(Profile(user: user));
+          screen.add(Profile(
+              user: User(
+                  id: '',
+                  username: '',
+                  firstname: '',
+                  lastname: '',
+                  avater: '',
+                  phoneNo: '',
+                  email: '',
+                  gender: '',
+                  role: '',
+                  isCurrentUser: '',
+                  address: '',
+                  bio: '',
+                  meritalStatus: '',
+                  totalPost: '',
+                  isCurrentBsnAdmin: '',
+                  isCurrentCrmAdmin: '',
+                  totalFollowers: '',
+                  totalFollowing: '',
+                  totalLikes: '')));
         }
       });
     });
@@ -184,6 +203,5 @@ class _HomeNavState extends State<HomeNav> {
         ),
       ),
     );
-  
   }
 }
