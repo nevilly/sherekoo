@@ -5,6 +5,7 @@ import 'package:sherekoo/screens/profile/viewFollowers.dart';
 import 'package:sherekoo/util/colors.dart';
 import 'package:sherekoo/widgets/imgWigdets/defaultAvater.dart';
 import '../../model/allData.dart';
+import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/func.dart';
@@ -12,9 +13,11 @@ import '../../util/pallets.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/userAvater.dart';
+import '../../widgets/notifyWidget/notifyWidget.dart';
 import '../accounts/login.dart';
 import '../drawer/navDrawer.dart';
 import '../settingScreen/settings.dart';
+import '../uploadScreens/ceremonyUpload.dart';
 import 'admin.dart';
 import 'myBusness.dart';
 import 'myPosts.dart';
@@ -146,8 +149,7 @@ class ProfileState extends State<Profile> {
             user.isCurrentUser == true
                 ? GestureDetector(
                     onTap: () {
-                      showAlertDialog(context, 'Admin',
-                          'Are SURE you want remove ..??', '', '');
+                      showAlertDialog(context, 'Admin', '', '', '');
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(
@@ -277,6 +279,10 @@ class ProfileState extends State<Profile> {
       ),
       centerTitle: true,
       actions: [
+        const NotifyWidget(),
+        const SizedBox(
+          width: 5,
+        ),
         // Notification
         GestureDetector(
           onTap: () {
@@ -359,7 +365,7 @@ class ProfileState extends State<Profile> {
           ),
         ),
 
-        //Likes
+        //Follow
         user.isCurrentUser == false
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -371,7 +377,8 @@ class ProfileState extends State<Profile> {
                       }
 
                       if (user.followInfo! == 'unfollow') {
-                        unfollowSyst(user.id, urlUnFollow, 'unfollow');
+                        unfollowSyst(
+                            user.currentFllwId, urlUnFollow, 'unfollow');
                       }
 
                       if (user.followInfo! == 'followback') {
@@ -434,6 +441,7 @@ class ProfileState extends State<Profile> {
                     builder: (BuildContext context) => ViewFollowers(
                           typ: 'followers',
                           usrId: user.id!,
+                          isCurrent: user.isCurrentUser,
                         )));
           },
           child: Column(
@@ -460,6 +468,7 @@ class ProfileState extends State<Profile> {
                     builder: (BuildContext context) => ViewFollowers(
                           typ: 'following',
                           usrId: user.id!,
+                          isCurrent: user.isCurrentUser,
                         )));
           },
           child: Column(
@@ -570,46 +579,138 @@ class ProfileState extends State<Profile> {
   showAlertDialog(
       BuildContext context, String title, String msg, req, String from) async {
     // set up the buttons
-    Widget ceremonyButton = TextButton(
-      style: TextButton.styleFrom(
-        padding: const EdgeInsets.all(6),
-        primary: OColors.fontColor,
-        backgroundColor: OColors.primary,
-        // textStyle: const TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
-      ),
-      child: Text("Busness", style: header13),
-      onPressed: () {
-        Navigator.of(context).pop();
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => AdminPage(
-                      from: 'Bsn',
-                      user: user,
-                    )));
-      },
-    );
-    Widget busnessButton = TextButton(
-      style: TextButton.styleFrom(
-        padding: const EdgeInsets.all(6),
-        primary: OColors.fontColor,
-        backgroundColor: OColors.primary,
-      ),
-      child: Text(
-        "Ceremony",
-        style: header13,
-      ),
-      onPressed: () {
-        Navigator.of(context).pop();
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => AdminPage(
-                      from: 'Crm',
-                      user: user,
-                    )));
-      },
-    );
+    Widget busnessButton = user.isCurrentBsnAdmin == true
+        ? TextButton(
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.all(6),
+              primary: OColors.fontColor,
+              backgroundColor: OColors.primary,
+              // textStyle: const TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
+            ),
+            child: Text("Busness", style: header13),
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => AdminPage(
+                            from: 'Bsn',
+                            user: user,
+                          )));
+            },
+          )
+        : TextButton(
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.all(6),
+              primary: OColors.fontColor,
+              backgroundColor: OColors.primary,
+              // textStyle: const TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
+            ),
+            child: Text("Busness +", style: header13),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          );
+
+    Widget ceremonyButton = user.isCurrentCrmAdmin == true
+        ? TextButton(
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.all(6),
+              primary: OColors.fontColor,
+              backgroundColor: OColors.primary,
+            ),
+            child: Text(
+              "Ceremony",
+              style: header13,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => AdminPage(
+                            from: 'Crm',
+                            user: user,
+                          )));
+            },
+          )
+        : TextButton(
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.all(6),
+              primary: OColors.fontColor,
+              backgroundColor: OColors.primary,
+            ),
+            child: Text(
+              "Ceremony +",
+              style: header13,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => CeremonyUpload(
+                          getData: CeremonyModel(
+                            cId: '',
+                            codeNo: '',
+                            ceremonyType: '',
+                            cName: '',
+                            fId: '',
+                            sId: '',
+                            cImage: '',
+                            ceremonyDate: '',
+                            admin: '',
+                            contact: '',
+                            isInFuture: '',
+                            isCrmAdmin: '',
+                            likeNo: '',
+                            chatNo: '',
+                            viwersNo: '',
+                            userFid: User(
+                                id: '',
+                                username: '',
+                                firstname: '',
+                                lastname: '',
+                                avater: '',
+                                phoneNo: '',
+                                email: '',
+                                gender: '',
+                                role: '',
+                                address: '',
+                                meritalStatus: '',
+                                bio: '',
+                                totalPost: '',
+                                isCurrentUser: '',
+                                isCurrentCrmAdmin: '',
+                                isCurrentBsnAdmin: '',
+                                totalFollowers: '',
+                                totalFollowing: '',
+                                totalLikes: ''),
+                            userSid: User(
+                                id: '',
+                                username: '',
+                                firstname: '',
+                                lastname: '',
+                                avater: '',
+                                phoneNo: '',
+                                email: '',
+                                gender: '',
+                                role: '',
+                                address: '',
+                                meritalStatus: '',
+                                bio: '',
+                                totalPost: '',
+                                isCurrentUser: '',
+                                isCurrentCrmAdmin: '',
+                                isCurrentBsnAdmin: '',
+                                totalFollowers: '',
+                                totalFollowing: '',
+                                totalLikes: ''),
+                            youtubeLink: '',
+                          ),
+                          getcurrentUser: user)));
+            },
+          );
 
     Widget setting = Padding(
         padding: const EdgeInsets.all(8),
@@ -631,8 +732,8 @@ class ProfileState extends State<Profile> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ceremonyButton,
                 busnessButton,
+                ceremonyButton,
               ],
             ),
             const SizedBox(

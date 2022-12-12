@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/util/colors.dart';
+import 'package:sherekoo/util/textStyle-pallet.dart';
 
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/services/svModel.dart';
@@ -29,17 +30,13 @@ class CeremonyList extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'List Ceremon Host',
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.italic,
-                          color: OColors.fontColor),
+                      'Ceremony List',
+                      style: header14,
                     ),
                     IconButton(
                         icon: const Icon(Icons.more_horiz),
                         color: OColors.primary,
-                        iconSize: 30.0,
+                        iconSize: 20.0,
                         onPressed: () {
                           otherCeremony(context);
                         })
@@ -60,150 +57,53 @@ class CeremonyList extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => Livee(
-                                      ceremony: CeremonyModel(
-                                    cId: service[index].cId,
-                                    codeNo: service[index].codeNo,
-                                    ceremonyType: service[index].ceremonyType,
-                                    cName: service[index].codeNo,
-                                    fId: '',
-                                    sId: '',
-                                    cImage: service[index].cImage,
-                                    ceremonyDate: '',
-                                    admin: '',
-                                    contact: '',
-                                    isCrmAdmin: '',
-                                    likeNo: '',
-                                    chatNo: '',
-                                    viwersNo: '',
-                                    isInFuture: '',
-                                    userFid: User(
-                                        id: '',
-                                        username: '',
-                                        firstname: service[index].fIdUname,
-                                        lastname: '',
-                                        avater: '',
-                                        phoneNo: '',
-                                        email: '',
-                                        gender: '',
-                                        role: '',
-                                        address: '',
-                                        meritalStatus: '',
-                                        bio: '',
-                                        totalPost: '',
-                                        isCurrentUser: '',
-                                        isCurrentCrmAdmin: '',
-                                        isCurrentBsnAdmin: '',
-                                        totalFollowers: '',
-                                        totalFollowing: '',
-                                        totalLikes: ''),
-                                    userSid: User(
-                                        id: '',
-                                        username: '',
-                                        firstname: '',
-                                        lastname: '',
-                                        avater: '',
-                                        phoneNo: '',
-                                        email: '',
-                                        gender: '',
-                                        role: '',
-                                        address: '',
-                                        meritalStatus: '',
-                                        bio: '',
-                                        totalPost: '',
-                                        isCurrentUser: '',
-                                        isCurrentCrmAdmin: '',
-                                        isCurrentBsnAdmin: '',
-                                        totalFollowers: '',
-                                        totalFollowing: '',
-                                        totalLikes: ''),
-                                    youtubeLink: '',
-                                  ))));
+                              builder: (_) => Livee(ceremony: crmMdl(index))));
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.all(3.0),
-                      child: Container(
-                        color: OColors.darGrey,
-                        child: Column(
-                          children: [
-                            service[index].cImage != ''
-                                ? ClipRRect(
-                                    child: Center(
-                                      child: Image.network(
-                                        '${api}public/uploads/${service[index].fIdUname}/ceremony/${service[index].cImage}',
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                9.5,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        fit: BoxFit.cover,
-                                      ),
+                    child: Container(
+                      color: OColors.darGrey,
+                      child: Column(
+                        children: [
+                          service[index].cImage != ''
+                              ? ClipRRect(
+                                  child: Center(
+                                    child: Image.network(
+                                      '${api}public/uploads/${service[index].fIdUname}/ceremony/${service[index].cImage}',
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              9.5,
+                                      width: MediaQuery.of(context).size.width,
+                                      fit: BoxFit.cover,
                                     ),
-                                  )
-                                : const SizedBox(),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            service[index].cName.length >= 4
-                                ? Text(
-                                    '${service[index].cName.substring(0, 4)}..',
-                                    style: TextStyle(
-                                        color: OColors.fontColor,
-                                        fontSize: 9,
-                                        fontWeight: FontWeight.bold))
-                                : Text(service[index].fIdUname,
-                                    style: TextStyle(
-                                        color: OColors.fontColor,
-                                        fontSize: 9,
-                                        fontWeight: FontWeight.bold)),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 8.0, right: 8.0, bottom: 4),
-                              child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.remove_red_eye,
-                                          size: 15,
-                                          color: OColors.primary,
-                                        ),
-                                        const SizedBox(
-                                          width: 1,
-                                        ),
-                                        Text('134',
-                                            style: TextStyle(
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w400,
-                                                color: OColors.fontColor)),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.message,
-                                          size: 15,
-                                          color: OColors.primary,
-                                        ),
-                                        const SizedBox(
-                                          width: 3,
-                                        ),
-                                        Text('25k',
-                                            style: TextStyle(
-                                                color: OColors.fontColor,
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w400)),
-                                      ],
-                                    ),
-                                  ]),
-                            )
-                          ],
-                        ),
+                                  ),
+                                )
+                              : const SizedBox(),
+                          const SizedBox(
+                            height: 4,
+                          ),
+
+                          // Details
+                          service[index].cName.length >= 4
+                              ? Text(
+                                  '${service[index].cName.substring(0, 4)}..',
+                                  style: TextStyle(
+                                      color: OColors.fontColor,
+                                      fontSize: 9,
+                                      fontWeight: FontWeight.bold))
+                              : Text(service[index].fIdUname,
+                                  style: TextStyle(
+                                      color: OColors.fontColor,
+                                      fontSize: 9,
+                                      fontWeight: FontWeight.bold)),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 8.0, right: 8.0, bottom: 4),
+                            child: Text(service[index].ceremonyDate,
+                                style: header10),
+                          )
+                        ],
                       ),
                     ),
                   );
@@ -213,16 +113,77 @@ class CeremonyList extends StatelessWidget {
     );
   }
 
+  CeremonyModel crmMdl(int index) {
+    return CeremonyModel(
+      cId: service[index].cId,
+      codeNo: service[index].codeNo,
+      ceremonyType: service[index].ceremonyType,
+      cName: service[index].codeNo,
+      fId: '',
+      sId: '',
+      cImage: service[index].cImage,
+      ceremonyDate: '',
+      admin: '',
+      contact: '',
+      isCrmAdmin: '',
+      likeNo: '',
+      chatNo: '',
+      viwersNo: '',
+      isInFuture: '',
+      userFid: User(
+          id: '',
+          username: '',
+          firstname: service[index].fIdUname,
+          lastname: '',
+          avater: '',
+          phoneNo: '',
+          email: '',
+          gender: '',
+          role: '',
+          address: '',
+          meritalStatus: '',
+          bio: '',
+          totalPost: '',
+          isCurrentUser: '',
+          isCurrentCrmAdmin: '',
+          isCurrentBsnAdmin: '',
+          totalFollowers: '',
+          totalFollowing: '',
+          totalLikes: ''),
+      userSid: User(
+          id: '',
+          username: '',
+          firstname: '',
+          lastname: '',
+          avater: '',
+          phoneNo: '',
+          email: '',
+          gender: '',
+          role: '',
+          address: '',
+          meritalStatus: '',
+          bio: '',
+          totalPost: '',
+          isCurrentUser: '',
+          isCurrentCrmAdmin: '',
+          isCurrentBsnAdmin: '',
+          totalFollowers: '',
+          totalFollowing: '',
+          totalLikes: ''),
+      youtubeLink: '',
+    );
+  }
+
   Future<dynamic> otherCeremony(BuildContext context) {
     return showModalBottomSheet(
         context: context,
         builder: (context) {
-          return Container(
-            color: const Color(0xFF737373),
+          return SizedBox(
+            // color: OColors.secondary,
             height: 460,
             child: Container(
                 decoration: BoxDecoration(
-                    color: Theme.of(context).canvasColor,
+                    color: OColors.secondary,
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(25),
                       topRight: Radius.circular(25),
@@ -231,72 +192,85 @@ class CeremonyList extends StatelessWidget {
                   child: Column(
                     children: [
                       const SizedBox(height: 5),
-                      const Center(
-                          child: Text('Participate Ceremony',
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold))),
-                      const SizedBox(height: 5),
-                      SizedBox(
-                        height: 290,
-                        child: ListView.builder(
+                      Center(
+                          child: Text('Our Ceremony',
+                              style: header14.copyWith(
+                                  fontWeight: FontWeight.bold))),
+                      const SizedBox(height: 10),
+                      Container(
+                        padding: const EdgeInsets.only(left: 8, right: 8),
+                        height: MediaQuery.of(context).size.height / 2.2,
+                        child: GridView.builder(
                             itemCount: service.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 2,
+                              // childAspectRatio: 0.9
+                            ),
                             itemBuilder: (BuildContext context, index) {
-                              return Container(
-                                margin:
-                                    const EdgeInsets.only(left: 8, right: 8),
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFFEEEEEE),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5.0)),
-                                ),
-                                child: Row(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(5.0),
-                                          bottomLeft: Radius.circular(5.0)),
-                                      child: service[index].cImage != ''
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) =>
+                                              Livee(ceremony: crmMdl(index))));
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: OColors.darGrey,
+                                    // borderRadius:
+                                    //     BorderRadius.all(Radius.circular(5.0)),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      service[index].cImage != ''
                                           ? ClipRRect(
                                               child: Center(
-                                                child: FadeInImage(
-                                                  height: 55,
-                                                  image: NetworkImage(
-                                                      '${api}public/uploads/${service[index].fIdUname}/ceremony/${service[index].cImage}'),
-                                                  // fadeInDuration:
-                                                  //     const Duration(
-                                                  //         milliseconds:
-                                                  //             100),
-                                                  placeholder: const AssetImage(
-                                                      'assets/logo/noimage.png'),
-                                                  imageErrorBuilder: (context,
-                                                      error, stackTrace) {
-                                                    return Image.asset(
-                                                        'assets/logo/noimage.png',
-                                                        fit: BoxFit.fitWidth);
-                                                  },
-                                                  fit: BoxFit.fitWidth,
+                                                child: Image.network(
+                                                  '${api}public/uploads/${service[index].fIdUname}/ceremony/${service[index].cImage}',
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                      9.5,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  fit: BoxFit.cover,
                                                 ),
                                               ),
                                             )
                                           : const SizedBox(),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        left: 8.0,
-                                        top: 4,
+                                      const SizedBox(
+                                        height: 4,
                                       ),
-                                      child: Column(children: [
-                                        Text(service[index].cName,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black54)),
-                                        Text(service[index].busnessType,
-                                            style: const TextStyle(
-                                                fontSize: 8,
-                                                color: Colors.black54))
-                                      ]),
-                                    )
-                                  ],
+
+                                      // Details
+                                      service[index].cName.length >= 4
+                                          ? Text(
+                                              '${service[index].cName.substring(0, 4)}..',
+                                              style: TextStyle(
+                                                  color: OColors.fontColor,
+                                                  fontSize: 9,
+                                                  fontWeight: FontWeight.bold))
+                                          : Text(service[index].fIdUname,
+                                              style: TextStyle(
+                                                  color: OColors.fontColor,
+                                                  fontSize: 9,
+                                                  fontWeight: FontWeight.bold)),
+                                      const SizedBox(
+                                        height: 4,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 8.0, right: 8.0, bottom: 4),
+                                        child: Text(service[index].ceremonyDate,
+                                            style: header10),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               );
                             }),

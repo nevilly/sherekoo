@@ -3,13 +3,22 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:sherekoo/util/colors.dart';
 
+import '../../model/allData.dart';
+import '../../model/busness/bsn-call.dart';
 import '../../model/busness/busnessModel.dart';
 import '../../model/requests/requests.dart';
 import '../../model/requests/requestsModel.dart';
 import '../../model/services/postServices.dart';
 import '../../model/services/svModel.dart';
-import '../../util/Preferences.dart';
+import '../../model/userModel.dart';
+import '../../util/app-variables.dart';
+import '../../util/func.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
+import '../../widgets/notifyWidget/notifyWidget.dart';
+import '../profile/admin.dart';
+import '../subscriptionScreen/update-subscription.dart';
+import '../uploadScreens/busnessUpload.dart';
 
 class AdminBsn extends StatefulWidget {
   final BusnessModel bsn;
@@ -20,26 +29,57 @@ class AdminBsn extends StatefulWidget {
 }
 
 class _AdminBsnState extends State<AdminBsn> {
-  final Preferences _preferences = Preferences();
-
-  String token = '';
   List<RequestsModel> req = [];
   //Cereemony which Select You
   List<SvModel> myServ = [];
-
-  late BusnessModel bsn;
+  User user = User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      whatYouDo: '',
+      followInfo: '',
+      meritalStatus: '',
+      totalPost: '',
+      isCurrentBsnAdmin: '',
+      isCurrentCrmAdmin: '',
+      currentFllwId: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: '');
 
   @override
   void initState() {
     super.initState();
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
-        bsn = widget.bsn;
+
         getservices(widget.bsn.bId);
         getBsnRequests(widget.bsn.bId);
+        getUser(urlGetUser);
       });
+    });
+  }
+
+  Future getUser(String dirUrl) async {
+    return await AllUsersModel(payload: [], status: 0)
+        .get(token, dirUrl)
+        .then((value) {
+      if (value.status == 200) {
+        setState(() {
+          user = User.fromJson(value.payload);
+        });
+      }
     });
   }
 
@@ -120,23 +160,172 @@ class _AdminBsnState extends State<AdminBsn> {
     });
   }
 
+  deleteBsn() async {
+    BsnCall(payload: [], status: 0)
+        .deleteBsn(token, urlBusnessRemove, widget.bsn.bId)
+        .then((value) {
+      setState(() {
+        if (value.status == 200) {
+          Navigator.of(context).pop();
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => AdminPage(
+                        from: 'Bsn',
+                        user: user,
+                      )));
+        }
+        // print(data);
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: OColors.secondary,
         appBar: AppBar(
           backgroundColor: OColors.secondary,
-          title: const Text('Admin'),
+          title: Text(
+            widget.bsn.knownAs,
+            style: header18,
+          ),
           centerTitle: true,
+          actions: [
+            const NotifyWidget(),
+            GestureDetector(
+              onTap: () {
+                bsnsettings();
+              },
+              child: Container(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Icon(
+                    Icons.settings,
+                    color: prmry,
+                  )),
+            ),
+          ],
         ),
-        body: Column(
-          children: [
-            ///
-            /// Our Celemenies
-            ///
-            Column(
+        body: SingleChildScrollView(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: Column(
               children: [
-                /// titleBar
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: ClipRRect(
+                          child: fadeImg(
+                              context,
+                              '${api}public/uploads/${widget.bsn.user.username}/busness/${widget.bsn.coProfile}',
+                              150,
+                              100)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 1.0,
+                        bottom: 8.0,
+                        left: 25,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Text(widget.bsn.busnessType,
+                                style: header15.copyWith(
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4.0, bottom: 2),
+                            child: Text(
+                              widget.bsn.companyName,
+                              style: header13,
+                            ),
+                          ),
+                          Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            // crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {},
+                                child: Container(
+                                  padding: const EdgeInsets.only(
+                                      left: 8, right: 8, top: 4, bottom: 4),
+                                  decoration: BoxDecoration(
+                                    color: prmry,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.add_a_photo,
+                                        color: fntClr,
+                                        size: 16,
+                                      ),
+                                      const SizedBox(
+                                        width: 6,
+                                      ),
+                                      Text(
+                                        'New Features',
+                                        style: header11,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => BusnessUpload(
+                                                getData: widget.bsn,
+                                              )));
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.only(
+                                      left: 8, right: 8, top: 4, bottom: 4),
+                                  decoration: BoxDecoration(
+                                    color: prmry,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.edit,
+                                        size: 16,
+                                        color: fntClr,
+                                      ),
+                                      const SizedBox(
+                                        width: 6,
+                                      ),
+                                      Text(
+                                        'Edit',
+                                        style: header11,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+
+                const SizedBox(
+                  height: 15,
+                ),
+
+                ///
+                /// Our Celemenies
                 ///
 
                 Container(
@@ -146,19 +335,11 @@ class _AdminBsnState extends State<AdminBsn> {
                     padding:
                         const EdgeInsets.only(left: 18.0, top: 8, bottom: 8),
                     child: Center(
-                      child: Text('Your Tender',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: OColors.fontColor)),
+                      child: Text('Your Tender', style: header15),
                     ),
                   ),
                 ),
 
-                ///
-                /// Selcete Busness..
-                ///
-                ///
                 myServ.isNotEmpty
                     ? Container(
                         margin: const EdgeInsets.all(6.0),
@@ -170,7 +351,7 @@ class _AdminBsnState extends State<AdminBsn> {
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 3,
                                   crossAxisSpacing: 6,
-                                  childAspectRatio: 0.7),
+                                  childAspectRatio: 0.6),
                           itemBuilder: (context, i) {
                             final my = myServ[i];
                             return Container(
@@ -206,6 +387,7 @@ class _AdminBsnState extends State<AdminBsn> {
                                                   'Are SURE you want remove ${my.busnessType}  ${my.knownAs}..??',
                                                   my,
                                                   'myServices');
+                                              Navigator.of(context).pop();
                                             },
                                             child: Icon(
                                               Icons.cancel_rounded,
@@ -281,67 +463,97 @@ class _AdminBsnState extends State<AdminBsn> {
                                   fontWeight: FontWeight.w400)),
                         ),
                       ),
-              ],
-            ),
 
-            const SizedBox(
-              height: 15,
-            ),
-
-            /// titleBar
-            ///
-
-            Container(
-              color: OColors.darkGrey,
-              width: MediaQuery.of(context).size.width,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 18.0, top: 8, bottom: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Sherekoo Requests',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            color: OColors.fontColor)),
-                  ],
+                const SizedBox(
+                  height: 15,
                 ),
-              ),
-            ),
 
-            //
+                /// titleBar
+                ///
 
-            ///
-            /// Busness Requests List
-            ///
-            req.isNotEmpty
-                ? Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.all(0.0),
-                      itemCount: req.length,
-                      itemBuilder: (context, i) {
-                        return Container(
-                            margin: const EdgeInsets.only(top: 5),
-                            child: ListTile(
-                                tileColor: OColors.darGrey,
-                                horizontalTitleGap: 8,
-                                leading:
+                Container(
+                  color: OColors.darkGrey,
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(left: 18.0, top: 8, bottom: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Sherekoo Requests',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                color: OColors.fontColor)),
+                      ],
+                    ),
+                  ),
+                ),
 
-                                    /// Ceremony Profile Picture
-                                    ///
-                                    /// if Busness owner not pay subuscription fee
-                                    /// cant see the ceremony Request
+                //
 
-                                    req[i].activeted == '0'
-                                        ? ClipRect(
-                                            child: ImageFiltered(
-                                              imageFilter: ImageFilter.blur(
-                                                tileMode: TileMode.mirror,
-                                                sigmaX: 7.0,
-                                                sigmaY: 7.0,
-                                              ),
-                                              child: Image.network(
-                                                '${api}public/uploads/${req[i].crmInfo.userFid.username}/ceremony/${req[i].crmInfo.cImage}',
+                ///
+                /// Busness Requests List
+                ///
+                req.isNotEmpty
+                    ? Expanded(
+                        child: ListView.builder(
+                          padding: const EdgeInsets.all(0.0),
+                          itemCount: req.length,
+                          itemBuilder: (context, i) {
+                            return Container(
+                                margin: const EdgeInsets.only(top: 5),
+                                child: ListTile(
+                                    tileColor: OColors.darGrey,
+                                    horizontalTitleGap: 8,
+                                    leading:
+
+                                        /// Ceremony Profile Picture
+                                        ///
+                                        /// if Busness owner not pay subuscription fee
+                                        /// cant see the ceremony Request
+
+                                        req[i].subscriptionInfo!.activeted == '0'
+                                            ? ClipRect(
+                                                child: ImageFiltered(
+                                                  imageFilter: ImageFilter.blur(
+                                                    tileMode: TileMode.mirror,
+                                                    sigmaX: 7.0,
+                                                    sigmaY: 7.0,
+                                                  ),
+                                                  child: Image.network(
+                                                    '${api}public/uploads/${req[i].crmInfo!.userFid.username}/ceremony/${req[i].crmInfo!.cImage}',
+                                                    height: 70,
+                                                    width: 65,
+                                                    fit: BoxFit.cover,
+                                                    loadingBuilder: (BuildContext
+                                                            context,
+                                                        Widget child,
+                                                        ImageChunkEvent?
+                                                            loadingProgress) {
+                                                      if (loadingProgress ==
+                                                          null) {
+                                                        return child;
+                                                      }
+                                                      return Center(
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                          value: loadingProgress
+                                                                      .expectedTotalBytes !=
+                                                                  null
+                                                              ? loadingProgress
+                                                                      .cumulativeBytesLoaded /
+                                                                  loadingProgress
+                                                                      .expectedTotalBytes!
+                                                              : null,
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                              )
+                                            : Image.network(
+                                                '${api}public/uploads/${req[i].crmInfo!.userFid.username}/ceremony/${req[i].crmInfo!.cImage}',
                                                 height: 70,
                                                 width: 65,
                                                 fit: BoxFit.cover,
@@ -368,110 +580,245 @@ class _AdminBsnState extends State<AdminBsn> {
                                                   );
                                                 },
                                               ),
+
+                                    ///
+                                    /// Ceremony Type
+                                    ///
+                                    title: Text(
+                                      req[i].crmInfo!.ceremonyType,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          color: OColors.fontColor),
+                                    ),
+                                    subtitle: req[i].subscriptionInfo!.activeted != '0'
+                                        ? Text(
+                                            req[i].createdDate!,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w300,
+                                                color: OColors.fontColor),
+                                          )
+                                        : const SizedBox(),
+
+                                    ///
+                                    ///Ceremony Date, Busness owner cant see
+                                    /// if subscription activeted is 0 (not paid)
+                                    ///
+
+                                    trailing: req[i].subscriptionInfo!.activeted == '0'
+                                        ? GestureDetector(
+                                            onTap: () {
+                                         
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (_) =>
+                                                          const UpdateSubscription(
+                                                            bId: '',
+                                                            subScrptionId: '',
+                                                          )));
+                                            },
+                                            child: Text(
+                                              'View',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: OColors.primary),
                                             ),
                                           )
-                                        : Image.network(
-                                            '${api}public/uploads/${req[i].crmInfo.userFid.username}/ceremony/${req[i].crmInfo.cImage}',
-                                            height: 70,
-                                            width: 65,
-                                            fit: BoxFit.cover,
-                                            loadingBuilder:
-                                                (BuildContext context,
-                                                    Widget child,
-                                                    ImageChunkEvent?
-                                                        loadingProgress) {
-                                              if (loadingProgress == null) {
-                                                return child;
-                                              }
-                                              return Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  value: loadingProgress
-                                                              .expectedTotalBytes !=
-                                                          null
-                                                      ? loadingProgress
-                                                              .cumulativeBytesLoaded /
-                                                          loadingProgress
-                                                              .expectedTotalBytes!
-                                                      : null,
-                                                ),
-                                              );
-                                            },
-                                          ),
-
-                                ///
-                                /// Ceremony Type
-                                ///
-                                title: Text(
-                                  req[i].crmInfo.ceremonyType,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      color: OColors.fontColor),
-                                ),
-                                subtitle: req[i].activeted != '0'
-                                    ? Text(
-                                        req[i].createdDate,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w300,
-                                            color: OColors.fontColor),
-                                      )
-                                    : const SizedBox(),
-
-                                ///
-                                ///Ceremony Date, Busness owner cant see
-                                /// if subscription activeted is 0 (not paid)
-                                ///
-
-                                trailing: req[i].activeted != '0'
-                                    ? Text(
-                                        'Pay to View',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: OColors.primary),
-                                      )
-                                    : req[i].isInService == 'true'
-                                        ? Text(
-                                            'Slected',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: OColors.primary),
-                                          )
-                                        : GestureDetector(
-                                            onTap: () {
-                                              ecceptIgnoreRequest(
-                                                  req[i].hostId);
-                                            },
-                                            child: req[i].confirm == '1'
-                                                ? Text(
-                                                    'Accept',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: OColors.primary),
-                                                  )
-                                                : Text(
-                                                    'Ignore',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: OColors.primary),
-                                                  ),
-                                          )));
-                      },
-                    ),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.only(top: 18.0, bottom: 8),
-                    child: Center(
-                      child: Text('Empty',
-                          style: TextStyle(
-                              color: OColors.fontColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w400)),
-                    ),
-                  ),
-          ],
+                                        : req[i].isInService == 'true'
+                                            ? Text(
+                                                'Selected',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: OColors.primary),
+                                              )
+                                            : GestureDetector(
+                                                onTap: () {
+                                                  ecceptIgnoreRequest(
+                                                      req[i].hostId);
+                                                },
+                                                child: req[i].confirm == '1'
+                                                    ? Text(
+                                                        'Accept',
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: OColors
+                                                                .primary),
+                                                      )
+                                                    : Text(
+                                                        'Ignore',
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: OColors
+                                                                .primary),
+                                                      ),
+                                              )));
+                          },
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 18.0, bottom: 8),
+                        child: Center(
+                          child: Text('Empty',
+                              style: TextStyle(
+                                  color: OColors.fontColor,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400)),
+                        ),
+                      ),
+              ],
+            ),
+          ),
         ));
+  }
+
+  void bsnsettings() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            color: const Color(0xFF737373),
+            height: 250,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: OColors.secondary,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    )),
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => BusnessUpload(
+                                              getData: widget.bsn,
+                                            )));
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.edit,
+                                      color: OColors.whiteFade,
+                                      size: 18,
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text('Edit your Busness', style: header14),
+                                  ],
+                                ),
+                              )),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (BuildContext context) =>
+                                //             const BigMonthRegistered()));
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.upload,
+                                      color: OColors.whiteFade,
+                                      size: 18,
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text('Upload new features/photo',
+                                        style: header14),
+                                  ],
+                                ),
+                              )),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (BuildContext context) =>
+                                //             const BigMonthRegistered()));
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.person_add,
+                                      color: OColors.whiteFade,
+                                      size: 18,
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text('Add / remove Members',
+                                        style: header14),
+                                  ],
+                                ),
+                              )),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                                showAlertDialog(
+                                    context,
+                                    'Delete..!!',
+                                    'Are sure you want to Delete ${widget.bsn.busnessType}  ${widget.bsn.knownAs} Account.. ?',
+                                    widget.bsn,
+                                    'deleteAccount');
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.delete,
+                                      color: OColors.danger,
+                                      size: 18,
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text('Delete your  Busness',
+                                        style: header14.copyWith(
+                                            color: OColors.danger)),
+                                  ],
+                                ),
+                              )),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
+                    ))),
+          );
+        });
   }
 
   // Alert Widget
@@ -484,6 +831,9 @@ class _AdminBsnState extends State<AdminBsn> {
             color: OColors.primary,
           )),
       onPressed: () {
+        if (from == 'deleteAccount') {
+          deleteBsn();
+        }
         if (from == 'requests') {
           Navigator.of(context).pop();
           // Navigator.push(
@@ -492,10 +842,9 @@ class _AdminBsnState extends State<AdminBsn> {
           //         builder: (BuildContext context) => MyService(
           //               req: req,
           //             )));
-        } else {
-          Navigator.of(context).pop();
-          // removeSelected(req.svId);
         }
+        Navigator.of(context).pop();
+        // removeSelected(req.svId);
       },
     );
     Widget continueButton = TextButton(
@@ -507,7 +856,7 @@ class _AdminBsnState extends State<AdminBsn> {
       ),
       child: const Text("NO"),
       onPressed: () {
-        Navigator.pop(context);
+        Navigator.of(context).pop();
       },
     );
     // set up the AlertDialog

@@ -244,7 +244,9 @@ class _SherekoCardsState extends State<SherekoCards> {
       bottomNavigationBar: Container(
         height: 60,
         color: OColors.primary.withOpacity(.2),
-        child: Row(
+        child: 
+        
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
@@ -255,6 +257,7 @@ class _SherekoCardsState extends State<SherekoCards> {
                           const SizedBox(
                             width: 5,
                           ),
+                         
                           LiveBorder(
                               live: const SizedBox.shrink(),
                               radius: 30,
@@ -263,6 +266,7 @@ class _SherekoCardsState extends State<SherekoCards> {
                                   backgroundImage: NetworkImage(
                                     '${api}public/uploads/$username/ceremony/$cImg',
                                   ))),
+
                           const SizedBox(
                             width: 5,
                           ),
@@ -296,7 +300,8 @@ class _SherekoCardsState extends State<SherekoCards> {
                             child: Text(
                             'Create Ceremony',
                             style: header12,
-                          ))),
+                          ))
+                          ),
             Row(
               children: [
                 // Change Ceremony
@@ -426,7 +431,7 @@ class _SherekoCardsState extends State<SherekoCards> {
   }
 
   // Alert Widget
-  showAlertDialog(
+  showAlertDialog( 
       BuildContext context, String title, String msg, req, String from) async {
     // set up the buttons
     Widget cancelButton = TextButton(

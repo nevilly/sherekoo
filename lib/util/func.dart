@@ -1296,9 +1296,7 @@ showAlertDialog(BuildContext context, Widget title, Widget content,
 
 //Dialog title
 Row titleDIalog(BuildContext context, String title) {
-  return 
-  
-  Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+  return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
     GestureDetector(
       onTap: () {
         Navigator.of(context).pop();
@@ -1318,14 +1316,11 @@ Row titleDIalog(BuildContext context, String title) {
           style: header18.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
     ),
   ]);
-
 }
 
 //Dialog set up the buttons
 Widget dialogButton(BuildContext context, text, ButtonStyle bttnStyl, funct) {
-  return 
-  
-  TextButton(
+  return TextButton(
     style: bttnStyl,
     onPressed: () {
       funct;
@@ -1336,7 +1331,6 @@ Widget dialogButton(BuildContext context, text, ButtonStyle bttnStyl, funct) {
           fontWeight: FontWeight.normal, color: OColors.fontColor),
     ),
   );
-
 }
 
 ButtonStyle bttnStyl(double padding, Color backgroundColorlor, Color primary) {

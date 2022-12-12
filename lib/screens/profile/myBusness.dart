@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/util/colors.dart';
 
-import '../../model/busness/allBusness.dart';
+import '../../model/busness/bsn-call.dart';
 import '../../model/busness/busnessModel.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/modInstance.dart';
 import '../../util/pallets.dart';
 import '../../util/util.dart';
-import '../detailScreen/DetailPage.dart';
+import '../detailScreen/bsn-details.dart';
 import '../uploadScreens/busnessUpload.dart';
 
 class MyBusness extends StatefulWidget {
@@ -40,7 +40,7 @@ class _MyBusnessState extends State<MyBusness> {
   }
 
   getAllBusness() async {
-    AllBusnessModel(payload: [], status: 0)
+    BsnCall(payload: [], status: 0)
         .bsnByCreatorid(token, urlMyBsnByCratorId, widget.user.id!)
         .then((value) {
       if (value.status == 200) {

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class Requests {
-  final String hostId;
+  String? hostId;
   final String busnessId;
   final String ceremonyId;
   final String contact;
@@ -40,13 +40,6 @@ class Requests {
   Future<Requests> post(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);
 
-    if (token.isEmpty) {
-      return Requests.fromJson({
-        "status": 204,
-        "payload": {"error": "Invalid token"}
-      });
-    }
-
     Map<String, dynamic> toMap() {
       return <String, dynamic>{
         'busnessId': busnessId,
@@ -56,121 +49,87 @@ class Requests {
       };
     }
 
-    Map<String, String> headers = {
-      "Authorization": "Owesis $token",
-      "Content-Type": "Application/json"
-    };
-
-    return await http
-        .post(url, body: jsonEncode(toMap()), headers: headers)
-        .then((r) {
-      // final rJson = jsonDecode(r.body);
-      
-      if (r.statusCode == 200) {
-        return Requests.fromJson(
-            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
-      }
-      return Requests.fromJson(
-          {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
-    });
+    invalidToken(token);
+    Map<String, String> headers = myHttpHeaders(token);
+    return postHttp(url, toMap, headers);
   }
 
   Future<Requests> getGoldenRequest(String token, String dirUrl, id) async {
     Uri url = Uri.parse(dirUrl);
 
-    if (token.isEmpty) {
-      return Requests.fromJson({
-        "status": 204,
-        "payload": {"error": "Invalid token"}
-      });
-    }
-
     Map<String, dynamic> toMap() {
       return <String, dynamic>{'id': id, 'type': type};
     }
 
-    Map<String, String> headers = {
-      "Authorization": "Owesis $token",
-      "Content-Type": "Application/json"
-    };
+    invalidToken(token);
+    Map<String, String> headers = myHttpHeaders(token);
 
-    return await http
-        .post(url, body: jsonEncode(toMap()), headers: headers)
-        .then((r) {
-      // final rJson = jsonDecode(r.body);
-      if (r.statusCode == 200) {
-        // final my = jsonDecode(""" ${r.body} """);
-        // print(r.body);
-        // print('jsonDecodeeee');
-        // print(my);
-        return Requests.fromJson(
-            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
-      }
-      return Requests.fromJson(
-          {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
-    });
+    return postHttp(url, toMap, headers);
   }
 
   Future<Requests> cancelRequest(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);
 
-    if (token.isEmpty) {
-      return Requests.fromJson({
-        "status": 204,
-        "payload": {"error": "Invalid token"}
-      });
-    }
-
     Map<String, dynamic> toMap() {
       return <String, dynamic>{'id': hostId};
     }
 
-    Map<String, String> headers = {
-      "Authorization": "Owesis $token",
-      "Content-Type": "Application/json"
-    };
-
-    return await http
-        .post(url, body: jsonEncode(toMap()), headers: headers)
-        .then((r) {
-     
-      if (r.statusCode == 200) {
-        return Requests.fromJson(
-            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
-      }
-      return Requests.fromJson(
-          {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
-    });
+    invalidToken(token);
+    Map<String, String> headers = myHttpHeaders(token);
+    return postHttp(url, toMap, headers);
   }
 
   Future<Requests> updateRequest(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);
 
-    if (token.isEmpty) {
-      return Requests.fromJson({
-        "status": 204,
-        "payload": {"error": "Invalid token"}
-      });
-    }
-
     Map<String, dynamic> toMap() {
       return <String, dynamic>{'id': hostId};
     }
 
-    Map<String, String> headers = {
-      "Authorization": "Owesis $token",
-      "Content-Type": "Application/json"
-    };
+    invalidToken(token);
+    Map<String, String> headers = myHttpHeaders(token);
+    return postHttp(url, toMap, headers);
+  }
+}
 
-    return await http
-        .post(url, body: jsonEncode(toMap()), headers: headers)
-        .then((r) {
-      if (r.statusCode == 200) {
-        return Requests.fromJson(
-            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
-      }
-      return Requests.fromJson(
-          {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+//// External Function
+Map<String, String> myHttpHeaders(String token) {
+  return {"Authorization": "Owesis $token", "Content-Type": "Application/json"};
+}
+
+invalidToken(token) {
+  if (token.isEmpty) {
+    return Requests.fromJson({
+      "status": 204,
+      "payload": {"error": "Invalid token"}
     });
   }
+}
+
+Future<Requests> postHttp(Uri url, Map<String, dynamic> Function() toMap,
+    Map<String, String> headers) async {
+  return await http
+      .post(url, body: jsonEncode(toMap()), headers: headers)
+      .then((r) {
+    if (r.statusCode == 200) {
+      return rBody(r);
+    }
+    return rBody(r);
+  });
+}
+
+Future<Requests> getHttp(Uri url, Map<String, String> headers) async {
+  return await http.get(url, headers: headers).then((r) {
+    if (r.statusCode == 200) {
+      return rBody(r);
+    } else {
+      return rBody(r);
+    }
+  });
+}
+
+Requests rBody(http.Response r) {
+  print(jsonDecode(r.body)['payload']);
+  return Requests.fromJson(
+      {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
 }

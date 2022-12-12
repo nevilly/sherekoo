@@ -90,7 +90,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             mcAvater = widget.getData.user.avater!;
             mcId = widget.getData.ceoId;
             mcUsername = widget.getData.user.username!;
-            _mcSubscription = widget.getData.subcrlevel;
+            _mcSubscription = widget.getData.subcrlevel!;
             mcDefaultImg = widget.getData.coProfile;
             _mcCoKnownController.text = widget.getData.knownAs;
             _mcCoPriceController.text = widget.getData.price;
@@ -105,7 +105,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             productionAvater = widget.getData.user.avater!;
             productionId = widget.getData.ceoId;
             productionUsername = widget.getData.user.username!;
-            productionSubscription = widget.getData.subcrlevel;
+            productionSubscription = widget.getData.subcrlevel!;
             productionDefaultImg = widget.getData.coProfile;
             _productionCoKnownController.text = widget.getData.knownAs;
             _productionCoPriceController.text = widget.getData.price;
@@ -121,7 +121,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             decoratorAvater = widget.getData.user.avater!;
             decoratorId = widget.getData.ceoId;
             decoratorUsername = widget.getData.user.username!;
-            decoratorSubscription = widget.getData.subcrlevel;
+            decoratorSubscription = widget.getData.subcrlevel!;
             decoratorDefaultImg = widget.getData.coProfile;
             _decoratorCoKnownController.text = widget.getData.knownAs;
             _decoratorCoPriceController.text = widget.getData.price;
@@ -136,7 +136,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             hallAvater = widget.getData.user.avater!;
             hallId = widget.getData.ceoId;
             hallUsername = widget.getData.user.username!;
-            hallSubscription = widget.getData.subcrlevel;
+            hallSubscription = widget.getData.subcrlevel!;
             hallDefaultImg = widget.getData.coProfile;
             _hallCoKnownController.text = widget.getData.knownAs;
             _hallCoPriceController.text = widget.getData.price;
@@ -150,7 +150,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             cakeAvater = widget.getData.user.avater!;
             cakeId = widget.getData.ceoId;
             cakeUsername = widget.getData.user.username!;
-            cakeSubscription = widget.getData.subcrlevel;
+            cakeSubscription = widget.getData.subcrlevel!;
             cakeDefaultImg = widget.getData.coProfile;
             _cakeCoKnownController.text = widget.getData.knownAs;
             _cakeCoPriceController.text = widget.getData.price;
@@ -164,7 +164,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             singersAvater = widget.getData.user.avater!;
             singersId = widget.getData.ceoId;
             singersUsername = widget.getData.user.username!;
-            singersSubscription = widget.getData.subcrlevel;
+            singersSubscription = widget.getData.subcrlevel!;
             singersDefaultImg = widget.getData.coProfile;
             _singersCoKnownController.text = widget.getData.knownAs;
             _singersCoPriceController.text = widget.getData.price;
@@ -178,7 +178,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             dancersAvater = widget.getData.user.avater!;
             dancersId = widget.getData.ceoId;
             dancersUsername = widget.getData.user.username!;
-            dancersSubscription = widget.getData.subcrlevel;
+            dancersSubscription = widget.getData.subcrlevel!;
             dancersDefaultImg = widget.getData.coProfile;
             _dancersCoKnownController.text = widget.getData.knownAs;
             _dancersCoPriceController.text = widget.getData.price;
@@ -192,7 +192,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             cookerAvater = widget.getData.user.avater!;
             cookerId = widget.getData.ceoId;
             cookerUsername = widget.getData.user.username!;
-            cookerSubscription = widget.getData.subcrlevel;
+            cookerSubscription = widget.getData.subcrlevel!;
             cookerDefaultImg = widget.getData.coProfile;
             _cookerCoKnownController.text = widget.getData.knownAs;
             _cookerCoPriceController.text = widget.getData.price;
@@ -206,7 +206,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             saloonAvater = widget.getData.user.avater!;
             saloonId = widget.getData.ceoId;
             saloonUsername = widget.getData.user.username!;
-            saloonSubscription = widget.getData.subcrlevel;
+            saloonSubscription = widget.getData.subcrlevel!;
             saloonDefaultImg = widget.getData.coProfile;
             _saloonCoKnownController.text = widget.getData.knownAs;
             _saloonCoPriceController.text = widget.getData.price;
@@ -220,7 +220,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             carsAvater = widget.getData.user.avater!;
             carsId = widget.getData.ceoId;
             carsUsername = widget.getData.user.username!;
-            carsSubscription = widget.getData.subcrlevel;
+            carsSubscription = widget.getData.subcrlevel!;
             carsDefaultImg = widget.getData.coProfile;
             _carsCoKnownController.text = widget.getData.knownAs;
             _carsCoPriceController.text = widget.getData.price;

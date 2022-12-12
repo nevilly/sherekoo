@@ -16,11 +16,12 @@ class BusnessModel {
   final String aboutCompany;
   final String createdBy;
   final String createdDate;
+  final String isBsnAdmin;
 
   final User user;
 
   // subscription
-  final String subcrlevel;
+  String? subcrlevel;
 
   BusnessModel({
     required this.location,
@@ -39,6 +40,7 @@ class BusnessModel {
     required this.createdBy,
     required this.user,
     required this.subcrlevel,
+    required this.isBsnAdmin,
   });
 
   factory BusnessModel.fromJson(Map<String, dynamic> json) {
@@ -58,6 +60,7 @@ class BusnessModel {
       location: json['location'] ?? "",
       createdBy: json['createdBy'] ?? "",
       createdDate: json['createdDate'] ?? "",
+      isBsnAdmin: json['isBsnAdmin'].toString(),
       user: User.fromJson(json['user']),
     );
   }

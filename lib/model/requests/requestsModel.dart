@@ -1,63 +1,53 @@
 import 'package:sherekoo/model/busness/busnessModel.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 
-class RequestsModel {
-  final String hostId;
-  final String busnessId;
-  final String ceremonyId;
+import '../subScription/subsrModel.dart';
 
-  final String createdBy;
-  final String createdDate;
-  String confirm;
+class RequestsModel {
+  String? hostId,
+      busnessId,
+      ceremonyId,
+      createdBy,
+      createdDate,
+      selected,
+      confirm;
 
   //Ceremony Model
-  final CeremonyModel crmInfo;
+  CeremonyModel? crmInfo;
 
   //Busness Data
-  final BusnessModel bsnInfo;
+  BusnessModel? bsnInfo;
 
   //Service Info
-  final String isInService;
-  final String svId;
-  final String svPayStatus;
-  final String svAmount;
+  String? isInService, svId, svPayStatus, svAmount;
 
   //subscription Model
-  final String subId;
-  final String level;
-  final String categoryId;
-  final String activeted;
-  final String startTime;
-  final String endTime;
+  SubscriptionModel? subscriptionInfo;
+
 
   RequestsModel({
     //Request Model
-    required this.hostId,
-    required this.busnessId,
-    required this.ceremonyId,
-    required this.createdDate,
-    required this.confirm,
-    required this.createdBy,
+    this.hostId,
+    this.busnessId,
+    this.ceremonyId,
+    this.createdDate,
+    this.confirm,
+    this.createdBy,
 
     //Busness Model
-    required this.bsnInfo,
+    this.bsnInfo,
 
     //Ceremon Model
-    required this.crmInfo,
+    this.crmInfo,
 
     // Service Model
-    required this.isInService,
-    required this.svId,
-    required this.svPayStatus,
-    required this.svAmount,
+    this.isInService,
+    this.svId,
+    this.svPayStatus,
+    this.svAmount,
 
     //SubScription Model
-    required this.subId,
-    required this.level,
-    required this.activeted,
-    required this.categoryId,
-    required this.startTime,
-    required this.endTime,
+    this.subscriptionInfo
   });
 
   factory RequestsModel.fromJson(Map<String, dynamic> json) {
@@ -78,12 +68,8 @@ class RequestsModel {
       createdBy: json['createdBy'] ?? "",
 
       //SubScription Model
-      subId: json['subId'] ?? "",
-      categoryId: json['categoryId'] ?? "",
-      startTime: json['startTime'] ?? "",
-      endTime: json['endTime'] ?? "",
-      activeted: json['activeted'] ?? "",
-      level: json['level'] ?? "",
+        subscriptionInfo: SubscriptionModel.fromJson(json['subscriptionInfo']),
+
 
       // Services Info
       isInService: json['isInService'].toString(),

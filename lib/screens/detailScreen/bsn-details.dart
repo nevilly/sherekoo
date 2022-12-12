@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sherekoo/util/textStyle-pallet.dart';
 import '../../model/allData.dart';
-import '../../model/busness/allBusness.dart';
+import '../../model/busness/bsn-call.dart';
 import '../../model/busness/busnessMembers.dart';
 import '../../model/busness/busnessModel.dart';
 import '../../model/busness/busnessPhotoModel.dart';
@@ -9,7 +10,7 @@ import '../../model/getAll.dart';
 import '../../model/userModel.dart';
 import '../../model/services/postServices.dart';
 import '../../model/services/svModel.dart';
-import '../../util/Preferences.dart';
+import '../../util/app-variables.dart';
 import '../../util/colors.dart';
 import '../../util/modInstance.dart';
 import '../../util/util.dart';
@@ -17,6 +18,8 @@ import '../../widgets/detailsWidg/BsnProfile.dart';
 import '../../widgets/detailsWidg/bsnDescr.dart';
 import '../../widgets/detailsWidg/busnessList.dart';
 import '../../widgets/detailsWidg/ceremonyList.dart';
+import '../../widgets/notifyWidget/notifyWidget.dart';
+import '../bsnScreen/adminBsn.dart';
 import '../subscriptionScreen/hiringPage.dart';
 
 class BsnDetails extends StatefulWidget {
@@ -31,11 +34,6 @@ class BsnDetails extends StatefulWidget {
 }
 
 class _BsnDetailsState extends State<BsnDetails> {
-  late String token = '';
-  final Preferences _preferences = Preferences();
-
-  late BusnessModel data;
-
   late User user = User(
       id: '',
       username: '',
@@ -57,8 +55,6 @@ class _BsnDetailsState extends State<BsnDetails> {
       totalFollowing: '',
       totalLikes: '');
 
-
-
   List<SvModel> service = []; // Need To change to SvModel
   List<BusnessModel> info = [];
   List<BusnessModel> otherBsn = [];
@@ -70,8 +66,8 @@ class _BsnDetailsState extends State<BsnDetails> {
 
   @override
   void initState() {
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
         // print('widget.data.coProfile');
@@ -87,7 +83,6 @@ class _BsnDetailsState extends State<BsnDetails> {
       });
     });
 
-    data = widget.data;
     ceremony = widget.ceremonyData;
 
     super.initState();
@@ -106,8 +101,8 @@ class _BsnDetailsState extends State<BsnDetails> {
   }
 
   getOther() async {
-    AllBusnessModel(payload: [], status: 0)
-        .onGoldenBusness(token, urlGoldBusness, data.busnessType, '')
+    BsnCall(payload: [], status: 0)
+        .onGoldenBusness(token, urlGoldBusness, widget.data.busnessType, '')
         .then((value) {
       setState(() {
         // print(value.payload);
@@ -124,7 +119,7 @@ class _BsnDetailsState extends State<BsnDetails> {
     GetAll(
       payload: [],
       status: 0,
-      id: data.bId,
+      id: widget.data.bId,
     ).get(token, urlBusnessPhoto).then((value) {
       // print('Get Photo view..');
       // print(value.payload);
@@ -143,7 +138,7 @@ class _BsnDetailsState extends State<BsnDetails> {
     GetAll(
       payload: [],
       status: 0,
-      id: data.bId,
+      id: widget.data.bId,
     ).get(token, urlBusnessMembers).then((value) {
       // print('Get member view........................');
       // print(value.payload);
@@ -227,10 +222,44 @@ class _BsnDetailsState extends State<BsnDetails> {
           backgroundColor: OColors.secondary,
           appBar: AppBar(
             backgroundColor: OColors.secondary,
-            title: data.companyName.length >= 4
-                ? Text('${data.companyName.substring(0, 4)}..')
-                : Text(data.companyName),
+            title: widget.data.busnessType.length >= 6
+                ? Text(
+                    '${widget.data.busnessType.substring(0, 6)}..',
+                    style: header16.copyWith(fontWeight: FontWeight.bold),
+                  )
+                : Text(widget.data.busnessType,
+                    style: header16.copyWith(fontWeight: FontWeight.bold)),
             centerTitle: true,
+            actions: [
+              const NotifyWidget(),
+              widget.data.isBsnAdmin == 'true'
+                  ? GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => AdminBsn(
+                                      bsn: widget.data,
+                                    )));
+                      },
+                      child: Container(
+                        // width: 30,
+                        margin: const EdgeInsets.only(top: 10.0, bottom: 10),
+                        padding: const EdgeInsets.all(4.0),
+                        decoration: BoxDecoration(
+                          color: OColors.primary,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            bottomLeft: Radius.circular(10),
+                          ),
+                        ),
+                        child: const Center(
+                          child: Icon(Icons.admin_panel_settings_sharp),
+                        ),
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+            ],
           ),
 
           ///
@@ -241,7 +270,7 @@ class _BsnDetailsState extends State<BsnDetails> {
               ///
               ///  Bunsess Top Profile
               ///
-              BusnessProfile(data: data, widget: widget, user: user),
+              BusnessProfile(data: widget.data, widget: widget, user: user),
 
               const SizedBox(
                 height: 10,
@@ -272,7 +301,8 @@ class _BsnDetailsState extends State<BsnDetails> {
                 ///
                 /// Busness Overviewrs  Container
                 ///
-                Expanded(
+                Padding(
+                  padding: const EdgeInsets.only(left: 6.0, right: 6.0),
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
@@ -295,7 +325,7 @@ class _BsnDetailsState extends State<BsnDetails> {
                         BusnessLst(
                           otherBsn: otherBsn,
                           ceremony: ceremony,
-                          data: data,
+                          data: widget.data,
                         ),
                         const SizedBox(
                           height: 20.0,
@@ -309,7 +339,7 @@ class _BsnDetailsState extends State<BsnDetails> {
                 /// Busness Description
                 ///
 
-                BsnDescr(data: data, photo: photo),
+                BsnDescr(data: widget.data, photo: photo),
               ])),
             ],
           ),
@@ -323,7 +353,7 @@ class _BsnDetailsState extends State<BsnDetails> {
       child: Column(
         children: [
           Text(
-            '${data.price} Tsh',
+            '${widget.data.price} Tsh',
             style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.w500,
@@ -346,8 +376,9 @@ class _BsnDetailsState extends State<BsnDetails> {
                   context,
                   MaterialPageRoute(
                       builder: (_) => HiringPage(
-                            busness: data,
+                            busness: widget.data,
                             ceremony: widget.ceremonyData,
+                            user: user,
                           )));
             },
             child: Container(

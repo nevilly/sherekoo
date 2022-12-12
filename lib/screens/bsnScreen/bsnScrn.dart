@@ -96,6 +96,7 @@ class _BusnessScreenState extends State<BusnessScreen> {
       ceoId: '',
       subcrlevel: '',
       createdBy: '',
+      isBsnAdmin:'',
       user: User(
           id: '',
           username: '',

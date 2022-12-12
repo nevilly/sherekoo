@@ -53,7 +53,7 @@ class _MyServiceState extends State<MyService> {
             MaterialPageRoute(
                 builder: (BuildContext context) => CrmnAdmin(
                     crm: CeremonyModel(
-                        cId: widget.req.ceremonyId,
+                        cId: widget.req.ceremonyId!,
                         codeNo: '',
                         ceremonyType: '',
                         cName: '',
@@ -147,7 +147,7 @@ class _MyServiceState extends State<MyService> {
             const SizedBox(height: 20),
             Center(
               child: Text(
-                widget.req.ceremonyId,
+                widget.req.ceremonyId!,
                 style: const TextStyle(color: Colors.white, fontSize: 19),
               ),
             ),
@@ -159,7 +159,7 @@ class _MyServiceState extends State<MyService> {
                 // mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Image.network(
-                    '${api}public/uploads/${widget.req.bsnInfo.user.username}/busness/${widget.req.bsnInfo.coProfile}',
+                    '${api}public/uploads/${widget.req.bsnInfo!.user.username}/busness/${widget.req.bsnInfo!.coProfile}',
                     height: 80,
                     width: 80,
                     fit: BoxFit.cover,
@@ -169,11 +169,11 @@ class _MyServiceState extends State<MyService> {
                     child: Column(
                       children: [
                         Text(
-                          widget.req.bsnInfo.knownAs,
+                          widget.req.bsnInfo!.knownAs,
                           style: const TextStyle(color: Colors.white),
                         ),
                         Text(
-                          widget.req.bsnInfo.price,
+                          widget.req.bsnInfo!.price,
                           style: const TextStyle(color: Colors.white),
                         ),
                       ],

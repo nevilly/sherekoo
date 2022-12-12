@@ -1,7 +1,6 @@
-
-
-
 import 'package:sherekoo/model/userModel.dart';
+
+import '../requests/requestsModel.dart';
 
 class AdminCrmMdl {
   String cId;
@@ -20,7 +19,7 @@ class AdminCrmMdl {
 
   final User userSid;
 
-  // List<RequestsModel> req;
+  List<RequestsModel> req;
 
   AdminCrmMdl({
     required this.cId,
@@ -36,7 +35,7 @@ class AdminCrmMdl {
     required this.userFid,
     required this.userSid,
     required this.youtubeLink,
-    // required this.req,
+    required this.req,
   });
 
   factory AdminCrmMdl.fromJson(Map<dynamic, dynamic> json) {
@@ -55,10 +54,9 @@ class AdminCrmMdl {
         admin: json['admin'] ?? '',
         youtubeLink: json['goLiveId'] ?? '',
         userFid: User.fromJson(json['userFid']),
-        userSid: User.fromJson(json['userSid'])
-        // req: json['req']
-        //     .map<RequestsModel>((e) => RequestsModel.fromJson(e))
-        //     .toList
-        );
+        userSid: User.fromJson(json['userSid']),
+        req: json['req']
+            .map<RequestsModel>((e) => RequestsModel.fromJson(e))
+            .toList());
   }
 }

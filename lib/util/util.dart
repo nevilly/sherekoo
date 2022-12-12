@@ -77,6 +77,7 @@ String urlusnessByType = '${api}Busness/getByBusnessType';
 String urlMyBusnessList = '${api}Busness/getByBusnessCeoId';
 String urlMyBsnByCratorId = '${api}Busness/bsnByCreatorId';
 String urlUpdateBusness = '${api}Busness/update';
+String urlBusnessRemove = '${api}Busness/remove';
 
 String urlBusnessPhoto = '${api}Busness/getPhoto';
 String urlBusnessMembers = '${api}Busness/getMembers';

@@ -97,6 +97,7 @@ BusnessModel busness = BusnessModel(
     aboutCompany: '',
     ceoId: '',
     subcrlevel: '',
+    isBsnAdmin:'',
     createdBy: '',
     user: User(
         id: '',

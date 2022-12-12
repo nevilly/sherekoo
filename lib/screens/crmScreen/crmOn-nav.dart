@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/screens/uploadScreens/ceremonyUpload.dart';
 import '../../model/allData.dart';
-import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';

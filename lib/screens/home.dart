@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../model/post/post.dart';
 import '../model/post/sherekoModel.dart';
 import '../util/Preferences.dart';
+import '../util/app-variables.dart';
 import '../util/util.dart';
 import '../widgets/postWidgets/post_template.dart';
 import '../widgets/postWidgets/displayPost.dart';
@@ -17,8 +18,7 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-  final Preferences _preferences = Preferences();
-  String token = '';
+
   int page = 1, limit = 3, offset = 0;
 
   final _controller = PageController();
@@ -28,8 +28,8 @@ class HomeState extends State<Home> {
 
   @override
   void initState() {
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
         getPost(offset: page, limit: limit);

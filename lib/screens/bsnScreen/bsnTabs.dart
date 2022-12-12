@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../model/allData.dart';
-import '../../model/busness/allBusness.dart';
+import '../../model/busness/bsn-call.dart';
 import '../../model/busness/busnessModel.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
-import '../detailScreen/DetailPage.dart';
+import '../detailScreen/bsn-details.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../uploadScreens/busnessUpload.dart';
@@ -135,7 +135,7 @@ class BsnTabState extends State<BsnTab> {
 
   getAllBusness(arg) async {
     if (arg != 'all') {
-      AllBusnessModel(payload: [], status: 0)
+      BsnCall(payload: [], status: 0)
           .onGoldenBusness(token, urlGoldBusness, widget.bsnType, '')
           .then((value) {
         if (value.status == 200) {

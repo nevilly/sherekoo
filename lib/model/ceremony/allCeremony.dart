@@ -43,15 +43,13 @@ class AllCeremonysModel {
   }
 
   Future<AllCeremonysModel> getDayCeremony(
-      String token, String dirUrl, String day,offset,limit) async {
+      String token, String dirUrl, String day, offset, limit) async {
     Uri url = Uri.parse(dirUrl);
     Map<String, dynamic> toMap() {
-      return <String, dynamic>{
-        'day': day,
-        'offset':offset,
-        'limit':limit
-      };
+      return <String, dynamic>{'day': day, 'offset': offset, 'limit': limit};
     }
+
+    print(toMap());
 
     invalidToken(token);
     Map<String, String> headers = myHttpHeaders(token);

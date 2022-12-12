@@ -22,10 +22,12 @@ class CeremonyDay extends StatefulWidget {
   State<CeremonyDay> createState() => _CeremonyDayState();
 }
 
-class _CeremonyDayState extends State<CeremonyDay> {
+class _CeremonyDayState extends State<CeremonyDay>
+    with SingleTickerProviderStateMixin {
   final _controller = ScrollController();
   final Preferences _preferences = Preferences();
   String token = '';
+  bool bottom = false;
 
   List<CeremonyModel> crm = [];
   List ourService = [
@@ -56,22 +58,29 @@ class _CeremonyDayState extends State<CeremonyDay> {
       totalFollowers: '',
       totalFollowing: '',
       totalLikes: '');
-  int page = 1, limit = 3, offset = 0;
+  int page = 0, limit = 4, offset = 0;
 
   @override
   void initState() {
+    print("scrolling....");
     _preferences.init();
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
         getUser();
+
         getAllCeremony(offset: page, limit: limit);
       });
     });
 
     _controller.addListener(() {
-      // print(_controller.offset.floor());
-      onPage(_controller.offset.floor());
+      print("scrolling....");
+      if (!bottom &&
+          _controller.hasClients &&
+          _controller.offset >= _controller.position.maxScrollExtent &&
+          !_controller.position.outOfRange) {
+        onPage(page);
+      }
     });
 
     super.initState();
@@ -89,29 +98,41 @@ class _CeremonyDayState extends State<CeremonyDay> {
 
   onPage(int pag) {
     // print("Pages");
+
     // print(pag);
-    if (page > pag) {
-      page--;
-    } else {
-      page++;
+
+    if (mounted) {
+      setState(() {
+        // bottom = true;
+        if (page > pag) {
+          page--;
+        } else {
+          page++;
+        }
+        offset = page * limit;
+      });
     }
+
+    print("Select * from table where data=all limit $offset,$limit");
     //page = pag;
-    print('post Length :');
-    print(crm.length);
+    // print('post Length :');
+    // print(crm.length);
+    getAllCeremony(offset: offset, limit: limit);
     if (pag == crm.length - 1) {
-      offset = page;
-      print("Select * from posts order by id limit ${offset}, ${limit}");
-      getAllCeremony(offset: offset, limit: limit);
+      //offset = page;
+      //print("Select * from posts order by id limit ${offset}, ${limit}");
     }
   }
 
   getAllCeremony({int? offset, int? limit}) {
-    String d = offset != null && limit != null ? "/$offset/$limit" : '';
+    // String d = offset != null && limit != null ? "/$offset/$limit" : '';
     AllCeremonysModel(payload: [], status: 0)
         .getDayCeremony(token, urlCrmByDay, widget.day, offset, limit)
         .then((value) {
       if (value.status == 200) {
         setState(() {
+          // bottom = false;
+          print(value.payload);
           crm = value.payload
               .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
               .toList();

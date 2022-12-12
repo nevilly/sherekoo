@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/screens/bsnScreen/bsnScrn.dart';
 
-import '../../model/busness/allBusness.dart';
+import '../../model/busness/bsn-call.dart';
 import '../../model/busness/busnessModel.dart';
 import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/userModel.dart';
-import '../../screens/detailScreen/DetailPage.dart';
-import '../../util/Preferences.dart';
+import '../../screens/detailScreen/bsn-details.dart';
+import '../../util/app-variables.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
 
@@ -38,8 +38,7 @@ class CategoryBody extends StatefulWidget {
 }
 
 class _CategoryBodyState extends State<CategoryBody> {
-  final Preferences _preferences = Preferences();
-  String token = '';
+ 
 
   List<BusnessModel> data = [];
 
@@ -105,8 +104,8 @@ class _CategoryBodyState extends State<CategoryBody> {
   @override
   void initState() {
     super.initState();
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       widget.stream.listen((page) {
         setState(() {
           token = value;
@@ -124,7 +123,7 @@ class _CategoryBodyState extends State<CategoryBody> {
   }
 
   getAll(bsn) async {
-    AllBusnessModel(payload: [], status: 0)
+    BsnCall(payload: [], status: 0)
         .onGoldenBusness(token, urlGoldBusness, bsn, '')
         .then((value) {
       if (mounted) {

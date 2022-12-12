@@ -7,14 +7,26 @@ import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/allData.dart';
 import '../../model/userModel.dart';
-import '../../util/Preferences.dart';
+import '../../util/app-variables.dart';
+import '../../util/func.dart';
+import '../../util/modInstance.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
+import '../../widgets/gradientBorder.dart';
+import '../../widgets/imgWigdets/boxImg.dart';
+import '../../widgets/notifyWidget/notifyWidget.dart';
 import '../admin/crmAdmin.dart';
+import '../uploadScreens/ceremonyUpload.dart';
 
 class HiringPage extends StatefulWidget {
   final BusnessModel busness;
   final CeremonyModel ceremony;
-  const HiringPage({Key? key, required this.busness, required this.ceremony})
+  final User user;
+  const HiringPage(
+      {Key? key,
+      required this.user,
+      required this.busness,
+      required this.ceremony})
       : super(key: key);
 
   @override
@@ -22,9 +34,6 @@ class HiringPage extends StatefulWidget {
 }
 
 class _HiringPageState extends State<HiringPage> {
-  final Preferences _preferences = Preferences();
-  String token = '';
-
   TextEditingController phoneNo = TextEditingController();
   User currentUser = User(
       id: '',
@@ -62,29 +71,42 @@ class _HiringPageState extends State<HiringPage> {
   late String ceremonyAdimnId = "";
   late String ceremonyFid = "";
   late String ceremonySid = "";
+  late String ceremonyAvater = "";
+  late String ceremonyUsername = "";
+  late String isCrmnInFuture = "";
+  late String isCrmnAdmin = "";
 
+  String creatorId = "";
+  List<CeremonyModel> myCrm = [];
   @override
   void initState() {
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
         getUser();
         getAllCeremony();
+        getCeremony(widget.user.id);
+
+        bsn = widget.busness;
+        crm = widget.ceremony;
+
+        if (crm!.ceremonyType != "") ceremonyType = crm!.ceremonyType;
+        if (crm!.ceremonyType != "") ceremonyId = crm!.cId;
+        if (crm!.cId != "") ceremonyId = crm!.cId;
+        if (crm!.codeNo != "") ceremonyCodeNo = crm!.codeNo;
+        if (crm!.ceremonyDate != "") ceremonyDate = crm!.ceremonyDate;
+        if (crm!.contact != "") ceremonyContact = crm!.contact;
+        if (crm!.userFid.username != "") {
+          ceremonyUsername = crm!.userFid.username!;
+        }
+        if (crm!.cImage != "") ceremonyAvater = crm!.cImage;
+        if (crm!.fId != "") ceremonyFid = crm!.fId;
+        if (crm!.sId != "") ceremonySid = crm!.sId;
+        if (crm!.isInFuture != "") isCrmnInFuture = crm!.isInFuture;
+        if (crm!.isCrmAdmin != "") isCrmnAdmin = crm!.isCrmAdmin;
       });
     });
-
-    bsn = widget.busness;
-    crm = widget.ceremony;
-
-    if (crm!.ceremonyType != "") ceremonyType = crm!.ceremonyType;
-    if (crm!.ceremonyType != "") ceremonyId = crm!.cId;
-    if (crm!.cId != "") ceremonyId = crm!.cId;
-    if (crm!.codeNo != "") ceremonyCodeNo = crm!.codeNo;
-    if (crm!.ceremonyDate != "") ceremonyDate = crm!.ceremonyDate;
-    if (crm!.contact != "") ceremonyContact = crm!.contact;
-    if (crm!.fId != "") ceremonyFid = crm!.fId;
-    if (crm!.sId != "") ceremonySid = crm!.sId;
 
     super.initState();
   }
@@ -101,6 +123,20 @@ class _HiringPageState extends State<HiringPage> {
     });
   }
 
+  getCeremony(userid) async {
+    AllCeremonysModel(payload: [], status: 0)
+        .getCeremonyByUserId(token, urlGetByUserId, userid)
+        .then((value) {
+      if (value.status == 200) {
+        setState(() {
+          myCrm = value.payload
+              .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
+              .toList();
+        });
+      }
+    });
+  }
+
   getAllCeremony() async {
     AllCeremonysModel(payload: [], status: 0)
         .get(token, urlGetCeremony)
@@ -114,7 +150,6 @@ class _HiringPageState extends State<HiringPage> {
   }
 
   String phone = '';
-  String creatorId = "";
 
   Future<void> post() async {
     if (phoneNo.text != '') {
@@ -127,12 +162,9 @@ class _HiringPageState extends State<HiringPage> {
       phone = ceremonyContact;
     }
 
-    if (currentUser.id == ceremonyFid) creatorId = ceremonyFid;
-    if (currentUser.id == ceremonySid) creatorId = ceremonySid;
-    if (currentUser.id == ceremonyAdimnId) creatorId = ceremonyAdimnId;
-
+    if (isCrmnAdmin == 'true') creatorId = currentUser.id!;
     if (ceremonyId != "") {
-      if (creatorId.isNotEmpty) {
+      if (creatorId != '') {
         Requests(
                 hostId: '',
                 busnessId: bsn!.bId,
@@ -248,40 +280,67 @@ class _HiringPageState extends State<HiringPage> {
       body: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                width: 120,
+                width: 100,
                 child: ClipRRect(
-                  child: Center(
-                      child: bsn!.coProfile != ''
-                          ? Image.network(
-                              '${api}public/uploads/${bsn!.user.username}/busness/${bsn!.coProfile}',
-                              height: 120,
-                              fit: BoxFit.cover,
-                            )
-                          : const SizedBox(height: 1)),
-                ),
+                    child: fadeImg(
+                        context,
+                        '${api}public/uploads/${bsn!.user.username}/busness/${bsn!.coProfile}',
+                        150,
+                        100)),
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    top: 1.0, bottom: 8.0, left: 2.0, right: 18.0),
+                  top: 1.0,
+                  bottom: 8.0,
+                  left: 25,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(bsn!.busnessType,
-                        style: TextStyle(
-                          fontSize: 19,
-                          color: OColors.fontColor,
-                        )),
+                        style: header18.copyWith(fontWeight: FontWeight.bold)),
                     Text(
                       bsn!.companyName,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: OColors.fontColor,
-                      ),
+                      style: header16,
                     ),
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 15),
+                  ],
+                ),
+              )
+            ],
+          ),
+
+          const SizedBox(height: 15),
+          //Divider
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 10,
+              right: 10,
+              top: 1,
+            ),
+            child: Divider(
+              height: 1.0,
+              color: Colors.white.withOpacity(.50),
+              thickness: 1.0,
+            ),
+          ),
+
+          IntrinsicHeight(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  'Price',
+                  style: header18,
+                ),
+                const VerticalDivider(
+                  color: Colors.grey,
+                  thickness: 1,
+                ),
+                Column(
+                  children: [
                     RichText(
                         text: TextSpan(children: [
                       TextSpan(
@@ -306,13 +365,17 @@ class _HiringPageState extends State<HiringPage> {
                     ),
                   ],
                 ),
-              )
-            ],
+              ],
+            ),
           ),
 
+          //Divider
           Padding(
-            padding:
-                const EdgeInsets.only(left: 18, right: 18, top: 30, bottom: 10),
+            padding: const EdgeInsets.only(
+              left: 18,
+              right: 18,
+              top: 1,
+            ),
             child: Divider(
               height: 1.0,
               color: Colors.white.withOpacity(.50),
@@ -320,138 +383,201 @@ class _HiringPageState extends State<HiringPage> {
             ),
           ),
 
-          //ceremony Info
-          // Container(
-          //   height: 45,
-          //   padding: const EdgeInsets.only(left: 20, right: 10),
-          //   margin: const EdgeInsets.only(
-          //       left: 10, right: 10, bottom: 15, top: 10),
-          //   decoration: BoxDecoration(
-          //     border: Border.all(width: 1.5, color: Colors.grey),
-          //     borderRadius: BorderRadius.circular(10),
-          //   ),
-          //   child:
-          // ),
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.only(
+                top: 12.0, left: 15.0, right: 8.0, bottom: 4.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Your Ceremony.',
+                  textAlign: TextAlign.center,
+                  style: header14.copyWith(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox()
+              ],
+            ),
+          ),
 
           Padding(
-            padding: const EdgeInsets.only(
-                top: 2.0, left: 8.0, right: 8.0, bottom: 8.0),
-            child: Text(
-              'Your Ceremony Info.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: OColors.fontColor),
-            ),
-          ),
-
-          const SizedBox(
-            height: 5,
-          ),
-
-          Container(
-            color: OColors.darGrey,
-            padding: const EdgeInsets.only(
-              left: 25,
-              right: 25,
-            ),
-            child: Column(
-              children: [
-                ceremonDetails(
-                    'Ceremony ID', ceremonyCodeNo, 'Ceremony CodeNo'),
-                ceremonDetails('Ceremony Date', ceremonyDate, 'Eg: 2022/1/1 '),
-                ceremonDetails(
-                    'Contact', ceremonyContact, 'Enter Your Contact Pls...'),
-                const SizedBox(
-                  height: 15,
-                ),
-              ],
-            ),
-          ),
-
-          // Contact Enter
-          Container(
-            color: OColors.darGrey,
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left: 20),
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  alignment: Alignment.topLeft,
-                  child: Text('Change Contact',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: OColors.fontColor),
-                      textAlign: TextAlign.start),
-                ),
-                Container(
-                  height: 45,
-                  margin:
-                      const EdgeInsets.only(left: 20, right: 20, bottom: 15),
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: Colors.grey),
-                    borderRadius: BorderRadius.circular(10),
+              padding: const EdgeInsets.all(6.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      LiveBorder(
+                          live: const SizedBox.shrink(),
+                          radius: 30,
+                          child: fadeImg(
+                              context,
+                              '${api}public/uploads/$ceremonyUsername/ceremony/$ceremonyAvater',
+                              50,
+                              50)),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5.0, left: 6),
+                        child: ceremonyId != ''
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    ceremonyType,
+                                    style: header12.copyWith(
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    ceremonyCodeNo,
+                                    style: header11.copyWith(
+                                        fontWeight: FontWeight.w300),
+                                  ),
+                                  Text(
+                                    ceremonyDate,
+                                    style: header10,
+                                  ),
+                                ],
+                              )
+                            : GestureDetector(
+                                onTap: () {
+                                  showAlertDialog(
+                                      context, 'Select Ceremony ', '', '', '');
+                                },
+                                child: Center(
+                                    child: Text(
+                                  'Select your Ceremony',
+                                  style: header12.copyWith(
+                                      fontWeight: FontWeight.bold),
+                                )),
+                              ),
+                      ),
+                    ],
                   ),
-                  child: TextField(
-                      controller: phoneNo,
-                      // autocorrect: true,
-                      // autofocus: true,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Icon(
-                            Icons.call,
-                            size: 28,
-                            color: Colors.grey,
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  myCrm.isNotEmpty
+                      ? GestureDetector(
+                          onTap: () {
+                            showAlertDialog(
+                                context, 'Select Ceremony ', '', '', '');
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Icon(
+                              Icons.change_circle,
+                              size: 30,
+                              color: OColors.primary,
+                            ),
+                          ),
+                        )
+                      :
+                      // Add Ceremony
+                      GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        CeremonyUpload(
+                                            getData: ceremony,
+                                            getcurrentUser: widget.user)));
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                border:
+                                    Border.all(width: 1, color: Colors.white)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Icon(
+                                Icons.add,
+                                size: 20,
+                                color: OColors.fontColor,
+                              ),
+                            ),
                           ),
                         ),
-                        hintText: 'Use Another Contact',
-                        hintStyle: TextStyle(color: Colors.grey, height: 1.5),
-                      ),
-                      keyboardType: TextInputType.phone,
-                      style: TextStyle(
-                          fontSize: 15, color: OColors.fontColor, height: 1.5),
-                      onChanged: _onChanged),
-                ),
-              ],
-            ),
-          ),
+                ],
+              )),
 
-          const SizedBox(
-            height: 2,
-          ),
+          // Contact Enter
+          ceremonyId != ''
+              ? SizedBox(
+                  width: 220,
+                  child: Container(
+                    height: 40,
+                    margin:
+                        const EdgeInsets.only(left: 20, right: 20, bottom: 5),
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 1, color: Colors.grey),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: TextField(
+                        controller: phoneNo,
+                        // autocorrect: true,
+                        // autofocus: true,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          prefixIcon: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Icon(
+                              Icons.call,
+                              size: 16,
+                              color: OColors.primary,
+                            ),
+                          ),
+                          hintText: 'Change Contact',
+                          hintStyle: const TextStyle(
+                              fontSize: 13, color: Colors.grey, height: 1.5),
+                        ),
+                        keyboardType: TextInputType.phone,
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: OColors.fontColor,
+                            height: 1.5),
+                        onChanged: _onChanged),
+                  ),
+                )
+              : const SizedBox.shrink(),
+          const Spacer(),
+
           // Post Button
-          GestureDetector(
-            onTap: () {
-              post();
-            },
-            child: Container(
-              width: 100,
-              height: 40,
-              padding:
-                  const EdgeInsets.only(left: 20, right: 20, top: 8, bottom: 8),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: OColors.primary,
-                  borderRadius: const BorderRadius.all(Radius.circular(10))),
-              child: const Text(
-                'Hire',
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
-            ),
-          ),
+          isCrmnInFuture != ''
+              ? GestureDetector(
+                  onTap: () {
+                    if (isCrmnInFuture == 'true') post();
+                  },
+                  child: Container(
+                    width: isCrmnInFuture == 'true' ? 100 : 200,
+                    height: 40,
+                    padding: const EdgeInsets.only(
+                        left: 15, right: 15, top: 4, bottom: 4),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: OColors.primary,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10))),
+                    child: isCrmnInFuture == 'true'
+                        ? Text(
+                            'Invite',
+                            style:
+                                header14.copyWith(fontWeight: FontWeight.bold),
+                          )
+                        : Text(
+                            'Ceremony Expired Date',
+                            style:
+                                header14.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                  ))
+              : const SizedBox.shrink(),
           const SizedBox(
-            height: 8,
+            height: 4,
           ),
-
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
@@ -520,21 +646,20 @@ class _HiringPageState extends State<HiringPage> {
       elevation: 0,
       toolbarHeight: 70,
       flexibleSpace: SafeArea(
-          child: Container(
-        color: OColors.transparent,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            widget.ceremony.cId.isNotEmpty
-                ? Center(
-                    child: Text(
-                    widget.busness.busnessType,
-                    style: TextStyle(
-                        color: OColors.fontColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
-                  ))
-                : Container(
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          widget.ceremony.cId.isNotEmpty
+              ? Center(
+                  child: Text(
+                  widget.busness.busnessType,
+                  style: TextStyle(
+                      color: OColors.fontColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                ))
+              : Expanded(
+                  child: Container(
                     height: 50,
                     padding: const EdgeInsets.only(left: 10, right: 10),
                     margin: const EdgeInsets.only(
@@ -575,15 +700,20 @@ class _HiringPageState extends State<HiringPage> {
                               size: 25,
                             ),
                             hintStyle: const TextStyle(
-                                color: Colors.white, fontSize: 14, height: 2),
+                                color: Colors.white, fontSize: 13, height: 2),
                             hintText: "Ceremony CodeNo..",
                           ),
                           style: const TextStyle(
-                              fontWeight: FontWeight.w400, color: Colors.white),
+                              fontWeight: FontWeight.w300,
+                              fontSize: 13,
+                              color: Colors.white),
                         );
                       },
                       onSelected: (CeremonyModel selection) {
                         setState(() {
+                          ceremonyAvater = selection.cImage;
+                          ceremonyUsername = selection.userFid.username!;
+
                           ceremonyType = selection.ceremonyType;
                           ceremonyId = selection.cId;
                           ceremonyCodeNo = selection.codeNo;
@@ -593,12 +723,9 @@ class _HiringPageState extends State<HiringPage> {
                           ceremonyAdimnId = selection.admin;
                           ceremonyFid = selection.fId;
                           ceremonySid = selection.sId;
+                          isCrmnInFuture = selection.isInFuture;
+                          isCrmnAdmin = selection.isCrmAdmin;
                         });
-
-                        // print('Selected: ${selection.codeNo}');
-                        // print('fid: ${selection.fId}');
-                        // print('sid: ${selection.sId}');
-                        // print('Selected: ${selection.admin}');
                       },
                       optionsViewBuilder: (BuildContext context,
                           AutocompleteOnSelected<CeremonyModel> onSelected,
@@ -607,7 +734,7 @@ class _HiringPageState extends State<HiringPage> {
                           alignment: Alignment.topLeft,
                           child: Material(
                             child: Container(
-                              width: 400,
+                              width: MediaQuery.of(context).size.width / 1.5,
                               color: OColors.secondary,
                               child: ListView.builder(
                                 padding: const EdgeInsets.all(10.0),
@@ -679,10 +806,144 @@ class _HiringPageState extends State<HiringPage> {
                       },
                     ),
                   ),
-            // const NotifyWidget()
+                ),
+          const NotifyWidget()
+        ],
+      )),
+    );
+  }
+
+  // Alert Widget
+  showAlertDialog(
+      BuildContext context, String title, String msg, req, String from) async {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Cancel",
+          style: TextStyle(
+            color: OColors.primary,
+          )),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget continueButton = TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(8),
+        primary: OColors.fontColor,
+        backgroundColor: OColors.primary,
+        textStyle: header15,
+      ),
+      child: const Text("Create Ceremony"),
+      onPressed: () {
+        Navigator.pop(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => CeremonyUpload(
+                    getData: ceremony, getcurrentUser: currentUser)));
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      insetPadding: const EdgeInsets.only(left: 10, right: 10),
+      contentPadding: EdgeInsets.zero,
+      titlePadding: const EdgeInsets.only(top: 8, bottom: 8),
+      backgroundColor: OColors.secondary,
+      title: Center(
+        child: Text(title, style: header18),
+      ),
+      content: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height / 4.9,
+        child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: myCrm.length,
+            itemBuilder: (context, i) {
+              final itm = myCrm[i];
+              return myCrm.isNotEmpty
+                  ? GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          ceremonyId = itm.cId;
+                          ceremonyAvater = itm.cImage;
+                          ceremonyUsername = itm.userFid.username!;
+                          ceremonyType = itm.ceremonyType;
+                          ceremonyDate = itm.ceremonyDate;
+                          ceremonyDate = itm.ceremonyDate;
+                          ceremonyCodeNo = itm.codeNo;
+                          isCrmnInFuture = itm.isInFuture;
+                          isCrmnAdmin = itm.isCrmAdmin;
+                        });
+                        Navigator.of(context).pop();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              itm.ceremonyType,
+                              style: header12,
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Img(
+                                  avater: itm.cImage,
+                                  url: '/ceremony/',
+                                  username: itm.userFid.username!,
+                                  width: 55,
+                                  height: 55,
+                                )),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            itm.isInFuture == 'true'
+                                ? Text(
+                                    itm.ceremonyDate,
+                                    style: header10,
+                                  )
+                                : Column(
+                                    children: [
+                                      Text(
+                                        itm.ceremonyDate,
+                                        style: header10.copyWith(
+                                            color: OColors.danger),
+                                      ),
+                                      Text(
+                                        'Not valid',
+                                        style: header10.copyWith(
+                                            color: OColors.danger),
+                                      ),
+                                    ],
+                                  ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : Text(
+                      'Dont Have Ceremony',
+                      style: header13.copyWith(fontWeight: FontWeight.bold),
+                    );
+            }),
+      ),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            cancelButton,
+            continueButton,
           ],
         ),
-      )),
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

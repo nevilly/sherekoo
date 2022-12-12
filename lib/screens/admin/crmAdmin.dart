@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sherekoo/model/busness/busnessModel.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 import 'package:sherekoo/model/requests/requestsModel.dart';
+import 'package:sherekoo/model/subScription/subsrModel.dart';
 
 import '../../model/requests/requests.dart';
 import '../../model/services/postServices.dart';
@@ -16,7 +17,7 @@ import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/animetedClip.dart';
 import '../bsnScreen/bsnScrn.dart';
-import '../detailScreen/DetailPage.dart';
+import '../detailScreen/bsn-details.dart';
 import 'payment.dart';
 
 class CrmnAdmin extends StatefulWidget {
@@ -49,12 +50,7 @@ class _CrmnAdminState extends State<CrmnAdmin> {
     svId: '',
     svPayStatus: '',
     svAmount: '',
-    subId: '',
-    level: '',
-    activeted: '',
-    categoryId: '',
-    startTime: '',
-    endTime: '',
+
     bsnInfo: BusnessModel(
         location: '',
         bId: '',
@@ -70,6 +66,7 @@ class _CrmnAdminState extends State<CrmnAdmin> {
         aboutCEO: '',
         aboutCompany: '',
         createdBy: '',
+        isBsnAdmin:'',
         user: User(
             id: '',
             username: '',
@@ -149,6 +146,8 @@ class _CrmnAdminState extends State<CrmnAdmin> {
           totalFollowing: '',
           totalLikes: ''),
     ),
+    subscriptionInfo: SubscriptionModel(subId: '', level: '', subscriptionType: '', categoryId: '', activeted: '', duration: '', startTime: '', endTime: '', receiptNo: '', createdDate: '')
+  
   );
 
   // get crmInfo => CeremonyModel;
@@ -222,51 +221,51 @@ class _CrmnAdminState extends State<CrmnAdmin> {
         payload: []).cancelRequest(token, urlCancelRequest).then((value) {
       if (value.status == 200) {
         setState(() {
-          if (ob.bsnInfo.busnessType == 'Mc') {
+          if (ob.bsnInfo!.busnessType == 'Mc') {
             mcReq.removeWhere((element) => element.hostId == ob.hostId);
           }
 
-          if (ob.bsnInfo.busnessType == 'Production') {
+          if (ob.bsnInfo!.busnessType == 'Production') {
             productionReq.removeWhere((element) => element.hostId == ob.hostId);
           }
           // Decorator
-          if (ob.bsnInfo.busnessType == 'Decorator') {
+          if (ob.bsnInfo!.busnessType == 'Decorator') {
             decoratorReq.removeWhere((element) => element.hostId == ob.hostId);
           }
 
-          if (ob.bsnInfo.busnessType == 'Decorator') {
+          if (ob.bsnInfo!.busnessType == 'Decorator') {
             decoratorReq.removeWhere((element) => element.hostId == ob.hostId);
           }
           // Hall
-          if (ob.bsnInfo.busnessType == 'Hall') {
+          if (ob.bsnInfo!.busnessType == 'Hall') {
             hallReq.removeWhere((element) => element.hostId == ob.hostId);
           }
           //"Cake Bakery"
-          if (ob.bsnInfo.busnessType == 'Cake Bakery') {
+          if (ob.bsnInfo!.busnessType == 'Cake Bakery') {
             cakeReq.removeWhere((element) => element.hostId == ob.hostId);
           }
           //Singer
-          if (ob.bsnInfo.busnessType == 'Singer') {
+          if (ob.bsnInfo!.busnessType == 'Singer') {
             singerReq.removeWhere((element) => element.hostId == ob.hostId);
           }
 
           //Dancer
-          if (ob.bsnInfo.busnessType == 'Dancer') {
+          if (ob.bsnInfo!.busnessType == 'Dancer') {
             dancerReq.removeWhere((element) => element.hostId == ob.hostId);
           }
 
           // Saloon
-          if (ob.bsnInfo.busnessType == 'Saloon') {
+          if (ob.bsnInfo!.busnessType == 'Saloon') {
             saloonReq.removeWhere((element) => element.hostId == ob.hostId);
           }
 
           //Car
-          if (ob.bsnInfo.busnessType == 'Car') {
+          if (ob.bsnInfo!.busnessType == 'Car') {
             carReq.removeWhere((element) => element.hostId == ob.hostId);
           }
 
           //Cooker
-          if (ob.bsnInfo.busnessType == 'Cooker') {
+          if (ob.bsnInfo!.busnessType == 'Cooker') {
             cookerReq.removeWhere((element) => element.hostId == ob.hostId);
           }
         });
@@ -313,43 +312,43 @@ class _CrmnAdminState extends State<CrmnAdmin> {
         setState(() {
           //Mc
           mcReq = reqPayload(v, 'Mc').toList();
-          mcReq.removeWhere((element) => element.busnessId.isEmpty);
+          mcReq.removeWhere((element) => element.busnessId!.isEmpty);
 
           //Decoration
           decoratorReq = reqPayload(v, 'Decorator').toList();
-          decoratorReq.removeWhere((element) => element.busnessId.isEmpty);
+          decoratorReq.removeWhere((element) => element.busnessId!.isEmpty);
 
           //Production
           productionReq = reqPayload(v, 'Production').toList();
-          productionReq.removeWhere((element) => element.busnessId.isEmpty);
+          productionReq.removeWhere((element) => element.busnessId!.isEmpty);
 
           //Hall
           hallReq = reqPayload(v, 'Hall').toList();
-          hallReq.removeWhere((element) => element.busnessId.isEmpty);
+          hallReq.removeWhere((element) => element.busnessId!.isEmpty);
 
           //Cake Bakery
           cakeReq = reqPayload(v, 'Cake Bakery').toList();
-          cakeReq.removeWhere((element) => element.busnessId.isEmpty);
+          cakeReq.removeWhere((element) => element.busnessId!.isEmpty);
 
           //Singer
           singerReq = reqPayload(v, 'Singer').toList();
-          singerReq.removeWhere((element) => element.busnessId.isEmpty);
+          singerReq.removeWhere((element) => element.busnessId!.isEmpty);
 
           //Danceer
           dancerReq = reqPayload(v, 'Dancer').toList();
-          dancerReq.removeWhere((element) => element.busnessId.isEmpty);
+          dancerReq.removeWhere((element) => element.busnessId!.isEmpty);
 
           //Saloon
           saloonReq = reqPayload(v, 'Saloon').toList();
-          saloonReq.removeWhere((element) => element.busnessId.isEmpty);
+          saloonReq.removeWhere((element) => element.busnessId!.isEmpty);
 
           //Car
           carReq = reqPayload(v, 'Car').toList();
-          carReq.removeWhere((element) => element.busnessId.isEmpty);
+          carReq.removeWhere((element) => element.busnessId!.isEmpty);
 
           //Cooker
           cookerReq = reqPayload(v, 'Cooker').toList();
-          cookerReq.removeWhere((element) => element.busnessId.isEmpty);
+          cookerReq.removeWhere((element) => element.busnessId!.isEmpty);
         });
       }
     });
@@ -1333,7 +1332,7 @@ class _CrmnAdminState extends State<CrmnAdmin> {
                       builder: (BuildContext context) => reqBsnDetaOnTap(req)));
             },
             child: Image.network(
-              '${api}public/uploads/${req.bsnInfo.user.username}/busness/${req.bsnInfo.coProfile}',
+              '${api}public/uploads/${req.bsnInfo!.user.username}/busness/${req.bsnInfo!.coProfile}',
               height: MediaQuery.of(context).size.height / 9,
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.cover,
@@ -1343,19 +1342,19 @@ class _CrmnAdminState extends State<CrmnAdmin> {
             height: 15,
           ),
           Text(
-            '${req.bsnInfo.price} Tsh',
+            '${req.bsnInfo!.price} Tsh',
             style: header13,
           ),
-          req.bsnInfo.knownAs.length >= 5
+          req.bsnInfo!.knownAs.length >= 5
               ? Text(
-                  '${req.bsnInfo.knownAs.substring(0, 5).toUpperCase()}..',
+                  '${req.bsnInfo!.knownAs.substring(0, 5).toUpperCase()}..',
                   style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 11,
                       color: OColors.fontColor),
                 )
               : Text(
-                  req.bsnInfo.knownAs,
+                  req.bsnInfo!.knownAs,
                   style: header12,
                 ),
 
@@ -1423,6 +1422,7 @@ class _CrmnAdminState extends State<CrmnAdmin> {
                         ),
                       ),
                     ),
+        
         ],
       ),
     );
@@ -1505,27 +1505,28 @@ class _CrmnAdminState extends State<CrmnAdmin> {
     return BsnDetails(
       ceremonyData: widget.crm,
       data: BusnessModel(
-          location: req.bsnInfo.location,
-          bId: req.bsnInfo.bId,
-          knownAs: req.bsnInfo.knownAs,
-          coProfile: req.bsnInfo.coProfile,
-          busnessType: req.bsnInfo.busnessType,
-          companyName: req.bsnInfo.companyName,
-          ceoId: req.bsnInfo.ceoId,
-          price: req.bsnInfo.price,
-          contact: req.bsnInfo.contact,
-          hotStatus: req.bsnInfo.hotStatus,
-          aboutCEO: req.bsnInfo.aboutCEO,
-          aboutCompany: req.bsnInfo.aboutCompany,
-          createdBy: req.bsnInfo.createdBy,
-          subcrlevel: req.activeted,
-          createdDate: req.bsnInfo.createdDate,
+          location: req.bsnInfo!.location,
+          bId: req.bsnInfo!.bId,
+          knownAs: req.bsnInfo!.knownAs,
+          coProfile: req.bsnInfo!.coProfile,
+          busnessType: req.bsnInfo!.busnessType,
+          companyName: req.bsnInfo!.companyName,
+          ceoId: req.bsnInfo!.ceoId,
+          price: req.bsnInfo!.price,
+          contact: req.bsnInfo!.contact,
+          hotStatus: req.bsnInfo!.hotStatus,
+          aboutCEO: req.bsnInfo!.aboutCEO,
+          aboutCompany: req.bsnInfo!.aboutCompany,
+          createdBy: req.bsnInfo!.createdBy,
+          subcrlevel: req.subscriptionInfo!.activeted,
+          isBsnAdmin:'',
+          createdDate: req.bsnInfo!.createdDate,
           user: User(
               id: '',
-              username: req.bsnInfo.user.username,
+              username: req.bsnInfo!.user.username,
               firstname: '',
               lastname: '',
-              avater: req.bsnInfo.user.avater,
+              avater: req.bsnInfo!.user.avater,
               phoneNo: '',
               email: '',
               gender: '',
@@ -1545,7 +1546,7 @@ class _CrmnAdminState extends State<CrmnAdmin> {
 
   void checkSelection(BuildContext context, RequestsModel req) {
     var contain = myServ
-        .where(((element) => element.busnessType == req.bsnInfo.busnessType));
+        .where(((element) => element.busnessType == req.bsnInfo!.busnessType));
 
     if (contain.isEmpty) {
       Navigator.push(
@@ -1557,8 +1558,8 @@ class _CrmnAdminState extends State<CrmnAdmin> {
     } else {
       showAlertDialog(
           context,
-          "You already have ${req.bsnInfo.busnessType} ",
-          "Would like to Select another ${req.bsnInfo.busnessType}.. ?",
+          "You already have ${req.bsnInfo!.busnessType} ",
+          "Would like to Select another ${req.bsnInfo!.busnessType}.. ?",
           req,
           'requests');
     }

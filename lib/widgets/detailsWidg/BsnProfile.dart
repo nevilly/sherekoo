@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sherekoo/screens/bsnScreen/adminBsn.dart';
+import 'package:sherekoo/util/textStyle-pallet.dart';
 
 import '../../model/busness/busnessModel.dart';
 import '../../model/userModel.dart';
-import '../../screens/detailScreen/DetailPage.dart';
+import '../../screens/detailScreen/bsn-details.dart';
 import '../../screens/subscriptionScreen/hiringPage.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
@@ -29,51 +29,10 @@ class BusnessProfile extends StatelessWidget {
               child: data.coProfile != ''
                   ? Image.network(
                       '${api}public/uploads/${data.user.username}/busness/${data.coProfile}',
-                      height: 165,
+                      height: 160,
                       fit: BoxFit.cover,
                     )
                   : const SizedBox(height: 1)),
-        ),
-
-        ///
-        /// Only Admin Button
-        ///
-
-        Positioned(
-          top: 5,
-          right: 0,
-          child: data.createdBy == user.id || data.ceoId == user.id
-              ? GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => AdminBsn(
-                                  bsn: data,
-                                )));
-                  },
-                  child: Container(
-                    // width: 30,
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      color: OColors.primary,
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        bottomLeft: Radius.circular(10),
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Admin",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                            color: OColors.fontColor),
-                      ),
-                    ),
-                  ),
-                )
-              : const SizedBox(),
         ),
 
         ///
@@ -96,22 +55,17 @@ class BusnessProfile extends StatelessWidget {
                     borderRadius:
                         BorderRadius.only(topRight: Radius.circular(10)),
                   ),
-                  padding: const EdgeInsets.only(left: 10),
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        top: 8.0, left: 8, right: 10, bottom: 8),
-                    child: RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                          text: '${data.busnessType}: ',
-                          style: TextStyle(
-                              color: OColors.fontColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold)),
-                      TextSpan(
-                          text: data.knownAs,
-                          style: TextStyle(color: OColors.fontColor)),
-                    ])),
+                        top: 4.0, left: 4, right: 4, bottom: 4),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('${data.busnessType}: ', style: header13),
+                          Text(data.knownAs,
+                              style: header13.copyWith(
+                                  fontWeight: FontWeight.w400)),
+                        ]),
                   ),
                 ),
 
@@ -124,8 +78,9 @@ class BusnessProfile extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (_) => HiringPage(
-                                  busness: data,
+                                  busness: widget.data,
                                   ceremony: widget.ceremonyData,
+                                  user: user,
                                 )));
                   },
                   child: Container(

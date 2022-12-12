@@ -117,7 +117,7 @@ class BsnDescr extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
-                          text: ' Mnyakyusa',
+                          text: data.location,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,

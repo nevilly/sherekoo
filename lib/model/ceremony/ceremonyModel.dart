@@ -1,7 +1,7 @@
 import '../userModel.dart';
 
 class CeremonyModel {
-  final String cId;
+  final  String cId;
   final String codeNo;
   final String cName;
   final String ceremonyType;

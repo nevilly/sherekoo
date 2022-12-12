@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sherekoo/screens/detailScreen/DetailPage.dart';
+import 'package:sherekoo/screens/detailScreen/bsn-details.dart';
 import 'package:sherekoo/util/colors.dart';
 
 import '../../model/allData.dart';

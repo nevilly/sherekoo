@@ -8,40 +8,22 @@ import '../../model/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/util.dart';
 
-class BusnessSubscription extends StatefulWidget {
-  final String busnessType,
-      knownAs,
-      coProfile,
-      price,
-      contact,
-      location,
-      companyName,
-      ceoId,
-      aboutCEO,
-      aboutCompany,
-      createdBy,
-      hotStatus;
-  const BusnessSubscription(
+class UpdateSubscription extends StatefulWidget {
+  
+  final String bId,subScrptionId
+      ;
+  const UpdateSubscription(
       {Key? key,
-      required this.busnessType,
-      required this.knownAs,
-      required this.coProfile,
-      required this.price,
-      required this.contact,
-      required this.location,
-      required this.companyName,
-      required this.ceoId,
-      required this.aboutCEO,
-      required this.aboutCompany,
-      required this.createdBy,
-      required this.hotStatus})
+      required this.bId,
+      required this.subScrptionId,
+    })
       : super(key: key);
 
   @override
-  State<BusnessSubscription> createState() => _BusnessSubscriptionState();
+  State<UpdateSubscription> createState() => _UpdateSubscriptionState();
 }
 
-class _BusnessSubscriptionState extends State<BusnessSubscription> {
+class _UpdateSubscriptionState extends State<UpdateSubscription> {
   Color _color = Colors.white;
   Color _shdwColor1 = Colors.black.withOpacity(0.1);
   Color _shdwColor2 = Colors.black.withOpacity(0.1);
@@ -61,95 +43,95 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
   }
 
   selectSubscription(lvl) async {
-    PostBusness(
-      busnessType: widget.busnessType,
-      knownAs: widget.knownAs,
-      coProfile: widget.coProfile,
-      price: widget.price,
-      contact: widget.contact,
-      location: widget.location,
-      companyName: widget.companyName,
-      ceoId: widget.ceoId,
-      aboutCEO: widget.aboutCEO,
-      aboutCompany: widget.aboutCompany,
-      createdBy: widget.createdBy,
-      hotStatus: '0',
-      status: 0,
-      payload: [],
-      subscrlevel: lvl,
-      bId: '',
-    ).get(token, urlPostBusness).then((v) {
-      if (v.status == 200) {
-        alertMessage(v.payload);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => BusnessScreen(
-                      bsnType: widget.busnessType,
-                      ceremony: CeremonyModel(
-                          cId: '',
-                          codeNo: '',
-                          ceremonyType: '',
-                          cName: '',
-                          fId: '',
-                          sId: '',
-                          cImage: '',
-                          ceremonyDate: '',
-                          contact: '',
-                          admin: '',
-                          isCrmAdmin: '',
-                          isInFuture: '',
-                          likeNo: '',
-                          chatNo: '',
-                          viwersNo: '',
-                          userFid: User(
-                              id: '',
-                              username: '',
-                              firstname: '',
-                              lastname: '',
-                              avater: '',
-                              phoneNo: '',
-                              email: '',
-                              gender: '',
-                              role: '',
-                              address: '',
-                              meritalStatus: '',
-                              bio: '',
-                              totalPost: '',
-                              isCurrentUser: '',
-                              isCurrentCrmAdmin: '',
-                              isCurrentBsnAdmin: '',
-                              totalFollowers: '',
-                              totalFollowing: '',
-                              totalLikes: ''),
-                          userSid: User(
-                              id: '',
-                              username: '',
-                              firstname: '',
-                              lastname: '',
-                              avater: '',
-                              phoneNo: '',
-                              email: '',
-                              gender: '',
-                              role: '',
-                              address: '',
-                              meritalStatus: '',
-                              bio: '',
-                              totalPost: '',
-                              isCurrentUser: '',
-                              isCurrentCrmAdmin: '',
-                              isCurrentBsnAdmin: '',
-                              totalFollowers: '',
-                              totalFollowing: '',
-                              totalLikes: ''),
-                          youtubeLink: ''),
-                    )));
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('System Error, Try Again'),
-        ));
-      }
-    });
+    // PostBusness(
+    //   busnessType: widget.busnessType,
+    //   knownAs: widget.knownAs,
+    //   coProfile: widget.coProfile,
+    //   price: widget.price,
+    //   contact: widget.contact,
+    //   location: widget.location,
+    //   companyName: widget.companyName,
+    //   ceoId: widget.ceoId,
+    //   aboutCEO: widget.aboutCEO,
+    //   aboutCompany: widget.aboutCompany,
+    //   createdBy: widget.createdBy,
+    //   hotStatus: '0',
+    //   status: 0,
+    //   payload: [],
+    //   subscrlevel: lvl,
+    //   bId: '',
+    // ).get(token, urlPostBusness).then((v) {
+    //   if (v.status == 200) {
+    //     alertMessage(v.payload);
+    //     Navigator.push(
+    //         context,
+    //         MaterialPageRoute(
+    //             builder: (BuildContext context) => BusnessScreen(
+    //                   bsnType: widget.busnessType,
+    //                   ceremony: CeremonyModel(
+    //                       cId: '',
+    //                       codeNo: '',
+    //                       ceremonyType: '',
+    //                       cName: '',
+    //                       fId: '',
+    //                       sId: '',
+    //                       cImage: '',
+    //                       ceremonyDate: '',
+    //                       contact: '',
+    //                       admin: '',
+    //                       isCrmAdmin: '',
+    //                       isInFuture: '',
+    //                       likeNo: '',
+    //                       chatNo: '',
+    //                       viwersNo: '',
+    //                       userFid: User(
+    //                           id: '',
+    //                           username: '',
+    //                           firstname: '',
+    //                           lastname: '',
+    //                           avater: '',
+    //                           phoneNo: '',
+    //                           email: '',
+    //                           gender: '',
+    //                           role: '',
+    //                           address: '',
+    //                           meritalStatus: '',
+    //                           bio: '',
+    //                           totalPost: '',
+    //                           isCurrentUser: '',
+    //                           isCurrentCrmAdmin: '',
+    //                           isCurrentBsnAdmin: '',
+    //                           totalFollowers: '',
+    //                           totalFollowing: '',
+    //                           totalLikes: ''),
+    //                       userSid: User(
+    //                           id: '',
+    //                           username: '',
+    //                           firstname: '',
+    //                           lastname: '',
+    //                           avater: '',
+    //                           phoneNo: '',
+    //                           email: '',
+    //                           gender: '',
+    //                           role: '',
+    //                           address: '',
+    //                           meritalStatus: '',
+    //                           bio: '',
+    //                           totalPost: '',
+    //                           isCurrentUser: '',
+    //                           isCurrentCrmAdmin: '',
+    //                           isCurrentBsnAdmin: '',
+    //                           totalFollowers: '',
+    //                           totalFollowing: '',
+    //                           totalLikes: ''),
+    //                       youtubeLink: ''),
+    //                 )));
+    //   } else {
+    //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+    //       content: Text('System Error, Try Again'),
+    //     ));
+    //   }
+    // });
   }
 
   alertMessage(String title) {

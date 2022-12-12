@@ -11,7 +11,7 @@ import 'package:sherekoo/util/colors.dart';
 import '../../model/InvCards/cards.dart';
 import '../../model/InvCards/invCards.dart';
 import '../../model/allData.dart';
-import '../../model/busness/allBusness.dart';
+import '../../model/busness/bsn-call.dart';
 import '../../model/busness/busnessModel.dart';
 import '../../model/crmPackage/crmPackageModel.dart';
 import '../../model/userModel.dart';
@@ -127,7 +127,7 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
 
   getAllBusness(arg) async {
     if (arg != 'all') {
-      AllBusnessModel(payload: [], status: 0)
+      BsnCall(payload: [], status: 0)
           .onGoldenBusness(token, urlGoldBusness, selectedBusness, '')
           .then((value) {
         if (value.status == 200) {
