@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
+import 'package:sherekoo/model/crmSevers/Servers.dart';
+import 'package:sherekoo/model/services/ServicesModelModel.dart';
 
 import '../model/allData.dart';
 import '../model/ceremony/allCeremony.dart';
@@ -9,22 +11,21 @@ import '../model/ceremony/crmViewerModel.dart';
 import '../model/post/post.dart';
 import '../model/post/sherekoModel.dart';
 import '../model/userModel.dart';
-import '../model/services/postServices.dart';
-import '../model/services/svModel.dart';
+import '../model/services/service-call.dart';
+import '../model/services/servicexModel.dart';
 import '../util/app-variables.dart';
 import '../util/colors.dart';
 import '../util/func.dart';
+import '../util/modInstance.dart';
 import '../util/textStyle-pallet.dart';
 import '../util/util.dart';
 
 class TabB extends StatefulWidget {
   final CeremonyModel ceremony;
 
-
   const TabB({
     Key? key,
     required this.ceremony,
-
   }) : super(key: key);
 
   @override
@@ -32,11 +33,9 @@ class TabB extends StatefulWidget {
 }
 
 class _TabBState extends State<TabB> {
-
-
   TextEditingController phoneNo = TextEditingController();
 
-  List<SvModel> bsnInfo = [];
+  List<ServicexModel> bsnInfo = [];
 
   @override
   void initState() {
@@ -54,27 +53,26 @@ class _TabBState extends State<TabB> {
     super.initState();
   }
 
- User user =  User(
-    id: '',
-    username: '',
-    firstname: '',
-    lastname: '',
-    avater: '',
-    phoneNo: '',
-    email: '',
-    gender: '',
-    role: '',
-    isCurrentUser: '',
-    address: '',
-    bio: '',
-    meritalStatus: '',
-    totalPost: '',
-    isCurrentBsnAdmin: '',
-    isCurrentCrmAdmin: '',
-    totalFollowers: '',
-    totalFollowing: '',
-    totalLikes: '');
-
+  User user = User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      meritalStatus: '',
+      totalPost: '',
+      isCurrentBsnAdmin: '',
+      isCurrentCrmAdmin: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: '');
 
   getUser() async {
     AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
@@ -87,7 +85,7 @@ class _TabBState extends State<TabB> {
   }
 
   getservices() async {
-    Services(
+    ServicesCall(
             svId: '',
             busnessId: '',
             hId: '',
@@ -101,13 +99,30 @@ class _TabBState extends State<TabB> {
         .then((value) {
       if (value.status == 200) {
         setState(() {
-          bsnInfo =
-              value.payload.map<SvModel>((e) => SvModel.fromJson(e)).toList();
+          bsnInfo = value.payload
+              .map<ServicexModel>((e) => ServicexModel.fromJson(e))
+              .toList();
         });
       }
     });
   }
 
+  SherekooModel repari = SherekooModel(
+      pId: '',
+      createdBy: '',
+      ceremonyId: '',
+      body: '',
+      vedeo: '',
+      creatorInfo: emptycurrentUser,
+      createdDate: '',
+      commentNumber: '',
+      crmInfo: emptyCrmModel,
+      totalLikes: '',
+      isLike: '',
+      totalShare: '',
+      hashTag: '',
+      isPostAdmin: '',
+      crmViewer: '');
   List<SherekooModel> tagHome = [];
   List<SherekooModel> tagChurch = [];
   List<SherekooModel> tagWedding = [];
@@ -150,25 +165,21 @@ class _TabBState extends State<TabB> {
         return SherekooModel.fromJson(e);
       }
       return SherekooModel.fromJson({
-        'pId': '',
-        'createdBy': '',
-        'body': '',
-        'vedeo': '',
-        'userId': '',
-        'username': '',
-        'avater': '',
-        'createdDate': '',
-        'commentNumber': '',
-        'ceremonyId': '',
-        'cImage': '',
-        'crmUsername': '',
-        'crmFid': '',
-        'crmYoutubeLink': '',
-        'totalLikes': '',
-        'isLike': '',
-        'totalShare': '',
-        'hashTag': '',
-        'crmViewer': ''
+      'pId': '',
+      'createdBy': '',
+      'ceremonyId': '',
+      'body': '',
+      'vedeo': '',
+      'creatorInfo': emptycurrentUser,
+      'createdDate': '',
+      'commentNumber': '',
+      'crmInfo': emptyCrmModel,
+      'totalLikes': '',
+      'isLike': '',
+      'totalShare': '',
+      'hashTag': '',
+      'isPostAdmin': '',
+      'crmViewer': ''
       });
     });
   }
@@ -471,7 +482,7 @@ class _TabBState extends State<TabB> {
                                           sigmaY: 7.0,
                                         ),
                                         child: Image.network(
-                                          '${api}public/uploads/${bsnInfo[i].bsnUsername}/busness/${bsnInfo[i].coProfile}',
+                                          '${api}public/uploads/${bsnInfo[i].bsnInfo!.user.username}/busness/${bsnInfo[i].bsnInfo!.coProfile}',
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height /
@@ -503,7 +514,7 @@ class _TabBState extends State<TabB> {
                                       ),
                                     )
                                   : Image.network(
-                                      '${api}public/uploads/${bsnInfo[i].bsnUsername}/busness/${bsnInfo[i].coProfile}',
+                                      '${api}public/uploads/${bsnInfo[i].bsnInfo!.user.username}/busness/${bsnInfo[i].bsnInfo!.coProfile}',
                                       height:
                                           MediaQuery.of(context).size.height /
                                               9,
@@ -530,12 +541,12 @@ class _TabBState extends State<TabB> {
                                       },
                                     ),
                               Text(
-                                bsnInfo[i].busnessType,
+                                bsnInfo[i].bsnInfo!.busnessType,
                                 style: ef,
                               ),
                               bsnInfo[i].payed != '0'
                                   ? Text(
-                                      bsnInfo[i].knownAs,
+                                      bsnInfo[i].bsnInfo!.knownAs,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w300,
                                           color: OColors.fontColor),

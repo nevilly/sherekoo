@@ -1185,7 +1185,11 @@ FadeInImage fadeImg(BuildContext context, img, double w, double h) {
     fadeInDuration: const Duration(milliseconds: 100),
     placeholder: const AssetImage('assets/logo/noimage.png'),
     imageErrorBuilder: (context, error, stackTrace) {
-      return Image.asset('assets/logo/noimage.png', fit: BoxFit.fitWidth);
+      // print('Image error');
+      // print(error);
+
+      return Image.asset('assets/logo/noimage.png',
+          width: w, height: h, fit: BoxFit.fitWidth);
     },
     width: w,
     height: h,

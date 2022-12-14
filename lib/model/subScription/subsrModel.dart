@@ -1,20 +1,18 @@
 class SubscriptionModel {
-
-  final String subId;
-  final String subscriptionType;
-  final String categoryId;
-  final String level;
-  final String activeted;
-  final String duration;
-  final String startTime;
-  final String endTime;
-  final String receiptNo;
-  final String createdDate;
-
+  String subId,
+      subscriptionType,
+      categoryId,
+      level,
+      activeted,
+      duration,
+      startTime,
+      endTime,
+      receiptNo,
+      createdDate;
 
   SubscriptionModel(
       {required this.subId,
-      required this.level, 
+      required this.level,
       required this.subscriptionType,
       required this.categoryId,
       required this.activeted,

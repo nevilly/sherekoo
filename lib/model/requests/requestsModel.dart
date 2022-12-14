@@ -1,7 +1,6 @@
 import 'package:sherekoo/model/busness/busnessModel.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
 
-import '../subScription/subsrModel.dart';
 
 class RequestsModel {
   String? hostId,
@@ -21,8 +20,7 @@ class RequestsModel {
   //Service Info
   String? isInService, svId, svPayStatus, svAmount;
 
-  //subscription Model
-  SubscriptionModel? subscriptionInfo;
+
 
 
   RequestsModel({
@@ -46,8 +44,7 @@ class RequestsModel {
     this.svPayStatus,
     this.svAmount,
 
-    //SubScription Model
-    this.subscriptionInfo
+   
   });
 
   factory RequestsModel.fromJson(Map<String, dynamic> json) {
@@ -67,8 +64,7 @@ class RequestsModel {
 
       createdBy: json['createdBy'] ?? "",
 
-      //SubScription Model
-        subscriptionInfo: SubscriptionModel.fromJson(json['subscriptionInfo']),
+
 
 
       // Services Info

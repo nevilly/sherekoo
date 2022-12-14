@@ -51,20 +51,20 @@ class BusnessProfile extends StatelessWidget {
               children: [
                 Container(
                   decoration: const BoxDecoration(
-                    color: Color.fromARGB(137, 235, 211, 211),
+                    color: Color.fromARGB(136, 17, 16, 8),
                     borderRadius:
                         BorderRadius.only(topRight: Radius.circular(10)),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        top: 4.0, left: 4, right: 4, bottom: 4),
+                        top: 4.0, left: 15, right: 4, bottom: 4),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text('${data.busnessType}: ', style: header13),
                           Text(data.knownAs,
                               style: header13.copyWith(
-                                  fontWeight: FontWeight.w400)),
+                                  fontWeight: FontWeight.w500)),
                         ]),
                   ),
                 ),

@@ -46,7 +46,7 @@ class Post {
   Future<Post> get(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);
 
-   invalidToken(token);
+    invalidToken(token);
     Map<String, String> headers = myHttpHeaders(token);
     return getHttp(url, headers);
   }
@@ -64,8 +64,7 @@ class Post {
       };
     }
 
- 
-  invalidToken(token);
+    invalidToken(token);
     Map<String, String> headers = myHttpHeaders(token);
     return postHttp(url, toMap, headers);
   }
@@ -129,17 +128,13 @@ class Post {
   Future<Post> getPostByUserId(String token, String dirUrl, String id) async {
     Uri url = Uri.parse(dirUrl);
 
-    
-
     Map<String, dynamic> toMap() {
       return <String, dynamic>{
         'userId': id,
       };
     }
 
-  
-
-   invalidToken(token);
+    invalidToken(token);
     Map<String, String> headers = myHttpHeaders(token);
     return postHttp(url, toMap, headers);
   }
@@ -201,6 +196,7 @@ Future<Post> postHttp(Uri url, Map<String, dynamic> Function() toMap,
   return await http
       .post(url, body: jsonEncode(toMap()), headers: headers)
       .then((r) {
+    print(r.body); // Debugger
     if (r.statusCode == 200) {
       return rBody(r);
     }

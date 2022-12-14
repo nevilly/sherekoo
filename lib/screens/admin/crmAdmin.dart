@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:sherekoo/model/busness/busnessModel.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
@@ -7,8 +5,8 @@ import 'package:sherekoo/model/requests/requestsModel.dart';
 import 'package:sherekoo/model/subScription/subsrModel.dart';
 
 import '../../model/requests/requests.dart';
-import '../../model/services/postServices.dart';
-import '../../model/services/svModel.dart';
+import '../../model/services/service-call.dart';
+import '../../model/services/servicexModel.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/appWords.dart';
@@ -16,7 +14,7 @@ import '../../util/colors.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/animetedClip.dart';
-import '../bsnScreen/bsnScrn.dart';
+import '../bsnScreen/bsn-screen.dart';
 import '../detailScreen/bsn-details.dart';
 import 'payment.dart';
 
@@ -37,7 +35,7 @@ class _CrmnAdminState extends State<CrmnAdmin> {
 
   // final Map myCategoryDynamic = {};
   //Selected host for Cereemony
-  List<SvModel> myServ = [];
+  List<ServicexModel> myServ = [];
 
   RequestsModel rew = RequestsModel(
     hostId: '',
@@ -50,44 +48,54 @@ class _CrmnAdminState extends State<CrmnAdmin> {
     svId: '',
     svPayStatus: '',
     svAmount: '',
-
     bsnInfo: BusnessModel(
-        location: '',
-        bId: '',
-        knownAs: '',
-        coProfile: '',
-        busnessType: '',
-        createdDate: '',
-        companyName: '',
-        ceoId: '',
-        price: '',
-        contact: '',
-        hotStatus: '',
-        aboutCEO: '',
-        aboutCompany: '',
-        createdBy: '',
-        isBsnAdmin:'',
-        user: User(
-            id: '',
-            username: '',
-            firstname: '',
-            lastname: '',
-            avater: '',
-            phoneNo: '',
-            email: '',
-            gender: '',
-            role: '',
-            address: '',
-            meritalStatus: '',
-            bio: '',
-            totalPost: '',
-            isCurrentUser: '',
-            isCurrentCrmAdmin: '',
-            isCurrentBsnAdmin: '',
-            totalFollowers: '',
-            totalFollowing: '',
-            totalLikes: ''),
-        subcrlevel: ''),
+      location: '',
+      bId: '',
+      knownAs: '',
+      coProfile: '',
+      busnessType: '',
+      createdDate: '',
+      companyName: '',
+      ceoId: '',
+      price: '',
+      contact: '',
+      hotStatus: '',
+      aboutCEO: '',
+      aboutCompany: '',
+      createdBy: '',
+      isBsnAdmin: '',
+      subscriptionInfo: SubscriptionModel(
+          subId: '',
+          level: '',
+          subscriptionType: '',
+          categoryId: '',
+          activeted: '',
+          duration: '',
+          startTime: '',
+          endTime: '',
+          receiptNo: '',
+          createdDate: ''),
+      user: User(
+          id: '',
+          username: '',
+          firstname: '',
+          lastname: '',
+          avater: '',
+          phoneNo: '',
+          email: '',
+          gender: '',
+          role: '',
+          address: '',
+          meritalStatus: '',
+          bio: '',
+          totalPost: '',
+          isCurrentUser: '',
+          isCurrentCrmAdmin: '',
+          isCurrentBsnAdmin: '',
+          totalFollowers: '',
+          totalFollowing: '',
+          totalLikes: ''),
+    ),
     crmInfo: CeremonyModel(
       cId: '',
       codeNo: '',
@@ -102,7 +110,7 @@ class _CrmnAdminState extends State<CrmnAdmin> {
       youtubeLink: '',
       isInFuture: '',
       isCrmAdmin: '',
-      likeNo:'',
+      likeNo: '',
       chatNo: '',
       viwersNo: '',
       userFid: User(
@@ -146,8 +154,6 @@ class _CrmnAdminState extends State<CrmnAdmin> {
           totalFollowing: '',
           totalLikes: ''),
     ),
-    subscriptionInfo: SubscriptionModel(subId: '', level: '', subscriptionType: '', categoryId: '', activeted: '', duration: '', startTime: '', endTime: '', receiptNo: '', createdDate: '')
-  
   );
 
   // get crmInfo => CeremonyModel;
@@ -167,7 +173,7 @@ class _CrmnAdminState extends State<CrmnAdmin> {
   }
 
   getservices() async {
-    Services(
+    ServicesCall(
             svId: '',
             busnessId: '',
             hId: '',
@@ -182,14 +188,14 @@ class _CrmnAdminState extends State<CrmnAdmin> {
       if (value.status == 200) {
         setState(() {
           myServ =
-              value.payload.map<SvModel>((e) => SvModel.fromJson(e)).toList();
+              value.payload.map<ServicexModel>((e) => ServicexModel.fromJson(e)).toList();
         });
       }
     });
   }
 
   removeSelected(id) {
-    Services(
+    ServicesCall(
             svId: id,
             busnessId: '',
             hId: '',
@@ -410,7 +416,7 @@ class _CrmnAdminState extends State<CrmnAdmin> {
                             crossAxisSpacing: 6,
                             childAspectRatio: 0.7),
                     itemBuilder: (context, i) {
-                      final my = myServ[i];
+                      final itm = myServ[i];
                       return Container(
                         margin: const EdgeInsets.only(top: 2, bottom: 4),
                         decoration: BoxDecoration(
@@ -436,9 +442,9 @@ class _CrmnAdminState extends State<CrmnAdmin> {
                                       onTap: () {
                                         showAlertDialog(
                                             context,
-                                            'Delete ${my.busnessType}',
-                                            'Are SURE you want remove ${my.busnessType}  ${my.knownAs}..??',
-                                            my,
+                                            'Delete ${itm.bsnInfo!.busnessType}',
+                                            'Are SURE you want remove ${itm.bsnInfo!.busnessType}  ${itm.bsnInfo!.knownAs}..??',
+                                            itm.bsnInfo!,
                                             'myServices');
                                       },
                                       child: Icon(
@@ -451,7 +457,7 @@ class _CrmnAdminState extends State<CrmnAdmin> {
                                   child: Center(
                                     child: ClipOval(
                                       child: Image.network(
-                                        '${api}public/uploads/${my.bsnUsername}/busness/${my.coProfile}',
+                                        '${api}public/uploads/${itm.bsnInfo!.user.username}/busness/${itm.bsnInfo!.coProfile}',
                                         height: 55,
                                         width: 55,
                                         fit: BoxFit.cover,
@@ -465,17 +471,17 @@ class _CrmnAdminState extends State<CrmnAdmin> {
                               height: 3,
                             ),
                             Text(
-                              '${my.busnessType} ',
+                              '${itm.bsnInfo!.busnessType} ',
                               style: header13,
                             ),
                             Text(
-                              '${my.knownAs} ',
+                              '${itm.bsnInfo!.knownAs} ',
                               style: header12,
                             ),
                             const SizedBox(
                               height: 4,
                             ),
-                            my.payed == '0'
+                            itm.payed == '0'
                                 ? Padding(
                                     padding: const EdgeInsets.only(
                                         top: 4.0,
@@ -1422,7 +1428,6 @@ class _CrmnAdminState extends State<CrmnAdmin> {
                         ),
                       ),
                     ),
-        
         ],
       ),
     );
@@ -1518,8 +1523,18 @@ class _CrmnAdminState extends State<CrmnAdmin> {
           aboutCEO: req.bsnInfo!.aboutCEO,
           aboutCompany: req.bsnInfo!.aboutCompany,
           createdBy: req.bsnInfo!.createdBy,
-          subcrlevel: req.subscriptionInfo!.activeted,
-          isBsnAdmin:'',
+          subscriptionInfo: SubscriptionModel(
+              subId: '',
+              level: '',
+              subscriptionType: '',
+              categoryId: '',
+              activeted: '',
+              duration: '',
+              startTime: '',
+              endTime: '',
+              receiptNo: '',
+              createdDate: ''),
+          isBsnAdmin: '',
           createdDate: req.bsnInfo!.createdDate,
           user: User(
               id: '',
@@ -1546,7 +1561,7 @@ class _CrmnAdminState extends State<CrmnAdmin> {
 
   void checkSelection(BuildContext context, RequestsModel req) {
     var contain = myServ
-        .where(((element) => element.busnessType == req.bsnInfo!.busnessType));
+        .where(((element) => element.bsnInfo!.busnessType == req.bsnInfo!.busnessType));
 
     if (contain.isEmpty) {
       Navigator.push(
@@ -1565,7 +1580,7 @@ class _CrmnAdminState extends State<CrmnAdmin> {
     }
   }
 
-  Future<dynamic> showModel(BuildContext context, SvModel req) {
+  Future<dynamic> showModel(BuildContext context, ServicexModel req) {
     return showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -1623,7 +1638,7 @@ class _CrmnAdminState extends State<CrmnAdmin> {
                         // mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Image.network(
-                            '${api}public/uploads/${req.bsnUsername}/busness/${req.coProfile}',
+                            '${api}public/uploads/${req.bsnInfo!.user.username}/busness/${req.bsnInfo!.coProfile}',
                             height: 80,
                             width: 80,
                             fit: BoxFit.cover,
@@ -1633,11 +1648,11 @@ class _CrmnAdminState extends State<CrmnAdmin> {
                             child: Column(
                               children: [
                                 Text(
-                                  req.knownAs,
+                                  req.bsnInfo!.knownAs,
                                   style: const TextStyle(color: Colors.white),
                                 ),
                                 Text(
-                                  req.price,
+                                  req.bsnInfo!.price,
                                   style: const TextStyle(color: Colors.white),
                                 ),
                               ],

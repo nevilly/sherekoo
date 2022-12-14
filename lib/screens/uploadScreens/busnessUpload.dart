@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sherekoo/model/busness/busnessModel.dart';
 
 import '../../model/allData.dart';
-import '../../model/busness/postBusness.dart';
+import '../../model/busness/busness-call.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/appWords.dart';
@@ -16,7 +16,7 @@ import '../../util/func.dart';
 import '../../util/modInstance.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
-import '../bsnScreen/bsnScrn.dart';
+import '../bsnScreen/bsn-screen.dart';
 import '../subscriptionScreen/busnessSubscription.dart';
 
 class BusnessUpload extends StatefulWidget {
@@ -42,7 +42,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
   ];
   String selectedBusness = 'Please Choose Busness';
   final Preferences _preferences = Preferences();
-  
+
   String token = '';
 
   // Image upload
@@ -50,8 +50,6 @@ class _BusnessUploadState extends State<BusnessUpload> {
 
   List<User> _allUsers = [];
   List<User> _foundUsers = []; //search
-
-
 
   // for_Search Result
   void _runFilter(String enteredKeyword) {
@@ -90,7 +88,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             mcAvater = widget.getData.user.avater!;
             mcId = widget.getData.ceoId;
             mcUsername = widget.getData.user.username!;
-            _mcSubscription = widget.getData.subcrlevel!;
+            _mcSubscription = widget.getData.subscriptionInfo!.level;
             mcDefaultImg = widget.getData.coProfile;
             _mcCoKnownController.text = widget.getData.knownAs;
             _mcCoPriceController.text = widget.getData.price;
@@ -105,7 +103,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             productionAvater = widget.getData.user.avater!;
             productionId = widget.getData.ceoId;
             productionUsername = widget.getData.user.username!;
-            productionSubscription = widget.getData.subcrlevel!;
+            productionSubscription = widget.getData.subscriptionInfo!.level;
             productionDefaultImg = widget.getData.coProfile;
             _productionCoKnownController.text = widget.getData.knownAs;
             _productionCoPriceController.text = widget.getData.price;
@@ -121,7 +119,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             decoratorAvater = widget.getData.user.avater!;
             decoratorId = widget.getData.ceoId;
             decoratorUsername = widget.getData.user.username!;
-            decoratorSubscription = widget.getData.subcrlevel!;
+            decoratorSubscription = widget.getData.subscriptionInfo!.level;
             decoratorDefaultImg = widget.getData.coProfile;
             _decoratorCoKnownController.text = widget.getData.knownAs;
             _decoratorCoPriceController.text = widget.getData.price;
@@ -136,7 +134,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             hallAvater = widget.getData.user.avater!;
             hallId = widget.getData.ceoId;
             hallUsername = widget.getData.user.username!;
-            hallSubscription = widget.getData.subcrlevel!;
+            hallSubscription = widget.getData.subscriptionInfo!.level;
             hallDefaultImg = widget.getData.coProfile;
             _hallCoKnownController.text = widget.getData.knownAs;
             _hallCoPriceController.text = widget.getData.price;
@@ -150,7 +148,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             cakeAvater = widget.getData.user.avater!;
             cakeId = widget.getData.ceoId;
             cakeUsername = widget.getData.user.username!;
-            cakeSubscription = widget.getData.subcrlevel!;
+            cakeSubscription = widget.getData.subscriptionInfo!.level;
             cakeDefaultImg = widget.getData.coProfile;
             _cakeCoKnownController.text = widget.getData.knownAs;
             _cakeCoPriceController.text = widget.getData.price;
@@ -164,7 +162,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             singersAvater = widget.getData.user.avater!;
             singersId = widget.getData.ceoId;
             singersUsername = widget.getData.user.username!;
-            singersSubscription = widget.getData.subcrlevel!;
+            singersSubscription = widget.getData.subscriptionInfo!.level;
             singersDefaultImg = widget.getData.coProfile;
             _singersCoKnownController.text = widget.getData.knownAs;
             _singersCoPriceController.text = widget.getData.price;
@@ -178,7 +176,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             dancersAvater = widget.getData.user.avater!;
             dancersId = widget.getData.ceoId;
             dancersUsername = widget.getData.user.username!;
-            dancersSubscription = widget.getData.subcrlevel!;
+            dancersSubscription = widget.getData.subscriptionInfo!.level;
             dancersDefaultImg = widget.getData.coProfile;
             _dancersCoKnownController.text = widget.getData.knownAs;
             _dancersCoPriceController.text = widget.getData.price;
@@ -192,7 +190,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             cookerAvater = widget.getData.user.avater!;
             cookerId = widget.getData.ceoId;
             cookerUsername = widget.getData.user.username!;
-            cookerSubscription = widget.getData.subcrlevel!;
+            cookerSubscription = widget.getData.subscriptionInfo!.level;
             cookerDefaultImg = widget.getData.coProfile;
             _cookerCoKnownController.text = widget.getData.knownAs;
             _cookerCoPriceController.text = widget.getData.price;
@@ -206,7 +204,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             saloonAvater = widget.getData.user.avater!;
             saloonId = widget.getData.ceoId;
             saloonUsername = widget.getData.user.username!;
-            saloonSubscription = widget.getData.subcrlevel!;
+            saloonSubscription = widget.getData.subscriptionInfo!.level;
             saloonDefaultImg = widget.getData.coProfile;
             _saloonCoKnownController.text = widget.getData.knownAs;
             _saloonCoPriceController.text = widget.getData.price;
@@ -220,7 +218,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             carsAvater = widget.getData.user.avater!;
             carsId = widget.getData.ceoId;
             carsUsername = widget.getData.user.username!;
-            carsSubscription = widget.getData.subcrlevel!;
+            carsSubscription = widget.getData.subscriptionInfo!.level;
             carsDefaultImg = widget.getData.coProfile;
             _carsCoKnownController.text = widget.getData.knownAs;
             _carsCoPriceController.text = widget.getData.price;
@@ -531,20 +529,16 @@ class _BusnessUploadState extends State<BusnessUpload> {
                         createdBy: '',
                         hotStatus: '0')));
           } else {
-             fillTheBlanks(context,imgInsertAlt,altSty,odng);
-       
+            fillTheBlanks(context, imgInsertAlt, altSty, odng);
           }
         } else {
-          
-           fillTheBlanks(context,msg3,altSty,odng);
+          fillTheBlanks(context, msg3, altSty, odng);
         }
       } else {
-  
-        fillTheBlanks(context,msg2,altSty,odng);
+        fillTheBlanks(context, msg2, altSty, odng);
       }
     } else {
-      
-       fillTheBlanks(context,msg1,altSty,odng);
+      fillTheBlanks(context, msg1, altSty, odng);
     }
   }
 
@@ -557,7 +551,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
       img = base64Encode(bytes);
     }
 
-    PostBusness(
+    BusnessCall(
       bId: widget.getData.bId,
       busnessType: bType,
       knownAs: knwnAs,
@@ -576,17 +570,17 @@ class _BusnessUploadState extends State<BusnessUpload> {
       subscrlevel: lvl,
     ).update(token, urlUpdateBusness, coPro).then((v) {
       if (v.status == 200) {
-        fillTheBlanks(context, v.payload,altSty,odng);
+        fillTheBlanks(context, v.payload, altSty, odng);
+        Navigator.of(context).pop();
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) => BusnessScreen(
                       bsnType: widget.getData.busnessType,
-                      ceremony: ceremony,
+                      ceremony: emptyCrmModel,
                     )));
       } else {
-         fillTheBlanks(context,sysErr,altSty,odng);
-       
+        fillTheBlanks(context, sysErr, altSty, odng);
       }
     });
   }
@@ -663,7 +657,6 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               insertPhoneNumber,
                               insertContact,
                               insertLastMsg);
-                          
                         }
                       }
 
@@ -727,7 +720,6 @@ class _BusnessUploadState extends State<BusnessUpload> {
                               insertPhoneNumber,
                               insertContact,
                               insertLastMsg);
-                          
                         } else {
                           _updateBusness(
                               selectedBusness,
@@ -5822,7 +5814,8 @@ class _BusnessUploadState extends State<BusnessUpload> {
                         ),
                       ),
                       hintText: 'My Price',
-                      hintStyle: const TextStyle(color: Colors.grey, height: 1.5),
+                      hintStyle:
+                          const TextStyle(color: Colors.grey, height: 1.5),
                     ),
                     style: const TextStyle(
                         fontSize: 15, color: Colors.grey, height: 1.5),
@@ -5943,7 +5936,8 @@ class _BusnessUploadState extends State<BusnessUpload> {
                         ),
                       ),
                       hintText: 'Regional / Location',
-                      hintStyle: const TextStyle(color: Colors.grey, height: 1.5),
+                      hintStyle:
+                          const TextStyle(color: Colors.grey, height: 1.5),
                     ),
                     style: const TextStyle(
                         fontSize: 15, color: Colors.grey, height: 1.5),

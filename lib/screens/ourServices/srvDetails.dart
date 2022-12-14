@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../../model/InvCards/cards.dart';
 import '../../model/bundleBooking/bundle-orders.dart';
 import '../../model/crmBundle/bundle.dart';
+import '../../model/services/servicexModel.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
@@ -848,10 +849,10 @@ class _ServiceDetailsState extends State<ServiceDetails>
     );
   }
 
-  Column template2(ServersModel itm, String type) {
+  Column template2(ServicexModel itm, String type) {
     return Column(
       children: [
-        if (itm.bsnInfo.busnessType == type)
+        if (itm.bsnInfo!.busnessType == type)
           Container(
             color: OColors.darGrey,
             padding: const EdgeInsets.all(8.0),
@@ -965,10 +966,10 @@ class _ServiceDetailsState extends State<ServiceDetails>
     );
   }
 
-  Column template1(ServersModel itm, String type) {
+  Column template1(ServicexModel itm, String type) {
     return Column(
       children: [
-        if (itm.bsnInfo.busnessType == type)
+        if (itm.bsnInfo!.busnessType == type)
           Container(
             color: OColors.darGrey,
             padding: const EdgeInsets.all(8),
@@ -976,7 +977,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Saved By ${itm.bsnInfo.busnessType}',
+                  'Saved By ${itm.bsnInfo!.busnessType}',
                   style: header13.copyWith(
                       color: OColors.fontColor, fontWeight: FontWeight.bold),
                 ),
@@ -1004,12 +1005,12 @@ class _ServiceDetailsState extends State<ServiceDetails>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Name: ${itm.bsnInfo.companyName} ',
+                              'Name: ${itm.bsnInfo!.companyName} ',
                               style: header13.copyWith(
                                   fontWeight: FontWeight.w500),
                             ),
                             Text(
-                              itm.bsnInfo.busnessType,
+                              itm.bsnInfo!.busnessType,
                               style: header11,
                             ),
                             const SizedBox(height: 5),

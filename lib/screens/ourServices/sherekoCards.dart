@@ -45,6 +45,88 @@ class _SherekoCardsState extends State<SherekoCards> {
   StateSetter? _setState;
   List<CeremonyModel> myCrm = [];
   List<CardsModel> cards = [];
+
+  User currentUser = User(
+    id: '',
+    username: '',
+    firstname: '',
+    lastname: '',
+    avater: '',
+    phoneNo: '',
+    email: '',
+    gender: '',
+    role: '',
+    isCurrentUser: '',
+    address: '',
+    bio: '',
+    meritalStatus: '',
+    totalPost: '',
+    isCurrentBsnAdmin: '',
+    isCurrentCrmAdmin: '',
+    totalFollowers: '',
+    totalFollowing: '',
+    totalLikes: '');
+
+    CeremonyModel ceremony = CeremonyModel(
+  cId: '',
+  codeNo: '',
+  ceremonyType: '',
+  cName: '',
+  fId: '',
+  sId: '',
+  cImage: '',
+  ceremonyDate: '',
+  admin: '',
+  contact: '',
+  isInFuture: '',
+  isCrmAdmin: '',
+  likeNo: '',
+  chatNo: '',
+  viwersNo: '',
+  userFid: User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      address: '',
+      meritalStatus: '',
+      bio: '',
+      totalPost: '',
+      isCurrentUser: '',
+      isCurrentCrmAdmin: '',
+      isCurrentBsnAdmin: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: ''),
+  userSid: User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      address: '',
+      meritalStatus: '',
+      bio: '',
+      totalPost: '',
+      isCurrentUser: '',
+      isCurrentCrmAdmin: '',
+      isCurrentBsnAdmin: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: ''),
+  youtubeLink: '',
+);
+
+
   @override
   void initState() {
     _preferences.init();

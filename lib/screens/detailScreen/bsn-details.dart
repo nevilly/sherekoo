@@ -8,8 +8,8 @@ import '../../model/busness/busnessPhotoModel.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/getAll.dart';
 import '../../model/userModel.dart';
-import '../../model/services/postServices.dart';
-import '../../model/services/svModel.dart';
+import '../../model/services/service-call.dart';
+import '../../model/services/servicexModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/colors.dart';
 import '../../util/modInstance.dart';
@@ -19,7 +19,7 @@ import '../../widgets/detailsWidg/bsnDescr.dart';
 import '../../widgets/detailsWidg/busnessList.dart';
 import '../../widgets/detailsWidg/ceremonyList.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
-import '../bsnScreen/adminBsn.dart';
+import '../bsnScreen/bsn-admin.dart';
 import '../subscriptionScreen/hiringPage.dart';
 
 class BsnDetails extends StatefulWidget {
@@ -55,7 +55,67 @@ class _BsnDetailsState extends State<BsnDetails> {
       totalFollowing: '',
       totalLikes: '');
 
-  List<SvModel> service = []; // Need To change to SvModel
+ 
+    CeremonyModel ceremony = CeremonyModel(
+  cId: '',
+  codeNo: '',
+  ceremonyType: '',
+  cName: '',
+  fId: '',
+  sId: '',
+  cImage: '',
+  ceremonyDate: '',
+  admin: '',
+  contact: '',
+  isInFuture: '',
+  isCrmAdmin: '',
+  likeNo: '',
+  chatNo: '',
+  viwersNo: '',
+  userFid: User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      address: '',
+      meritalStatus: '',
+      bio: '',
+      totalPost: '',
+      isCurrentUser: '',
+      isCurrentCrmAdmin: '',
+      isCurrentBsnAdmin: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: ''),
+  userSid: User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      address: '',
+      meritalStatus: '',
+      bio: '',
+      totalPost: '',
+      isCurrentUser: '',
+      isCurrentCrmAdmin: '',
+      isCurrentBsnAdmin: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: ''),
+  youtubeLink: '',
+);
+
+  List<ServicexModel> service = []; // Need To change to SvModel
   List<BusnessModel> info = [];
   List<BusnessModel> otherBsn = [];
   List<BusnessPhotoModel> photo = [];
@@ -164,7 +224,7 @@ class _BsnDetailsState extends State<BsnDetails> {
   //All Ceremony work With Busness
 
   getservices(bsnId) async {
-    Services(
+    ServicesCall(
             svId: '',
             busnessId: '',
             hId: '',
@@ -179,8 +239,9 @@ class _BsnDetailsState extends State<BsnDetails> {
       if (value.status == 200) {
         // print(value.payload);
         setState(() {
-          service =
-              value.payload.map<SvModel>((e) => SvModel.fromJson(e)).toList();
+          service = value.payload
+              .map<ServicexModel>((e) => ServicexModel.fromJson(e))
+              .toList();
         });
       }
     });
@@ -258,7 +319,23 @@ class _BsnDetailsState extends State<BsnDetails> {
                         ),
                       ),
                     )
-                  : const SizedBox.shrink(),
+                  : Container(
+                      // width: 30,
+                      margin: const EdgeInsets.only(top: 10.0, bottom: 10),
+                      padding: const EdgeInsets.only(left: 6.0, right: 6),
+                      decoration: BoxDecoration(
+                        color: OColors.primary,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          bottomLeft: Radius.circular(10),
+                        ),
+                      ),
+                      child: const Center(
+                        child: Icon(
+                          Icons.share_rounded,
+                          size: 16,
+                        ),
+                      )),
             ],
           ),
 

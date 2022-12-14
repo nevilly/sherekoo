@@ -1,5 +1,7 @@
 import 'package:sherekoo/model/userModel.dart';
 
+import '../subScription/subsrModel.dart';
+
 class BusnessModel {
   final String bId;
   final String busnessType;
@@ -21,7 +23,7 @@ class BusnessModel {
   final User user;
 
   // subscription
-  String? subcrlevel;
+  SubscriptionModel? subscriptionInfo;
 
   BusnessModel({
     required this.location,
@@ -39,7 +41,7 @@ class BusnessModel {
     required this.aboutCompany,
     required this.createdBy,
     required this.user,
-    required this.subcrlevel,
+    required this.subscriptionInfo,
     required this.isBsnAdmin,
   });
 
@@ -53,7 +55,6 @@ class BusnessModel {
       knownAs: json['knownAs'] ?? "",
       price: json['price'] ?? "",
       ceoId: json['ceoId'] ?? "",
-      subcrlevel: json['subcrlevel'] ?? "",
       aboutCompany: json['aboutCompany'] ?? "",
       hotStatus: json['hotStatus'] ?? "",
       contact: json['contact'] ?? "",
@@ -62,6 +63,7 @@ class BusnessModel {
       createdDate: json['createdDate'] ?? "",
       isBsnAdmin: json['isBsnAdmin'].toString(),
       user: User.fromJson(json['user']),
+      subscriptionInfo: SubscriptionModel.fromJson(json['subscriptionInfo']),
     );
   }
 }

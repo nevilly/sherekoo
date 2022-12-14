@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:sherekoo/screens/bsnScreen/bsnScrn.dart';
+import 'package:sherekoo/screens/bsnScreen/bsn-screen.dart';
 import 'package:sherekoo/util/colors.dart';
 
-import '../../model/busness/postBusness.dart';
+import '../../model/busness/busness-call.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/userModel.dart';
 import '../../util/app-variables.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 
 class BusnessSubscription extends StatefulWidget {
@@ -47,6 +48,11 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
   Color _shdwColor2 = Colors.black.withOpacity(0.1);
   Color _shdwColor3 = Colors.black.withOpacity(0.1);
 
+  double cWdth = 120;
+  double cHgt = 140;
+
+  String alerTitle = 'Alert: Payment..!!';
+  String alertBody = 'Payment Function on progress ... !';
 
   @override
   void initState() {
@@ -61,7 +67,7 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
   }
 
   selectSubscription(lvl) async {
-    PostBusness(
+    BusnessCall(
       busnessType: widget.busnessType,
       knownAs: widget.knownAs,
       coProfile: widget.coProfile,
@@ -81,6 +87,7 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
     ).get(token, urlPostBusness).then((v) {
       if (v.status == 200) {
         alertMessage(v.payload);
+        Navigator.of(context).pop();
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -167,6 +174,7 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: OColors.secondary,
@@ -175,9 +183,9 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
       ),
       body: Column(
         children: [
-          const Image(
-            image: AssetImage("assets/subscription/subscription.png"),
-            height: 150,
+          Image(
+            image: const AssetImage("assets/subscription/subscription.png"),
+            height: size.height / 5,
             fit: BoxFit.cover,
           ),
 
@@ -200,422 +208,102 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
           ),
 
           //Our package list
-          Expanded(
-            child: ListView(scrollDirection: Axis.horizontal, children: [
-              //free offer
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 4.0, left: 8, right: 4.0, bottom: 8.0),
-                child: GestureDetector(
-                  onTap: () {
-                    selectSubscription('Free');
-                    // oneButtonPressed('Free', '0 Tsh');
-                    setState(() {
-                      _color = Colors.white;
-                      _shdwColor1 = Colors.red.withOpacity(0.5);
-                      _shdwColor2 = Colors.black.withOpacity(0.1);
-                      _shdwColor3 = Colors.black.withOpacity(0.1);
-                    });
-                  },
-                  child: Container(
-                    // height: 160,
-                    // width: 120,
-                    decoration: BoxDecoration(
-                      color: _color,
-                      borderRadius: BorderRadius.circular(5),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: const Offset(0, 1),
-                          blurRadius: 5,
-                          color: _shdwColor1,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                // color: Colors.red,
+                height: 240,
+                child: ListView(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      //free offer
+                      Padding(
+                        padding: const EdgeInsets.all(
+                          4.0,
                         ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        const Padding(
-                            padding: EdgeInsets.all(5.0),
-                            child: Text(
-                              'Free',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            )),
-                        const SizedBox(height: 7),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Container(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text(
-                                    ' Offer',
-                                    style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text(
-                                    '- We bagain for you',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    '- post Live Ceremony ',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    '- Your Contact not shown ',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 0),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: RichText(
-                              text: const TextSpan(children: [
-                            TextSpan(
-                              text: '0 ',
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            TextSpan(
-                              text: 'Tsh',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black54,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ])),
-                        ),
-                        const Spacer(),
-                        Container(
-                          width: 100,
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.all(5),
-                          margin: const EdgeInsets.all(5),
+                        child: Container(
+                          height: cHgt,
+                          width: cWdth,
                           decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Text(
-                            'Select',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: GestureDetector(
-                  onTap: () {
-                    oneButtonPressed('Silver', '60,000 Tsh / month');
-                    setState(() {
-                      _color = Colors.white;
-                      _shdwColor1 = Colors.black.withOpacity(0.1);
-                      _shdwColor2 = Colors.red.withOpacity(0.5);
-                      _shdwColor3 = Colors.black.withOpacity(0.1);
-                    });
-                  },
-                  child: Container(
-                    height: 160,
-                    // width: 120,
-                    decoration: BoxDecoration(
-                      color: _color,
-                      borderRadius: BorderRadius.circular(5),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: const Offset(0, 1),
-                          blurRadius: 5,
-                          color: _shdwColor2,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              'Silver',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            )),
-                        const SizedBox(height: 7),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Container(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text(
-                                    ' Offer',
-                                    style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text(
-                                    '- Live Ceremony',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    '- view ten Contact',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    '- View All Schedule',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    '- send alert Message',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    '- Be in Magazine',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                ],
+                            color: _color,
+                            borderRadius: BorderRadius.circular(5),
+                            boxShadow: [
+                              BoxShadow(
+                                offset: const Offset(0, 1),
+                                blurRadius: 5,
+                                color: _shdwColor1,
                               ),
-                            ),
+                            ],
                           ),
+                          child: freePackage(),
                         ),
-                        // SizedBox(height: 5),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 4.0),
-                          child: RichText(
-                              text: const TextSpan(children: [
-                            TextSpan(
-                              text: '60,000 ',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            TextSpan(
-                              text: 'Tsh',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.black54,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ])),
-                        ),
+                      ),
 
-                        const Spacer(),
-                        Container(
-                          width: 100,
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.all(5),
-                          margin: const EdgeInsets.all(5),
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Container(
+                          height: cHgt,
+                          width: cWdth,
                           decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(10),
+                            color: _color,
+                            borderRadius: BorderRadius.circular(5),
+                            boxShadow: [
+                              BoxShadow(
+                                offset: const Offset(0, 1),
+                                blurRadius: 5,
+                                color: _shdwColor2,
+                              ),
+                            ],
                           ),
-                          child: const Text(
-                            'Select',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+                          child: silverPackage(),
+                        ),
+                      ),
 
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 4.0, left: 4, right: 8.0, bottom: 8.0),
-                child: GestureDetector(
-                  onTap: () {
-                    oneButtonPressed('Gold', '120,000 Tsh');
-                    setState(() {
-                      _color = Colors.white;
-                      _shdwColor1 = Colors.black.withOpacity(0.1);
-                      _shdwColor2 = Colors.black.withOpacity(0.1);
-                      _shdwColor3 = Colors.red.withOpacity(0.5);
-                    });
-                  },
-                  child: Container(
-                    height: 160,
-                    // width: 120,
-                    decoration: BoxDecoration(
-                      color: Colors.red.shade800,
-                      borderRadius: BorderRadius.circular(5),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: const Offset(0, 1),
-                          blurRadius: 5,
-                          color: _shdwColor3,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              'Gold',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            )),
-                        const SizedBox(height: 5),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Container(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text(
-                                    ' Offer',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Text(
-                                    '- Access for bagain',
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Text(
-                                    '- view Contact',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    '- view All Schedule',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    '- we advartise you',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    '- Be in Magazine',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 8.0, top: 4.0, right: 8.0, bottom: 8.0),
-                          child: RichText(
-                              text: const TextSpan(children: [
-                            TextSpan(
-                              text: '120,000 ',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            TextSpan(
-                              text: 'Tsh',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ])),
-                        ),
-                        Container(
-                          width: 100,
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.all(5),
-                          margin: const EdgeInsets.all(5),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 4.0, left: 4, right: 8.0, bottom: 8.0),
+                        child: Container(
+                          height: cWdth,
+                          width: cHgt,
                           decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.red.shade800,
+                            borderRadius: BorderRadius.circular(5),
+                            boxShadow: [
+                              BoxShadow(
+                                offset: const Offset(0, 1),
+                                blurRadius: 5,
+                                color: _shdwColor3,
+                              ),
+                            ],
                           ),
-                          child: const Text(
-                            'Select',
-                            style: TextStyle(color: Colors.red),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+                          child: goldPackage(),
+                        ),
+                      ),
+                    ]),
               ),
-            ]),
+            ],
           ),
 
           const SizedBox(
             height: 10,
           ),
-
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: Text(
-                'Sherekea ,furahia sherehe yako katika ubora wa kitaifa na kimataifa',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 13, color: Colors.grey.shade400),
-              ),
-            ),
-          )
         ],
+      ),
+      bottomNavigationBar: SizedBox(
+        height: 50,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: Text(
+              'Sherekea ,furahia sherehe yako katika ubora wa kitaifa na kimataifa',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 13, color: Colors.grey.shade400),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -768,6 +456,377 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
           ),
         )
       ],
+    );
+  }
+
+  Column goldPackage() {
+    return Column(
+      children: [
+        const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              'Gold',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            )),
+        const SizedBox(height: 5),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Container(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    ' Offer',
+                    style: header13.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    '- Access for bagain',
+                    style: header10,
+                  ),
+                  Text('- view Contact', style: header10),
+                  Text(
+                    '- view All Schedule',
+                    style: header10,
+                  ),
+                  Text(
+                    '- we advartise you',
+                    style: header10,
+                  ),
+                  Text(
+                    '- Be in Magazine',
+                    style: header10,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const Spacer(),
+        Padding(
+          padding: const EdgeInsets.only(
+              left: 8.0, top: 4.0, right: 8.0, bottom: 8.0),
+          child: RichText(
+              text: const TextSpan(children: [
+            TextSpan(
+              text: '120,000 ',
+              style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+            TextSpan(
+              text: 'Tsh',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ])),
+        ),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _color = Colors.white;
+              _shdwColor1 = Colors.black.withOpacity(0.1);
+              _shdwColor2 = Colors.black.withOpacity(0.1);
+              _shdwColor3 = Colors.red.withOpacity(0.5);
+            });
+
+            showAlertDialog(
+              context,
+              alerTitle,
+              alertBody,
+              'Gold',
+            );
+
+            // oneButtonPressed('Gold', '120,000 Tsh');
+          },
+          child: Container(
+            width: 100,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(5),
+            margin: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: const Text(
+              'Select',
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Column silverPackage() {
+    return Column(
+      children: [
+        const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              'Silver',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            )),
+        const SizedBox(height: 7),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Container(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    ' Offer',
+                    style: header13.copyWith(
+                        color: OColors.textColor, fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                    '- Live Ceremony',
+                    style: header10.copyWith(color: OColors.textColor),
+                  ),
+                  Text(
+                    '- view ten Contact',
+                    style: header10.copyWith(color: OColors.textColor),
+                  ),
+                  Text(
+                    '- View All Schedule',
+                    style: header10.copyWith(color: OColors.textColor),
+                  ),
+                  Text(
+                    '- send alert Message',
+                    style: header10.copyWith(color: OColors.textColor),
+                  ),
+                  Text(
+                    '- Be in Magazine',
+                    style: header10.copyWith(color: OColors.textColor),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const Spacer(),
+        Padding(
+          padding: const EdgeInsets.only(top: 4.0),
+          child: RichText(
+              text: const TextSpan(children: [
+            TextSpan(
+              text: '60,000 ',
+              style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black54,
+                  fontWeight: FontWeight.bold),
+            ),
+            TextSpan(
+              text: 'Tsh',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.black54,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ])),
+        ),
+        const Spacer(),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _color = Colors.white;
+              _shdwColor1 = Colors.black.withOpacity(0.1);
+              _shdwColor2 = Colors.red.withOpacity(0.5);
+              _shdwColor3 = Colors.black.withOpacity(0.1);
+            });
+
+            showAlertDialog(context, alerTitle, alertBody, 'Silver');
+          },
+          child: Container(
+            width: 100,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(5),
+            margin: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: Colors.red,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: const Text(
+              'Select',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Column freePackage() {
+    return Column(
+      children: [
+        const Padding(
+            padding: EdgeInsets.all(5.0),
+            child: Text(
+              'Free',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            )),
+        const SizedBox(height: 7),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Container(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    ' Offer',
+                    style: header13.copyWith(
+                        fontSize: 13,
+                        color: OColors.darkGrey,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                    '- We bagain for you',
+                    style: header10.copyWith(color: OColors.textColor),
+                  ),
+                  Text(
+                    '- post Live Ceremony ',
+                    style: header10.copyWith(color: OColors.textColor),
+                  ),
+                  Text(
+                    '- Your Contact not shown ',
+                    style: header10.copyWith(color: OColors.textColor),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const Spacer(),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: RichText(
+              text: const TextSpan(children: [
+            TextSpan(
+              text: '0 ',
+              style: TextStyle(
+                  fontSize: 17,
+                  color: Colors.black54,
+                  fontWeight: FontWeight.bold),
+            ),
+            TextSpan(
+              text: 'Tsh',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.black54,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ])),
+        ),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _color = Colors.white;
+              _shdwColor1 = Colors.red.withOpacity(0.5);
+              _shdwColor2 = Colors.black.withOpacity(0.1);
+              _shdwColor3 = Colors.black.withOpacity(0.1);
+            });
+            selectSubscription('Free');
+            // showAlertDialog(context, alerTitle, alertBody, 'Free');
+          },
+          child: Container(
+            width: 100,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(5),
+            margin: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: Colors.red,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: const Text(
+              'Select',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  showAlertDialog(BuildContext context, String title, String msg, req) async {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("cancel",
+          style: TextStyle(
+            color: OColors.primary,
+          )),
+      onPressed: () {
+        Navigator.of(context).pop();
+        // removeSelected(req.svId);
+      },
+    );
+    Widget continueButton = TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(6),
+        primary: OColors.fontColor,
+        backgroundColor: OColors.primary,
+        textStyle: const TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
+      ),
+      child: const Text("Pay"),
+      onPressed: () {
+        selectSubscription(req);
+        Navigator.of(context).pop();
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: OColors.secondary,
+      title: Center(
+        child: Text(title, style: TextStyle(color: OColors.fontColor)),
+      ),
+      content: Text(msg,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: OColors.fontColor)),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            cancelButton,
+            continueButton,
+          ],
+        ),
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

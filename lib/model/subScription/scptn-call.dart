@@ -61,11 +61,13 @@ class SubscrptionCall {
     return getHttp(url, headers);
   }
 
-  Future<SubscrptionCall> update(
-      String token, String dirUrl, id, position) async {
+  Future<SubscrptionCall> update(String token, String dirUrl, id, level) async {
     Uri url = Uri.parse(dirUrl);
     Map<String, dynamic> toMap() {
-      return <String, dynamic>{'id': id, 'position': position};
+      return <String, dynamic>{
+        'id': id,
+        'level': level,
+      };
     }
 
     invalidToken(token);
@@ -73,7 +75,8 @@ class SubscrptionCall {
     return postHttp(url, toMap, headers);
   }
 
-  Future<SubscrptionCall> remove(String token, String dirUrl, id, userId) async {
+  Future<SubscrptionCall> remove(
+      String token, String dirUrl, id, userId) async {
     Uri url = Uri.parse(dirUrl);
     Map<String, dynamic> toMap() {
       return <String, dynamic>{'id': id, 'userId': userId};
@@ -83,9 +86,6 @@ class SubscrptionCall {
     Map<String, String> headers = myHttpHeaders(token);
     return postHttp(url, toMap, headers);
   }
-
-
-
 }
 
 /// External Function
@@ -107,10 +107,11 @@ Future<SubscrptionCall> postHttp(Uri url, Map<String, dynamic> Function() toMap,
   return await http
       .post(url, body: jsonEncode(toMap()), headers: headers)
       .then((r) {
+    // print(r.body); // Error Debuger
     if (r.statusCode == 200) {
-       return rBody(r); 
+      return rBody(r);
     }
-     return rBody(r);
+    return rBody(r);
   });
 }
 
@@ -125,6 +126,7 @@ Future<SubscrptionCall> getHttp(Uri url, Map<String, String> headers) async {
 }
 
 SubscrptionCall rBody(http.Response r) {
+  // print(jsonDecode(r.body));
   return SubscrptionCall.fromJson(
-        {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+      {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
 }

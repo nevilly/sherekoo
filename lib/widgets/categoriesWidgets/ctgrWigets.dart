@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sherekoo/screens/bsnScreen/bsnScrn.dart';
+import 'package:sherekoo/screens/bsnScreen/bsn-screen.dart';
 
 import '../../model/busness/bsn-call.dart';
 import '../../model/busness/busnessModel.dart';

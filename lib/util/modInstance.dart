@@ -1,9 +1,10 @@
 import '../model/busness/busnessModel.dart';
 import '../model/ceremony/ceremonyModel.dart';
 import '../model/crmPackage/crmPackageModel.dart';
+import '../model/subScription/subsrModel.dart';
 import '../model/userModel.dart';
 
-CeremonyModel ceremony = CeremonyModel(
+CeremonyModel emptyCrmModel = CeremonyModel(
   cId: '',
   codeNo: '',
   ceremonyType: '',
@@ -62,7 +63,7 @@ CeremonyModel ceremony = CeremonyModel(
   youtubeLink: '',
 );
 
-User currentUser = User(
+User emptycurrentUser = User(
     id: '',
     username: '',
     firstname: '',
@@ -96,7 +97,8 @@ BusnessModel busness = BusnessModel(
     aboutCEO: '',
     aboutCompany: '',
     ceoId: '',
-    subcrlevel: '',
+     subscriptionInfo:SubscriptionModel(subId: '', level: '', subscriptionType: '', categoryId: '', activeted: '', duration: '', startTime: '', endTime: '', receiptNo: '', createdDate: ''),
+      
     isBsnAdmin:'',
     createdBy: '',
     user: User(

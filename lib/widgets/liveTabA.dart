@@ -28,6 +28,7 @@ class _TabAState extends State<TabA> {
 
   @override
   void initState() {
+    print(widget.ceremony.cId);
     _preferences.init();
     _preferences.get('token').then((value) {
       setState(() {
@@ -72,7 +73,9 @@ class _TabAState extends State<TabA> {
         itemCount: post.length,
         itemBuilder: (context, i) {
           return LiveePost(
-              post: post[i], crm: widget.ceremony,);
+            post: post[i],
+            crm: widget.ceremony,
+          );
         },
       ),
     );

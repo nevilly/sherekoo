@@ -5,6 +5,7 @@ import 'package:sherekoo/util/modInstance.dart';
 import '../../model/allData.dart';
 import '../../model/bigMontTvShow/bigMonth-call.dart';
 import '../../model/bigMontTvShow/bigMonth-registeredMembers.dart';
+import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/func.dart';
@@ -19,6 +20,30 @@ class BigMonthRegistered extends StatefulWidget {
 }
 
 class _BigMonthRegisteredState extends State<BigMonthRegistered> {
+
+   User currentUser = User(
+    id: '',
+    username: '',
+    firstname: '',
+    lastname: '',
+    avater: '',
+    phoneNo: '',
+    email: '',
+    gender: '',
+    role: '',
+    isCurrentUser: '',
+    address: '',
+    bio: '',
+    meritalStatus: '',
+    totalPost: '',
+    isCurrentBsnAdmin: '',
+    isCurrentCrmAdmin: '',
+    totalFollowers: '',
+    totalFollowing: '',
+    totalLikes: '');
+
+   
+
   @override
   void initState() {
     preferences.init();

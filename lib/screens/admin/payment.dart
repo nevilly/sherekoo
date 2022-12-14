@@ -3,7 +3,7 @@ import 'package:sherekoo/model/userModel.dart';
 
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/requests/requestsModel.dart';
-import '../../model/services/postServices.dart';
+import '../../model/services/service-call.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
@@ -34,7 +34,7 @@ class _MyServiceState extends State<MyService> {
   }
 
   addservices(bsnId, crmId, requestId, payedStatus) async {
-    Services(
+    ServicesCall(
             svId: '',
             busnessId: bsnId,
             hId: '',

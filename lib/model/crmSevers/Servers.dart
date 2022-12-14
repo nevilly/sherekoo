@@ -1,6 +1,6 @@
 import 'package:sherekoo/model/busness/busnessModel.dart';
 
-class ServersModel {
+class erversModel {
   String id;
   String crmBundleId;
   String bsnId;
@@ -9,7 +9,7 @@ class ServersModel {
 
   BusnessModel bsnInfo;
 
-  ServersModel(
+  erversModel(
       {required this.id,
       required this.rates,
       required this.bsnId,
@@ -17,9 +17,9 @@ class ServersModel {
       required this.createdDate,
       required this.bsnInfo});
 
-  factory ServersModel.fromJson(Map<String, dynamic> json) {
+  factory erversModel.fromJson(Map<String, dynamic> json) {
     
-    return ServersModel(
+    return erversModel(
       id: json['id'] ?? '',
       crmBundleId: json['crmBundleId'] ?? '',
       bsnId: json['bsnId'] ?? '',

@@ -3,7 +3,7 @@ import 'package:sherekoo/model/requests/requests.dart';
 
 import '../../../model/allData.dart';
 import '../../model/userModel.dart';
-import '../../../model/services/svModel.dart';
+import '../../model/services/servicexModel.dart';
 import '../../../util/Preferences.dart';
 import '../../../util/util.dart';
 import '../drawer/navDrawer.dart';
@@ -41,7 +41,7 @@ class _InvatationCeremonyState extends State<InvatationCeremony> {
       totalFollowers: '',
       totalFollowing: '',
       totalLikes: '');
-  List<SvModel> invites = [];
+  List<ServicexModel> invites = [];
   @override
   void initState() {
     _preferences.init();
@@ -77,7 +77,7 @@ class _InvatationCeremonyState extends State<InvatationCeremony> {
         .getGoldenRequest(token, urlGetGoldReq, widget.id)
         .then((v) {
       setState(() {
-        invites = v.payload.map<SvModel>((e) => SvModel.fromJson(e)).toList();
+        invites = v.payload.map<ServicexModel>((e) => ServicexModel.fromJson(e)).toList();
       });
     });
   }
@@ -108,7 +108,7 @@ class _InvatationCeremonyState extends State<InvatationCeremony> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text('Our ${invites[i].busnessType}',
+                                  child: Text('Our ${invites[i].bsnInfo!.busnessType}',
                                       style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold)),
@@ -129,7 +129,7 @@ class _InvatationCeremonyState extends State<InvatationCeremony> {
                                             left: 8,
                                             right: 8),
                                         child: Text(
-                                          'Choose ${invites[i].busnessType}',
+                                          'Choose ${invites[i].bsnInfo!.busnessType}',
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white),
@@ -159,7 +159,7 @@ class _InvatationCeremonyState extends State<InvatationCeremony> {
                                     //         ('assets/ceremony/b1.png')))
 
                                     Image.network(
-                                  '${api}public/uploads/${invites[i].bsnUsername}/busness/${invites[i].coProfile}',
+                                  '${api}public/uploads/${invites[i].bsnInfo!.user.username}/busness/${invites[i].bsnInfo!.coProfile}',
                                   height: 70,
                                   fit: BoxFit.cover,
                                 ),
@@ -171,7 +171,7 @@ class _InvatationCeremonyState extends State<InvatationCeremony> {
                                     // margin: EdgeInsets.only(top: 1),
                                     child: Center(
                                       child: Text(
-                                        '${invites[i].busnessType}: ${invites[i].knownAs}',
+                                        '${invites[i].bsnInfo!.busnessType}: ${invites[i].bsnInfo!.knownAs}',
                                         style: const TextStyle(
                                           fontSize: 15,
                                         ),

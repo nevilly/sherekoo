@@ -17,238 +17,240 @@ class BsnDescr extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-
-            //Contact Button => Subscription Page
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                      child: Text('Name',
-                          style: TextStyle(
-                              color: OColors.fontColor,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold))),
-                  GestureDetector(
-                    onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const SubscriptionPage())),
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: OColors.primary,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(10))),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Get Contact',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: OColors.fontColor,
-                                  height: 1),
-                            ),
-                          )),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                ],
+    return Padding(
+      padding: const EdgeInsets.only(left: 10.0),
+      child: Expanded(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 10,
               ),
-            ),
-            //Name
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, bottom: 5.0),
-              child: Container(
-                alignment: Alignment.topLeft,
+              GestureDetector(
+                onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const SubscriptionPage())),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    data.companyName,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: OColors.fontColor,
-                    ),
-                  ),
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: OColors.primary,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Get Contact',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: OColors.fontColor,
+                              height: 1),
+                        ),
+                      )),
                 ),
               ),
-            ),
 
-            const SizedBox(height: 10),
-            //Origin
-            Padding(
-              padding: const EdgeInsets.only(left: 15.0, bottom: 5.0),
-              child: Column(
-                children: [
-                  
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: Text('Origin',
-                        style: TextStyle(
-                            color: OColors.fontColor,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                 
-
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: RichText(
-                          text: TextSpan(children: [
-                        TextSpan(
-                          text: 'Region: ',
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: OColors.fontColor,
-                          ),
-                        ),
-                        TextSpan(
-                          text: data.location,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: OColors.fontColor,
-                          ),
-                        ),
-                      ])),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            //Location
-            Padding(
-              padding: const EdgeInsets.only(left: 15.0, bottom: 5.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: Text('Address',
-                        style: TextStyle(
-                            color: OColors.fontColor,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: RichText(
-                          text: TextSpan(children: [
-                        TextSpan(
-                          text: 'Location: ',
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: OColors.fontColor,
-                          ),
-                        ),
-                        TextSpan(
-                          text: data.location,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ])),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            //Bio
-            descrInfo('Ceo Bio ', data.aboutCEO),
-
-            //Co Bio
-            descrInfo('company Bio ', data.aboutCompany),
-
-            //Picture
-
-            if (photo.isNotEmpty)
+              //Contact Button => Subscription Page
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  alignment: Alignment.topLeft,
-                  child: Text('Photos / Facilites',
-                      style: TextStyle(
-                          color: OColors.fontColor,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold)),
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
+                child: Row(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Name: ',
+                        style: TextStyle(
+                            color: OColors.fontColor,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold)),
+
+                    //Name
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, bottom: 5.0),
+                      child: Container(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          data.companyName,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: OColors.fontColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
 
-            if (photo.isNotEmpty)
-              SizedBox(
-                height: 600,
-                // color: Colors.red,
-                child: GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: photo.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3),
-                    itemBuilder: (context, index) {
-                      return SizedBox(
-                        height: 100,
-                        child: Image(
-                          image: AssetImage(photo[index].photo),
-                          fit: BoxFit.fill,
+              //Titlee
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
+                child: Row(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Title: ',
+                        style: TextStyle(
+                            color: OColors.fontColor,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold)),
+
+                    //Name
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, bottom: 2.0),
+                      child: Container(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          data.busnessType,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: OColors.fontColor,
+                          ),
                         ),
-                      );
-                    }),
+                      ),
+                    ),
+                  ],
+                ),
               ),
 
-            // Column(children: [
-            //   Padding(
-            //     padding: const EdgeInsets.all(8.0),
-            //     child: Container(
-            //       alignment: Alignment.topLeft,
-            //       child: const Text('Photos / Facilites',
-            //           style: TextStyle(
-            //               color: Colors.black,
-            //               fontStyle: FontStyle.italic,
-            //               fontWeight: FontWeight.bold)),
-            //     ),
-            //   ),
-            //   const SizedBox(
-            //     height: 10,
-            //   ),
-            //   const SizedBox(
-            //     height: 120,
-            //     child: Image(
-            //       image: AssetImage('assets/login/03.jpg'),
-            //       fit: BoxFit.fill,
-            //     ),
-            //   ),
-            //   const SizedBox(
-            //     height: 10,
-            //   ),
-            //   const SizedBox(
-            //     height: 120,
-            //     child: Image(
-            //       image: AssetImage('assets/login/04.jpg'),
-            //       fit: BoxFit.fill,
-            //     ),
-            //   ),
-            // ])
-          ],
+              //Titlee
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
+                child: Row(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Region: ',
+                        style: TextStyle(
+                            color: OColors.fontColor,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold)),
+
+                    //Name
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, bottom: 2.0),
+                      child: Container(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          data.location,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: OColors.fontColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              //Titlee
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
+                child: Row(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Service Price: ',
+                        style: TextStyle(
+                            color: OColors.fontColor,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold)),
+
+                    //Name
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, bottom: 2.0),
+                      child: Container(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          data.price,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: OColors.fontColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              //Bio
+              descrInfo('Ceo Bio ', data.aboutCEO),
+
+              //Co Bio
+              descrInfo('company Bio ', data.aboutCompany),
+
+              //Picture
+
+              if (photo.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    alignment: Alignment.topLeft,
+                    child: Text('Photos / Facilites',
+                        style: TextStyle(
+                            color: OColors.fontColor,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold)),
+                  ),
+                ),
+
+              if (photo.isNotEmpty)
+                SizedBox(
+                  height: 600,
+                  // color: Colors.red,
+                  child: GridView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: photo.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3),
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                          height: 100,
+                          child: Image(
+                            image: AssetImage(photo[index].photo),
+                            fit: BoxFit.fill,
+                          ),
+                        );
+                      }),
+                ),
+
+              // Column(children: [
+              //   Padding(
+              //     padding: const EdgeInsets.all(8.0),
+              //     child: Container(
+              //       alignment: Alignment.topLeft,
+              //       child: const Text('Photos / Facilites',
+              //           style: TextStyle(
+              //               color: Colors.black,
+              //               fontStyle: FontStyle.italic,
+              //               fontWeight: FontWeight.bold)),
+              //     ),
+              //   ),
+              //   const SizedBox(
+              //     height: 10,
+              //   ),
+              //   const SizedBox(
+              //     height: 120,
+              //     child: Image(
+              //       image: AssetImage('assets/login/03.jpg'),
+              //       fit: BoxFit.fill,
+              //     ),
+              //   ),
+              //   const SizedBox(
+              //     height: 10,
+              //   ),
+              //   const SizedBox(
+              //     height: 120,
+              //     child: Image(
+              //       image: AssetImage('assets/login/04.jpg'),
+              //       fit: BoxFit.fill,
+              //     ),
+              //   ),
+              // ])
+            ],
+          ),
         ),
       ),
     );

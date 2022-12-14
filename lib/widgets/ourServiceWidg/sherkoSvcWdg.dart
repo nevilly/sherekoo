@@ -28,7 +28,7 @@ class SherekooServices extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (BuildContext context) => SherekoCards(
-                              crm: ceremony,
+                              crm: emptyCrmModel,
                               user: User(
                                   id: '',
                                   username: '',

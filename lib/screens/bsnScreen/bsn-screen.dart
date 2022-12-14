@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/model/busness/busnessModel.dart';
 import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
+import '../../model/subScription/subsrModel.dart';
 import '../../model/userModel.dart';
 import '../../util/colors.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
 import '../../widgets/ourServiceWidg/sherkoSvcWdg.dart';
 import '../../widgets/searchBar/search_Busness.dart';
-import 'bsnTabs.dart';
+import 'bsn-tabs.dart';
 import '../uploadScreens/busnessUpload.dart';
 
 class BusnessScreen extends StatefulWidget {
@@ -94,7 +95,8 @@ class _BusnessScreenState extends State<BusnessScreen> {
       aboutCompany: '',
       createdDate: '',
       ceoId: '',
-      subcrlevel: '',
+      subscriptionInfo:SubscriptionModel(subId: '', level: '', subscriptionType: '', categoryId: '', activeted: '', duration: '', startTime: '', endTime: '', receiptNo: '', createdDate: ''),
+      
       createdBy: '',
       isBsnAdmin:'',
       user: User(

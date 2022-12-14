@@ -7,9 +7,11 @@ import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
+import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
-import '../../widgets/imgWigdets/boxImg.dart';
+import '../detailScreen/bsn-details.dart';
+import '../detailScreen/livee.dart';
 
 class AdminPage extends StatefulWidget {
   final String from;
@@ -24,6 +26,67 @@ class AdminPage extends StatefulWidget {
 class _AdminPageState extends State<AdminPage> {
   final Preferences _preferences = Preferences();
   String token = '';
+
+  CeremonyModel crmModel = 
+  
+  CeremonyModel(
+    cId: '',
+    codeNo: '',
+    ceremonyType: '',
+    cName: '',
+    fId: '',
+    sId: '',
+    cImage: '',
+    ceremonyDate: '',
+    admin: '',
+    contact: '',
+    isInFuture: '',
+    isCrmAdmin: '',
+    likeNo: '',
+    chatNo: '',
+    viwersNo: '',
+    userFid: User(
+        id: '',
+        username: '',
+        firstname: '',
+        lastname: '',
+        avater: '',
+        phoneNo: '',
+        email: '',
+        gender: '',
+        role: '',
+        address: '',
+        meritalStatus: '',
+        bio: '',
+        totalPost: '',
+        isCurrentUser: '',
+        isCurrentCrmAdmin: '',
+        isCurrentBsnAdmin: '',
+        totalFollowers: '',
+        totalFollowing: '',
+        totalLikes: ''),
+    userSid: User(
+        id: '',
+        username: '',
+        firstname: '',
+        lastname: '',
+        avater: '',
+        phoneNo: '',
+        email: '',
+        gender: '',
+        role: '',
+        address: '',
+        meritalStatus: '',
+        bio: '',
+        totalPost: '',
+        isCurrentUser: '',
+        isCurrentCrmAdmin: '',
+        isCurrentBsnAdmin: '',
+        totalFollowers: '',
+        totalFollowing: '',
+        totalLikes: ''),
+    youtubeLink: '',
+  );
 
   @override
   void initState() {
@@ -70,39 +133,66 @@ class _AdminPageState extends State<AdminPage> {
                     itemCount: admCrm.length,
                     itemBuilder: (context, i) {
                       final adm = admCrm[i];
-                      return Padding(
-                        padding: const EdgeInsets.all(6.0),
-                        child: Column(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: OColors.primary,
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: Center(
-                                      child: adm.cImage != ''
-                                          ? Img(
-                                              avater: adm.cImage,
-                                              url: '/ceremony/',
-                                              username: adm.userFid.username!,
-                                              width: 60,
-                                              height: 60,
-                                            )
-                                          : const SizedBox(height: 1)),
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) => Livee(
+                                        ceremony: CeremonyModel(
+                                          cId: adm.cId,
+                                          codeNo: adm.codeNo,
+                                          ceremonyType: adm.ceremonyType,
+                                          cName: adm.cName,
+                                          fId: adm.fId,
+                                          sId: adm.sId,
+                                          cImage: adm.cImage,
+                                          ceremonyDate: adm.ceremonyDate,
+                                          admin: adm.admin,
+                                          contact: adm.contact,
+                                          isInFuture: '',
+                                          isCrmAdmin: '',
+                                          likeNo: '',
+                                          chatNo: '',
+                                          viwersNo: '',
+                                          userFid: adm.userFid,
+                                          userSid: adm.userSid,
+                                          youtubeLink: adm.youtubeLink,
+                                        ),
+                                      )));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Column(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: OColors.primary,
+                                    borderRadius: BorderRadius.circular(50)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Center(
+                                        child: adm.cImage != ''
+                                            ? fadeImg(
+                                                context,
+                                                '${api}public/uploads/${adm.userFid.username!}/ceremony/${adm.cImage}',
+                                                60,
+                                                60)
+                                            : const SizedBox(height: 1)),
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              adm.ceremonyDate,
-                              style: header11,
-                            )
-                          ],
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                adm.ceremonyDate,
+                                style: header11,
+                              )
+                            ],
+                          ),
                         ),
                       );
                     }),
@@ -140,14 +230,11 @@ class _AdminPageState extends State<AdminPage> {
                                       borderRadius: BorderRadius.circular(50),
                                       child: Center(
                                           child: adm.cImage != ''
-                                              ? Img(
-                                                  avater: adm.cImage,
-                                                  url: '/ceremony/',
-                                                  username:
-                                                      adm.userFid.username!,
-                                                  width: 40,
-                                                  height: 40,
-                                                )
+                                              ? fadeImg(
+                                                  context,
+                                                  '${api}public/uploads/${adm.userFid.username!}/ceremony/${adm.cImage}',
+                                                  40,
+                                                  40)
                                               : const SizedBox(height: 1)),
                                     ),
                                   ),
@@ -184,151 +271,79 @@ class _AdminPageState extends State<AdminPage> {
                                   itemBuilder: (context, x) {
                                     final r = adm.req[x];
                                     return r.hostId != ''
-                                        ? Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(4.0),
-                                                child: Row(
-                                                  children: [
-                                                    ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      child: Center(
-                                                          child: adm.cImage !=
-                                                                  ''
-                                                              ? Img(
-                                                                  avater: r
-                                                                      .bsnInfo!
-                                                                      .coProfile,
-                                                                  url:
-                                                                      '/busness/',
-                                                                  username: r
-                                                                      .bsnInfo!
-                                                                      .user
-                                                                      .username!,
-                                                                  width: 40,
-                                                                  height: 40,
-                                                                )
-                                                              : const SizedBox(
-                                                                  height: 1)),
-                                                    ),
-                                                    const SizedBox(width: 5),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                            r.bsnInfo!
-                                                                .busnessType,
-                                                            style: header14),
-                                                        Text(r.bsnInfo!.knownAs,
-                                                            style: header12)
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-
-                                              /// Bsn kama amekubali request kutoka kwa crm Admin
-                                              r.confirm == '0' &&
-                                                      r.selected == '0'
-                                                  ? GestureDetector(
+                                        ? r.bsnInfo!.bId != ''
+                                            ? Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            4.0),
+                                                    child: GestureDetector(
                                                       onTap: () {
-                                                        // cancelRequest(req);
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (BuildContext
+                                                                        context) =>
+                                                                    BsnDetails(
+                                                                      ceremonyData:
+                                                                          crmModel,
+                                                                      data: r
+                                                                          .bsnInfo!,
+                                                                    )));
                                                       },
-                                                      child: Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                          color:
-                                                              OColors.primary,
-                                                        ),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  top: 4.0,
-                                                                  bottom: 4.0,
-                                                                  left: 4,
-                                                                  right: 4),
-                                                          child: Text(
-                                                            'Cancel Req..',
-                                                            style: header10,
+                                                      child: Row(
+                                                        children: [
+                                                          ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            child: Center(
+                                                                child: adm.cImage !=
+                                                                        ''
+                                                                    ? fadeImg(
+                                                                        context,
+                                                                        '${api}public/uploads/${r.bsnInfo!.user.username!}/busness/${r.bsnInfo!.coProfile}',
+                                                                        40,
+                                                                        40)
+                                                                    : const SizedBox(
+                                                                        height:
+                                                                            1)),
                                                           ),
-                                                        ),
+                                                          const SizedBox(
+                                                              width: 5),
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                  r.bsnInfo!
+                                                                      .busnessType,
+                                                                  style:
+                                                                      header14),
+                                                              Text(
+                                                                  r.bsnInfo!
+                                                                      .knownAs,
+                                                                  style:
+                                                                      header12)
+                                                            ],
+                                                          )
+                                                        ],
                                                       ),
-                                                    )
-                                                  :
+                                                    ),
+                                                  ),
 
-                                                  ///Bsn Confirmed, request send By  Crm Admin
-                                                  /// Then
-                                                  ///If Bsn SELECTED: to service table
-
-                                                  r.isInService == 'false'
-                                                      ? r.selected == '0'
-                                                          ?
-
-                                                          ///
-                                                          /// Bsn SELECTED:
-                                                          Container(
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                                color: OColors
-                                                                    .primary,
-                                                              ),
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        4.0),
-                                                                child: Text(
-                                                                  'Choose ',
-                                                                  style:
-                                                                      header10,
-                                                                ),
-                                                              ))
-                                                          : Container(
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                                color: OColors
-                                                                    .primary,
-                                                              ),
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        4.0),
-                                                                child: Text(
-                                                                  'Pay Now',
-                                                                  style:
-                                                                      header10,
-                                                                ),
-                                                              ),
-                                                            )
-                                                      :
-
-                                                      /// isInService false:  Bsn not SELECTED:
-                                                      ///
-                                                      /// Bas Crm Admin anatakawa achague Huduma aipendayo
-
-                                                      GestureDetector(
+                                                  /// Bsn kama amekubali request kutoka kwa crm Admin
+                                                  r.confirm == '0' &&
+                                                          r.selected == '0'
+                                                      ? GestureDetector(
                                                           onTap: () {
-                                                            // checkSelection(context, req);
+                                                            // cancelRequest(req);
                                                           },
                                                           child: Container(
                                                             decoration:
@@ -347,18 +362,108 @@ class _AdminPageState extends State<AdminPage> {
                                                                       top: 4.0,
                                                                       bottom:
                                                                           4.0,
-                                                                      left: 8,
-                                                                      right: 8),
+                                                                      left: 4,
+                                                                      right: 4),
                                                               child: Text(
-                                                                'Pay', // choose
-
+                                                                'Cancel Req..',
                                                                 style: header10,
                                                               ),
                                                             ),
                                                           ),
-                                                        ),
-                                            ],
-                                          )
+                                                        )
+                                                      :
+
+                                                      ///Bsn Confirmed, request send By  Crm Admin
+                                                      /// Then
+                                                      ///If Bsn SELECTED: to service table
+
+                                                      r.isInService == 'false'
+                                                          ? r.selected == '0'
+                                                              ?
+
+                                                              ///
+                                                              /// Bsn SELECTED:
+                                                              Container(
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10),
+                                                                    color: OColors
+                                                                        .primary,
+                                                                  ),
+                                                                  child:
+                                                                      Padding(
+                                                                    padding:
+                                                                        const EdgeInsets.all(
+                                                                            4.0),
+                                                                    child: Text(
+                                                                      'Choose ',
+                                                                      style:
+                                                                          header10,
+                                                                    ),
+                                                                  ))
+                                                              : Container(
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10),
+                                                                    color: OColors
+                                                                        .primary,
+                                                                  ),
+                                                                  child:
+                                                                      Padding(
+                                                                    padding:
+                                                                        const EdgeInsets.all(
+                                                                            4.0),
+                                                                    child: Text(
+                                                                      'Pay Now',
+                                                                      style:
+                                                                          header10,
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                          :
+
+                                                          /// isInService false:  Bsn not SELECTED:
+                                                          ///
+                                                          /// Bas Crm Admin anatakawa achague Huduma aipendayo
+
+                                                          GestureDetector(
+                                                              onTap: () {
+                                                                // checkSelection(context, req);
+                                                              },
+                                                              child: Container(
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                  color: OColors
+                                                                      .primary,
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      top: 4.0,
+                                                                      bottom:
+                                                                          4.0,
+                                                                      left: 8,
+                                                                      right: 8),
+                                                                  child: Text(
+                                                                    'Pay', // choose
+
+                                                                    style:
+                                                                        header10,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                ],
+                                              )
+                                            : const SizedBox.shrink()
                                         : Text(
                                             'No Context',
                                             style: header10,
@@ -389,65 +494,7 @@ class _AdminPageState extends State<AdminPage> {
                   context,
                   MaterialPageRoute(
                       builder: (BuildContext context) => CeremonyUpload(
-                          getData: CeremonyModel(
-                            cId: '',
-                            codeNo: '',
-                            ceremonyType: '',
-                            cName: '',
-                            fId: '',
-                            sId: '',
-                            cImage: '',
-                            ceremonyDate: '',
-                            admin: '',
-                            contact: '',
-                            isInFuture: '',
-                            isCrmAdmin: '',
-                            likeNo: '',
-                            chatNo: '',
-                            viwersNo: '',
-                            userFid: User(
-                                id: '',
-                                username: '',
-                                firstname: '',
-                                lastname: '',
-                                avater: '',
-                                phoneNo: '',
-                                email: '',
-                                gender: '',
-                                role: '',
-                                address: '',
-                                meritalStatus: '',
-                                bio: '',
-                                totalPost: '',
-                                isCurrentUser: '',
-                                isCurrentCrmAdmin: '',
-                                isCurrentBsnAdmin: '',
-                                totalFollowers: '',
-                                totalFollowing: '',
-                                totalLikes: ''),
-                            userSid: User(
-                                id: '',
-                                username: '',
-                                firstname: '',
-                                lastname: '',
-                                avater: '',
-                                phoneNo: '',
-                                email: '',
-                                gender: '',
-                                role: '',
-                                address: '',
-                                meritalStatus: '',
-                                bio: '',
-                                totalPost: '',
-                                isCurrentUser: '',
-                                isCurrentCrmAdmin: '',
-                                isCurrentBsnAdmin: '',
-                                totalFollowers: '',
-                                totalFollowing: '',
-                                totalLikes: ''),
-                            youtubeLink: '',
-                          ),
-                          getcurrentUser: widget.user)));
+                          getData: crmModel, getcurrentUser: widget.user)));
             },
             child: Container(
               margin: const EdgeInsets.all(15),

@@ -1,7 +1,7 @@
 import '../InvCards/cards.dart';
 import '../crmPackage/crmPackageModel.dart';
 import '../crmPlan/plan.dart';
-import '../crmSevers/Servers.dart';
+import '../services/servicexModel.dart';
 import '../userModel.dart';
 
 class Bundle {
@@ -26,7 +26,7 @@ class Bundle {
   Plan crmPlans;
 
   User superVisorInfo;
-  List<ServersModel> crmServersInfo;
+  List<ServicexModel> crmServersInfo;
   List<CardsModel> cardsInfo;
 
   Bundle(
@@ -72,7 +72,7 @@ class Bundle {
       crmPackageInfo: CrmPckModel.fromJson(json['crmPackageInfo']),
       superVisorInfo: User.fromJson(json['superVisorInfo']),
       crmServersInfo: json['crmServersInfo']
-          .map<ServersModel>((e) => ServersModel.fromJson(e))
+          .map<ServicexModel>((e) => ServicexModel.fromJson(e))
           .toList(),
       cardsInfo: json['cardsInfo']
           .map<CardsModel>((e) => CardsModel.fromJson(e))

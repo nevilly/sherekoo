@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/screens/detailScreen/livee.dart';
-import 'package:sherekoo/screens/bsnScreen/bsnScrn.dart';
+import 'package:sherekoo/screens/bsnScreen/bsn-screen.dart';
 import 'package:sherekoo/screens/homNav.dart';
 import 'package:sherekoo/screens/ourServices/sherekoCards.dart';
 
@@ -150,7 +150,7 @@ User user =  User(
                       context,
                       MaterialPageRoute(
                           builder: (BuildContext context) => Livee(
-                                ceremony: ceremony,
+                                ceremony: emptyCrmModel,
                               )));
                 },
               ),
@@ -168,7 +168,7 @@ User user =  User(
                       MaterialPageRoute(
                           builder: (BuildContext context) => BusnessScreen(
                                 bsnType: 'all',
-                                ceremony: ceremony,
+                                ceremony: emptyCrmModel,
                               )));
                 },
               ),
@@ -224,7 +224,7 @@ User user =  User(
                       context,
                       MaterialPageRoute(
                           builder: (BuildContext context) => SherekoCards(
-                                crm: ceremony,
+                                crm: emptyCrmModel,
                                 user: user,
                               )));
                 },
@@ -238,7 +238,7 @@ User user =  User(
                       context,
                       MaterialPageRoute(
                           builder: (BuildContext context) => Livee(
-                                ceremony: ceremony,
+                                ceremony: emptyCrmModel,
                               )));
                 },
               ),

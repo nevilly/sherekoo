@@ -45,7 +45,7 @@ class _HomeNavState extends State<HomeNav> {
   int index = 2;
 
   final screen = [
-    SherekooUpload(from: 'Home', crm: ceremony),
+    SherekooUpload(from: 'Home', crm: emptyCrmModel),
     const CrmOnNav(),
     const Home(),
     const Sherekoo()

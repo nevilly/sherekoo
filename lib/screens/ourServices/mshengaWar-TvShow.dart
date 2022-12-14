@@ -9,7 +9,6 @@ import '../../model/mshengaWar/mshengaWar-call.dart';
 import '../../model/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/func.dart';
-import '../../util/modInstance.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/login_widget/service-background.dart.dart';
@@ -67,6 +66,27 @@ class _MshengaWarTvShowState extends State<MshengaWarTvShow> {
       ],
       createdDate: '',
       washengaId: '');
+
+User currentUser = User(
+    id: '',
+    username: '',
+    firstname: '',
+    lastname: '',
+    avater: '',
+    phoneNo: '',
+    email: '',
+    gender: '',
+    role: '',
+    isCurrentUser: '',
+    address: '',
+    bio: '',
+    meritalStatus: '',
+    totalPost: '',
+    isCurrentBsnAdmin: '',
+    isCurrentCrmAdmin: '',
+    totalFollowers: '',
+    totalFollowing: '',
+    totalLikes: '');
 
   @override
   void initState() {

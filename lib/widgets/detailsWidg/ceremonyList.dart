@@ -3,7 +3,7 @@ import 'package:sherekoo/util/colors.dart';
 import 'package:sherekoo/util/textStyle-pallet.dart';
 
 import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/services/svModel.dart';
+import '../../model/services/servicexModel.dart';
 import '../../model/userModel.dart';
 import '../../screens/detailScreen/livee.dart';
 import '../../util/util.dart';
@@ -14,7 +14,7 @@ class CeremonyList extends StatelessWidget {
     required this.service,
   }) : super(key: key);
 
-  final List<SvModel> service;
+  final List<ServicexModel> service;
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +52,9 @@ class CeremonyList extends StatelessWidget {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3),
                 itemBuilder: (context, index) {
+                  final itm = service[index];
+                  final ib = itm.bsnInfo!;
+                  final ic = itm.crmInfo!;
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -63,11 +66,11 @@ class CeremonyList extends StatelessWidget {
                       color: OColors.darGrey,
                       child: Column(
                         children: [
-                          service[index].cImage != ''
+                          ic.cImage != ''
                               ? ClipRRect(
                                   child: Center(
                                     child: Image.network(
-                                      '${api}public/uploads/${service[index].fIdUname}/ceremony/${service[index].cImage}',
+                                      '${api}public/uploads/${ic.userFid.username}/ceremony/${ic.cImage}',
                                       height:
                                           MediaQuery.of(context).size.height /
                                               9.5,
@@ -82,14 +85,14 @@ class CeremonyList extends StatelessWidget {
                           ),
 
                           // Details
-                          service[index].cName.length >= 4
+                          ic.cName.length >= 4
                               ? Text(
-                                  '${service[index].cName.substring(0, 4)}..',
+                                  '${service[index].crmInfo!.cName.substring(0, 4)}..',
                                   style: TextStyle(
                                       color: OColors.fontColor,
                                       fontSize: 9,
                                       fontWeight: FontWeight.bold))
-                              : Text(service[index].fIdUname,
+                              : Text(ic.userFid.username!,
                                   style: TextStyle(
                                       color: OColors.fontColor,
                                       fontSize: 9,
@@ -100,7 +103,7 @@ class CeremonyList extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(
                                 left: 8.0, right: 8.0, bottom: 4),
-                            child: Text(service[index].ceremonyDate,
+                            child: Text(ic.ceremonyDate,
                                 style: header10),
                           )
                         ],
@@ -115,13 +118,13 @@ class CeremonyList extends StatelessWidget {
 
   CeremonyModel crmMdl(int index) {
     return CeremonyModel(
-      cId: service[index].cId,
-      codeNo: service[index].codeNo,
-      ceremonyType: service[index].ceremonyType,
-      cName: service[index].codeNo,
+      cId: service[index].crmInfo!.cId,
+      codeNo: service[index].crmInfo!.codeNo,
+      ceremonyType: service[index].crmInfo!.ceremonyType,
+      cName: service[index].crmInfo!.codeNo,
       fId: '',
       sId: '',
-      cImage: service[index].cImage,
+      cImage: service[index].crmInfo!.cImage,
       ceremonyDate: '',
       admin: '',
       contact: '',
@@ -133,7 +136,7 @@ class CeremonyList extends StatelessWidget {
       userFid: User(
           id: '',
           username: '',
-          firstname: service[index].fIdUname,
+          firstname: service[index].crmInfo!.userFid.username,
           lastname: '',
           avater: '',
           phoneNo: '',
@@ -226,11 +229,11 @@ class CeremonyList extends StatelessWidget {
                                   ),
                                   child: Column(
                                     children: [
-                                      service[index].cImage != ''
+                                      service[index].crmInfo!.cImage != ''
                                           ? ClipRRect(
                                               child: Center(
                                                 child: Image.network(
-                                                  '${api}public/uploads/${service[index].fIdUname}/ceremony/${service[index].cImage}',
+                                                  '${api}public/uploads/${service[index].crmInfo!.userFid.username}/ceremony/${service[index].crmInfo!.cImage}',
                                                   height: MediaQuery.of(context)
                                                           .size
                                                           .height /
@@ -248,14 +251,14 @@ class CeremonyList extends StatelessWidget {
                                       ),
 
                                       // Details
-                                      service[index].cName.length >= 4
+                                      service[index].crmInfo!.cName.length >= 4
                                           ? Text(
-                                              '${service[index].cName.substring(0, 4)}..',
+                                              '${ service[index].crmInfo!.cName.substring(0, 4)}..',
                                               style: TextStyle(
                                                   color: OColors.fontColor,
                                                   fontSize: 9,
                                                   fontWeight: FontWeight.bold))
-                                          : Text(service[index].fIdUname,
+                                          : Text(service[index].crmInfo!.userFid.username!,
                                               style: TextStyle(
                                                   color: OColors.fontColor,
                                                   fontSize: 9,
@@ -266,7 +269,7 @@ class CeremonyList extends StatelessWidget {
                                       Padding(
                                         padding: const EdgeInsets.only(
                                             left: 8.0, right: 8.0, bottom: 4),
-                                        child: Text(service[index].ceremonyDate,
+                                        child: Text(service[index].crmInfo!.ceremonyDate,
                                             style: header10),
                                       )
                                     ],

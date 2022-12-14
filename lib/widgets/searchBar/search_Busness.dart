@@ -5,6 +5,7 @@ import 'package:sherekoo/util/colors.dart';
 import '../../model/allData.dart';
 import '../../model/busness/busnessModel.dart';
 import '../../model/ceremony/ceremonyModel.dart';
+import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/modInstance.dart';
 import '../../util/util.dart';
@@ -23,7 +24,65 @@ class _SearchBusnessState extends State<SearchBusness> {
 
   List<BusnessModel> data = [];
 
-  
+  CeremonyModel ceremony = CeremonyModel(
+  cId: '',
+  codeNo: '',
+  ceremonyType: '',
+  cName: '',
+  fId: '',
+  sId: '',
+  cImage: '',
+  ceremonyDate: '',
+  admin: '',
+  contact: '',
+  isInFuture: '',
+  isCrmAdmin: '',
+  likeNo: '',
+  chatNo: '',
+  viwersNo: '',
+  userFid: User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      address: '',
+      meritalStatus: '',
+      bio: '',
+      totalPost: '',
+      isCurrentUser: '',
+      isCurrentCrmAdmin: '',
+      isCurrentBsnAdmin: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: ''),
+  userSid: User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      address: '',
+      meritalStatus: '',
+      bio: '',
+      totalPost: '',
+      isCurrentUser: '',
+      isCurrentCrmAdmin: '',
+      isCurrentBsnAdmin: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: ''),
+  youtubeLink: '',
+);
+
   @override
   void initState() {
     _preferences.init();

@@ -6,7 +6,11 @@ class BsnCall {
   final int status;
   dynamic payload;
 
-  BsnCall({required this.payload, required this.status});
+  BsnCall(
+    
+    {required this.payload, required this.status}
+    
+    );
 
   factory BsnCall.fromJson(Map<String, dynamic> json) {
     return BsnCall(payload: json['payload'], status: json['status']);
@@ -90,6 +94,8 @@ Future<BsnCall> postHttp(Uri url, Map<String, dynamic> Function() toMap,
   return await http
       .post(url, body: jsonEncode(toMap()), headers: headers)
       .then((r) {
+    print('categories Details');
+    print(r.body);
     if (r.statusCode == 200) {
       return rBody(r);
     }

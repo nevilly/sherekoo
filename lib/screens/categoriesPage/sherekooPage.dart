@@ -261,7 +261,7 @@ class _SherekooState extends State<Sherekoo> {
                       heights: 65,
                       crossAxisCountx: 3,
                       hotStatus: '1',
-                      ceremony: ceremony,
+                      ceremony: emptyCrmModel,
                       sType: dataType,
                       crm: false,
                     ),
@@ -271,7 +271,7 @@ class _SherekooState extends State<Sherekoo> {
                       heights: MediaQuery.of(context).size.height / 1.7,
                       crossAxisCountx: 3,
                       hotStatus: '0',
-                      ceremony: ceremony,
+                      ceremony: emptyCrmModel,
                       sType: dataType,
                       crm: false,
                     ),
@@ -416,7 +416,7 @@ class _SherekooState extends State<Sherekoo> {
           SizedBox(
               width: MediaQuery.of(context).size.width,
               child: SearchBusness(
-                ceremony: ceremony,
+                ceremony: emptyCrmModel,
               ))
         ],
       ),

@@ -6,6 +6,7 @@ import '../../model/allData.dart';
 import '../../model/bigMontTvShow/bigMonth-Model.dart';
 import '../../model/bigMontTvShow/bigMonth-call.dart';
 
+import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/func.dart';
@@ -171,6 +172,87 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
       errorAlertDialog(context, l(sw, 45), 'Enter your Birthdate  Please..');
     }
   }
+
+   User currentUser = User(
+    id: '',
+    username: '',
+    firstname: '',
+    lastname: '',
+    avater: '',
+    phoneNo: '',
+    email: '',
+    gender: '',
+    role: '',
+    isCurrentUser: '',
+    address: '',
+    bio: '',
+    meritalStatus: '',
+    totalPost: '',
+    isCurrentBsnAdmin: '',
+    isCurrentCrmAdmin: '',
+    totalFollowers: '',
+    totalFollowing: '',
+    totalLikes: '');
+
+    CeremonyModel ceremony = CeremonyModel(
+  cId: '',
+  codeNo: '',
+  ceremonyType: '',
+  cName: '',
+  fId: '',
+  sId: '',
+  cImage: '',
+  ceremonyDate: '',
+  admin: '',
+  contact: '',
+  isInFuture: '',
+  isCrmAdmin: '',
+  likeNo: '',
+  chatNo: '',
+  viwersNo: '',
+  userFid: User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      address: '',
+      meritalStatus: '',
+      bio: '',
+      totalPost: '',
+      isCurrentUser: '',
+      isCurrentCrmAdmin: '',
+      isCurrentBsnAdmin: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: ''),
+  userSid: User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      address: '',
+      meritalStatus: '',
+      bio: '',
+      totalPost: '',
+      isCurrentUser: '',
+      isCurrentCrmAdmin: '',
+      isCurrentBsnAdmin: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: ''),
+  youtubeLink: '',
+);
+
 
   @override
   void initState() {

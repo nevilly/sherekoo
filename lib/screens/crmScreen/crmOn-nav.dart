@@ -199,7 +199,7 @@ class CrmOnNavState extends State<CrmOnNav> {
                     context,
                     MaterialPageRoute(
                         builder: (BuildContext context) => CeremonyUpload(
-                              getData: ceremony,
+                              getData: emptyCrmModel,
                               getcurrentUser: user,
                             )));
               },

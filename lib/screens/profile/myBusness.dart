@@ -85,7 +85,7 @@ class _MyBusnessState extends State<MyBusness> {
                                         MaterialPageRoute(
                                             builder: (_) => BsnDetails(
                                                 data: myBsn[index],
-                                                ceremonyData: ceremony)));
+                                                ceremonyData: emptyCrmModel)));
                                   },
                                   child: ClipRRect(
                                     child: Center(
@@ -178,7 +178,7 @@ class _MyBusnessState extends State<MyBusness> {
                                         MaterialPageRoute(
                                             builder: (_) => BsnDetails(
                                                 data: myBsn[index],
-                                                ceremonyData: ceremony)));
+                                                ceremonyData: emptyCrmModel)));
                                   },
                                   child: Container(
                                       margin: const EdgeInsets.only(top: 10),

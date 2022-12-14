@@ -8,8 +8,8 @@ import '../../model/busness/bsn-call.dart';
 import '../../model/busness/busnessModel.dart';
 import '../../model/requests/requests.dart';
 import '../../model/requests/requestsModel.dart';
-import '../../model/services/postServices.dart';
-import '../../model/services/svModel.dart';
+import '../../model/services/service-call.dart';
+import '../../model/services/servicexModel.dart';
 import '../../model/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/func.dart';
@@ -31,7 +31,7 @@ class AdminBsn extends StatefulWidget {
 class _AdminBsnState extends State<AdminBsn> {
   List<RequestsModel> req = [];
   //Cereemony which Select You
-  List<SvModel> myServ = [];
+  List<ServicexModel> myServ = [];
   User user = User(
       id: '',
       username: '',
@@ -84,7 +84,7 @@ class _AdminBsnState extends State<AdminBsn> {
   }
 
   getservices(bsnId) async {
-    Services(
+    ServicesCall(
             svId: '',
             busnessId: '',
             hId: '',
@@ -97,10 +97,12 @@ class _AdminBsnState extends State<AdminBsn> {
         .getService(token, urlGetGoldService, bsnId)
         .then((value) {
       if (value.status == 200) {
+        // print('services data');
         // print(value.payload);
         setState(() {
-          myServ =
-              value.payload.map<SvModel>((e) => SvModel.fromJson(e)).toList();
+          myServ = value.payload
+              .map<ServicexModel>((e) => ServicexModel.fromJson(e))
+              .toList();
         });
       }
     });
@@ -383,8 +385,8 @@ class _AdminBsnState extends State<AdminBsn> {
                                             onTap: () {
                                               showAlertDialog(
                                                   context,
-                                                  'Delete ${my.busnessType}',
-                                                  'Are SURE you want remove ${my.busnessType}  ${my.knownAs}..??',
+                                                  'Delete ${my.bsnInfo!.busnessType}',
+                                                  'Are SURE you want remove ${my.bsnInfo!.busnessType}  ${my.bsnInfo!.knownAs}..??',
                                                   my,
                                                   'myServices');
                                               Navigator.of(context).pop();
@@ -399,7 +401,7 @@ class _AdminBsnState extends State<AdminBsn> {
                                         child: Center(
                                           child: ClipOval(
                                             child: Image.network(
-                                              '${api}public/uploads/${my.fIdUname}/ceremony/${my.cImage}',
+                                              '${api}public/uploads/${my.crmInfo!.userFid.username}/ceremony/${my.crmInfo!.cImage}',
                                               height: 55,
                                               width: 55,
                                               fit: BoxFit.cover,
@@ -418,14 +420,14 @@ class _AdminBsnState extends State<AdminBsn> {
                                   ///
 
                                   Text(
-                                    '${my.ceremonyType} ',
+                                    '${my.crmInfo!.ceremonyType} ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.w700,
                                         fontSize: 13,
                                         color: OColors.fontColor),
                                   ),
                                   Text(
-                                    '${my.ceremonyDate} ',
+                                    '${my.crmInfo!.ceremonyDate} ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.w300,
                                         fontSize: 12,
@@ -501,6 +503,7 @@ class _AdminBsnState extends State<AdminBsn> {
                           padding: const EdgeInsets.all(0.0),
                           itemCount: req.length,
                           itemBuilder: (context, i) {
+                            final itm = req[i];
                             return Container(
                                 margin: const EdgeInsets.only(top: 5),
                                 child: ListTile(
@@ -513,7 +516,9 @@ class _AdminBsnState extends State<AdminBsn> {
                                         /// if Busness owner not pay subuscription fee
                                         /// cant see the ceremony Request
 
-                                        req[i].subscriptionInfo!.activeted == '0'
+                                        itm.bsnInfo!.subscriptionInfo!
+                                                    .activeted ==
+                                                '0'
                                             ? ClipRect(
                                                 child: ImageFiltered(
                                                   imageFilter: ImageFilter.blur(
@@ -522,7 +527,7 @@ class _AdminBsnState extends State<AdminBsn> {
                                                     sigmaY: 7.0,
                                                   ),
                                                   child: Image.network(
-                                                    '${api}public/uploads/${req[i].crmInfo!.userFid.username}/ceremony/${req[i].crmInfo!.cImage}',
+                                                    '${api}public/uploads/${itm.crmInfo!.userFid.username}/ceremony/${itm.crmInfo!.cImage}',
                                                     height: 70,
                                                     width: 65,
                                                     fit: BoxFit.cover,
@@ -553,7 +558,7 @@ class _AdminBsnState extends State<AdminBsn> {
                                                 ),
                                               )
                                             : Image.network(
-                                                '${api}public/uploads/${req[i].crmInfo!.userFid.username}/ceremony/${req[i].crmInfo!.cImage}',
+                                                '${api}public/uploads/${itm.crmInfo!.userFid.username}/ceremony/${itm.crmInfo!.cImage}',
                                                 height: 70,
                                                 width: 65,
                                                 fit: BoxFit.cover,
@@ -585,36 +590,43 @@ class _AdminBsnState extends State<AdminBsn> {
                                     /// Ceremony Type
                                     ///
                                     title: Text(
-                                      req[i].crmInfo!.ceremonyType,
+                                      itm.crmInfo!.ceremonyType,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
                                           color: OColors.fontColor),
                                     ),
-                                    subtitle: req[i].subscriptionInfo!.activeted != '0'
+                                    subtitle: itm.bsnInfo!.subscriptionInfo!
+                                                .activeted ==
+                                            '0'
                                         ? Text(
-                                            req[i].createdDate!,
+                                            itm.createdDate!,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w300,
                                                 color: OColors.fontColor),
                                           )
-                                        : const SizedBox(),
+                                        : const SizedBox.shrink(),
 
                                     ///
                                     ///Ceremony Date, Busness owner cant see
                                     /// if subscription activeted is 0 (not paid)
                                     ///
 
-                                    trailing: req[i].subscriptionInfo!.activeted == '0'
+                                    trailing: widget.bsn.subscriptionInfo!
+                                                .activeted ==
+                                            '0'
                                         ? GestureDetector(
                                             onTap: () {
-                                         
+                                              Navigator.of(context).pop();
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (_) =>
-                                                          const UpdateSubscription(
-                                                            bId: '',
-                                                            subScrptionId: '',
+                                                          UpdateSubscription(
+                                                            subscription: widget
+                                                                .bsn
+                                                                .subscriptionInfo!,
+                                                            bsn: widget.bsn,
+                                                            from: 'bsnAdmin2',
                                                           )));
                                             },
                                             child: Text(
@@ -661,12 +673,12 @@ class _AdminBsnState extends State<AdminBsn> {
                         padding: const EdgeInsets.only(top: 18.0, bottom: 8),
                         child: Center(
                           child: Text('Empty',
-                              style: TextStyle(
-                                  color: OColors.fontColor,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w400)),
+                              style: header15.copyWith(
+                                  fontSize: 20, fontWeight: FontWeight.w400)),
                         ),
                       ),
+
+                SizedBox(height: 10)
               ],
             ),
           ),
@@ -777,6 +789,38 @@ class _AdminBsnState extends State<AdminBsn> {
                                     ),
                                     Text('Add / remove Members',
                                         style: header14),
+                                  ],
+                                ),
+                              )),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => UpdateSubscription(
+                                              subscription:
+                                                  widget.bsn.subscriptionInfo!,
+                                              bsn: widget.bsn,
+                                              from: 'bsnAdmin2',
+                                            )));
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.wallet,
+                                      color: OColors.whiteFade,
+                                      size: 18,
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text('Payment', style: header14),
                                   ],
                                 ),
                               )),

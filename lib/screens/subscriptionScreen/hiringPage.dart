@@ -483,7 +483,7 @@ class _HiringPageState extends State<HiringPage> {
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
                                         CeremonyUpload(
-                                            getData: ceremony,
+                                            getData: emptyCrmModel,
                                             getcurrentUser: widget.user)));
                           },
                           child: Container(
@@ -840,7 +840,7 @@ class _HiringPageState extends State<HiringPage> {
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) => CeremonyUpload(
-                    getData: ceremony, getcurrentUser: currentUser)));
+                    getData: emptyCrmModel, getcurrentUser: currentUser)));
       },
     );
     // set up the AlertDialog

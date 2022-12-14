@@ -134,7 +134,7 @@ User user =  User(
               context,
               MaterialPageRoute(
                   builder: (BuildContext context) => SherekoCards(
-                        crm: ceremony,
+                        crm: emptyCrmModel,
                         user: user,
                       )));
         }

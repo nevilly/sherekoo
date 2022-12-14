@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-class PostBusness {
+class BusnessCall {
   final String bId;
   final String busnessType;
   final String knownAs;
@@ -21,7 +21,7 @@ class PostBusness {
   dynamic status;
   dynamic payload;
 
-  PostBusness(
+  BusnessCall(
       {required this.bId,
       required this.busnessType,
       required this.knownAs,
@@ -39,8 +39,8 @@ class PostBusness {
       required this.status,
       required this.payload});
 
-  factory PostBusness.fromJson(Map<String, dynamic> json) {
-    return PostBusness(
+  factory BusnessCall.fromJson(Map<String, dynamic> json) {
+    return BusnessCall(
       status: json['status'],
       payload: json['payload'],
       bId: json['bId'] ?? "",
@@ -60,15 +60,9 @@ class PostBusness {
     );
   }
 
-  Future<PostBusness> get(String token, String dirUrl) async {
+  Future<BusnessCall> get(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);
 
-    if (token.isEmpty) {
-      return PostBusness.fromJson({
-        "status": 204,
-        "payload": {"error": "Invalid token"}
-      });
-    }
 
     Map<String, dynamic> toMap() {
       return <String, dynamic>{
@@ -87,34 +81,16 @@ class PostBusness {
         'subscrlevel': subscrlevel,
       };
     }
-
-    Map<String, String> headers = {
-      "Authorization": "Owesis $token",
-      "Content-Type": "Application/json"
-    };
-
-    return await http
-        .post(url, body: jsonEncode(toMap()), headers: headers)
-        .then((r) {
-      if (r.statusCode == 200) {
-        return PostBusness.fromJson(
-            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
-      }
-      return PostBusness.fromJson(
-          {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
-    });
+    invalidToken(token);
+    Map<String, String> headers = myHttpHeaders(token);
+    return postHttp(url, toMap, headers);
   }
 
-  Future<PostBusness> update(
+  Future<BusnessCall> update(
       String token, String dirUrl, String oldCoProfile) async {
     Uri url = Uri.parse(dirUrl);
 
-    if (token.isEmpty) {
-      return PostBusness.fromJson({
-        "status": 204,
-        "payload": {"error": "Invalid token"}
-      });
-    }
+
 
     Map<String, dynamic> toMap() {
       return <String, dynamic>{
@@ -136,20 +112,52 @@ class PostBusness {
       };
     }
 
-    Map<String, String> headers = {
-      "Authorization": "Owesis $token",
-      "Content-Type": "Application/json"
-    };
+      invalidToken(token);
+    Map<String, String> headers = myHttpHeaders(token);
+    return postHttp(url, toMap, headers);
+  }
+}
 
-    return await http
-        .post(url, body: jsonEncode(toMap()), headers: headers)
-        .then((r) {
-      if (r.statusCode == 200) {
-        return PostBusness.fromJson(
-            {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
-      }
-      return PostBusness.fromJson(
-          {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+
+/// External Function
+Map<String, String> myHttpHeaders(String token) {
+  return {"Authorization": "Owesis $token", "Content-Type": "Application/json"};
+}
+
+invalidToken(token) {
+  if (token.isEmpty) {
+    return BusnessCall.fromJson({
+      "status": 204,
+      "payload": {"error": "Invalid token"}
     });
   }
+}
+
+Future<BusnessCall> postHttp(Uri url, Map<String, dynamic> Function() toMap,
+    Map<String, String> headers) async {
+  return await http
+      .post(url, body: jsonEncode(toMap()), headers: headers)
+      .then((r) {
+    print('categories Details');
+    print(r.body);
+    if (r.statusCode == 200) {
+      return rBody(r);
+    }
+    return rBody(r);
+  });
+}
+
+Future<BusnessCall> getHttp(Uri url, Map<String, String> headers) async {
+  return await http.get(url, headers: headers).then((r) {
+    if (r.statusCode == 200) {
+      return rBody(r);
+    } else {
+      return rBody(r);
+    }
+  });
+}
+
+BusnessCall rBody(http.Response r) {
+  return BusnessCall.fromJson(
+      {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
 }

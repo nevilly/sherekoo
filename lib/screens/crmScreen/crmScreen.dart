@@ -282,7 +282,7 @@ class _CeremonyScreenState extends State<CeremonyScreen> {
                     context,
                     MaterialPageRoute(
                         builder: (BuildContext context) => CeremonyUpload(
-                              getData: ceremony,
+                              getData: emptyCrmModel,
                               getcurrentUser: user,
                             )));
               },
