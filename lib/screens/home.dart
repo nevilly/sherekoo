@@ -98,7 +98,7 @@ class HomeState extends State<Home> {
                   postId: itm.pId,
                   avater: itm.creatorInfo.avater!,
                   numberOfComments: itm.commentNumber,
-                  numberOfLikes: itm.totalLikes,
+                  numberOfLikes: itm.totalLikes!,
                   isLike: itm.isLike,
                   numberOfShere: itm.totalShare,
                   userId: itm.creatorInfo.id!,

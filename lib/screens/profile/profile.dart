@@ -321,6 +321,13 @@ class ProfileState extends State<Profile> {
                 child: user.avater != ''
                     ?
                     // User Current Avater
+                    // ClipOval(
+                    //   child: fadeImg(
+                    //                               context,
+                    //                               '$prfxUpld ${user.username!}/profile/${user.avater!}',
+                    //                               85.0,
+                    //                               85.0),
+                    // )
                     Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: ClipOval(

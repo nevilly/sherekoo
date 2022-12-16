@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/util/colors.dart';
-import 'package:sherekoo/util/modInstance.dart';
 
 import '../../model/allData.dart';
 import '../../model/bigMontTvShow/bigMonth-call.dart';
 import '../../model/bigMontTvShow/bigMonth-registeredMembers.dart';
-import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/func.dart';

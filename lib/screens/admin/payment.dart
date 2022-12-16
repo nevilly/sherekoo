@@ -4,9 +4,11 @@ import 'package:sherekoo/model/userModel.dart';
 import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/requests/requestsModel.dart';
 import '../../model/services/service-call.dart';
-import '../../util/Preferences.dart';
+import '../../util/app-variables.dart';
 import '../../util/colors.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
+import '../../widgets/notifyWidget/notifyWidget.dart';
 import 'crmAdmin.dart';
 
 class MyService extends StatefulWidget {
@@ -18,15 +20,11 @@ class MyService extends StatefulWidget {
 }
 
 class _MyServiceState extends State<MyService> {
-  final Preferences _preferences = Preferences();
-
-  String token = '';
-
   @override
   void initState() {
     super.initState();
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
       });
@@ -47,7 +45,6 @@ class _MyServiceState extends State<MyService> {
         .addService(token, urlPostService, requestId, payedStatus)
         .then((value) {
       if (value.status == 200) {
-
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -65,9 +62,9 @@ class _MyServiceState extends State<MyService> {
                         admin: '',
                         isInFuture: '',
                         isCrmAdmin: '',
-                          likeNo:'',
-      chatNo: '',
-      viwersNo: '',
+                        likeNo: '',
+                        chatNo: '',
+                        viwersNo: '',
                         userFid: User(
                             id: '',
                             username: '',
@@ -118,7 +115,11 @@ class _MyServiceState extends State<MyService> {
     return Scaffold(
         backgroundColor: OColors.secondary,
         appBar: AppBar(
-          title: const Text('My Service'),
+          backgroundColor: OColors.secondary,
+          title: Text('My Service',
+              style: header16.copyWith(fontWeight: FontWeight.bold)),
+          centerTitle: true,
+          actions: const [NotifyWidget()],
         ),
         body: Column(
           children: [

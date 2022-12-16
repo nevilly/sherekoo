@@ -6,6 +6,7 @@ import '../../model/ceremony/ceremonyModel.dart';
 import '../../model/post/post.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
+import '../../util/app-variables.dart';
 import '../../util/colors.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
@@ -16,31 +17,30 @@ class LiveePost extends StatefulWidget {
   final SherekooModel post;
 
   final CeremonyModel crm; // must be remove after knowing Provider way
-  const LiveePost(
-      {Key? key, required this.post, required this.crm, })
-      : super(key: key);
+  const LiveePost({
+    Key? key,
+    required this.post,
+    required this.crm,
+  }) : super(key: key);
 
   @override
   State<LiveePost> createState() => _LiveePostState();
 }
 
 class _LiveePostState extends State<LiveePost> {
-  final Preferences _preferences = Preferences();
-
-  String token = '';
   int isLike = 0;
   int totalLikes = 0;
   int totalShare = 0;
 
   @override
   void initState() {
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       token = value;
     });
 
     if (widget.post.totalLikes != '') {
-      totalLikes = int.parse(widget.post.totalLikes);
+      totalLikes = int.parse(widget.post.totalLikes!);
     } else {
       totalLikes = 0;
     }
@@ -58,15 +58,18 @@ class _LiveePostState extends State<LiveePost> {
 
   share() async {
     Post(
-        pId: widget.post.pId,
-        createdBy: '',
-        body: '',
-        vedeo: '',
-        ceremonyId: '',
-        username: '',
-        avater: '',
-        status: 0,
-        payload: [], hashTag: '').share(token, urlpostShare, 'Post').then((value) {
+            pId: widget.post.pId,
+            createdBy: '',
+            body: '',
+            vedeo: '',
+            ceremonyId: '',
+            username: '',
+            avater: '',
+            status: 0,
+            payload: [],
+            hashTag: '')
+        .share(token, urlpostShare, 'Post')
+        .then((value) {
       if (value.status == 200) {
         setState(() {
           totalShare++;
@@ -78,17 +81,19 @@ class _LiveePostState extends State<LiveePost> {
 
   remove() async {
     Post(
-        pId: widget.post.pId,
-        createdBy: '',
-        body: '',
-        vedeo: '',
-        ceremonyId: '',
-        username: '',
-        avater: '',
-        status: 0,
-        payload: [], hashTag: '').remove(token, urlremoveSherekoo).then((value) {
+            pId: widget.post.pId,
+            createdBy: '',
+            body: '',
+            vedeo: '',
+            ceremonyId: '',
+            username: '',
+            avater: '',
+            status: 0,
+            payload: [],
+            hashTag: '')
+        .remove(token, urlremoveSherekoo)
+        .then((value) {
       if (value.status == 200) {
-   
         Navigator.pop(context);
         Navigator.push(
             context,
@@ -111,7 +116,8 @@ class _LiveePostState extends State<LiveePost> {
             username: '',
             avater: '',
             status: 0,
-            payload: [], hashTag: '')
+            payload: [],
+            hashTag: '')
         .likes(token, urlpostLikes, isLike.toString())
         .then((value) {
       if (value.status == 200) {
@@ -119,11 +125,18 @@ class _LiveePostState extends State<LiveePost> {
           setState(() {
             isLike--;
             totalLikes--;
+            widget.post.isLike = isLike.toString();
+
+            widget.post.totalLikes = totalLikes.toString();
+            totalLikes = int.parse(widget.post.totalLikes!);
           });
         } else if (value.payload == 'added') {
           setState(() {
             isLike++;
             totalLikes++;
+            widget.post.isLike = isLike.toString();
+            widget.post.totalLikes = totalLikes.toString();
+            totalLikes = int.parse(widget.post.totalLikes!);
           });
         }
       }
@@ -153,7 +166,8 @@ class _LiveePostState extends State<LiveePost> {
                               builder: (BuildContext context) => HomeNav(
                                     user: User(
                                         id: widget.post.creatorInfo.id,
-                                        username: widget.post.creatorInfo.username,
+                                        username:
+                                            widget.post.creatorInfo.username,
                                         avater: widget.post.creatorInfo.avater,
                                         phoneNo: '',
                                         role: '',
@@ -164,17 +178,17 @@ class _LiveePostState extends State<LiveePost> {
                                         isCurrentUser: '',
                                         address: '',
                                         bio: '',
-                                        meritalStatus: '', totalPost: '', isCurrentBsnAdmin: '', 
-      isCurrentCrmAdmin: '',
-      totalFollowers: '', 
-      totalFollowing: '', 
-      totalLikes: ''),
+                                        meritalStatus: '',
+                                        totalPost: '',
+                                        isCurrentBsnAdmin: '',
+                                        isCurrentCrmAdmin: '',
+                                        totalFollowers: '',
+                                        totalFollowing: '',
+                                        totalLikes: ''),
                                     getIndex: 4,
                                   )));
                     },
-                    child: 
-                    
-                    Row(
+                    child: Row(
                       children: [
                         CircleAvatar(
                           radius: 22,
@@ -205,7 +219,6 @@ class _LiveePostState extends State<LiveePost> {
                         ),
                       ],
                     ),
-                
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 1.0),

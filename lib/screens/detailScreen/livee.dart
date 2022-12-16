@@ -123,9 +123,8 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
               backgroundColor: OColors.darGrey,
               // automaticallyImplyLeading: false,
               actions: [
-                if (user.id == widget.ceremony.fId ||
-                    user.id == widget.ceremony.sId ||
-                    user.id == widget.ceremony.admin)
+              
+                if ( widget.ceremony.isCrmAdmin == 'true')
                   GestureDetector(
                     onTap: () {
                       Navigator.push(

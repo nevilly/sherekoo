@@ -23,7 +23,8 @@ class CeremonyModel {
   final User userSid;
 
   CeremonyModel(
-      {required this.cId,
+    {
+      required this.cId,
       required this.codeNo,
       required this.ceremonyType,
       required this.cName,

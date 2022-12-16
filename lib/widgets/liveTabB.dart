@@ -107,22 +107,6 @@ class _TabBState extends State<TabB> {
     });
   }
 
-  SherekooModel repari = SherekooModel(
-      pId: '',
-      createdBy: '',
-      ceremonyId: '',
-      body: '',
-      vedeo: '',
-      creatorInfo: emptycurrentUser,
-      createdDate: '',
-      commentNumber: '',
-      crmInfo: emptyCrmModel,
-      totalLikes: '',
-      isLike: '',
-      totalShare: '',
-      hashTag: '',
-      isPostAdmin: '',
-      crmViewer: '');
   List<SherekooModel> tagHome = [];
   List<SherekooModel> tagChurch = [];
   List<SherekooModel> tagWedding = [];
@@ -161,26 +145,10 @@ class _TabBState extends State<TabB> {
 
   tagFanc(Post value, String typ) {
     return value.payload.map<SherekooModel>((e) {
-      if (e['hashTag'] == typ) {
+      if (e['hashTag'] != '' && e['hashTag'] == typ) {
         return SherekooModel.fromJson(e);
       }
-      return SherekooModel.fromJson({
-      'pId': '',
-      'createdBy': '',
-      'ceremonyId': '',
-      'body': '',
-      'vedeo': '',
-      'creatorInfo': emptycurrentUser,
-      'createdDate': '',
-      'commentNumber': '',
-      'crmInfo': emptyCrmModel,
-      'totalLikes': '',
-      'isLike': '',
-      'totalShare': '',
-      'hashTag': '',
-      'isPostAdmin': '',
-      'crmViewer': ''
-      });
+      return SherekooModel.fromJson(shereKoMap);
     });
   }
 

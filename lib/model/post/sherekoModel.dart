@@ -11,7 +11,7 @@ class SherekooModel {
 
   final String isPostAdmin;
 
-  final User creatorInfo;
+  User creatorInfo;
 
   // total Comments
   final String commentNumber;
@@ -21,7 +21,7 @@ class SherekooModel {
   final CeremonyModel crmInfo;
 
   //Likes Info
-  final String totalLikes;
+   String? totalLikes;
   dynamic isLike;
   // Shares info
   final String totalShare;

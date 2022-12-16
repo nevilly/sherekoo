@@ -113,7 +113,7 @@ class _CeremonyDayState extends State<CeremonyDay>
       });
     }
 
-    print("Select * from table where data=all limit $offset,$limit");
+    // print("Select * from table where data=all limit $offset,$limit");
     //page = pag;
     // print('post Length :');
     // print(crm.length);
@@ -133,9 +133,9 @@ class _CeremonyDayState extends State<CeremonyDay>
         setState(() {
           // bottom = false;
           print(value.payload);
-          crm = value.payload
+          crm.addAll(value.payload
               .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
-              .toList();
+              .toList());
         });
       }
     });

@@ -1,15 +1,21 @@
+// ignore_for_file: iterable_contains_unrelated_type
+
 import 'package:flutter/material.dart';
 import 'package:sherekoo/model/admin/adminCrmMdl.dart';
+import 'package:sherekoo/model/requests/requestsModel.dart';
 import 'package:sherekoo/screens/uploadScreens/ceremonyUpload.dart';
 import 'package:sherekoo/util/colors.dart';
 
 import '../../model/ceremony/allCeremony.dart';
 import '../../model/ceremony/ceremonyModel.dart';
+import '../../model/requests/requests.dart';
+import '../../model/services/service-call.dart';
 import '../../model/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
+import '../admin/payment.dart';
 import '../detailScreen/bsn-details.dart';
 import '../detailScreen/livee.dart';
 
@@ -27,9 +33,7 @@ class _AdminPageState extends State<AdminPage> {
   final Preferences _preferences = Preferences();
   String token = '';
 
-  CeremonyModel crmModel = 
-  
-  CeremonyModel(
+  CeremonyModel crmModel = CeremonyModel(
     cId: '',
     codeNo: '',
     ceremonyType: '',
@@ -117,6 +121,70 @@ class _AdminPageState extends State<AdminPage> {
     });
   }
 
+  cancelRequest(AdminCrmMdl ob, RequestsModel r) {
+    Requests(
+        hostId: r.hostId,
+        busnessId: '',
+        contact: '',
+        ceremonyId: '',
+        createdBy: '',
+        type: '',
+        status: 0,
+        payload: []).cancelRequest(token, urlCancelRequest).then((v) {
+      if (v.status == 200) {
+        setState(() {
+          for (var e in admCrm) {
+            if (e.cId == ob.cId) {
+              e.req.removeWhere((el) => el.hostId == r.hostId);
+            }
+          }
+        });
+      }
+    });
+  }
+
+  // removeSelected(id) {
+  //   ServicesCall(
+  //           svId: id,
+  //           busnessId: '',
+  //           hId: '',
+  //           payed: '',
+  //           ceremonyId: widget.crm.cId,
+  //           createdBy: '',
+  //           status: 0,
+  //           payload: [],
+  //           type: 'ceremony')
+  //       .removeService(token, urlRemoveServiceById)
+  //       .then((value) {
+  //     if (value.status == 200) {
+  //       setState(() {
+  //         myServ.removeWhere((element) => element.svId == id);
+  //       });
+  //     }
+  //   });
+  // }
+
+  void checkSelection(BuildContext context, RequestsModel req) {
+    //  for (var e in admCrm) {
+    //   if (e.cId == ob.cId) {
+    //     e.req.removeWhere((el) => el.hostId == r.hostId);
+    //   }
+    // }
+    // var contain = admCrm
+    //     .where(((element) => element.req.  .busnessType == req.bsnInfo!.busnessType));
+
+    // if (contain.isEmpty) {
+    //   Navigator.push(
+    //       context,
+    //       MaterialPageRoute(
+    //           builder: (BuildContext context) => MyService(
+    //                 req: req,
+    //               )));
+    // } else {
+
+    // }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,8 +218,8 @@ class _AdminPageState extends State<AdminPage> {
                                           ceremonyDate: adm.ceremonyDate,
                                           admin: adm.admin,
                                           contact: adm.contact,
-                                          isInFuture: '',
-                                          isCrmAdmin: '',
+                                          isInFuture: adm.isInFuture,
+                                          isCrmAdmin: adm.isCrmAdmin,
                                           likeNo: '',
                                           chatNo: '',
                                           viwersNo: '',
@@ -187,10 +255,16 @@ class _AdminPageState extends State<AdminPage> {
                               const SizedBox(
                                 height: 5,
                               ),
-                              Text(
-                                adm.ceremonyDate,
-                                style: header11,
-                              )
+                              adm.isInFuture == 'true'
+                                  ? Text(
+                                      adm.ceremonyDate,
+                                      style: header11,
+                                    )
+                                  : Text(
+                                      adm.ceremonyDate,
+                                      style: header11.copyWith(
+                                          color: OColors.danger),
+                                    )
                             ],
                           ),
                         ),
@@ -220,22 +294,59 @@ class _AdminPageState extends State<AdminPage> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                  color: OColors.primary,
+                                  color: adm.isInFuture == 'false'
+                                      ? OColors.danger
+                                      : OColors.primary,
                                   borderRadius: BorderRadius.circular(50)),
                               child: Row(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(50),
-                                      child: Center(
-                                          child: adm.cImage != ''
-                                              ? fadeImg(
-                                                  context,
-                                                  '${api}public/uploads/${adm.userFid.username!}/ceremony/${adm.cImage}',
-                                                  40,
-                                                  40)
-                                              : const SizedBox(height: 1)),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  Livee(
+                                                    ceremony: CeremonyModel(
+                                                      cId: adm.cId,
+                                                      codeNo: adm.codeNo,
+                                                      ceremonyType:
+                                                          adm.ceremonyType,
+                                                      cName: adm.cName,
+                                                      fId: adm.fId,
+                                                      sId: adm.sId,
+                                                      cImage: adm.cImage,
+                                                      ceremonyDate:
+                                                          adm.ceremonyDate,
+                                                      admin: adm.admin,
+                                                      contact: adm.contact,
+                                                      isInFuture:
+                                                          adm.isInFuture,
+                                                      isCrmAdmin:
+                                                          adm.isCrmAdmin,
+                                                      likeNo: '',
+                                                      chatNo: '',
+                                                      viwersNo: '',
+                                                      userFid: adm.userFid,
+                                                      userSid: adm.userSid,
+                                                      youtubeLink:
+                                                          adm.youtubeLink,
+                                                    ),
+                                                  )));
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(50),
+                                        child: Center(
+                                            child: adm.cImage != ''
+                                                ? fadeImg(
+                                                    context,
+                                                    '${api}public/uploads/${adm.userFid.username!}/ceremony/${adm.cImage}',
+                                                    40,
+                                                    40)
+                                                : const SizedBox(height: 1)),
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(
@@ -339,11 +450,11 @@ class _AdminPageState extends State<AdminPage> {
                                                   ),
 
                                                   /// Bsn kama amekubali request kutoka kwa crm Admin
-                                                  r.confirm == '0' &&
-                                                          r.selected == '0'
+                                                  r.confirm == '1'
                                                       ? GestureDetector(
                                                           onTap: () {
-                                                            // cancelRequest(req);
+                                                            cancelRequest(
+                                                                adm, r);
                                                           },
                                                           child: Container(
                                                             decoration:
@@ -378,52 +489,40 @@ class _AdminPageState extends State<AdminPage> {
                                                       ///If Bsn SELECTED: to service table
 
                                                       r.isInService == 'false'
-                                                          ? r.selected == '0'
-                                                              ?
-
-                                                              ///
-                                                              /// Bsn SELECTED:
-                                                              Container(
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10),
-                                                                    color: OColors
-                                                                        .primary,
+                                                          ? GestureDetector(
+                                                              onTap: () {
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder: (BuildContext
+                                                                                context) =>
+                                                                            MyService(
+                                                                              req: r,
+                                                                            )));
+                                                              },
+                                                              child: Container(
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                  color: OColors
+                                                                      .primary,
+                                                                ),
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .all(
+                                                                          4.0),
+                                                                  child: Text(
+                                                                    'Pay Now',
+                                                                    style:
+                                                                        header10,
                                                                   ),
-                                                                  child:
-                                                                      Padding(
-                                                                    padding:
-                                                                        const EdgeInsets.all(
-                                                                            4.0),
-                                                                    child: Text(
-                                                                      'Choose ',
-                                                                      style:
-                                                                          header10,
-                                                                    ),
-                                                                  ))
-                                                              : Container(
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10),
-                                                                    color: OColors
-                                                                        .primary,
-                                                                  ),
-                                                                  child:
-                                                                      Padding(
-                                                                    padding:
-                                                                        const EdgeInsets.all(
-                                                                            4.0),
-                                                                    child: Text(
-                                                                      'Pay Now',
-                                                                      style:
-                                                                          header10,
-                                                                    ),
-                                                                  ),
-                                                                )
+                                                                ),
+                                                              ),
+                                                            )
                                                           :
 
                                                           /// isInService false:  Bsn not SELECTED:
@@ -453,7 +552,7 @@ class _AdminPageState extends State<AdminPage> {
                                                                       left: 8,
                                                                       right: 8),
                                                                   child: Text(
-                                                                    'Pay', // choose
+                                                                    'Payed', // choose
 
                                                                     style:
                                                                         header10,

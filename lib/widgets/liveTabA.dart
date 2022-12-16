@@ -7,6 +7,7 @@ import '../model/post/sherekoModel.dart';
 import '../model/userModel.dart';
 import '../screens/detailScreen/livePost.dart';
 import '../util/Preferences.dart';
+import '../util/app-variables.dart';
 import '../util/util.dart';
 
 class TabA extends StatefulWidget {
@@ -20,17 +21,16 @@ class TabA extends StatefulWidget {
 }
 
 class _TabAState extends State<TabA> {
-  final Preferences _preferences = Preferences();
-  String token = '';
+
 
   List<SherekooModel> post = [];
   List<ChatsModel> chats = [];
 
   @override
   void initState() {
-    print(widget.ceremony.cId);
-    _preferences.init();
-    _preferences.get('token').then((value) {
+
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
         getPost();

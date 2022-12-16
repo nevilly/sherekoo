@@ -8,7 +8,7 @@
 //String api = "http://172.20.10.13/"; // Reddeath
 String api = "http://192.168.43.125/"; // Neheman
 //String api = "http://192.168.43.237/"; // challo
-
+String prfxUpld = "${api}public/uploads/";
 //Authentications
 String login = "${api}Users/login";
 String craetAcount = '${api}Users/addAccount';

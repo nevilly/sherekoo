@@ -14,6 +14,8 @@ class AdminCrmMdl {
   String contact;
   String admin;
   String youtubeLink;
+  final String isCrmAdmin;
+  final String isInFuture;
 
   final User userFid;
 
@@ -35,6 +37,8 @@ class AdminCrmMdl {
     required this.userFid,
     required this.userSid,
     required this.youtubeLink,
+    required this.isCrmAdmin,
+    required this.isInFuture,
     required this.req,
   });
 
@@ -53,6 +57,8 @@ class AdminCrmMdl {
         contact: json['contact'] ?? '',
         admin: json['admin'] ?? '',
         youtubeLink: json['goLiveId'] ?? '',
+        isCrmAdmin: json['isCrmAdmin'].toString(),
+        isInFuture: json['isInFuture'].toString(),
         userFid: User.fromJson(json['userFid']),
         userSid: User.fromJson(json['userSid']),
         req: json['req']
