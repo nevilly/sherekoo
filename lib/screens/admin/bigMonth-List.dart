@@ -3,7 +3,7 @@ import 'package:sherekoo/screens/ourServices/mshengaWar-TvShow.dart';
 import 'package:sherekoo/util/colors.dart';
 import '../../model/bigMontTvShow/bigMonth-Model.dart';
 import '../../model/bigMontTvShow/bigMonth-call.dart';
-import '../../model/userModel.dart';
+import '../../model/user/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
+import 'package:sherekoo/model/ceremony/crm-model.dart';
 import 'package:sherekoo/screens/detailScreen/livee.dart';
 import 'package:sherekoo/util/colors.dart';
 import 'package:sherekoo/util/pallets.dart';
 
-import '../../model/ceremony/allCeremony.dart';
-import '../../util/Preferences.dart';
+import '../../model/ceremony/crm-call.dart';
+import '../../util/app-variables.dart';
 import '../../util/util.dart';
 
 class CrmDoor extends StatefulWidget {
@@ -17,15 +17,11 @@ class CrmDoor extends StatefulWidget {
 }
 
 class _CrmDoorState extends State<CrmDoor> {
-  String selectedBusness = 'Subscribe as ..?';
-  final List<String> _busness = ['Viewer', 'Friend', 'Relative'];
-  final Preferences _preferences = Preferences();
-  String token = '';
   bool viewer = false;
   @override
   void initState() {
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
         if (widget.crm.cId != '') {
@@ -38,7 +34,7 @@ class _CrmDoorState extends State<CrmDoor> {
 
   // My all ceremonie post
   Future viewerExist(id) async {
-    await AllCeremonysModel(payload: [], status: 0)
+    await CrmCall(payload: [], status: 0)
         .getExistCrmnViewr(token, urlGetExistViewrs, widget.crm.cId)
         .then((value) {
       if (value.status == 200) {
@@ -61,9 +57,9 @@ class _CrmDoorState extends State<CrmDoor> {
 
   // My all ceremonie post
   Future addViewer() async {
-    if (selectedBusness != 'Subscribe as ..?') {
-      await AllCeremonysModel(payload: [], status: 0)
-          .addCrmnViewr(token, urladdCrmViewrs, widget.crm.cId, selectedBusness)
+    if (subScrbAs != 'Subscribe as ..?') {
+      await CrmCall(payload: [], status: 0)
+          .addCrmnViewr(token, urladdCrmViewrs, widget.crm.cId, subScrbAs,'','','')
           .then((value) {
         if (value.status == 200) {
           Navigator.of(context).pop();
@@ -210,6 +206,7 @@ class _CrmDoorState extends State<CrmDoor> {
                 const SizedBox(
                   height: 30,
                 ),
+                
                 Container(
                   width: 150,
                   height: 40,
@@ -223,7 +220,7 @@ class _CrmDoorState extends State<CrmDoor> {
                     // iconSize: 20,
                     // elevation: 16,
                     underline: Container(),
-                    items: _busness.map((String value) {
+                    items: crmViwrPosition.map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -232,7 +229,7 @@ class _CrmDoorState extends State<CrmDoor> {
                     hint: Container(
                       alignment: Alignment.center,
                       child: Text(
-                        selectedBusness,
+                        subScrbAs,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -243,11 +240,12 @@ class _CrmDoorState extends State<CrmDoor> {
                     onChanged: (v) {
                       setState(() {
                         // print(v);
-                        selectedBusness = v!;
+                        subScrbAs = v!;
                       });
                     },
                   ),
                 ),
+              
                 const Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

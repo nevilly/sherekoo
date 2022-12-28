@@ -6,7 +6,7 @@ import 'dart:convert';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:sherekoo/model/InvCards/invCards.dart';
-import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
+import 'package:sherekoo/model/ceremony/crm-model.dart';
 import 'package:sherekoo/screens/ourServices/sherekoCards.dart';
 import 'package:sherekoo/util/colors.dart';
 import 'package:sherekoo/util/modInstance.dart';
@@ -14,7 +14,7 @@ import 'package:sherekoo/util/modInstance.dart';
 import '../../util/Preferences.dart';
 import '../../util/func.dart';
 import '../../util/util.dart';
-import '../model/userModel.dart';
+import '../model/user/userModel.dart';
 import '../util/appWords.dart';
 import '../util/textStyle-pallet.dart';
 

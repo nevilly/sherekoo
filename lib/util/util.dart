@@ -16,6 +16,7 @@ String craetAcount = '${api}Users/addAccount';
 //users
 String urlGetUser = '${api}Users/user';
 String urlUserList = '${api}Users/users';
+String urlUserCrmVwr = '${api}Users/usersCrmViewer';
 String urlUserById = '${api}Users/userById';
 String urlUserProfileById = '${api}Users/getUserProfileById';
 String urlUpdateUserInfo = '${api}Users/updateAccount';
@@ -65,9 +66,15 @@ String urlOrderCrmBundle = '${api}CrmBundleOrders/add';
 //Ceremonyt Viewers
 String urladdCrmViewrs = '${api}CeremonyViewers/add';
 String urlGetCrmViewrs = '${api}CeremonyViewers/get'; //urlshoulBe:./get/../..;
+String urlGetCrmVwrsByUid =
+    '${api}CeremonyViewers/getByUid'; //urlshoulBe:./get/../..;
 String urlGetExistViewrs = '${api}CeremonyViewers/viewerExist';
 String urlRemoveCrmViewrs = '${api}CeremonyViewers/removeViewer';
 String urlUpdateCrmViewerPostion = '${api}CeremonyViewers/updateCrmPosition';
+
+//Ceremony Budget
+String urlGetCrmAddBudget = '${api}Budget/add';
+String urlGetCrmBudget = '${api}Budget/getByCrmId';
 
 //Busness
 String urlPostBusness = '${api}Busness/add';
@@ -81,6 +88,9 @@ String urlBusnessRemove = '${api}Busness/remove';
 
 String urlBusnessPhoto = '${api}Busness/getPhoto';
 String urlBusnessMembers = '${api}Busness/getMembers';
+
+//Admin Busness
+String urlAdmBsnRequests = '${api}Busness/getBsnRequestsByCreatorId';
 
 //Request List
 String urlPostRequests = '${api}Requests/add';

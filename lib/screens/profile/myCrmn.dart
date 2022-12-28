@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:sherekoo/util/pallets.dart';
 
-import '../../model/ceremony/allCeremony.dart';
-import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/ceremony/crmViewerModel.dart';
-import '../../model/userModel.dart';
-import '../../util/Preferences.dart';
+import '../../model/ceremony/crm-call.dart';
+import '../../model/ceremony/crm-model.dart';
+import '../../model/ceremony/crmVwr-model.dart';
+import '../../model/user/userModel.dart';
+import '../../util/app-variables.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
 import '../crmScreen/crmDoor.dart';
@@ -20,29 +20,58 @@ class MyCrmn extends StatefulWidget {
 }
 
 class _MyCrmnState extends State<MyCrmn> {
-  final Preferences _preferences = Preferences();
-  String token = '';
-
+  final _controller = ScrollController();
+  int page = 0, limit = 10, offset = 0;
+  bool bottom = false;
   List<CeremonyModel> myCeremony = [];
   List<CrmViewersModel> crmV = [];
 
   @override
   void initState() {
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
-
-        getCeremonyPosts(widget.userId);
+        getCeremonyPosts(widget.userId, offset, limit);
       });
     });
+
+    _controller.addListener(() {
+      if (!bottom &&
+          _controller.hasClients &&
+          _controller.offset >= _controller.position.maxScrollExtent &&
+          !_controller.position.outOfRange) {
+        onPage(page);
+      }
+    });
+
     super.initState();
   }
 
+  onPage(int pag) {
+    if (mounted) {
+      setState(() {
+        if (page > pag) {
+          page--;
+        } else {
+          page++;
+        }
+        offset = page * limit;
+      });
+    }
+
+    // print("Select * from table where data=all limit $offset,$limit");
+    getCeremonyPosts(widget.userId, offset, limit);
+  }
+
   // My all ceremonie post
-  Future getCeremonyPosts(id) async {
-    AllCeremonysModel(payload: [], status: 0)
-        .getCrmViewr(token, '$urlGetCrmViewrs/userId/$id')
+  getCeremonyPosts(
+    String userId,
+    int? offset,
+    int? limit,
+  ) async {
+    CrmCall(payload: [], status: 0)
+        .getCrmnVwrByUid(token, urlGetCrmVwrsByUid, userId, limit, offset)
         .then((value) {
       if (value.status == 200) {
         // print(value.payload);
@@ -58,6 +87,7 @@ class _MyCrmnState extends State<MyCrmn> {
   @override
   Widget build(BuildContext context) {
     return StaggeredGridView.countBuilder(
+        controller: _controller,
         crossAxisSpacing: 1,
         mainAxisSpacing: 3,
         crossAxisCount: 6,
@@ -85,9 +115,9 @@ class _MyCrmnState extends State<MyCrmn> {
                               youtubeLink: itm.crmInfo.youtubeLink,
                               isInFuture: itm.crmInfo.isInFuture,
                               isCrmAdmin: itm.isAdmin,
-                                likeNo:'',
-      chatNo: '',
-      viwersNo: '',
+                              likeNo: '',
+                              chatNo: '',
+                              viwersNo: '',
                               userFid: User(
                                   id: itm.crmInfo.userFid.id,
                                   username: itm.crmInfo.userFid.username,

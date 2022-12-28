@@ -3,12 +3,11 @@ import 'package:intl/intl.dart';
 import 'package:sherekoo/model/InvCards/cards.dart';
 import 'package:sherekoo/model/InvCards/invCards.dart';
 import 'package:sherekoo/util/colors.dart';
-import 'package:sherekoo/util/modInstance.dart';
 
-import '../../model/ceremony/allCeremony.dart';
-import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/userModel.dart';
-import '../../util/Preferences.dart';
+import '../../model/ceremony/crm-call.dart';
+import '../../model/ceremony/crm-model.dart';
+import '../../model/user/userModel.dart';
+import '../../util/app-variables.dart';
 import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
@@ -28,8 +27,7 @@ class SherekoCards extends StatefulWidget {
 }
 
 class _SherekoCardsState extends State<SherekoCards> {
-  final Preferences _preferences = Preferences();
-  String token = '';
+ 
 
   final TextEditingController _body = TextEditingController();
   final TextEditingController _invDateController = TextEditingController();
@@ -129,8 +127,8 @@ class _SherekoCardsState extends State<SherekoCards> {
 
   @override
   void initState() {
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
         // getCeremony();
@@ -151,7 +149,7 @@ class _SherekoCardsState extends State<SherekoCards> {
   }
 
   getAllCeremony(userid) async {
-    AllCeremonysModel(payload: [], status: 0)
+    CrmCall(payload: [], status: 0)
         .getCeremonyByUserId(token, urlGetByUserId, userid)
         .then((value) {
       if (value.status == 200) {

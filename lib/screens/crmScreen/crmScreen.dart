@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../model/allData.dart';
-import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/userModel.dart';
+import '../../model/user/user-call.dart';
+import '../../model/ceremony/crm-model.dart';
+import '../../model/user/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/modInstance.dart';
@@ -81,7 +81,7 @@ class _CeremonyScreenState extends State<CeremonyScreen> {
   }
 
   getUser() async {
-    AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
+    UsersCall(payload: [], status: 0).get(token, urlGetUser).then((value) {
       setState(() {
         currentUser = User.fromJson(value.payload);
       });

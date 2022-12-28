@@ -3,9 +3,9 @@ import 'package:sherekoo/screens/bsnScreen/bsn-screen.dart';
 
 import '../../model/busness/bsn-call.dart';
 import '../../model/busness/busnessModel.dart';
-import '../../model/ceremony/allCeremony.dart';
-import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/userModel.dart';
+import '../../model/ceremony/crm-call.dart';
+import '../../model/ceremony/crm-model.dart';
+import '../../model/user/userModel.dart';
 import '../../screens/detailScreen/bsn-details.dart';
 import '../../util/app-variables.dart';
 import '../../util/colors.dart';
@@ -140,7 +140,7 @@ class _CategoryBodyState extends State<CategoryBody> {
   }
 
   getAllCrmn(datatype) async {
-    AllCeremonysModel(payload: [], status: 0)
+    CrmCall(payload: [], status: 0)
         .getCeremonyByType(token, urlGetCrmByType, datatype)
         .then((value) {
       if (mounted) {

@@ -3,9 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:sherekoo/util/Locale.dart';
 
-import '../../model/allData.dart';
+import '../../model/user/user-call.dart';
 import '../../model/authentication/creatAccount.dart';
-import '../../model/userModel.dart';
+import '../../model/user/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/pallets.dart';
 import '../../util/util.dart';
@@ -166,7 +166,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
   }
 
   getUser(tokenn) async {
-    AllUsersModel(payload: [], status: 0).get(tokenn, urlGetUser).then((value) {
+    UsersCall(payload: [], status: 0).get(tokenn, urlGetUser).then((value) {
       setState(() {
         currentUser = User.fromJson(value.payload);
       });

@@ -1,4 +1,4 @@
-import 'package:sherekoo/model/userModel.dart';
+import 'package:sherekoo/model/user/userModel.dart';
 
 import '../requests/requestsModel.dart';
 

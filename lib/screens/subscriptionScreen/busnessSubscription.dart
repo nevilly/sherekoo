@@ -3,8 +3,8 @@ import 'package:sherekoo/screens/bsnScreen/bsn-screen.dart';
 import 'package:sherekoo/util/colors.dart';
 
 import '../../model/busness/busness-call.dart';
-import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/userModel.dart';
+import '../../model/ceremony/crm-model.dart';
+import '../../model/user/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';

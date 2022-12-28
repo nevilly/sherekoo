@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
+import 'package:sherekoo/model/ceremony/crm-model.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../model/post/post.dart';
-import '../../model/userModel.dart';
+import '../../model/user/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/func.dart';

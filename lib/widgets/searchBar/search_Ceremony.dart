@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../model/ceremony/allCeremony.dart';
-import '../../model/ceremony/ceremonyModel.dart';
+import '../../model/ceremony/crm-call.dart';
+import '../../model/ceremony/crm-model.dart';
 import '../../screens/detailScreen/livee.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
@@ -45,7 +45,7 @@ class _SearchCeremonyState extends State<SearchCeremony> {
   }
 
   getAllCeremony() async {
-    AllCeremonysModel(payload: [], status: 0)
+    CrmCall(payload: [], status: 0)
         .get(token, urlGetCeremony)
         .then((value) {
       setState(() {

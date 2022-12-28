@@ -10,12 +10,12 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:image_watermark/image_watermark.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
+import 'package:sherekoo/model/ceremony/crm-model.dart';
 import 'package:sherekoo/model/post/post.dart';
 import 'package:sherekoo/screens/chats.dart';
 import 'package:sherekoo/util/util.dart';
 
-import '../../model/userModel.dart';
+import '../../model/user/userModel.dart';
 import '../../screens/crmScreen/crmDoor.dart';
 import '../../screens/detailScreen/livee.dart';
 import '../../screens/homNav.dart';

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../model/allData.dart';
-import '../../model/ceremony/allCeremony.dart';
-import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/userModel.dart';
-import '../../util/Preferences.dart';
+import '../../model/user/user-call.dart';
+import '../../model/ceremony/crm-call.dart';
+import '../../model/ceremony/crm-model.dart';
+import '../../model/user/userModel.dart';
+import '../../util/app-variables.dart';
 import '../../util/colors.dart';
 import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
@@ -25,8 +25,7 @@ class CeremonyDay extends StatefulWidget {
 class _CeremonyDayState extends State<CeremonyDay>
     with SingleTickerProviderStateMixin {
   final _controller = ScrollController();
-  final Preferences _preferences = Preferences();
-  String token = '';
+
   bool bottom = false;
 
   List<CeremonyModel> crm = [];
@@ -58,13 +57,13 @@ class _CeremonyDayState extends State<CeremonyDay>
       totalFollowers: '',
       totalFollowing: '',
       totalLikes: '');
-  int page = 0, limit = 4, offset = 0;
+  int page = 0, limit = 8, offset = 0;
 
   @override
   void initState() {
-    print("scrolling....");
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    // print("scrolling....");
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
         getUser();
@@ -74,7 +73,7 @@ class _CeremonyDayState extends State<CeremonyDay>
     });
 
     _controller.addListener(() {
-      print("scrolling....");
+      // print("scrolling....");
       if (!bottom &&
           _controller.hasClients &&
           _controller.offset >= _controller.position.maxScrollExtent &&
@@ -87,7 +86,7 @@ class _CeremonyDayState extends State<CeremonyDay>
   }
 
   getUser() async {
-    AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
+    UsersCall(payload: [], status: 0).get(token, urlGetUser).then((value) {
       if (value.status == 200) {
         setState(() {
           currentUser = User.fromJson(value.payload);
@@ -126,13 +125,13 @@ class _CeremonyDayState extends State<CeremonyDay>
 
   getAllCeremony({int? offset, int? limit}) {
     // String d = offset != null && limit != null ? "/$offset/$limit" : '';
-    AllCeremonysModel(payload: [], status: 0)
+    CrmCall(payload: [], status: 0)
         .getDayCeremony(token, urlCrmByDay, widget.day, offset, limit)
         .then((value) {
       if (value.status == 200) {
         setState(() {
           // bottom = false;
-          print(value.payload);
+          // print(value.payload);
           crm.addAll(value.payload
               .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
               .toList());

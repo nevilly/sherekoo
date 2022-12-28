@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sherekoo/util/textStyle-pallet.dart';
 
 import '../../model/busness/busnessModel.dart';
-import '../../model/userModel.dart';
+import '../../model/user/userModel.dart';
 import '../../screens/detailScreen/bsn-details.dart';
 import '../../screens/subscriptionScreen/hiringPage.dart';
 import '../../util/colors.dart';

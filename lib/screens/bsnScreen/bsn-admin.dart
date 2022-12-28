@@ -3,20 +3,20 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:sherekoo/util/colors.dart';
 
-import '../../model/allData.dart';
+import '../../model/user/user-call.dart';
 import '../../model/busness/bsn-call.dart';
 import '../../model/busness/busnessModel.dart';
 import '../../model/requests/requests.dart';
 import '../../model/requests/requestsModel.dart';
 import '../../model/services/service-call.dart';
 import '../../model/services/servicexModel.dart';
-import '../../model/userModel.dart';
+import '../../model/user/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
-import '../profile/admin.dart';
+import '../profile/crm-admin.dart';
 import '../subscriptionScreen/update-subscription.dart';
 import '../uploadScreens/busnessUpload.dart';
 
@@ -72,7 +72,7 @@ class _AdminBsnState extends State<AdminBsn> {
   }
 
   Future getUser(String dirUrl) async {
-    return await AllUsersModel(payload: [], status: 0)
+    return await UsersCall(payload: [], status: 0)
         .get(token, dirUrl)
         .then((value) {
       if (value.status == 200) {
@@ -596,7 +596,7 @@ class _AdminBsnState extends State<AdminBsn> {
                                           color: OColors.fontColor),
                                     ),
                                     subtitle: itm.bsnInfo!.subscriptionInfo!
-                                                .activeted ==
+                                                .activeted !=
                                             '0'
                                         ? Text(
                                             itm.createdDate!,
@@ -666,6 +666,7 @@ class _AdminBsnState extends State<AdminBsn> {
                                                                 .primary),
                                                       ),
                                               )));
+                        
                           },
                         ),
                       )

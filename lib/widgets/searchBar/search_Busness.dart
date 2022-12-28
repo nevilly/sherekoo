@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:sherekoo/screens/detailScreen/bsn-details.dart';
 import 'package:sherekoo/util/colors.dart';
 
-import '../../model/allData.dart';
+import '../../model/user/user-call.dart';
 import '../../model/busness/busnessModel.dart';
-import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/userModel.dart';
+import '../../model/ceremony/crm-model.dart';
+import '../../model/user/userModel.dart';
 import '../../util/Preferences.dart';
-import '../../util/modInstance.dart';
 import '../../util/util.dart';
 
 class SearchBusness extends StatefulWidget {
@@ -99,7 +98,7 @@ class _SearchBusnessState extends State<SearchBusness> {
 
   getAll() async {
     //
-    AllUsersModel(payload: [], status: 0)
+    UsersCall(payload: [], status: 0)
         .get(token, urlAllBusnessList)
         .then((value) {
       if (value.status == 200) {

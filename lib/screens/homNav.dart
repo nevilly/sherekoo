@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:sherekoo/util/modInstance.dart';
 
-import '../model/userModel.dart';
+import '../model/user/userModel.dart';
 import '../util/Preferences.dart';
 import '../util/colors.dart';
 import 'categoriesPage/sherekooPage.dart';

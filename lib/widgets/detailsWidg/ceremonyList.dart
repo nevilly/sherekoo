@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:sherekoo/util/colors.dart';
 import 'package:sherekoo/util/textStyle-pallet.dart';
 
-import '../../model/ceremony/ceremonyModel.dart';
+import '../../model/ceremony/crm-model.dart';
 import '../../model/services/servicexModel.dart';
-import '../../model/userModel.dart';
+import '../../model/user/userModel.dart';
 import '../../screens/detailScreen/livee.dart';
 import '../../util/util.dart';
 

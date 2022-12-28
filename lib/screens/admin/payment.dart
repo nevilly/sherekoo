@@ -1,25 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:sherekoo/model/userModel.dart';
+import 'package:sherekoo/model/user/userModel.dart';
 
-import '../../model/ceremony/ceremonyModel.dart';
+import '../../model/ceremony/crm-model.dart';
 import '../../model/requests/requestsModel.dart';
 import '../../model/services/service-call.dart';
 import '../../util/app-variables.dart';
 import '../../util/colors.dart';
+import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
+import '../../widgets/imgWigdets/defaultAvater.dart';
+import '../../widgets/imgWigdets/userAvater.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
 import 'crmAdmin.dart';
 
 class MyService extends StatefulWidget {
   final RequestsModel req;
-  const MyService({Key? key, required this.req}) : super(key: key);
+  final User user;
+  const MyService({Key? key, required this.req,required this.user}) : super(key: key);
 
   @override
   State<MyService> createState() => _MyServiceState();
 }
 
 class _MyServiceState extends State<MyService> {
+  String imgUrl = '';
+
   @override
   void initState() {
     super.initState();
@@ -27,9 +33,14 @@ class _MyServiceState extends State<MyService> {
     preferences.get('token').then((value) {
       setState(() {
         token = value;
+        imgUrl =
+            '${api}public/uploads/${widget.req.bsnInfo!.user.username}/busness/${widget.req.bsnInfo!.coProfile}';
+     
       });
     });
   }
+
+
 
   addservices(bsnId, crmId, requestId, payedStatus) async {
     ServicesCall(
@@ -105,7 +116,7 @@ class _MyServiceState extends State<MyService> {
                             totalFollowers: '',
                             totalFollowing: '',
                             totalLikes: ''),
-                        youtubeLink: ''))));
+                        youtubeLink: ''), user: widget.user,)));
       }
     });
   }
@@ -116,120 +127,215 @@ class _MyServiceState extends State<MyService> {
         backgroundColor: OColors.secondary,
         appBar: AppBar(
           backgroundColor: OColors.secondary,
-          title: Text('My Service',
+          title: Text('Service Payment',
               style: header16.copyWith(fontWeight: FontWeight.bold)),
           centerTitle: true,
+          elevation: 0,
           actions: const [NotifyWidget()],
         ),
         body: Column(
           children: [
-            const SizedBox(
-              height: 5,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const SizedBox(),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0, right: 18.0),
-                  child: Column(
-                    children: [
-                      Text('My Wallet',
-                          style: TextStyle(color: OColors.fontColor)),
-                      Text('2,000,000 Tsh',
-                          style: TextStyle(
-                              color: OColors.fontColor,
-                              fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Center(
-              child: Text(
-                widget.req.ceremonyId!,
-                style: const TextStyle(color: Colors.white, fontSize: 19),
-              ),
-            ),
-
-            // Busness Profile
-            Padding(
-              padding: const EdgeInsets.only(left: 18.0, top: 10, bottom: 8.0),
-              child: Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceAround,
+            Expanded(
+              flex: 5,
+              child: Column(
                 children: [
-                  Image.network(
-                    '${api}public/uploads/${widget.req.bsnInfo!.user.username}/busness/${widget.req.bsnInfo!.coProfile}',
-                    height: 80,
-                    width: 80,
-                    fit: BoxFit.cover,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 20),
-                    child: Column(
-                      children: [
-                        Text(
-                          widget.req.bsnInfo!.knownAs,
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                        Text(
-                          widget.req.bsnInfo!.price,
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      ],
+                  //wallet Profile
+                  GestureDetector(
+                    onTap: () {
+                      //Mchango directory
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10.0, left: 8),
+                            child: Row(
+                              children: [
+                                //Avater
+                                Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: OColors.secondary,
+                                  ),
+                                  child: widget.user.avater != ''
+                                      ? Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: ClipOval(
+                                            child: UserAvater(
+                                              avater: widget.user.avater!,
+                                              url: '/profile/',
+                                              username: widget.user.username!,
+                                              width: 50.0,
+                                              height: 50.0,
+                                            ),
+                                          ))
+                                      : const ClipOval(
+                                          child: DefaultAvater(
+                                              height: 45,
+                                              radius: 35,
+                                              width: 45)),
+                                ),
+
+                                //username && Followers
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 4.0),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      //Username
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 4),
+                                        child: Text(
+                                          '@${widget.user.username}',
+                                          style: header12,
+                                        ),
+                                      ),
+
+                                      //Fan
+                                      Text(
+                                        widget.user.whatYouDo!,
+                                        style: header10,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(top: 10.0, right: 15.0),
+                            child: Column(
+                              children: [
+                                Text('Mchango',
+                                    style: TextStyle(color: OColors.fontColor)),
+                                Text('2,000,000 Tsh',
+                                    style: TextStyle(
+                                        color: OColors.fontColor,
+                                        fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  // const Spacer(),
+
+                  const SizedBox(height: 20),
+
+                  Expanded(
+                    child: Container(
+                      height: MediaQuery.of(context).size.height,
+                      decoration: BoxDecoration(
+                          color: OColors.darGrey,
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(40.0),
+                              topRight: Radius.circular(40.0))),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          Center(
+                            child: Text(
+                              widget.req.bsnInfo!.busnessType,
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 19),
+                            ),
+                          ),
+
+                          // Busness Profile
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 18.0, top: 10, bottom: 8.0),
+                            child: Row(
+                              // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                fadeImg(context, imgUrl, 100.0, 100.0),
+
+                                Container(
+                                  margin: const EdgeInsets.only(left: 20),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        widget.req.bsnInfo!.knownAs,
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                      ),
+                                      Text(
+                                        widget.req.bsnInfo!.price,
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                // const Spacer(),
+                              ],
+                            ),
+                          ),
+
+                          const Spacer(),
+                          // footer
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  addservices(
+                                      widget.req.busnessId,
+                                      widget.req.ceremonyId,
+                                      widget.req.hostId,
+                                      '0');
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: OColors.primary),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text(
+                                      'Select',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: OColors.primary),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text(
+                                      'Payment',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 50,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
-            ),
-
-            const Spacer(),
-            // footer
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    addservices(widget.req.busnessId, widget.req.ceremonyId,
-                        widget.req.hostId, '0');
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: OColors.primary),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        'Select',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: OColors.primary),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        'Payment',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 50,
             ),
           ],
         ));

@@ -1,5 +1,5 @@
 import 'package:sherekoo/model/busness/busnessModel.dart';
-import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
+import 'package:sherekoo/model/ceremony/crm-model.dart';
 
 
 class RequestsModel {

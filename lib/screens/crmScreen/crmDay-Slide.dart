@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/widgets/gradientBorder.dart';
 
-import '../../model/ceremony/ceremonyModel.dart';
+import '../../model/ceremony/crm-model.dart';
 import '../../util/colors.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
@@ -19,7 +19,8 @@ class CrmSlide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return 
+    Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
@@ -139,4 +140,5 @@ class CrmSlide extends StatelessWidget {
           )),
     );
   }
+
 }

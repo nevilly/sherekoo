@@ -6,10 +6,9 @@ import '../../model/InvCards/cards.dart';
 import '../../model/bundleBooking/bundle-orders.dart';
 import '../../model/crmBundle/bundle.dart';
 import '../../model/services/servicexModel.dart';
-import '../../model/userModel.dart';
+import '../../model/user/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
-import 'package:sherekoo/model/crmSevers/Servers.dart';
 
 import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';

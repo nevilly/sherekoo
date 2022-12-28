@@ -1,5 +1,5 @@
 import '../likesModel.dart';
-import '../userModel.dart';
+import '../user/userModel.dart';
 
 class ChatsModel {
   final String id;

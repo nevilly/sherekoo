@@ -1,4 +1,4 @@
-import '../userModel.dart';
+import '../user/userModel.dart';
 
 class FollowModel {
   final String id;

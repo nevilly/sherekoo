@@ -5,8 +5,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:intl/intl.dart';
 
-import '../model/ceremony/ceremonyModel.dart';
-import '../model/ceremony/crmViewerModel.dart';
+import '../model/ceremony/crm-model.dart';
+import '../model/ceremony/crmVwr-model.dart';
 
 import '../widgets/imgWigdets/defaultAvater.dart';
 import '../widgets/imgWigdets/userAvater.dart';

@@ -3,7 +3,7 @@ import 'package:sherekoo/util/colors.dart';
 
 import '../../model/busness/bsn-call.dart';
 import '../../model/busness/busnessModel.dart';
-import '../../model/userModel.dart';
+import '../../model/user/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/modInstance.dart';
 import '../../util/pallets.dart';

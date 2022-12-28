@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../model/ceremony/ceremonyModel.dart';
+import '../model/ceremony/crm-model.dart';
 import '../model/chats/chatsModel.dart';
 import '../model/post/post.dart';
 import '../model/post/sherekoModel.dart';
-import '../model/userModel.dart';
+import '../model/user/userModel.dart';
 import '../screens/detailScreen/livePost.dart';
-import '../util/Preferences.dart';
 import '../util/app-variables.dart';
 import '../util/util.dart';
 

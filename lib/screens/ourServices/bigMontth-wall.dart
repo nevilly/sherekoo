@@ -6,7 +6,7 @@ import '../../model/bigMontTvShow/bigMnth-Reg-Memb.dart';
 import '../../model/bigMontTvShow/bigMonth-Model.dart';
 import '../../model/chats/chatPost.dart';
 import '../../model/chats/chatsModel.dart';
-import '../../model/userModel.dart';
+import '../../model/user/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/colors.dart';
 import '../../util/func.dart';

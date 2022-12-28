@@ -1,5 +1,5 @@
 import '../busness/busnessModel.dart';
-import '../ceremony/ceremonyModel.dart';
+import '../ceremony/crm-model.dart';
 
 class ServicexModel {
   final String svId;

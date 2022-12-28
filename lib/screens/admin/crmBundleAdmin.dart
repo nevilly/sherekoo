@@ -10,11 +10,11 @@ import 'package:sherekoo/util/colors.dart';
 
 import '../../model/InvCards/cards.dart';
 import '../../model/InvCards/invCards.dart';
-import '../../model/allData.dart';
+import '../../model/user/user-call.dart';
 import '../../model/busness/bsn-call.dart';
 import '../../model/busness/busnessModel.dart';
 import '../../model/crmPackage/crmPackageModel.dart';
-import '../../model/userModel.dart';
+import '../../model/user/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/appWords.dart';
 import '../../util/func.dart';
@@ -115,7 +115,7 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
   }
 
   getUser(String dirUrl) {
-    AllUsersModel(payload: [], status: 0).get(token, urlUserList).then((value) {
+    UsersCall(payload: [], status: 0).get(token, urlUserList).then((value) {
       // print(value.payload);
       if (value.status == 200) {
         setState(() {
@@ -140,7 +140,7 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
         }
       });
     } else {
-      AllUsersModel(payload: [], status: 0)
+      UsersCall(payload: [], status: 0)
           .get(token, urlAllBusnessList)
           .then((value) {
         if (value.status == 200) {

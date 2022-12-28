@@ -8,9 +8,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sherekoo/screens/profile/profile.dart';
 import 'package:sherekoo/util/colors.dart';
 
-import '../../model/allData.dart';
+
 import '../../model/authentication/creatAccount.dart';
-import '../../model/userModel.dart';
+import '../../model/user/user-call.dart';
+import '../../model/user/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/util.dart';
 
@@ -152,7 +153,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
   }
 
   getUser() async {
-    AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
+    UsersCall(payload: [], status: 0).get(token, urlGetUser).then((value) {
       setState(() {
         currentUser = User.fromJson(value.payload);
       });

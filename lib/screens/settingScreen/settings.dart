@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sherekoo/util/colors.dart';
 
 import '../../model/authentication/creatAccount.dart';
-import '../../model/userModel.dart';
+import '../../model/user/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
@@ -371,6 +371,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(40.0),
                             topRight: Radius.circular(40.0))),
+                  
                     child: Container(
                       margin: const EdgeInsets.only(
                           top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),

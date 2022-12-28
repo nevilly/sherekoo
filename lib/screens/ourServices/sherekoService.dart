@@ -3,12 +3,12 @@ import 'package:intl/intl.dart';
 import 'package:sherekoo/screens/ourServices/srvDetails.dart';
 import 'package:sherekoo/util/colors.dart';
 
-import '../../model/allData.dart';
 import '../../model/crmBundle/bundle.dart';
 import '../../model/crmBundle/crmbundle-call.dart';
 import '../../model/crmPackage/crmPackage.dart';
 import '../../model/crmPackage/crmPackageModel.dart';
-import '../../model/userModel.dart';
+import '../../model/user/user-call.dart';
+import '../../model/user/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/modInstance.dart';
 import '../../util/textStyle-pallet.dart';
@@ -71,7 +71,7 @@ class _SherekoServiceState extends State<SherekoService> {
   }
 
   Future getUser(String dirUrl) async {
-    return await AllUsersModel(payload: [], status: 0)
+    return await UsersCall(payload: [], status: 0)
         .get(token, dirUrl)
         .then((value) {
       if (value.status == 200) {

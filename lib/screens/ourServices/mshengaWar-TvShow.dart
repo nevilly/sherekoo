@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:sherekoo/util/colors.dart';
 import 'package:sherekoo/util/pallets.dart';
 
-import '../../model/allData.dart';
+import '../../model/user/user-call.dart';
 
 import '../../model/mshengaWar/mshengaWar-Model.dart';
 import '../../model/mshengaWar/mshengaWar-call.dart';
-import '../../model/userModel.dart';
+import '../../model/user/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
@@ -103,7 +103,7 @@ User currentUser = User(
   }
 
   Future getUser(String dirUrl) async {
-    return await AllUsersModel(payload: [], status: 0)
+    return await UsersCall(payload: [], status: 0)
         .get(token, dirUrl)
         .then((value) {
       if (value.status == 200) {

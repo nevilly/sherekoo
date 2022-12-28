@@ -1,16 +1,16 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
+import 'package:sherekoo/model/ceremony/crm-model.dart';
 import 'package:sherekoo/model/crmSevers/Servers.dart';
 import 'package:sherekoo/model/services/ServicesModelModel.dart';
 
-import '../model/allData.dart';
-import '../model/ceremony/allCeremony.dart';
-import '../model/ceremony/crmViewerModel.dart';
+import '../model/ceremony/crm-call.dart';
+import '../model/ceremony/crmVwr-model.dart';
 import '../model/post/post.dart';
 import '../model/post/sherekoModel.dart';
-import '../model/userModel.dart';
+import '../model/user/user-call.dart';
+import '../model/user/userModel.dart';
 import '../model/services/service-call.dart';
 import '../model/services/servicexModel.dart';
 import '../util/app-variables.dart';
@@ -75,7 +75,7 @@ class _TabBState extends State<TabB> {
       totalLikes: '');
 
   getUser() async {
-    AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
+    UsersCall(payload: [], status: 0).get(token, urlGetUser).then((value) {
       if (value.status == 200) {
         setState(() {
           user = User.fromJson(value.payload);
@@ -153,7 +153,7 @@ class _TabBState extends State<TabB> {
   }
 
   getViewers() async {
-    AllCeremonysModel(
+    CrmCall(
       status: 0,
       payload: [],
     ).get(token, '$urlGetCrmViewrs/crmId/${widget.ceremony.cId}').then((value) {

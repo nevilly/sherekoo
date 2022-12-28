@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../../model/ceremony/ceremonyModel.dart';
+import '../../model/ceremony/crm-model.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import 'uploadImage.dart';

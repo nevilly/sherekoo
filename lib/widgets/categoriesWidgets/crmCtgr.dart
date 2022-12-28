@@ -3,9 +3,9 @@ import 'package:sherekoo/screens/crmScreen/Crm.dart';
 import 'package:sherekoo/screens/detailScreen/livee.dart';
 import 'package:sherekoo/util/colors.dart';
 
-import '../../model/ceremony/allCeremony.dart';
-import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/userModel.dart';
+import '../../model/ceremony/crm-call.dart';
+import '../../model/ceremony/crm-model.dart';
+import '../../model/user/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/pallets.dart';
 import '../../util/util.dart';
@@ -111,7 +111,7 @@ class _CrmCategoriesWidgetState extends State<CrmCategoriesWidget> {
   }
 
   getAll() async {
-    AllCeremonysModel(payload: [], status: 0)
+    CrmCall(payload: [], status: 0)
         .getCeremonyByType(token, urlGetCrmByType, widget.dataType)
         .then((value) {
       if (mounted) {

@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/screens/uploadScreens/ceremonyUpload.dart';
-import '../../model/allData.dart';
-import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/userModel.dart';
-import '../../util/Preferences.dart';
+import '../../model/user/user-call.dart';
+import '../../model/ceremony/crm-call.dart';
+import '../../model/ceremony/crm-model.dart';
+import '../../model/user/userModel.dart';
+import '../../util/app-variables.dart';
 import '../../util/modInstance.dart';
 import '../../util/colors.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
+import '../../widgets/gradientBorder.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
 import '../../widgets/ourServiceWidg/sherkoSvcWdg.dart';
+import '../../widgets/scrollText.dart';
 import '../../widgets/searchBar/search_Ceremony.dart';
+import '../detailScreen/livee.dart';
 import '../drawer/navDrawer.dart';
-import 'crmDay-Slide.dart';
 import 'crmDay.dart';
+import 'crmDoor.dart';
 
 class CrmOnNav extends StatefulWidget {
   const CrmOnNav({Key? key}) : super(key: key);
@@ -23,9 +27,8 @@ class CrmOnNav extends StatefulWidget {
 }
 
 class CrmOnNavState extends State<CrmOnNav> {
-  final Preferences _preferences = Preferences();
-  String token = '';
-
+  int page = 0, limit = 8, offset = 0;
+  final _controller = ScrollController();
   List<CeremonyModel> todayCrm = [];
 
   User user = User(
@@ -51,19 +54,56 @@ class CrmOnNavState extends State<CrmOnNav> {
 
   @override
   void initState() {
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
         getUser(urlGetUser);
-        // getCeremony();
+        getCeremony(offset: page, limit: limit);
       });
+    });
+
+    _controller.addListener(() {
+      // print("scrolling....");
+      if (_controller.hasClients &&
+          _controller.offset >= _controller.position.maxScrollExtent &&
+          !_controller.position.outOfRange) {
+        onPage(page);
+      }
     });
     super.initState();
   }
 
+  onPage(int pag) {
+    // print("Pages");
+
+    // print(pag);
+
+    if (mounted) {
+      setState(() {
+        // bottom = true;
+        if (page > pag) {
+          page--;
+        } else {
+          page++;
+        }
+        offset = page * limit;
+      });
+    }
+
+    // print("Select * from table where data=all limit $offset,$limit");
+    //page = pag;
+    // print('post Length :');
+    // print(crm.length);
+    getCeremony(offset: offset, limit: limit);
+    if (pag == todayCrm.length - 1) {
+      //offset = page;
+      //print("Select * from posts order by id limit ${offset}, ${limit}");
+    }
+  }
+
   Future getUser(String dirUrl) async {
-    return await AllUsersModel(payload: [], status: 0)
+    return await UsersCall(payload: [], status: 0)
         .get(token, dirUrl)
         .then((value) {
       if (value.status == 200) {
@@ -74,22 +114,21 @@ class CrmOnNavState extends State<CrmOnNav> {
     });
   }
 
-  // getCeremony() async {
-  //   AllCeremonysModel(payload: [], status: 0)
-  //       .getDayCeremony(token, urlCrmByDay, 'Today')
-  //       .then((value) {
-
-  //     setState(() {
-  //       if (value.status == 200) {
-  //         setState(() {
-  //           todayCrm = value.payload
-  //               .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
-  //               .toList();
-  //         });
-  //       }
-  //     });
-  //   });
-  // }
+  getCeremony({int? offset, int? limit}) async {
+    CrmCall(payload: [], status: 0)
+        .getDayCeremony(token, urlCrmByDay, 'Today', offset, limit)
+        .then((value) {
+      setState(() {
+        if (value.status == 200) {
+          setState(() {
+            todayCrm.addAll(value.payload
+                .map<CeremonyModel>((e) => CeremonyModel.fromJson(e))
+                .toList());
+          });
+        }
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +150,7 @@ class CrmOnNavState extends State<CrmOnNav> {
                 ? Padding(
                     padding: const EdgeInsets.only(
                         left: 8.0, right: 8.0, top: 4, bottom: 4),
-                    child: CrmSlide(todayCrm: todayCrm),
+                    child: mytodayCrm(),
                   )
                 : const SizedBox(),
 
@@ -148,6 +187,97 @@ class CrmOnNavState extends State<CrmOnNav> {
           ],
         ),
       ),
+    );
+  }
+
+  Column mytodayCrm() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0, bottom: 2),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Live',
+                  style: header14.copyWith(fontWeight: FontWeight.w400)),
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0, left: 4),
+                child: Icon(
+                  Icons.live_tv,
+                  size: 20,
+                  color: OColors.primary,
+                ),
+              )
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 80.0,
+          child: ListView.builder(
+            controller: _controller,
+            scrollDirection: Axis.horizontal,
+            itemCount: todayCrm.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Padding(
+                padding: const EdgeInsets.only(left: 6.0, right: 6),
+                child: SizedBox(
+                  width: 65,
+                  // color: OColors.darGrey,
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => CrmDoor(
+                                        crm: todayCrm[index],
+                                      )));
+                        },
+                        child: todayCrm[index].cImage != ''
+                            ? LiveBorder(
+                                live: liveBar(),
+                                radius: 30,
+                                child: CircleAvatar(
+                                  radius: 20,
+                                  backgroundImage: NetworkImage(
+                                    '${api}public/uploads/${todayCrm[index].userFid.username}/ceremony/${todayCrm[index].cImage}',
+                                  ),
+                                ))
+                            : const SizedBox(height: 1),
+                      ),
+
+                      //Details Ceremony
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) =>
+                                      Livee(ceremony: todayCrm[index])));
+                        },
+                        child: todayCrm[index].codeNo.length >= 8
+                            ? SizedBox(
+                                height: 20,
+                                width: 70,
+                                child: ScrollingText(
+                                  text: todayCrm[index].codeNo,
+                                  textStyle: const TextStyle(
+                                      fontSize: 12, color: Colors.white),
+                                ))
+                            : Text(todayCrm[index].codeNo,
+                                style: const TextStyle(
+                                    fontSize: 12, color: Colors.white)),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 
@@ -275,6 +405,38 @@ class CrmOnNavState extends State<CrmOnNav> {
       builder: (BuildContext context) {
         return alert;
       },
+    );
+  }
+
+  Positioned liveBar() {
+    return Positioned(
+      bottom: 0,
+      left: 4,
+      width: 49,
+      height: 15,
+      child: Container(
+          padding: const EdgeInsets.only(left: 3.5, right: 3.5),
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  OColors.primary2,
+                  OColors.primary,
+                  Colors.red,
+                ],
+              ),
+              color: OColors.primary,
+              borderRadius: BorderRadius.circular(10)),
+          child: Row(
+            children: [
+              const SizedBox(width: 4),
+              Icon(Icons.live_tv, size: 13, color: OColors.fontColor),
+              const SizedBox(width: 5),
+              Text(
+                'live',
+                style: header10,
+              )
+            ],
+          )),
     );
   }
 }

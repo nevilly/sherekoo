@@ -9,10 +9,10 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:sherekoo/widgets/imgWigdets/defaultAvater.dart';
-import '../../model/allData.dart';
-import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/ceremony/postCeremony.dart';
-import '../../model/userModel.dart';
+import '../../model/user/user-call.dart';
+import '../../model/ceremony/crm-model.dart';
+import '../../model/ceremony/postCrm-call.dart';
+import '../../model/user/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/appWords.dart';
 import '../../util/colors.dart';
@@ -279,7 +279,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
   }
 
   getUser() async {
-    AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
+    UsersCall(payload: [], status: 0).get(token, urlGetUser).then((value) {
       setState(() {
         currentUser = User.fromJson(value.payload);
       });
@@ -287,7 +287,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
   }
 
   getAllUsers() async {
-    AllUsersModel(payload: [], status: 0).get(token, urlUserList).then((value) {
+    UsersCall(payload: [], status: 0).get(token, urlUserList).then((value) {
       setState(() {
         _allUsers = value.payload.map<User>((e) => User.fromJson(e)).toList();
       });

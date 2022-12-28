@@ -4,8 +4,8 @@ import 'package:sherekoo/util/colors.dart';
 
 import '../../model/post/post.dart';
 import '../../model/post/sherekoModel.dart';
-import '../../model/userModel.dart';
-import '../../util/Preferences.dart';
+import '../../model/user/userModel.dart';
+import '../../util/app-variables.dart';
 import '../../util/util.dart';
 import '../chats.dart';
 
@@ -18,28 +18,59 @@ class MyPosts extends StatefulWidget {
 }
 
 class _MyPostsState extends State<MyPosts> {
-  final Preferences _preferences = Preferences();
-
-  String token = '';
+  final _controller = ScrollController();
+  int page = 0, limit = 10, offset = 0;
+  bool bottom = false;
   List<SherekooModel> post = [];
 
   @override
   void initState() {
+    super.initState();
     PaintingBinding.instance.imageCache.clear();
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
-
         if (widget.user.id!.isNotEmpty) {
-          getPost(widget.user.id);
+          getPost(widget.user.id, offset, limit);
         }
       });
     });
-    super.initState();
+
+    _controller.addListener(() {
+      if (!bottom &&
+          _controller.hasClients &&
+          _controller.offset >= _controller.position.maxScrollExtent &&
+          !_controller.position.outOfRange) {
+        onPage(page);
+      }
+    });
   }
 
-  Future getPost(id) async {
+  onPage(int pag) {
+    if (mounted) {
+      setState(() {
+        if (page > pag) {
+          page--;
+        } else {
+          page++;
+        }
+        offset = page * limit;
+      });
+    }
+
+    // print("Select * from table where data=all limit $offset,$limit");
+    //page = pag;
+    // print('post Length :');
+
+    getPost(widget.user.id, offset, limit);
+    if (pag == post.length - 1) {
+      //offset = page;
+      //print("Select * from posts order by id limit ${offset}, ${limit}");
+    }
+  }
+
+  getPost(id, int? offset, int? limit) {
     Post(
       payload: [],
       status: 0,
@@ -51,13 +82,15 @@ class _MyPostsState extends State<MyPosts> {
       username: '',
       vedeo: '',
       hashTag: '',
-    ).getPostByUserId(token, urlGetSherekooByUid, id).then((value) {
+    )
+        .getPostByUserId(token, urlGetSherekooByUid, id, offset, limit)
+        .then((value) {
       if (value.status == 200) {
         setState(() {
           // print(value.payload);
-          post = value.payload
+          post.addAll(value.payload
               .map<SherekooModel>((e) => SherekooModel.fromJson(e))
-              .toList();
+              .toList());
         });
       }
     });
@@ -66,6 +99,7 @@ class _MyPostsState extends State<MyPosts> {
   @override
   Widget build(BuildContext context) {
     return StaggeredGridView.countBuilder(
+        controller: _controller,
         crossAxisSpacing: 1,
         mainAxisSpacing: 3,
         crossAxisCount: 6,

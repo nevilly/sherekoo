@@ -1,8 +1,10 @@
+import 'package:sherekoo/model/ceremony/crmVwr-model.dart';
+
 import '../model/busness/busnessModel.dart';
-import '../model/ceremony/ceremonyModel.dart';
+import '../model/ceremony/crm-model.dart';
 import '../model/crmPackage/crmPackageModel.dart';
 import '../model/subScription/subsrModel.dart';
-import '../model/userModel.dart';
+import '../model/user/userModel.dart';
 
 CeremonyModel emptyCrmModel = CeremonyModel(
   cId: '',
@@ -84,7 +86,40 @@ User emptycurrentUser = User(
     totalFollowing: '',
     totalLikes: '');
 
-BusnessModel busness = BusnessModel(
+User emptyUser = User(
+    id: '',
+    username: '',
+    firstname: '',
+    lastname: '',
+    avater: '',
+    phoneNo: '',
+    email: '',
+    gender: '',
+    role: '',
+    isCurrentUser: '',
+    address: '',
+    bio: '',
+    meritalStatus: '',
+    totalPost: '',
+    isCurrentBsnAdmin: '',
+    isCurrentCrmAdmin: '',
+    totalFollowers: '',
+    totalFollowing: '',
+    totalLikes: '');
+
+SubscriptionModel emptySubscrptn = SubscriptionModel(
+    subId: '',
+    level: '',
+    subscriptionType: '',
+    categoryId: '',
+    activeted: '',
+    duration: '',
+    startTime: '',
+    endTime: '',
+    receiptNo: '',
+    createdDate: '');
+
+BusnessModel emptyBsnMdl = BusnessModel(
     location: '',
     bId: '',
     knownAs: '',
@@ -97,30 +132,10 @@ BusnessModel busness = BusnessModel(
     aboutCEO: '',
     aboutCompany: '',
     ceoId: '',
-     subscriptionInfo:SubscriptionModel(subId: '', level: '', subscriptionType: '', categoryId: '', activeted: '', duration: '', startTime: '', endTime: '', receiptNo: '', createdDate: ''),
-      
-    isBsnAdmin:'',
+    subscriptionInfo: emptySubscrptn,
+    isBsnAdmin: '',
     createdBy: '',
-    user: User(
-        id: '',
-        username: '',
-        firstname: '',
-        lastname: '',
-        avater: '',
-        phoneNo: '',
-        email: '',
-        gender: '',
-        role: '',
-        isCurrentUser: '',
-        address: '',
-        bio: '',
-        meritalStatus: '',
-        totalPost: '',
-        isCurrentBsnAdmin: '',
-        isCurrentCrmAdmin: '',
-        totalFollowers: '',
-        totalFollowing: '',
-        totalLikes: ''),
+    user: emptyUser,
     createdDate: '');
 
 CrmPckModel pck = CrmPckModel(
@@ -133,14 +148,53 @@ CrmPckModel pck = CrmPckModel(
     inYear: '',
     pImage: '');
 
- Map<String, dynamic> get shereKoMap {
-    return {
-      'pId': '',
-      'createdBy': '',
-      'ceremonyId': '',
-      'body': '',
-      'vedeo': '',
-      'creatorInfo': {
+Map<String, dynamic> get shereKoMap {
+  return {
+    'pId': '',
+    'createdBy': '',
+    'ceremonyId': '',
+    'body': '',
+    'vedeo': '',
+    'creatorInfo': {
+      'id': '',
+      'username': '',
+      'firstname': '',
+      'lastname': '',
+      'avater': '',
+      'phoneNo': '',
+      'email': '',
+      'gender': '',
+      'role': '',
+      'isCurrentUser': '',
+      'address': '',
+      'bio': '',
+      'meritalStatus': '',
+      'totalPost': '',
+      'isCurrentBsnAdmin': '',
+      'isCurrentCrmAdmin': '',
+      'totalFollowers': '',
+      'totalFollowing': '',
+      'totalLikes': ''
+    },
+    'createdDate': '',
+    'commentNumber': '',
+    'crmInfo': {
+      'cId': '',
+      'codeNo': '',
+      'ceremonyType': '',
+      'cName': '',
+      'fId': '',
+      'sId': '',
+      'cImage': '',
+      'ceremonyDate': '',
+      'admin': '',
+      'contact': '',
+      'isInFuture': '',
+      'isCrmAdmin': '',
+      'likeNo': '',
+      'chatNo': '',
+      'viwersNo': '',
+      'userFid': {
         'id': '',
         'username': '',
         'firstname': '',
@@ -161,73 +215,45 @@ CrmPckModel pck = CrmPckModel(
         'totalFollowing': '',
         'totalLikes': ''
       },
-      'createdDate': '',
-      'commentNumber': '',
-      'crmInfo': {
-        'cId': '',
-        'codeNo': '',
-        'ceremonyType': '',
-        'cName': '',
-        'fId': '',
-        'sId': '',
-        'cImage': '',
-        'ceremonyDate': '',
-        'admin': '',
-        'contact': '',
-        'isInFuture': '',
-        'isCrmAdmin': '',
-        'likeNo': '',
-        'chatNo': '',
-        'viwersNo': '',
-        'userFid': {
-          'id': '',
-          'username': '',
-          'firstname': '',
-          'lastname': '',
-          'avater': '',
-          'phoneNo': '',
-          'email': '',
-          'gender': '',
-          'role': '',
-          'isCurrentUser': '',
-          'address': '',
-          'bio': '',
-          'meritalStatus': '',
-          'totalPost': '',
-          'isCurrentBsnAdmin': '',
-          'isCurrentCrmAdmin': '',
-          'totalFollowers': '',
-          'totalFollowing': '',
-          'totalLikes': ''
-        },
-        'userSid': {
-          'id': '',
-          'username': '',
-          'firstname': '',
-          'lastname': '',
-          'avater': '',
-          'phoneNo': '',
-          'email': '',
-          'gender': '',
-          'role': '',
-          'isCurrentUser': '',
-          'address': '',
-          'bio': '',
-          'meritalStatus': '',
-          'totalPost': '',
-          'isCurrentBsnAdmin': '',
-          'isCurrentCrmAdmin': '',
-          'totalFollowers': '',
-          'totalFollowing': '',
-          'totalLikes': ''
-        },
-        'youtubeLink': '',
+      'userSid': {
+        'id': '',
+        'username': '',
+        'firstname': '',
+        'lastname': '',
+        'avater': '',
+        'phoneNo': '',
+        'email': '',
+        'gender': '',
+        'role': '',
+        'isCurrentUser': '',
+        'address': '',
+        'bio': '',
+        'meritalStatus': '',
+        'totalPost': '',
+        'isCurrentBsnAdmin': '',
+        'isCurrentCrmAdmin': '',
+        'totalFollowers': '',
+        'totalFollowing': '',
+        'totalLikes': ''
       },
-      'totalLikes': '',
-      'isLike': '',
-      'totalShare': '',
-      'hashTag': '',
-      'isPostAdmin': '',
-      'crmViewer': ''
-    };
-  }
+      'youtubeLink': '',
+    },
+    'totalLikes': '',
+    'isLike': '',
+    'totalShare': '',
+    'hashTag': '',
+    'isPostAdmin': '',
+    'crmViewer': ''
+  };
+}
+
+CrmViewersModel emptyCrmVwr = CrmViewersModel(
+    id: '',
+    userId: '',
+    name: '',
+    contact: '',
+    position: '',
+    crmInfo: emptyCrmModel,
+    viewerInfo: emptyUser,
+    isAdmin: '',
+    crmId: '');

@@ -4,10 +4,10 @@ import 'package:sherekoo/screens/profile/myCrmn.dart';
 import 'package:sherekoo/screens/profile/viewFollowers.dart';
 import 'package:sherekoo/util/colors.dart';
 import 'package:sherekoo/widgets/imgWigdets/defaultAvater.dart';
-import '../../model/allData.dart';
-import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/userModel.dart';
-import '../../util/Preferences.dart';
+import '../../model/user/user-call.dart';
+import '../../model/ceremony/crm-model.dart';
+import '../../model/user/userModel.dart';
+import '../../util/app-variables.dart';
 import '../../util/func.dart';
 import '../../util/pallets.dart';
 import '../../util/textStyle-pallet.dart';
@@ -18,7 +18,8 @@ import '../accounts/login.dart';
 import '../drawer/navDrawer.dart';
 import '../settingScreen/settings.dart';
 import '../uploadScreens/ceremonyUpload.dart';
-import 'admin.dart';
+import 'bsn-admn.dart';
+import 'crm-admin.dart';
 import 'myBusness.dart';
 import 'myPosts.dart';
 
@@ -31,9 +32,6 @@ class Profile extends StatefulWidget {
 }
 
 class ProfileState extends State<Profile> {
-  final Preferences _preferences = Preferences();
-  String token = '';
-
   TextStyle styl =
       header13.copyWith(fontWeight: FontWeight.bold, color: OColors.primary);
   User user = User(
@@ -62,8 +60,8 @@ class ProfileState extends State<Profile> {
 
   @override
   void initState() {
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
         widget.user.id != ''
@@ -76,7 +74,7 @@ class ProfileState extends State<Profile> {
   }
 
   Future getUser(String dirUrl) async {
-    return await AllUsersModel(payload: [], status: 0)
+    return await UsersCall(payload: [], status: 0)
         .get(token, dirUrl)
         .then((value) {
       if (value.status == 200) {
@@ -239,6 +237,7 @@ class ProfileState extends State<Profile> {
                     : loadingFunc(40, OColors.primary),
               ]),
             ),
+          
           ],
         ),
       ),
@@ -549,7 +548,7 @@ class ProfileState extends State<Profile> {
               style: header13,
             ),
             onTap: () {
-              _preferences.logout();
+              preferences.logout();
               Navigator.of(context).pop();
               Navigator.push(
                   context,
@@ -600,8 +599,7 @@ class ProfileState extends State<Profile> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => AdminPage(
-                            from: 'Bsn',
+                      builder: (BuildContext context) => BSnAdminPage(
                             user: user,
                           )));
             },

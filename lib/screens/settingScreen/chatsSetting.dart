@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../model/allData.dart';
+import '../../model/user/user-call.dart';
 import '../../model/chats/chatPost.dart';
 import '../../model/chats/chatsModel.dart';
-import '../../model/userModel.dart';
+import '../../model/user/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/func.dart';
@@ -62,7 +62,7 @@ class _ChatSettingsState extends State<ChatSettings> {
   }
 
   Future getUser(String dirUrl) async {
-    return await AllUsersModel(payload: [], status: 0)
+    return await UsersCall(payload: [], status: 0)
         .get(token, dirUrl)
         .then((value) {
       if (value.status == 200) {

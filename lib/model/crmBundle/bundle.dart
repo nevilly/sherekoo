@@ -2,7 +2,7 @@ import '../InvCards/cards.dart';
 import '../crmPackage/crmPackageModel.dart';
 import '../crmPlan/plan.dart';
 import '../services/servicexModel.dart';
-import '../userModel.dart';
+import '../user/userModel.dart';
 
 class Bundle {
   String id;

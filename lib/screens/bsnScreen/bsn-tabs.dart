@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../model/allData.dart';
+import '../../model/user/user-call.dart';
 import '../../model/busness/bsn-call.dart';
 import '../../model/busness/busnessModel.dart';
-import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/userModel.dart';
+import '../../model/ceremony/crm-model.dart';
+import '../../model/user/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/util.dart';
@@ -124,7 +124,7 @@ class BsnTabState extends State<BsnTab> {
   }
 
   getUser() async {
-    AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
+    UsersCall(payload: [], status: 0).get(token, urlGetUser).then((value) {
       if (value.status == 200) {
         setState(() {
           currentUser = User.fromJson(value.payload);
@@ -148,7 +148,7 @@ class BsnTabState extends State<BsnTab> {
         }
       });
     } else {
-      AllUsersModel(payload: [], status: 0)
+      UsersCall(payload: [], status: 0)
           .get(token, urlAllBusnessList)
           .then((value) {
         if (value.status == 200) {

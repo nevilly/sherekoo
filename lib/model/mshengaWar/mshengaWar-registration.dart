@@ -1,4 +1,4 @@
-import 'package:sherekoo/model/userModel.dart';
+import 'package:sherekoo/model/user/userModel.dart';
 
 class MshengaWarRegisteredMembersModel {
   String id;

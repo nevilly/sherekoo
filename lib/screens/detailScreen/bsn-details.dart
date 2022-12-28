@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/util/textStyle-pallet.dart';
-import '../../model/allData.dart';
+import '../../model/user/user-call.dart';
 import '../../model/busness/bsn-call.dart';
 import '../../model/busness/busnessMembers.dart';
 import '../../model/busness/busnessModel.dart';
 import '../../model/busness/busnessPhotoModel.dart';
-import '../../model/ceremony/ceremonyModel.dart';
+import '../../model/ceremony/crm-model.dart';
 import '../../model/getAll.dart';
-import '../../model/userModel.dart';
+import '../../model/user/userModel.dart';
 import '../../model/services/service-call.dart';
 import '../../model/services/servicexModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/colors.dart';
-import '../../util/modInstance.dart';
 import '../../util/util.dart';
 import '../../widgets/detailsWidg/BsnProfile.dart';
 import '../../widgets/detailsWidg/bsnDescr.dart';
@@ -133,11 +132,6 @@ class _BsnDetailsState extends State<BsnDetails> {
         // print(widget.data.isBsnAdmin);
         getUser(urlGetUser);
         getOther();
-        // getPhoto();
-        // getMembers();
-        // crmWorkWithBsn();
-        // print('widget.data.bId');
-        // print(widget.data.bId);
         getservices(widget.data.bId);
       });
     });
@@ -148,7 +142,7 @@ class _BsnDetailsState extends State<BsnDetails> {
   }
 
   Future getUser(String dirUrl) async {
-    return await AllUsersModel(payload: [], status: 0)
+    return await UsersCall(payload: [], status: 0)
         .get(token, dirUrl)
         .then((value) {
       if (value.status == 200) {

@@ -1,6 +1,6 @@
 // ignore: file_names
-import '../ceremony/ceremonyModel.dart';
-import '../userModel.dart';
+import '../ceremony/crm-model.dart';
+import '../user/userModel.dart';
 
 class SherekooModel {
   final String pId;

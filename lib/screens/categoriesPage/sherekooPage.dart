@@ -333,7 +333,7 @@ class _SherekooState extends State<Sherekoo> {
                     context,
                     MaterialPageRoute(
                         builder: (BuildContext context) => BusnessUpload(
-                              getData: busness,
+                              getData: emptyBsnMdl,
                             )));
               },
               child: Container(

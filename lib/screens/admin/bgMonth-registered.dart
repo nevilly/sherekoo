@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/util/colors.dart';
 
-import '../../model/allData.dart';
+import '../../model/user/user-call.dart';
 import '../../model/bigMontTvShow/bigMonth-call.dart';
 import '../../model/bigMontTvShow/bigMonth-registeredMembers.dart';
-import '../../model/userModel.dart';
+import '../../model/user/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
@@ -73,7 +73,7 @@ class _BigMonthRegisteredState extends State<BigMonthRegistered> {
   }
 
   Future getUser(String dirUrl) async {
-    return await AllUsersModel(payload: [], status: 0)
+    return await UsersCall(payload: [], status: 0)
         .get(token, dirUrl)
         .then((value) {
       if (value.status == 200) {

@@ -14,3 +14,8 @@ double pPbigMnthHeight = 50;
 //Mshenga Tv Show
 String urlMshenngaShowImg = '${api}public/uploads/SherekooAdmin/MshengaWar/';
 String mshengaWarShowStatus = 'true';
+
+
+//Ceremony Viewers
+ String subScrbAs = 'Subscribe as ..?';
+ List<String> crmViwrPosition = ['Viewer', 'Friend', 'Relative']; // positions Array

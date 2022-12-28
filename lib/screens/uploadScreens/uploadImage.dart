@@ -5,12 +5,12 @@ import 'package:image_cropper/image_cropper.dart';
 import 'dart:convert';
 
 import 'package:image_picker/image_picker.dart';
-import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
+import 'package:sherekoo/model/ceremony/crm-model.dart';
 import 'package:sherekoo/screens/homNav.dart';
 import 'package:sherekoo/util/colors.dart';
 
 import '../../model/post/post.dart';
-import '../../model/userModel.dart';
+import '../../model/user/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/appWords.dart';
 import '../../util/func.dart';

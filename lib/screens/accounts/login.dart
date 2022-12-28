@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import '../../model/authentication/loginModel.dart';
-import '../../model/userModel.dart';
+import '../../model/user/userModel.dart';
 import '../../util/Locale.dart';
 import '../../util/Preferences.dart';
 import '../../util/pallets.dart';

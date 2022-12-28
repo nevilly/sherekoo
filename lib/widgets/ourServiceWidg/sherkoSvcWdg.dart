@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../model/userModel.dart';
+import '../../model/user/userModel.dart';
 import '../../screens/ourServices/bigMonth-TvShow.dart';
 import '../../screens/ourServices/mshengaWar-TvShow.dart';
 import '../../screens/ourServices/sherekoCards.dart';

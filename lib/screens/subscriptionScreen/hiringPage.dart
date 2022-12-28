@@ -3,10 +3,10 @@ import 'package:sherekoo/model/requests/requests.dart';
 import 'package:sherekoo/util/colors.dart';
 
 import '../../model/busness/busnessModel.dart';
-import '../../model/ceremony/allCeremony.dart';
-import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/allData.dart';
-import '../../model/userModel.dart';
+import '../../model/ceremony/crm-call.dart';
+import '../../model/ceremony/crm-model.dart';
+import '../../model/user/user-call.dart';
+import '../../model/user/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/func.dart';
 import '../../util/modInstance.dart';
@@ -116,7 +116,7 @@ class _HiringPageState extends State<HiringPage> {
   }
 
   getUser() async {
-    AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
+    UsersCall(payload: [], status: 0).get(token, urlGetUser).then((value) {
       setState(() {
         currentUser = User.fromJson(value.payload);
       });
@@ -124,7 +124,7 @@ class _HiringPageState extends State<HiringPage> {
   }
 
   getCeremony(userid) async {
-    AllCeremonysModel(payload: [], status: 0)
+    CrmCall(payload: [], status: 0)
         .getCeremonyByUserId(token, urlGetByUserId, userid)
         .then((value) {
       if (value.status == 200) {
@@ -138,7 +138,7 @@ class _HiringPageState extends State<HiringPage> {
   }
 
   getAllCeremony() async {
-    AllCeremonysModel(payload: [], status: 0)
+    CrmCall(payload: [], status: 0)
         .get(token, urlGetCeremony)
         .then((value) {
       setState(() {
@@ -240,6 +240,7 @@ class _HiringPageState extends State<HiringPage> {
                                     totalFollowing: '',
                                     totalLikes: ''),
                                 youtubeLink: ''),
+                            user: widget.user,
                           )));
             });
           } else {

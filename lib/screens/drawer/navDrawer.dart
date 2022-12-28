@@ -4,8 +4,8 @@ import 'package:sherekoo/screens/bsnScreen/bsn-screen.dart';
 import 'package:sherekoo/screens/homNav.dart';
 import 'package:sherekoo/screens/ourServices/sherekoCards.dart';
 
-import '../../model/allData.dart';
-import '../../model/userModel.dart';
+import '../../model/user/user-call.dart';
+import '../../model/user/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/colors.dart';
 import '../../util/modInstance.dart';
@@ -61,7 +61,7 @@ User user =  User(
   }
 
   getUser() async {
-    AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
+    UsersCall(payload: [], status: 0).get(token, urlGetUser).then((value) {
       setState(() {
         if (value.status == 200) {
           setState(() {

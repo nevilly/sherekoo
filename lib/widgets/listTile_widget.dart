@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/util/func.dart';
 
-import '../model/ceremony/allCeremony.dart';
-import '../model/ceremony/crmViewerModel.dart';
+import '../model/ceremony/crm-call.dart';
+import '../model/ceremony/crmVwr-model.dart';
 import '../util/Preferences.dart';
 import '../util/appWords.dart';
 import '../util/colors.dart';
@@ -52,7 +52,7 @@ class _ListMembersState extends State<ListMembers> {
 
   updateViewers(crmViewerId) async {
     if (viewerPositionMsg != 'Admin') {
-      AllCeremonysModel(
+      CrmCall(
         status: 0,
         payload: [],
       )
@@ -74,7 +74,7 @@ class _ListMembersState extends State<ListMembers> {
   }
 
   deleteViewers(context, crmViewerId, userId) async {
-    AllCeremonysModel(
+    CrmCall(
       status: 0,
       payload: [],
     )

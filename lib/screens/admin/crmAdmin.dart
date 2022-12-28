@@ -1,36 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/model/busness/busnessModel.dart';
-import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
+import 'package:sherekoo/model/ceremony/crm-model.dart';
 import 'package:sherekoo/model/requests/requestsModel.dart';
 import 'package:sherekoo/model/subScription/subsrModel.dart';
 
+import '../../model/user/user-call.dart';
+import '../../model/budgets/budget-call.dart';
+import '../../model/budgets/budget-model.dart';
+import '../../model/ceremony/crm-call.dart';
+import '../../model/ceremony/crmVwr-model.dart';
 import '../../model/requests/requests.dart';
 import '../../model/services/service-call.dart';
 import '../../model/services/servicexModel.dart';
-import '../../model/userModel.dart';
-import '../../util/Preferences.dart';
+import '../../model/user/userCrmVwr-model.dart';
+import '../../model/user/userModel.dart';
+import '../../util/app-variables.dart';
 import '../../util/appWords.dart';
 import '../../util/colors.dart';
+import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/animetedClip.dart';
+import '../../widgets/imgWigdets/defaultAvater.dart';
 import '../bsnScreen/bsn-screen.dart';
 import '../detailScreen/bsn-details.dart';
+import 'crmVwr-search.dart';
 import 'payment.dart';
 
 class CrmnAdmin extends StatefulWidget {
   final CeremonyModel crm;
+  final User user;
 
-  const CrmnAdmin({Key? key, required this.crm}) : super(key: key);
+  const CrmnAdmin({Key? key, required this.crm, required this.user})
+      : super(key: key);
 
   @override
   State<CrmnAdmin> createState() => _CrmnAdminState();
 }
 
-class _CrmnAdminState extends State<CrmnAdmin> {
-  final Preferences _preferences = Preferences();
+class _CrmnAdminState extends State<CrmnAdmin>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  ScrollController? _cntr;
 
-  String token = '';
+  final TextEditingController _budget = TextEditingController();
+  final TextEditingController _ahadi = TextEditingController();
+
   List arr = ['Mc', 'cooker', 'singer', 'decorator'];
 
   // final Map myCategoryDynamic = {};
@@ -156,21 +171,50 @@ class _CrmnAdminState extends State<CrmnAdmin> {
     ),
   );
 
-  // get crmInfo => CeremonyModel;
-
   @override
   void initState() {
+    _tabController = TabController(
+      initialIndex: 0,
+      length: 4,
+      vsync: this,
+    );
+
     super.initState();
 
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
         getservices();
+        getBudget('$urlGetCrmBudget/${widget.crm.cId}');
         getAllRequests();
+
+        getViewers();
+        getAll();
       });
     });
   }
+
+  List<UserCrmVwr> data = [];
+
+  getAll() async {
+    UsersCall(payload: [], status: 0)
+        .get(token, urlUserCrmVwr)
+        .then((value) {
+      // print(value.payload);
+      if (value.status == 200) {
+        setState(() {
+          data = value.payload
+              .map<UserCrmVwr>((e) => UserCrmVwr.fromJson(e))
+              .toList();
+        });
+      }
+    });
+  }
+
+  String avater = '';
+  String uname = '';
+  String contact = '';
 
   getservices() async {
     ServicesCall(
@@ -187,8 +231,9 @@ class _CrmnAdminState extends State<CrmnAdmin> {
         .then((value) {
       if (value.status == 200) {
         setState(() {
-          myServ =
-              value.payload.map<ServicexModel>((e) => ServicexModel.fromJson(e)).toList();
+          myServ = value.payload
+              .map<ServicexModel>((e) => ServicexModel.fromJson(e))
+              .toList();
         });
       }
     });
@@ -275,6 +320,103 @@ class _CrmnAdminState extends State<CrmnAdmin> {
             cookerReq.removeWhere((element) => element.hostId == ob.hostId);
           }
         });
+      }
+    });
+  }
+
+  List<BudgetModel> bgt = [];
+
+  BudgetModel myBgt = BudgetModel(
+    id: '',
+    crmId: '',
+    amount: '',
+    createdBy: '',
+    createdDate: '',
+    user: User(
+        id: '',
+        username: '',
+        firstname: '',
+        lastname: '',
+        avater: '',
+        phoneNo: '',
+        email: '',
+        gender: '',
+        role: '',
+        isCurrentUser: '',
+        address: '',
+        bio: '',
+        meritalStatus: '',
+        totalPost: '',
+        isCurrentBsnAdmin: '',
+        isCurrentCrmAdmin: '',
+        totalFollowers: '',
+        totalFollowing: '',
+        totalLikes: ''),
+    crmInfo: CeremonyModel(
+      cId: '',
+      codeNo: '',
+      ceremonyType: '',
+      cName: '',
+      fId: '',
+      sId: '',
+      cImage: '',
+      ceremonyDate: '',
+      admin: '',
+      contact: '',
+      isInFuture: '',
+      isCrmAdmin: '',
+      likeNo: '',
+      chatNo: '',
+      viwersNo: '',
+      userFid: User(
+          id: '',
+          username: '',
+          firstname: '',
+          lastname: '',
+          avater: '',
+          phoneNo: '',
+          email: '',
+          gender: '',
+          role: '',
+          address: '',
+          meritalStatus: '',
+          bio: '',
+          totalPost: '',
+          isCurrentUser: '',
+          isCurrentCrmAdmin: '',
+          isCurrentBsnAdmin: '',
+          totalFollowers: '',
+          totalFollowing: '',
+          totalLikes: ''),
+      userSid: User(
+          id: '',
+          username: '',
+          firstname: '',
+          lastname: '',
+          avater: '',
+          phoneNo: '',
+          email: '',
+          gender: '',
+          role: '',
+          address: '',
+          meritalStatus: '',
+          bio: '',
+          totalPost: '',
+          isCurrentUser: '',
+          isCurrentCrmAdmin: '',
+          isCurrentBsnAdmin: '',
+          totalFollowers: '',
+          totalFollowing: '',
+          totalLikes: ''),
+      youtubeLink: '',
+    ),
+  );
+
+  getBudget(dirUrl) {
+    BudgetCall(payload: [], status: 0).get(token, dirUrl).then((v) {
+      if (v.status == 200) {
+        print(v.payload);
+        myBgt = BudgetModel.fromJson(v.payload);
       }
     });
   }
@@ -371,929 +513,369 @@ class _CrmnAdminState extends State<CrmnAdmin> {
     });
   }
 
+  List<CrmViewersModel> crmViewer = [];
+  getViewers() async {
+    CrmCall(
+      status: 0,
+      payload: [],
+    ).get(token, '$urlGetCrmViewrs/crmId/${widget.crm.cId}').then((value) {
+      if (value.status == 200) {
+        setState(() {
+          crmViewer = value.payload
+              .map<CrmViewersModel>((e) => CrmViewersModel.fromJson(e))
+              .toList();
+        });
+      }
+    });
+  }
+
+  // My all ceremonie post
+  Future addViewer() async {
+    if ('selectedBusness' != 'Subscribe as ..?') {
+      await CrmCall(payload: [], status: 0)
+          .addCrmnViewr(token, urladdCrmViewrs, widget.crm.cId,
+              'selectedBusness', '', '', '')
+          .then((value) {
+        if (value.status == 200) {
+          // Navigator.of(context).pop();
+          // Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (BuildContext context) => Livee(
+          //               ceremony: widget.crm,
+          //             )));
+        }
+      });
+    } else {
+      fillTheBlanks(
+        context,
+        'Fill Subsribe as ... Please!',
+        header13,
+        OColors.fontColor,
+      );
+    }
+  }
+
+  edtBgt(BuildContext context) {
+    BudgetCall(payload: [], status: 0)
+        .add(token, urlGetCrmAddBudget, _budget.text, widget.crm.cId)
+        .then((v) {
+      if (v.status == 200) {
+        Navigator.of(context).pop();
+        setState(() {
+          myBgt.amount = _budget.text;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: OColors.secondary,
-      appBar: AppBar(
-        backgroundColor: OColors.secondary,
-        title: Text(
-          'Admin',
-          style: appBarH,
-        ),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Column(
-              children: [
-                /// titleBar
-                ///
 
-                SizedBox(
-                  // color: OColors.darkGrey,
-                  width: MediaQuery.of(context).size.width,
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Text('Selected Service', style: header18),
+      body: NestedScrollView(
+        controller: _cntr,
+        floatHeaderSlivers: true,
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              backgroundColor: OColors.darGrey,
+              title: const Text('Selected Service'),
+              // automaticallyImplyLeading: false,
+              // actions: [
+
+              //   if ( widget.ceremony.isCrmAdmin == 'true')
+              //     GestureDetector(
+              //       onTap: () {
+              //         Navigator.push(
+              //             context,
+              //             MaterialPageRoute(
+              //                 builder: (_) => CrmnAdmin(crm: widget.ceremony, user: user,)));
+              //       },
+              //       child: Container(
+              //         margin: const EdgeInsets.only(
+              //             left: 10, right: 20, top: 15, bottom: 15),
+              //         padding: const EdgeInsets.only(
+              //             left: 15, right: 15, top: 4, bottom: 4),
+              //         alignment: Alignment.center,
+              //         decoration: BoxDecoration(
+              //             color: OColors.primary,
+              //             borderRadius:
+              //                 const BorderRadius.all(Radius.circular(80))),
+              //         child: ClipRRect(
+              //           borderRadius: BorderRadius.circular(50),
+              //           child: Container(
+              //             decoration: const BoxDecoration(
+              //                 borderRadius:
+              //                     BorderRadius.all(Radius.circular(50))),
+              //             child: Text(
+              //               'Admin',
+              //               style:
+              //                   header11.copyWith(fontWeight: FontWeight.bold),
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //     )
+              //   else
+              //     GestureDetector(
+              //       onTap: () {
+              //         Navigator.push(
+              //             context,
+              //             MaterialPageRoute(
+              //                 builder: (_) => CrmnAdmin(crm: widget.ceremony,user: user,)));
+              //       },
+              //       child: ClipRRect(
+              //         borderRadius: BorderRadius.circular(30),
+              //         child: Container(
+              //           alignment: Alignment.center,
+              //           decoration: BoxDecoration(
+              //               color: OColors.primary,
+              //               borderRadius:
+              //                   const BorderRadius.all(Radius.circular(30))),
+              //           child: const Icon(
+              //             Icons.share,
+              //             color: Colors.white,
+              //           ),
+              //         ),
+              //       ),
+              //     )
+              // ],
+              expandedHeight: 200,
+              flexibleSpace: SafeArea(
+                  bottom: false,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      ///
+                      /// Selcete Busness..
+                      ///
+
+                      Text('No selection', style: header10),
+                      // myServ.isNotEmpty
+                      //     ? Container(
+                      //         margin: const EdgeInsets.all(4.0),
+                      //         child: GridView.builder(
+                      //           shrinkWrap: true,
+                      //           physics: const NeverScrollableScrollPhysics(),
+                      //           itemCount: myServ.length,
+                      //           gridDelegate:
+                      //               const SliverGridDelegateWithFixedCrossAxisCount(
+                      //                   crossAxisCount: 4,
+                      //                   crossAxisSpacing: 3,
+                      //                   childAspectRatio: 2),
+                      //           itemBuilder: (context, i) {
+                      //             final itm = myServ[i];
+                      //             return Container(
+                      //               margin: const EdgeInsets.only(
+                      //                   top: 2, bottom: 4),
+                      //               decoration: BoxDecoration(
+                      //                   borderRadius: BorderRadius.circular(5),
+                      //                   border: Border.all(width: 0.2),
+                      //                   boxShadow: const [
+                      //                     BoxShadow(
+                      //                         blurRadius: 4.0,
+                      //                         spreadRadius: 0.2,
+                      //                         offset: Offset(0.1, 0.5)),
+                      //                   ],
+                      //                   color: OColors.darGrey),
+                      //               child: Column(
+                      //                 children: [
+                      //                   SizedBox(
+                      //                     width:
+                      //                         MediaQuery.of(context).size.width,
+                      //                     // color: Colors.red,
+                      //                     child: Stack(children: [
+                      //                       Positioned(
+                      //                           top: 0,
+                      //                           right: 0,
+                      //                           child: GestureDetector(
+                      //                             onTap: () {
+                      //                               showAlertDialog(
+                      //                                   context,
+                      //                                   'Delete ${itm.bsnInfo!.busnessType}',
+                      //                                   'Are SURE you want remove ${itm.bsnInfo!.busnessType}  ${itm.bsnInfo!.knownAs}..??',
+                      //                                   itm.bsnInfo!,
+                      //                                   'myServices');
+                      //                             },
+                      //                             child: Icon(
+                      //                               Icons.cancel_rounded,
+                      //                               color: OColors.primary,
+                      //                             ),
+                      //                           )),
+                      //                       // Padding(
+                      //                       //   padding:
+                      //                       //       const EdgeInsets.only(top: 5.0),
+                      //                       //   child: Center(
+                      //                       //     child: ClipOval(
+                      //                       //       child: Image.network(
+                      //                       //         '${api}public/uploads/${itm.bsnInfo!.user.username}/busness/${itm.bsnInfo!.coProfile}',
+                      //                       //         height: 55,
+                      //                       //         width: 55,
+                      //                       //         fit: BoxFit.cover,
+                      //                       //       ),
+                      //                       //     ),
+                      //                       //   ),
+                      //                       // ),
+                      //                     ]),
+                      //                   ),
+                      //                   const SizedBox(
+                      //                     height: 3,
+                      //                   ),
+                      //                   Text(
+                      //                     '${itm.bsnInfo!.busnessType} ',
+                      //                     style: header13,
+                      //                   ),
+                      //                   Text(
+                      //                     '${itm.bsnInfo!.knownAs} ',
+                      //                     style: header12,
+                      //                   ),
+                      //                   const SizedBox(
+                      //                     height: 4,
+                      //                   ),
+                      //                   itm.payed == '0'
+                      //                       ? Padding(
+                      //                           padding: const EdgeInsets.only(
+                      //                               top: 4.0,
+                      //                               bottom: 4.0,
+                      //                               left: 8,
+                      //                               right: 8),
+                      //                           child: Text(
+                      //                             'Selected..',
+                      //                             style: TextStyle(
+                      //                                 color: OColors.primary,
+                      //                                 fontSize: 10),
+                      //                           ),
+                      //                         )
+                      //                       : GestureDetector(
+                      //                           onTap: () {
+                      //                             // showModel(context, req);
+                      //                             // Navigator.push(
+                      //                             //     context,
+                      //                             //     MaterialPageRoute(
+                      //                             //         builder: (BuildContext context) =>
+                      //                             //             MyService(
+                      //                             //               req: my,
+                      //                             //             )));
+                      //                           },
+                      //                           child: Container(
+                      //                             decoration: BoxDecoration(
+                      //                               borderRadius:
+                      //                                   BorderRadius.circular(
+                      //                                       10),
+                      //                               color: OColors.primary,
+                      //                             ),
+                      //                             child: Padding(
+                      //                               padding:
+                      //                                   const EdgeInsets.only(
+                      //                                       top: 4.0,
+                      //                                       bottom: 4.0,
+                      //                                       left: 8,
+                      //                                       right: 8),
+                      //                               child: Text(
+                      //                                 'Pay Hime..',
+                      //                                 style: header10,
+                      //                               ),
+                      //                             ),
+                      //                           ),
+                      //                         ),
+                      //                 ],
+                      //               ),
+                      //             );
+                      //           },
+                      //         ),
+                      //       )
+                      //     : Text('No selection', style: header10)
+                    ],
+                  )),
+
+              pinned: true,
+              floating: true,
+              bottom: TabBar(
+                  labelColor: OColors.primary,
+                  indicatorColor: OColors.primary,
+                  unselectedLabelColor: OColors.darkGrey,
+                  controller: _tabController,
+                  tabs: const [
+                    Tab(text: 'Budget'),
+                    Tab(text: 'Requests'),
+                    Tab(text: 'members'),
+                    Tab(text: 'Cometee'),
+                  ]),
+            ),
+          ];
+        },
+        body: TabBarView(controller: _tabController, children: [
+          budgetFunc(context),
+          crmRequests(context),
+          Scrollbar(
+              child: ListView(
+            children: [
+              Row(
+                children: [
+                  const SizedBox(width: 1),
+                  GestureDetector(
+                    onTap: () {
+                      addMembers(context, 'Search busness ', '', '', '');
+                      // Addmember();
+
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => Addmember()));
+                    },
+                    child: Container(
+                      width: 80,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: prmry,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(child: Text('add member', style: header13)),
+                    ),
                   ),
-                ),
-
-                ///
-                /// Selcete Busness..
-                ///
-
-                Container(
-                  margin: const EdgeInsets.all(4.0),
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: myServ.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 6,
-                            childAspectRatio: 0.7),
-                    itemBuilder: (context, i) {
-                      final itm = myServ[i];
-                      return Container(
-                        margin: const EdgeInsets.only(top: 2, bottom: 4),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(width: 0.2),
-                            boxShadow: const [
-                              BoxShadow(
-                                  blurRadius: 4.0,
-                                  spreadRadius: 0.2,
-                                  offset: Offset(0.1, 0.5)),
-                            ],
-                            color: OColors.darGrey),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              // color: Colors.red,
-                              child: Stack(children: [
-                                Positioned(
-                                    top: 0,
-                                    right: 0,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        showAlertDialog(
-                                            context,
-                                            'Delete ${itm.bsnInfo!.busnessType}',
-                                            'Are SURE you want remove ${itm.bsnInfo!.busnessType}  ${itm.bsnInfo!.knownAs}..??',
-                                            itm.bsnInfo!,
-                                            'myServices');
-                                      },
-                                      child: Icon(
-                                        Icons.cancel_rounded,
-                                        color: OColors.primary,
-                                      ),
-                                    )),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 5.0),
-                                  child: Center(
-                                    child: ClipOval(
-                                      child: Image.network(
-                                        '${api}public/uploads/${itm.bsnInfo!.user.username}/busness/${itm.bsnInfo!.coProfile}',
-                                        height: 55,
-                                        width: 55,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
+                ],
+              ),
+              Container(
+                // color: Colors.red,
+                height: 300,
+                child: ListView.builder(
+                    itemCount: crmViewer.length,
+                    itemBuilder: ((BuildContext context, i) {
+                      final itm = crmViewer[i];
+                      return ListTile(
+                        leading: itm.viewerInfo.avater != ''
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: FadeInImage(
+                                  image: NetworkImage(
+                                      '${api}public/uploads/${itm.viewerInfo.username}/profile/${itm.viewerInfo.avater}'),
+                                  fadeInDuration:
+                                      const Duration(milliseconds: 100),
+                                  placeholder: const AssetImage(
+                                      'assets/logo/noimage.png'),
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) {
+                                    return Image.asset(
+                                        'assets/logo/noimage.png',
+                                        fit: BoxFit.fitWidth);
+                                  },
+                                  fit: BoxFit.fitWidth,
                                 ),
-                              ]),
-                            ),
-                            const SizedBox(
-                              height: 3,
-                            ),
-                            Text(
-                              '${itm.bsnInfo!.busnessType} ',
-                              style: header13,
-                            ),
-                            Text(
-                              '${itm.bsnInfo!.knownAs} ',
-                              style: header12,
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            itm.payed == '0'
-                                ? Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 4.0,
-                                        bottom: 4.0,
-                                        left: 8,
-                                        right: 8),
-                                    child: Text(
-                                      'Selected..',
-                                      style: TextStyle(
-                                          color: OColors.primary, fontSize: 10),
-                                    ),
-                                  )
-                                : GestureDetector(
-                                    onTap: () {
-                                      // showModel(context, req);
-                                      // Navigator.push(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (BuildContext context) =>
-                                      //             MyService(
-                                      //               req: my,
-                                      //             )));
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: OColors.primary,
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 4.0,
-                                            bottom: 4.0,
-                                            left: 8,
-                                            right: 8),
-                                        child: Text(
-                                          'Pay Hime..',
-                                          style: header10,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                          ],
+                              )
+                            : Text('height', style: header12),
+                        title: Text(
+                          'see me',
+                          style: header13,
                         ),
                       );
-                    },
-                  ),
-                ),
-              ],
-            ),
-
-            /// Request Starts
-            SizedBox(
-              // color: OColors.darkGrey,
-              width: MediaQuery.of(context).size.width,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Text('Your Requests', style: header18),
+                    })),
               ),
-            ),
-
-            requestBody(context, 'Mc', mcReq, _openMc),
-            const SizedBox(height: 8),
-
-            ///
-            ///  Production Request
-
-            Column(
-              children: <Widget>[
-                Container(
-                  color: OColors.darkGrey,
-                  width: MediaQuery.of(context).size.width,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(top: 13),
-                          child: Text('Production',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  color: OColors.fontColor)),
-                        ),
-                        productionReq.isNotEmpty
-                            ? Container(
-                                margin: const EdgeInsets.only(top: 13),
-                                child: Text('Invited (${productionReq.length})',
-                                    style: TextStyle(
-                                        color: OColors.fontColor,
-                                        fontSize: 13)),
-                              )
-                            : Container(
-                                margin: const EdgeInsets.only(top: 13),
-                                child: Text('Requests (0)',
-                                    style: header13.copyWith(
-                                        fontWeight: FontWeight.normal)),
-                              ),
-                        IconButton(
-                            color: OColors.primary,
-                            highlightColor: OColors.primary,
-                            onPressed: () {
-                              setState(() => _openProd ^= true);
-                            },
-                            icon: _openProd == false
-                                ? Icon(Icons.keyboard_arrow_up_outlined,
-                                    color: OColors.fontColor)
-                                : Icon(Icons.keyboard_arrow_down,
-                                    color: OColors.fontColor))
-                      ],
-                    ),
-                  ),
-                ),
-                AnimatedClipRect(
-                  open: _openProd,
-                  horizontalAnimation: false,
-                  verticalAnimation: true,
-                  alignment: Alignment.center,
-                  duration: const Duration(milliseconds: 1000),
-                  curve: Curves.bounceOut,
-                  reverseCurve: Curves.bounceIn,
-                  child: Container(
-                    margin: const EdgeInsets.all(6.0),
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: productionReq.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              crossAxisSpacing: 6,
-                              childAspectRatio: 0.6),
-                      itemBuilder: (context, i) {
-                        final req = productionReq[i];
-
-                        return reqContainer(context, req);
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-
-            ///
-            ///  Decooration Request
-            Column(
-              children: <Widget>[
-                Container(
-                  color: OColors.darkGrey,
-                  width: MediaQuery.of(context).size.width,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(top: 13),
-                          child: Text('Decoration',
-                              style: header14.copyWith(
-                                  fontWeight: FontWeight.w500)),
-                        ),
-                        decoratorReq.isNotEmpty
-                            ? Container(
-                                margin: const EdgeInsets.only(top: 13),
-                                child: Text('Invited (${decoratorReq.length})',
-                                    style: header13),
-                              )
-                            : Container(
-                                margin: const EdgeInsets.only(top: 13),
-                                child: Text('Requests (0)',
-                                    style: header13.copyWith(
-                                        fontWeight: FontWeight.normal)),
-                              ),
-                        IconButton(
-                            color: OColors.primary,
-                            highlightColor: OColors.primary,
-                            onPressed: () {
-                              setState(() => _openDec ^= true);
-                            },
-                            icon: _openDec == false
-                                ? Icon(Icons.keyboard_arrow_up_outlined,
-                                    color: OColors.fontColor)
-                                : Icon(Icons.keyboard_arrow_down,
-                                    color: OColors.fontColor))
-                      ],
-                    ),
-                  ),
-                ),
-                AnimatedClipRect(
-                  open: _openDec,
-                  horizontalAnimation: false,
-                  verticalAnimation: true,
-                  alignment: Alignment.center,
-                  duration: const Duration(milliseconds: 1000),
-                  curve: Curves.bounceOut,
-                  reverseCurve: Curves.bounceIn,
-                  child: decoratorReq.isNotEmpty
-                      ? Container(
-                          margin: const EdgeInsets.all(6.0),
-                          child: GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: decoratorReq.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    crossAxisSpacing: 6,
-                                    childAspectRatio: 0.6),
-                            itemBuilder: (context, i) {
-                              final req = decoratorReq[i];
-
-                              return reqContainer(context, req);
-                            },
-                          ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.only(top: 18.0, bottom: 10),
-                          child:
-                              Text('$reqMsgInCrmdAdmin Decoration', style: ef),
-                        ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-
-            ///
-            ///  Hall Request
-            Column(
-              children: <Widget>[
-                Container(
-                  color: OColors.darkGrey,
-                  width: MediaQuery.of(context).size.width,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(top: 13),
-                          child: Text('Hall',
-                              style: header14.copyWith(
-                                  fontWeight: FontWeight.w500)),
-                        ),
-                        hallReq.isNotEmpty
-                            ? Container(
-                                margin: const EdgeInsets.only(top: 13),
-                                child: Text('Invited (${hallReq.length})',
-                                    style: header13.copyWith(
-                                        fontWeight: FontWeight.normal)),
-                              )
-                            : Center(
-                                child: Container(
-                                  margin: const EdgeInsets.only(top: 13),
-                                  child: Text('Requests (0)',
-                                      style: header13.copyWith(
-                                          fontWeight: FontWeight.normal)),
-                                ),
-                              ),
-                        IconButton(
-                            color: OColors.primary,
-                            highlightColor: OColors.primary,
-                            onPressed: () {
-                              setState(() => _openHall ^= true);
-                            },
-                            icon: _openHall == false
-                                ? Icon(Icons.keyboard_arrow_up_outlined,
-                                    color: OColors.fontColor)
-                                : Icon(Icons.keyboard_arrow_down,
-                                    color: OColors.fontColor))
-                      ],
-                    ),
-                  ),
-                ),
-                AnimatedClipRect(
-                  open: _openHall,
-                  horizontalAnimation: false,
-                  verticalAnimation: true,
-                  alignment: Alignment.center,
-                  duration: const Duration(milliseconds: 1000),
-                  curve: Curves.bounceOut,
-                  reverseCurve: Curves.bounceIn,
-                  child: hallReq.isNotEmpty
-                      ? Container(
-                          margin: const EdgeInsets.all(6.0),
-                          child: GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: hallReq.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    crossAxisSpacing: 6,
-                                    childAspectRatio: 0.6),
-                            itemBuilder: (context, i) {
-                              final req = hallReq[i];
-
-                              return reqContainer(context, req);
-                            },
-                          ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.only(top: 18.0, bottom: 10),
-                          child: Text('$reqMsgInCrmdAdmin Hall', style: ef),
-                        ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-
-            ///  Cake bakery Request
-            Column(
-              children: <Widget>[
-                Container(
-                  color: OColors.darkGrey,
-                  width: MediaQuery.of(context).size.width,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(top: 13),
-                          child: Text('Cake Bakery',
-                              style: header14.copyWith(
-                                  fontWeight: FontWeight.w500)),
-                        ),
-                        cakeReq.isNotEmpty
-                            ? Container(
-                                margin: const EdgeInsets.only(top: 13),
-                                child: Text('Invited (${cakeReq.length})',
-                                    style: header13),
-                              )
-                            : Container(
-                                margin: const EdgeInsets.only(top: 13),
-                                child: Text('Requests (0)',
-                                    style: header13.copyWith(
-                                        fontWeight: FontWeight.normal)),
-                              ),
-                        IconButton(
-                            color: OColors.primary,
-                            highlightColor: OColors.primary,
-                            onPressed: () {
-                              setState(() => _openCake ^= true);
-                            },
-                            icon: _openCake == false
-                                ? Icon(Icons.keyboard_arrow_up_outlined,
-                                    color: OColors.fontColor)
-                                : Icon(Icons.keyboard_arrow_down,
-                                    color: OColors.fontColor))
-                      ],
-                    ),
-                  ),
-                ),
-                AnimatedClipRect(
-                  open: _openCake,
-                  horizontalAnimation: false,
-                  verticalAnimation: true,
-                  alignment: Alignment.center,
-                  duration: const Duration(milliseconds: 1000),
-                  curve: Curves.bounceOut,
-                  reverseCurve: Curves.bounceIn,
-                  child: cakeReq.isNotEmpty
-                      ? Container(
-                          margin: const EdgeInsets.all(6.0),
-                          child: GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: cakeReq.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    crossAxisSpacing: 6,
-                                    childAspectRatio: 0.6),
-                            itemBuilder: (context, i) {
-                              final req = cakeReq[i];
-
-                              return reqContainer(context, req);
-                            },
-                          ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.only(top: 18.0, bottom: 10),
-                          child:
-                              Text('$reqMsgInCrmdAdmin Cake Bakery', style: ef),
-                        ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-
-            ///  Singer Request
-            Column(
-              children: <Widget>[
-                Container(
-                  color: OColors.darkGrey,
-                  width: MediaQuery.of(context).size.width,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(top: 13),
-                          child: Text('Singer',
-                              style: header14.copyWith(
-                                  fontWeight: FontWeight.w500)),
-                        ),
-                        singerReq.isNotEmpty
-                            ? Container(
-                                margin: const EdgeInsets.only(top: 13),
-                                child: Text('Invited (${singerReq.length})',
-                                    style: header13.copyWith(
-                                        fontWeight: FontWeight.normal)),
-                              )
-                            : Container(
-                                margin: const EdgeInsets.only(top: 13),
-                                child: Text('Requests (0)',
-                                    style: header13.copyWith(
-                                        fontWeight: FontWeight.normal)),
-                              ),
-                        IconButton(
-                            color: OColors.primary,
-                            highlightColor: OColors.primary,
-                            onPressed: () {
-                              setState(() => _openSinger ^= true);
-                            },
-                            icon: _openSinger == false
-                                ? Icon(Icons.keyboard_arrow_up_outlined,
-                                    color: OColors.fontColor)
-                                : Icon(Icons.keyboard_arrow_down,
-                                    color: OColors.fontColor))
-                      ],
-                    ),
-                  ),
-                ),
-                AnimatedClipRect(
-                  open: _openSinger,
-                  horizontalAnimation: false,
-                  verticalAnimation: true,
-                  alignment: Alignment.center,
-                  duration: const Duration(milliseconds: 1000),
-                  curve: Curves.bounceOut,
-                  reverseCurve: Curves.bounceIn,
-                  child: singerReq.isNotEmpty
-                      ? Container(
-                          margin: const EdgeInsets.all(6.0),
-                          child: GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: singerReq.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    crossAxisSpacing: 6,
-                                    childAspectRatio: 0.6),
-                            itemBuilder: (context, i) {
-                              final req = singerReq[i];
-
-                              return reqContainer(context, req);
-                            },
-                          ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.only(top: 18.0, bottom: 10),
-                          child: Text('$reqMsgInCrmdAdmin Singer', style: ef),
-                        ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-
-            ///  Saloon Request
-            Column(
-              children: <Widget>[
-                Container(
-                  color: OColors.darkGrey,
-                  width: MediaQuery.of(context).size.width,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(top: 13),
-                          child: Text('Dancer',
-                              style: header14.copyWith(
-                                  fontWeight: FontWeight.w500)),
-                        ),
-                        dancerReq.isNotEmpty
-                            ? Container(
-                                margin: const EdgeInsets.only(top: 13),
-                                child: Text('Invited (${dancerReq.length})',
-                                    style: header13),
-                              )
-                            : Container(
-                                margin: const EdgeInsets.only(top: 13),
-                                child: Text('Requests (0)',
-                                    style: header13.copyWith(
-                                        fontWeight: FontWeight.normal)),
-                              ),
-                        IconButton(
-                            color: OColors.primary,
-                            highlightColor: OColors.primary,
-                            onPressed: () {
-                              setState(() => _openDancer ^= true);
-                            },
-                            icon: _openDancer == false
-                                ? Icon(Icons.keyboard_arrow_up_outlined,
-                                    color: OColors.fontColor)
-                                : Icon(Icons.keyboard_arrow_down,
-                                    color: OColors.fontColor))
-                      ],
-                    ),
-                  ),
-                ),
-                AnimatedClipRect(
-                  open: _openDancer,
-                  horizontalAnimation: false,
-                  verticalAnimation: true,
-                  alignment: Alignment.center,
-                  duration: const Duration(milliseconds: 1000),
-                  curve: Curves.bounceOut,
-                  reverseCurve: Curves.bounceIn,
-                  child: dancerReq.isNotEmpty
-                      ? Container(
-                          margin: const EdgeInsets.all(6.0),
-                          child: GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: dancerReq.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    crossAxisSpacing: 6,
-                                    childAspectRatio: 0.6),
-                            itemBuilder: (context, i) {
-                              final req = dancerReq[i];
-
-                              return reqContainer(context, req);
-                            },
-                          ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.only(top: 18.0, bottom: 10),
-                          child: Text('$reqMsgInCrmdAdmin Dancer', style: ef),
-                        ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-
-            ///  Saloon Request
-            Column(
-              children: <Widget>[
-                Container(
-                  color: OColors.darkGrey,
-                  width: MediaQuery.of(context).size.width,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(top: 13),
-                          child: Text('Saloon',
-                              style: header14.copyWith(
-                                  fontWeight: FontWeight.w500)),
-                        ),
-                        saloonReq.isNotEmpty
-                            ? Container(
-                                margin: const EdgeInsets.only(top: 13),
-                                child: Text('Invited (${saloonReq.length})',
-                                    style: header13),
-                              )
-                            : Container(
-                                margin: const EdgeInsets.only(top: 13),
-                                child: Text('Requests (0)',
-                                    style: header13.copyWith(
-                                        fontWeight: FontWeight.normal)),
-                              ),
-                        IconButton(
-                            color: OColors.primary,
-                            highlightColor: OColors.primary,
-                            onPressed: () {
-                              setState(() => _openSaloon ^= true);
-                            },
-                            icon: _openSaloon == false
-                                ? Icon(Icons.keyboard_arrow_up_outlined,
-                                    color: OColors.fontColor)
-                                : Icon(Icons.keyboard_arrow_down,
-                                    color: OColors.fontColor))
-                      ],
-                    ),
-                  ),
-                ),
-                AnimatedClipRect(
-                  open: _openSaloon,
-                  horizontalAnimation: false,
-                  verticalAnimation: true,
-                  alignment: Alignment.center,
-                  duration: const Duration(milliseconds: 1000),
-                  curve: Curves.bounceOut,
-                  reverseCurve: Curves.bounceIn,
-                  child: saloonReq.isNotEmpty
-                      ? Container(
-                          margin: const EdgeInsets.all(6.0),
-                          child: GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: saloonReq.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    crossAxisSpacing: 6,
-                                    childAspectRatio: 0.6),
-                            itemBuilder: (context, i) {
-                              final req = saloonReq[i];
-
-                              return reqContainer(context, req);
-                            },
-                          ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.only(top: 18.0, bottom: 10),
-                          child: Text('$reqMsgInCrmdAdmin Saloon', style: ef),
-                        ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-
-            ///
-            ///  Car Request
-            Column(
-              children: <Widget>[
-                Container(
-                  color: OColors.darkGrey,
-                  width: MediaQuery.of(context).size.width,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(top: 13),
-                          child: Text('Vehicles',
-                              style: header14.copyWith(
-                                  fontWeight: FontWeight.w500)),
-                        ),
-                        carReq.isNotEmpty
-                            ? Container(
-                                margin: const EdgeInsets.only(top: 13),
-                                child: Text('Invited (${carReq.length})',
-                                    style: header13.copyWith(
-                                        fontWeight: FontWeight.normal)),
-                              )
-                            : Center(
-                                child: Container(
-                                  margin: const EdgeInsets.only(top: 13),
-                                  child: Text('Requests (0)',
-                                      style: header13.copyWith(
-                                          fontWeight: FontWeight.normal)),
-                                ),
-                              ),
-                        IconButton(
-                            color: OColors.primary,
-                            highlightColor: OColors.primary,
-                            onPressed: () {
-                              setState(() => _openCar ^= true);
-                            },
-                            icon: _openCar == false
-                                ? Icon(Icons.keyboard_arrow_up_outlined,
-                                    color: OColors.fontColor)
-                                : Icon(Icons.keyboard_arrow_down,
-                                    color: OColors.fontColor))
-                      ],
-                    ),
-                  ),
-                ),
-                AnimatedClipRect(
-                  open: _openCar,
-                  horizontalAnimation: false,
-                  verticalAnimation: true,
-                  alignment: Alignment.center,
-                  duration: const Duration(milliseconds: 1000),
-                  curve: Curves.bounceOut,
-                  reverseCurve: Curves.bounceIn,
-                  child: carReq.isNotEmpty
-                      ? Container(
-                          margin: const EdgeInsets.all(6.0),
-                          child: GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: carReq.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    crossAxisSpacing: 6,
-                                    childAspectRatio: 0.6),
-                            itemBuilder: (context, i) {
-                              final req = carReq[i];
-
-                              return reqContainer(context, req);
-                            },
-                          ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.only(top: 18.0, bottom: 10),
-                          child: Text('$reqMsgInCrmdAdmin Car', style: ef),
-                        ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-
-            ///  Cooker Request
-            Column(
-              children: <Widget>[
-                Container(
-                  color: OColors.darkGrey,
-                  width: MediaQuery.of(context).size.width,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(top: 13),
-                          child: Text('Cooker',
-                              style: header14.copyWith(
-                                  fontWeight: FontWeight.w500)),
-                        ),
-                        cookerReq.isNotEmpty
-                            ? Container(
-                                margin: const EdgeInsets.only(top: 13),
-                                child: Text('Invited (${cookerReq.length})',
-                                    style: header13.copyWith(
-                                        fontWeight: FontWeight.normal)),
-                              )
-                            : Center(
-                                child: Container(
-                                  margin: const EdgeInsets.only(top: 13),
-                                  child: Text('Requests (0)',
-                                      style: header13.copyWith(
-                                          fontWeight: FontWeight.normal)),
-                                ),
-                              ),
-                        IconButton(
-                            color: OColors.primary,
-                            highlightColor: OColors.primary,
-                            onPressed: () {
-                              setState(() => _openCooker ^= true);
-                            },
-                            icon: _openCooker == false
-                                ? Icon(Icons.keyboard_arrow_up_outlined,
-                                    color: OColors.fontColor)
-                                : Icon(Icons.keyboard_arrow_down,
-                                    color: OColors.fontColor))
-                      ],
-                    ),
-                  ),
-                ),
-                AnimatedClipRect(
-                  open: _openCooker,
-                  horizontalAnimation: false,
-                  verticalAnimation: true,
-                  alignment: Alignment.center,
-                  duration: const Duration(milliseconds: 1000),
-                  curve: Curves.bounceOut,
-                  reverseCurve: Curves.bounceIn,
-                  child: cookerReq.isNotEmpty
-                      ? Container(
-                          margin: const EdgeInsets.all(6.0),
-                          child: GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: cookerReq.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    crossAxisSpacing: 6,
-                                    childAspectRatio: 0.6),
-                            itemBuilder: (context, i) {
-                              final req = cookerReq[i];
-
-                              return reqContainer(context, req);
-                            },
-                          ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.only(top: 18.0, bottom: 10),
-                          child: Text('$reqMsgInCrmdAdmin Cooker', style: ef),
-                        ),
-                ),
-              ],
-            ),
-
-            const SizedBox(
-              height: 50,
-            ),
-          ],
-        ),
+            ],
+          )),
+          Text('Commetee', style: header10),
+        ]),
       ),
 
       //footer
@@ -1315,6 +897,834 @@ class _CrmnAdminState extends State<CrmnAdmin> {
         backgroundColor: OColors.primary,
       ),
     );
+  }
+
+  Scrollbar budgetFunc(BuildContext context) {
+    return Scrollbar(
+            child: ListView(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Ceremony Cash', style: header18),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('0 ', style: header16),
+                    Text(' Tzs', style: header16),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Column(
+                      children: [
+                        Text('Budget Estimate', style: header13),
+                        Row(
+                          children: [
+                            myBgt.amount == ''
+                                ? Text('0 ', style: header13)
+                                : Text(myBgt.amount!, style: header13),
+                            Text('Tsh', style: header13),
+                          ],
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              budgetEdit(context);
+                            },
+                            child: Text('Edit Budget',
+                                style: header12.copyWith(color: prmry))),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Text('Michango', style: header13),
+                        Row(
+                          children: [
+                            Text('0', style: header13),
+                            Text(' Tsh', style: header13),
+                          ],
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              membersPay(context);
+                            },
+                            child: Text('Pay',
+                                style: header12.copyWith(color: prmry))),
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ));
+  }
+
+  Scrollbar crmRequests(BuildContext context) {
+    return Scrollbar(
+        child: ListView(
+      children: <Widget>[
+        // SizedBox(
+        //   // color: OColors.darkGrey,
+        //   width: MediaQuery.of(context).size.width,
+        //   child: Padding(
+        //     padding: const EdgeInsets.all(15.0),
+        //     child: Text('Your Requests', style: header18),
+        //   ),
+        // ),
+
+        requestBody(context, 'Mc', mcReq, _openMc),
+        const SizedBox(height: 8),
+
+        ///
+        ///  Production Request
+
+        Column(
+          children: <Widget>[
+            Container(
+              color: OColors.darkGrey,
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 13),
+                      child: Text('Production',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14,
+                              color: OColors.fontColor)),
+                    ),
+                    productionReq.isNotEmpty
+                        ? Container(
+                            margin: const EdgeInsets.only(top: 13),
+                            child: Text('Invited (${productionReq.length})',
+                                style: TextStyle(
+                                    color: OColors.fontColor, fontSize: 13)),
+                          )
+                        : Container(
+                            margin: const EdgeInsets.only(top: 13),
+                            child: Text('Requests (0)',
+                                style: header13.copyWith(
+                                    fontWeight: FontWeight.normal)),
+                          ),
+                    IconButton(
+                        color: OColors.primary,
+                        highlightColor: OColors.primary,
+                        onPressed: () {
+                          setState(() => _openProd ^= true);
+                        },
+                        icon: _openProd == false
+                            ? Icon(Icons.keyboard_arrow_up_outlined,
+                                color: OColors.fontColor)
+                            : Icon(Icons.keyboard_arrow_down,
+                                color: OColors.fontColor))
+                  ],
+                ),
+              ),
+            ),
+            AnimatedClipRect(
+              open: _openProd,
+              horizontalAnimation: false,
+              verticalAnimation: true,
+              alignment: Alignment.center,
+              duration: const Duration(milliseconds: 1000),
+              curve: Curves.bounceOut,
+              reverseCurve: Curves.bounceIn,
+              child: Container(
+                margin: const EdgeInsets.all(6.0),
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: productionReq.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 6,
+                      childAspectRatio: 0.6),
+                  itemBuilder: (context, i) {
+                    final req = productionReq[i];
+
+                    return reqContainer(context, req);
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+
+        ///
+        ///  Decooration Request
+        Column(
+          children: <Widget>[
+            Container(
+              color: OColors.darkGrey,
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 13),
+                      child: Text('Decoration',
+                          style:
+                              header14.copyWith(fontWeight: FontWeight.w500)),
+                    ),
+                    decoratorReq.isNotEmpty
+                        ? Container(
+                            margin: const EdgeInsets.only(top: 13),
+                            child: Text('Invited (${decoratorReq.length})',
+                                style: header13),
+                          )
+                        : Container(
+                            margin: const EdgeInsets.only(top: 13),
+                            child: Text('Requests (0)',
+                                style: header13.copyWith(
+                                    fontWeight: FontWeight.normal)),
+                          ),
+                    IconButton(
+                        color: OColors.primary,
+                        highlightColor: OColors.primary,
+                        onPressed: () {
+                          setState(() => _openDec ^= true);
+                        },
+                        icon: _openDec == false
+                            ? Icon(Icons.keyboard_arrow_up_outlined,
+                                color: OColors.fontColor)
+                            : Icon(Icons.keyboard_arrow_down,
+                                color: OColors.fontColor))
+                  ],
+                ),
+              ),
+            ),
+            AnimatedClipRect(
+              open: _openDec,
+              horizontalAnimation: false,
+              verticalAnimation: true,
+              alignment: Alignment.center,
+              duration: const Duration(milliseconds: 1000),
+              curve: Curves.bounceOut,
+              reverseCurve: Curves.bounceIn,
+              child: decoratorReq.isNotEmpty
+                  ? Container(
+                      margin: const EdgeInsets.all(6.0),
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: decoratorReq.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 6,
+                                childAspectRatio: 0.6),
+                        itemBuilder: (context, i) {
+                          final req = decoratorReq[i];
+
+                          return reqContainer(context, req);
+                        },
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 18.0, bottom: 10),
+                      child: Text('$reqMsgInCrmdAdmin Decoration', style: ef),
+                    ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+
+        ///
+        ///  Hall Request
+        Column(
+          children: <Widget>[
+            Container(
+              color: OColors.darkGrey,
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 13),
+                      child: Text('Hall',
+                          style:
+                              header14.copyWith(fontWeight: FontWeight.w500)),
+                    ),
+                    hallReq.isNotEmpty
+                        ? Container(
+                            margin: const EdgeInsets.only(top: 13),
+                            child: Text('Invited (${hallReq.length})',
+                                style: header13.copyWith(
+                                    fontWeight: FontWeight.normal)),
+                          )
+                        : Center(
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 13),
+                              child: Text('Requests (0)',
+                                  style: header13.copyWith(
+                                      fontWeight: FontWeight.normal)),
+                            ),
+                          ),
+                    IconButton(
+                        color: OColors.primary,
+                        highlightColor: OColors.primary,
+                        onPressed: () {
+                          setState(() => _openHall ^= true);
+                        },
+                        icon: _openHall == false
+                            ? Icon(Icons.keyboard_arrow_up_outlined,
+                                color: OColors.fontColor)
+                            : Icon(Icons.keyboard_arrow_down,
+                                color: OColors.fontColor))
+                  ],
+                ),
+              ),
+            ),
+            AnimatedClipRect(
+              open: _openHall,
+              horizontalAnimation: false,
+              verticalAnimation: true,
+              alignment: Alignment.center,
+              duration: const Duration(milliseconds: 1000),
+              curve: Curves.bounceOut,
+              reverseCurve: Curves.bounceIn,
+              child: hallReq.isNotEmpty
+                  ? Container(
+                      margin: const EdgeInsets.all(6.0),
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: hallReq.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 6,
+                                childAspectRatio: 0.6),
+                        itemBuilder: (context, i) {
+                          final req = hallReq[i];
+
+                          return reqContainer(context, req);
+                        },
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 18.0, bottom: 10),
+                      child: Text('$reqMsgInCrmdAdmin Hall', style: ef),
+                    ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+
+        ///  Cake bakery Request
+        Column(
+          children: <Widget>[
+            Container(
+              color: OColors.darkGrey,
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 13),
+                      child: Text('Cake Bakery',
+                          style:
+                              header14.copyWith(fontWeight: FontWeight.w500)),
+                    ),
+                    cakeReq.isNotEmpty
+                        ? Container(
+                            margin: const EdgeInsets.only(top: 13),
+                            child: Text('Invited (${cakeReq.length})',
+                                style: header13),
+                          )
+                        : Container(
+                            margin: const EdgeInsets.only(top: 13),
+                            child: Text('Requests (0)',
+                                style: header13.copyWith(
+                                    fontWeight: FontWeight.normal)),
+                          ),
+                    IconButton(
+                        color: OColors.primary,
+                        highlightColor: OColors.primary,
+                        onPressed: () {
+                          setState(() => _openCake ^= true);
+                        },
+                        icon: _openCake == false
+                            ? Icon(Icons.keyboard_arrow_up_outlined,
+                                color: OColors.fontColor)
+                            : Icon(Icons.keyboard_arrow_down,
+                                color: OColors.fontColor))
+                  ],
+                ),
+              ),
+            ),
+            AnimatedClipRect(
+              open: _openCake,
+              horizontalAnimation: false,
+              verticalAnimation: true,
+              alignment: Alignment.center,
+              duration: const Duration(milliseconds: 1000),
+              curve: Curves.bounceOut,
+              reverseCurve: Curves.bounceIn,
+              child: cakeReq.isNotEmpty
+                  ? Container(
+                      margin: const EdgeInsets.all(6.0),
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: cakeReq.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 6,
+                                childAspectRatio: 0.6),
+                        itemBuilder: (context, i) {
+                          final req = cakeReq[i];
+
+                          return reqContainer(context, req);
+                        },
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 18.0, bottom: 10),
+                      child: Text('$reqMsgInCrmdAdmin Cake Bakery', style: ef),
+                    ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+
+        ///  Singer Request
+        Column(
+          children: <Widget>[
+            Container(
+              color: OColors.darkGrey,
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 13),
+                      child: Text('Singer',
+                          style:
+                              header14.copyWith(fontWeight: FontWeight.w500)),
+                    ),
+                    singerReq.isNotEmpty
+                        ? Container(
+                            margin: const EdgeInsets.only(top: 13),
+                            child: Text('Invited (${singerReq.length})',
+                                style: header13.copyWith(
+                                    fontWeight: FontWeight.normal)),
+                          )
+                        : Container(
+                            margin: const EdgeInsets.only(top: 13),
+                            child: Text('Requests (0)',
+                                style: header13.copyWith(
+                                    fontWeight: FontWeight.normal)),
+                          ),
+                    IconButton(
+                        color: OColors.primary,
+                        highlightColor: OColors.primary,
+                        onPressed: () {
+                          setState(() => _openSinger ^= true);
+                        },
+                        icon: _openSinger == false
+                            ? Icon(Icons.keyboard_arrow_up_outlined,
+                                color: OColors.fontColor)
+                            : Icon(Icons.keyboard_arrow_down,
+                                color: OColors.fontColor))
+                  ],
+                ),
+              ),
+            ),
+            AnimatedClipRect(
+              open: _openSinger,
+              horizontalAnimation: false,
+              verticalAnimation: true,
+              alignment: Alignment.center,
+              duration: const Duration(milliseconds: 1000),
+              curve: Curves.bounceOut,
+              reverseCurve: Curves.bounceIn,
+              child: singerReq.isNotEmpty
+                  ? Container(
+                      margin: const EdgeInsets.all(6.0),
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: singerReq.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 6,
+                                childAspectRatio: 0.6),
+                        itemBuilder: (context, i) {
+                          final req = singerReq[i];
+
+                          return reqContainer(context, req);
+                        },
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 18.0, bottom: 10),
+                      child: Text('$reqMsgInCrmdAdmin Singer', style: ef),
+                    ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+
+        ///  Saloon Request
+        Column(
+          children: <Widget>[
+            Container(
+              color: OColors.darkGrey,
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 13),
+                      child: Text('Dancer',
+                          style:
+                              header14.copyWith(fontWeight: FontWeight.w500)),
+                    ),
+                    dancerReq.isNotEmpty
+                        ? Container(
+                            margin: const EdgeInsets.only(top: 13),
+                            child: Text('Invited (${dancerReq.length})',
+                                style: header13),
+                          )
+                        : Container(
+                            margin: const EdgeInsets.only(top: 13),
+                            child: Text('Requests (0)',
+                                style: header13.copyWith(
+                                    fontWeight: FontWeight.normal)),
+                          ),
+                    IconButton(
+                        color: OColors.primary,
+                        highlightColor: OColors.primary,
+                        onPressed: () {
+                          setState(() => _openDancer ^= true);
+                        },
+                        icon: _openDancer == false
+                            ? Icon(Icons.keyboard_arrow_up_outlined,
+                                color: OColors.fontColor)
+                            : Icon(Icons.keyboard_arrow_down,
+                                color: OColors.fontColor))
+                  ],
+                ),
+              ),
+            ),
+            AnimatedClipRect(
+              open: _openDancer,
+              horizontalAnimation: false,
+              verticalAnimation: true,
+              alignment: Alignment.center,
+              duration: const Duration(milliseconds: 1000),
+              curve: Curves.bounceOut,
+              reverseCurve: Curves.bounceIn,
+              child: dancerReq.isNotEmpty
+                  ? Container(
+                      margin: const EdgeInsets.all(6.0),
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: dancerReq.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 6,
+                                childAspectRatio: 0.6),
+                        itemBuilder: (context, i) {
+                          final req = dancerReq[i];
+
+                          return reqContainer(context, req);
+                        },
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 18.0, bottom: 10),
+                      child: Text('$reqMsgInCrmdAdmin Dancer', style: ef),
+                    ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+
+        ///  Saloon Request
+        Column(
+          children: <Widget>[
+            Container(
+              color: OColors.darkGrey,
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 13),
+                      child: Text('Saloon',
+                          style:
+                              header14.copyWith(fontWeight: FontWeight.w500)),
+                    ),
+                    saloonReq.isNotEmpty
+                        ? Container(
+                            margin: const EdgeInsets.only(top: 13),
+                            child: Text('Invited (${saloonReq.length})',
+                                style: header13),
+                          )
+                        : Container(
+                            margin: const EdgeInsets.only(top: 13),
+                            child: Text('Requests (0)',
+                                style: header13.copyWith(
+                                    fontWeight: FontWeight.normal)),
+                          ),
+                    IconButton(
+                        color: OColors.primary,
+                        highlightColor: OColors.primary,
+                        onPressed: () {
+                          setState(() => _openSaloon ^= true);
+                        },
+                        icon: _openSaloon == false
+                            ? Icon(Icons.keyboard_arrow_up_outlined,
+                                color: OColors.fontColor)
+                            : Icon(Icons.keyboard_arrow_down,
+                                color: OColors.fontColor))
+                  ],
+                ),
+              ),
+            ),
+            AnimatedClipRect(
+              open: _openSaloon,
+              horizontalAnimation: false,
+              verticalAnimation: true,
+              alignment: Alignment.center,
+              duration: const Duration(milliseconds: 1000),
+              curve: Curves.bounceOut,
+              reverseCurve: Curves.bounceIn,
+              child: saloonReq.isNotEmpty
+                  ? Container(
+                      margin: const EdgeInsets.all(6.0),
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: saloonReq.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 6,
+                                childAspectRatio: 0.6),
+                        itemBuilder: (context, i) {
+                          final req = saloonReq[i];
+
+                          return reqContainer(context, req);
+                        },
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 18.0, bottom: 10),
+                      child: Text('$reqMsgInCrmdAdmin Saloon', style: ef),
+                    ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+
+        ///
+        ///  Car Request
+        Column(
+          children: <Widget>[
+            Container(
+              color: OColors.darkGrey,
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 13),
+                      child: Text('Vehicles',
+                          style:
+                              header14.copyWith(fontWeight: FontWeight.w500)),
+                    ),
+                    carReq.isNotEmpty
+                        ? Container(
+                            margin: const EdgeInsets.only(top: 13),
+                            child: Text('Invited (${carReq.length})',
+                                style: header13.copyWith(
+                                    fontWeight: FontWeight.normal)),
+                          )
+                        : Center(
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 13),
+                              child: Text('Requests (0)',
+                                  style: header13.copyWith(
+                                      fontWeight: FontWeight.normal)),
+                            ),
+                          ),
+                    IconButton(
+                        color: OColors.primary,
+                        highlightColor: OColors.primary,
+                        onPressed: () {
+                          setState(() => _openCar ^= true);
+                        },
+                        icon: _openCar == false
+                            ? Icon(Icons.keyboard_arrow_up_outlined,
+                                color: OColors.fontColor)
+                            : Icon(Icons.keyboard_arrow_down,
+                                color: OColors.fontColor))
+                  ],
+                ),
+              ),
+            ),
+            AnimatedClipRect(
+              open: _openCar,
+              horizontalAnimation: false,
+              verticalAnimation: true,
+              alignment: Alignment.center,
+              duration: const Duration(milliseconds: 1000),
+              curve: Curves.bounceOut,
+              reverseCurve: Curves.bounceIn,
+              child: carReq.isNotEmpty
+                  ? Container(
+                      margin: const EdgeInsets.all(6.0),
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: carReq.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 6,
+                                childAspectRatio: 0.6),
+                        itemBuilder: (context, i) {
+                          final req = carReq[i];
+
+                          return reqContainer(context, req);
+                        },
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 18.0, bottom: 10),
+                      child: Text('$reqMsgInCrmdAdmin Car', style: ef),
+                    ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+
+        ///  Cooker Request
+        Column(
+          children: <Widget>[
+            Container(
+              color: OColors.darkGrey,
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 13),
+                      child: Text('Cooker',
+                          style:
+                              header14.copyWith(fontWeight: FontWeight.w500)),
+                    ),
+                    cookerReq.isNotEmpty
+                        ? Container(
+                            margin: const EdgeInsets.only(top: 13),
+                            child: Text('Invited (${cookerReq.length})',
+                                style: header13.copyWith(
+                                    fontWeight: FontWeight.normal)),
+                          )
+                        : Center(
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 13),
+                              child: Text('Requests (0)',
+                                  style: header13.copyWith(
+                                      fontWeight: FontWeight.normal)),
+                            ),
+                          ),
+                    IconButton(
+                        color: OColors.primary,
+                        highlightColor: OColors.primary,
+                        onPressed: () {
+                          setState(() => _openCooker ^= true);
+                        },
+                        icon: _openCooker == false
+                            ? Icon(Icons.keyboard_arrow_up_outlined,
+                                color: OColors.fontColor)
+                            : Icon(Icons.keyboard_arrow_down,
+                                color: OColors.fontColor))
+                  ],
+                ),
+              ),
+            ),
+            AnimatedClipRect(
+              open: _openCooker,
+              horizontalAnimation: false,
+              verticalAnimation: true,
+              alignment: Alignment.center,
+              duration: const Duration(milliseconds: 1000),
+              curve: Curves.bounceOut,
+              reverseCurve: Curves.bounceIn,
+              child: cookerReq.isNotEmpty
+                  ? Container(
+                      margin: const EdgeInsets.all(6.0),
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: cookerReq.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 6,
+                                childAspectRatio: 0.6),
+                        itemBuilder: (context, i) {
+                          final req = cookerReq[i];
+
+                          return reqContainer(context, req);
+                        },
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 18.0, bottom: 10),
+                      child: Text('$reqMsgInCrmdAdmin Cooker', style: ef),
+                    ),
+            ),
+          ],
+        ),
+
+        const SizedBox(
+          height: 50,
+        ),
+      ],
+    ));
   }
 
   Container reqContainer(BuildContext context, RequestsModel req) {
@@ -1560,8 +1970,8 @@ class _CrmnAdminState extends State<CrmnAdmin> {
   }
 
   void checkSelection(BuildContext context, RequestsModel req) {
-    var contain = myServ
-        .where(((element) => element.bsnInfo!.busnessType == req.bsnInfo!.busnessType));
+    var contain = myServ.where(((element) =>
+        element.bsnInfo!.busnessType == req.bsnInfo!.busnessType));
 
     if (contain.isEmpty) {
       Navigator.push(
@@ -1569,6 +1979,7 @@ class _CrmnAdminState extends State<CrmnAdmin> {
           MaterialPageRoute(
               builder: (BuildContext context) => MyService(
                     req: req,
+                    user: widget.user,
                   )));
     } else {
       showAlertDialog(
@@ -1732,6 +2143,7 @@ class _CrmnAdminState extends State<CrmnAdmin> {
               MaterialPageRoute(
                   builder: (BuildContext context) => MyService(
                         req: req,
+                        user: widget.user,
                       )));
         } else {
           Navigator.of(context).pop();
@@ -1778,9 +2190,666 @@ class _CrmnAdminState extends State<CrmnAdmin> {
       },
     );
   }
+
+  // Alert Widget
+  addMembers(
+      BuildContext context, String title, String msg, req, String from) async {
+    // set up the buttons
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      insetPadding: const EdgeInsets.only(right: 1, left: 1),
+      contentPadding: EdgeInsets.zero,
+      titlePadding: const EdgeInsets.only(top: 5),
+      backgroundColor: OColors.secondary,
+      title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.close,
+              size: 35,
+              color: OColors.fontColor,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 38.0, top: 8, bottom: 8),
+          child: Text('Search',
+              style:
+                  header18.copyWith(fontSize: 25, fontWeight: FontWeight.bold)),
+        ),
+      ]),
+      content: Column(
+        children: [
+          SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Autocomplete<UserCrmVwr>(
+                optionsBuilder: (TextEditingValue value) {
+                  // When the field is empty
+                  if (value.text.isEmpty) {
+                    return [];
+                  }
+
+                  // The logic to find out which ones should appear
+                  return data
+                      .where((d) => d.phoneNo!
+                          .toLowerCase()
+                          .contains(value.text.toLowerCase()))
+                      .toList();
+                },
+                displayStringForOption: (UserCrmVwr option) => option.username!,
+                fieldViewBuilder: (BuildContext context,
+                    TextEditingController fieldTextEditingController,
+                    FocusNode fieldFocusNode,
+                    VoidCallback onFieldSubmitted) {
+                  return TextField(
+                    controller: fieldTextEditingController,
+                    focusNode: fieldFocusNode,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.only(left: 18),
+                      border: InputBorder.none,
+                      hintStyle: TextStyle(
+                          color: OColors.primary, fontSize: 14, height: 1.5),
+                      hintText: "Search phone Numbers..",
+                    ),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: OColors.fontColor),
+                  );
+                },
+                optionsViewBuilder: (BuildContext context,
+                    AutocompleteOnSelected<UserCrmVwr> onSelected,
+                    Iterable<UserCrmVwr> options) {
+                  return Align(
+                    alignment: Alignment.topLeft,
+                    child: Material(
+                      child: Container(
+                        width: 300,
+                        color: OColors.secondary,
+                        child: ListView.builder(
+                          padding: const EdgeInsets.all(10.0),
+                          itemCount: options.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final UserCrmVwr option = options.elementAt(index);
+
+                            return SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  ListTile(
+                                    leading: Container(
+                                      width: 35,
+                                      height: 35,
+                                      margin: const EdgeInsets.only(right: 10),
+                                      child: option.avater != ''
+                                          ? fadeImg(
+                                              context,
+                                              '${api}public/uploads/${option.username}/profile/${option.avater}',
+                                              40.0,
+                                              40.0)
+                                          : const DefaultAvater(
+                                              height: 40, radius: 3, width: 40),
+                                    ),
+                                    title: Text(option.username!,
+                                        style: const TextStyle(
+                                            color: Colors.white)),
+                                    subtitle: Text(option.phoneNo!,
+                                        style: const TextStyle(
+                                            color: Colors.white)),
+                                    trailing: GestureDetector(
+                                      onTap: () {
+                                        // addAhadi(context, '', '', option, '');
+                                        something(context, option);
+                                      },
+                                      child: const Text('Add',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Divider(
+                                    height: 1.0,
+                                    color: Colors.black.withOpacity(0.24),
+                                    thickness: 1.0,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                // onSelected: (UserCrmVwr selection) {
+                //   CrmViewersModel cvInf = selection.crmVwrInfo;
+                //   setState(() {
+                //     avater = selection.avater!;
+                //     uname = selection.username!;
+                //     contact = selection.phoneNo!;
+                //     // position = '';
+                //     // ahadi = '';
+
+                //     crmViewer.add(CrmViewersModel(
+                //       id: cvInf.id,
+                //       userId: cvInf.userId,
+                //       crmId: cvInf.crmId,
+                //       name: cvInf.name,
+                //       contact: cvInf.contact,
+                //       position: cvInf.position,
+                //       crmInfo: emptyCrmModel,
+                //       viewerInfo: User(
+                //           id: selection.id,
+                //           username: selection.username,
+                //           firstname: selection.firstname,
+                //           lastname: selection.lastname,
+                //           avater: selection.avater,
+                //           phoneNo: selection.phoneNo,
+                //           email: selection.email,
+                //           gender: selection.gender,
+                //           role: selection.role,
+                //           isCurrentUser: selection.isCurrentUser,
+                //           address: selection.address,
+                //           bio: selection.bio,
+                //           meritalStatus: selection.meritalStatus,
+                //           totalPost: '',
+                //           isCurrentBsnAdmin: '',
+                //           isCurrentCrmAdmin: '',
+                //           totalFollowers: '',
+                //           totalFollowing: '',
+                //           totalLikes: ''),
+                //       isAdmin: '',
+                //     ));
+                //   });
+                // },
+              ))
+        ],
+      ),
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  addAhadi(BuildContext context, String title, String msg, UserCrmVwr opt,
+      String from) async {
+    // set up the buttons
+
+    List<String> crmViwrPstn = ['Viewer', 'Friend', 'Relative'];
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      insetPadding: const EdgeInsets.only(right: 1, left: 1),
+      contentPadding: EdgeInsets.zero,
+      titlePadding: const EdgeInsets.only(top: 5),
+      backgroundColor: OColors.secondary,
+      title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.close,
+              size: 35,
+              color: OColors.fontColor,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 38.0, top: 8, bottom: 8),
+          child: Text('Search',
+              style:
+                  header18.copyWith(fontSize: 25, fontWeight: FontWeight.bold)),
+        ),
+      ]),
+      content: Column(
+        children: [
+          SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                children: [
+                  Row(children: [
+                    opt.avater != ''
+                        ? fadeImg(
+                            context,
+                            '${api}public/uploads/${opt.username}/profile/${opt.avater}',
+                            60.0,
+                            60.0)
+                        : const DefaultAvater(height: 60, radius: 3, width: 60),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(opt.username!,
+                              style: header14.copyWith(
+                                  fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 8),
+                          Text(opt.phoneNo!, style: header12),
+                        ],
+                      ),
+                    )
+                  ]),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        width: 120,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 2, color: OColors.sPurple),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Builder(builder: (context) {
+                          return DropdownButton<String>(
+                            isExpanded: true,
+                            // icon: const Icon(Icons.arrow_circle_down),
+                            // iconSize: 20,
+                            // elevation: 16,
+                            underline: Container(),
+                            items: crmViwrPstn.map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            hint: Container(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Who is ?',
+                                style: header12,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            onChanged: (v) {
+                              setState(() {
+                                // print(v);
+                                subScrbAs = v!;
+                              });
+                            },
+                          );
+                        }),
+                      ),
+                      textFieldContainer(
+                          context,
+                          'ahadi',
+                          _ahadi,
+                          MediaQuery.of(context).size.width / 2.5,
+                          30,
+                          10,
+                          10,
+                          OColors.darGrey,
+                          const Icon(Icons.currency_pound),
+                          header12)
+                    ],
+                  ),
+                ],
+              )),
+          const Spacer(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        // color: prmry,
+                      ),
+                      child: Text(
+                        'Cancel',
+                        style: header13,
+                      )),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    edtBgt(context);
+                  },
+                  child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: prmry,
+                      ),
+                      child: Text(
+                        'Add budget',
+                        style: header13,
+                      )),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 15)
+        ],
+      ),
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void budgetEdit(
+    context,
+  ) {
+    if (myBgt.amount != '') {
+      _budget.text = myBgt.amount!;
+    }
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            color: const Color(0xFF737373),
+            height: 560,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: OColors.secondary,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    )),
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Expanded(
+                      child: Column(
+                        children: [
+                          Text('Budget Edit',
+                              style: header16.copyWith(
+                                  fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 8),
+                          Container(
+                            height: 45,
+                            width: MediaQuery.of(context).size.width / 1,
+                            margin: const EdgeInsets.only(
+                                left: 20, right: 20, bottom: 15),
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1, color: Colors.grey),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: TextField(
+                              controller: _budget,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                prefixIcon: const Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 20.0),
+                                  child: Icon(
+                                    Icons.currency_pound,
+                                    size: 15,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                hintText: 'Write your Budget',
+                                hintStyle: TextStyle(
+                                    color: OColors.white, height: 1.3),
+                              ),
+                              keyboardType: TextInputType.phone,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: OColors.white,
+                                  height: 1.5),
+                              onChanged: (value) {
+                                setState(() {
+                                  //_email = value;
+                                });
+                              },
+                            ),
+                          ),
+                          const Spacer(),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Container(
+                                      padding: const EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6),
+                                        // color: prmry,
+                                      ),
+                                      child: Text(
+                                        'Cancel',
+                                        style: header13,
+                                      )),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    edtBgt(context);
+                                  },
+                                  child: Container(
+                                      padding: const EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6),
+                                        color: prmry,
+                                      ),
+                                      child: Text(
+                                        'Add budget',
+                                        style: header13,
+                                      )),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ))),
+          );
+        });
+  }
+
+  void something(context, UserCrmVwr opt) {
+    // Navigator.of(context).pop();
+    List<String> crmViwrPstn = ['Viewer', 'Friend', 'Relative'];
+    String whois = 'Who is ?';
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            color: const Color(0xFF737373),
+            height: 560,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: OColors.secondary,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    )),
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Expanded(
+                      child: Column(
+                        children: [
+                          Text('Add Member ',
+                              style: header16.copyWith(
+                                  fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 8),
+                          Column(
+                            children: [
+                              Row(children: [
+                                opt.avater != ''
+                                    ? fadeImg(
+                                        context,
+                                        '${api}public/uploads/${opt.username}/profile/${opt.avater}',
+                                        60.0,
+                                        60.0)
+                                    : const DefaultAvater(
+                                        height: 60, radius: 3, width: 60),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(opt.username!,
+                                          style: header14.copyWith(
+                                              fontWeight: FontWeight.bold)),
+                                      const SizedBox(height: 8),
+                                      Text(opt.phoneNo!, style: header12),
+                                    ],
+                                  ),
+                                )
+                              ]),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Container(
+                                    width: 120,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 2, color: OColors.sPurple),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Builder(builder: (context) {
+                                      return DropdownButton<String>(
+                                        isExpanded: true,
+                                        // icon: const Icon(Icons.arrow_circle_down),
+                                        // iconSize: 20,
+                                        // elevation: 16,
+                                        underline: Container(),
+                                        items: crmViwrPstn.map((String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(value),
+                                          );
+                                        }).toList(),
+                                        hint: Container(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            whois,
+                                            style: header12,
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                        onChanged: (v) {
+                                          setState(() {
+                                            print(v);
+                                            whois = v!;
+                                          });
+                                        },
+                                      );
+                                    }),
+                                  ),
+                                  textFieldContainer(
+                                      context,
+                                      'ahadi',
+                                      _ahadi,
+                                      MediaQuery.of(context).size.width / 2.5,
+                                      30,
+                                      10,
+                                      10,
+                                      OColors.darGrey,
+                                      const Icon(Icons.currency_pound),
+                                      header12)
+                                ],
+                              ),
+                            ],
+                          ),
+                          const Spacer(),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Container(
+                                      padding: const EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6),
+                                        // color: prmry,
+                                      ),
+                                      child: Text(
+                                        'Cancel',
+                                        style: header13,
+                                      )),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    edtBgt(context);
+                                  },
+                                  child: Container(
+                                      padding: const EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6),
+                                        color: prmry,
+                                      ),
+                                      child: Text(
+                                        'Add budget',
+                                        style: header13,
+                                      )),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ))),
+          );
+        });
+  }
+
+  void membersPay(
+    context,
+  ) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            color: const Color(0xFF737373),
+            height: 560,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: OColors.secondary,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    )),
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Members Payments', style: header12))),
+          );
+        });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+
+    // if (!mounted) {
+    //   _controller!.dispose();
+    // }
+
+    super.dispose();
+  }
 }
-
-
 
 //  for (int i = 0; i < arr.length; i++) {
 //       List myList = ['${arr[i]}Req'];
@@ -1810,32 +2879,32 @@ class _CrmnAdminState extends State<CrmnAdmin> {
 //       ];
 //     }
 
-   // myCategoryDynamic.map((key, value) {
-    //   // print('valuee');
-    //   // print(value);
+// myCategoryDynamic.map((key, value) {
+//   // print('valuee');
+//   // print(value);
 
-    //   print('keyy');
-    //   print(key);
+//   print('keyy');
+//   print(key);
 
-    //   print('Encodevaluee');
-    //   print(jsonEncode(value));
-    //   final j = jsonEncode(value);
+//   print('Encodevaluee');
+//   print(jsonEncode(value));
+//   final j = jsonEncode(value);
 
-    //   return value;
-    // });
-    // // print('g tyeem');
-    // // print(g);
+//   return value;
+// });
+// // print('g tyeem');
+// // print(g);
 
-          /// Proceed
-          // for (int i = 0; i < arr.length; i++) {
-          //   for (var key in myCategoryDynamic.keys) {
-          //     String k = key.join();
+/// Proceed
+// for (int i = 0; i < arr.length; i++) {
+//   for (var key in myCategoryDynamic.keys) {
+//     String k = key.join();
 
-          //     if (k.toString().startsWith(arr[i])) {
-          //       print(myCategoryDynamic);
-          //       // key.removeWhere((element) => element.busnessId.isEmpty);
-          //       print('myCategoryDynamic');
-          //       print(myCategoryDynamic);
-          //     }
-          //   }
-          // }
+//     if (k.toString().startsWith(arr[i])) {
+//       print(myCategoryDynamic);
+//       // key.removeWhere((element) => element.busnessId.isEmpty);
+//       print('myCategoryDynamic');
+//       print(myCategoryDynamic);
+//     }
+//   }
+// }

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:sherekoo/widgets/liveTabB.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import '../../model/allData.dart';
-import '../../model/ceremony/ceremonyModel.dart';
-import '../../model/userModel.dart';
-import '../../util/Preferences.dart';
+import '../../model/user/user-call.dart';
+import '../../model/ceremony/crm-model.dart';
+import '../../model/user/userModel.dart';
+import '../../util/app-variables.dart';
 import '../../util/colors.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
@@ -24,9 +24,9 @@ class Livee extends StatefulWidget {
 class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late YoutubePlayerController? _controller;
-  final Preferences _preferences = Preferences();
+  
 
-  String token = '';
+
   int tabIndex = 0;
   // static String myVideoId = '';
 
@@ -63,8 +63,8 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
 
     //  print(widget.ceremony.);
 
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
         getUser();
@@ -91,7 +91,7 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
   }
 
   getUser() async {
-    AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
+    UsersCall(payload: [], status: 0).get(token, urlGetUser).then((value) {
       if (value.status == 200) {
         setState(() {
           user = User.fromJson(value.payload);
@@ -130,7 +130,7 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => CrmnAdmin(crm: widget.ceremony)));
+                              builder: (_) => CrmnAdmin(crm: widget.ceremony, user: user,)));
                     },
                     child: Container(
                       margin: const EdgeInsets.only(
@@ -163,7 +163,7 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => CrmnAdmin(crm: widget.ceremony)));
+                              builder: (_) => CrmnAdmin(crm: widget.ceremony,user: user,)));
                     },
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(30),

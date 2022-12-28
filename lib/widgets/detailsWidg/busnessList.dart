@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../model/busness/busnessModel.dart';
-import '../../model/ceremony/ceremonyModel.dart';
+import '../../model/ceremony/crm-model.dart';
 import '../../screens/bsnScreen/bsn-screen.dart';
 import '../../screens/detailScreen/bsn-details.dart';
 import '../../util/colors.dart';

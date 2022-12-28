@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sherekoo/screens/homNav.dart';
 import 'package:sherekoo/util/colors.dart';
 
-import '../../model/allData.dart';
-import '../../model/userModel.dart';
+import '../../model/user/user-call.dart';
+import '../../model/user/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/util.dart';
 
@@ -35,7 +35,7 @@ class _SearchUsersState extends State<SearchUsers> {
   }
 
   getAll() async {
-    AllUsersModel(payload: [], status: 0).get(token, urlUserList).then((value) {
+    UsersCall(payload: [], status: 0).get(token, urlUserList).then((value) {
       // print(value.payload);
       if (value.status == 200) {
         setState(() {

@@ -1,21 +1,21 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class AllUsersModel {
+class UsersCall {
   final int status;
   dynamic payload;
 
-  AllUsersModel({required this.payload, required this.status});
+  UsersCall({required this.payload, required this.status});
 
-  factory AllUsersModel.fromJson(Map<String, dynamic> json) {
-    return AllUsersModel(payload: json['payload'], status: json['status']);
+  factory UsersCall.fromJson(Map<String, dynamic> json) {
+    return UsersCall(payload: json['payload'], status: json['status']);
   }
 
-  Future<AllUsersModel> get(String token, String dirUrl) async {
+  Future<UsersCall> get(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);
 
     if (token.isEmpty) {
-      return AllUsersModel.fromJson({
+      return UsersCall.fromJson({
         "status": 204,
         "payload": {"error": "Invalid token"}
       });
@@ -30,21 +30,21 @@ class AllUsersModel {
       if (r.statusCode == 200) {
         // print('checkkk vzuriii hapaaa');
         // print(r.body);
-        return AllUsersModel.fromJson(
+        return UsersCall.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       } else {
-        return AllUsersModel.fromJson(
+        return UsersCall.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       }
     });
   }
 
-  Future<AllUsersModel> getUserById(
+  Future<UsersCall> getUserById(
       String token, String dirUrl, String id) async {
     Uri url = Uri.parse(dirUrl);
 
     if (token.isEmpty) {
-      return AllUsersModel.fromJson({
+      return UsersCall.fromJson({
         "status": 204,
         "payload": {"error": "Invalid token"}
       });
@@ -63,10 +63,10 @@ class AllUsersModel {
         .post(url, body: jsonEncode(toMap()), headers: headers)
         .then((r) {
       if (r.statusCode == 200) {
-        return AllUsersModel.fromJson(
+        return UsersCall.fromJson(
             {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
       }
-      return AllUsersModel.fromJson(
+      return UsersCall.fromJson(
           {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
     });
   }

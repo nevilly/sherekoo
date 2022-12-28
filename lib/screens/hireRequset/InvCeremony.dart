@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/model/requests/requests.dart';
 
-import '../../../model/allData.dart';
-import '../../model/userModel.dart';
+import '../../model/user/user-call.dart';
+import '../../model/user/userModel.dart';
 import '../../model/services/servicexModel.dart';
 import '../../../util/Preferences.dart';
 import '../../../util/util.dart';
@@ -57,7 +57,7 @@ class _InvatationCeremonyState extends State<InvatationCeremony> {
   }
 
   getUser() async {
-    AllUsersModel(payload: [], status: 0).get(token, urlGetUser).then((value) {
+    UsersCall(payload: [], status: 0).get(token, urlGetUser).then((value) {
       setState(() {
         currentUser = User.fromJson(value.payload);
       });

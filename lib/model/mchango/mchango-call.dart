@@ -1,24 +1,24 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class AllCeremonysModel {
+class MchangoCall {
   dynamic status;
   dynamic payload;
 
-  AllCeremonysModel({required this.payload, required this.status});
+  MchangoCall({required this.payload, required this.status});
 
-  factory AllCeremonysModel.fromJson(Map<String, dynamic> json) {
-    return AllCeremonysModel(payload: json['payload'], status: json['status']);
+  factory MchangoCall.fromJson(Map<String, dynamic> json) {
+    return MchangoCall(payload: json['payload'], status: json['status']);
   }
 
-  Future<AllCeremonysModel> get(String token, String dirUrl) async {
+  Future<MchangoCall> get(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);
     invalidToken(token);
     Map<String, String> headers = myHttpHeaders(token);
     return myGetHttp(url, headers);
   }
 
-  Future<AllCeremonysModel> updateCrmViewer(
+  Future<MchangoCall> updateCrmViewer(
       String token, String dirUrl, id, position) async {
     Uri url = Uri.parse(dirUrl);
     Map<String, dynamic> toMap() {
@@ -30,7 +30,7 @@ class AllCeremonysModel {
     return myPostHttp(url, toMap, headers);
   }
 
-  Future<AllCeremonysModel> removeCrmViewer(
+  Future<MchangoCall> removeCrmViewer(
       String token, String dirUrl, id, userId) async {
     Uri url = Uri.parse(dirUrl);
     Map<String, dynamic> toMap() {
@@ -42,7 +42,7 @@ class AllCeremonysModel {
     return myPostHttp(url, toMap, headers);
   }
 
-  Future<AllCeremonysModel> getDayCeremony(
+  Future<MchangoCall> getDayCeremony(
       String token, String dirUrl, String day, offset, limit) async {
     Uri url = Uri.parse(dirUrl);
     Map<String, dynamic> toMap() {
@@ -56,7 +56,7 @@ class AllCeremonysModel {
     return myPostHttp(url, toMap, headers);
   }
 
-  Future<AllCeremonysModel> getCeremonyById(
+  Future<MchangoCall> getCeremonyById(
       String token, String dirUrl, String day) async {
     Uri url = Uri.parse(dirUrl);
     Map<String, dynamic> toMap() {
@@ -70,7 +70,7 @@ class AllCeremonysModel {
     return myPostHttp(url, toMap, headers);
   }
 
-  Future<AllCeremonysModel> getCeremonyByUserId(
+  Future<MchangoCall> getCeremonyByUserId(
       String token, String dirUrl, String userId) async {
     Uri url = Uri.parse(dirUrl);
     Map<String, dynamic> toMap() {
@@ -84,7 +84,7 @@ class AllCeremonysModel {
     return myPostHttp(url, toMap, headers);
   }
 
-  Future<AllCeremonysModel> getCeremonyByType(
+  Future<MchangoCall> getCeremonyByType(
       String token, String dirUrl, String type) async {
     Uri url = Uri.parse(dirUrl);
     Map<String, dynamic> toMap() {
@@ -98,14 +98,26 @@ class AllCeremonysModel {
     return myPostHttp(url, toMap, headers);
   }
 
-  Future<AllCeremonysModel> getCrmViewr(String token, String dirUrl) async {
+  Future<MchangoCall> getCrmViewr(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);
     invalidToken(token);
     Map<String, String> headers = myHttpHeaders(token);
     return myGetHttp(url, headers);
   }
 
-  Future<AllCeremonysModel> getExistCrmnViewr(
+  Future<MchangoCall> getCrmnVwrByUid(
+      String token, String dirUrl, String uid, limit, offset) async {
+    Uri url = Uri.parse(dirUrl);
+    Map<String, dynamic> toMap() {
+      return <String, dynamic>{'crmId': uid, 'offset': offset, 'limit': limit};
+    }
+
+    invalidToken(token);
+    Map<String, String> headers = myHttpHeaders(token);
+    return myPostHttp(url, toMap, headers);
+  }
+
+  Future<MchangoCall> getExistCrmnViewr(
       String token, String dirUrl, String crmId) async {
     Uri url = Uri.parse(dirUrl);
     Map<String, dynamic> toMap() {
@@ -117,7 +129,7 @@ class AllCeremonysModel {
     return myPostHttp(url, toMap, headers);
   }
 
-  Future<AllCeremonysModel> addCrmnViewr(
+  Future<MchangoCall> addCrmnViewr(
       String token, String dirUrl, String crmId, String position) async {
     Uri url = Uri.parse(dirUrl);
     Map<String, dynamic> toMap() {
@@ -137,36 +149,37 @@ Map<String, String> myHttpHeaders(String token) {
 
 invalidToken(token) {
   if (token.isEmpty) {
-    return AllCeremonysModel.fromJson({
+    return MchangoCall.fromJson({
       "status": 204,
       "payload": {"error": "Invalid token"}
     });
   }
 }
 
-Future<AllCeremonysModel> myPostHttp(Uri url,
+Future<MchangoCall> myPostHttp(Uri url,
     Map<String, dynamic> Function() toMap, Map<String, String> headers) async {
   return await http
       .post(url, body: jsonEncode(toMap()), headers: headers)
       .then((r) {
     // print(r.body);
     if (r.statusCode == 200) {
-      return AllCeremonysModel.fromJson(
+      return MchangoCall.fromJson(
           {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
     }
-    return AllCeremonysModel.fromJson(
+    return MchangoCall.fromJson(
         {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
   });
 }
 
-Future<AllCeremonysModel> myGetHttp(
+Future<MchangoCall> myGetHttp(
     Uri url, Map<String, String> headers) async {
   return await http.get(url, headers: headers).then((r) {
+    // print(r.body);
     if (r.statusCode == 200) {
-      return AllCeremonysModel.fromJson(
+      return MchangoCall.fromJson(
           {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
     } else {
-      return AllCeremonysModel.fromJson(
+      return MchangoCall.fromJson(
           {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
     }
   });

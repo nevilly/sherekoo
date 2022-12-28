@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/model/busness/busnessModel.dart';
-import 'package:sherekoo/model/ceremony/ceremonyModel.dart';
+import 'package:sherekoo/model/ceremony/crm-model.dart';
 import '../../model/subScription/subsrModel.dart';
-import '../../model/userModel.dart';
+import '../../model/user/userModel.dart';
 import '../../util/colors.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
