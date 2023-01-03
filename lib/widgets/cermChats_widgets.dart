@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../model/chats/chatPost.dart';
+import '../model/chats/chat-call.dart';
 import '../model/chats/chatsModel.dart';
 import '../model/post/sherekoModel.dart';
 import '../util/Preferences.dart';
@@ -55,7 +55,7 @@ class _CeremonyChatsState extends State<CeremonyChats> {
   }
 
   getPost() async {
-    PostAllChats(
+    ChatsCall(
       payload: [],
       status: 0,
       body: '',
@@ -73,7 +73,7 @@ class _CeremonyChatsState extends State<CeremonyChats> {
 
   Future<void> post() async {
     if (_body.text != '') {
-      PostAllChats(
+      ChatsCall(
         postId: widget.post.pId,
         userId: '',
         body: _body.text,

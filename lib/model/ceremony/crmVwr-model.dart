@@ -1,3 +1,4 @@
+import '../mchango/mchango-model.dart';
 import '../user/userModel.dart';
 import 'crm-model.dart';
 
@@ -11,6 +12,7 @@ class CrmViewersModel {
   final String position;
 
   final CeremonyModel crmInfo;
+  MchangoModel mchangoInfo;
 
   // // Admin info
   final User viewerInfo;
@@ -20,12 +22,13 @@ class CrmViewersModel {
   CrmViewersModel(
       {required this.id,
       required this.userId,
-       required this.crmId,
+      required this.crmId,
       required this.name,
       required this.contact,
       required this.position,
       required this.crmInfo,
       required this.viewerInfo,
+      required this.mchangoInfo,
       required this.isAdmin});
 
   factory CrmViewersModel.fromJson(Map<String, dynamic> json) {
@@ -38,6 +41,7 @@ class CrmViewersModel {
         position: json['position'] ?? '',
         isAdmin: json['isAdmin'].toString(),
         crmInfo: CeremonyModel.fromJson(json['crmInfo']),
+        mchangoInfo: MchangoModel.fromJson(json['mchangoInfo']),
         viewerInfo: User.fromJson(json['viewerInfo']));
   }
 }

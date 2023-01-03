@@ -65,6 +65,7 @@ String urlOrderCrmBundle = '${api}CrmBundleOrders/add';
 
 //Ceremonyt Viewers
 String urladdCrmViewrs = '${api}CeremonyViewers/add';
+String urlCrmAdminAddCrmViewrs = '${api}CeremonyViewers/addByCrmAdmin';
 String urlGetCrmViewrs = '${api}CeremonyViewers/get'; //urlshoulBe:./get/../..;
 String urlGetCrmVwrsByUid =
     '${api}CeremonyViewers/getByUid'; //urlshoulBe:./get/../..;
@@ -75,6 +76,12 @@ String urlUpdateCrmViewerPostion = '${api}CeremonyViewers/updateCrmPosition';
 //Ceremony Budget
 String urlGetCrmAddBudget = '${api}Budget/add';
 String urlGetCrmBudget = '${api}Budget/getByCrmId';
+
+//Michango
+String urlMchangoUpdate = '${api}Michango/update';
+
+//Michango Payments
+String urlMchangoPay = '${api}MichangoPayment/add';
 
 //Busness
 String urlPostBusness = '${api}Busness/add';

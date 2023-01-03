@@ -828,7 +828,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
                             size: 20,
                             color: prmry,
                           ),
-                          textStyl),
+                          textStyl,TextInputType.phone),
                     ],
                   ),
                 )

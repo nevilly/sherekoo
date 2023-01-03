@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../../util/app-variables.dart';
 import '../../util/colors.dart';
 import '../../util/Preferences.dart';
 import '../../util/modInstance.dart';
@@ -21,8 +22,7 @@ class Sherekoo extends StatefulWidget {
 }
 
 class _SherekooState extends State<Sherekoo> {
-  final Preferences _preferences = Preferences();
-  String token = '';
+
 
   late String dataType = '';
   late String title = '';
@@ -39,7 +39,7 @@ class _SherekooState extends State<Sherekoo> {
   @override
   void initState() {
     super.initState();
-    _preferences.init();
+    preferences.init();
     page = 'Mc';
     page2 = 'Mc';
     rangi = OColors.darkGrey;

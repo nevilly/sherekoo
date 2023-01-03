@@ -552,7 +552,7 @@ User currentUser = User(
                         size: 20,
                         color: prmry,
                       ),
-                      textStyl),
+                      textStyl,TextInputType.multiline),
                 ],
               ),
             ),

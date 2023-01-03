@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
 
-import '../../model/user/user-call.dart';
+import '../../model/ceremony/crm-call.dart';
+import '../../model/ceremony/crm-model.dart';
 import '../../model/user/userCrmVwr-model.dart';
+import '../../model/user/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/colors.dart';
 import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/defaultAvater.dart';
+import 'crmAdmin.dart';
 
 class Addmember extends StatefulWidget {
-  const Addmember({Key? key}) : super(key: key);
+  final UserCrmVwr option;
+  final CeremonyModel crm;
+  final User user;
+  const Addmember(
+      {Key? key, required this.option, required this.user, required this.crm})
+      : super(key: key);
 
   @override
   State<Addmember> createState() => _AddmemberState();
@@ -19,6 +27,8 @@ class Addmember extends StatefulWidget {
 class _AddmemberState extends State<Addmember> {
   final TextEditingController _ahadi = TextEditingController();
   List<UserCrmVwr> data = [];
+  List<String> crmViwrPstn = ['Viewer', 'Friend', 'Relative'];
+  String whois = 'Who is ?';
   @override
   void initState() {
     super.initState();
@@ -32,182 +42,186 @@ class _AddmemberState extends State<Addmember> {
         // getAllRequests();
 
         // getViewers();
-        getAll();
       });
     });
   }
 
-  getAll() async {
-    UsersCall(payload: [], status: 0)
-        .get(token, urlUserCrmVwr)
-        .then((value) {
-      // print(value.payload);
-      if (value.status == 200) {
-        setState(() {
-          data = value.payload
-              .map<UserCrmVwr>((e) => UserCrmVwr.fromJson(e))
-              .toList();
-        });
-      }
-    });
+  // My all ceremonie post
+  Future addViewer() async {
+    if (whois != 'Who is ?') {
+      await CrmCall(payload: [], status: 0)
+          .addCrmnViewr(token, urlCrmAdminAddCrmViewrs, widget.crm.cId, whois,
+              '', '', _ahadi.text, widget.option.id!)
+          .then((value) {
+        if (value.status == 200) {
+          // print(value.payload);
+          Navigator.of(context).pop();
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => CrmnAdmin(
+                        crm: widget.crm,
+                        user: widget.user,
+                      )));
+        }
+      });
+    } else {
+      // fillTheBlanks('Fill Subsribe as ... Please!');
+      // print('fill who is');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    // Size size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: OColors.secondary,
-        appBar: AppBar(title: Text('data')),
+        appBar: AppBar(title: Text('Members', style: header16)),
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Autocomplete<UserCrmVwr>(
-              optionsBuilder: (TextEditingValue value) {
-                // When the field is empty
-                if (value.text.isEmpty) {
-                  return [];
-                }
-
-                // The logic to find out which ones should appear
-                return data
-                    .where((d) => d.phoneNo!
-                        .toLowerCase()
-                        .contains(value.text.toLowerCase()))
-                    .toList();
-              },
-              displayStringForOption: (UserCrmVwr option) => option.username!,
-              fieldViewBuilder: (BuildContext context,
-                  TextEditingController fieldTextEditingController,
-                  FocusNode fieldFocusNode,
-                  VoidCallback onFieldSubmitted) {
-                return TextField(
-                  controller: fieldTextEditingController,
-                  focusNode: fieldFocusNode,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.only(left: 18),
-                    border: InputBorder.none,
-                    hintStyle: TextStyle(
-                        color: OColors.primary, fontSize: 14, height: 1.5),
-                    hintText: "Search phone Numbers..",
-                  ),
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: OColors.fontColor),
-                );
-              },
-              optionsViewBuilder: (BuildContext context,
-                  AutocompleteOnSelected<UserCrmVwr> onSelected,
-                  Iterable<UserCrmVwr> options) {
-                return Align(
-                  alignment: Alignment.topLeft,
-                  child: Material(
-                    child: Container(
-                      width: size.width,
-                      color: OColors.secondary,
-                      child: ListView.builder(
-                        padding: const EdgeInsets.all(10.0),
-                        itemCount: options.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final UserCrmVwr option = options.elementAt(index);
-
-                          return SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                ListTile(
-                                  leading: Container(
-                                    width: 35,
-                                    height: 35,
-                                    margin: const EdgeInsets.only(right: 10),
-                                    child: option.avater != ''
-                                        ? fadeImg(
-                                            context,
-                                            '${api}public/uploads/${option.username}/profile/${option.avater}',
-                                            40.0,
-                                            40.0)
-                                        : const DefaultAvater(
-                                            height: 40, radius: 3, width: 40),
-                                  ),
-                                  title: Text(option.username!,
-                                      style:
-                                          const TextStyle(color: Colors.white)),
-                                  subtitle: Text(option.phoneNo!,
-                                      style:
-                                          const TextStyle(color: Colors.white)),
-                                  trailing: GestureDetector(
-                                    onTap: () {
-                                     // addAhadi(context, '', '', option, '');
-                                       showAlertDialog(
-          context,
-          "You already have  ",
-          "Would like to Select another .. ?",
-          '',
-          'requests');
-                                      // something(context, option);
-                                    },
-                                    child: const Text('Add',
-                                        style: TextStyle(color: Colors.white)),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Divider(
-                                  height: 1.0,
-                                  color: Colors.black.withOpacity(0.24),
-                                  thickness: 1.0,
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
+            Text('Add Member ',
+                style: header16.copyWith(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            Column(
+              children: [
+                Row(children: [
+                  widget.option.avater != ''
+                      ? fadeImg(
+                          context,
+                          '${api}public/uploads/${widget.option.username}/profile/${widget.option.avater}',
+                          80.0,
+                          80.0)
+                      : const DefaultAvater(height: 80, radius: 3, width: 80),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(widget.option.username!,
+                            style:
+                                header15.copyWith(fontWeight: FontWeight.bold)),
+                        const SizedBox(height: 8),
+                        Text(widget.option.phoneNo!, style: header13),
+                      ],
                     ),
-                  ),
-                );
-              },
-              // onSelected: (UserCrmVwr selection) {
-              //   CrmViewersModel cvInf = selection.crmVwrInfo;
-              //   setState(() {
-              //     avater = selection.avater!;
-              //     uname = selection.username!;
-              //     contact = selection.phoneNo!;
-              //     // position = '';
-              //     // ahadi = '';
-
-              //     crmViewer.add(CrmViewersModel(
-              //       id: cvInf.id,
-              //       userId: cvInf.userId,
-              //       crmId: cvInf.crmId,
-              //       name: cvInf.name,
-              //       contact: cvInf.contact,
-              //       position: cvInf.position,
-              //       crmInfo: emptyCrmModel,
-              //       viewerInfo: User(
-              //           id: selection.id,
-              //           username: selection.username,
-              //           firstname: selection.firstname,
-              //           lastname: selection.lastname,
-              //           avater: selection.avater,
-              //           phoneNo: selection.phoneNo,
-              //           email: selection.email,
-              //           gender: selection.gender,
-              //           role: selection.role,
-              //           isCurrentUser: selection.isCurrentUser,
-              //           address: selection.address,
-              //           bio: selection.bio,
-              //           meritalStatus: selection.meritalStatus,
-              //           totalPost: '',
-              //           isCurrentBsnAdmin: '',
-              //           isCurrentCrmAdmin: '',
-              //           totalFollowers: '',
-              //           totalFollowing: '',
-              //           totalLikes: ''),
-              //       isAdmin: '',
-              //     ));
-              //   });
-              // },
+                  )
+                ]),
+                const SizedBox(
+                  height: 28,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Who is Member ?',
+                          style:
+                              header16.copyWith(fontWeight: FontWeight.bold)),
+                    ),
+                    Container(
+                      width: 160,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 2, color: OColors.sPurple),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Builder(builder: (context) {
+                        return DropdownButton<String>(
+                          isExpanded: true,
+                          // icon: const Icon(Icons.arrow_circle_down),
+                          // iconSize: 20,
+                          // elevation: 16,
+                          underline: Container(),
+                          items: crmViwrPstn.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          hint: Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              whois,
+                              style: header12,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          onChanged: (v) {
+                            setState(() {
+                              // print(v);
+                              whois = v!;
+                            });
+                          },
+                        );
+                      }),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Who is Member ?',
+                          style:
+                              header16.copyWith(fontWeight: FontWeight.bold)),
+                    ),
+                    textFieldContainer(
+                        context,
+                        'ahadi',
+                        _ahadi,
+                        MediaQuery.of(context).size.width / 1.5,
+                        40,
+                        10,
+                        10,
+                        OColors.darGrey,
+                        const Icon(Icons.currency_pound),
+                        header12,TextInputType.phone)
+                  ],
+                ),
+              ],
             ),
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          // color: prmry,
+                        ),
+                        child: Text(
+                          'Cancel',
+                          style: header13,
+                        )),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      // edtBgt(context);
+                      addViewer();
+                    },
+                    child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          color: prmry,
+                        ),
+                        child: Text(
+                          'Add budget',
+                          style: header13,
+                        )),
+                  ),
+                ],
+              ),
+            )
           ],
         ));
   }
@@ -322,7 +336,7 @@ class _AddmemberState extends State<Addmember> {
                           10,
                           OColors.darGrey,
                           const Icon(Icons.currency_pound),
-                          header12)
+                          header12,TextInputType.number)
                     ],
                   ),
                 ],
@@ -444,5 +458,4 @@ class _AddmemberState extends State<Addmember> {
       },
     );
   }
-
 }

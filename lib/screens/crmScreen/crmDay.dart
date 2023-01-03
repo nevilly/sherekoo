@@ -182,13 +182,11 @@ class _CeremonyDayState extends State<CeremonyDay>
                             ClipRRect(
                               child: Center(
                                   child: itm.cImage != ''
-                                      ? Img(
-                                          avater: itm.cImage,
-                                          url: '/ceremony/',
-                                          username: itm.userFid.username!,
-                                          width: 125,
-                                          height: 125,
-                                        )
+                                      ? fadeImg(
+                                          context,
+                                          '${api}public/uploads/${itm.userFid.username}/ceremony/${itm.cImage}',
+                                          125.0,
+                                          125.0)
                                       : const SizedBox(height: 1)),
                             ),
 
@@ -220,6 +218,7 @@ class _CeremonyDayState extends State<CeremonyDay>
                         Expanded(
                           child: Column(
                             children: [
+                              // Code Number
                               GestureDetector(
                                 onTap: () {
                                   Navigator.push(
@@ -247,6 +246,7 @@ class _CeremonyDayState extends State<CeremonyDay>
                                 height: 6,
                               ),
 
+                              // Ceremony Dates
                               Container(
                                 margin: const EdgeInsets.only(top: 2),
                                 child: RichText(
@@ -301,6 +301,7 @@ class _CeremonyDayState extends State<CeremonyDay>
                                 height: 5,
                               ),
 
+                              // Extra Details
                               Padding(
                                 padding: const EdgeInsets.only(
                                     top: 5.0,
@@ -373,13 +374,48 @@ class _CeremonyDayState extends State<CeremonyDay>
                       ? itm.isInFuture == 'true'
                           ? bookingPanel(itm, context, index)
                           : crmSettings(context, index)
-                      : const SizedBox.shrink()
+                      : itm.isInFuture == 'true'
+                          ? crmContribution()
+                          : const SizedBox.shrink()
                 ],
               ),
             ),
           );
         },
       ),
+    );
+  }
+
+  Column crmContribution() {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(left: 8),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 4.0, right: 4),
+                child: Text('Contribution Now',
+                    style: header10.copyWith(fontStyle: FontStyle.italic)),
+              ),
+            ),
+            const SizedBox(),
+          ],
+        ),
+        Container(
+          decoration: BoxDecoration(
+              border: Border.all(width: 1, color: OColors.primary),
+              borderRadius: BorderRadius.circular(10)),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 4.0, right: 4),
+            child: Text(
+              'Ceremony Contribution',
+              style: header10,
+            ),
+          ),
+        ),
+      ],
     );
   }
 

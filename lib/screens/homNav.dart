@@ -3,7 +3,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:sherekoo/util/modInstance.dart';
 
 import '../model/user/userModel.dart';
-import '../util/Preferences.dart';
+import '../util/app-variables.dart';
 import '../util/colors.dart';
 import 'categoriesPage/sherekooPage.dart';
 import 'crmScreen/crmOn-nav.dart';
@@ -24,8 +24,7 @@ class HomeNav extends StatefulWidget {
 }
 
 class _HomeNavState extends State<HomeNav> {
-  final Preferences _preferences = Preferences();
-  String token = '', notificationToken = '';
+  String notificationToken = '';
 
   bool bottom = false,
       noInsights = true,
@@ -75,8 +74,8 @@ class _HomeNavState extends State<HomeNav> {
   @override
   void initState() {
     super.initState();
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
         if (widget.user.id != '') {

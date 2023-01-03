@@ -12,6 +12,7 @@ import 'package:image_watermark/image_watermark.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sherekoo/model/ceremony/crm-model.dart';
 import 'package:sherekoo/model/post/post.dart';
+import 'package:sherekoo/model/post/sherekoModel.dart';
 import 'package:sherekoo/screens/chats.dart';
 import 'package:sherekoo/util/util.dart';
 
@@ -19,26 +20,17 @@ import '../../model/user/userModel.dart';
 import '../../screens/crmScreen/crmDoor.dart';
 import '../../screens/detailScreen/livee.dart';
 import '../../screens/homNav.dart';
+import '../../util/app-variables.dart';
+import '../../util/colors.dart';
+import '../../util/textStyle-pallet.dart';
 import '../imgWigdets/defaultAvater.dart';
-import '../../util/Preferences.dart';
 import '../../util/button.dart';
-import 'likeLife.dart';
 
 class PostTemplate extends StatefulWidget {
-  final String postId;
-  final String avater;
-  final String userId; //post Creator
-  final String username;
-  final String videoDescription;
-  final String numberOfLikes;
-  final String numberOfComments;
-  final String numberOfShere;
-  final String ceremonyId;
-  final String cImage;
-  final String crmUsername;
-  final String crmYoutubeLink;
+  final SherekooModel sherekoo;
+
   final String postVedeo;
-  final isLike;
+
   final crmViewer;
 
   final filterBck;
@@ -46,22 +38,10 @@ class PostTemplate extends StatefulWidget {
 
   // ignore: use_key_in_widget_constructors
   const PostTemplate(
-      {required this.postId,
-      required this.numberOfComments,
-      required this.numberOfLikes,
-      required this.numberOfShere,
+      {required this.sherekoo,
       required this.filterBck,
-      required this.avater,
       required this.userPost,
       required this.postVedeo,
-      required this.userId,
-      required this.username,
-      required this.videoDescription,
-      required this.ceremonyId,
-      required this.cImage,
-      required this.crmUsername,
-      required this.crmYoutubeLink,
-      required this.isLike,
       required this.crmViewer});
 
   @override
@@ -69,52 +49,36 @@ class PostTemplate extends StatefulWidget {
 }
 
 class PostTemplateState extends State<PostTemplate> {
-  final Preferences _preferences = Preferences();
-
-  String token = '';
-  // Full dimensions of an action
-  static const double actionWidgetSize = 60.0;
-
-// The size of the icon showen for Social Actions
-  static const double actionIconSize = 35.0;
-
-// The size of the share social icon
-  static const double shareActionIconSize = 25.0;
-
-// The size of the profile image in the follow Action
-  static const double profileImageSize = 50.0;
-
-// The size of the plus icon under the profile image in follow action
-  static const double plusIconSize = 20.0;
   int isLike = 0;
   int totalLikes = 0;
   int totalShare = 0;
 
   @override
   void initState() {
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       token = value;
     });
 
-    if (widget.numberOfLikes != '') {
-      totalLikes = int.parse(widget.numberOfLikes);
+    if (widget.sherekoo.totalLikes != '') {
+      totalLikes = int.parse(widget.sherekoo.totalLikes!);
     } else {
       totalLikes = 0;
     }
 
-    if (widget.numberOfShere != '') {
-      totalShare = int.parse(widget.numberOfShere);
+    if (widget.sherekoo.totalShare != '') {
+      totalShare = int.parse(widget.sherekoo.totalShare);
     } else {
       totalShare = 0;
     }
-    isLike = int.parse(widget.isLike);
+
+    isLike = int.parse(widget.sherekoo.isLike!);
     super.initState();
   }
 
   share() async {
     Post(
-            pId: widget.postId,
+            pId: widget.sherekoo.pId,
             createdBy: '',
             body: '',
             vedeo: '',
@@ -137,8 +101,8 @@ class PostTemplateState extends State<PostTemplate> {
 
   onLikeButtonTapped() async {
     Post(
-            pId: widget.postId,
-            createdBy: widget.userId,
+            pId: widget.sherekoo.pId,
+            createdBy: widget.sherekoo.creatorInfo.id!,
             body: '',
             vedeo: '',
             ceremonyId: '',
@@ -156,11 +120,20 @@ class PostTemplateState extends State<PostTemplate> {
           setState(() {
             isLike--;
             totalLikes--;
+
+            widget.sherekoo.isLike = isLike.toString();
+
+            widget.sherekoo.totalLikes = totalLikes.toString();
+            totalLikes = int.parse(widget.sherekoo.totalLikes!);
           });
         } else if (value.payload == 'added') {
           setState(() {
             isLike++;
             totalLikes++;
+
+            widget.sherekoo.isLike = isLike.toString();
+            widget.sherekoo.totalLikes = totalLikes.toString();
+            totalLikes = int.parse(widget.sherekoo.totalLikes!);
           });
         }
       }
@@ -206,9 +179,11 @@ class PostTemplateState extends State<PostTemplate> {
                           MaterialPageRoute(
                               builder: (BuildContext context) => HomeNav(
                                     user: User(
-                                        id: widget.userId,
-                                        username: widget.username,
-                                        avater: widget.avater,
+                                        id: widget.sherekoo.creatorInfo.id,
+                                        username: widget
+                                            .sherekoo.creatorInfo.username,
+                                        avater:
+                                            widget.sherekoo.creatorInfo.avater,
                                         phoneNo: '',
                                         role: '',
                                         gender: '',
@@ -228,10 +203,11 @@ class PostTemplateState extends State<PostTemplate> {
                                     getIndex: 4,
                                   )));
                     },
-                    child: _getFollowAction(pictureUrl: widget.avater)),
+                    child: _getFollowAction(
+                        pictureUrl: widget.sherekoo.creatorInfo.avater!)),
 
                 // Ceremony Avater exist
-                if (widget.ceremonyId != '0') _getCeremonyAvater,
+                if (widget.sherekoo.ceremonyId != '0') _getCeremonyAvater,
 
                 const SizedBox(
                   height: 8,
@@ -242,7 +218,43 @@ class PostTemplateState extends State<PostTemplate> {
                   onTap: () {
                     onLikeButtonTapped();
                   },
-                  child: LikeLife(isLike: isLike, totalLikes: totalLikes),
+                  child: Container(
+                    width: 35,
+                    height: 55,
+                    decoration: BoxDecoration(
+                        color: Colors.black54.withOpacity(.5),
+                        borderRadius: BorderRadius.circular(50)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            isLike == 0
+                                ? Icon(
+                                    Icons.favorite,
+                                    size: 18.0,
+                                    color: OColors.fontColor,
+                                  )
+                                : Icon(
+                                    Icons.favorite,
+                                    size: 18.0,
+                                    color: OColors.primary,
+                                  ),
+                            const SizedBox(
+                              height: 3,
+                            ),
+                            Text(
+                              widget.sherekoo.pId,
+                              style: header12,
+                            ),
+                            // const SizedBox(
+                            //   height: 8.0,
+                            // ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
 
                 const SizedBox(
@@ -256,13 +268,14 @@ class PostTemplateState extends State<PostTemplate> {
                           context,
                           MaterialPageRoute(
                               builder: (BuildContext context) => PostChats(
-                                    postId: widget.postId,
-                                    chatsNo: widget.numberOfComments,
+                                    postId: widget.sherekoo.pId,
+                                    chatsNo: widget.sherekoo.commentNumber,
                                   )));
                     },
                     child: MyButton(
-                        icon: Icons.chat_bubble,
-                        number: widget.numberOfComments)),
+                      icon: Icons.chat_bubble,
+                      number: widget.sherekoo.commentNumber,
+                    )),
                 const SizedBox(
                   height: 10,
                 ),
@@ -272,7 +285,7 @@ class PostTemplateState extends State<PostTemplate> {
                   onTap: () async {
                     share();
                     final String dirUrl =
-                        '${api}public/uploads/${widget.username}/posts/${widget.postVedeo}';
+                        '${api}public/uploads/${widget.sherekoo.creatorInfo.username}/posts/${widget.sherekoo.vedeo}';
 
                     Uri url = Uri.parse(dirUrl);
                     final response = await http.get(url);
@@ -336,7 +349,7 @@ class PostTemplateState extends State<PostTemplate> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 //Username info
-                Text('@ ${widget.username}',
+                Text('@ ${widget.sherekoo.creatorInfo.username}',
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -350,9 +363,7 @@ class PostTemplateState extends State<PostTemplate> {
                   padding: const EdgeInsets.only(left: 12.0),
                   child: RichText(
                       text: TextSpan(children: [
-                    TextSpan(
-                        text: widget.videoDescription,
-                        style: const TextStyle(fontSize: 12.0)),
+                    TextSpan(text: widget.sherekoo.body, style: header12),
                     // const TextSpan(
                     //     text: ' @ koosafi',
                     //     style: TextStyle(
@@ -400,10 +411,10 @@ class PostTemplateState extends State<PostTemplate> {
               color: Colors.white,
               borderRadius: BorderRadius.circular(profileImageSize / 2)),
 
-          child: widget.avater.isNotEmpty
+          child: widget.sherekoo.creatorInfo.avater!.isNotEmpty
               ? CircleAvatar(
                   backgroundImage: NetworkImage(
-                      '${api}public/uploads/${widget.username}/profile/${widget.avater}'),
+                      '${api}public/uploads/${widget.sherekoo.creatorInfo.username!}/profile/${widget.sherekoo.creatorInfo.avater}'),
                 )
               : const DefaultAvater(
                   height: profileImageSize,
@@ -433,30 +444,32 @@ class PostTemplateState extends State<PostTemplate> {
   Widget get _getCeremonyAvater {
     return GestureDetector(
       onTap: () {
-        widget.crmViewer == false
+        widget.sherekoo.crmViewer == false
             ? Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (BuildContext context) => CrmDoor(
                           crm: CeremonyModel(
-                              cId: widget.ceremonyId,
+                              cId: widget.sherekoo.ceremonyId,
                               codeNo: '',
                               ceremonyType: '',
                               cName: '',
-                              fId: '',
-                              sId: '',
-                              cImage: widget.cImage,
-                              ceremonyDate: '',
+                              fId: widget.sherekoo.crmInfo.fId,
+                              sId: widget.sherekoo.crmInfo.cId,
+                              cImage: widget.sherekoo.crmInfo.cImage,
+                              ceremonyDate:
+                                  widget.sherekoo.crmInfo.ceremonyDate,
                               contact: '',
                               admin: '',
-                              isInFuture: '',
-                              isCrmAdmin: '',
+                              isInFuture: widget.sherekoo.crmInfo.isInFuture,
+                              isCrmAdmin: widget.sherekoo.crmInfo.isCrmAdmin,
                               likeNo: '',
                               chatNo: '',
                               viwersNo: '',
                               userFid: User(
-                                  id: '',
-                                  username: widget.crmUsername,
+                                  id: widget.sherekoo.crmInfo.userFid.id,
+                                  username:
+                                      widget.sherekoo.crmInfo.userFid.username,
                                   firstname: '',
                                   lastname: '',
                                   avater: '',
@@ -494,31 +507,33 @@ class PostTemplateState extends State<PostTemplate> {
                                   totalFollowers: '',
                                   totalFollowing: '',
                                   totalLikes: ''),
-                              youtubeLink: widget.crmYoutubeLink),
+                              youtubeLink: widget.sherekoo.crmInfo.youtubeLink),
                         )))
             : Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (BuildContext context) => Livee(
                           ceremony: CeremonyModel(
-                              cId: widget.ceremonyId,
+                              cId: widget.sherekoo.ceremonyId,
                               codeNo: '',
                               ceremonyType: '',
                               cName: '',
-                              fId: '',
-                              sId: '',
-                              cImage: widget.cImage,
-                              ceremonyDate: '',
+                              fId: widget.sherekoo.crmInfo.fId,
+                              sId: widget.sherekoo.crmInfo.sId,
+                              cImage: widget.sherekoo.crmInfo.cImage,
+                              ceremonyDate:
+                                  widget.sherekoo.crmInfo.ceremonyDate,
                               contact: '',
                               admin: '',
-                              isInFuture: '',
-                              isCrmAdmin: '',
+                              isInFuture: widget.sherekoo.crmInfo.isInFuture,
+                              isCrmAdmin: widget.sherekoo.crmInfo.isCrmAdmin,
                               likeNo: '',
                               chatNo: '',
                               viwersNo: '',
                               userFid: User(
-                                  id: '',
-                                  username: widget.crmUsername,
+                                  id: widget.sherekoo.crmInfo.userFid.id,
+                                  username:
+                                      widget.sherekoo.crmInfo.userFid.username,
                                   firstname: '',
                                   lastname: '',
                                   avater: '',
@@ -556,7 +571,7 @@ class PostTemplateState extends State<PostTemplate> {
                                   totalFollowers: '',
                                   totalFollowing: '',
                                   totalLikes: ''),
-                              youtubeLink: widget.crmYoutubeLink),
+                              youtubeLink: widget.sherekoo.crmInfo.youtubeLink),
                         )));
       },
       child: SizedBox(
@@ -574,11 +589,11 @@ class PostTemplateState extends State<PostTemplate> {
               decoration: BoxDecoration(
                   gradient: musicGradient,
                   borderRadius: BorderRadius.circular(profileImageSize / 2)),
-              child: widget.cImage != ''
+              child: widget.sherekoo.crmInfo.cImage != ''
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(19),
                       child: Image.network(
-                        '${api}public/uploads/${widget.crmUsername}/ceremony/${widget.cImage}',
+                        '${api}public/uploads/${widget.sherekoo.crmInfo.userFid.username}/ceremony/${widget.sherekoo.crmInfo.cImage}',
                         fit: BoxFit.cover,
                       ),
                     )

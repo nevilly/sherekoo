@@ -4,6 +4,7 @@ import 'package:sherekoo/model/ceremony/crm-model.dart';
 import 'package:sherekoo/model/requests/requestsModel.dart';
 import 'package:sherekoo/model/subScription/subsrModel.dart';
 
+import '../../model/mchango/mchango-call.dart';
 import '../../model/user/user-call.dart';
 import '../../model/budgets/budget-call.dart';
 import '../../model/budgets/budget-model.dart';
@@ -44,6 +45,7 @@ class _CrmnAdminState extends State<CrmnAdmin>
   ScrollController? _cntr;
 
   final TextEditingController _budget = TextEditingController();
+  final TextEditingController _minContribution = TextEditingController();
   final TextEditingController _ahadi = TextEditingController();
 
   List arr = ['Mc', 'cooker', 'singer', 'decorator'];
@@ -180,6 +182,7 @@ class _CrmnAdminState extends State<CrmnAdmin>
     );
 
     super.initState();
+    print(widget.crm.cId);
 
     preferences.init();
     preferences.get('token').then((value) {
@@ -190,17 +193,15 @@ class _CrmnAdminState extends State<CrmnAdmin>
         getAllRequests();
 
         getViewers();
-        getAll();
+        userSearch('$urlUserCrmVwr/${widget.crm.cId}');
       });
     });
   }
 
   List<UserCrmVwr> data = [];
 
-  getAll() async {
-    UsersCall(payload: [], status: 0)
-        .get(token, urlUserCrmVwr)
-        .then((value) {
+  userSearch(dirUrl) async {
+    UsersCall(payload: [], status: 0).get(token, dirUrl).then((value) {
       // print(value.payload);
       if (value.status == 200) {
         setState(() {
@@ -331,6 +332,8 @@ class _CrmnAdminState extends State<CrmnAdmin>
     crmId: '',
     amount: '',
     createdBy: '',
+    minContribution: '',
+    michangoPayment: '',
     createdDate: '',
     user: User(
         id: '',
@@ -411,15 +414,6 @@ class _CrmnAdminState extends State<CrmnAdmin>
       youtubeLink: '',
     ),
   );
-
-  getBudget(dirUrl) {
-    BudgetCall(payload: [], status: 0).get(token, dirUrl).then((v) {
-      if (v.status == 200) {
-        print(v.payload);
-        myBgt = BudgetModel.fromJson(v.payload);
-      }
-    });
-  }
 
   // ignore: prefer_final_fields
   bool _openMc = false;
@@ -530,40 +524,69 @@ class _CrmnAdminState extends State<CrmnAdmin>
   }
 
   // My all ceremonie post
-  Future addViewer() async {
-    if ('selectedBusness' != 'Subscribe as ..?') {
-      await CrmCall(payload: [], status: 0)
-          .addCrmnViewr(token, urladdCrmViewrs, widget.crm.cId,
-              'selectedBusness', '', '', '')
-          .then((value) {
-        if (value.status == 200) {
-          // Navigator.of(context).pop();
-          // Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //         builder: (BuildContext context) => Livee(
-          //               ceremony: widget.crm,
-          //             )));
-        }
-      });
-    } else {
-      fillTheBlanks(
-        context,
-        'Fill Subsribe as ... Please!',
-        header13,
-        OColors.fontColor,
-      );
-    }
+  // Future addViewer() async {
+  //   if ('selectedBusness' != 'Subscribe as ..?') {
+  //     await CrmCall(payload: [], status: 0)
+  //         .addCrmnViewr(token, urladdCrmViewrs, widget.crm.cId,
+  //             'selectedBusness', '', '', '', '')
+  //         .then((value) {
+  //       if (value.status == 200) {
+  //         // Navigator.of(context).pop();
+  //         // Navigator.push(
+  //         //     context,
+  //         //     MaterialPageRoute(
+  //         //         builder: (BuildContext context) => Livee(
+  //         //               ceremony: widget.crm,
+  //         //             )));
+  //       }
+  //     });
+  //   } else {
+  //     fillTheBlanks(
+  //       context,
+  //       'Fill Subsribe as ... Please!',
+  //       header13,
+  //       OColors.fontColor,
+  //     );
+  //   }
+  // }
+
+  getBudget(dirUrl) {
+    BudgetCall(payload: [], status: 0).get(token, dirUrl).then((v) {
+      if (v.status == 200) {
+        // print(v.payload);
+        myBgt = BudgetModel.fromJson(v.payload);
+      }
+    });
   }
 
-  edtBgt(BuildContext context) {
+  edtBgt(BuildContext context, editStatus) {
     BudgetCall(payload: [], status: 0)
-        .add(token, urlGetCrmAddBudget, _budget.text, widget.crm.cId)
+        .add(token, urlGetCrmAddBudget, _budget.text, _minContribution.text,
+            widget.crm.cId, editStatus)
         .then((v) {
       if (v.status == 200) {
         Navigator.of(context).pop();
         setState(() {
           myBgt.amount = _budget.text;
+          myBgt.minContribution = _minContribution.text;
+        });
+      }
+    });
+  }
+
+  edtAhadi(BuildContext context, CrmViewersModel mch) {
+    MchangoCall(payload: [], status: 0)
+        .update(token, urlMchangoUpdate, mch.mchangoInfo.id, _ahadi.text)
+        .then((v) {
+      if (v.status == 200) {
+        Navigator.of(context).pop();
+        setState(() {
+          for (var e in crmViewer) {
+            if (e.mchangoInfo.id == mch.mchangoInfo.id) {
+              mch.mchangoInfo.ahadi = _ahadi.text;
+            }
+          }
+          _ahadi.text = '';
         });
       }
     });
@@ -810,69 +833,138 @@ class _CrmnAdminState extends State<CrmnAdmin>
           budgetFunc(context),
           crmRequests(context),
           Scrollbar(
-              child: ListView(
-            children: [
-              Row(
-                children: [
-                  const SizedBox(width: 1),
-                  GestureDetector(
-                    onTap: () {
-                      addMembers(context, 'Search busness ', '', '', '');
-                      // Addmember();
-
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) => Addmember()));
-                    },
-                    child: Container(
-                      width: 80,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: prmry,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(child: Text('add member', style: header13)),
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                // color: Colors.red,
-                height: 300,
-                child: ListView.builder(
-                    itemCount: crmViewer.length,
-                    itemBuilder: ((BuildContext context, i) {
-                      final itm = crmViewer[i];
-                      return ListTile(
-                        leading: itm.viewerInfo.avater != ''
-                            ? ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: FadeInImage(
-                                  image: NetworkImage(
-                                      '${api}public/uploads/${itm.viewerInfo.username}/profile/${itm.viewerInfo.avater}'),
-                                  fadeInDuration:
-                                      const Duration(milliseconds: 100),
-                                  placeholder: const AssetImage(
-                                      'assets/logo/noimage.png'),
-                                  imageErrorBuilder:
-                                      (context, error, stackTrace) {
-                                    return Image.asset(
-                                        'assets/logo/noimage.png',
-                                        fit: BoxFit.fitWidth);
-                                  },
-                                  fit: BoxFit.fitWidth,
-                                ),
-                              )
-                            : Text('height', style: header12),
-                        title: Text(
-                          'see me',
-                          style: header13,
+              child: Padding(
+            padding: const EdgeInsets.only(left: 6.0, right: 6),
+            child: ListView(
+              children: [
+                Row(
+                  children: [
+                    const SizedBox(width: 1),
+                    GestureDetector(
+                      onTap: () {
+                        addMembers(context, 'Search busness ', '', '', '');
+                        // Addmember();
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 4, right: 6),
+                        height: 30,
+                        decoration: BoxDecoration(
+                          color: prmry,
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      );
-                    })),
-              ),
-            ],
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
+                            Text('Member', style: header13),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  // color: Colors.red,
+                  height: 300,
+                  child: ListView.builder(
+                      itemCount: crmViewer.length,
+                      itemBuilder: ((BuildContext context, i) {
+                        final itm = crmViewer[i];
+                        return Container(
+                          // color: Colors.red,
+                          margin: const EdgeInsets.only(top: 5.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              //Profile Details
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.only(right: 8),
+                                    child: itm.viewerInfo.avater != ''
+                                        ? fadeImg(
+                                            context,
+                                            '${api}public/uploads/${itm.viewerInfo.username}/profile/${itm.viewerInfo.avater}',
+                                            40.0,
+                                            45.0)
+                                        : const DefaultAvater(
+                                            height: 45, radius: 3, width: 40),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        itm.viewerInfo.username!,
+                                        style: header12,
+                                      ),
+                                      Text(
+                                        itm.position,
+                                        style: header10,
+                                      ),
+                                      Text(
+                                        itm.viewerInfo.phoneNo!,
+                                        style: header10,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+
+                              //Ahadi Detail
+                              GestureDetector(
+                                onTap: () {
+                                  something(context, itm);
+                                },
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'Ahadi',
+                                      style: header12,
+                                    ),
+                                    Text(
+                                      '${itm.mchangoInfo.ahadi} Tsh',
+                                      style: header10,
+                                    ),
+                                    Text(
+                                      'Edit',
+                                      style: header10.copyWith(color: prmry),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // cash Details
+                              Column(
+                                children: [
+                                  Text(
+                                    'Payed',
+                                    style: header12,
+                                  ),
+                                  Text(
+                                    '${itm.mchangoInfo.totalPayInfo!} Tsh',
+                                    style: header10,
+                                  ),
+                                ],
+                              ),
+
+                              //Payment Button
+                              GestureDetector(
+                                onTap: () {
+                                  paymentMethod(context, itm,widget.user);
+                                },
+                                child: Text('Pay',
+                                    style: TextStyle(color: OColors.primary)),
+                              )
+                            ],
+                          ),
+                        );
+                      })),
+                ),
+              ],
+            ),
           )),
           Text('Commetee', style: header10),
         ]),
@@ -901,67 +993,88 @@ class _CrmnAdminState extends State<CrmnAdmin>
 
   Scrollbar budgetFunc(BuildContext context) {
     return Scrollbar(
-            child: ListView(
+        child: ListView(
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Column(
+            Text('Ceremony Cash', style: header18),
+            Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Ceremony Cash', style: header18),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Text('0 ', style: header16),
+                Text(' Tzs', style: header16),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Column(
                   children: [
-                    Text('0 ', style: header16),
-                    Text(' Tzs', style: header16),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Column(
+                    Text('Budget Estimate', style: header13),
+                    Row(
                       children: [
-                        Text('Budget Estimate', style: header13),
-                        Row(
-                          children: [
-                            myBgt.amount == ''
-                                ? Text('0 ', style: header13)
-                                : Text(myBgt.amount!, style: header13),
-                            Text('Tsh', style: header13),
-                          ],
-                        ),
-                        GestureDetector(
-                            onTap: () {
-                              budgetEdit(context);
-                            },
-                            child: Text('Edit Budget',
-                                style: header12.copyWith(color: prmry))),
+                        myBgt.amount == ''
+                            ? Text('0 ', style: header13)
+                            : Text(myBgt.amount!, style: header13),
+                        Text('Tsh', style: header13),
                       ],
                     ),
-                    Column(
-                      children: [
-                        Text('Michango', style: header13),
-                        Row(
-                          children: [
-                            Text('0', style: header13),
-                            Text(' Tsh', style: header13),
-                          ],
-                        ),
-                        GestureDetector(
-                            onTap: () {
-                              membersPay(context);
-                            },
-                            child: Text('Pay',
-                                style: header12.copyWith(color: prmry))),
-                      ],
-                    )
+                    GestureDetector(
+                        onTap: () {
+                          budgetEdit(context);
+                        },
+                        child: Text('Edit Budget',
+                            style: header12.copyWith(color: prmry))),
                   ],
                 ),
+                Column(
+                  children: [
+                    Text('Min Donate', style: header13),
+                    Row(
+                      children: [
+                        myBgt.minContribution == ''
+                            ? Text('0 ', style: header13)
+                            : Text(myBgt.minContribution!, style: header13),
+                        Text('Tsh', style: header13),
+                      ],
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          contributionEdit(context);
+                        },
+                        child: Text('Edit',
+                            style: header12.copyWith(color: prmry))),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Text('Michango', style: header13),
+                    Row(
+                      children: [
+                        myBgt.michangoPayment == '0'
+                            ? Text('0 Tsh', style: header13)
+                            : Text('${myBgt.michangoPayment} Tsh',
+                                style: header13),
+                      ],
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          membersPay(context);
+                        },
+                        child: Text('Pay',
+                            style: header12.copyWith(color: prmry))),
+                  ],
+                )
               ],
             ),
           ],
-        ));
+        ),
+      ],
+    ));
   }
 
   Scrollbar crmRequests(BuildContext context) {
@@ -2279,35 +2392,63 @@ class _CrmnAdminState extends State<CrmnAdmin>
                               child: Column(
                                 children: [
                                   ListTile(
-                                    leading: Container(
-                                      width: 35,
-                                      height: 35,
-                                      margin: const EdgeInsets.only(right: 10),
-                                      child: option.avater != ''
-                                          ? fadeImg(
-                                              context,
-                                              '${api}public/uploads/${option.username}/profile/${option.avater}',
-                                              40.0,
-                                              40.0)
-                                          : const DefaultAvater(
-                                              height: 40, radius: 3, width: 40),
-                                    ),
-                                    title: Text(option.username!,
-                                        style: const TextStyle(
-                                            color: Colors.white)),
-                                    subtitle: Text(option.phoneNo!,
-                                        style: const TextStyle(
-                                            color: Colors.white)),
-                                    trailing: GestureDetector(
-                                      onTap: () {
-                                        // addAhadi(context, '', '', option, '');
-                                        something(context, option);
-                                      },
-                                      child: const Text('Add',
-                                          style:
-                                              TextStyle(color: Colors.white)),
-                                    ),
-                                  ),
+                                      leading: Container(
+                                        width: 35,
+                                        height: 35,
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
+                                        child: option.avater != ''
+                                            ? fadeImg(
+                                                context,
+                                                '${api}public/uploads/${option.username}/profile/${option.avater}',
+                                                40.0,
+                                                40.0)
+                                            : const DefaultAvater(
+                                                height: 40,
+                                                radius: 3,
+                                                width: 40),
+                                      ),
+                                      title: Text(option.username!,
+                                          style: const TextStyle(
+                                              color: Colors.white)),
+                                      subtitle: Text(option.phoneNo!,
+                                          style: const TextStyle(
+                                              color: Colors.white)),
+                                      trailing: option.isInCrmVwr == 'false'
+                                          ? GestureDetector(
+                                              onTap: () {
+                                                // addAhadi(context, '', '', option, '');
+                                                // something(context, option);
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (BuildContext
+                                                                context) =>
+                                                            Addmember(
+                                                                option: option,
+                                                                crm: widget.crm,
+                                                                user: widget
+                                                                    .user)));
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    color: prmry,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: const Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.0,
+                                                      right: 8.0,
+                                                      top: 4,
+                                                      bottom: 4),
+                                                  child: Text('Add',
+                                                      style: TextStyle(
+                                                          color: Colors.white)),
+                                                ),
+                                              ),
+                                            )
+                                          : Text('Invited', style: header13)),
                                   const SizedBox(
                                     height: 8,
                                   ),
@@ -2492,7 +2633,8 @@ class _CrmnAdminState extends State<CrmnAdmin>
                           10,
                           OColors.darGrey,
                           const Icon(Icons.currency_pound),
-                          header12)
+                          header12,
+                          TextInputType.number)
                     ],
                   ),
                 ],
@@ -2520,7 +2662,7 @@ class _CrmnAdminState extends State<CrmnAdmin>
                 ),
                 GestureDetector(
                   onTap: () {
-                    edtBgt(context);
+                    edtBgt(context, 'budget');
                   },
                   child: Container(
                       padding: const EdgeInsets.all(4),
@@ -2554,7 +2696,12 @@ class _CrmnAdminState extends State<CrmnAdmin>
   ) {
     if (myBgt.amount != '') {
       _budget.text = myBgt.amount!;
+      _minContribution.text = myBgt.minContribution!;
     }
+    if (myBgt.minContribution != '') {
+      _minContribution.text = myBgt.minContribution!;
+    }
+
     showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -2638,7 +2785,7 @@ class _CrmnAdminState extends State<CrmnAdmin>
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    edtBgt(context);
+                                    edtBgt(context, 'budget');
                                   },
                                   child: Container(
                                       padding: const EdgeInsets.all(4),
@@ -2661,10 +2808,13 @@ class _CrmnAdminState extends State<CrmnAdmin>
         });
   }
 
-  void something(context, UserCrmVwr opt) {
-    // Navigator.of(context).pop();
-    List<String> crmViwrPstn = ['Viewer', 'Friend', 'Relative'];
-    String whois = 'Who is ?';
+  void contributionEdit(
+    context,
+  ) {
+    if (myBgt.amount != '') {
+      _budget.text = myBgt.amount!;
+      _minContribution.text = myBgt.minContribution!;
+    }
     showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -2683,92 +2833,47 @@ class _CrmnAdminState extends State<CrmnAdmin>
                     child: Expanded(
                       child: Column(
                         children: [
-                          Text('Add Member ',
+                          Text('Your Minimum Contribution',
                               style: header16.copyWith(
                                   fontWeight: FontWeight.bold)),
                           const SizedBox(height: 8),
-                          Column(
-                            children: [
-                              Row(children: [
-                                opt.avater != ''
-                                    ? fadeImg(
-                                        context,
-                                        '${api}public/uploads/${opt.username}/profile/${opt.avater}',
-                                        60.0,
-                                        60.0)
-                                    : const DefaultAvater(
-                                        height: 60, radius: 3, width: 60),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(opt.username!,
-                                          style: header14.copyWith(
-                                              fontWeight: FontWeight.bold)),
-                                      const SizedBox(height: 8),
-                                      Text(opt.phoneNo!, style: header12),
-                                    ],
+                          Container(
+                            height: 45,
+                            width: MediaQuery.of(context).size.width / 1,
+                            margin: const EdgeInsets.only(
+                                left: 20, right: 20, bottom: 15),
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1, color: Colors.grey),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: TextField(
+                              controller: _minContribution,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                prefixIcon: const Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 20.0),
+                                  child: Icon(
+                                    Icons.currency_pound,
+                                    size: 15,
+                                    color: Colors.white,
                                   ),
-                                )
-                              ]),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Container(
-                                    width: 120,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 2, color: OColors.sPurple),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Builder(builder: (context) {
-                                      return DropdownButton<String>(
-                                        isExpanded: true,
-                                        // icon: const Icon(Icons.arrow_circle_down),
-                                        // iconSize: 20,
-                                        // elevation: 16,
-                                        underline: Container(),
-                                        items: crmViwrPstn.map((String value) {
-                                          return DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Text(value),
-                                          );
-                                        }).toList(),
-                                        hint: Container(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            whois,
-                                            style: header12,
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                        onChanged: (v) {
-                                          setState(() {
-                                            print(v);
-                                            whois = v!;
-                                          });
-                                        },
-                                      );
-                                    }),
-                                  ),
-                                  textFieldContainer(
-                                      context,
-                                      'ahadi',
-                                      _ahadi,
-                                      MediaQuery.of(context).size.width / 2.5,
-                                      30,
-                                      10,
-                                      10,
-                                      OColors.darGrey,
-                                      const Icon(Icons.currency_pound),
-                                      header12)
-                                ],
+                                ),
+                                hintText: 'Minimum Contribution ',
+                                hintStyle: TextStyle(
+                                    color: OColors.white, height: 1.3),
                               ),
-                            ],
+                              keyboardType: TextInputType.phone,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: OColors.white,
+                                  height: 1.5),
+                              onChanged: (value) {
+                                setState(() {
+                                  //_email = value;
+                                });
+                              },
+                            ),
                           ),
                           const Spacer(),
                           Padding(
@@ -2793,7 +2898,7 @@ class _CrmnAdminState extends State<CrmnAdmin>
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    edtBgt(context);
+                                    edtBgt(context, 'contribution');
                                   },
                                   child: Container(
                                       padding: const EdgeInsets.all(4),
@@ -2802,7 +2907,123 @@ class _CrmnAdminState extends State<CrmnAdmin>
                                         color: prmry,
                                       ),
                                       child: Text(
-                                        'Add budget',
+                                        'Add Contribution',
+                                        style: header13,
+                                      )),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ))),
+          );
+        });
+  }
+
+  void something(context, CrmViewersModel opt) {
+    _ahadi.text = opt.mchangoInfo.ahadi!;
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            color: const Color(0xFF737373),
+            height: 560,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: OColors.secondary,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    )),
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Expanded(
+                      child: Column(
+                        children: [
+                          Text('Edit Ahadi ',
+                              style: header16.copyWith(
+                                  fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 8),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 13.0, right: 13.0, top: 8),
+                            child: Row(children: [
+                              opt.viewerInfo.avater != ''
+                                  ? fadeImg(
+                                      context,
+                                      '${api}public/uploads/${opt.viewerInfo.username}/profile/${opt.viewerInfo.avater}',
+                                      60.0,
+                                      60.0)
+                                  : const DefaultAvater(
+                                      height: 60, radius: 3, width: 60),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(opt.viewerInfo.username!,
+                                        style: header14.copyWith(
+                                            fontWeight: FontWeight.bold)),
+                                    const SizedBox(height: 4),
+                                    Text(opt.viewerInfo.phoneNo!,
+                                        style: header12),
+                                    const SizedBox(height: 8),
+                                    Text('# ${opt.position}',
+                                        style: header11.copyWith(color: prmry)),
+                                  ],
+                                ),
+                              )
+                            ]),
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          textFieldContainer(
+                              context,
+                              'ahadi',
+                              _ahadi,
+                              MediaQuery.of(context).size.width / 1.5,
+                              40,
+                              10,
+                              10,
+                              OColors.darGrey,
+                              const Icon(Icons.currency_pound),
+                              header12,
+                              TextInputType.number),
+                          const Spacer(),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Container(
+                                      padding: const EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6),
+                                        // color: prmry,
+                                      ),
+                                      child: Text(
+                                        'Cancel',
+                                        style: header13,
+                                      )),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    edtAhadi(context, opt);
+                                  },
+                                  child: Container(
+                                      padding: const EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6),
+                                        color: prmry,
+                                      ),
+                                      child: Text(
+                                        'Save',
                                         style: header13,
                                       )),
                                 ),

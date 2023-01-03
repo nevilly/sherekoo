@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../model/user/user-call.dart';
-import '../../model/chats/chatPost.dart';
+import '../../model/chats/chat-call.dart';
 import '../../model/chats/chatsModel.dart';
 import '../../model/user/userModel.dart';
-import '../../util/Preferences.dart';
+import '../../util/app-variables.dart';
 import '../../util/colors.dart';
 import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
@@ -22,8 +22,7 @@ class ChatSettings extends StatefulWidget {
 class _ChatSettingsState extends State<ChatSettings> {
   final String title = 'Report';
 
-  final Preferences _preferences = Preferences();
-  String token = '';
+
 
   late User user = User(
       id: '',
@@ -48,8 +47,8 @@ class _ChatSettingsState extends State<ChatSettings> {
 
   @override
   void initState() {
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
         widget.chat.userId != ''
@@ -107,7 +106,7 @@ class _ChatSettingsState extends State<ChatSettings> {
 
   deletePost(BuildContext context) {
     if (widget.fromScrn == 'mshengaChat') {
-      PostAllChats(
+      ChatsCall(
         payload: [],
         status: 0,
         body: '',

@@ -7,11 +7,14 @@ import '../../model/ceremony/crm-model.dart';
 import '../../model/user/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/colors.dart';
+import '../../util/func.dart';
+import '../../util/modInstance.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/liveTabA.dart';
 import '../admin/crmAdmin.dart';
 import '../uploadScreens/uploadSherekoo.dart';
+import 'package:sherekoo/model/ceremony/crmVwr-model.dart';
 
 class Livee extends StatefulWidget {
   final CeremonyModel ceremony;
@@ -24,8 +27,6 @@ class Livee extends StatefulWidget {
 class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late YoutubePlayerController? _controller;
-  
-
 
   int tabIndex = 0;
   // static String myVideoId = '';
@@ -53,6 +54,17 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
       totalFollowing: '',
       totalLikes: '');
 
+  CrmViewersModel crmCwr = CrmViewersModel(
+      id: '',
+      userId: '',
+      name: '',
+      contact: '',
+      position: '',
+      crmInfo: emptyCrmModel,
+      viewerInfo: emptyUser,
+      isAdmin: '',
+      crmId: '',
+      mchangoInfo: emptyMchango);
   @override
   void initState() {
     _tabController = TabController(
@@ -60,8 +72,11 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
       length: 2,
       vsync: this,
     );
-
-    //  print(widget.ceremony.);
+    print('whats null');
+    print(widget.ceremony.fId);
+    print(widget.ceremony.sId);
+    print(widget.ceremony.admin);
+    print(widget.ceremony.isCrmAdmin);
 
     preferences.init();
     preferences.get('token').then((value) {
@@ -123,14 +138,16 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
               backgroundColor: OColors.darGrey,
               // automaticallyImplyLeading: false,
               actions: [
-              
-                if ( widget.ceremony.isCrmAdmin == 'true')
+                if (widget.ceremony.isCrmAdmin == 'true')
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => CrmnAdmin(crm: widget.ceremony, user: user,)));
+                              builder: (_) => CrmnAdmin(
+                                    crm: widget.ceremony,
+                                    user: user,
+                                  )));
                     },
                     child: Container(
                       margin: const EdgeInsets.only(
@@ -160,22 +177,29 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
                 else
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => CrmnAdmin(crm: widget.ceremony,user: user,)));
+                      paymentMethod(context, crmCwr, user);
                     },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: OColors.primary,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(30))),
-                        child: const Icon(
-                          Icons.share,
-                          color: Colors.white,
+                    child: Container(
+                      margin: const EdgeInsets.only(
+                          left: 10, right: 20, top: 15, bottom: 15),
+                      padding: const EdgeInsets.only(
+                          left: 15, right: 15, top: 4, bottom: 4),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: OColors.primary,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(80))),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(50))),
+                          child: Text(
+                            'Contribution',
+                            style:
+                                header11.copyWith(fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                     ),

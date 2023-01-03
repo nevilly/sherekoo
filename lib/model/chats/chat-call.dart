@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-class PostAllChats {
+class ChatsCall {
   final String postId;
   final String userId;
   final String body; //ceremony Type
@@ -10,15 +10,15 @@ class PostAllChats {
   final dynamic status;
   dynamic payload;
 
-  PostAllChats(
+  ChatsCall(
       {required this.postId,
       required this.userId,
       required this.body,
       required this.status,
       required this.payload});
 
-  factory PostAllChats.fromJson(Map<String, dynamic> json) {
-    return PostAllChats(
+  factory ChatsCall.fromJson(Map<String, dynamic> json) {
+    return ChatsCall(
       status: json['status'],
       payload: json['payload'],
       postId: json['postId'] ?? "",
@@ -27,7 +27,7 @@ class PostAllChats {
     );
   }
 
-  Future<PostAllChats> get(String token, String dirUrl) async {
+  Future<ChatsCall> get(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);
 
     Map<String, dynamic> toMap() {
@@ -41,7 +41,7 @@ class PostAllChats {
     return postHttp(url, toMap, headers);
   }
 
-  Future<PostAllChats> deleteChat(String token, String dirUrl) async {
+  Future<ChatsCall> deleteChat(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);
 
     Map<String, dynamic> toMap() {
@@ -55,7 +55,7 @@ class PostAllChats {
     return postHttp(url, toMap, headers);
   }
 
-  Future<PostAllChats> editChat(String token, String dirUrl) async {
+  Future<ChatsCall> editChat(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);
 
     Map<String, dynamic> toMap() {
@@ -70,7 +70,7 @@ class PostAllChats {
     return postHttp(url, toMap, headers);
   }
 
-  Future<PostAllChats> updateLike(
+  Future<ChatsCall> updateLike(
       String token, String dirUrl, String isLike) async {
     Uri url = Uri.parse(dirUrl);
 
@@ -86,7 +86,7 @@ class PostAllChats {
     return postHttp(url, toMap, headers);
   }
 
-  Future<PostAllChats> post(String token, String dirUrl) async {
+  Future<ChatsCall> post(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);
 
     Map<String, dynamic> toMap() {
@@ -109,14 +109,14 @@ Map<String, String> myHttpHeaders(String token) {
 
 invalidToken(token) {
   if (token.isEmpty) {
-    return PostAllChats.fromJson({
+    return ChatsCall.fromJson({
       "status": 204,
       "payload": {"error": "Invalid token"}
     });
   }
 }
 
-Future<PostAllChats> postHttp(Uri url, Map<String, dynamic> Function() toMap,
+Future<ChatsCall> postHttp(Uri url, Map<String, dynamic> Function() toMap,
     Map<String, String> headers) async {
   return await http
       .post(url, body: jsonEncode(toMap()), headers: headers)
@@ -129,7 +129,7 @@ Future<PostAllChats> postHttp(Uri url, Map<String, dynamic> Function() toMap,
   });
 }
 
-Future<PostAllChats> getHttp(Uri url, Map<String, String> headers) async {
+Future<ChatsCall> getHttp(Uri url, Map<String, String> headers) async {
   return await http.get(url, headers: headers).then((r) {
     if (r.statusCode == 200) {
       return rBody(r);
@@ -139,7 +139,7 @@ Future<PostAllChats> getHttp(Uri url, Map<String, String> headers) async {
   });
 }
 
-PostAllChats rBody(http.Response r) {
-  return PostAllChats.fromJson(
+ChatsCall rBody(http.Response r) {
+  return ChatsCall.fromJson(
       {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
 }

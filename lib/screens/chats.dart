@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:sherekoo/screens/homNav.dart';
 
-import '../model/chats/chatPost.dart';
+import '../model/chats/chat-call.dart';
 import '../model/chats/chatsModel.dart';
 import '../model/user/userModel.dart';
-import '../util/Preferences.dart';
+import '../util/app-variables.dart';
 import '../util/colors.dart';
 import '../util/func.dart';
 import '../util/util.dart';
@@ -23,8 +23,6 @@ class PostChats extends StatefulWidget {
 }
 
 class _PostChatsState extends State<PostChats> {
-  final Preferences _preferences = Preferences();
-  String token = '';
   String postid = '';
 
   List<ChatsModel> chats = [];
@@ -33,11 +31,13 @@ class _PostChatsState extends State<PostChats> {
 
   @override
   void initState() {
-    _preferences.init();
+    preferences.init();
     postid = widget.postId;
+    // print('postid');
+    // print(postid);
     backgroundTask();
 
-    _preferences.get('token').then((value) {
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
         getPost();
@@ -54,7 +54,7 @@ class _PostChatsState extends State<PostChats> {
   }
 
   getPosts(Timer timer) {
-    // print("Hello World ${ID}");
+    // print("Hello World ${id}");
     getPost();
     id++;
 
@@ -62,7 +62,7 @@ class _PostChatsState extends State<PostChats> {
   }
 
   getPost() async {
-    PostAllChats(
+    ChatsCall(
       payload: [],
       status: 0,
       body: '',
@@ -71,7 +71,6 @@ class _PostChatsState extends State<PostChats> {
     ).get(token, urlGetChats).then((value) {
       if (mounted) {
         setState(() {
-      
           chats = value.payload
               .map<ChatsModel>((e) => ChatsModel.fromJson(e))
               .toList();
@@ -83,7 +82,7 @@ class _PostChatsState extends State<PostChats> {
 
   Future<void> post() async {
     if (_body.text != '') {
-      PostAllChats(
+      ChatsCall(
         postId: widget.postId,
         userId: '',
         body: _body.text,
@@ -91,11 +90,12 @@ class _PostChatsState extends State<PostChats> {
         payload: [],
       ).post(token, urlPostChats).then((value) {
         setState(() {});
+        // print(value.payload);
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text(
-          'body Emotyyy',
+          'body Empty',
           style: TextStyle(color: Colors.red),
           textAlign: TextAlign.center,
         ),
@@ -347,6 +347,8 @@ class _PostChatsState extends State<PostChats> {
   @override
   void dispose() {
     // TODO: implement dispose
+
+    
     super.dispose();
   }
 }

@@ -804,6 +804,7 @@ class _SherekoCardsState extends State<SherekoCards> {
     // final TextEditingController _intTotal = TextEditingController();
     _initialtotal.text = itm.quantity;
 
+    // ignore: unused_local_variable
     String invCardCrmId = '';
 
     // set up the buttons

@@ -11,7 +11,7 @@ class ChatsModel {
   final String chatInitiator;
 
   final User userInfo;
-   Likes likeInfo;
+  Likes likeInfo;
 
   ChatsModel({
     required this.postId,

@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 
 class OColors {
-  //Sherekoo Color
+  ///
+  ///Sherekoo Color
+  ///
   static Color secondary = const Color(0xff181A20);
+  //static Color secondary = Colors.white;
   static Color appBarColor = const Color(0xff181A20);
+  //static Color appBarColor = const Color(0xff181A20);
+ 
   static Color primary = const Color(0xfff54b64); // Buttons Colors
   static Color primary2 = const Color(0xffff566e);
   static Color darkGrey = const Color(0xff4e586e);
   static Color darGrey = const Color(0xff242a38);
+  
   static Color fontColor = const Color(0xffFFFFFF);
+  //static Color fontColor = const Color(0xffFFFFFF);
 
   static Color sPurple = const Color(0xff8028ff);
   static Color sYelow = const Color(0xfffca01c);
@@ -54,11 +61,6 @@ Color hexToColor(String hexString, {String alphaChannel = 'FF'}) {
   return Color(int.parse(hexString.replaceFirst('#', '0x$alphaChannel')));
 }
 
-
-
-
-
-
 ///
 /// More Complex Short Var
 ///
@@ -69,5 +71,3 @@ Color trans = OColors.transparent;
 Color gry1 = OColors.darGrey;
 Color osec = OColors.secondary;
 Color odng = OColors.danger;
-
-

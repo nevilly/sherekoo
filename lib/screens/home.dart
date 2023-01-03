@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../model/post/post.dart';
 import '../model/post/sherekoModel.dart';
-import '../util/Preferences.dart';
 import '../util/app-variables.dart';
 import '../util/util.dart';
 import '../widgets/postWidgets/post_template.dart';
@@ -18,7 +17,6 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-
   int page = 1, limit = 3, offset = 0;
 
   final _controller = PageController();
@@ -74,6 +72,7 @@ class HomeState extends State<Home> {
     ).get(token, urlGetSherekoo + d).then((value) {
       if (value.status == 200) {
         setState(() {
+          // print(value.payload);
           post.addAll(value.payload
               .map<SherekooModel>((e) => SherekooModel.fromJson(e))
               .toList());
@@ -95,63 +94,50 @@ class HomeState extends State<Home> {
             children: List.generate(post.length, (index) {
               final itm = post[index];
               return PostTemplate(
-                  postId: itm.pId,
-                  avater: itm.creatorInfo.avater!,
-                  numberOfComments: itm.commentNumber,
-                  numberOfLikes: itm.totalLikes!,
-                  isLike: itm.isLike,
-                  numberOfShere: itm.totalShare,
-                  userId: itm.creatorInfo.id!,
-                  username: itm.creatorInfo.username!,
-                  videoDescription: itm.body,
-                  ceremonyId: itm.ceremonyId,
-                  cImage: itm.crmInfo.cImage,
-                  crmUsername: itm.crmInfo.userFid.username!,
-                  crmYoutubeLink: itm.crmInfo.youtubeLink,
-                  postVedeo: post[index].vedeo,
-                  crmViewer: post[index].crmViewer,
-                  filterBck: Positioned.fill(
-                    child: ImageFiltered(
-                      imageFilter: ImageFilter.blur(
-                        sigmaX: 10.0,
-                        sigmaY: 10.0,
-                      ),
-                      child: post[index].vedeo.endsWith('.jpg') &&
-                              post[index].vedeo.isNotEmpty
-                          ? Image.network(
-                              '${api}public/uploads/${itm.crmInfo.userFid.username}/posts/${itm.vedeo}',
-                              // height: 400,
-                              fit: BoxFit.cover,
-                              loadingBuilder: (BuildContext context,
-                                  Widget child,
-                                  ImageChunkEvent? loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                );
-                              },
-                            )
-                          : Image.asset(
-                              'assets/logo/bkg.png',
-                              fit: BoxFit.cover,
-                            ),
+                sherekoo: itm,
+                postVedeo: post[index].vedeo,
+                crmViewer: post[index].crmViewer,
+                filterBck: Positioned.fill(
+                  child: ImageFiltered(
+                    imageFilter: ImageFilter.blur(
+                      sigmaX: 10.0,
+                      sigmaY: 10.0,
                     ),
+                    child: post[index].vedeo.endsWith('.jpg') &&
+                            post[index].vedeo.isNotEmpty
+                        ? Image.network(
+                            '${api}public/uploads/${itm.crmInfo.userFid.username}/posts/${itm.vedeo}',
+                            // height: 400,
+                            fit: BoxFit.cover,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              );
+                            },
+                          )
+                        : Image.asset(
+                            'assets/logo/bkg.png',
+                            fit: BoxFit.cover,
+                          ),
                   ),
-                  userPost: DisplayVedeo(
-                    username: itm.creatorInfo.username!,
-                    vedeo: itm.vedeo,
-                  ));
+                ),
+                userPost: DisplayVedeo(
+                  username: itm.creatorInfo.username!,
+                  vedeo: itm.vedeo,
+                ),
+              );
             }),
           ),
           Positioned(
-              top: 25,
+              top: 35,
               left: 0,
               child: Padding(
                 padding:
@@ -165,11 +151,11 @@ class HomeState extends State<Home> {
                     padding: EdgeInsets.only(
                         left: 8.0, right: 8.0, top: 3, bottom: 3),
                     child: Text(
-                      'ShareKo',
+                      'ShereKoo',
                       style: TextStyle(
-                          fontSize: 19,
+                          fontSize: 14,
                           color: Colors.white,
-                          fontStyle: FontStyle.italic,
+                          // fontStyle: FontStyle.italic,
                           fontWeight: FontWeight.bold),
                     ),
                   ),

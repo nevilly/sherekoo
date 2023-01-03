@@ -76,9 +76,9 @@ class _MyCrmnState extends State<MyCrmn> {
       if (value.status == 200) {
         // print(value.payload);
         setState(() {
-          crmV = value.payload
+          crmV.addAll(value.payload
               .map<CrmViewersModel>((e) => CrmViewersModel.fromJson(e))
-              .toList();
+              .toList());
         });
       }
     });
@@ -162,6 +162,7 @@ class _MyCrmnState extends State<MyCrmn> {
                                   totalLikes: ''),
                             ),
                           )));
+           
             },
             child: Padding(
               padding: const EdgeInsets.all(2.0),

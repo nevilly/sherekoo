@@ -20,6 +20,8 @@ class _CrmDoorState extends State<CrmDoor> {
   bool viewer = false;
   @override
   void initState() {
+    // print(widget.crm.isInFuture);
+    print(widget.crm.isInFuture.toString());
     preferences.init();
     preferences.get('token').then((value) {
       setState(() {
@@ -59,7 +61,8 @@ class _CrmDoorState extends State<CrmDoor> {
   Future addViewer() async {
     if (subScrbAs != 'Subscribe as ..?') {
       await CrmCall(payload: [], status: 0)
-          .addCrmnViewr(token, urladdCrmViewrs, widget.crm.cId, subScrbAs,'','','')
+          .addCrmnViewr(
+              token, urladdCrmViewrs, widget.crm.cId, subScrbAs, '', '', '', '')
           .then((value) {
         if (value.status == 200) {
           Navigator.of(context).pop();
@@ -206,7 +209,6 @@ class _CrmDoorState extends State<CrmDoor> {
                 const SizedBox(
                   height: 30,
                 ),
-                
                 Container(
                   width: 150,
                   height: 40,
@@ -245,7 +247,6 @@ class _CrmDoorState extends State<CrmDoor> {
                     },
                   ),
                 ),
-              
                 const Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

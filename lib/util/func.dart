@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:intl/intl.dart';
+import 'package:sherekoo/model/user/userModel.dart';
 
 import '../model/ceremony/crm-model.dart';
 import '../model/ceremony/crmVwr-model.dart';
 
+import '../screens/payments/payments.dart';
 import '../widgets/imgWigdets/defaultAvater.dart';
 import '../widgets/imgWigdets/userAvater.dart';
 import '../widgets/listTile_widget.dart';
@@ -1185,9 +1187,6 @@ FadeInImage fadeImg(BuildContext context, img, double w, double h) {
     fadeInDuration: const Duration(milliseconds: 100),
     placeholder: const AssetImage('assets/logo/noimage.png'),
     imageErrorBuilder: (context, error, stackTrace) {
-      // print('Image error');
-      // print(error);
-
       return Image.asset('assets/logo/noimage.png',
           width: w, height: h, fit: BoxFit.fitWidth);
     },
@@ -1344,6 +1343,86 @@ ButtonStyle bttnStyl(double padding, Color backgroundColorlor, Color primary) {
       backgroundColor: backgroundColorlor);
 }
 
+// Payment Method Alert Widget
+paymentMethod(BuildContext context, CrmViewersModel itm, User user) async {
+  // set up the buttons
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    // insetPadding: const EdgeInsets.only(right: 1, left: 1),
+    contentPadding: const EdgeInsets.only(left: 20, right: 20),
+    titlePadding: const EdgeInsets.only(top: 5),
+    backgroundColor: OColors.secondary,
+    title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      GestureDetector(
+        onTap: () {
+          Navigator.of(context).pop();
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Icon(
+            Icons.close,
+            size: 35,
+            color: OColors.fontColor,
+          ),
+        ),
+      ),
+      Padding(
+        padding:
+            const EdgeInsets.only(left: 18.0, right: 10, top: 8, bottom: 8),
+        child: Center(
+          child: Text('Payment Method',
+              style: header18.copyWith(fontWeight: FontWeight.bold)),
+        ),
+      ),
+    ]),
+    content: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: 150,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Vodacom
+                GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => Payments(crmVwr: itm, user: user,)));
+                    },
+                    child: Text('Vodacom', style: header14)),
+                //Airtel
+                Text('Airtel', style: header14),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                //Tigo
+                Text('tigo', style: header14),
+                //Halotel
+                Text('Halotel', style: header14),
+                // Text('TTcl',style:header16),
+              ],
+            ),
+          ],
+        )),
+  );
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
 ///
 /// TextField Template
 ///
@@ -1357,7 +1436,9 @@ Container textFieldContainer(
     double radius,
     Color bkcolor,
     prefixIco,
-    TextStyle style) {
+    TextStyle style,
+    TextInputType kyboard
+    ) {
   return Container(
     width: w,
     height: h,
@@ -1373,7 +1454,7 @@ Container textFieldContainer(
       maxLines: null,
       expands: true,
       textAlign: TextAlign.left,
-      keyboardType: TextInputType.multiline,
+      keyboardType: kyboard,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.only(left: 20.0, right: 20.0),
         border: InputBorder.none,

@@ -39,8 +39,7 @@ class UsersCall {
     });
   }
 
-  Future<UsersCall> getUserById(
-      String token, String dirUrl, String id) async {
+  Future<UsersCall> getUserById(String token, String dirUrl, String id) async {
     Uri url = Uri.parse(dirUrl);
 
     if (token.isEmpty) {

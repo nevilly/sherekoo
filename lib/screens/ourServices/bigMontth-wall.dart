@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sherekoo/model/bigMontTvShow/bigMonth-call.dart';
 import '../../model/bigMontTvShow/bigMnth-Reg-Memb.dart';
 import '../../model/bigMontTvShow/bigMonth-Model.dart';
-import '../../model/chats/chatPost.dart';
+import '../../model/chats/chat-call.dart';
 import '../../model/chats/chatsModel.dart';
 import '../../model/user/userModel.dart';
 import '../../util/app-variables.dart';
@@ -122,7 +122,7 @@ class _BigMonthWallState extends State<BigMonthWall>
 
   getPost() async {
     // print(widget.show.id);
-    PostAllChats(
+    ChatsCall(
       payload: [],
       status: 0,
       body: '',
@@ -162,7 +162,7 @@ class _BigMonthWallState extends State<BigMonthWall>
   }
 
   deletePost(BuildContext context, ChatsModel itm) {
-    PostAllChats(
+    ChatsCall(
       payload: [],
       status: 0,
       body: '',
@@ -184,7 +184,7 @@ class _BigMonthWallState extends State<BigMonthWall>
   updateChat(
       BuildContext context, ChatsModel itm, TextEditingController newBody) {
     if (newBody.text.isNotEmpty) {
-      PostAllChats(
+      ChatsCall(
         payload: [],
         status: 0,
         body: newBody.text,
@@ -208,7 +208,7 @@ class _BigMonthWallState extends State<BigMonthWall>
   likeUpdate(BuildContext context, ChatsModel itm) {
     String isLike = itm.likeInfo.isLike! == 'false' ? '0' : '1';
 
-    PostAllChats(
+    ChatsCall(
       payload: [],
       status: 0,
       body: '',
@@ -265,7 +265,7 @@ class _BigMonthWallState extends State<BigMonthWall>
 
   Future<void> post() async {
     if (_body.text != '') {
-      PostAllChats(
+      ChatsCall(
         postId: widget.show.id,
         userId: '',
         body: _body.text,
@@ -1026,7 +1026,7 @@ class _BigMonthWallState extends State<BigMonthWall>
                 10,
                 OColors.darGrey,
                 null,
-                header12)
+                header12,TextInputType.multiline)
           ],
         ),
       ),

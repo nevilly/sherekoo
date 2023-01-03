@@ -6,11 +6,7 @@ class BudgetCall {
   final int status;
   dynamic payload;
 
-  BudgetCall(
-    
-    {required this.payload, required this.status}
-    
-    );
+  BudgetCall({required this.payload, required this.status});
 
   factory BudgetCall.fromJson(Map<String, dynamic> json) {
     return BudgetCall(payload: json['payload'], status: json['status']);
@@ -24,12 +20,17 @@ class BudgetCall {
     return getHttp(url, headers);
   }
 
-  Future<BudgetCall> add(
-      String token, String dirUrl, String amount, String crmId) async {
+  Future<BudgetCall> add(String token, String dirUrl, String amount,
+      String minContribution, String crmId, String edtStatus) async {
     Uri url = Uri.parse(dirUrl);
 
     Map<String, dynamic> toMap() {
-      return <String, dynamic>{'amount': amount, 'crmId': crmId};
+      return <String, dynamic>{
+        'amount': amount,
+        'minContribution': minContribution,
+        'crmId': crmId,
+        'editStatus': edtStatus
+      };
     }
 
     invalidToken(token);
@@ -37,7 +38,8 @@ class BudgetCall {
     return postHttp(url, toMap, headers);
   }
 
-  Future<BudgetCall> myBusness(String token, String dirUrl, String bsnType) async {
+  Future<BudgetCall> myBusness(
+      String token, String dirUrl, String bsnType) async {
     Uri url = Uri.parse(dirUrl);
 
     Map<String, dynamic> toMap() {
@@ -94,8 +96,8 @@ Future<BudgetCall> postHttp(Uri url, Map<String, dynamic> Function() toMap,
   return await http
       .post(url, body: jsonEncode(toMap()), headers: headers)
       .then((r) {
-    // print('categories Details');
-    // print(r.body);
+    print('Budget Details');
+    print(r.body);
     if (r.statusCode == 200) {
       return rBody(r);
     }

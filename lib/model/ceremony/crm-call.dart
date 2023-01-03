@@ -49,7 +49,7 @@ class CrmCall {
       return <String, dynamic>{'day': day, 'offset': offset, 'limit': limit};
     }
 
-    print(toMap());
+    // print(toMap());
 
     invalidToken(token);
     Map<String, String> headers = myHttpHeaders(token);
@@ -130,10 +130,24 @@ class CrmCall {
   }
 
   Future<CrmCall> addCrmnViewr(
-      String token, String dirUrl, String crmId, String position,String name,String contact,String ahadi) async {
+      String token,
+      String dirUrl,
+      String crmId,
+      String position,
+      String name,
+      String contact,
+      String ahadi,
+      String searchUid) async {
     Uri url = Uri.parse(dirUrl);
     Map<String, dynamic> toMap() {
-      return <String, dynamic>{'crmId': crmId, 'position': position,'name':name,'contact':contact,'ahadi':ahadi};
+      return <String, dynamic>{
+        'crmId': crmId,
+        'position': position,
+        'name': name,
+        'contact': contact,
+        'ahadi': ahadi,
+        'uid': searchUid
+      };
     }
 
     invalidToken(token);
@@ -156,8 +170,8 @@ invalidToken(token) {
   }
 }
 
-Future<CrmCall> myPostHttp(Uri url,
-    Map<String, dynamic> Function() toMap, Map<String, String> headers) async {
+Future<CrmCall> myPostHttp(Uri url, Map<String, dynamic> Function() toMap,
+    Map<String, String> headers) async {
   return await http
       .post(url, body: jsonEncode(toMap()), headers: headers)
       .then((r) {
@@ -171,8 +185,7 @@ Future<CrmCall> myPostHttp(Uri url,
   });
 }
 
-Future<CrmCall> myGetHttp(
-    Uri url, Map<String, String> headers) async {
+Future<CrmCall> myGetHttp(Uri url, Map<String, String> headers) async {
   return await http.get(url, headers: headers).then((r) {
     // print(r.body);
     if (r.statusCode == 200) {

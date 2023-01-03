@@ -50,7 +50,7 @@ class _LiveePostState extends State<LiveePost> {
       totalShare = 0;
     }
 
-    isLike = int.parse(widget.post.isLike);
+    isLike = int.parse(widget.post.isLike!);
 
     super.initState();
   }

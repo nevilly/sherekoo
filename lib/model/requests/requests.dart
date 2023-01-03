@@ -111,7 +111,7 @@ Future<Requests> postHttp(Uri url, Map<String, dynamic> Function() toMap,
   return await http
       .post(url, body: jsonEncode(toMap()), headers: headers)
       .then((r) {
-    print(r.body); // Debbuger
+    // print(r.body); // Debbuger
     if (r.statusCode == 200) {
       return rBody(r);
     }

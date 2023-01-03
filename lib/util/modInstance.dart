@@ -1,4 +1,6 @@
 import 'package:sherekoo/model/ceremony/crmVwr-model.dart';
+import 'package:sherekoo/model/mchango/mchango-model.dart';
+import 'package:sherekoo/model/mchango/mchangoPayment-model.dart';
 
 import '../model/busness/busnessModel.dart';
 import '../model/ceremony/crm-model.dart';
@@ -247,6 +249,25 @@ Map<String, dynamic> get shereKoMap {
   };
 }
 
+MchangoPaymentModel emptyMchangoPay = MchangoPaymentModel(
+  id: '',
+  mchangoId: '',
+  amount: '',
+  createdBy: '',
+  createdDate: '', contact: '', crmId: '',
+  status: '',
+  // total: '',
+  reciept: '',
+);
+
+MchangoModel emptyMchango = MchangoModel(
+    id: '',
+    crmId: '',
+    viewerId: '',
+    ahadi: '',
+    totalPayInfo: '',
+    mchangoPayInfo: []);
+
 CrmViewersModel emptyCrmVwr = CrmViewersModel(
     id: '',
     userId: '',
@@ -256,4 +277,5 @@ CrmViewersModel emptyCrmVwr = CrmViewersModel(
     crmInfo: emptyCrmModel,
     viewerInfo: emptyUser,
     isAdmin: '',
-    crmId: '');
+    crmId: '',
+    mchangoInfo: emptyMchango);

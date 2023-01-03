@@ -1,8 +1,6 @@
 // user with Ceremony Viewer Model
 import 'package:sherekoo/model/ceremony/crmVwr-model.dart';
 
-import '../mchango/mchango-model.dart';
-
 class UserCrmVwr {
   String? id,
       username,
@@ -25,7 +23,7 @@ class UserCrmVwr {
       totalPost;
   final dynamic isCurrentUser, isCurrentCrmAdmin, isCurrentBsnAdmin;
   CrmViewersModel crmVwrInfo;
-  MchangoModel mchangoInfo;
+  final String isInCrmVwr;
 
   UserCrmVwr({
     this.id,
@@ -49,7 +47,7 @@ class UserCrmVwr {
     this.isCurrentBsnAdmin,
     // total
     required this.crmVwrInfo,
-    required this.mchangoInfo,
+    required this.isInCrmVwr,
   });
 
   factory UserCrmVwr.fromJson(Map<String, dynamic> json) {
@@ -72,11 +70,10 @@ class UserCrmVwr {
       meritalStatus: json['merital_status'] ?? "",
       bio: json['bio'] ?? "",
       whatYouDo: json['whatYouDo'] ?? "",
-
+      isInCrmVwr: json['isInCrmVwr'].toString(),
       //total
 
       crmVwrInfo: CrmViewersModel.fromJson(json['crmViewerInfo']),
-      mchangoInfo: MchangoModel.fromJson(json['mchangoInfo']),
     );
   }
 }

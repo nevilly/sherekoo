@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:sherekoo/model/mshengaWar/mshengaWar-call.dart';
 import '../../model/user/user-call.dart';
-import '../../model/chats/chatPost.dart';
+import '../../model/chats/chat-call.dart';
 import '../../model/chats/chatsModel.dart';
 import '../../model/mshengaWar/mshengaWar-Model.dart';
 import '../../model/mshengaWar/mshengaWar-registration.dart';
@@ -47,7 +47,7 @@ class _MshengaWarWallState extends State<MshengaWarWall>
     "Dangerous organization/individuals",
     "Other"
   ];
- 
+
   late User user = User(
       id: '',
       username: '',
@@ -161,10 +161,10 @@ class _MshengaWarWallState extends State<MshengaWarWall>
   }
 
   List<ChatsModel> chats = [];
-  
+
   getPost() async {
     // print(widget.show.id);
-    PostAllChats(
+    ChatsCall(
       payload: [],
       status: 0,
       body: '',
@@ -187,7 +187,7 @@ class _MshengaWarWallState extends State<MshengaWarWall>
 
   Future<void> post() async {
     if (_body.text != '') {
-      PostAllChats(
+      ChatsCall(
         postId: widget.show.id,
         userId: '',
         body: _body.text,
@@ -255,7 +255,7 @@ class _MshengaWarWallState extends State<MshengaWarWall>
   likeUpdate(BuildContext context, ChatsModel itm) {
     String isLike = itm.likeInfo.isLike! == 'false' ? '0' : '1';
 
-    PostAllChats(
+    ChatsCall(
       payload: [],
       status: 0,
       body: '',
@@ -303,7 +303,7 @@ class _MshengaWarWallState extends State<MshengaWarWall>
   }
 
   deletePost(BuildContext context, ChatsModel itm) {
-    PostAllChats(
+    ChatsCall(
       payload: [],
       status: 0,
       body: '',
@@ -325,7 +325,7 @@ class _MshengaWarWallState extends State<MshengaWarWall>
   updateChat(
       BuildContext context, ChatsModel itm, TextEditingController newBody) {
     if (newBody.text.isNotEmpty) {
-      PostAllChats(
+      ChatsCall(
         payload: [],
         status: 0,
         body: newBody.text,
@@ -436,8 +436,7 @@ class _MshengaWarWallState extends State<MshengaWarWall>
     return Scrollbar(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child:
-         Column(children: [
+        child: Column(children: [
           // const SizedBox(height: 25),
           tvShowChats(),
 
@@ -505,11 +504,9 @@ class _MshengaWarWallState extends State<MshengaWarWall>
             ),
           ),
         ]),
-     
       ),
     );
   }
-
 
   Scrollbar seviceDetails(BuildContext context, size) {
     return Scrollbar(
@@ -617,7 +614,6 @@ class _MshengaWarWallState extends State<MshengaWarWall>
       ),
     );
   }
-
 
   Expanded tvShowChats() {
     return Expanded(
@@ -1022,7 +1018,7 @@ class _MshengaWarWallState extends State<MshengaWarWall>
                 10,
                 OColors.darGrey,
                 null,
-                header12)
+                header12,TextInputType.multiline)
           ],
         ),
       ),
@@ -1044,5 +1040,4 @@ class _MshengaWarWallState extends State<MshengaWarWall>
       },
     );
   }
-
 }

@@ -22,7 +22,7 @@ class SherekooModel {
 
   //Likes Info
    String? totalLikes;
-  dynamic isLike;
+  String? isLike;
   // Shares info
   final String totalShare;
 

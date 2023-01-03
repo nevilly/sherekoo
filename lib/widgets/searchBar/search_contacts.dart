@@ -4,7 +4,6 @@ import 'package:sherekoo/util/colors.dart';
 
 import '../../model/user/user-call.dart';
 import '../../model/user/userModel.dart';
-import '../../util/Preferences.dart';
 import '../../util/app-variables.dart';
 import '../../util/util.dart';
 
