@@ -25,6 +25,7 @@ import '../../widgets/animetedClip.dart';
 import '../../widgets/imgWigdets/defaultAvater.dart';
 import '../bsnScreen/bsn-screen.dart';
 import '../detailScreen/bsn-details.dart';
+import '../ourServices/sherekoService.dart';
 import 'crmVwr-search.dart';
 import 'payment.dart';
 
@@ -47,8 +48,6 @@ class _CrmnAdminState extends State<CrmnAdmin>
   final TextEditingController _budget = TextEditingController();
   final TextEditingController _minContribution = TextEditingController();
   final TextEditingController _ahadi = TextEditingController();
-
-  List arr = ['Mc', 'cooker', 'singer', 'decorator'];
 
   // final Map myCategoryDynamic = {};
   //Selected host for Cereemony
@@ -177,12 +176,12 @@ class _CrmnAdminState extends State<CrmnAdmin>
   void initState() {
     _tabController = TabController(
       initialIndex: 0,
-      length: 4,
+      length: 3,
       vsync: this,
     );
 
     super.initState();
-    print(widget.crm.cId);
+    // print(widget.crm.cId);
 
     preferences.init();
     preferences.get('token').then((value) {
@@ -604,212 +603,145 @@ class _CrmnAdminState extends State<CrmnAdmin>
           return <Widget>[
             SliverAppBar(
               backgroundColor: OColors.darGrey,
-              title: const Text('Selected Service'),
+              // title: const Text('Selected Service'),
               // automaticallyImplyLeading: false,
-              // actions: [
-
-              //   if ( widget.ceremony.isCrmAdmin == 'true')
-              //     GestureDetector(
-              //       onTap: () {
-              //         Navigator.push(
-              //             context,
-              //             MaterialPageRoute(
-              //                 builder: (_) => CrmnAdmin(crm: widget.ceremony, user: user,)));
-              //       },
-              //       child: Container(
-              //         margin: const EdgeInsets.only(
-              //             left: 10, right: 20, top: 15, bottom: 15),
-              //         padding: const EdgeInsets.only(
-              //             left: 15, right: 15, top: 4, bottom: 4),
-              //         alignment: Alignment.center,
-              //         decoration: BoxDecoration(
-              //             color: OColors.primary,
-              //             borderRadius:
-              //                 const BorderRadius.all(Radius.circular(80))),
-              //         child: ClipRRect(
-              //           borderRadius: BorderRadius.circular(50),
-              //           child: Container(
-              //             decoration: const BoxDecoration(
-              //                 borderRadius:
-              //                     BorderRadius.all(Radius.circular(50))),
-              //             child: Text(
-              //               'Admin',
-              //               style:
-              //                   header11.copyWith(fontWeight: FontWeight.bold),
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //     )
-              //   else
-              //     GestureDetector(
-              //       onTap: () {
-              //         Navigator.push(
-              //             context,
-              //             MaterialPageRoute(
-              //                 builder: (_) => CrmnAdmin(crm: widget.ceremony,user: user,)));
-              //       },
-              //       child: ClipRRect(
-              //         borderRadius: BorderRadius.circular(30),
-              //         child: Container(
-              //           alignment: Alignment.center,
-              //           decoration: BoxDecoration(
-              //               color: OColors.primary,
-              //               borderRadius:
-              //                   const BorderRadius.all(Radius.circular(30))),
-              //           child: const Icon(
-              //             Icons.share,
-              //             color: Colors.white,
-              //           ),
-              //         ),
-              //       ),
-              //     )
-              // ],
-              expandedHeight: 200,
+              actions: [
+                GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => SherekoService(
+                                  from: 'crmBundle', crm: widget.crm)));
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(
+                          top: 10, bottom: 10, left: 4, right: 4),
+                      height: 20,
+                      padding: const EdgeInsets.only(
+                          left: 10.0, right: 10, top: 5, bottom: 5),
+                      decoration: BoxDecoration(
+                          border:
+                              Border.all(width: 1.3, color: OColors.primary),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Center(
+                        child: Text(
+                          'Sherekoo Bundle',
+                          style: header10.copyWith(color: OColors.primary),
+                        ),
+                      ),
+                    )),
+              ],
+              expandedHeight: 220,
               flexibleSpace: SafeArea(
                   bottom: false,
                   child: Stack(
+                    alignment: AlignmentDirectional.center,
                     fit: StackFit.expand,
                     children: [
+                      Positioned(
+                        top: 45,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Ceremony Cash', style: header16),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                myBgt.michangoPayment == '0'
+                                    ? Text('0 Tsh', style: header14)
+                                    : Text('${myBgt.michangoPayment} Tsh',
+                                        style: header14),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                          ],
+                        ),
+                      ),
+
+                      Positioned(
+                        bottom: 35,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Column(
+                                children: [
+                                  Text('Budget Estimate', style: header13),
+                                  Row(
+                                    children: [
+                                      myBgt.amount == ''
+                                          ? Text('0 ', style: header12)
+                                          : Text(myBgt.amount!,
+                                              style: header12),
+                                      Text('Tsh', style: header12),
+                                    ],
+                                  ),
+                                  GestureDetector(
+                                      onTap: () {
+                                        budgetEdit(context);
+                                      },
+                                      child: Text('Edit Budget',
+                                          style:
+                                              header12.copyWith(color: prmry))),
+                                ],
+                              ),
+                              const SizedBox(width: 10),
+                              Column(
+                                children: [
+                                  Text('Contribution', style: header13),
+                                  Row(
+                                    children: [
+                                      myBgt.minContribution == ''
+                                          ? Text('0 ', style: header12)
+                                          : Text(myBgt.minContribution!,
+                                              style: header12),
+                                      Text('Tsh', style: header12),
+                                    ],
+                                  ),
+                                  GestureDetector(
+                                      onTap: () {
+                                        contributionEdit(context);
+                                      },
+                                      child: Text('Edit',
+                                          style:
+                                              header12.copyWith(color: prmry))),
+                                ],
+                              ),
+                              const SizedBox(width: 10),
+                              Column(
+                                children: [
+                                  Text('Michango', style: header13),
+                                  Row(
+                                    children: [
+                                      myBgt.michangoPayment == '0'
+                                          ? Text('0 Tsh', style: header12)
+                                          : Text('${myBgt.michangoPayment} Tsh',
+                                              style: header12),
+                                    ],
+                                  ),
+                                  GestureDetector(
+                                      onTap: () {
+                                        membersPay(context);
+                                      },
+                                      child: Text('Pay',
+                                          style:
+                                              header12.copyWith(color: prmry))),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+
                       ///
                       /// Selcete Busness..
                       ///
 
-                      Text('No selection', style: header10),
-                      // myServ.isNotEmpty
-                      //     ? Container(
-                      //         margin: const EdgeInsets.all(4.0),
-                      //         child: GridView.builder(
-                      //           shrinkWrap: true,
-                      //           physics: const NeverScrollableScrollPhysics(),
-                      //           itemCount: myServ.length,
-                      //           gridDelegate:
-                      //               const SliverGridDelegateWithFixedCrossAxisCount(
-                      //                   crossAxisCount: 4,
-                      //                   crossAxisSpacing: 3,
-                      //                   childAspectRatio: 2),
-                      //           itemBuilder: (context, i) {
-                      //             final itm = myServ[i];
-                      //             return Container(
-                      //               margin: const EdgeInsets.only(
-                      //                   top: 2, bottom: 4),
-                      //               decoration: BoxDecoration(
-                      //                   borderRadius: BorderRadius.circular(5),
-                      //                   border: Border.all(width: 0.2),
-                      //                   boxShadow: const [
-                      //                     BoxShadow(
-                      //                         blurRadius: 4.0,
-                      //                         spreadRadius: 0.2,
-                      //                         offset: Offset(0.1, 0.5)),
-                      //                   ],
-                      //                   color: OColors.darGrey),
-                      //               child: Column(
-                      //                 children: [
-                      //                   SizedBox(
-                      //                     width:
-                      //                         MediaQuery.of(context).size.width,
-                      //                     // color: Colors.red,
-                      //                     child: Stack(children: [
-                      //                       Positioned(
-                      //                           top: 0,
-                      //                           right: 0,
-                      //                           child: GestureDetector(
-                      //                             onTap: () {
-                      //                               showAlertDialog(
-                      //                                   context,
-                      //                                   'Delete ${itm.bsnInfo!.busnessType}',
-                      //                                   'Are SURE you want remove ${itm.bsnInfo!.busnessType}  ${itm.bsnInfo!.knownAs}..??',
-                      //                                   itm.bsnInfo!,
-                      //                                   'myServices');
-                      //                             },
-                      //                             child: Icon(
-                      //                               Icons.cancel_rounded,
-                      //                               color: OColors.primary,
-                      //                             ),
-                      //                           )),
-                      //                       // Padding(
-                      //                       //   padding:
-                      //                       //       const EdgeInsets.only(top: 5.0),
-                      //                       //   child: Center(
-                      //                       //     child: ClipOval(
-                      //                       //       child: Image.network(
-                      //                       //         '${api}public/uploads/${itm.bsnInfo!.user.username}/busness/${itm.bsnInfo!.coProfile}',
-                      //                       //         height: 55,
-                      //                       //         width: 55,
-                      //                       //         fit: BoxFit.cover,
-                      //                       //       ),
-                      //                       //     ),
-                      //                       //   ),
-                      //                       // ),
-                      //                     ]),
-                      //                   ),
-                      //                   const SizedBox(
-                      //                     height: 3,
-                      //                   ),
-                      //                   Text(
-                      //                     '${itm.bsnInfo!.busnessType} ',
-                      //                     style: header13,
-                      //                   ),
-                      //                   Text(
-                      //                     '${itm.bsnInfo!.knownAs} ',
-                      //                     style: header12,
-                      //                   ),
-                      //                   const SizedBox(
-                      //                     height: 4,
-                      //                   ),
-                      //                   itm.payed == '0'
-                      //                       ? Padding(
-                      //                           padding: const EdgeInsets.only(
-                      //                               top: 4.0,
-                      //                               bottom: 4.0,
-                      //                               left: 8,
-                      //                               right: 8),
-                      //                           child: Text(
-                      //                             'Selected..',
-                      //                             style: TextStyle(
-                      //                                 color: OColors.primary,
-                      //                                 fontSize: 10),
-                      //                           ),
-                      //                         )
-                      //                       : GestureDetector(
-                      //                           onTap: () {
-                      //                             // showModel(context, req);
-                      //                             // Navigator.push(
-                      //                             //     context,
-                      //                             //     MaterialPageRoute(
-                      //                             //         builder: (BuildContext context) =>
-                      //                             //             MyService(
-                      //                             //               req: my,
-                      //                             //             )));
-                      //                           },
-                      //                           child: Container(
-                      //                             decoration: BoxDecoration(
-                      //                               borderRadius:
-                      //                                   BorderRadius.circular(
-                      //                                       10),
-                      //                               color: OColors.primary,
-                      //                             ),
-                      //                             child: Padding(
-                      //                               padding:
-                      //                                   const EdgeInsets.only(
-                      //                                       top: 4.0,
-                      //                                       bottom: 4.0,
-                      //                                       left: 8,
-                      //                                       right: 8),
-                      //                               child: Text(
-                      //                                 'Pay Hime..',
-                      //                                 style: header10,
-                      //                               ),
-                      //                             ),
-                      //                           ),
-                      //                         ),
-                      //                 ],
-                      //               ),
-                      //             );
-                      //           },
-                      //         ),
-                      //       )
-                      //     : Text('No selection', style: header10)
+                      //Text('No selection', style: header10),
                     ],
                   )),
 
@@ -821,10 +753,10 @@ class _CrmnAdminState extends State<CrmnAdmin>
                   unselectedLabelColor: OColors.darkGrey,
                   controller: _tabController,
                   tabs: const [
-                    Tab(text: 'Budget'),
+                    Tab(text: 'Hosts'),
                     Tab(text: 'Requests'),
                     Tab(text: 'members'),
-                    Tab(text: 'Cometee'),
+                    // Tab(text: 'Cometee'),
                   ]),
             ),
           ];
@@ -867,8 +799,9 @@ class _CrmnAdminState extends State<CrmnAdmin>
                 ),
                 SizedBox(
                   // color: Colors.red,
-                  height: 300,
+                  height: MediaQuery.of(context).size.height / 2,
                   child: ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: crmViewer.length,
                       itemBuilder: ((BuildContext context, i) {
                         final itm = crmViewer[i];
@@ -953,7 +886,7 @@ class _CrmnAdminState extends State<CrmnAdmin>
                               //Payment Button
                               GestureDetector(
                                 onTap: () {
-                                  paymentMethod(context, itm,widget.user);
+                                  paymentMethod(context, itm, widget.user);
                                 },
                                 child: Text('Pay',
                                     style: TextStyle(color: OColors.primary)),
@@ -966,7 +899,7 @@ class _CrmnAdminState extends State<CrmnAdmin>
               ],
             ),
           )),
-          Text('Commetee', style: header10),
+          // Text('Commetee', style: header10),
         ]),
       ),
 
@@ -993,88 +926,106 @@ class _CrmnAdminState extends State<CrmnAdmin>
 
   Scrollbar budgetFunc(BuildContext context) {
     return Scrollbar(
-        child: ListView(
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Ceremony Cash', style: header18),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('0 ', style: header16),
-                Text(' Tzs', style: header16),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  children: [
-                    Text('Budget Estimate', style: header13),
-                    Row(
-                      children: [
-                        myBgt.amount == ''
-                            ? Text('0 ', style: header13)
-                            : Text(myBgt.amount!, style: header13),
-                        Text('Tsh', style: header13),
-                      ],
-                    ),
-                    GestureDetector(
-                        onTap: () {
-                          budgetEdit(context);
-                        },
-                        child: Text('Edit Budget',
-                            style: header12.copyWith(color: prmry))),
-                  ],
+        child: myServ.isNotEmpty
+            ? Container(
+                width: MediaQuery.of(context).size.width,
+                margin: const EdgeInsets.all(4.0),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: myServ.length,
+                  // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  //     crossAxisCount: 4,
+                  //     crossAxisSpacing: 3,
+                  //     childAspectRatio: 1),
+                  itemBuilder: (context, i) {
+                    final itm = myServ[i];
+                    return Container(
+                      margin: const EdgeInsets.only(top: 2, bottom: 4),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(width: 0.2),
+                          boxShadow: const [
+                            BoxShadow(
+                                blurRadius: 4.0,
+                                spreadRadius: 0.2,
+                                offset: Offset(0.1, 0.5)),
+                          ],
+                          color: OColors.darGrey),
+                      child: ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: SizedBox(
+                          width: 70,
+                          height: 100,
+                          // color: Colors.red,
+                          child: Center(
+                            child: Image.network(
+                              '${api}public/uploads/${itm.bsnInfo!.user.username}/busness/${itm.bsnInfo!.coProfile}',
+                              height: 55,
+                              width: 55,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        title: Text(
+                          '${itm.bsnInfo!.busnessType} ',
+                          style: header16,
+                        ),
+                        subtitle: Text(
+                          '${itm.bsnInfo!.knownAs} ',
+                          style: header12,
+                        ),
+                        trailing: itm.payed == '0'
+                            ? Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 4.0, bottom: 4.0, left: 8, right: 8),
+                                child: Text(
+                                  'Selected..',
+                                  style: TextStyle(
+                                      color: OColors.primary, fontSize: 10),
+                                ),
+                              )
+                            : GestureDetector(
+                                onTap: () {
+                                  // showModel(context, req);
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (BuildContext context) =>
+                                  //             MyService(
+                                  //               req: my,
+                                  //             )));
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: OColors.primary,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 4.0,
+                                        bottom: 4.0,
+                                        left: 8,
+                                        right: 8),
+                                    child: Text(
+                                      'Pay Hime..',
+                                      style: header10,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                      ),
+                    );
+                  },
                 ),
-                Column(
-                  children: [
-                    Text('Min Donate', style: header13),
-                    Row(
-                      children: [
-                        myBgt.minContribution == ''
-                            ? Text('0 ', style: header13)
-                            : Text(myBgt.minContribution!, style: header13),
-                        Text('Tsh', style: header13),
-                      ],
-                    ),
-                    GestureDetector(
-                        onTap: () {
-                          contributionEdit(context);
-                        },
-                        child: Text('Edit',
-                            style: header12.copyWith(color: prmry))),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text('Michango', style: header13),
-                    Row(
-                      children: [
-                        myBgt.michangoPayment == '0'
-                            ? Text('0 Tsh', style: header13)
-                            : Text('${myBgt.michangoPayment} Tsh',
-                                style: header13),
-                      ],
-                    ),
-                    GestureDetector(
-                        onTap: () {
-                          membersPay(context);
-                        },
-                        child: Text('Pay',
-                            style: header12.copyWith(color: prmry))),
-                  ],
-                )
-              ],
-            ),
-          ],
-        ),
-      ],
-    ));
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('No selection', style: header16),
+                ],
+              ));
   }
 
   Scrollbar crmRequests(BuildContext context) {

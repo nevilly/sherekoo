@@ -122,7 +122,7 @@ class ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         backgroundColor: OColors.secondary,
         appBar: topBar(),
@@ -201,12 +201,12 @@ class ProfileState extends State<Profile> {
                       size: 25,
                     ),
                   ),
-                  Tab(
-                    icon: Icon(
-                      Icons.add_business,
-                      size: 25,
-                    ),
-                  ),
+                  // Tab(
+                  //   icon: Icon(
+                  //     Icons.add_business,
+                  //     size: 25,
+                  //   ),
+                  // ),
                 ]),
 
             Expanded(
@@ -223,21 +223,20 @@ class ProfileState extends State<Profile> {
                       )
                     : loadingFunc(40, OColors.primary),
 
-                // const Text('Photooos'),
                 // My Ceremonies
                 user.id!.isNotEmpty
                     ? MyCrmn(
                         userId: user.id!,
                       )
                     : loadingFunc(40, OColors.primary),
-                user.id!.isNotEmpty
-                    ? MyBusness(
-                        user: user,
-                      )
-                    : loadingFunc(40, OColors.primary),
+
+                // user.id!.isNotEmpty
+                //     ? MyBusness(
+                //         user: user,
+                //       )
+                //     : loadingFunc(40, OColors.primary),
               ]),
             ),
-          
           ],
         ),
       ),

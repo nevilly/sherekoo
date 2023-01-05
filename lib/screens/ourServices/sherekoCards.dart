@@ -321,7 +321,9 @@ class _SherekoCardsState extends State<SherekoCards> {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
+      bottomNavigationBar: 
+      
+      Container(
         height: 60,
         color: OColors.primary.withOpacity(.2),
         child: 
@@ -455,6 +457,7 @@ class _SherekoCardsState extends State<SherekoCards> {
           ],
         ),
       ),
+    
     );
   }
 

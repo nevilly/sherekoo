@@ -4,23 +4,29 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../model/InvCards/cards.dart';
 import '../../model/bundleBooking/bundle-orders.dart';
+import '../../model/ceremony/crm-model.dart';
 import '../../model/crmBundle/bundle.dart';
 import '../../model/services/servicexModel.dart';
 import '../../model/user/userModel.dart';
-import '../../util/Preferences.dart';
+import '../../util/app-variables.dart';
 import '../../util/colors.dart';
 
 import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
+import '../../widgets/gradientBorder.dart';
 import '../../widgets/imgWigdets/userAvater.dart';
 import '../admin/crmBundleAdmin.dart';
 
 class ServiceDetails extends StatefulWidget {
+  final CeremonyModel crm;
   final User currentUser;
   final Bundle bundle;
   const ServiceDetails(
-      {Key? key, required this.bundle, required this.currentUser})
+      {Key? key,
+      required this.bundle,
+      required this.currentUser,
+      required this.crm})
       : super(key: key);
 
   @override
@@ -34,26 +40,8 @@ class _ServiceDetailsState extends State<ServiceDetails>
   final TextEditingController _contact = TextEditingController();
   final TextEditingController _crmDate = TextEditingController();
 
-  String token = '';
   int tabIndex = 0;
 
-  final Preferences _preferences = Preferences();
-  // TabBar get _tabBar => TabBar(
-  //         labelColor: OColors.primary,
-  //         unselectedLabelColor: Colors.grey,
-  //         indicatorColor: OColors.primary,
-  //         indicatorWeight: 2,
-  //         tabs: const [
-  //           Tab(
-  //             text: 'OverView',
-  //           ),
-  //           Tab(
-  //             text: 'Description',
-  //           ),
-  //           Tab(
-  //             text: 'Schedule',
-  //           )
-  //         ]);
   String id = "";
   String price = '';
   String aboutBundle = '';
@@ -99,8 +87,8 @@ class _ServiceDetailsState extends State<ServiceDetails>
     );
     _tabController.addListener(() {});
 
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
         price = widget.bundle.price;
@@ -120,10 +108,6 @@ class _ServiceDetailsState extends State<ServiceDetails>
       });
     });
 
-    // _scrollController!.addListener(() {
-    //   _scrollController!.createScrollPosition(_tabController);
-    //   print(_scrollController!.positions);
-    // });
     _tabController.addListener(() {
       if (_tabController.indexIsChanging) {
         setState(() {
@@ -172,25 +156,8 @@ class _ServiceDetailsState extends State<ServiceDetails>
             context,
             Text('Enter CeremonyDate', style: header18),
             Text('Fill Ceremony Date info Please!..', style: header12),
-            flatButton(
-              context,
-              'd',
-              header10,
-              0,
-              0,
-              trans,
-              0,
-              0,0
-            ),
-            flatButton(
-              context,
-              'u',
-              header13,
-              0,
-              0,
-              trans,
-              0,0,0
-            ));
+            flatButton(context, 'd', header10, 0, 0, trans, 0, 0, 0),
+            flatButton(context, 'u', header13, 0, 0, trans, 0, 0, 0));
       }
     } else {
       errorAlertDialog(
@@ -244,7 +211,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
               SliverAppBar(
                 backgroundColor: OColors.darGrey,
                 // automaticallyImplyLeading: false,
-                actions: actionBar(context, size),
+                actions: actionBar(context, size, 80, 35),
 
                 expandedHeight: 200,
 
@@ -285,21 +252,129 @@ class _ServiceDetailsState extends State<ServiceDetails>
             ],
           ),
         ),
+        bottomNavigationBar: widget.crm.cId != ''
+            ? Container(
+                height: 60,
+                color: OColors.primary.withOpacity(.2),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: widget.crm.cId.isNotEmpty
+                            ? Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      LiveBorder(
+                                          live: const SizedBox.shrink(),
+                                          radius: 30,
+                                          child: CircleAvatar(
+                                              radius: 10,
+                                              backgroundImage: NetworkImage(
+                                                '${api}public/uploads/${widget.crm.userFid.username}/ceremony/${widget.crm.cImage}',
+                                              ))),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 8.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              widget.crm.ceremonyType,
+                                              style: header12.copyWith(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              widget.crm.ceremonyDate,
+                                              style: header10,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: size.width / 3.8,
+                                  ),
+                                  booking(context, size, 80, 32),
+                                ],
+                              )
+                            : widget.crm.cId != ''
+                                ? Center(
+                                    child: Text(
+                                      'Select Ceremony',
+                                      style: header12,
+                                    ),
+                                  )
+                                : Center(
+                                    child: Text(
+                                    'Create Ceremony',
+                                    style: header12,
+                                  ))),
+                  ],
+                ),
+              )
+            : Container(
+                height: 60,
+                color: OColors.primary.withOpacity(.2),
+                child: Row(
+                  children: [
+                    //SuperVisor Profile
+
+                    LiveBorder(
+                        live: const SizedBox.shrink(),
+                        radius: 30,
+                        child: CircleAvatar(
+                            radius: 10,
+                            backgroundImage: NetworkImage(
+                              '${api}public/uploads/${superVisorInfo.username!}/profile/${superVisorInfo.avater!}',
+                            ))),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    // SUperVisor Details
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            superVisorInfo.username!,
+                            style: header13,
+                          ),
+                          const SizedBox(
+                            height: 1,
+                          ),
+                          Text(
+                            'Super Visor',
+                            style: header10,
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: size.width / 3.8,
+                    ),
+                    booking(context, size, 80, 32),
+                  ],
+                ),
+              ),
       ),
     );
   }
 
-  List<Widget> actionBar(BuildContext context, size) {
+  List<Widget> actionBar(BuildContext context, size, int w, int h) {
     return [
-      isBooking != 'true'
-          ? GestureDetector(
-              onTap: () {
-                bookinDialog(context, size);
-              },
-              child:
-                  flatButton(context, 'Booking', header12, 35, 60, prmry, 10,10,10))
-          : flatButton(
-              context, 'Already Booking', header13, 35, 60, prmry, 10,10,10),
       widget.currentUser.role == 'a'
           ? GestureDetector(
               onTap: () {
@@ -319,6 +394,19 @@ class _ServiceDetailsState extends State<ServiceDetails>
               ))
           : const SizedBox.shrink()
     ];
+  }
+
+  Container booking(BuildContext context, size, double w, double h) {
+    return Container(
+      child: isBooking != 'true'
+          ? GestureDetector(
+              onTap: () {
+                bookinDialog(context, size);
+              },
+              child: flatButton(
+                  context, 'Booking', header12, h, w, prmry, 10, 10, 10))
+          : flatButton(context, 'Booked', header13, h, w, prmry, 10, 5, 10),
+    );
   }
 
   // Container flatButton(String text) {
@@ -436,23 +524,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                 const SizedBox(
                   height: 5,
                 ),
-                GestureDetector(
-                  onTap: () {
-                    bookinDialog(context, size);
-                  },
-                  child: Container(
-                    width: 100,
-                    height: 30,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: OColors.primary),
-                    child: Center(
-                        child: Text(
-                      'Booking Now',
-                      style: header13,
-                    )),
-                  ),
-                )
+                booking(context, size, 100, 40)
               ],
             ),
             const SizedBox(height: 18),
@@ -776,6 +848,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                 ),
                 Row(
                   children: [
+                    //SuperVisor Profile
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
@@ -798,6 +871,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                     const SizedBox(
                       width: 5,
                     ),
+                    // SUperVisor Details
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -1326,7 +1400,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
       ),
       child: const Text("Booking"),
       onPressed: () {
-        orderCrmBundle(context, _contact, _crmDate, '');
+        orderCrmBundle(context, _contact, _crmDate, widget.crm.cId);
       },
     );
     // set up the AlertDialog

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../model/user/userModel.dart';
 import '../../screens/ourServices/bigMonth-TvShow.dart';
 import '../../screens/ourServices/mshengaWar-TvShow.dart';
 import '../../screens/ourServices/sherekoCards.dart';
@@ -29,26 +28,7 @@ class SherekooServices extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (BuildContext context) => SherekoCards(
                               crm: emptyCrmModel,
-                              user: User(
-                                  id: '',
-                                  username: '',
-                                  firstname: '',
-                                  lastname: '',
-                                  avater: '',
-                                  phoneNo: '',
-                                  email: '',
-                                  gender: '',
-                                  role: '',
-                                  isCurrentUser: '',
-                                  address: '',
-                                  bio: '',
-                                  meritalStatus: '',
-                                  totalPost: '',
-                                  isCurrentBsnAdmin: '',
-                                  isCurrentCrmAdmin: '',
-                                  totalFollowers: '',
-                                  totalFollowing: '',
-                                  totalLikes: ''),
+                              user:emptyUser,
                             )));
               },
              
@@ -59,8 +39,9 @@ class SherekooServices extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) => const SherekoService(
+                        builder: (BuildContext context) =>  SherekoService(
                               from: 'crmBundle',
+                              crm: emptyCrmModel,
                             )));
               },
               child: ourServices(context, 'Ceremony Bundle')),

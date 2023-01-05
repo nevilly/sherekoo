@@ -515,16 +515,17 @@ class PostTemplateState extends State<PostTemplate> {
                     builder: (BuildContext context) => Livee(
                           ceremony: CeremonyModel(
                               cId: widget.sherekoo.ceremonyId,
-                              codeNo: '',
-                              ceremonyType: '',
-                              cName: '',
+                              codeNo: widget.sherekoo.crmInfo.codeNo,
+                              ceremonyType:
+                                  widget.sherekoo.crmInfo.ceremonyType,
+                              cName: widget.sherekoo.crmInfo.cName,
                               fId: widget.sherekoo.crmInfo.fId,
                               sId: widget.sherekoo.crmInfo.sId,
                               cImage: widget.sherekoo.crmInfo.cImage,
                               ceremonyDate:
                                   widget.sherekoo.crmInfo.ceremonyDate,
-                              contact: '',
-                              admin: '',
+                              contact: widget.sherekoo.crmInfo.contact,
+                              admin: widget.sherekoo.crmInfo.admin,
                               isInFuture: widget.sherekoo.crmInfo.isInFuture,
                               isCrmAdmin: widget.sherekoo.crmInfo.isCrmAdmin,
                               likeNo: '',
@@ -534,10 +535,14 @@ class PostTemplateState extends State<PostTemplate> {
                                   id: widget.sherekoo.crmInfo.userFid.id,
                                   username:
                                       widget.sherekoo.crmInfo.userFid.username,
-                                  firstname: '',
-                                  lastname: '',
-                                  avater: '',
-                                  phoneNo: '',
+                                  firstname:
+                                      widget.sherekoo.crmInfo.userFid.firstname,
+                                  lastname:
+                                      widget.sherekoo.crmInfo.userFid.lastname,
+                                  avater:
+                                      widget.sherekoo.crmInfo.userFid.avater,
+                                  phoneNo:
+                                      widget.sherekoo.crmInfo.userFid.phoneNo,
                                   email: '',
                                   gender: '',
                                   role: '',

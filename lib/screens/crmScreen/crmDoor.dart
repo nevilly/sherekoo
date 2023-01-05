@@ -20,8 +20,6 @@ class _CrmDoorState extends State<CrmDoor> {
   bool viewer = false;
   @override
   void initState() {
-    // print(widget.crm.isInFuture);
-    print(widget.crm.isInFuture.toString());
     preferences.init();
     preferences.get('token').then((value) {
       setState(() {

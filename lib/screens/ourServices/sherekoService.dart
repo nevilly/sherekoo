@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:sherekoo/screens/ourServices/srvDetails.dart';
 import 'package:sherekoo/util/colors.dart';
 
+import '../../model/ceremony/crm-model.dart';
 import '../../model/crmBundle/bundle.dart';
 import '../../model/crmBundle/crmbundle-call.dart';
 import '../../model/crmPackage/crmPackage.dart';
@@ -19,8 +20,10 @@ import '../admin/crmPckSelect.dart';
 import '../admin/crnBundleOrders.dart';
 
 class SherekoService extends StatefulWidget {
+  final CeremonyModel crm;
   final String from;
-  const SherekoService({Key? key, required this.from}) : super(key: key);
+  const SherekoService({Key? key, required this.from, required this.crm})
+      : super(key: key);
 
   @override
   State<SherekoService> createState() => _SherekoServiceState();
@@ -60,11 +63,10 @@ class _SherekoServiceState extends State<SherekoService> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-        if (widget.from == 'crmBundle') {
-          getlatestPackage();
-          getCrmBundle();
-          getUser(urlGetUser);
-        }
+
+        getlatestPackage();
+        getCrmBundle();
+        getUser(urlGetUser);
       });
     });
     super.initState();
@@ -96,7 +98,9 @@ class _SherekoServiceState extends State<SherekoService> {
   }
 
   getCrmBundle() async {
-    CrmBundleCall(payload: [], status: 0).get(token, urlGetCrmBundle).then((value) {
+    CrmBundleCall(payload: [], status: 0)
+        .get(token, urlGetCrmBundle)
+        .then((value) {
       if (value.status == 200) {
         setState(() {
           bundle =
@@ -125,57 +129,19 @@ class _SherekoServiceState extends State<SherekoService> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      if (widget.from == 'crmBundle')
-                        crmBundlePosition(context),
-                      if (widget.from == 'Mr&MrsMy')
-                        rowBundlePosition(
-                          context,
-                          'Register',
-                          'Our Best Mr&Mrs My Tv Show ',
-                          'Season 01',
-                          "assets/ceremony/hs1.jpg",
-                        ),
-                      if (widget.from == 'MyBdayShow')
-                        rowBundlePosition(
-                          context,
-                          'Register',
-                          'Our Best  MyBirthMonth Tv Show ',
-                          'Season 01',
-                          "assets/ceremony/hs1.jpg",
-                        ),
+                      crmBundlePosition(context),
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 100,
                       ),
-                      if (widget.from == 'MyBdayShow')
-                        Container(
-                          padding:
-                              const EdgeInsets.only(left: 18, top: 5, right: 4),
-                          child: Text(
-                            'Season 1 it will deal with all those who get berth in january only. The show is going to be more funny and Winner will  do Offer him best ceremony ,.',
-                            style: header12.copyWith(
-                                fontWeight: FontWeight.normal),
-                          ),
+                      Container(
+                        padding:
+                            const EdgeInsets.only(left: 18, top: 5, right: 4),
+                        child: Text(
+                          pck.descr,
+                          style:
+                              header10.copyWith(fontWeight: FontWeight.normal),
                         ),
-                      if (widget.from == 'crmBundle')
-                        Container(
-                          padding:
-                              const EdgeInsets.only(left: 18, top: 5, right: 4),
-                          child: Text(
-                            pck.descr,
-                            style: header10.copyWith(
-                                fontWeight: FontWeight.normal),
-                          ),
-                        ),
-                      if (widget.from == 'Mr&MrsMy')
-                        Container(
-                          padding:
-                              const EdgeInsets.only(left: 18, top: 5, right: 4),
-                          child: Text(
-                            'Lorem ipsum  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, Excepteur sint occaecat cupidatat non proident,.',
-                            style: header11.copyWith(
-                                fontWeight: FontWeight.normal),
-                          ),
-                        ),
+                      ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 70,
                       ),
@@ -200,91 +166,40 @@ class _SherekoServiceState extends State<SherekoService> {
                           ],
                         ),
                       ),
-                      if (widget.from == 'crmBundle')
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height / 5,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: bundle.length,
-                            itemBuilder: (context, i) {
-                              final itm = bundle[i];
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              ServiceDetails(bundle: itm,currentUser:currentUser)));
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 1.0, right: 1.0),
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: crmBundle(
-                                      context,
-                                      "assets/ceremony/hs1.jpg",
-                                      itm.price,
-                                      itm.bundleType,
-                                      110),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      if (widget.from == 'Mr&MrsMy')
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height / 5,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (BuildContext context) =>
-                                  //             const ServiceDetails()));
-                                },
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height / 5,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: bundle.length,
+                          itemBuilder: (context, i) {
+                            final itm = bundle[i];
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            ServiceDetails(
+                                              crm: widget.crm,
+                                                bundle: itm,
+                                                currentUser: currentUser)));
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(
+                                    left: 1.0, right: 1.0),
+                                padding: const EdgeInsets.all(4.0),
                                 child: crmBundle(
                                     context,
                                     "assets/ceremony/hs1.jpg",
-                                    '2,500,000',
-                                    'House Part',
+                                    itm.price,
+                                    itm.bundleType,
                                     110),
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              crmBundle(context, "assets/ceremony/hs2.jpg",
-                                  '20,500,000', 'Wedding', 110),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              crmBundle(context, "assets/ceremony/b1.png",
-                                  '1,500,000', 'SendOff', 110),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              crmBundle(context, "assets/ceremony/hs2.jpg",
-                                  '3,500,000', '5 years', 110),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              crmBundle(context, "assets/ceremony/hs2.jpg",
-                                  '3,500,000', '10 years', 110),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              crmBundle(context, "assets/ceremony/hs2.jpg",
-                                  '3,500,000', '15 years', 110),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                            ],
-                          ),
+                            );
+                          },
                         ),
+                      ),
                       const SizedBox(
                         height: 15,
                       )
@@ -332,7 +247,6 @@ class _SherekoServiceState extends State<SherekoService> {
                 ),
               )
             : const SizedBox.shrink(),
-     
       ],
     );
   }
@@ -371,120 +285,6 @@ class _SherekoServiceState extends State<SherekoService> {
                   fontWeight: FontWeight.bold,
                   height: 1.3,
                   wordSpacing: 4.2),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Positioned rowBundlePosition(
-      BuildContext context, String subtitle, String title, String season, img) {
-    return Positioned(
-      top: MediaQuery.of(context).size.height / 1.0,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            // color: Colors.red,
-            width: MediaQuery.of(context).size.width,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  // color: Colors.red,
-                  margin: const EdgeInsets.only(left: 18.0),
-                  padding: const EdgeInsets.only(left: 4),
-                  width: MediaQuery.of(context).size.width / 2.1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.only(
-                            left: 15, right: 15, top: 4, bottom: 4),
-                        decoration: BoxDecoration(
-                            color: OColors.primary,
-                            border:
-                                Border.all(color: OColors.primary, width: 1.2),
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Text(
-                          subtitle,
-                          style: header14,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        title,
-                        style: header18.copyWith(
-                            fontSize: 19,
-                            letterSpacing: 0.5,
-                            fontWeight: FontWeight.bold,
-                            height: 1.3,
-                            wordSpacing: 4.2),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(right: 10),
-                  width: 100,
-                  height: 140,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.only(
-                            left: 0, right: 8, top: 4, bottom: 8),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              bottomRight: Radius.circular(10)),
-                        ),
-                        child: Text(
-                          season,
-                          style: header14.copyWith(fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          showAlertDialog(
-                              context, 'Select Ceremony ', '', '', '');
-                        },
-                        child: Stack(
-                          children: [
-                            InkWell(
-                              child: Image.asset(
-                                img,
-                                // width: 90,
-                                height: 100,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Positioned(
-                                bottom: 0,
-                                child: Container(
-                                  width: 100,
-                                  padding: const EdgeInsets.only(
-                                      left: 8, right: 8, top: 4, bottom: 4),
-                                  decoration: BoxDecoration(
-                                      color: OColors.primary.withOpacity(.8)),
-                                  child: Center(
-                                    child: Text(
-                                      'Register Now',
-                                      style: header11.copyWith(
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ),
-                                )),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
             ),
           ),
         ],
