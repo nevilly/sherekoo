@@ -4,7 +4,7 @@ import 'package:sherekoo/util/colors.dart';
 
 import '../../model/user/user-call.dart';
 import '../../model/user/userModel.dart';
-import '../../util/Preferences.dart';
+import '../../util/app-variables.dart';
 import '../../util/util.dart';
 
 class SearchUsers extends StatefulWidget {
@@ -15,15 +15,14 @@ class SearchUsers extends StatefulWidget {
 }
 
 class _SearchUsersState extends State<SearchUsers> {
-  final Preferences _preferences = Preferences();
-  String token = '';
+
 
   List<User> data = [];
 
   @override
   void initState() {
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
 
@@ -47,7 +46,8 @@ class _SearchUsersState extends State<SearchUsers> {
 
   @override
   Widget build(BuildContext context) {
-    return Autocomplete<User>(
+    return 
+    Autocomplete<User>(
       optionsBuilder: (TextEditingValue value) {
         // When the field is empty
         if (value.text.isEmpty) {

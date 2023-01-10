@@ -269,12 +269,12 @@ class PostTemplateState extends State<PostTemplate> {
                           MaterialPageRoute(
                               builder: (BuildContext context) => PostChats(
                                     postId: widget.sherekoo.pId,
-                                    chatsNo: widget.sherekoo.commentNumber,
+                                    chatsNo: widget.sherekoo.commentNumber!,
                                   )));
                     },
                     child: MyButton(
                       icon: Icons.chat_bubble,
-                      number: widget.sherekoo.commentNumber,
+                      number: widget.sherekoo.commentNumber!,
                     )),
                 const SizedBox(
                   height: 10,

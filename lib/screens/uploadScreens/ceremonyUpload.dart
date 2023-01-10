@@ -5,7 +5,6 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:sherekoo/widgets/imgWigdets/defaultAvater.dart';
@@ -13,7 +12,7 @@ import '../../model/user/user-call.dart';
 import '../../model/ceremony/crm-model.dart';
 import '../../model/ceremony/postCrm-call.dart';
 import '../../model/user/userModel.dart';
-import '../../util/Preferences.dart';
+import '../../util/app-variables.dart';
 import '../../util/appWords.dart';
 import '../../util/colors.dart';
 import '../../util/func.dart';
@@ -34,18 +33,14 @@ class CeremonyUpload extends StatefulWidget {
 }
 
 class _CeremonyUploadState extends State<CeremonyUpload> {
-  final Preferences _preferences = Preferences();
-  String token = '';
-
-  List<User> _foundUsers = []; //search
   List<CeremonyModel> data = [];
-  List<User> _allUsers = [];
+  List<User> dataUsers = [];
   User? currentUser;
 
   // Image upload
   final _picker = ImagePicker();
 
-  String selectedChereko = 'Please Choose Sherehe';
+  String selectedChereko = 'Select Ceremony';
   DateTime? _selectedDate;
 
   // wedding Data
@@ -128,36 +123,6 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
     });
   }
 
-  // Image Croping
-  Future cropImage(File imageFile) async {
-    CroppedFile? croppedFile = await ImageCropper().cropImage(
-      sourcePath: imageFile.path,
-      aspectRatioPresets: [
-        CropAspectRatioPreset.square,
-        CropAspectRatioPreset.ratio3x2,
-        CropAspectRatioPreset.original,
-        CropAspectRatioPreset.ratio4x3,
-        CropAspectRatioPreset.ratio16x9
-      ],
-      uiSettings: [
-        AndroidUiSettings(
-            toolbarTitle: 'Shereko Cropper',
-            toolbarColor: OColors.appBarColor,
-            toolbarWidgetColor: Colors.white,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false),
-        IOSUiSettings(
-          title: 'Sherekoo Cropper',
-        ),
-        // WebUiSettings(
-        //   context: context,
-        // ),
-      ],
-    );
-    if (croppedFile == null) return null;
-    return File(croppedFile.path);
-  }
-
   final List<String> _sherehe = [
     'Birthday',
     'Wedding',
@@ -168,13 +133,13 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
 
   @override
   void initState() {
-    _preferences.init();
-    _preferences.get('token').then((value) {
+    preferences.init();
+    preferences.get('token').then((value) {
       setState(() {
         token = value;
 
         getUser();
-        getAllUsers();
+        getAll();
 
         if (widget.getcurrentUser.id!.isNotEmpty) {
           currentUser = widget.getcurrentUser;
@@ -253,43 +218,26 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
       });
     });
 
-    _foundUsers = _allUsers;
     super.initState();
   }
 
-  // for_Search Result
-  void _runFilter(String enteredKeyword) {
-    List<User> results = [];
-    if (enteredKeyword.isEmpty) {
-      // if the search field is empty or only contains white-space, we'll display all users
-      results = _allUsers;
-    } else {
-      results = _allUsers
-          .where((user) => user.username!
-              .toLowerCase()
-              .contains(enteredKeyword.toLowerCase()))
-          .toList();
-      // we use the toLowerCase() method to make it case-insensitive
-    }
-
-    // Refresh the UI
-    setState(() {
-      _foundUsers = results;
+  getAll() async {
+    UsersCall(payload: [], status: 0).get(token, urlUserList).then((value) {
+      // print(value.payload);
+      if (value.status == 200) {
+        setState(() {
+          dataUsers = value.payload.map<User>((e) => User.fromJson(e)).toList();
+        });
+      }
     });
   }
+
+  // for_Search Result
 
   getUser() async {
     UsersCall(payload: [], status: 0).get(token, urlGetUser).then((value) {
       setState(() {
         currentUser = User.fromJson(value.payload);
-      });
-    });
-  }
-
-  getAllUsers() async {
-    UsersCall(payload: [], status: 0).get(token, urlUserList).then((value) {
-      setState(() {
-        _allUsers = value.payload.map<User>((e) => User.fromJson(e)).toList();
       });
     });
   }
@@ -342,7 +290,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
                         builder: (BuildContext context) =>
                             const CeremonyScreen()));
               } else {
-               fillTheBlanks(context,sysErr,altSty,odng);
+                fillTheBlanks(context, sysErr, altSty, odng);
               }
             });
           } else {
@@ -372,23 +320,21 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
                           builder: (BuildContext context) =>
                               const CeremonyScreen()));
                 } else {
-                 fillTheBlanks(context,sysErr,altSty,odng);
+                  fillTheBlanks(context, sysErr, altSty, odng);
                 }
               });
             } else {
-              
-                fillTheBlanks(context,imgInsertAlt,altSty,odng);
+              fillTheBlanks(context, imgInsertAlt, altSty, odng);
             }
           }
         } else {
-        
-          fillTheBlanks(context,msg3,altSty,odng);
+          fillTheBlanks(context, msg3, altSty, odng);
         }
       } else {
-        fillTheBlanks(context,msg2,altSty,odng);
+        fillTheBlanks(context, msg2, altSty, odng);
       }
     } else {
-      fillTheBlanks(context,msg1,altSty,odng);
+      fillTheBlanks(context, msg1, altSty, odng);
     }
   }
 
@@ -399,13 +345,16 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
       appBar: topBar(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(
             height: 5,
           ),
 
-          Text('Select Type Of Ceremony',
-              style: TextStyle(color: OColors.fontColor)),
+          Padding(
+            padding: const EdgeInsets.only(left: 25.0),
+            child: Text('Select Type Of Ceremony', style: header14),
+          ),
 
           const SizedBox(
             height: 5,
@@ -419,7 +368,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
           ),
 
           //Selected Field
-          if (selectedChereko == 'Please Choose Sherehe') pls,
+          if (selectedChereko == 'Select Ceremony') pls,
           if (selectedChereko == _sherehe[0]) birthday,
           if (selectedChereko == _sherehe[1]) wedding,
           if (selectedChereko == _sherehe[2]) sendOff,
@@ -442,10 +391,10 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
       backgroundColor: OColors.secondary,
       title: widget.getData.cId.isNotEmpty
           ? const Text('Edit ')
-          : const Text('UPLOAD'),
+          : const Text('Ceremony account'),
       centerTitle: true,
       actions: [
-        if (selectedChereko != 'Please Choose Sherehe')
+        if (selectedChereko != 'Select Ceremony')
           GestureDetector(
               onTap: () {
                 if (selectedChereko == _sherehe[0]) {
@@ -525,7 +474,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
 
   Widget get categorySelect => Container(
         height: 40,
-        margin: selectedChereko != 'Please Choose Sherehe'
+        margin: selectedChereko != 'Select Ceremony'
             ? const EdgeInsets.only(left: 20, right: 20)
             : const EdgeInsets.only(left: 20, right: 20, top: 100),
         decoration: BoxDecoration(
@@ -566,7 +515,6 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
             },
           ),
         ),
-     
       );
 
   Widget get pls =>
@@ -750,434 +698,13 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        // Profile Check If it Birthdaya Or Kigodoro
-        arg == 'birthday' || arg == 'kigodoro'
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                  color: OColors.darGrey,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Profile',
-                          style: TextStyle(
-                              color: OColors.fontColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Container(
-                              width: 45,
-                              height: 45,
-                              decoration: BoxDecoration(
-                                  color: OColors.primary,
-                                  borderRadius: BorderRadius.circular(35)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: profileImg == ''
-                                    ? const DefaultAvater(
-                                        height: 45, radius: 15, width: 45)
-                                    : UserAvater(
-                                        avater: profileImg,
-                                        height: 45,
-                                        url: '/profile/',
-                                        username: C_Username,
-                                        width: 45),
-                              ),
-                            ),
-                            Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: cName == ""
-                                      ? Text(
-                                          ' Sherekoo Admin',
-                                          style: TextStyle(
-                                              color: OColors.fontColor,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 13),
-                                        )
-                                      : Text(cName,
-                                          style: TextStyle(
-                                              color: OColors.fontColor,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 13)),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    oneButtonPressed(arg);
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(bottom: 8),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.red,
-                                    ),
-                                    child: const Padding(
-                                      padding: EdgeInsets.only(
-                                          bottom: 4.0,
-                                          left: 8,
-                                          right: 8,
-                                          top: 4),
-                                      child: Text(
-                                        'Select Other User ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            fontSize: 13),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            :
-            // Else If Profile is wedding
-            arg == 'wedding'
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Male Profile
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          width: 143,
-                          child: Card(
-                            color: OColors.darGrey,
-                            child: Column(
-                              children: [
-                                // title Male
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'Male',
-                                    style: TextStyle(
-                                        color: OColors.fontColor,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14),
-                                  ),
-                                ),
-
-                                //avater Male Display
-                                SizedBox(
-                                    width: 40,
-                                    height: 40,
-                                    child: currentUser!.avater != ""
-                                        ? UserAvater(
-                                            avater: currentUser!.avater!,
-                                            height: 45,
-                                            url: '/profile/',
-                                            username: currentUser!.username!,
-                                            width: 45)
-
-                                        // CircleAvatar(
-                                        //     backgroundImage: NetworkImage(api +
-                                        //             'public/uploads/' +
-                                        //             currentUser!.username +
-                                        //             '/profile/' +
-                                        //             currentUser!.avater
-                                        //         // height: 45,
-                                        //         // fit: BoxFit.cover,
-                                        //         ))
-                                        : const DefaultAvater(
-                                            height: 45, radius: 15, width: 45)),
-
-                                //last Name Display
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    currentUser!.lastname!,
-                                    style: TextStyle(
-                                        color: OColors.fontColor,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 13),
-                                  ),
-                                ),
-
-                                // Slect user Buttons
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 8),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.red.shade200,
-                                  ),
-                                  child: const Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom: 4.0, left: 8, right: 8, top: 4),
-                                    child: Text(
-                                      'Selected User ',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                          fontSize: 13),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      //Female Profile
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          width: 143,
-                          child: Card(
-                            color: OColors.darGrey,
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'Female',
-                                    style: TextStyle(
-                                        color: OColors.fontColor,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14),
-                                  ),
-                                ),
-                                SizedBox(
-                                    width: 40,
-                                    height: 40,
-                                    child: profileImg == ''
-                                        ? const CircleAvatar(
-                                            backgroundImage: AssetImage(
-                                                'assets/ceremony/female.png'),
-                                          )
-                                        : CircleAvatar(
-                                            backgroundImage: NetworkImage(
-                                            '${api + 'public/uploads/' + C_Username}/profile/' +
-                                                profileImg,
-                                            // height: 45,
-                                            // fit: BoxFit.cover,
-                                          ))),
-
-                                Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: cName == ''
-                                        ? Text(
-                                            'Wife Name..',
-                                            style: TextStyle(
-                                                color: OColors.fontColor,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 13),
-                                          )
-                                        : Text(
-                                            cName,
-                                            style: TextStyle(
-                                                color: OColors.fontColor,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 13),
-                                          )),
-
-                                //Savee data
-                                GestureDetector(
-                                  onTap: () {
-                                    oneButtonPressed('wedding');
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(bottom: 8),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.red,
-                                    ),
-                                    child: const Padding(
-                                      padding: EdgeInsets.only(
-                                          bottom: 4.0,
-                                          left: 8,
-                                          right: 8,
-                                          top: 4),
-                                      child: Text(
-                                        'Select Wife ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            fontSize: 13),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  )
-                :
-
-                // Else if Profile is sendOff or kitchernPart
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Male Side
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          width: 142,
-                          child: Card(
-                            color: OColors.darGrey,
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'Male',
-                                    style: TextStyle(
-                                        color: OColors.fontColor,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 40,
-                                  height: 40,
-                                  child: profileImg == ''
-                                      ? const CircleAvatar(
-                                          backgroundImage: AssetImage(
-                                              'assets/ceremony/male.png'),
-                                        )
-                                      : UserAvater(
-                                          avater: profileImg,
-                                          height: 45,
-                                          url: '/profile/',
-                                          username: C_Username,
-                                          width: 45),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: cName == ''
-                                      ? Text(
-                                          'Your Husband..',
-                                          style: TextStyle(
-                                              color: OColors.fontColor,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 13),
-                                        )
-                                      : Text(
-                                          cName,
-                                          style: TextStyle(
-                                              color: OColors.fontColor,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 13),
-                                        ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    oneButtonPressed(arg);
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(bottom: 8),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.red,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          bottom: 4.0,
-                                          left: 8,
-                                          right: 8,
-                                          top: 4),
-                                      child: Text(
-                                        'Select User ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: OColors.fontColor,
-                                            fontSize: 13),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      //Femaile Side
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          width: 142,
-                          child: Card(
-                            color: OColors.darGrey,
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'Female',
-                                    style: TextStyle(
-                                        color: OColors.fontColor,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 40,
-                                  height: 40,
-                                  child: currentUser!.avater!.isNotEmpty
-                                      ? CircleAvatar(
-                                          backgroundImage: NetworkImage(
-                                              '${api}public/uploads/${currentUser!.username}/profile/${currentUser!.avater}'
-                                              // height: 45,
-                                              // fit: BoxFit.cover,
-                                              ))
-                                      : const CircleAvatar(
-                                          backgroundImage: AssetImage(
-                                              'assets/ceremony/female.png')),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    currentUser!.firstname!,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: OColors.fontColor,
-                                        fontSize: 13),
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 8),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.red.shade200,
-                                  ),
-                                  child: const Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom: 4.0, left: 8, right: 8, top: 4),
-                                    child: Text(
-                                      'Selected User ',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                          fontSize: 13),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+        if (arg == 'birthday') bdayProfile(profileImg, C_Username, cName, arg),
+        if (arg == 'kigodoro') bdayProfile(profileImg, C_Username, cName, arg),
+        if (arg == 'wedding') wddProfile(profileImg, C_Username, cName),
+        if (arg == 'sendOff')
+          sendOkitchnProfile(profileImg, C_Username, cName, arg),
+        if (arg == 'kitchernPart')
+          sendOkitchnProfile(profileImg, C_Username, cName, arg),
       ],
     );
   }
@@ -1239,8 +766,7 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
   }
 
   ceremonyDate(title, dateController) {
-    return
-     Card(
+    return Card(
         color: OColors.darGrey,
         margin: const EdgeInsets.only(left: 10, right: 10),
         child: Column(
@@ -1289,7 +815,6 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
             ),
           ],
         ));
-  
   }
 
   backgroundProfile(imgType, slctdChereko, img) {
@@ -1437,205 +962,660 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
     );
   }
 
-  // Bottom Model For Search
-  void oneButtonPressed(ceremonyType) {
-    showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return Container(
-            // color: const Color(0xFF737373),
-            color: OColors.secondary,
-            height: 600,
-            child: Container(
-                decoration: BoxDecoration(
-                    color: OColors.secondary,
-                    // color: Theme.of(context).canvasColor,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(25),
-                      topRight: Radius.circular(25),
-                    )),
-                child: Column(
-                  children: [
-                    // Search Container
-                    Container(
-                      height: 40,
-                      margin:
-                          const EdgeInsets.only(left: 35, top: 20, right: 35),
+  Row sendOkitchnProfile(profileImg, C_Username, cName, String arg) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        // Male Side
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(
+            width: 142,
+            child: Card(
+              color: OColors.darGrey,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Male',
+                      style: TextStyle(
+                          color: OColors.fontColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14),
+                    ),
+                  ),
+                  //Profile
+                  SizedBox(
+                    width: 40,
+                    height: 40,
+                    child: profileImg == ''
+                        ? const CircleAvatar(
+                            backgroundImage:
+                                AssetImage('assets/ceremony/male.png'),
+                          )
+                        : CircleAvatar(
+                            radius: 30,
+                            child: UserAvater(
+                                avater: profileImg,
+                                height: 45,
+                                url: '/profile/',
+                                username: C_Username,
+                                width: 45),
+                          ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: cName == ''
+                        ? Text(
+                            'Your Husband..',
+                            style: TextStyle(
+                                color: OColors.fontColor,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13),
+                          )
+                        : Text(
+                            cName,
+                            style: TextStyle(
+                                color: OColors.fontColor,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13),
+                          ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      // oneButtonPressed(arg);
+                      SearchMembers(context, arg);
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 8),
                       decoration: BoxDecoration(
-                        border: Border.all(width: 1.5, color: Colors.grey),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.red,
                       ),
-                      child: TextField(
-                        cursorColor: Colors.grey[500]!.withOpacity(0.2),
-                        decoration: InputDecoration(
-                            prefixIcon: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 1.0),
-                              child: Icon(
-                                Icons.search,
-                                size: 22,
-                                color: OColors.primary,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: 4.0, left: 8, right: 8, top: 4),
+                        child: Text(
+                          'Select User ',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: OColors.fontColor,
+                              fontSize: 13),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+
+        //Femaile Side
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(
+            width: 142,
+            child: Card(
+              color: OColors.darGrey,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Female',
+                      style: TextStyle(
+                          color: OColors.fontColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 40,
+                    height: 40,
+                    child: currentUser!.avater!.isNotEmpty
+                        ? CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                '${api}public/uploads/${currentUser!.username}/profile/${currentUser!.avater}'
+                                // height: 45,
+                                // fit: BoxFit.cover,
+                                ))
+                        : const CircleAvatar(
+                            backgroundImage:
+                                AssetImage('assets/ceremony/female.png')),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      currentUser!.firstname!,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: OColors.fontColor,
+                          fontSize: 13),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.red.shade200,
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.only(
+                          bottom: 4.0, left: 8, right: 8, top: 4),
+                      child: Text(
+                        'Selected User ',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 13),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Row wddProfile(profileImg, C_Username, cName) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        // Male Profile
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(
+            width: 143,
+            child: Card(
+              color: OColors.darGrey,
+              child: Column(
+                children: [
+                  // title Male
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Male',
+                      style: TextStyle(
+                          color: OColors.fontColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14),
+                    ),
+                  ),
+
+                  //avater Male Display
+                  SizedBox(
+                      width: 40,
+                      height: 40,
+                      child: currentUser!.avater != ""
+                          ? UserAvater(
+                              avater: currentUser!.avater!,
+                              height: 45,
+                              url: '/profile/',
+                              username: currentUser!.username!,
+                              width: 45)
+
+                          // CircleAvatar(
+                          //     backgroundImage: NetworkImage(api +
+                          //             'public/uploads/' +
+                          //             currentUser!.username +
+                          //             '/profile/' +
+                          //             currentUser!.avater
+                          //         // height: 45,
+                          //         // fit: BoxFit.cover,
+                          //         ))
+                          : const DefaultAvater(
+                              height: 45, radius: 15, width: 45)),
+
+                  //last Name Display
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      currentUser!.lastname!,
+                      style: TextStyle(
+                          color: OColors.fontColor,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 13),
+                    ),
+                  ),
+
+                  // Slect user Buttons
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.red.shade200,
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.only(
+                          bottom: 4.0, left: 8, right: 8, top: 4),
+                      child: Text(
+                        'Selected User ',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 13),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+
+        //Female Profile
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(
+            width: 143,
+            child: Card(
+              color: OColors.darGrey,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Female',
+                      style: TextStyle(
+                          color: OColors.fontColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14),
+                    ),
+                  ),
+                  SizedBox(
+                      width: 40,
+                      height: 40,
+                      child: profileImg == ''
+                          ? const CircleAvatar(
+                              backgroundImage:
+                                  AssetImage('assets/ceremony/female.png'),
+                            )
+                          : CircleAvatar(
+                              backgroundImage: NetworkImage(
+                              '${api}public/uploads/$C_Username/profile/$profileImg',
+                              // height: 45,
+                              // fit: BoxFit.cover,
+                            ))),
+
+                  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: cName == ''
+                          ? Text(
+                              'Wife Name..',
+                              style: TextStyle(
+                                  color: OColors.fontColor,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 13),
+                            )
+                          : Text(
+                              cName,
+                              style: TextStyle(
+                                  color: OColors.fontColor,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 13),
+                            )),
+
+                  //Savee data
+                  GestureDetector(
+                    onTap: () {
+                      // oneButtonPressed('wedding');
+                      SearchMembers(context, 'wedding');
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.red,
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.only(
+                            bottom: 4.0, left: 8, right: 8, top: 4),
+                        child: Text(
+                          'Select Wife ',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 13),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Padding bdayProfile(profileImg, C_Username, cName, String arg) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+          color: OColors.darGrey,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Profile',
+                  style: TextStyle(
+                      color: OColors.fontColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: profileImg == ''
+                          ? const CircleAvatar(
+                              child: DefaultAvater(
+                                  height: 45, radius: 15, width: 45),
+                            )
+                          : accountForBdayKgodoro(context, profileImg,
+                              C_Username, '/profile/', 45, 45, 30),
+                    ),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: cName == ""
+                              ? Text(
+                                  ' Sherekoo Admin',
+                                  style: TextStyle(
+                                      color: OColors.fontColor,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 13),
+                                )
+                              : Text(cName,
+                                  style: TextStyle(
+                                      color: OColors.fontColor,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 13)),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            SearchMembers(context, arg);
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.red,
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.only(
+                                  bottom: 4.0, left: 8, right: 8, top: 4),
+                              child: Text(
+                                'Select Other User ',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize: 13),
                               ),
                             ),
-                            border: InputBorder.none,
-                            hintText: 'Search ...',
-                            hintStyle: TextStyle(
-                                fontSize: 14,
-                                height: 1.5,
-                                color: OColors.fontColor)),
-                        style: TextStyle(color: OColors.fontColor),
-                        onChanged: (value) => _runFilter(value),
-                      ),
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                  ],
+                ),
+              ),
+            ],
+          )),
+    );
+  }
 
-                    // Searched Results
-                    Expanded(
-                      child: SizedBox(
-                        // height: 330,
-                        child: _foundUsers.isNotEmpty
-                            ? ListView.builder(
-                                itemCount: _foundUsers.length,
-                                itemBuilder: (BuildContext context, index) {
-                                  return SingleChildScrollView(
-                                    child: Column(
+// Alert Widget
+  SearchMembers(BuildContext context, ceremonyType) async {
+    // set up the buttons
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      insetPadding: const EdgeInsets.only(right: 1, left: 1),
+      contentPadding: EdgeInsets.zero,
+      titlePadding: const EdgeInsets.only(top: 5),
+      backgroundColor: OColors.secondary,
+      title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.close,
+              size: 35,
+              color: OColors.fontColor,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 38.0, top: 8, bottom: 8),
+          child: Text('Search',
+              style:
+                  header18.copyWith(fontSize: 25, fontWeight: FontWeight.bold)),
+        ),
+      ]),
+      content: Column(
+        children: [
+          SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Autocomplete<User>(
+                optionsBuilder: (TextEditingValue value) {
+                  // When the field is empty
+                  if (value.text.isEmpty) {
+                    return [];
+                  }
+
+                  // The logic to find out which ones should appear
+                  return dataUsers
+                      .where((d) => d.username!
+                          .toLowerCase()
+                          .contains(value.text.toLowerCase()))
+                      .toList();
+                },
+                displayStringForOption: (User option) => option.username!,
+                fieldViewBuilder: (BuildContext context,
+                    TextEditingController fieldTextEditingController,
+                    FocusNode fieldFocusNode,
+                    VoidCallback onFieldSubmitted) {
+                  return TextField(
+                    controller: fieldTextEditingController,
+                    focusNode: fieldFocusNode,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.only(left: 18),
+                      border: InputBorder.none,
+                      hintStyle: TextStyle(
+                          color: OColors.primary, fontSize: 14, height: 1.5),
+                      hintText: "Search User..",
+                    ),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: OColors.fontColor),
+                  );
+                },
+                optionsViewBuilder: (BuildContext context,
+                    AutocompleteOnSelected<User> onSelected,
+                    Iterable<User> options) {
+                  return Align(
+                    alignment: Alignment.topLeft,
+                    child: Material(
+                      child: Container(
+                        width: 300,
+                        color: OColors.secondary,
+                        child: ListView.builder(
+                          padding: const EdgeInsets.all(10.0),
+                          itemCount: options.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final User option = options.elementAt(index);
+
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (ceremonyType == 'birthday') {
+                                    bAvater = option.avater!;
+                                    bId = option.id!;
+                                    bFirstName = option.firstname!;
+
+                                    bUsername = option.username!;
+                                  }
+
+                                  if (ceremonyType == 'wedding') {
+                                    wedAvater = option.avater!;
+                                    wedId = option.id!;
+                                    wedLastname = option.lastname!;
+                                    wedUsername = option.username!;
+                                  }
+
+                                  if (ceremonyType == 'sendOff') {
+                                    sAvater = option.avater!;
+                                    sId = option.id!;
+                                    sLastName = option.lastname!;
+                                    sUsername = option.username!;
+                                  }
+
+                                  if (ceremonyType == 'kitchernPart') {
+                                    kAvater = option.avater!;
+                                    kId = option.id!;
+                                    kFirstName = option.lastname!;
+                                    kUsername = option.username!;
+                                  }
+
+                                  if (ceremonyType == 'kigodoro') {
+                                    gAvater = option.avater!;
+                                    gId = option.id!;
+                                    gFirstName = option.lastname!;
+                                    gUsername = option.username!;
+                                  }
+                                });
+                                Navigator.of(context).pop();
+                              },
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    Row(
                                       children: [
                                         Container(
-                                          margin: const EdgeInsets.only(
-                                              top: 1, left: 10, right: 10),
-                                          child: Card(
-                                            color: OColors.darGrey,
-                                            child: ListTile(
-                                                onTap: () {
-                                                  setState(() {
-                                                    if (ceremonyType ==
-                                                        'birthday') {
-                                                      bAvater =
-                                                          _foundUsers[index]
-                                                              .avater!;
-                                                      bId =
-                                                          _foundUsers[index].id!;
-                                                      bFirstName =
-                                                          _foundUsers[index]
-                                                              .firstname!;
-
-                                                      bUsername =
-                                                          _foundUsers[index]
-                                                              .firstname!;
-                                                    }
-
-                                                    if (ceremonyType ==
-                                                        'wedding') {
-                                                      wedAvater =
-                                                          _foundUsers[index]
-                                                              .avater!;
-                                                      wedId =
-                                                          _foundUsers[index].id!;
-                                                      wedLastname =
-                                                          _foundUsers[index]
-                                                              .lastname!;
-                                                      wedUsername =
-                                                          _foundUsers[index]
-                                                              .username!;
-                                                    }
-
-                                                    if (ceremonyType ==
-                                                        'sendOff') {
-                                                      sAvater =
-                                                          _foundUsers[index]
-                                                              .avater!;
-                                                      sId =
-                                                          _foundUsers[index].id!;
-                                                      sLastName =
-                                                          _foundUsers[index]
-                                                              .lastname!;
-                                                      sUsername =
-                                                          _foundUsers[index]
-                                                              .username!;
-                                                    }
-
-                                                    if (ceremonyType ==
-                                                        'kitchernPart') {
-                                                      kAvater =
-                                                          _foundUsers[index]
-                                                              .avater!;
-                                                      kId =
-                                                          _foundUsers[index].id!;
-                                                      kFirstName =
-                                                          _foundUsers[index]
-                                                              .lastname!;
-                                                      kUsername =
-                                                          _foundUsers[index]
-                                                              .username!;
-                                                    }
-
-                                                    if (ceremonyType ==
-                                                        'kigodoro') {
-                                                      gAvater =
-                                                          _foundUsers[index]
-                                                              .avater!;
-                                                      gId =
-                                                          _foundUsers[index].id!;
-                                                      gFirstName =
-                                                          _foundUsers[index]
-                                                              .lastname!;
-                                                      gUsername =
-                                                          _foundUsers[index]
-                                                              .username!;
-                                                    }
-                                                  });
-                                                  Navigator.pop(context);
-                                                },
-                                                leading:
-                                                    _foundUsers[index].avater !=
-                                                            ''
-                                                        ? CircleAvatar(
-                                                            backgroundImage:
-                                                                NetworkImage(
-                                                            '${api}public/uploads/${_foundUsers[index].username}/profile/${_foundUsers[index].avater}',
-                                                            // height: 45,
-                                                            // fit: BoxFit.cover,
-                                                          ))
-                                                        : const DefaultAvater(
-                                                            height: 40,
-                                                            radius: 15,
-                                                            width: 40),
-                                                title: Text(
-                                                    _foundUsers[index].username!,
-                                                    style: TextStyle(
-                                                        color:
-                                                            OColors.fontColor)),
-                                                subtitle:
-                                                    _foundUsers[index].gender == 'f'
-                                                        ? Text('Female',
-                                                            style: TextStyle(
-                                                                color: OColors
-                                                                    .fontColor))
-                                                        : Text('Male',
-                                                            style: TextStyle(
-                                                                color: OColors
-                                                                    .fontColor)),
-                                                trailing:
-                                                    const Icon(Icons.select_all)),
-                                          ),
+                                          width: 35,
+                                          height: 35,
+                                          margin:
+                                              const EdgeInsets.only(right: 10),
+                                          child: option.avater != ''
+                                              ? Image.network(
+                                                  '${api}public/uploads/${option.username}/profile/${option.avater}',
+                                                  fit: BoxFit.cover,
+                                                  height: 40,
+                                                )
+                                              : const CircleAvatar(
+                                                  child: DefaultAvater(
+                                                      height: 45,
+                                                      radius: 15,
+                                                      width: 45),
+                                                ),
                                         ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(option.username!,
+                                                style: const TextStyle(
+                                                    color: Colors.white)),
+                                            const SizedBox(
+                                              height: 4,
+                                            ),
+                                            // Text(option.busnessType,
+                                            //     style: const TextStyle(
+                                            //         color: Colors.white,
+                                            //         fontSize: 12,
+                                            //         fontStyle: FontStyle.italic))
+                                          ],
+                                        )
                                       ],
                                     ),
-                                  );
-                                })
-                            : Text(
-                                'No results found',
-                                style: TextStyle(
-                                    fontSize: 24, color: OColors.fontColor),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    Divider(
+                                      height: 1.0,
+                                      color: Colors.black.withOpacity(0.24),
+                                      thickness: 1.0,
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                  ],
+                                ),
                               ),
+                            );
+                          },
+                        ),
                       ),
-                    )
-                  ],
-                )),
-          );
-        });
+                    ),
+                  );
+                },
+                // onSelected: (User selection) {
+                //   print('am hre ');
+                //   setState(() {
+                //     if (ceremonyType == 'birthday') {
+                //       bAvater = selection.avater!;
+                //       bId = selection.id!;
+                //       bFirstName = selection.firstname!;
+
+                //       bUsername = selection.username!;
+                //     }
+
+                //     if (ceremonyType == 'wedding') {
+                //       wedAvater = selection.avater!;
+                //       wedId = selection.id!;
+                //       wedLastname = selection.lastname!;
+                //       wedUsername = selection.username!;
+                //     }
+
+                //     if (ceremonyType == 'sendOff') {
+                //       sAvater = selection.avater!;
+                //       sId = selection.id!;
+                //       sLastName = selection.lastname!;
+                //       sUsername = selection.username!;
+                //     }
+
+                //     if (ceremonyType == 'kitchernPart') {
+                //       kAvater = selection.avater!;
+                //       kId = selection.id!;
+                //       kFirstName = selection.lastname!;
+                //       kUsername = selection.username!;
+                //     }
+
+                //     if (ceremonyType == 'kigodoro') {
+                //       gAvater = selection.avater!;
+                //       gId = selection.id!;
+                //       gFirstName = selection.lastname!;
+                //       gUsername = selection.username!;
+                //     }
+                //   });
+                //   Navigator.of(context).pop();
+                // },
+              ))
+        ],
+      ),
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   // Date Selecting Function
@@ -1671,7 +1651,6 @@ class _CeremonyUploadState extends State<CeremonyUpload> {
             affinity: TextAffinity.upstream));
     }
   }
-
 }
 
 class AlwaysDisabledFocusNode extends FocusNode {

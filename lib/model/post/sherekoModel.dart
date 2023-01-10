@@ -14,7 +14,7 @@ class SherekooModel {
   User creatorInfo;
 
   // total Comments
-  final String commentNumber;
+   String? commentNumber;
   final String createdDate;
 
   //Ceremony Info

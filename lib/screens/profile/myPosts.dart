@@ -114,7 +114,7 @@ class _MyPostsState extends State<MyPosts> {
                   MaterialPageRoute(
                       builder: (_) => PostChats(
                             postId: itm.pId,
-                            chatsNo: itm.commentNumber,
+                            chatsNo: itm.commentNumber!,
                           )));
             },
             child: Padding(
@@ -128,20 +128,6 @@ class _MyPostsState extends State<MyPosts> {
                               borderRadius: BorderRadius.circular(29.0)),
                           child: post[index].vedeo != ''
                               ?
-
-                              //  Image.network(
-                              //     api +
-                              //         'public/uploads/' +
-                              //         post[index].username +
-                              //         '/posts/' +
-                              //         post[index].vedeo,
-                              //     fit: BoxFit.cover,
-                              //     errorBuilder: (context, error, stackTrace) {
-                              //       return Image.asset('assets/logo/noimage.pgn',
-                              //           fit: BoxFit.fitWidth);
-                              //     },
-                              //   )
-
                               FadeInImage(
                                   image: NetworkImage(
                                       '${api}public/uploads/${itm.creatorInfo.username}/posts/${itm.vedeo}'),
@@ -184,7 +170,7 @@ class _MyPostsState extends State<MyPosts> {
                                       width: 3,
                                     ),
                                     Text(
-                                      itm.commentNumber,
+                                      itm.commentNumber!,
                                       style: const TextStyle(
                                           color: Colors.white, fontSize: 10),
                                     ),

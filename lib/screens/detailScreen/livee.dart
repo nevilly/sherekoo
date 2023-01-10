@@ -75,8 +75,8 @@ class _LiveeState extends State<Livee> with SingleTickerProviderStateMixin {
     // print('whats null');
     // print(widget.ceremony.fId);
     // print(widget.ceremony.sId);
-    print('widget.ceremony.admin');
-    print(widget.ceremony.ceremonyType);
+    // print('widget.ceremony.admin');
+    // print(widget.ceremony.ceremonyType);
 
     preferences.init();
     preferences.get('token').then((value) {

@@ -398,49 +398,22 @@ Row weddingProfile(BuildContext context, widget) {
     mainAxisAlignment: MainAxisAlignment.spaceAround,
     children: [
       widget.ceremony.userFid.avater.isNotEmpty
-          ? Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.fontColor,
-                    // OColors.darGrey,
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.primary,
-                  ],
+          ? Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(20.0),
                 ),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(3.0),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(20.0),
-                  ),
-                  child: UserAvater(
-                      avater: widget.ceremony.userFid.avater,
-                      url: '/profile/',
-                      username: widget.ceremony.userFid.username,
-                      height: 80,
-                      width: 80),
-                ),
+                child: UserAvater(
+                    avater: widget.ceremony.userFid.avater,
+                    url: '/profile/',
+                    username: widget.ceremony.userFid.username,
+                    height: 80,
+                    width: 80),
               ),
             )
           : Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.fontColor,
-                    // OColors.darGrey,
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.primary,
-                  ],
-                ),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: const ClipRRect(
@@ -452,63 +425,25 @@ Row weddingProfile(BuildContext context, widget) {
       widget.ceremony.userSid.avater.isNotEmpty
           ? Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.fontColor,
-                    // OColors.darGrey,
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.primary,
-                  ],
-                ),
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      OColors.primary2,
-                      OColors.darGrey,
-                      OColors.fontColor,
-                      // OColors.darGrey,
-                      OColors.primary2,
-                      OColors.darGrey,
-                      OColors.primary,
-                    ],
+              child: Padding(
+                padding: const EdgeInsets.all(3.0),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(20.0),
                   ),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(20.0),
-                    ),
-                    child: UserAvater(
-                        avater: widget.ceremony.userSid.avater,
-                        url: '/profile/',
-                        username: widget.ceremony.userSid.username,
-                        height: 80,
-                        width: 80),
-                  ),
+                  child: UserAvater(
+                      avater: widget.ceremony.userSid.avater,
+                      url: '/profile/',
+                      username: widget.ceremony.userSid.username,
+                      height: 80,
+                      width: 80),
                 ),
               ),
             )
           : Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.fontColor,
-                    // OColors.darGrey,
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.primary,
-                  ],
-                ),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: const Padding(
@@ -560,17 +495,6 @@ Row kichernPartProfile(BuildContext context, widget) {
               widget.ceremony.userFid.avater.isNotEmpty
           ? Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.fontColor,
-                    // OColors.darGrey,
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.primary,
-                  ],
-                ),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Padding(
@@ -590,32 +514,10 @@ Row kichernPartProfile(BuildContext context, widget) {
             )
           : Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.fontColor,
-                    // OColors.darGrey,
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.primary,
-                  ],
-                ),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      OColors.primary2,
-                      OColors.darGrey,
-                      OColors.fontColor,
-                      // OColors.darGrey,
-                      OColors.primary2,
-                      OColors.darGrey,
-                      OColors.primary,
-                    ],
-                  ),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Padding(
@@ -631,17 +533,6 @@ Row kichernPartProfile(BuildContext context, widget) {
               widget.ceremony.userSid.avater.isNotEmpty
           ? Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.fontColor,
-                    // OColors.darGrey,
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.primary,
-                  ],
-                ),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Padding(
@@ -658,17 +549,17 @@ Row kichernPartProfile(BuildContext context, widget) {
             )
           : Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.fontColor,
-                    // OColors.darGrey,
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.primary,
-                  ],
-                ),
+                // gradient: LinearGradient(
+                //   colors: [
+                //     OColors.primary2,
+                //     OColors.darGrey,
+                //     OColors.fontColor,
+                //     // OColors.darGrey,
+                //     OColors.primary2,
+                //     OColors.darGrey,
+                //     OColors.primary,
+                //   ],
+                // ),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Padding(
@@ -690,17 +581,6 @@ Row sendProfile(BuildContext context, widget) {
               widget.ceremony.userFid.avater.isNotEmpty
           ? Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.fontColor,
-                    // OColors.darGrey,
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.primary,
-                  ],
-                ),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Padding(
@@ -720,32 +600,10 @@ Row sendProfile(BuildContext context, widget) {
             )
           : Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.fontColor,
-                    // OColors.darGrey,
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.primary,
-                  ],
-                ),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      OColors.primary2,
-                      OColors.darGrey,
-                      OColors.fontColor,
-                      // OColors.darGrey,
-                      OColors.primary2,
-                      OColors.darGrey,
-                      OColors.primary,
-                    ],
-                  ),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Padding(
@@ -761,17 +619,6 @@ Row sendProfile(BuildContext context, widget) {
               widget.ceremony.userSid.avater.isNotEmpty
           ? Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.fontColor,
-                    // OColors.darGrey,
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.primary,
-                  ],
-                ),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Padding(
@@ -788,17 +635,6 @@ Row sendProfile(BuildContext context, widget) {
             )
           : Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.fontColor,
-                    // OColors.darGrey,
-                    OColors.primary2,
-                    OColors.darGrey,
-                    OColors.primary,
-                  ],
-                ),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Padding(
@@ -1082,6 +918,27 @@ Container kigodoroProfileCrm(
             username: itm.userFid.username!,
             height: h,
             width: w),
+      ),
+    ),
+  );
+}
+
+//Ceremony Account Creating
+Container accountForBdayKgodoro(BuildContext context, avater, uname,
+    String drUrl, double w, double h, double r) {
+  return Container(
+    decoration: BoxDecoration(
+      border: Border.all(color: OColors.primary, width: 1.5),
+      borderRadius: BorderRadius.circular(20),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(
+          Radius.circular(r),
+        ),
+        child: UserAvater(
+            avater: avater, url: drUrl, username: uname, height: h, width: w),
       ),
     ),
   );
@@ -1392,7 +1249,10 @@ paymentMethod(BuildContext context, CrmViewersModel itm, User user) async {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => Payments(crmVwr: itm, user: user,)));
+                              builder: (_) => Payments(
+                                    crmVwr: itm,
+                                    user: user,
+                                  )));
                     },
                     child: Text('Vodacom', style: header14)),
                 //Airtel
@@ -1437,8 +1297,7 @@ Container textFieldContainer(
     Color bkcolor,
     prefixIco,
     TextStyle style,
-    TextInputType kyboard
-    ) {
+    TextInputType kyboard) {
   return Container(
     width: w,
     height: h,
