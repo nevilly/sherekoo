@@ -31,6 +31,7 @@ class _MyCrmnState extends State<MyCrmn> {
     preferences.init();
     preferences.get('token').then((value) {
       setState(() {
+        print(widget.userId);
         token = value;
         getCeremonyPosts(widget.userId, offset, limit);
       });
@@ -44,7 +45,6 @@ class _MyCrmnState extends State<MyCrmn> {
         onPage(page);
       }
     });
-
     super.initState();
   }
 
@@ -162,7 +162,6 @@ class _MyCrmnState extends State<MyCrmn> {
                                   totalLikes: ''),
                             ),
                           )));
-           
             },
             child: Padding(
               padding: const EdgeInsets.all(2.0),

@@ -15,6 +15,7 @@ import '../../util/modInstance.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/login_widget/background-image.dart';
+import '../admin/crmBundleAdmin.dart';
 import '../admin/crmPackageAdd.dart';
 import '../admin/crmPckSelect.dart';
 import '../admin/crnBundleOrders.dart';
@@ -181,7 +182,7 @@ class _SherekoServiceState extends State<SherekoService> {
                                     MaterialPageRoute(
                                         builder: (BuildContext context) =>
                                             ServiceDetails(
-                                              crm: widget.crm,
+                                                crm: widget.crm,
                                                 bundle: itm,
                                                 currentUser: currentUser)));
                               },
@@ -485,7 +486,7 @@ class _SherekoServiceState extends State<SherekoService> {
         builder: (context) {
           return Container(
             color: const Color(0xFF737373),
-            height: 190,
+            height: 250,
             child: Container(
                 decoration: BoxDecoration(
                     color: OColors.secondary,
@@ -495,55 +496,83 @@ class _SherekoServiceState extends State<SherekoService> {
                     )),
                 child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          const CrmPackageAdd()));
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('Add Package', style: header14),
-                            )),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          const CrmPckList()));
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('View Package', style: header14),
-                            )),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          const CrmBundleOrders()));
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('Booking Orders', style: header14),
-                            )),
-                      ],
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            const CrmPackageAdd()));
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('Add Package', style: header14),
+                              )),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => CrmBundleAdmin(
+                                              crmPackageInfo: pck,
+                                            )));
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(
+                                    top: 8, bottom: 8, right: 5),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.add,
+                                          size: 20, color: Colors.red),
+                                      Text('add package', style: header13)
+                                    ],
+                                  ),
+                                ),
+                              )),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            const CrmPckList()));
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('View Package', style: header14),
+                              )),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            const CrmBundleOrders()));
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('Booking Orders', style: header14),
+                              )),
+                        ],
+                      ),
                     ))),
           );
         });

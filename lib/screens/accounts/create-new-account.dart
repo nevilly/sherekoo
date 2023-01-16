@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:sherekoo/util/Locale.dart';
+import 'package:sherekoo/util/colors.dart';
 
 import '../../model/user/user-call.dart';
 import '../../model/authentication/creatAccount.dart';
@@ -38,10 +39,12 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
       isCurrentUser: '',
       address: '',
       bio: '',
-      meritalStatus: '', totalPost: '', isCurrentBsnAdmin: '', 
+      meritalStatus: '',
+      totalPost: '',
+      isCurrentBsnAdmin: '',
       isCurrentCrmAdmin: '',
-      totalFollowers: '', 
-      totalFollowing: '', 
+      totalFollowers: '',
+      totalFollowing: '',
       totalLikes: '');
   bool isLoggedIn = false;
   // String _email;
@@ -59,7 +62,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio<String>(
-          activeColor: Theme.of(context).primaryColor,
+          activeColor: prmry,
           value: gender[btnValue],
           groupValue: select,
           onChanged: (value) {
@@ -146,9 +149,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                   "Sorry a user with the same information exists on our system. Please login!") {
                 emptyField(OLocale(isSwahili, 13).get());
               } else {
-            
-                  emptyField('System Error, Try Again');  
-           
+                emptyField('System Error, Try Again');
               }
             }
           } else {
@@ -220,7 +221,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                         height: size.width * 0.1,
                         width: size.width * 0.1,
                         decoration: BoxDecoration(
-                          color: kRed,
+                          color: prmry,
                           shape: BoxShape.circle,
                           border: Border.all(color: kWhite, width: 2),
                         ),
@@ -381,7 +382,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                       width: size.width * 0.8,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        color: kRed,
+                        color: prmry,
                       ),
                       // ignore: deprecated_member_use
                       child: FlatButton(
@@ -414,7 +415,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                           child: Text(
                             ' Login',
                             style: kBodyText.copyWith(
-                                color: kRed, fontWeight: FontWeight.bold),
+                                color: prmry, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],

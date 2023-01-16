@@ -3,6 +3,7 @@ import 'package:sherekoo/model/follow/followCall.dart';
 import 'package:sherekoo/screens/profile/myCrmn.dart';
 import 'package:sherekoo/screens/profile/viewFollowers.dart';
 import 'package:sherekoo/util/colors.dart';
+import 'package:sherekoo/util/modInstance.dart';
 import 'package:sherekoo/widgets/imgWigdets/defaultAvater.dart';
 import '../../model/user/user-call.dart';
 import '../../model/ceremony/crm-model.dart';
@@ -17,10 +18,10 @@ import '../../widgets/notifyWidget/notifyWidget.dart';
 import '../accounts/login.dart';
 import '../drawer/navDrawer.dart';
 import '../settingScreen/settings.dart';
+import '../uploadScreens/busnessUpload.dart';
 import '../uploadScreens/ceremonyUpload.dart';
 import 'bsn-admn.dart';
 import 'crm-admin.dart';
-import 'myBusness.dart';
 import 'myPosts.dart';
 
 class Profile extends StatefulWidget {
@@ -178,7 +179,11 @@ class ProfileState extends State<Profile> {
                                       style:
                                           h4.copyWith(color: OColors.primary),
                                     )
-                                  : const Text('Create'),
+                                  : Text(
+                                      'Create',
+                                      style:
+                                          h4.copyWith(color: OColors.primary),
+                                    ),
                             ],
                           )),
                     ),
@@ -317,16 +322,7 @@ class ProfileState extends State<Profile> {
                   color: OColors.secondary,
                 ),
                 child: user.avater != ''
-                    ?
-                    // User Current Avater
-                    // ClipOval(
-                    //   child: fadeImg(
-                    //                               context,
-                    //                               '$prfxUpld ${user.username!}/profile/${user.avater!}',
-                    //                               85.0,
-                    //                               85.0),
-                    // )
-                    Padding(
+                    ? Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: ClipOval(
                           child: UserAvater(
@@ -354,7 +350,7 @@ class ProfileState extends State<Profile> {
                       padding: const EdgeInsets.only(top: 4),
                       child: Text(
                         '@${user.username}',
-                        style: header18,
+                        style: header14,
                       ),
                     ),
 
@@ -363,54 +359,55 @@ class ProfileState extends State<Profile> {
                       user.whatYouDo!,
                       style: h5,
                     ),
+
+                    //Follow
+                    user.isCurrentUser == false
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  if (user.followInfo! == 'Follow') {
+                                    addfollowSyst(
+                                        user.id, urlAddFollow, 'addFollow');
+                                  }
+
+                                  if (user.followInfo! == 'unfollow') {
+                                    unfollowSyst(user.currentFllwId,
+                                        urlUnFollow, 'unfollow');
+                                  }
+
+                                  if (user.followInfo! == 'followback') {
+                                    followbackSyst(user.currentFllwId,
+                                        urlUnFollowback, 'followback');
+                                  }
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.only(right: 6),
+                                  alignment: Alignment.centerLeft,
+                                  child: Column(
+                                    children: [
+                                      if (user.followInfo! == 'Follow')
+                                        Text('Follow + ', style: styl),
+                                      if (user.followInfo! == 'unfollow')
+                                        Text('Unfollow', style: styl),
+                                      if (user.followInfo! == 'followback')
+                                        Text('followback', style: styl),
+                                      if (user.followInfo! == 'false')
+                                        const SizedBox.shrink()
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        : const SizedBox()
                   ],
                 ),
               ),
             ],
           ),
         ),
-
-        //Follow
-        user.isCurrentUser == false
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      if (user.followInfo! == 'Follow') {
-                        addfollowSyst(user.id, urlAddFollow, 'addFollow');
-                      }
-
-                      if (user.followInfo! == 'unfollow') {
-                        unfollowSyst(
-                            user.currentFllwId, urlUnFollow, 'unfollow');
-                      }
-
-                      if (user.followInfo! == 'followback') {
-                        followbackSyst(
-                            user.currentFllwId, urlUnFollowback, 'followback');
-                      }
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.only(right: 6),
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        children: [
-                          if (user.followInfo! == 'Follow')
-                            Text('Follow + ', style: styl),
-                          if (user.followInfo! == 'unfollow')
-                            Text('Unfollow', style: styl),
-                          if (user.followInfo! == 'followback')
-                            Text('followback', style: styl),
-                          if (user.followInfo! == 'false')
-                            const SizedBox.shrink()
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            : const SizedBox()
       ],
     );
   }
@@ -427,9 +424,9 @@ class ProfileState extends State<Profile> {
               Text(user.totalPost!,
                   style: h4.copyWith(fontWeight: FontWeight.bold)),
               const SizedBox(height: 1),
-              const Text(
+              Text(
                 'Posts',
-                style: h5,
+                style: header10,
               ),
             ],
           ),
@@ -454,9 +451,9 @@ class ProfileState extends State<Profile> {
               Text(user.totalFollowers!,
                   style: h4.copyWith(fontWeight: FontWeight.bold)),
               const SizedBox(height: 1),
-              const Text(
+              Text(
                 'Followers',
-                style: h5,
+                style: header10,
               ),
             ],
           ),
@@ -481,9 +478,9 @@ class ProfileState extends State<Profile> {
               Text(user.totalFollowing!,
                   style: h4.copyWith(fontWeight: FontWeight.bold)),
               const SizedBox(height: 1),
-              const Text(
+              Text(
                 'Following',
-                style: h5,
+                style: header10,
               ),
             ],
           ),
@@ -502,9 +499,9 @@ class ProfileState extends State<Profile> {
               Text(user.totalLikes!,
                   style: h4.copyWith(fontWeight: FontWeight.bold)),
               const SizedBox(height: 1),
-              const Text(
+              Text(
                 'Likes',
-                style: h5,
+                style: header10,
               ),
             ],
           ),
@@ -516,6 +513,7 @@ class ProfileState extends State<Profile> {
 // PopUp Widget
   Widget profileSettings(BuildContext context) {
     return AlertDialog(
+      insetPadding: const EdgeInsets.only(left: 5),
       backgroundColor: osec,
       title: Text(
         'Profile Settings',
@@ -527,10 +525,8 @@ class ProfileState extends State<Profile> {
         children: [
           ListTile(
             textColor: OColors.fontColor,
-            title: Text(
-              'Updata Avater',
-              style: header13,
-            ),
+            leading: Icon(Icons.settings, color: fntClr),
+            title: const Text('Updata profile'),
             onTap: () {
               Navigator.of(context).pop();
               Navigator.push(
@@ -542,10 +538,8 @@ class ProfileState extends State<Profile> {
           ),
           ListTile(
             textColor: OColors.fontColor,
-            title: Text(
-              'Log Out',
-              style: header13,
-            ),
+            leading: Icon(Icons.logout, color: fntClr),
+            title: const Text('Logout'),
             onTap: () {
               preferences.logout();
               Navigator.of(context).pop();
@@ -613,6 +607,12 @@ class ProfileState extends State<Profile> {
             child: Text("Busness +", style: header13),
             onPressed: () {
               Navigator.of(context).pop();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => BusnessUpload(
+                            getData: emptyBsnMdl,
+                          )));
             },
           );
 

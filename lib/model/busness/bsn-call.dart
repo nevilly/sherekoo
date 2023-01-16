@@ -29,7 +29,20 @@ class BsnCall {
     Uri url = Uri.parse(dirUrl);
 
     Map<String, dynamic> toMap() {
-      return <String, dynamic>{'id': id, 'type': bsnType};
+      return <String, dynamic>{'id': id, 'type': bsnType,};
+    }
+
+    invalidToken(token);
+    Map<String, String> headers = myHttpHeaders(token);
+    return postHttp(url, toMap, headers);
+  }
+
+  Future<BsnCall> bsnByType(
+      String token, String dirUrl, String bsnType, String id,hotStatus) async {
+    Uri url = Uri.parse(dirUrl);
+
+    Map<String, dynamic> toMap() {
+      return <String, dynamic>{'id': id, 'type': bsnType,'hotStatus':hotStatus};
     }
 
     invalidToken(token);

@@ -49,6 +49,8 @@ class CrmBundleCall {
       };
     }
 
+    print(toMap());
+
     invalidToken(token);
     Map<String, String> headers = myHttpHeaders(token);
     return postHttp(url, toMap, headers);
@@ -73,7 +75,8 @@ class CrmBundleCall {
     return postHttp(url, toMap, headers);
   }
 
-  Future<CrmBundleCall> removeCard(String token, String dirUrl, id, userId) async {
+  Future<CrmBundleCall> removeCard(
+      String token, String dirUrl, id, userId) async {
     Uri url = Uri.parse(dirUrl);
     Map<String, dynamic> toMap() {
       return <String, dynamic>{'id': id, 'userId': userId};
@@ -154,9 +157,9 @@ Future<CrmBundleCall> postHttp(Uri url, Map<String, dynamic> Function() toMap,
       .post(url, body: jsonEncode(toMap()), headers: headers)
       .then((r) {
     if (r.statusCode == 200) {
-       return rBody(r); 
+      return rBody(r);
     }
-     return rBody(r);
+    return rBody(r);
   });
 }
 
@@ -171,6 +174,7 @@ Future<CrmBundleCall> getHttp(Uri url, Map<String, String> headers) async {
 }
 
 CrmBundleCall rBody(http.Response r) {
+  // print(r.body);
   return CrmBundleCall.fromJson(
-        {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
+      {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
 }

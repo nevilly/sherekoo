@@ -5,14 +5,17 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sherekoo/screens/homNav.dart';
 import 'package:sherekoo/screens/profile/profile.dart';
 import 'package:sherekoo/util/colors.dart';
-
+import 'package:sherekoo/util/modInstance.dart';
 
 import '../../model/authentication/creatAccount.dart';
 import '../../model/user/user-call.dart';
 import '../../model/user/userModel.dart';
 import '../../util/Preferences.dart';
+import '../../util/func.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 
 class CompleteProfile extends StatefulWidget {
@@ -39,15 +42,13 @@ class _CompleteProfileState extends State<CompleteProfile> {
       isCurrentUser: '',
       address: '',
       bio: '',
-      meritalStatus: '', 
+      meritalStatus: '',
       totalPost: '',
-      isCurrentBsnAdmin: '', 
+      isCurrentBsnAdmin: '',
       isCurrentCrmAdmin: '',
-      totalFollowers: '', 
-      totalFollowing: '', 
-      totalLikes: ''
-      
-      );
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: '');
 
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
@@ -92,7 +93,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio<String>(
-          activeColor: Theme.of(context).primaryColor,
+          activeColor: prmry,
           value: gender[btnValue],
           groupValue: select,
           onChanged: (value) {
@@ -102,7 +103,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
             });
           },
         ),
-        Text(title, style: const TextStyle(color: Colors.grey, fontSize: 14))
+        Text(title, style: header10.copyWith(color: Colors.grey, fontSize: 12))
       ],
     );
   }
@@ -110,30 +111,19 @@ class _CompleteProfileState extends State<CompleteProfile> {
   File? _generalimage;
   // Image upload
   final _picker = ImagePicker();
-  final _pickerG = ImagePicker();
 
-  // Implementing the image Camera picker
-  _openImagePickerG(arg) async {
-    final pickG = _pickerG.pickImage(source: ImageSource.gallery);
-    XFile? pickedImage = await pickG;
+  // Image Picking
+  _openImagePicker(ImageSource source) async {
+    final pick = _picker.pickImage(source: source, imageQuality: 25);
+    XFile? pickedImage = await pick;
+    if (pickedImage == null) return;
 
-    if (pickedImage != null) {
-      setState(() {
-        _generalimage = File(pickedImage.path);
-      });
-    }
-  }
+    File img = File(pickedImage.path);
+    img = await cropImage(img);
 
-  // Implementing the image Camera picker
-  _openImagePickerC(arg) async {
-    final pickC = _picker.pickImage(source: ImageSource.camera);
-    XFile? pickedImage = await pickC;
-
-    if (pickedImage != null) {
-      setState(() {
-        _generalimage = File(pickedImage.path);
-      });
-    }
+    setState(() {
+      _generalimage = img;
+    });
   }
 
   @override
@@ -142,9 +132,6 @@ class _CompleteProfileState extends State<CompleteProfile> {
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
-        // print('checkk token');
-        // print(token);
-
         getUser();
       });
     });
@@ -207,13 +194,14 @@ class _CompleteProfileState extends State<CompleteProfile> {
                 Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) => Profile(
-                              user: currentUser,
+                        builder: (BuildContext context) => HomeNav(
+                              getIndex: 2,
+                              user: emptyUser,
                             )),
                     ModalRoute.withName('/'));
               });
             } else {
-                emptyField('System Error, Try Again');  
+              emptyField('System Error, Try Again');
             }
           } else {
             emptyField("Select your Location Please...");
@@ -235,7 +223,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
       appBar: AppBar(
         backgroundColor: Colors.black54,
         automaticallyImplyLeading: false,
-        title: const Text('Complete Info'),
+        title: const Text('Add Info'),
         centerTitle: true,
         actions: [
           GestureDetector(
@@ -243,24 +231,29 @@ class _CompleteProfileState extends State<CompleteProfile> {
               creatAccount(firstName.text, lastName.text, _generalimage,
                   selectedRegion, select);
             },
-            child: const Padding(
-              padding: EdgeInsets.only(top: 18.0, right: 18.0),
-              child: Text('Save',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 19,
-                      fontStyle: FontStyle.italic)),
+            child: Container(
+              margin: const EdgeInsets.only(top: 12.0, right: 8.0, bottom: 10),
+              decoration: BoxDecoration(
+                  color: prmry, borderRadius: BorderRadius.circular(10)),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text('Save',
+                      style: header14.copyWith(
+                        color: Colors.white,
+                      )),
+                ),
+              ),
             ),
           ),
         ],
       ),
 
       //backgroundColor: Theme.of(context).primaryColor,
-      backgroundColor: OColors.appBarColor,
+      backgroundColor: osec,
 
       body: Column(
         children: [
-          
           Expanded(
             flex: 5,
             child: Column(
@@ -269,135 +262,133 @@ class _CompleteProfileState extends State<CompleteProfile> {
                 // const Spacer(),
 
                 // Title Add title
-                const Padding(
-                  padding: EdgeInsets.only(left: 25.0),
-                  child: Text(
-                    'Add Your Photo',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 30.0, top: 8, bottom: 8),
+                  child: Text('Add Profile',
+                      style: header16.copyWith(fontWeight: FontWeight.bold)),
                 ),
 
                 // Avatar upload...
-                Container(
-                  alignment: Alignment.center,
-                  // width: double.infinity,
-                  height: 120,
-                  // color: Colors.grey[300],
-                  child: _generalimage != null
-                      ? Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: CircleAvatar(
-                            radius: 100,
-                            child: ClipOval(
-                              child: Image.file(
-                                _generalimage!,
-                                fit: BoxFit.cover,
-                                width: 110.0,
-                                height: 110.0,
-                                // width: 100,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      // width: double.infinity,
+                      height: 90,
+                      // color: Colors.grey[300],
+                      child: _generalimage != null
+                          ? Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: CircleAvatar(
+                                backgroundColor: prmry,
+                                radius: 60,
+                                child: ClipOval(
+                                  child: Image.file(
+                                    _generalimage!,
+                                    fit: BoxFit.cover,
+                                    width: 80.0,
+                                    height: 80.0,
+                                    // width: 100,
+                                  ),
+                                ),
                               ),
+                            )
+                          : CircleAvatar(
+                              backgroundColor: prmry,
+                              radius: 60,
+                              child: const ClipOval(
+                                child: Image(
+                                  image:
+                                      AssetImage('assets/profile/profile.jpg'),
+                                  fit: BoxFit.cover,
+                                  width: 80,
+                                  height: 80,
+                                ),
+                              ),
+                            ),
+                    ),
+
+                    //Buttons Image Upload
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 18.0,
+                        right: 18.0,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              _openImagePicker(ImageSource.camera);
+                            },
+                            child: Row(
+                              children: const [
+                                Card(
+                                  color: Colors.red,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(5.0),
+                                    child: Icon(
+                                      Icons.camera,
+                                      color: Colors.white,
+                                      size: 16,
+                                    ),
+                                  ),
+                                ),
+                                Card(
+                                  color: Colors.black45,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(5.0),
+                                    child: Text(
+                                      'Camera',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        )
-                      : const CircleAvatar(
-                          backgroundColor: Colors.grey,
-                          radius: 120,
-                          child: ClipOval(
-                            child: Image(
-                              image: AssetImage('assets/profile/profile.jpg'),
-                              fit: BoxFit.cover,
-                              width: 110,
-                              height: 110,
+
+                          // Gallary
+                          GestureDetector(
+                            onTap: () {
+                              // _openImagePickerG('slctdChereko');
+                              _openImagePicker(ImageSource.gallery);
+                            },
+                            child: Row(
+                              children: const [
+                                Card(
+                                  color: Colors.red,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(5.0),
+                                    child: Icon(
+                                      Icons.photo_library,
+                                      color: Colors.white,
+                                      size: 16,
+                                    ),
+                                  ),
+                                ),
+                                Card(
+                                  color: Colors.black45,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(6.0),
+                                    child: Text(
+                                      'Gallery',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-
-                  // CircleAvatar(
-                  //     radius: 100,
-                  //     backgroundImage:Image(image: Image.network(api)),
-                  //   ),
-                ),
-
-                //Buttons Image Upload
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 18.0,
-                    right: 18.0,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Gallary
-                      GestureDetector(
-                        onTap: () {
-                          _openImagePickerG('slctdChereko');
-                        },
-                        child: Row(
-                          children: const [
-                            Card(
-                              color: Colors.red,
-                              child: Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Icon(
-                                  Icons.photo_library,
-                                  color: Colors.white,
-                                  size: 16,
-                                ),
-                              ),
-                            ),
-                            Card(
-                              color: Colors.black45,
-                              child: Padding(
-                                padding: EdgeInsets.all(6.0),
-                                child: Text(
-                                  'Gallery',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        ],
                       ),
-
-                      GestureDetector(
-                        onTap: () {
-                          _openImagePickerC('slctdChereko');
-                        },
-                        child: Row(
-                          children: const [
-                            Card(
-                              color: Colors.red,
-                              child: Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Icon(
-                                  Icons.photo_library,
-                                  color: Colors.white,
-                                  size: 16,
-                                ),
-                              ),
-                            ),
-                            Card(
-                              color: Colors.black45,
-                              child: Padding(
-                                padding: EdgeInsets.all(6.0),
-                                child: Text(
-                                  'Camera',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
 
                 const SizedBox(
@@ -432,17 +423,16 @@ class _CompleteProfileState extends State<CompleteProfile> {
                                   Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
-                                      children: const [
+                                      children: [
                                         Padding(
-                                          padding: EdgeInsets.only(
+                                          padding: const EdgeInsets.only(
                                               left: 8.0,
                                               right: 8.0,
                                               top: 5.0,
                                               bottom: 5.0),
                                           child: Text(
                                             'Add Your information',
-                                            style: TextStyle(
-                                                fontSize: 15,
+                                            style: header15.copyWith(
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.grey),
                                           ),
@@ -465,9 +455,9 @@ class _CompleteProfileState extends State<CompleteProfile> {
                                     ),
                                     child: TextField(
                                       controller: firstName,
-                                      decoration: const InputDecoration(
+                                      decoration: InputDecoration(
                                         border: InputBorder.none,
-                                        prefixIcon: Padding(
+                                        prefixIcon: const Padding(
                                           padding: EdgeInsets.symmetric(
                                               horizontal: 20.0),
                                           child: Icon(
@@ -477,13 +467,11 @@ class _CompleteProfileState extends State<CompleteProfile> {
                                           ),
                                         ),
                                         hintText: 'First Name',
-                                        hintStyle: TextStyle(
+                                        hintStyle: header14.copyWith(
                                             color: Colors.grey, height: 1.5),
                                       ),
-                                      style: const TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.grey,
-                                          height: 1.5),
+                                      style: header14.copyWith(
+                                          color: Colors.grey, height: 1.5),
                                       onChanged: (value) {
                                         setState(() {
                                           //_email = value;
@@ -504,9 +492,9 @@ class _CompleteProfileState extends State<CompleteProfile> {
                                     ),
                                     child: TextField(
                                       controller: lastName,
-                                      decoration: const InputDecoration(
+                                      decoration: InputDecoration(
                                         border: InputBorder.none,
-                                        prefixIcon: Padding(
+                                        prefixIcon: const Padding(
                                           padding: EdgeInsets.symmetric(
                                               horizontal: 20.0),
                                           child: Icon(
@@ -516,13 +504,11 @@ class _CompleteProfileState extends State<CompleteProfile> {
                                           ),
                                         ),
                                         hintText: 'Last Name',
-                                        hintStyle: TextStyle(
+                                        hintStyle: header14.copyWith(
                                             color: Colors.grey, height: 1.5),
                                       ),
-                                      style: const TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.grey,
-                                          height: 1.5),
+                                      style: header14.copyWith(
+                                          color: Colors.grey, height: 1.5),
                                       onChanged: (value) {
                                         setState(() {
                                           //_email = value;
@@ -538,20 +524,20 @@ class _CompleteProfileState extends State<CompleteProfile> {
                                         Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
-                                            children: const [
+                                            children: [
                                               Padding(
-                                                padding: EdgeInsets.only(
+                                                padding: const EdgeInsets.only(
                                                     left: 8.0,
                                                     right: 8.0,
                                                     top: 5.0,
                                                     bottom: 5.0),
                                                 child: Text(
                                                   'Select Your region',
-                                                  style: TextStyle(
-                                                      fontSize: 15,
+                                                  style: header14.copyWith(
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      color: Colors.grey),
+                                                      color: Colors.grey,
+                                                      height: 1.5),
                                                 ),
                                               ),
                                             ]),
@@ -592,8 +578,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
                                                 alignment: Alignment.center,
                                                 child: Text(
                                                   selectedRegion,
-                                                  style: const TextStyle(
-                                                      fontSize: 16,
+                                                  style: header14.copyWith(
+                                                      color: Colors.grey,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                   textAlign: TextAlign.center,
@@ -614,18 +600,44 @@ class _CompleteProfileState extends State<CompleteProfile> {
                                       ],
                                     ),
                                   ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 8.0,
+                                            right: 8.0,
+                                            top: 5.0,
+                                            bottom: 5.0),
+                                        child: Text(
+                                          'Select Your gender',
+                                          style: header14.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.grey,
+                                              height: 1.5),
+                                        ),
+                                      ),
+                                      const SizedBox()
+                                    ],
+                                  ),
 
                                   // Radio Button
                                   Padding(
                                     padding: const EdgeInsets.only(left: 1.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        addRadioButton(0, 'Single'),
-                                        addRadioButton(1, 'merriage'),
-                                        addRadioButton(2, 'engaged'),
-                                      ],
+                                    child: SizedBox(
+                                      height: 50,
+                                      child: ListView(
+                                        scrollDirection: Axis.horizontal,
+                                        children: <Widget>[
+                                          addRadioButton(0, 'Single'),
+                                          addRadioButton(1, 'merriage'),
+                                          addRadioButton(2, 'engaged'),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],

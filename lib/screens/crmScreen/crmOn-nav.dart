@@ -419,7 +419,7 @@ class CrmOnNavState extends State<CrmOnNav> {
           decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  OColors.primary2,
+                  OColors.primary,
                   OColors.primary,
                   Colors.red,
                 ],

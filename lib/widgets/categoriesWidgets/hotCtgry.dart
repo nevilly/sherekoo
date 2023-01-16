@@ -9,9 +9,11 @@ import '../../model/user/userModel.dart';
 import '../../screens/detailScreen/bsn-details.dart';
 import '../../util/app-variables.dart';
 import '../../util/colors.dart';
+import '../../util/func.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 
-class CategoryBody extends StatefulWidget {
+class HotCategoryBody extends StatefulWidget {
   final Stream<String> stream;
   final String sType;
   final String title;
@@ -21,7 +23,7 @@ class CategoryBody extends StatefulWidget {
   final String hotStatus;
   final CeremonyModel ceremony;
 
-  const CategoryBody(
+  const HotCategoryBody(
       {Key? key,
       required this.stream,
       required this.ceremony,
@@ -34,10 +36,10 @@ class CategoryBody extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<CategoryBody> createState() => _CategoryBodyState();
+  State<HotCategoryBody> createState() => _HotCategoryBodyState();
 }
 
-class _CategoryBodyState extends State<CategoryBody> {
+class _HotCategoryBodyState extends State<HotCategoryBody> {
   List<BusnessModel> data = [];
 
   CeremonyModel ceremony = CeremonyModel(
@@ -102,7 +104,7 @@ class _CategoryBodyState extends State<CategoryBody> {
   @override
   void initState() {
     super.initState();
-    data.clear();
+
     preferences.init();
     preferences.get('token').then((value) {
       widget.stream.listen((page) {
@@ -124,7 +126,7 @@ class _CategoryBodyState extends State<CategoryBody> {
   getAll(bsn) async {
     data.clear();
     BsnCall(payload: [], status: 0)
-        .bsnByType(token, urlGoldBusness, bsn, '', widget.hotStatus)
+        .bsnByType(token, urlGoldBsnTyp, bsn, '', widget.hotStatus)
         .then((value) {
       if (mounted) {
         if (value.status == 200) {
@@ -167,7 +169,6 @@ class _CategoryBodyState extends State<CategoryBody> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 8.0,
                   bottom: 5,
                   left: 10,
                 ),
@@ -186,7 +187,6 @@ class _CategoryBodyState extends State<CategoryBody> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(
-                    top: 15.0,
                     bottom: 5,
                     right: 4,
                   ),
@@ -211,13 +211,11 @@ class _CategoryBodyState extends State<CategoryBody> {
         //Body
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: SizedBox(
-              height: widget.heights,
-              child: GridView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
+          child: Container(
+              height: 70,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
                   itemCount: data.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: widget.crossAxisCountx),
                   itemBuilder: (context, index) {
                     return Padding(
                         padding: const EdgeInsets.all(1.0),
@@ -232,39 +230,42 @@ class _CategoryBodyState extends State<CategoryBody> {
                                           ceremonyData: widget.ceremony,
                                         )));
                           },
-                          child: Column(children: [
-                            ClipRRect(
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(1.0),
-                                  topRight: Radius.circular(1.0),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(left: 8.0, right: 8.0),
+                            child: Column(children: [
+                              ClipRRect(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(1.0),
+                                    topRight: Radius.circular(1.0),
+                                  ),
+                                  child: ClipOval(
+                                    child: Center(
+                                        child: data[index].coProfile != ''
+                                            ? fadeImg(
+                                                context,
+                                                '${api}public/uploads/${data[index].user.username}/busness/${data[index].coProfile}',
+                                                50.0,
+                                                50.0)
+                                            : const SizedBox(height: 1)),
+                                  )),
+                              Container(
+                                alignment: Alignment.center,
+                                // margin: EdgeInsets.only(top: 1),
+                                child: Center(
+                                  child: data[index].knownAs.length >= 5
+                                      ? Text(
+                                          '${data[index].knownAs.substring(0, 5)}...',
+                                          style: header11,
+                                        )
+                                      : Text(
+                                          data[index].knownAs,
+                                          style: header11,
+                                        ),
                                 ),
-                                child: data[index].coProfile != ''
-                                    ? Image.network(
-                                        '${api}public/uploads/${data[index].user.username}/busness/${data[index].coProfile}',
-                                        height: 45,
-                                        fit: BoxFit.cover,
-                                      )
-                                    : const SizedBox(height: 1)),
-                            Container(
-                              alignment: Alignment.center,
-                              // margin: EdgeInsets.only(top: 1),
-                              child: Center(
-                                child: data[index].knownAs.length >= 5
-                                    ? Text(
-                                        '${data[index].knownAs.substring(0, 5)}...',
-                                        style: TextStyle(
-                                            fontSize: 10,
-                                            color: OColors.fontColor),
-                                      )
-                                    : Text(
-                                        data[index].knownAs,
-                                        style: TextStyle(
-                                            fontSize: 10,
-                                            color: OColors.fontColor),
-                                      ),
                               ),
-                            ),
-                          ]),
+                            ]),
+                          ),
                         ));
                   })),
         ), //Top Header

@@ -33,7 +33,7 @@ class _CrmPackageAddState extends State<CrmPackageAdd> {
   File? _generalimage;
   String token = "";
 
-  final List _col = [];
+  final List _col = ['fffca01c', '#ff8028ff', '#ff8028ff'];
 
   @override
   void initState() {
@@ -60,35 +60,31 @@ class _CrmPackageAddState extends State<CrmPackageAdd> {
     });
   }
 
-
-
   // Posting
   Future<void> post() async {
-    if (_col.isNotEmpty) {
-      if (_generalimage != null) {
-        List<int> bytes = _generalimage!.readAsBytesSync();
-        String image = base64Encode(bytes);
+    // if (_col.isNotEmpty) {
+    if (_generalimage != null) {
+      List<int> bytes = _generalimage!.readAsBytesSync();
+      String image = base64Encode(bytes);
 
-        CrmPackage(
-          status: 0,
-          payload: [],
-        )
-            .post(token, urladdCrmPackage, _title.text, _body.text, _col, image,
-                _inYear.text)
-            .then((value) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => const CrmPckList()));
-        });
-      } else {
-      
-         fillTheBlanks(context,imgInsertAlt,altSty,odng);
-      }
+      CrmPackage(
+        status: 0,
+        payload: [],
+      )
+          .post(token, urladdCrmPackage, _title.text, _body.text, _col, image,
+              _inYear.text)
+          .then((value) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => const CrmPckList()));
+      });
     } else {
-
-       fillTheBlanks(context,clrCodeAlert,altSty,odng);
+      fillTheBlanks(context, imgInsertAlt, altSty, odng);
     }
+    // } else {
+    //   fillTheBlanks(context, clrCodeAlert, altSty, odng);
+    // }
   }
 
   @override
@@ -107,7 +103,7 @@ class _CrmPackageAddState extends State<CrmPackageAdd> {
               padding: const EdgeInsets.all(8),
               margin: const EdgeInsets.only(top: 13, bottom: 13, right: 10),
               decoration: BoxDecoration(
-                  color: OColors.primary2,
+                  color: OColors.primary,
                   borderRadius: const BorderRadius.all(Radius.circular(10))),
               child: Icon(
                 Icons.send,
@@ -215,8 +211,8 @@ class _CrmPackageAddState extends State<CrmPackageAdd> {
                 Padding(
                   padding: const EdgeInsets.all(6.0),
                   child: Title(
-                color: Colors.grey,
-                child: const Text('ColorCode of The Years'),
+                    color: Colors.grey,
+                    child: const Text('ColorCode of The Years'),
                   ),
                 ),
                 Padding(
@@ -320,7 +316,7 @@ class _CrmPackageAddState extends State<CrmPackageAdd> {
                           padding: const EdgeInsets.all(8),
                           margin: const EdgeInsets.only(right: 5),
                           decoration: BoxDecoration(
-                              color: OColors.primary2,
+                              color: OColors.primary,
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(50))),
                           child: Icon(

@@ -787,7 +787,7 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
             padding: const EdgeInsets.all(8),
             margin: const EdgeInsets.only(top: 13, bottom: 13, right: 10),
             decoration: BoxDecoration(
-                color: OColors.primary2,
+                color: OColors.primary,
                 borderRadius: const BorderRadius.all(Radius.circular(10))),
             child: Icon(
               Icons.send,

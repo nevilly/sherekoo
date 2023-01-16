@@ -87,7 +87,9 @@ String urlMchangoPay = '${api}MichangoPayment/add';
 String urlPostBusness = '${api}Busness/add';
 String urlAllBusnessList = '${api}Busness/getBsn';
 String urlGoldBusness = '${api}Busness/getGoldenBusness';
-String urlusnessByType = '${api}Busness/getByBusnessType';
+String urlGoldBsnTyp = '${api}Busness/getByType';
+
+
 String urlMyBusnessList = '${api}Busness/getByBusnessCeoId';
 String urlMyBsnByCratorId = '${api}Busness/bsnByCreatorId';
 String urlUpdateBusness = '${api}Busness/update';

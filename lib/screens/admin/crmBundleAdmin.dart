@@ -18,10 +18,12 @@ import '../../model/user/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/appWords.dart';
 import '../../util/func.dart';
+import '../../util/modInstance.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/defaultAvater.dart';
 import '../../widgets/imgWigdets/userAvater.dart';
+import '../ourServices/sherekoService.dart';
 
 class CrmBundleAdmin extends StatefulWidget {
   final CrmPckModel crmPackageInfo;
@@ -213,7 +215,6 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
 
   // Posting
   Future<void> post() async {
-   
     hallImageSampleFunc();
     if (crmPackageInfo.id != '') {
       if (superVisorId.isNotEmpty) {
@@ -249,37 +250,30 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
                     .then((value) {
                   // print('observe heree');
                   // print(value.payload);
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (BuildContext context) => const CrmPckList()));
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              SherekoService(crm: emptyCrmModel, from: '')));
                 });
               } else {
-                
-                
-                fillTheBlanks(context,imgInsertAlt,altSty,odng);
-                
+                fillTheBlanks(context, imgInsertAlt, altSty, odng);
               }
             } else {
-              
-              fillTheBlanks(context,priceBundleAlt,altSty,odng);
+              fillTheBlanks(context, priceBundleAlt, altSty, odng);
             }
           } else {
-            
-            fillTheBlanks(context,bundleTypeAlt,altSty,odng);
-            
+            fillTheBlanks(context, bundleTypeAlt, altSty, odng);
           }
         } else {
-          
-          fillTheBlanks(context,bundlePlanAlt,altSty,odng);
+          fillTheBlanks(context, bundlePlanAlt, altSty, odng);
         }
       } else {
-    
-        fillTheBlanks(context,superVisorAlt,altSty,odng);
+        fillTheBlanks(context, superVisorAlt, altSty, odng);
       }
     } else {
-      
-      fillTheBlanks(context,crmPackgSltAlt,altSty,odng);
+      fillTheBlanks(context, crmPackgSltAlt, altSty, odng);
     }
   }
 
@@ -310,31 +304,7 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
       length: 4,
       child: Scaffold(
         // backgroundColor: OColors.secondary,
-        appBar: AppBar(
-          backgroundColor: OColors.secondary,
-          title: const Text('New Bundle'),
-          actions: [
-            GestureDetector(
-              onTap: () {
-                post();
-              },
-              child: Container(
-                width: 50,
-                height: 30,
-                padding: const EdgeInsets.all(8),
-                margin: const EdgeInsets.only(top: 13, bottom: 13, right: 10),
-                decoration: BoxDecoration(
-                    color: OColors.primary2,
-                    borderRadius: const BorderRadius.all(Radius.circular(10))),
-                child: Icon(
-                  Icons.send,
-                  size: 16,
-                  color: OColors.fontColor,
-                ),
-              ),
-            ),
-          ],
-        ),
+        appBar: topBar(),
         body: Column(
           children: [
             PreferredSize(
@@ -364,6 +334,34 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
           ],
         ),
       ),
+    );
+  }
+
+  AppBar topBar() {
+    return AppBar(
+      backgroundColor: OColors.secondary,
+      title: const Text('New Bundle'),
+      actions: [
+        GestureDetector(
+          onTap: () {
+            post();
+          },
+          child: Container(
+            width: 50,
+            height: 30,
+            padding: const EdgeInsets.all(8),
+            margin: const EdgeInsets.only(top: 13, bottom: 13, right: 10),
+            decoration: BoxDecoration(
+                color: OColors.primary,
+                borderRadius: const BorderRadius.all(Radius.circular(10))),
+            child: Icon(
+              Icons.send,
+              size: 16,
+              color: OColors.fontColor,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -705,8 +703,6 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
                                         setState(() {
                                           bsnArr.remove(itm);
                                           bsnId.remove(itm.bId);
-
-                                        
                                         });
                                       },
                                       child: Container(
@@ -832,7 +828,7 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
                 maxLines: null,
                 expands: true,
                 textAlign: TextAlign.left,
-                keyboardType: TextInputType.multiline,
+                keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                   border: InputBorder.none,
@@ -1515,8 +1511,6 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
                               setState(() {
                                 bsnId.add(itm.bId);
                                 bsnArr.add(itm);
-
-                              
                               });
                             },
                             child: Stack(children: [

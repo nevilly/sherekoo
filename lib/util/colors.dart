@@ -3,26 +3,34 @@ import 'package:flutter/material.dart';
 class OColors {
   ///
   ///Sherekoo Color
+  ///Theme01
   ///
   static Color secondary = const Color(0xff181A20);
-  //static Color secondary = Colors.white;
+  static Color navBar = const Color(0xff181A20);
   static Color appBarColor = const Color(0xff181A20);
-  //static Color appBarColor = const Color(0xff181A20);
- 
   static Color primary = const Color(0xfff54b64); // Buttons Colors
   static Color primary2 = const Color(0xffff566e);
   static Color darkGrey = const Color(0xff4e586e);
   static Color darGrey = const Color(0xff242a38);
-  
   static Color fontColor = const Color(0xffFFFFFF);
-  //static Color fontColor = const Color(0xffFFFFFF);
 
+  ///Them02
+
+  // static Color secondary = Colors.white;
+  // static Color navBar = const Color(0xff181A20);
+  // static Color appBarColor = const Color(0xff181A20);
+  // static Color primary = const Color(0xfff54b64); // Buttons Colors
+  // static Color fontColor = const Color(0xff242a38);
+  // static Color darkGrey = const Color(0xff4e586e);
+  // static Color darGrey = const Color(0xff242a38);
+
+  //Normal
   static Color sPurple = const Color(0xff8028ff);
   static Color sYelow = const Color(0xfffca01c);
-
   static Color white = const Color(0xffFFFFFF);
   static Color danger = Colors.red;
   static Color dangerFontColor = Colors.white;
+
   // END Sherekoo
 
   //Text Colors

@@ -466,34 +466,6 @@ class _BusnessUploadState extends State<BusnessUpload> {
   }
 
   // Image Croping
-  Future cropImage(File imageFile) async {
-    CroppedFile? croppedFile = await ImageCropper().cropImage(
-      sourcePath: imageFile.path,
-      aspectRatioPresets: [
-        CropAspectRatioPreset.square,
-        CropAspectRatioPreset.ratio3x2,
-        CropAspectRatioPreset.original,
-        CropAspectRatioPreset.ratio4x3,
-        CropAspectRatioPreset.ratio16x9
-      ],
-      uiSettings: [
-        AndroidUiSettings(
-            toolbarTitle: 'Shereko Cropper',
-            toolbarColor: OColors.appBarColor,
-            toolbarWidgetColor: Colors.white,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false),
-        IOSUiSettings(
-          title: 'Sherekoo Cropper',
-        ),
-        // WebUiSettings(
-        //   context: context,
-        // ),
-      ],
-    );
-    if (croppedFile == null) return null;
-    return File(croppedFile.path);
-  }
 
   dynamic imaged;
 
@@ -591,10 +563,10 @@ class _BusnessUploadState extends State<BusnessUpload> {
           indicatorColor: OColors.primary,
           indicatorWeight: 2,
           tabs: const [
-            Tab(child: Text('Company')),
-            Tab(
-              child: Text('Owner Details'),
-            ),
+            Tab(child: Text('Busness Info')),
+            // Tab(
+            //   child: Text('Owner Details'),
+            // ),
 
             // Tab(
             //   child: Text('Work'),
@@ -606,594 +578,578 @@ class _BusnessUploadState extends State<BusnessUpload> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        backgroundColor: OColors.secondary,
-        appBar: AppBar(
-          backgroundColor: OColors.appBarColor,
-          title: const Text('Your busness', style: TextStyle(fontSize: 14)),
-          centerTitle: true,
-          toolbarHeight: 50,
-          actions: [
-            selectedBusness != 'Please Choose Busness'
-                ? GestureDetector(
-                    onTap: () {
-                      if (selectedBusness == 'Mc') {
-                        if (widget.getData.bId.isEmpty) {
-                          _postBusness(
-                              selectedBusness,
-                              _mcCoKnownController.text,
-                              mcDefaultImg,
-                              _generalimage,
-                              _mcCoPriceController.text,
-                              _mcCoPhoneController.text,
-                              _mcCoLocationController.text,
-                              _mcCoKnownController.text,
-                              mcId,
-                              _mcCeobioController.text,
-                              _mcCoAboutController.text,
-                              insertBrandName,
-                              insertPrice,
-                              insertPhoneNumber,
-                              insertContact,
-                              insertLastMsg);
-                        } else {
-                          _updateBusness(
-                              selectedBusness,
-                              _mcCoKnownController.text,
-                              widget.getData.coProfile,
-                              _generalimage,
-                              _mcCoPriceController.text,
-                              _mcCoPhoneController.text,
-                              _mcCoLocationController.text,
-                              _mcCoKnownController.text,
-                              mcId,
-                              _mcCeobioController.text,
-                              _mcCoAboutController.text,
-                              _mcSubscription,
-                              insertBrandName,
-                              insertPrice,
-                              insertPhoneNumber,
-                              insertContact,
-                              insertLastMsg);
-                        }
+    return Scaffold(
+      backgroundColor: OColors.secondary,
+      appBar: AppBar(
+        backgroundColor: OColors.appBarColor,
+        title: Text('Busness', style: header14),
+        centerTitle: true,
+        toolbarHeight: 50,
+        actions: [
+          selectedBusness != 'Please Choose Busness'
+              ? GestureDetector(
+                  onTap: () {
+                    if (selectedBusness == 'Mc') {
+                      if (widget.getData.bId.isEmpty) {
+                        _postBusness(
+                            selectedBusness,
+                            _mcCoKnownController.text,
+                            mcDefaultImg,
+                            _generalimage,
+                            _mcCoPriceController.text,
+                            _mcCoPhoneController.text,
+                            _mcCoLocationController.text,
+                            _mcCoKnownController.text,
+                            mcId,
+                            _mcCeobioController.text,
+                            _mcCoAboutController.text,
+                            insertBrandName,
+                            insertPrice,
+                            insertPhoneNumber,
+                            insertContact,
+                            insertLastMsg);
+                      } else {
+                        _updateBusness(
+                            selectedBusness,
+                            _mcCoKnownController.text,
+                            widget.getData.coProfile,
+                            _generalimage,
+                            _mcCoPriceController.text,
+                            _mcCoPhoneController.text,
+                            _mcCoLocationController.text,
+                            _mcCoKnownController.text,
+                            mcId,
+                            _mcCeobioController.text,
+                            _mcCoAboutController.text,
+                            _mcSubscription,
+                            insertBrandName,
+                            insertPrice,
+                            insertPhoneNumber,
+                            insertContact,
+                            insertLastMsg);
                       }
+                    }
 
-                      if (selectedBusness == 'Production') {
-                        if (widget.getData.bId.isEmpty) {
-                          _postBusness(
-                              selectedBusness,
-                              _productionCoKnownController.text,
-                              productionDefaultImg,
-                              _generalimage,
-                              _productionCoPriceController.text,
-                              _productionCoPhoneController.text,
-                              _productionCoLocationController.text,
-                              _productionCoKnownController.text,
-                              productionId,
-                              _productionCeobioController.text,
-                              _productionCoAboutController.text,
-                              insertBrandName,
-                              insertPrice,
-                              insertPhoneNumber,
-                              insertContact,
-                              insertLastMsg);
-                        } else {
-                          _updateBusness(
-                              selectedBusness,
-                              _productionCoKnownController.text,
-                              productionDefaultImg,
-                              _generalimage,
-                              _productionCoPriceController.text,
-                              _productionCoPhoneController.text,
-                              _productionCoLocationController.text,
-                              _productionCoKnownController.text,
-                              productionId,
-                              _productionCeobioController.text,
-                              _productionCoAboutController.text,
-                              productionSubscription,
-                              insertBrandName,
-                              insertPrice,
-                              insertPhoneNumber,
-                              insertContact,
-                              insertLastMsg);
-                        }
+                    if (selectedBusness == 'Production') {
+                      if (widget.getData.bId.isEmpty) {
+                        _postBusness(
+                            selectedBusness,
+                            _productionCoKnownController.text,
+                            productionDefaultImg,
+                            _generalimage,
+                            _productionCoPriceController.text,
+                            _productionCoPhoneController.text,
+                            _productionCoLocationController.text,
+                            _productionCoKnownController.text,
+                            productionId,
+                            _productionCeobioController.text,
+                            _productionCoAboutController.text,
+                            insertBrandName,
+                            insertPrice,
+                            insertPhoneNumber,
+                            insertContact,
+                            insertLastMsg);
+                      } else {
+                        _updateBusness(
+                            selectedBusness,
+                            _productionCoKnownController.text,
+                            productionDefaultImg,
+                            _generalimage,
+                            _productionCoPriceController.text,
+                            _productionCoPhoneController.text,
+                            _productionCoLocationController.text,
+                            _productionCoKnownController.text,
+                            productionId,
+                            _productionCeobioController.text,
+                            _productionCoAboutController.text,
+                            productionSubscription,
+                            insertBrandName,
+                            insertPrice,
+                            insertPhoneNumber,
+                            insertContact,
+                            insertLastMsg);
                       }
+                    }
 
-                      if (selectedBusness == 'Decorator') {
-                        if (widget.getData.bId.isEmpty) {
-                          _postBusness(
-                              selectedBusness,
-                              _decoratorCoKnownController.text,
-                              decoratorDefaultImg,
-                              _generalimage,
-                              _decoratorCoPriceController.text,
-                              _decoratorCoPhoneController.text,
-                              _decoratorCoLocationController.text,
-                              _decoratorCoKnownController.text,
-                              decoratorId,
-                              _decoratorCeobioController.text,
-                              _decoratorCoAboutController.text,
-                              insertBrandName,
-                              insertPrice,
-                              insertPhoneNumber,
-                              insertContact,
-                              insertLastMsg);
-                        } else {
-                          _updateBusness(
-                              selectedBusness,
-                              _decoratorCoKnownController.text,
-                              decoratorDefaultImg,
-                              _generalimage,
-                              _decoratorCoPriceController.text,
-                              _decoratorCoPhoneController.text,
-                              _decoratorCoLocationController.text,
-                              _decoratorCoKnownController.text,
-                              decoratorId,
-                              _decoratorCeobioController.text,
-                              _decoratorCoAboutController.text,
-                              decoratorSubscription,
-                              insertBrandName,
-                              insertPrice,
-                              insertPhoneNumber,
-                              insertContact,
-                              insertLastMsg);
-                        }
+                    if (selectedBusness == 'Decorator') {
+                      if (widget.getData.bId.isEmpty) {
+                        _postBusness(
+                            selectedBusness,
+                            _decoratorCoKnownController.text,
+                            decoratorDefaultImg,
+                            _generalimage,
+                            _decoratorCoPriceController.text,
+                            _decoratorCoPhoneController.text,
+                            _decoratorCoLocationController.text,
+                            _decoratorCoKnownController.text,
+                            decoratorId,
+                            _decoratorCeobioController.text,
+                            _decoratorCoAboutController.text,
+                            insertBrandName,
+                            insertPrice,
+                            insertPhoneNumber,
+                            insertContact,
+                            insertLastMsg);
+                      } else {
+                        _updateBusness(
+                            selectedBusness,
+                            _decoratorCoKnownController.text,
+                            decoratorDefaultImg,
+                            _generalimage,
+                            _decoratorCoPriceController.text,
+                            _decoratorCoPhoneController.text,
+                            _decoratorCoLocationController.text,
+                            _decoratorCoKnownController.text,
+                            decoratorId,
+                            _decoratorCeobioController.text,
+                            _decoratorCoAboutController.text,
+                            decoratorSubscription,
+                            insertBrandName,
+                            insertPrice,
+                            insertPhoneNumber,
+                            insertContact,
+                            insertLastMsg);
                       }
+                    }
 
-                      if (selectedBusness == 'Halls') {
-                        if (widget.getData.bId.isEmpty) {
-                          _postBusness(
-                              selectedBusness,
-                              _hallCoKnownController.text,
-                              hallDefaultImg,
-                              _generalimage,
-                              _hallCoPriceController.text,
-                              _hallCoPhoneController.text,
-                              _hallCoLocationController.text,
-                              _hallCoKnownController.text,
-                              hallId,
-                              _hallCeobioController.text,
-                              _hallCoAboutController.text,
-                              insertBrandName,
-                              insertPrice,
-                              insertPhoneNumber,
-                              insertContact,
-                              insertLastMsg);
-                          // if (widget.getData.bId.isEmpty) {
-                        } else {
-                          _updateBusness(
-                              selectedBusness,
-                              _hallCoKnownController.text,
-                              hallDefaultImg,
-                              _generalimage,
-                              _hallCoPriceController.text,
-                              _hallCoPhoneController.text,
-                              _hallCoLocationController.text,
-                              _hallCoKnownController.text,
-                              hallId,
-                              _hallCeobioController.text,
-                              _hallCoAboutController.text,
-                              hallSubscription,
-                              insertBrandName,
-                              insertPrice,
-                              insertPhoneNumber,
-                              insertContact,
-                              insertLastMsg);
-                        }
+                    if (selectedBusness == 'Halls') {
+                      if (widget.getData.bId.isEmpty) {
+                        _postBusness(
+                            selectedBusness,
+                            _hallCoKnownController.text,
+                            hallDefaultImg,
+                            _generalimage,
+                            _hallCoPriceController.text,
+                            _hallCoPhoneController.text,
+                            _hallCoLocationController.text,
+                            _hallCoKnownController.text,
+                            hallId,
+                            _hallCeobioController.text,
+                            _hallCoAboutController.text,
+                            insertBrandName,
+                            insertPrice,
+                            insertPhoneNumber,
+                            insertContact,
+                            insertLastMsg);
+                        // if (widget.getData.bId.isEmpty) {
+                      } else {
+                        _updateBusness(
+                            selectedBusness,
+                            _hallCoKnownController.text,
+                            hallDefaultImg,
+                            _generalimage,
+                            _hallCoPriceController.text,
+                            _hallCoPhoneController.text,
+                            _hallCoLocationController.text,
+                            _hallCoKnownController.text,
+                            hallId,
+                            _hallCeobioController.text,
+                            _hallCoAboutController.text,
+                            hallSubscription,
+                            insertBrandName,
+                            insertPrice,
+                            insertPhoneNumber,
+                            insertContact,
+                            insertLastMsg);
                       }
+                    }
 
-                      if (selectedBusness == 'Cake Bakery') {
-                        if (widget.getData.bId.isEmpty) {
-                          _postBusness(
-                              selectedBusness,
-                              _cakeCoKnownController.text,
-                              cakeDefaultImg,
-                              _generalimage,
-                              _cakeCoPriceController.text,
-                              _cakeCoPhoneController.text,
-                              _cakeCoLocationController.text,
-                              _cakeCoKnownController.text,
-                              cakeId,
-                              _cakeCeobioController.text,
-                              _cakeCoAboutController.text,
-                              insertBrandName,
-                              insertPrice,
-                              insertPhoneNumber,
-                              insertContact,
-                              insertLastMsg);
+                    if (selectedBusness == 'Cake Bakery') {
+                      if (widget.getData.bId.isEmpty) {
+                        _postBusness(
+                            selectedBusness,
+                            _cakeCoKnownController.text,
+                            cakeDefaultImg,
+                            _generalimage,
+                            _cakeCoPriceController.text,
+                            _cakeCoPhoneController.text,
+                            _cakeCoLocationController.text,
+                            _cakeCoKnownController.text,
+                            cakeId,
+                            _cakeCeobioController.text,
+                            _cakeCoAboutController.text,
+                            insertBrandName,
+                            insertPrice,
+                            insertPhoneNumber,
+                            insertContact,
+                            insertLastMsg);
 
-                          // if (widget.getData.bId.isEmpty) {
-                        } else {
-                          _updateBusness(
-                              selectedBusness,
-                              _cakeCoKnownController.text,
-                              cakeDefaultImg,
-                              _generalimage,
-                              _cakeCoPriceController.text,
-                              _cakeCoPhoneController.text,
-                              _cakeCoLocationController.text,
-                              _cakeCoKnownController.text,
-                              cakeId,
-                              _cakeCeobioController.text,
-                              _cakeCoAboutController.text,
-                              cakeSubscription,
-                              insertBrandName,
-                              insertPrice,
-                              insertPhoneNumber,
-                              insertContact,
-                              insertLastMsg);
-                        }
+                        // if (widget.getData.bId.isEmpty) {
+                      } else {
+                        _updateBusness(
+                            selectedBusness,
+                            _cakeCoKnownController.text,
+                            cakeDefaultImg,
+                            _generalimage,
+                            _cakeCoPriceController.text,
+                            _cakeCoPhoneController.text,
+                            _cakeCoLocationController.text,
+                            _cakeCoKnownController.text,
+                            cakeId,
+                            _cakeCeobioController.text,
+                            _cakeCoAboutController.text,
+                            cakeSubscription,
+                            insertBrandName,
+                            insertPrice,
+                            insertPhoneNumber,
+                            insertContact,
+                            insertLastMsg);
                       }
+                    }
 
-                      if (selectedBusness == 'Singer') {
-                        if (widget.getData.bId.isEmpty) {
-                          _postBusness(
-                              selectedBusness,
-                              _singersCoKnownController.text,
-                              singersDefaultImg,
-                              _generalimage,
-                              _singersCoPriceController.text,
-                              _singersCoPhoneController.text,
-                              _singersCoLocationController.text,
-                              _singersCoKnownController.text,
-                              singersId,
-                              _singersCeobioController.text,
-                              _singersCoAboutController.text,
-                              insertBrandName,
-                              insertPrice,
-                              insertPhoneNumber,
-                              insertContact,
-                              insertLastMsg);
+                    if (selectedBusness == 'Singer') {
+                      if (widget.getData.bId.isEmpty) {
+                        _postBusness(
+                            selectedBusness,
+                            _singersCoKnownController.text,
+                            singersDefaultImg,
+                            _generalimage,
+                            _singersCoPriceController.text,
+                            _singersCoPhoneController.text,
+                            _singersCoLocationController.text,
+                            _singersCoKnownController.text,
+                            singersId,
+                            _singersCeobioController.text,
+                            _singersCoAboutController.text,
+                            insertBrandName,
+                            insertPrice,
+                            insertPhoneNumber,
+                            insertContact,
+                            insertLastMsg);
 
-                          // if (widget.getData.bId.isEmpty) {
-                        } else {
-                          _updateBusness(
-                              selectedBusness,
-                              _singersCoKnownController.text,
-                              singersDefaultImg,
-                              _generalimage,
-                              _singersCoPriceController.text,
-                              _singersCoPhoneController.text,
-                              _singersCoLocationController.text,
-                              _singersCoKnownController.text,
-                              singersId,
-                              _singersCeobioController.text,
-                              _singersCoAboutController.text,
-                              singersSubscription,
-                              insertBrandName,
-                              insertPrice,
-                              insertPhoneNumber,
-                              insertContact,
-                              insertLastMsg);
-                        }
+                        // if (widget.getData.bId.isEmpty) {
+                      } else {
+                        _updateBusness(
+                            selectedBusness,
+                            _singersCoKnownController.text,
+                            singersDefaultImg,
+                            _generalimage,
+                            _singersCoPriceController.text,
+                            _singersCoPhoneController.text,
+                            _singersCoLocationController.text,
+                            _singersCoKnownController.text,
+                            singersId,
+                            _singersCeobioController.text,
+                            _singersCoAboutController.text,
+                            singersSubscription,
+                            insertBrandName,
+                            insertPrice,
+                            insertPhoneNumber,
+                            insertContact,
+                            insertLastMsg);
                       }
+                    }
 
-                      if (selectedBusness == 'Dancer') {
-                        if (widget.getData.bId.isEmpty) {
-                          _postBusness(
-                              selectedBusness,
-                              _dancersCoKnownController.text,
-                              dancersDefaultImg,
-                              _generalimage,
-                              _dancersCoPriceController.text,
-                              _dancersCoPhoneController.text,
-                              _dancersCoLocationController.text,
-                              _dancersCoKnownController.text,
-                              dancersId,
-                              _dancersCeobioController.text,
-                              _dancersCoAboutController.text,
-                              insertBrandName,
-                              insertPrice,
-                              insertPhoneNumber,
-                              insertContact,
-                              insertLastMsg);
+                    if (selectedBusness == 'Dancer') {
+                      if (widget.getData.bId.isEmpty) {
+                        _postBusness(
+                            selectedBusness,
+                            _dancersCoKnownController.text,
+                            dancersDefaultImg,
+                            _generalimage,
+                            _dancersCoPriceController.text,
+                            _dancersCoPhoneController.text,
+                            _dancersCoLocationController.text,
+                            _dancersCoKnownController.text,
+                            dancersId,
+                            _dancersCeobioController.text,
+                            _dancersCoAboutController.text,
+                            insertBrandName,
+                            insertPrice,
+                            insertPhoneNumber,
+                            insertContact,
+                            insertLastMsg);
 
-                          // if (widget.getData.bId.isEmpty) {
-                        } else {
-                          _updateBusness(
-                              selectedBusness,
-                              _dancersCoKnownController.text,
-                              dancersDefaultImg,
-                              _generalimage,
-                              _dancersCoPriceController.text,
-                              _dancersCoPhoneController.text,
-                              _dancersCoLocationController.text,
-                              _dancersCoKnownController.text,
-                              dancersId,
-                              _dancersCeobioController.text,
-                              _dancersCoAboutController.text,
-                              dancersSubscription,
-                              insertBrandName,
-                              insertPrice,
-                              insertPhoneNumber,
-                              insertContact,
-                              insertLastMsg);
-                        }
+                        // if (widget.getData.bId.isEmpty) {
+                      } else {
+                        _updateBusness(
+                            selectedBusness,
+                            _dancersCoKnownController.text,
+                            dancersDefaultImg,
+                            _generalimage,
+                            _dancersCoPriceController.text,
+                            _dancersCoPhoneController.text,
+                            _dancersCoLocationController.text,
+                            _dancersCoKnownController.text,
+                            dancersId,
+                            _dancersCeobioController.text,
+                            _dancersCoAboutController.text,
+                            dancersSubscription,
+                            insertBrandName,
+                            insertPrice,
+                            insertPhoneNumber,
+                            insertContact,
+                            insertLastMsg);
                       }
+                    }
 
-                      if (selectedBusness == 'Cooker') {
-                        if (widget.getData.bId.isEmpty) {
-                          _postBusness(
-                              selectedBusness,
-                              _cookerCoKnownController.text,
-                              cookerDefaultImg,
-                              _generalimage,
-                              _cookerCoPriceController.text,
-                              _cookerCoPhoneController.text,
-                              _cookerCoLocationController.text,
-                              _cookerCoKnownController.text,
-                              cookerId,
-                              _cookerCeobioController.text,
-                              _cookerCoAboutController.text,
-                              insertBrandName,
-                              insertPrice,
-                              insertPhoneNumber,
-                              insertContact,
-                              insertLastMsg);
+                    if (selectedBusness == 'Cooker') {
+                      if (widget.getData.bId.isEmpty) {
+                        _postBusness(
+                            selectedBusness,
+                            _cookerCoKnownController.text,
+                            cookerDefaultImg,
+                            _generalimage,
+                            _cookerCoPriceController.text,
+                            _cookerCoPhoneController.text,
+                            _cookerCoLocationController.text,
+                            _cookerCoKnownController.text,
+                            cookerId,
+                            _cookerCeobioController.text,
+                            _cookerCoAboutController.text,
+                            insertBrandName,
+                            insertPrice,
+                            insertPhoneNumber,
+                            insertContact,
+                            insertLastMsg);
 
-                          // if (widget.getData.bId.isEmpty) {
-                        } else {
-                          _updateBusness(
-                              selectedBusness,
-                              _cookerCoKnownController.text,
-                              cookerDefaultImg,
-                              _generalimage,
-                              _cookerCoPriceController.text,
-                              _cookerCoPhoneController.text,
-                              _cookerCoLocationController.text,
-                              _cookerCoKnownController.text,
-                              cookerId,
-                              _cookerCeobioController.text,
-                              _cookerCoAboutController.text,
-                              cookerSubscription,
-                              insertBrandName,
-                              insertPrice,
-                              insertPhoneNumber,
-                              insertContact,
-                              insertLastMsg);
-                        }
+                        // if (widget.getData.bId.isEmpty) {
+                      } else {
+                        _updateBusness(
+                            selectedBusness,
+                            _cookerCoKnownController.text,
+                            cookerDefaultImg,
+                            _generalimage,
+                            _cookerCoPriceController.text,
+                            _cookerCoPhoneController.text,
+                            _cookerCoLocationController.text,
+                            _cookerCoKnownController.text,
+                            cookerId,
+                            _cookerCeobioController.text,
+                            _cookerCoAboutController.text,
+                            cookerSubscription,
+                            insertBrandName,
+                            insertPrice,
+                            insertPhoneNumber,
+                            insertContact,
+                            insertLastMsg);
                       }
+                    }
 
-                      if (selectedBusness == 'saloon') {
-                        if (widget.getData.bId.isEmpty) {
-                          _postBusness(
-                              selectedBusness,
-                              _saloonCoKnownController.text,
-                              saloonDefaultImg,
-                              _generalimage,
-                              _saloonCoPriceController.text,
-                              _saloonCoPhoneController.text,
-                              _saloonCoLocationController.text,
-                              _saloonCoKnownController.text,
-                              saloonId,
-                              _saloonCeobioController.text,
-                              _saloonCoAboutController.text,
-                              insertBrandName,
-                              insertPrice,
-                              insertPhoneNumber,
-                              insertContact,
-                              insertLastMsg);
-                          // if (widget.getData.bId.isEmpty) {
-                        } else {
-                          _updateBusness(
-                              selectedBusness,
-                              _saloonCoKnownController.text,
-                              saloonDefaultImg,
-                              _generalimage,
-                              _saloonCoPriceController.text,
-                              _saloonCoPhoneController.text,
-                              _saloonCoLocationController.text,
-                              _saloonCoKnownController.text,
-                              saloonId,
-                              _saloonCeobioController.text,
-                              _saloonCoAboutController.text,
-                              saloonSubscription,
-                              insertBrandName,
-                              insertPrice,
-                              insertPhoneNumber,
-                              insertContact,
-                              insertLastMsg);
-                        }
+                    if (selectedBusness == 'saloon') {
+                      if (widget.getData.bId.isEmpty) {
+                        _postBusness(
+                            selectedBusness,
+                            _saloonCoKnownController.text,
+                            saloonDefaultImg,
+                            _generalimage,
+                            _saloonCoPriceController.text,
+                            _saloonCoPhoneController.text,
+                            _saloonCoLocationController.text,
+                            _saloonCoKnownController.text,
+                            saloonId,
+                            _saloonCeobioController.text,
+                            _saloonCoAboutController.text,
+                            insertBrandName,
+                            insertPrice,
+                            insertPhoneNumber,
+                            insertContact,
+                            insertLastMsg);
+                        // if (widget.getData.bId.isEmpty) {
+                      } else {
+                        _updateBusness(
+                            selectedBusness,
+                            _saloonCoKnownController.text,
+                            saloonDefaultImg,
+                            _generalimage,
+                            _saloonCoPriceController.text,
+                            _saloonCoPhoneController.text,
+                            _saloonCoLocationController.text,
+                            _saloonCoKnownController.text,
+                            saloonId,
+                            _saloonCeobioController.text,
+                            _saloonCoAboutController.text,
+                            saloonSubscription,
+                            insertBrandName,
+                            insertPrice,
+                            insertPhoneNumber,
+                            insertContact,
+                            insertLastMsg);
                       }
-                      if (selectedBusness == 'Car') {
-                        if (widget.getData.bId.isEmpty) {
-                          _postBusness(
-                              selectedBusness,
-                              _carsCoKnownController.text,
-                              carsDefaultImg,
-                              _generalimage,
-                              _carsCoPriceController.text,
-                              _carsCoPhoneController.text,
-                              _carsCoLocationController.text,
-                              _carsCoKnownController.text,
-                              carsId,
-                              _carsCeobioController.text,
-                              _carsCoAboutController.text,
-                              insertBrandName,
-                              insertPrice,
-                              insertPhoneNumber,
-                              insertContact,
-                              insertLastMsg);
-                          // if (widget.getData.bId.isEmpty) {
-                        } else {
-                          _updateBusness(
-                              selectedBusness,
-                              _carsCoKnownController.text,
-                              carsDefaultImg,
-                              _generalimage,
-                              _carsCoPriceController.text,
-                              _carsCoPhoneController.text,
-                              _carsCoLocationController.text,
-                              _carsCoKnownController.text,
-                              carsId,
-                              _carsCeobioController.text,
-                              _carsCoAboutController.text,
-                              carsSubscription,
-                              insertBrandName,
-                              insertPrice,
-                              insertPhoneNumber,
-                              insertContact,
-                              insertLastMsg);
-                        }
+                    }
+                    if (selectedBusness == 'Car') {
+                      if (widget.getData.bId.isEmpty) {
+                        _postBusness(
+                            selectedBusness,
+                            _carsCoKnownController.text,
+                            carsDefaultImg,
+                            _generalimage,
+                            _carsCoPriceController.text,
+                            _carsCoPhoneController.text,
+                            _carsCoLocationController.text,
+                            _carsCoKnownController.text,
+                            carsId,
+                            _carsCeobioController.text,
+                            _carsCoAboutController.text,
+                            insertBrandName,
+                            insertPrice,
+                            insertPhoneNumber,
+                            insertContact,
+                            insertLastMsg);
+                        // if (widget.getData.bId.isEmpty) {
+                      } else {
+                        _updateBusness(
+                            selectedBusness,
+                            _carsCoKnownController.text,
+                            carsDefaultImg,
+                            _generalimage,
+                            _carsCoPriceController.text,
+                            _carsCoPhoneController.text,
+                            _carsCoLocationController.text,
+                            _carsCoKnownController.text,
+                            carsId,
+                            _carsCeobioController.text,
+                            _carsCoAboutController.text,
+                            carsSubscription,
+                            insertBrandName,
+                            insertPrice,
+                            insertPhoneNumber,
+                            insertContact,
+                            insertLastMsg);
                       }
-                    },
-                    child: busnessSave())
-                : const SizedBox(),
-          ],
-        ),
-        body: Column(
-          children: [
-            const SizedBox(
-              height: 8,
-            ),
+                    }
+                  },
+                  child: busnessSave())
+              : const SizedBox(),
+        ],
+      ),
+      body: Column(
+        children: [
+          const SizedBox(
+            height: 8,
+          ),
 
-            categorySelect,
+          categorySelect,
 
-            const SizedBox(
-              height: 5,
-            ),
+          const SizedBox(
+            height: 5,
+          ),
 
-            //Background Image Upload
-            if (selectedBusness == 'Please Choose Busness')
-              Text('Select Busness',
-                  style: TextStyle(color: OColors.fontColor)),
+          //Background Image Upload
+          if (selectedBusness == 'Please Choose Busness')
+            Text('Select Busness', style: TextStyle(color: OColors.fontColor)),
 
-            if (selectedBusness != 'Please Choose Busness')
-              Card(
-                color: OColors.darGrey,
-                child: Stack(children: [
-                  SizedBox(
-                    width: 310,
-                    height: 120,
-                    child: _generalimage != null
-                        ? Image.file(_generalimage!,
-                            width: 300, fit: BoxFit.cover)
-                        : widget.getData.bId.isNotEmpty
-                            ? Image.network(
-                                '${api}public/uploads/${widget.getData.user.username}/busness/${widget.getData.coProfile}',
-                                fit: BoxFit.cover,
-                              )
-                            : const Image(
-                                fit: BoxFit.cover,
-                                image: AssetImage('assets/logo/noimage.png')),
-                  ),
-                  Positioned(
-                    top: 5,
-                    left: 0,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: OColors.primary,
-                        borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(10),
-                            bottomRight: Radius.circular(10)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('Upload ',
-                            style: TextStyle(
-                                color: OColors.fontColor,
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold)),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 20,
-                    right: 10,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // Gallary
-                        GestureDetector(
-                          onTap: () {
-                            _openImagePicker(ImageSource.gallery);
-                          },
-                          child: Card(
-                            color: OColors.primary,
-                            child: const Padding(
-                              padding: EdgeInsets.all(5.0),
-                              child: Icon(
-                                Icons.photo_library,
-                                color: Colors.white,
-                                size: 16,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        GestureDetector(
-                          onTap: () {
-                            _openImagePicker(ImageSource.camera);
-                          },
-                          child: Card(
-                            color: OColors.primary,
-                            child: const Padding(
-                              padding: EdgeInsets.all(5.0),
-                              child: Icon(
-                                Icons.camera,
-                                color: Colors.white,
-                                size: 16,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ]),
-              ),
-
-            //Tabs Bar Buttons
-            if (selectedBusness != 'Please Choose Busness')
-              PreferredSize(
-                  preferredSize: _tabBar.preferredSize,
+          if (selectedBusness != 'Please Choose Busness')
+            Card(
+              color: OColors.darGrey,
+              child: Stack(children: [
+                SizedBox(
+                  width: 310,
+                  height: 120,
+                  child: _generalimage != null
+                      ? Image.file(_generalimage!,
+                          width: 300, fit: BoxFit.cover)
+                      : widget.getData.bId.isNotEmpty
+                          ? Image.network(
+                              '${api}public/uploads/${widget.getData.user.username}/busness/${widget.getData.coProfile}',
+                              fit: BoxFit.cover,
+                            )
+                          : const Image(
+                              fit: BoxFit.cover,
+                              image: AssetImage('assets/logo/noimage.png')),
+                ),
+                Positioned(
+                  top: 5,
+                  left: 0,
                   child: Container(
-                      decoration: const BoxDecoration(
-                          border: Border(
-                              bottom:
-                                  BorderSide(color: Colors.grey, width: 0.8))),
-                      child:
-                          ColoredBox(color: OColors.darGrey, child: _tabBar))),
-
-            //Tabs Views
-            if (selectedBusness != 'Please Choose Busness')
-              Expanded(
-                  child: TabBarView(children: [
-                Column(
-                  children: [
-                    if (selectedBusness == _busness[0]) mcCoCategory,
-                    if (selectedBusness == _busness[1]) prodCoCategory,
-                    if (selectedBusness == _busness[2]) decCoCategory,
-                    if (selectedBusness == _busness[3]) hallCoCategory,
-                    if (selectedBusness == _busness[4]) cakeCoCategory,
-                    if (selectedBusness == _busness[5]) singCoCategory,
-                    if (selectedBusness == _busness[6]) dancCoCategory,
-                    if (selectedBusness == _busness[7]) cokCoCategory,
-                    if (selectedBusness == _busness[8]) salCoCategory,
-                    if (selectedBusness == _busness[9]) carCoCategory,
-                  ],
+                    decoration: BoxDecoration(
+                      color: OColors.primary,
+                      borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(10),
+                          bottomRight: Radius.circular(10)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Upload ',
+                          style: TextStyle(
+                              color: OColors.fontColor,
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ),
                 ),
-                Column(
-                  children: [
-                    if (selectedBusness == _busness[0]) mcCeoCategory,
-                    if (selectedBusness == _busness[1]) prodCeoCategory,
-                    if (selectedBusness == _busness[2]) decCeoCategory,
-                    if (selectedBusness == _busness[3]) hallCeoCategory,
-                    if (selectedBusness == _busness[4]) cakeCeoCategory,
-                    if (selectedBusness == _busness[5]) singCeoCategory,
-                    if (selectedBusness == _busness[6]) dancCeoCategory,
-                    if (selectedBusness == _busness[7]) cokCeoCategory,
-                    if (selectedBusness == _busness[8]) salCeoCategory,
-                    if (selectedBusness == _busness[9]) carCeoCategory,
-                  ],
+                Positioned(
+                  top: 20,
+                  right: 10,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Gallary
+                      GestureDetector(
+                        onTap: () {
+                          _openImagePicker(ImageSource.gallery);
+                        },
+                        child: Card(
+                          color: OColors.primary,
+                          child: const Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Icon(
+                              Icons.photo_library,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      GestureDetector(
+                        onTap: () {
+                          _openImagePicker(ImageSource.camera);
+                        },
+                        child: Card(
+                          color: OColors.primary,
+                          child: const Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Icon(
+                              Icons.camera,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+              ]),
+            ),
 
-                //Other Tabs Here...
-              ])),
-          ],
-        ),
+          //Tabs Bar Buttons
+          // if (selectedBusness != 'Please Choose Busness')
+          //   // PreferredSize(
+          //   //     preferredSize: _tabBar.preferredSize,
+          //   //     child: Container(
+          //   //         decoration: const BoxDecoration(
+          //   //             border: Border(
+          //   //                 bottom:
+          //   //                     BorderSide(color: Colors.grey, width: 0.8))),
+          //   //         child:
+          //   //             ColoredBox(color: OColors.darGrey, child: _tabBar))),
+          //   Container(
+          //       width: MediaQuery.of(context).size.width,
+          //       color: OColors.darGrey,
+          //       child: Padding(
+          //         padding: const EdgeInsets.all(8.0),
+          //         child: Text('Busness Info', style: header16),
+          //       )),
+          //Tabs Views
+          if (selectedBusness != 'Please Choose Busness')
+            Expanded(
+                child: Column(
+              children: [
+                if (selectedBusness == _busness[0]) mcCoCategory,
+                if (selectedBusness == _busness[1]) prodCoCategory,
+                if (selectedBusness == _busness[2]) decCoCategory,
+                if (selectedBusness == _busness[3]) hallCoCategory,
+                if (selectedBusness == _busness[4]) cakeCoCategory,
+                if (selectedBusness == _busness[5]) singCoCategory,
+                if (selectedBusness == _busness[6]) dancCoCategory,
+                if (selectedBusness == _busness[7]) cokCoCategory,
+                if (selectedBusness == _busness[8]) salCoCategory,
+                if (selectedBusness == _busness[9]) carCoCategory,
+              ],
+            )),
+        ],
       ),
     );
   }

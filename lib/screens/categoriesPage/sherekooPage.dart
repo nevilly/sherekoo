@@ -8,6 +8,7 @@ import '../../util/Preferences.dart';
 import '../../util/modInstance.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../widgets/categoriesWidgets/ctgrWigets.dart';
+import '../../widgets/categoriesWidgets/hotCtgry.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
 import '../../widgets/ourServiceWidg/sherkoSvcWdg.dart';
 import '../../widgets/searchBar/search_Busness.dart';
@@ -22,15 +23,12 @@ class Sherekoo extends StatefulWidget {
 }
 
 class _SherekooState extends State<Sherekoo> {
-
-
   late String dataType = '';
   late String title = '';
   late Color rangi;
 
   final StreamController<String> _controller = StreamController<String>();
   final StreamController<String> _controller2 = StreamController<String>();
-
 
   String page = '';
   String page2 = '';
@@ -255,7 +253,7 @@ class _SherekooState extends State<Sherekoo> {
                         child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    CategoryBody(
+                    HotCategoryBody(
                       stream: _controller.stream,
                       title: 'Hot $title',
                       heights: 65,

@@ -435,7 +435,7 @@ class _BsnDetailsState extends State<BsnDetails> {
                 fontSize: 14,
                 fontWeight: FontWeight.w200,
                 fontStyle: FontStyle.italic,
-                color: OColors.primary2),
+                color: OColors.primary),
           ),
           const SizedBox(height: 5),
 

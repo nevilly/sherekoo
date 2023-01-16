@@ -109,7 +109,7 @@ class CrmCall {
       String token, String dirUrl, String uid, limit, offset) async {
     Uri url = Uri.parse(dirUrl);
     Map<String, dynamic> toMap() {
-      return <String, dynamic>{'crmId': uid, 'offset': offset, 'limit': limit};
+      return <String, dynamic>{'userId': uid, 'offset': offset, 'limit': limit};
     }
 
     invalidToken(token);

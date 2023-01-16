@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:sherekoo/util/colors.dart';
+import 'package:sherekoo/util/textStyle-pallet.dart';
 import '../../model/authentication/loginModel.dart';
 import '../../model/user/userModel.dart';
 import '../../util/Locale.dart';
@@ -20,7 +22,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool isSwahili = false, isVisibleDrawer = true, r = false;
-  
+
   final Preferences _preferences = Preferences();
   String u = '';
   bool isLoggedIn = false;
@@ -130,11 +132,38 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               Flexible(
                 child: Center(
-                  child: Text(
+                  child:
+                      //     Row(
+                      //   children: [
+                      //     const Image(
+                      //       image: AssetImage('assets/logo/logshere.png'),
+                      //       width: 100,
+                      //       height: 100,
+                      //     ),
+                      //     Column(
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       children: [
+                      //         Text(
+                      //           'Shere',
+                      //           style: header16.copyWith(fontWeight: FontWeight.bold),
+                      //         ),
+                      //         Text(
+                      //           'KOO',
+                      //           style: header18.copyWith(
+                      //               fontSize: 45,
+                      //               fontWeight: FontWeight.w100,
+                      //               letterSpacing: 4),
+                      //         ),
+                      //       ],
+                      //     )
+                      //   ],
+                      // )
+
+                      Text(
                     OLocale(false, 0).get(),
                     style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 60,
+                        fontSize: 50,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -241,7 +270,7 @@ class _LoginPageState extends State<LoginPage> {
                     width: size.width * 0.8,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
-                      color: kRed,
+                      color: prmry,
                     ),
                     // ignore: deprecated_member_use
                     child: FlatButton(
@@ -266,10 +295,9 @@ class _LoginPageState extends State<LoginPage> {
                         builder: (BuildContext context) =>
                             const CreateNewAccount())),
                 child: Container(
-                  decoration: const BoxDecoration(
-                      border: Border(
-                          bottom:
-                              BorderSide(width: 1, color: Colors.lightBlue))),
+                  decoration: BoxDecoration(
+                      border:
+                          Border(bottom: BorderSide(width: 1, color: prmry))),
                   child: Text(
                     OLocale(false, 5).get(),
                     style: kBodyText_login,

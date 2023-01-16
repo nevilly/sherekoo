@@ -317,7 +317,7 @@ class _UploadImageState extends State<UploadImage> {
                     padding: const EdgeInsets.all(8),
                     margin: const EdgeInsets.only(right: 5),
                     decoration: BoxDecoration(
-                        color: OColors.primary2,
+                        color: OColors.primary,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(50))),
                     child: Icon(
