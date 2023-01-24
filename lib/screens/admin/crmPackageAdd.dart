@@ -33,7 +33,7 @@ class _CrmPackageAddState extends State<CrmPackageAdd> {
   File? _generalimage;
   String token = "";
 
-  final List _col = ['fffca01c', '#ff8028ff', '#ff8028ff'];
+  final List _col = [];
 
   @override
   void initState() {
@@ -242,7 +242,7 @@ class _CrmPackageAddState extends State<CrmPackageAdd> {
                                 contentPadding:
                                     EdgeInsets.only(left: 20.0, right: 20.0),
                                 border: InputBorder.none,
-                                hintText: "Amount.. \n \n \n",
+                                hintText: "Color Name.. \n \n \n",
                                 hintStyle:
                                     TextStyle(color: Colors.grey, height: 1.5),
                               ),
@@ -279,7 +279,7 @@ class _CrmPackageAddState extends State<CrmPackageAdd> {
                                 contentPadding:
                                     EdgeInsets.only(left: 20.0, right: 20.0),
                                 border: InputBorder.none,
-                                hintText: "Amount.. \n \n \n",
+                                hintText: "Color.. \n \n \n",
                                 hintStyle:
                                     TextStyle(color: Colors.grey, height: 1.5),
                               ),
@@ -305,7 +305,7 @@ class _CrmPackageAddState extends State<CrmPackageAdd> {
                               "color": _color.text
                             };
                             _col.add(colory);
-                            // print(_col);
+                            print(_col);
                             _colorName.clear();
                             _color.clear();
                           });

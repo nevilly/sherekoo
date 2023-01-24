@@ -139,7 +139,7 @@ class _BigMonthRegisteredState extends State<BigMonthRegistered> {
                                 context,
                                 urlBigShowImg + itm.showImage,
                                 size.width / 1,
-                                size.height / 1.5),
+                                size.height / 1.5,BoxFit.fitWidth),
                           ),
                           title: Row(
                             children: [

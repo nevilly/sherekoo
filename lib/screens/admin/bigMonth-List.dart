@@ -195,7 +195,7 @@ class _BigMonthShowListState extends State<BigMonthShowList> {
                       height: 60,
                       width: 70,
                       child: fadeImg(context, urlBigShowImg + itm.showImage,
-                          size.width / 1, size.height / 1.5),
+                          size.width / 1, size.height / 1.5,BoxFit.fitWidth),
                     ),
                     title: Row(
                       children: [

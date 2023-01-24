@@ -6,9 +6,9 @@ import '../model/user/userModel.dart';
 import '../util/app-variables.dart';
 import '../util/colors.dart';
 import 'categoriesPage/sherekooPage.dart';
-import 'crmScreen/crmOn-nav.dart';
 import 'home.dart';
 import 'profile/profile.dart';
+import 'sherekooBundle/sherekoBundle.dart';
 import 'uploadScreens/uploadSherekoo.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -45,7 +45,8 @@ class _HomeNavState extends State<HomeNav> {
 
   final screen = [
     SherekooUpload(from: 'Home', crm: emptyCrmModel),
-    const CrmOnNav(),
+    // const CrmOnNav(),
+    const SherekooBundle(),
     const Home(),
     const Sherekoo()
   ];

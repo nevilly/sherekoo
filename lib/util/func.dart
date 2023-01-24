@@ -955,7 +955,7 @@ Column personalProfile(BuildContext context, String avater, String url,
       Container(
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(r)),
         child: avater != ''
-            ? CircleAvatar(radius: r, child: fadeImg(context, url, w, h))
+            ? CircleAvatar(radius: r, child: fadeImg(context, url, w, h,BoxFit.fitWidth))
             : ClipOval(
                 child: DefaultAvater(
                     height: MediaQuery.of(context).size.height / h,
@@ -975,7 +975,7 @@ Column personProfileClipOval(BuildContext context, String avater, String url,
           ? CircleAvatar(
               backgroundColor: bkColor,
               radius: r,
-              child: ClipOval(child: fadeImg(context, url, w, h)))
+              child: ClipOval(child: fadeImg(context, url, w, h,BoxFit.fitWidth)))
           : CircleAvatar(
               backgroundColor: bkColor,
               radius: r,
@@ -1038,14 +1038,14 @@ Future cropImage(File imageFile) async {
 }
 
 // Fade Image
-FadeInImage fadeImg(BuildContext context, img, double w, double h) {
+FadeInImage fadeImg(BuildContext context, img, double w, double h,BoxFit fit) {
   return FadeInImage(
     image: NetworkImage(img),
     fadeInDuration: const Duration(milliseconds: 100),
     placeholder: const AssetImage('assets/logo/noimage.png'),
     imageErrorBuilder: (context, error, stackTrace) {
       return Image.asset('assets/logo/noimage.png',
-          width: w, height: h, fit: BoxFit.fitWidth);
+          width: w, height: h, fit: fit );
     },
     width: w,
     height: h,
@@ -1151,6 +1151,27 @@ showAlertDialog(BuildContext context, Widget title, Widget content,
       Navigator.of(context).pop();
       return alert;
     },
+  );
+}
+
+Column crmColorCode(BuildContext context, Color color, double r, double w,
+    double h, title, TextStyle header) {
+  return Column(
+    children: [
+      Container(
+        width: w,
+        height: h,
+        decoration:
+            BoxDecoration(color: color, borderRadius: BorderRadius.circular(r)),
+      ),
+      const SizedBox(
+        height: 2,
+      ),
+      Text(
+        title,
+        style: header,
+      )
+    ],
   );
 }
 

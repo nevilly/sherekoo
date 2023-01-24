@@ -18,12 +18,11 @@ import '../../model/user/userModel.dart';
 import '../../util/Preferences.dart';
 import '../../util/appWords.dart';
 import '../../util/func.dart';
-import '../../util/modInstance.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/imgWigdets/defaultAvater.dart';
 import '../../widgets/imgWigdets/userAvater.dart';
-import '../ourServices/sherekoService.dart';
+import '../sherekooBundle/sherekoBundle.dart';
 
 class CrmBundleAdmin extends StatefulWidget {
   final CrmPckModel crmPackageInfo;
@@ -37,6 +36,8 @@ class CrmBundleAdmin extends StatefulWidget {
 class _CrmBundleAdminState extends State<CrmBundleAdmin> {
   final Preferences _preferences = Preferences();
   final TextEditingController _aboutBundle = TextEditingController();
+  final TextEditingController _ownerName = TextEditingController();
+
   final TextEditingController _price = TextEditingController();
   final TextEditingController location = TextEditingController();
 
@@ -227,6 +228,9 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
                 // print('hallImageSample');
                 // print(hallImageSample);
 
+                // print('plan');
+                // print(plan);
+
                 CrmBundleCall(
                   status: 0,
                   payload: [],
@@ -236,6 +240,7 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
                         urladdCrmBundle,
                         _price.text,
                         bundleType,
+                        _ownerName.text,
                         _amountOfPeople.text,
                         _aboutBundle.text,
                         crmPackageInfo.id,
@@ -255,7 +260,7 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
                       context,
                       MaterialPageRoute(
                           builder: (BuildContext context) =>
-                              SherekoService(crm: emptyCrmModel, from: '')));
+                              const SherekooBundle()));
                 });
               } else {
                 fillTheBlanks(context, imgInsertAlt, altSty, odng);
@@ -975,6 +980,47 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
                   contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                   border: InputBorder.none,
                   hintText: "Location.. \n \n \n",
+                  hintStyle: TextStyle(color: Colors.grey, height: 1.5),
+                ),
+                style: const TextStyle(
+                    fontSize: 15, color: Colors.grey, height: 1.5),
+                onChanged: (value) {
+                  setState(() {
+                    //_email = value;
+                  });
+                },
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 8),
+          //location
+          Container(
+            width: size.width,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(2),
+                color: OColors.darkGrey),
+            padding: const EdgeInsets.all(6.0),
+            child: Container(
+              width: MediaQuery.of(context).size.width / 1.8,
+              height: 35,
+              padding: const EdgeInsets.only(
+                top: 5,
+              ),
+              decoration: BoxDecoration(
+                  border: Border.all(width: 1, color: Colors.grey),
+                  borderRadius: BorderRadius.circular(10),
+                  color: OColors.darkGrey),
+              child: TextField(
+                controller: _ownerName,
+                maxLines: null,
+                expands: true,
+                textAlign: TextAlign.left,
+                keyboardType: TextInputType.multiline,
+                decoration: const InputDecoration(
+                  contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
+                  border: InputBorder.none,
+                  hintText: "Bundle Owner Name.. \n \n \n",
                   hintStyle: TextStyle(color: Colors.grey, height: 1.5),
                 ),
                 style: const TextStyle(

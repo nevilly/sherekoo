@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:sherekoo/screens/ourServices/srvDetails.dart';
 import 'package:sherekoo/util/colors.dart';
 
-import '../../model/ceremony/crm-model.dart';
 import '../../model/crmBundle/bundle.dart';
 import '../../model/crmBundle/crmbundle-call.dart';
 import '../../model/crmPackage/crmPackage.dart';
@@ -19,17 +18,16 @@ import '../admin/crmPackageAdd.dart';
 import '../admin/crmPckSelect.dart';
 import '../admin/crnBundleOrders.dart';
 
-class SherekoService extends StatefulWidget {
-  final CeremonyModel crm;
-  final String from;
-  const SherekoService({Key? key, required this.from, required this.crm})
+class AboutBundle extends StatefulWidget {
+  final CrmPckModel crmPck;
+  const AboutBundle({Key? key,  required this.crmPck})
       : super(key: key);
 
   @override
-  State<SherekoService> createState() => _SherekoServiceState();
+  State<AboutBundle> createState() => _AboutBundleState();
 }
 
-class _SherekoServiceState extends State<SherekoService> {
+class _AboutBundleState extends State<AboutBundle> {
   final TextEditingController _birthdayDateController = TextEditingController();
   final Preferences _preferences = Preferences();
   String token = '';
@@ -56,16 +54,16 @@ class _SherekoServiceState extends State<SherekoService> {
       totalFollowers: '',
       totalFollowing: '',
       totalLikes: '');
-  
- CrmPckModel pck = CrmPckModel(
-    id: '',
-    title: '',
-    descr: '',
-    status: '',
-    colorCode: [],
-    createdDate: '',
-    inYear: '',
-    pImage: '');
+
+  CrmPckModel pck = CrmPckModel(
+      id: '',
+      title: '',
+      descr: '',
+      status: '',
+      colorCode: [],
+      createdDate: '',
+      inYear: '',
+      pImage: '');
   @override
   void initState() {
     _preferences.init();
@@ -73,9 +71,9 @@ class _SherekoServiceState extends State<SherekoService> {
       setState(() {
         token = value;
 
-        getlatestPackage();
-        getCrmBundle();
-        getUser(urlGetUser);
+        // getlatestPackage();
+        // getCrmBundle();
+        // getUser(urlGetUser);
       });
     });
     super.initState();
@@ -175,40 +173,42 @@ class _SherekoServiceState extends State<SherekoService> {
                           ],
                         ),
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height / 5,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: bundle.length,
-                          itemBuilder: (context, i) {
-                            final itm = bundle[i];
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            ServiceDetails(
-                                                crm: widget.crm,
-                                                bundle: itm,
-                                                currentUser: currentUser)));
-                              },
-                              child: Container(
-                                margin: const EdgeInsets.only(
-                                    left: 1.0, right: 1.0),
-                                padding: const EdgeInsets.all(4.0),
-                                child: crmBundle(
-                                    context,
-                                    "assets/ceremony/hs1.jpg",
-                                    itm.price,
-                                    itm.bundleType,
-                                    110),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+
+                      // SizedBox(
+                      //   width: MediaQuery.of(context).size.width,
+                      //   height: MediaQuery.of(context).size.height / 5,
+                      //   child: ListView.builder(
+                      //     scrollDirection: Axis.horizontal,
+                      //     itemCount: bundle.length,
+                      //     itemBuilder: (context, i) {
+                      //       final itm = bundle[i];
+                      //       return GestureDetector(
+                      //         onTap: () {
+                      //           Navigator.push(
+                      //               context,
+                      //               MaterialPageRoute(
+                      //                   builder: (BuildContext context) =>
+                      //                       ServiceDetails(
+                      //                           crm: widget.crm,
+                      //                           bundle: itm,
+                      //                           currentUser: currentUser)));
+                      //         },
+                      //         child: Container(
+                      //           margin: const EdgeInsets.only(
+                      //               left: 1.0, right: 1.0),
+                      //           padding: const EdgeInsets.all(4.0),
+                      //           child: crmBundle(
+                      //               context,
+                      //               "assets/ceremony/hs1.jpg",
+                      //               itm.price,
+                      //               itm.bundleType,
+                      //               110),
+                      //         ),
+                      //       );
+                      //     },
+                      //   ),
+                      // ),
+
                       const SizedBox(
                         height: 15,
                       )
@@ -256,7 +256,6 @@ class _SherekoServiceState extends State<SherekoService> {
                 ),
               )
             : const SizedBox.shrink(),
-     
       ],
     );
   }
@@ -586,7 +585,6 @@ class _SherekoServiceState extends State<SherekoService> {
           );
         });
   }
-
 }
 
 class AlwaysDisabledFocusNode extends FocusNode {

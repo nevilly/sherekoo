@@ -257,7 +257,7 @@ class _MyServiceState extends State<MyService> {
                             child: Row(
                               // mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                fadeImg(context, imgUrl, 100.0, 100.0),
+                                fadeImg(context, imgUrl, 100.0, 100.0,BoxFit.fitWidth),
 
                                 Container(
                                   margin: const EdgeInsets.only(left: 20),

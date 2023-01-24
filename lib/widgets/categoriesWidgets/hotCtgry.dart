@@ -246,7 +246,7 @@ class _HotCategoryBodyState extends State<HotCategoryBody> {
                                                 context,
                                                 '${api}public/uploads/${data[index].user.username}/busness/${data[index].coProfile}',
                                                 50.0,
-                                                50.0)
+                                                50.0,BoxFit.fitWidth)
                                             : const SizedBox(height: 1)),
                                   )),
                               Container(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../model/InvCards/cards.dart';
 import '../../model/bundleBooking/bundle-orders.dart';
+import '../../model/bundleBooking/bundleOrders-Model.dart';
 import '../../model/ceremony/crm-model.dart';
 import '../../model/crmBundle/bundle.dart';
 import '../../model/services/servicexModel.dart';
@@ -15,6 +16,7 @@ import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/gradientBorder.dart';
+import '../../widgets/imgWigdets/defaultAvater.dart';
 import '../../widgets/imgWigdets/userAvater.dart';
 import '../admin/crmBundleAdmin.dart';
 
@@ -82,7 +84,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
   void initState() {
     _tabController = TabController(
       initialIndex: 0,
-      length: 3,
+      length: 4,
       vsync: this,
     );
     _tabController.addListener(() {});
@@ -120,8 +122,20 @@ class _ServiceDetailsState extends State<ServiceDetails>
           _tabController.animation;
         });
       }
+      bundleSchedule('$urlGetCrmBundleSchedule/${widget.bundle.id}');
     });
     super.initState();
+  }
+
+  List<BundleOrderModel> ratiba = [];
+  bundleSchedule(dirUl) {
+    BundleOrders(payload: [], status: 0).get(token, dirUl).then((v) {
+      if (v.status == 200) {
+        ratiba = v.payload
+            .map<BundleOrderModel>((e) => BundleOrderModel.fromJson(e))
+            .toList();
+      }
+    });
   }
 
   orderCrmBundle(BuildContext context, TextEditingController contact,
@@ -191,10 +205,13 @@ class _ServiceDetailsState extends State<ServiceDetails>
               text: 'OverView',
             ),
             Tab(
-              text: 'Saved By',
+              text: 'Schedule',
             ),
             Tab(
-              text: 'Bundle Plan',
+              text: 'SavedBy',
+            ),
+            Tab(
+              text: 'Plan',
             )
           ]);
 
@@ -244,6 +261,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                   controller: _tabController,
                   children: [
                     overViews(context, size),
+                    schedule(),
                     seviceDetails(context, size),
                     servicePlan(context, size)
                   ],
@@ -328,49 +346,119 @@ class _ServiceDetailsState extends State<ServiceDetails>
                 height: 60,
                 color: OColors.primary.withOpacity(.2),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     //SuperVisor Profile
 
-                    LiveBorder(
-                        live: const SizedBox.shrink(),
-                        radius: 30,
-                        child: CircleAvatar(
-                            radius: 10,
-                            backgroundImage: NetworkImage(
-                              '${api}public/uploads/${superVisorInfo.username!}/profile/${superVisorInfo.avater!}',
-                            ))),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    // SUperVisor Details
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            superVisorInfo.username!,
-                            style: header13,
+                    Row(
+                      children: [
+                        LiveBorder(
+                            live: const SizedBox.shrink(),
+                            radius: 30,
+                            child: CircleAvatar(
+                                radius: 10,
+                                backgroundImage: NetworkImage(
+                                  '${api}public/uploads/${superVisorInfo.username!}/profile/${superVisorInfo.avater!}',
+                                ))),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        // SUperVisor Details
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Super Visor',
+                                style: header13,
+                              ),
+                              const SizedBox(
+                                height: 1,
+                              ),
+                              Text(
+                                superVisorInfo.username!,
+                                style: header11,
+                              ),
+                            ],
                           ),
-                          const SizedBox(
-                            height: 1,
-                          ),
-                          Text(
-                            'Super Visor',
-                            style: header10,
-                          )
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      width: size.width / 3.8,
-                    ),
+
                     booking(context, size, 80, 32),
                   ],
                 ),
               ),
       ),
     );
+  }
+
+  Scrollbar schedule() {
+    return Scrollbar(
+        child: ratiba.isNotEmpty
+            ? ListView.builder(
+                itemCount: ratiba.length,
+                itemBuilder: (BuildContext context, i) {
+                  final itm = ratiba[i];
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                        height: 70,
+                        width: 100,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: prmry),
+                        child: Container(
+                          color: OColors.darGrey,
+                          width: 90,
+                          margin: const EdgeInsets.only(left: 6),
+                          padding: const EdgeInsets.all(8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('Booked on', style: header12),
+                                    Text(itm.ceremonyDate,
+                                        style: header14.copyWith(
+                                            fontWeight: FontWeight.bold)),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: OColors.secondary,
+                                ),
+                                child: itm.userInfo.avater != ''
+                                    ? LiveBorder(
+                                        live: const SizedBox.shrink(),
+                                        radius: 30,
+                                        child: CircleAvatar(
+                                            radius: 10,
+                                            backgroundImage: NetworkImage(
+                                              '${api}public/uploads/${itm.userInfo.username}/profile/${itm.userInfo.avater!}',
+                                            )))
+                                    : const LiveBorder(
+                                        live: SizedBox.shrink(),
+                                        radius: 30,
+                                        child: DefaultAvater(
+                                            height: 40, radius: 50, width: 40)),
+                              ),
+                            ],
+                          ),
+                        )),
+                  );
+                })
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [Text('Booking Now', style: header16)],
+              ));
   }
 
   List<Widget> actionBar(BuildContext context, size, int w, int h) {
@@ -409,28 +497,6 @@ class _ServiceDetailsState extends State<ServiceDetails>
     );
   }
 
-  // Container flatButton(String text) {
-  //   return Container(
-  //     margin: const EdgeInsets.only(left: 10, right: 20, top: 15, bottom: 15),
-  //     padding: const EdgeInsets.only(left: 15, right: 15, top: 4, bottom: 4),
-  //     alignment: Alignment.center,
-  //     decoration: BoxDecoration(
-  //         color: OColors.primary,
-  //         borderRadius: const BorderRadius.all(Radius.circular(80))),
-  //     child: ClipRRect(
-  //       borderRadius: BorderRadius.circular(50),
-  //       child: Container(
-  //         decoration: const BoxDecoration(
-  //             borderRadius: BorderRadius.all(Radius.circular(50))),
-  //         child: Text(
-  //           text,
-  //           style: header11.copyWith(fontWeight: FontWeight.bold),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   SafeArea bundleImage(Size size) {
     return SafeArea(
         bottom: false,
@@ -440,6 +506,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
             bImage != ''
                 ? ClipRect(
                     child: Stack(
+                      fit: StackFit.expand,
                       children: [
                         Positioned.fill(
                           child: ImageFiltered(
@@ -596,7 +663,8 @@ class _ServiceDetailsState extends State<ServiceDetails>
                           5,
                           50,
                           40,
-                          itm['colorName']);
+                          itm['colorName'],
+                          header12);
                     },
                   ),
                 ),
@@ -790,7 +858,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                             margin: const EdgeInsets.only(top: 5),
                             child: Column(
                               children: [
-                                fadeImg(
+                                fadeImg1(
                                     itm,
                                     context,
                                     '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.cardImage}',
@@ -910,11 +978,15 @@ class _ServiceDetailsState extends State<ServiceDetails>
           return Column(
             children: [
               template1(itm, 'Mc'),
-              template1(itm, 'Poduction'),
-              template1(itm, 'Decorators'),
+              template1(itm, 'Production'),
+              template1(itm, 'Decorator'),
               template2(itm, 'Saloon'),
+              template2(itm, 'Hall'),
+              template2(itm, 'Cooker'),
               template1(itm, 'Cake Bakery'),
               template2(itm, 'Clothes'),
+              template2(itm, 'Car'),
+              template1(itm, 'Singer'),
             ],
           );
         },
@@ -1049,123 +1121,128 @@ class _ServiceDetailsState extends State<ServiceDetails>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Saved By ${itm.bsnInfo!.busnessType}',
-                  style: header13.copyWith(
-                      color: OColors.fontColor, fontWeight: FontWeight.bold),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    'Saved By ${itm.bsnInfo!.busnessType}',
+                    style: header13.copyWith(
+                        color: OColors.fontColor, fontWeight: FontWeight.bold),
+                  ),
                 ),
                 const SizedBox(
                   height: 5,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(
-                            'assets/busness/mc/garb.jpg',
-                            width: 60,
-                            // height: 30,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Name: ${itm.bsnInfo!.companyName} ',
-                              style: header13.copyWith(
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            Text(
-                              itm.bsnInfo!.busnessType,
-                              style: header11,
-                            ),
-                            const SizedBox(height: 5),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-
-                    //Rates
-                    // Rate Stars
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          child: starsIcons(Colors.red, 45),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Row(children: [
-                          starsIcons(Colors.red, 13),
-                          starsIcons(Colors.red, 13),
-                          starsIcons(Colors.red, 13),
-                          starsIcons(Colors.red, 13),
-                          starsIcons(Colors.grey, 13),
-                        ]),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left: 10),
-                  height: 65,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    physics: const NeverScrollableScrollPhysics(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Image.asset('assets/busness/mc/garb.jpg'),
+                      Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: fadeImg(
+                                context,
+                                '${api}public/uploads/${itm.bsnInfo!.user.username!}/busness/${itm.bsnInfo!.coProfile}',
+                                60,
+                                60,
+                                BoxFit.cover),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                itm.bsnInfo!.busnessType,
+                                style: header13,
+                              ),
+                              Text(
+                                itm.bsnInfo!.companyName,
+                                style: header12.copyWith(
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              const SizedBox(height: 5),
+                            ],
+                          ),
+                        ],
                       ),
-                      const SizedBox(
-                        width: 6,
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Image.asset('assets/busness/mc/garb.jpg'),
-                      ),
-                      const SizedBox(
-                        width: 6,
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Image.asset('assets/busness/mc/garb.jpg'),
-                      ),
-                      const SizedBox(
-                        width: 6,
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Image.asset('assets/busness/mc/garb.jpg'),
-                      ),
+
+                      //Rates
+                      // Rate Stars
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            child: starsIcons(Colors.red, 45),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(children: [
+                            starsIcons(Colors.red, 13),
+                            starsIcons(Colors.red, 13),
+                            starsIcons(Colors.red, 13),
+                            starsIcons(Colors.red, 13),
+                            starsIcons(Colors.grey, 13),
+                          ]),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      )
                     ],
                   ),
-                )
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+
+                // Container(
+                //   margin: const EdgeInsets.only(left: 10),
+                //   height: 65,
+                //   child: ListView(
+                //     scrollDirection: Axis.horizontal,
+                //     physics: const NeverScrollableScrollPhysics(),
+                //     children: [
+                //       ClipRRect(
+                //         borderRadius: BorderRadius.circular(5),
+                //         child: Image.asset('assets/busness/mc/garb.jpg'),
+                //       ),
+                //       const SizedBox(
+                //         width: 6,
+                //       ),
+                //       ClipRRect(
+                //         borderRadius: BorderRadius.circular(5),
+                //         child: Image.asset('assets/busness/mc/garb.jpg'),
+                //       ),
+                //       const SizedBox(
+                //         width: 6,
+                //       ),
+                //       ClipRRect(
+                //         borderRadius: BorderRadius.circular(5),
+                //         child: Image.asset('assets/busness/mc/garb.jpg'),
+                //       ),
+                //       const SizedBox(
+                //         width: 6,
+                //       ),
+                //       ClipRRect(
+                //         borderRadius: BorderRadius.circular(5),
+                //         child: Image.asset('assets/busness/mc/garb.jpg'),
+                //       ),
+                //     ],
+                //   ),
+                // )
               ],
             ),
           ),
+        const SizedBox(height: 1),
       ],
     );
   }
 
-  FadeInImage fadeImg(CardsModel itm, BuildContext context, url, double h) {
+  FadeInImage fadeImg1(CardsModel itm, BuildContext context, url, double h) {
     return FadeInImage(
       image: NetworkImage(url),
       fadeInDuration: const Duration(milliseconds: 100),
@@ -1175,27 +1252,6 @@ class _ServiceDetailsState extends State<ServiceDetails>
       },
       height: h,
       fit: BoxFit.fitWidth,
-    );
-  }
-
-  Column crmColorCode(
-      BuildContext context, Color color, double r, double w, double h, title) {
-    return Column(
-      children: [
-        Container(
-          width: w,
-          height: h,
-          decoration: BoxDecoration(
-              color: color, borderRadius: BorderRadius.circular(r)),
-        ),
-        const SizedBox(
-          height: 2,
-        ),
-        Text(
-          title,
-          style: header12,
-        )
-      ],
     );
   }
 
@@ -1268,7 +1324,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
               // color: Colors.red,
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height / 2,
-              child: fadeImg(
+              child: fadeImg1(
                   itm, context, imgUrl, MediaQuery.of(context).size.height),
             ),
             const SizedBox(height: 10),
@@ -1289,7 +1345,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                       SizedBox(
                         width: w,
                         height: h,
-                        child: fadeImg(
+                        child: fadeImg1(
                             itm,
                             context,
                             '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.font}',
@@ -1316,7 +1372,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                       SizedBox(
                         width: w,
                         height: h,
-                        child: fadeImg(
+                        child: fadeImg1(
                             itm,
                             context,
                             '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.middle}',
@@ -1343,7 +1399,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                       SizedBox(
                         width: w,
                         height: h,
-                        child: fadeImg(
+                        child: fadeImg1(
                             itm,
                             context,
                             '${api}public/uploads/SherekooAdmin/InvitationCards/${itm.back}',

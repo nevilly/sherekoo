@@ -102,7 +102,7 @@ BusnessModel emptyBsnMdl = BusnessModel(
     user: emptyUser,
     createdDate: '');
 
-CrmPckModel pck = CrmPckModel(
+CrmPckModel empytCrmPckModel = CrmPckModel(
     id: '',
     title: '',
     descr: '',

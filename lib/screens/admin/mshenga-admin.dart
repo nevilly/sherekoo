@@ -467,7 +467,7 @@ class _AddMshengaWarTvShowState extends State<AddMshengaWarTvShow> {
                               ),
                             )
                           : fadeImg(
-                              context, urlMshenngaShowImg + showImage, 100, 80),
+                              context, urlMshenngaShowImg + showImage, 100, 80,BoxFit.fitWidth),
                     ),
                   ),
                   Positioned(

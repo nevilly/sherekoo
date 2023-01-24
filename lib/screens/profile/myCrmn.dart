@@ -31,7 +31,7 @@ class _MyCrmnState extends State<MyCrmn> {
     preferences.init();
     preferences.get('token').then((value) {
       setState(() {
-        print(widget.userId);
+        // print(widget.userId);
         token = value;
         getCeremonyPosts(widget.userId, offset, limit);
       });

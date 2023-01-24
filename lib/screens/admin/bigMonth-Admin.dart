@@ -466,7 +466,7 @@ class _AddBigMonthTvShowState extends State<AddBigMonthTvShow> {
                               ),
                             )
                           : fadeImg(
-                              context, urlBigShowImg + showImage, 100, 80),
+                              context, urlBigShowImg + showImage, 100, 80,BoxFit.fitWidth),
                     ),
                   ),
                   Positioned(

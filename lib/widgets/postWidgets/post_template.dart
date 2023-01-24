@@ -244,7 +244,7 @@ class PostTemplateState extends State<PostTemplate> {
                               height: 3,
                             ),
                             Text(
-                              widget.sherekoo.pId,
+                              totalLikes.toString(),
                               style: header12,
                             ),
                             // const SizedBox(

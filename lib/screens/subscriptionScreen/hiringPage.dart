@@ -289,7 +289,7 @@ class _HiringPageState extends State<HiringPage> {
                         context,
                         '${api}public/uploads/${bsn!.user.username}/busness/${bsn!.coProfile}',
                         150,
-                        100)),
+                        100,BoxFit.fitWidth)),
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -416,7 +416,7 @@ class _HiringPageState extends State<HiringPage> {
                               context,
                               '${api}public/uploads/$ceremonyUsername/ceremony/$ceremonyAvater',
                               50,
-                              50)),
+                              50,BoxFit.fitWidth)),
                       const SizedBox(
                         width: 5,
                       ),

@@ -92,7 +92,7 @@ class _AddmemberState extends State<Addmember> {
                           context,
                           '${api}public/uploads/${widget.option.username}/profile/${widget.option.avater}',
                           80.0,
-                          80.0)
+                          80.0,BoxFit.fitWidth)
                       : const DefaultAvater(height: 80, radius: 3, width: 80),
                   Padding(
                     padding: const EdgeInsets.only(left: 15.0),
@@ -270,7 +270,7 @@ class _AddmemberState extends State<Addmember> {
                             context,
                             '${api}public/uploads/${opt.username}/profile/${opt.avater}',
                             60.0,
-                            60.0)
+                            60.0,BoxFit.fitWidth)
                         : const DefaultAvater(height: 60, radius: 3, width: 60),
                     Padding(
                       padding: const EdgeInsets.only(left: 10.0),

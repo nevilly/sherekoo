@@ -186,7 +186,7 @@ class _CeremonyDayState extends State<CeremonyDay>
                                           context,
                                           '${api}public/uploads/${itm.userFid.username}/ceremony/${itm.cImage}',
                                           125.0,
-                                          125.0)
+                                          125.0,BoxFit.fitWidth)
                                       : const SizedBox(height: 1)),
                             ),
 

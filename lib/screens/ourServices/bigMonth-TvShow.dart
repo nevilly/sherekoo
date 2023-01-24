@@ -584,7 +584,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
                     children: [
                       InkWell(
                           child: fadeImg(
-                              context, img, size.width / 3, size.height / 6.5)),
+                              context, img, size.width / 3, size.height / 6.5,BoxFit.fitWidth)),
                       Positioned(
                           bottom: 0,
                           child: Container(
@@ -625,7 +625,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
         ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: fadeImg(context, url, MediaQuery.of(context).size.width / 1,
-                MediaQuery.of(context).size.height / 5)),
+                MediaQuery.of(context).size.height / 5,BoxFit.fitWidth)),
         Positioned(
             top: 8,
             left: 0,
@@ -1165,7 +1165,7 @@ class _BigMonthTvShowState extends State<BigMonthTvShow> {
                                         context,
                                         urlBigShowImg + itm.showImage,
                                         size.width / 1,
-                                        size.height / 1.5),
+                                        size.height / 1.5,BoxFit.fitWidth),
                                   ),
                                   title: Text(
                                     'Season ${itm.season}',

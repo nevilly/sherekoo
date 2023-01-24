@@ -17,6 +17,7 @@ class CrmBundleCall {
       String dirUrl,
       String price,
       String bundleType,
+      String ownerName,
       String amountOfPeople,
       String aboutBundle,
       String crmPackageInfo,
@@ -33,6 +34,8 @@ class CrmBundleCall {
     Map<String, dynamic> toMap() {
       return <String, dynamic>{
         'price': price,
+        'bundleType': bundleType,
+        'ownerName': ownerName,
         'bImage': bundleImage,
         'crmPackageId': crmPackageInfo,
         'location': location,
@@ -40,16 +43,16 @@ class CrmBundleCall {
         'aboutBundle': aboutBundle,
         'aboutPackage': aboutBundle,
         'superVisorId': superVisorId,
-        'bundleLevel': '1',
+        'bundleLevel': '0',
         'amountOfPeople': amountOfPeople,
-        // 'bsnId': jsonEncode(bsnId),
+        'bsnId': bsnId,
         'cardSampleId': cardId.toString(),
-        'hallImageSample': hallImageSample,
-        // 'plan': jsonEncode(plan),
+        // 'hallImageSample': hallImageSample,
+        'plan': jsonEncode(plan),
       };
     }
 
-    print(toMap());
+    // print(bsnId);
 
     invalidToken(token);
     Map<String, String> headers = myHttpHeaders(token);
@@ -62,7 +65,21 @@ class CrmBundleCall {
     Map<String, String> headers = myHttpHeaders(token);
     return getHttp(url, headers);
   }
+  
 
+  Future<CrmBundleCall> search(
+      String token, String dirUrl, String inyear) async {
+    Uri url = Uri.parse(dirUrl);
+    Map<String, dynamic> toMap() {
+      return <String, dynamic>{'inyear': inyear};
+    }
+
+    invalidToken(token);
+    Map<String, String> headers = myHttpHeaders(token);
+    return postHttp(url, toMap, headers);
+  }
+
+  
   Future<CrmBundleCall> updateCard(
       String token, String dirUrl, id, position) async {
     Uri url = Uri.parse(dirUrl);
@@ -156,6 +173,7 @@ Future<CrmBundleCall> postHttp(Uri url, Map<String, dynamic> Function() toMap,
   return await http
       .post(url, body: jsonEncode(toMap()), headers: headers)
       .then((r) {
+    // print(r.body);
     if (r.statusCode == 200) {
       return rBody(r);
     }

@@ -108,7 +108,7 @@ class HomeState extends State<Home> {
                         ? Image.network(
                             '${api}public/uploads/${itm.crmInfo.userFid.username}/posts/${itm.vedeo}',
                             // height: 400,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.fill,
                             loadingBuilder: (BuildContext context, Widget child,
                                 ImageChunkEvent? loadingProgress) {
                               if (loadingProgress == null) return child;

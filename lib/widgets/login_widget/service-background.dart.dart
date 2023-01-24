@@ -19,7 +19,7 @@ class ServicesBackgroundImage extends StatelessWidget {
       blendMode: BlendMode.darken,
       child: Container(
         child: fadeImg(context, image, MediaQuery.of(context).size.width / 1,
-            MediaQuery.of(context).size.height / 1),
+            MediaQuery.of(context).size.height / 1,BoxFit.fitWidth),
       ),
     );
   }

@@ -8,6 +8,7 @@ class Bundle {
   String id;
   String price;
   String bundleType;
+  String ownerName;
   String aboutPackage;
   String bImage;
   String location;
@@ -34,6 +35,7 @@ class Bundle {
       required this.aboutPackage,
       required this.price,
       required this.bundleType,
+      required this.ownerName,
       required this.bImage,
       required this.location,
       required this.around,
@@ -60,6 +62,7 @@ class Bundle {
       around: json['around'] ?? "",
       bundleType: json['bundleType'] ?? '',
       aboutBundle: json['aboutBundle'] ?? '',
+      ownerName: json['ownerName'] ?? '',
       aboutPackage: json['aboutPackage'] ?? '',
       superVisorId: json['superVisorId'] ?? '',
       bundleLevel: json['bundleLevel'] ?? '',

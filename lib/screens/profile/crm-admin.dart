@@ -288,7 +288,7 @@ class _AdminPageState extends State<AdminPage> {
                                                       context,
                                                       '${api}public/uploads/${adm.userFid.username!}/ceremony/${adm.cImage}',
                                                       60,
-                                                      60)
+                                                      60,BoxFit.fitWidth)
                                                   : const SizedBox(height: 1)),
                                         ),
                                       ),
@@ -402,7 +402,7 @@ class _AdminPageState extends State<AdminPage> {
                                                               context,
                                                               '${api}public/uploads/${adm.userFid.username!}/ceremony/${adm.cImage}',
                                                               40,
-                                                              40)
+                                                              40,BoxFit.fitWidth)
                                                           : const SizedBox(
                                                               height: 1)),
                                                 ),
@@ -531,7 +531,7 @@ class _AdminPageState extends State<AdminPage> {
                                                                               context,
                                                                               '${api}public/uploads/${r.bsnInfo!.user.username!}/busness/${r.bsnInfo!.coProfile}',
                                                                               40,
-                                                                              40)
+                                                                              40,BoxFit.fitWidth)
                                                                           : const SizedBox(
                                                                               height: 1)),
                                                                 ),

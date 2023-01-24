@@ -177,7 +177,7 @@ class _MshengaShowListState extends State<MshengaShowList> {
                           context,
                           urlMshenngaShowImg + itm.showImage,
                           size.width / 1,
-                          size.height / 1.5),
+                          size.height / 1.5,BoxFit.fitWidth),
                     ),
                     title: Row(
                       children: [

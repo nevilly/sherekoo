@@ -222,7 +222,7 @@ class _AdminBsnState extends State<AdminBsn> {
                               context,
                               '${api}public/uploads/${widget.bsn.user.username}/busness/${widget.bsn.coProfile}',
                               150,
-                              100)),
+                              100,BoxFit.fitWidth)),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(

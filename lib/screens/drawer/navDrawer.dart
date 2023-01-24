@@ -26,26 +26,26 @@ class _NavDrawerState extends State<NavDrawer> {
   final Preferences _preferences = Preferences();
   String token = '';
 
-User user =  User(
-    id: '',
-    username: '',
-    firstname: '',
-    lastname: '',
-    avater: '',
-    phoneNo: '',
-    email: '',
-    gender: '',
-    role: '',
-    isCurrentUser: '',
-    address: '',
-    bio: '',
-    meritalStatus: '',
-    totalPost: '',
-    isCurrentBsnAdmin: '',
-    isCurrentCrmAdmin: '',
-    totalFollowers: '',
-    totalFollowing: '',
-    totalLikes: '');
+  User user = User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      meritalStatus: '',
+      totalPost: '',
+      isCurrentBsnAdmin: '',
+      isCurrentCrmAdmin: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: '');
 
   @override
   void initState() {
@@ -75,20 +75,19 @@ User user =  User(
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      // width: 220,
       backgroundColor: OColors.darGrey,
       child: ListView(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               UserAccountsDrawerHeader(
-                decoration: BoxDecoration(color: OColors.appBarColor),
-                accountName: Padding(
-                  padding: const EdgeInsets.only(left: 18.0),
-                  child: Text(
-                    user.username!,
-                    style: header18,
-                  ),
+                decoration: BoxDecoration(color: OColors.secondary),
+                accountName: Text(
+                  user.username!,
+                  style: header18,
                 ),
                 accountEmail: Text(user.email!),
                 currentAccountPicture: CircleAvatar(
@@ -105,23 +104,7 @@ User user =  User(
                 },
               ),
 
-              //LIve ceremony
-              // ListTile(
-              //   title: Text(
-              //     'Mosq Project',
-              //     style: header15,
-              //   ),
-              //   onTap: () {
-              //     Navigator.of(context).pop();
-              //     Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //             builder: (BuildContext context) => MosqProject(
-              //                   getIndex: 1,
-              //                   user: user,
-              //                 )));
-              //   },
-              // ),
+        
 
               //LIve ceremony
               ListTile(
