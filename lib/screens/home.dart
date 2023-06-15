@@ -95,8 +95,6 @@ class HomeState extends State<Home> {
               final itm = post[index];
               return PostTemplate(
                 sherekoo: itm,
-                postVedeo: post[index].vedeo,
-                crmViewer: post[index].crmViewer,
                 filterBck: Positioned.fill(
                   child: ImageFiltered(
                     imageFilter: ImageFilter.blur(
@@ -106,7 +104,7 @@ class HomeState extends State<Home> {
                     child: post[index].vedeo.endsWith('.jpg') &&
                             post[index].vedeo.isNotEmpty
                         ? Image.network(
-                            '${api}public/uploads/${itm.crmInfo.userFid.username}/posts/${itm.vedeo}',
+                            api + itm.mediaUrl,
                             // height: 400,
                             fit: BoxFit.fill,
                             loadingBuilder: (BuildContext context, Widget child,
@@ -130,6 +128,7 @@ class HomeState extends State<Home> {
                   ),
                 ),
                 userPost: DisplayVedeo(
+                  mediaUrl: itm.mediaUrl,
                   username: itm.creatorInfo.username!,
                   vedeo: itm.vedeo,
                 ),

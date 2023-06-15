@@ -283,7 +283,7 @@ class _SherekooBundleState extends State<SherekooBundle> {
                 ),
               ),
             );
-            ;
+            
           }),
     );
   }

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import '../../model/InvCards/cards.dart';
 import '../../model/bundleBooking/bundle-orders.dart';
 import '../../model/bundleBooking/bundleOrders-Model.dart';
@@ -15,6 +16,7 @@ import '../../util/colors.dart';
 import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
+import '../../widgets/calender/eventEditingPage.dart';
 import '../../widgets/gradientBorder.dart';
 import '../../widgets/imgWigdets/defaultAvater.dart';
 import '../../widgets/imgWigdets/userAvater.dart';
@@ -455,9 +457,27 @@ class _ServiceDetailsState extends State<ServiceDetails>
                         )),
                   );
                 })
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text('Booking Now', style: header16)],
+            : Expanded(
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      EventEditingPage()));
+                        },
+                        child: Text('Add', style: header14)),
+                    const SizedBox(height: 15),
+                    SfCalendar(
+                      backgroundColor: Colors.white,
+                      view: CalendarView.month,
+                      initialDisplayDate: DateTime.now(),
+                    ),
+                  ],
+                ),
               ));
   }
 

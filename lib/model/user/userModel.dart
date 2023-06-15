@@ -1,5 +1,7 @@
 class User {
   String? id,
+      gId,
+      urlAvatar,
       username,
       firstname,
       lastname,
@@ -23,6 +25,8 @@ class User {
   User({
     this.id,
     this.username,
+    this.gId,
+    this.urlAvatar,
     this.firstname,
     this.lastname,
     this.avater,
@@ -49,10 +53,12 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'] ?? "",
+      gId: json['gId'] ?? "",
       username: json['username'] ?? "",
       firstname: json['firstname'] ?? "",
       lastname: json['lastname'] ?? "",
       avater: json['avater'] ?? "",
+      urlAvatar: json['urlAvatar'] ?? "",
       phoneNo: json['phoneNo'] ?? "",
       email: json['email'] ?? "",
       gender: json['gender'] ?? "",

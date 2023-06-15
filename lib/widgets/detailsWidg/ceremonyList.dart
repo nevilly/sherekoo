@@ -53,6 +53,7 @@ class CeremonyList extends StatelessWidget {
                     crossAxisCount: 3),
                 itemBuilder: (context, index) {
                   final itm = service[index];
+                  // ignore: unused_local_variable
                   final ib = itm.bsnInfo!;
                   final ic = itm.crmInfo!;
                   return GestureDetector(

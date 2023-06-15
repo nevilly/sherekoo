@@ -92,7 +92,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 accountEmail: Text(user.email!),
                 currentAccountPicture: CircleAvatar(
                     backgroundImage: NetworkImage(
-                  '${api}public/uploads/${user.username}/profile/${user.avater}',
+                  '${api}${user.urlAvatar}',
                 )),
                 onDetailsPressed: () {
                   Navigator.of(context).pop();
@@ -103,8 +103,6 @@ class _NavDrawerState extends State<NavDrawer> {
                               HomeNav(getIndex: 4, user: user)));
                 },
               ),
-
-        
 
               //LIve ceremony
               ListTile(

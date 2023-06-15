@@ -126,11 +126,9 @@ class _MyPostsState extends State<MyPosts> {
                       child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(29.0)),
-                          child: post[index].vedeo != ''
-                              ?
-                              FadeInImage(
-                                  image: NetworkImage(
-                                      '${api}public/uploads/${itm.creatorInfo.username}/posts/${itm.vedeo}'),
+                          child: itm.vedeo != ''
+                              ? FadeInImage(
+                                  image: NetworkImage('${api}${itm.mediaUrl}'),
                                   fadeInDuration:
                                       const Duration(milliseconds: 100),
                                   placeholder: const AssetImage(

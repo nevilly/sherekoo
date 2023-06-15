@@ -955,7 +955,8 @@ Column personalProfile(BuildContext context, String avater, String url,
       Container(
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(r)),
         child: avater != ''
-            ? CircleAvatar(radius: r, child: fadeImg(context, url, w, h,BoxFit.fitWidth))
+            ? CircleAvatar(
+                radius: r, child: fadeImg(context, url, w, h, BoxFit.fitWidth))
             : ClipOval(
                 child: DefaultAvater(
                     height: MediaQuery.of(context).size.height / h,
@@ -975,7 +976,8 @@ Column personProfileClipOval(BuildContext context, String avater, String url,
           ? CircleAvatar(
               backgroundColor: bkColor,
               radius: r,
-              child: ClipOval(child: fadeImg(context, url, w, h,BoxFit.fitWidth)))
+              child:
+                  ClipOval(child: fadeImg(context, url, w, h, BoxFit.fitWidth)))
           : CircleAvatar(
               backgroundColor: bkColor,
               radius: r,
@@ -1038,14 +1040,35 @@ Future cropImage(File imageFile) async {
 }
 
 // Fade Image
-FadeInImage fadeImg(BuildContext context, img, double w, double h,BoxFit fit) {
+FadeInImage profilefadeImg(
+    BuildContext context, img, double w, double h, BoxFit fit) {
+  return FadeInImage(
+    image: NetworkImage(img),
+    fadeInDuration: const Duration(milliseconds: 100),
+    placeholder: const AssetImage('assets/logo/noimage.png'),
+    imageErrorBuilder: (context, error, stackTrace) {
+      return Image.asset(
+        'assets/logo/noimage.png',
+        width: w,
+        height: h,
+        fit: fit,
+        color: OColors.darGrey,
+      );
+    },
+    width: w,
+    height: h,
+    fit: BoxFit.cover,
+  );
+}
+
+FadeInImage fadeImg(BuildContext context, img, double w, double h, BoxFit fit) {
   return FadeInImage(
     image: NetworkImage(img),
     fadeInDuration: const Duration(milliseconds: 100),
     placeholder: const AssetImage('assets/logo/noimage.png'),
     imageErrorBuilder: (context, error, stackTrace) {
       return Image.asset('assets/logo/noimage.png',
-          width: w, height: h, fit: fit );
+          width: w, height: h, fit: fit);
     },
     width: w,
     height: h,
@@ -1344,6 +1367,19 @@ Container textFieldContainer(
       ),
       style: style,
       onChanged: (value) {},
+    ),
+  );
+}
+
+emptyField(BuildContext context, String title) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(
+        title,
+        textAlign: TextAlign.center,
+        style: const TextStyle(fontSize: 18),
+      ),
+      backgroundColor: Colors.red,
     ),
   );
 }

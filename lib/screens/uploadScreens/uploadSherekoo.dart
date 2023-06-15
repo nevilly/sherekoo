@@ -28,6 +28,8 @@ class SherekooUpload extends StatefulWidget {
 class _SherekooUploadState extends State<SherekooUpload> {
   User user = User(
       id: '',
+      gId: '',
+      urlAvatar: '',
       username: '',
       firstname: '',
       lastname: '',
@@ -129,12 +131,17 @@ class _SherekooUploadState extends State<SherekooUpload> {
             Expanded(
                 child: TabBarView(children: [
               // Image Uploading
-              UploadImage(from: widget.from, crm: widget.crm),
+              UploadImage(
+                from: widget.from,
+                crm: widget.crm,
+                user: user,
+              ),
 
               //Vedio Uploader...
               UploadVedeo(
                 from: widget.from,
                 crm: widget.crm,
+                user: user,
               )
             ])),
             const SizedBox(

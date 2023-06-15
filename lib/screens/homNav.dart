@@ -53,6 +53,8 @@ class _HomeNavState extends State<HomeNav> {
 
   User user = User(
       id: '',
+      gId: '',
+      urlAvatar: '',
       username: '',
       firstname: '',
       lastname: '',
@@ -150,7 +152,7 @@ class _HomeNavState extends State<HomeNav> {
                   Container(
                     margin: const EdgeInsets.only(bottom: 8),
                     child: const Icon(
-                      Icons.upload,
+                      Icons.add,
                       size: 25,
                     ),
                   ),
@@ -158,7 +160,7 @@ class _HomeNavState extends State<HomeNav> {
                     padding: const EdgeInsets.all(4.0),
                     margin: const EdgeInsets.only(bottom: 8),
                     child: const Icon(
-                      Icons.live_tv,
+                      Icons.celebration,
                       size: 25,
                     ),
                   ),

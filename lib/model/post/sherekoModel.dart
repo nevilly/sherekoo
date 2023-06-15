@@ -8,20 +8,21 @@ class SherekooModel {
   final String ceremonyId;
   final String body;
   final String vedeo;
+  final String mediaUrl;
 
   final String isPostAdmin;
 
   User creatorInfo;
 
   // total Comments
-   String? commentNumber;
+  String? commentNumber;
   final String createdDate;
 
   //Ceremony Info
   final CeremonyModel crmInfo;
 
   //Likes Info
-   String? totalLikes;
+  String? totalLikes;
   String? isLike;
   // Shares info
   final String totalShare;
@@ -38,6 +39,7 @@ class SherekooModel {
       required this.ceremonyId,
       required this.body,
       required this.vedeo,
+      required this.mediaUrl,
       required this.creatorInfo,
       required this.createdDate,
 
@@ -68,6 +70,7 @@ class SherekooModel {
         pId: json['pId'] ?? "",
         createdBy: json['createdBy'] ?? "",
         vedeo: json['vedeo'] ?? "",
+        mediaUrl: json['mediaUrl'] ?? "",
         body: json['body'] ?? "",
         ceremonyId: json['ceremonyId'].toString(),
         creatorInfo: User.fromJson(json['creatorInfo']),

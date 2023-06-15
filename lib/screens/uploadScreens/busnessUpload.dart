@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sherekoo/model/busness/busnessModel.dart';
 
@@ -557,24 +556,24 @@ class _BusnessUploadState extends State<BusnessUpload> {
     });
   }
 
-  TabBar get _tabBar => TabBar(
-          labelColor: OColors.primary,
-          unselectedLabelColor: Colors.grey,
-          indicatorColor: OColors.primary,
-          indicatorWeight: 2,
-          tabs: const [
-            Tab(child: Text('Busness Info')),
-            // Tab(
-            //   child: Text('Owner Details'),
-            // ),
+  // TabBar get _tabBar => TabBar(
+  //         labelColor: OColors.primary,
+  //         unselectedLabelColor: Colors.grey,
+  //         indicatorColor: OColors.primary,
+  //         indicatorWeight: 2,
+  //         tabs: const [
+  //           Tab(child: Text('Busness Info')),
+  //           // Tab(
+  //           //   child: Text('Owner Details'),
+  //           // ),
 
-            // Tab(
-            //   child: Text('Work'),
-            // ),
-            // Tab(
-            //   child: Text('staff'),
-            // ),
-          ]);
+  //           // Tab(
+  //           //   child: Text('Work'),
+  //           // ),
+  //           // Tab(
+  //           //   child: Text('staff'),
+  //           // ),
+  //         ]);
 
   @override
   Widget build(BuildContext context) {
@@ -5773,6 +5772,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                       hintStyle:
                           const TextStyle(color: Colors.grey, height: 1.5),
                     ),
+                    keyboardType: TextInputType.number,
                     style: const TextStyle(
                         fontSize: 15, color: Colors.grey, height: 1.5),
                     onChanged: (value) {
@@ -6178,6 +6178,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                       hintStyle:
                           const TextStyle(color: Colors.grey, height: 1.5),
                     ),
+                    keyboardType: TextInputType.phone,
                     style: const TextStyle(
                         fontSize: 15, color: Colors.grey, height: 1.5),
                     onChanged: (value) {

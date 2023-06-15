@@ -51,7 +51,7 @@ class Post {
     return getHttp(url, headers);
   }
 
-  Future<Post> post(String token, String dirUrl) async {
+  Future<Post> post(String token, String dirUrl, String gId) async {
     Uri url = Uri.parse(dirUrl);
 
     Map<String, dynamic> toMap() {
@@ -60,7 +60,8 @@ class Post {
         'vedeo': vedeo,
         'ceremonyId': ceremonyId,
         'body': body,
-        'hashTag': hashTag
+        'hashTag': hashTag,
+        'gId': gId
       };
     }
 
@@ -70,7 +71,8 @@ class Post {
   }
 
   //Future<Post> set(String token, String dirUrl, imageFileList {String? token, dirUrl, var imageFileList})
-  Future<Post> set(String token, String dirUrl, imageFileList) async {
+  Future<Post> set(
+      String token, String dirUrl, imageFileList, String gId) async {
     // Uri url = Uri.parse(Api + 'posts/add');
     Uri url = Uri.parse(dirUrl);
 
@@ -79,8 +81,12 @@ class Post {
       "Authorization": "Owesis $token"
     }; // ignore this headers if there is no authentication
 
-    Map<String, String> toMap() =>
-        {"body": body, "createdBy": createdBy, 'ceremonyId': ceremonyId};
+    Map<String, String> toMap() => {
+          "body": body,
+          "createdBy": createdBy,
+          'ceremonyId': ceremonyId,
+          'gId': gId
+        };
     var request = http.MultipartRequest('POST', url);
 
     // print('fileeeeeeeeeeeee');

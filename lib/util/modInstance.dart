@@ -29,6 +29,7 @@ User emptyUser = User(
     totalFollowing: '',
     totalLikes: '');
 
+// Event events = Event(title: '', description: '', from: DateTime.now(), to: DateTime.now());
 User emptycurrentUser = User(
     id: '',
     username: '',

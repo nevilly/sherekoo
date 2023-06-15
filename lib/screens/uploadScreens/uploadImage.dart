@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'dart:convert';
 
 import 'package:image_picker/image_picker.dart';
@@ -21,7 +20,9 @@ import '../detailScreen/livee.dart';
 class UploadImage extends StatefulWidget {
   final String from;
   final CeremonyModel crm;
-  const UploadImage({Key? key, required this.from, required this.crm})
+  final User user;
+  const UploadImage(
+      {Key? key, required this.from, required this.crm, required this.user})
       : super(key: key);
 
   @override
@@ -62,43 +63,11 @@ class _UploadImageState extends State<UploadImage> {
     });
   }
 
-  // Image Croping
-  Future cropImage(File imageFile) async {
-    CroppedFile? croppedFile = await ImageCropper().cropImage(
-      sourcePath: imageFile.path,
-      aspectRatioPresets: [
-        CropAspectRatioPreset.square,
-        CropAspectRatioPreset.ratio3x2,
-        CropAspectRatioPreset.original,
-        CropAspectRatioPreset.ratio4x3,
-        CropAspectRatioPreset.ratio16x9
-      ],
-      uiSettings: [
-        AndroidUiSettings(
-            toolbarTitle: 'Shereko Cropper',
-            toolbarColor: OColors.appBarColor,
-            toolbarWidgetColor: OColors.primary,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false),
-        IOSUiSettings(
-          title: 'Sherekoo Cropper',
-        ),
-        // WebUiSettings(
-        //   context: context,
-        // ),
-      ],
-    );
-    if (croppedFile == null) return null;
-    return File(croppedFile.path);
-  }
-
   // Posting
   Future<void> post() async {
     if (_generalimage != null) {
       List<int> bytes = _generalimage!.readAsBytesSync();
       String image = base64Encode(bytes);
-
-   
 
       Post(
         pId: '',
@@ -111,7 +80,7 @@ class _UploadImageState extends State<UploadImage> {
         payload: [],
         avater: '',
         username: '',
-      ).post(token, urlPostSherekoo).then((value) {
+      ).post(token, urlPostSherekoo, widget.user.gId!).then((value) {
         if (widget.from == 'Home') {
           Navigator.push(
               context,
@@ -120,6 +89,8 @@ class _UploadImageState extends State<UploadImage> {
                         getIndex: 2,
                         user: User(
                             id: '',
+                            gId: '',
+                            urlAvatar: '',
                             username: '',
                             firstname: '',
                             lastname: '',
@@ -132,11 +103,12 @@ class _UploadImageState extends State<UploadImage> {
                             address: '',
                             bio: '',
                             meritalStatus: '',
-                            totalPost: '', isCurrentBsnAdmin: '', 
-      isCurrentCrmAdmin: '',
-      totalFollowers: '', 
-      totalFollowing: '', 
-      totalLikes: ''),
+                            totalPost: '',
+                            isCurrentBsnAdmin: '',
+                            isCurrentCrmAdmin: '',
+                            totalFollowers: '',
+                            totalFollowing: '',
+                            totalLikes: ''),
                       )));
         } else if (widget.from == 'Ceremony') {
           Navigator.pop(context);
@@ -148,10 +120,8 @@ class _UploadImageState extends State<UploadImage> {
                       )));
         }
       });
-
     } else {
-
-      fillTheBlanks(context,imgOrVdoUploadAlt,altSty,odng);
+      fillTheBlanks(context, imgOrVdoUploadAlt, altSty, odng);
     }
   }
 
@@ -227,43 +197,43 @@ class _UploadImageState extends State<UploadImage> {
             ],
           ),
         ),
-        
+
         if (widget.from == 'Ceremony')
-        Positioned(
-            bottom: 78,
-            left: 15,
-            child: Row(
-              children: [
-                GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        hashTag = 'Home';
-                      });
-                    },
-                    child: hashTagFunc(context, 'Home', hashTag)),
-                GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        hashTag = 'Church';
-                      });
-                    },
-                    child: hashTagFunc(context, 'Church', hashTag)),
-                GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        hashTag = 'AtWedding';
-                      });
-                    },
-                    child: hashTagFunc(context, 'AtWedding', hashTag)),
-                GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        hashTag = 'Beach';
-                      });
-                    },
-                    child: hashTagFunc(context, 'Beach', hashTag)),
-              ],
-            )),
+          Positioned(
+              bottom: 78,
+              left: 15,
+              child: Row(
+                children: [
+                  GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          hashTag = 'Home';
+                        });
+                      },
+                      child: hashTagFunc(context, 'Home', hashTag)),
+                  GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          hashTag = 'Church';
+                        });
+                      },
+                      child: hashTagFunc(context, 'Church', hashTag)),
+                  GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          hashTag = 'AtWedding';
+                        });
+                      },
+                      child: hashTagFunc(context, 'AtWedding', hashTag)),
+                  GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          hashTag = 'Beach';
+                        });
+                      },
+                      child: hashTagFunc(context, 'Beach', hashTag)),
+                ],
+              )),
         //What On your mind
         Positioned(
           bottom: 15,

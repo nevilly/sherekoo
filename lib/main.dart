@@ -5,7 +5,7 @@ import 'package:sherekoo/util/colors.dart';
 // import 'firebase_options.dart';
 
 void main() async {
-    WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp(
   //   // options: DefaultFirebaseOptions.currentPlatform,
   // );
@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Sherekoo',
+      themeMode: ThemeMode.dark,
       theme: ThemeData(
           primaryColor: OColors.secondary,
           // primarySwatch: Colors.blac,

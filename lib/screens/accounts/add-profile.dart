@@ -6,7 +6,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sherekoo/screens/homNav.dart';
-import 'package:sherekoo/screens/profile/profile.dart';
 import 'package:sherekoo/util/colors.dart';
 import 'package:sherekoo/util/modInstance.dart';
 
@@ -31,6 +30,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
   String token = '';
   User currentUser = User(
       id: '',
+      gId: '',
+      urlAvatar: '',
       username: '',
       firstname: '',
       lastname: '',
@@ -147,73 +148,65 @@ class _CompleteProfileState extends State<CompleteProfile> {
     });
   }
 
-  emptyField(String title) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          title,
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 18),
-        ),
-        backgroundColor: Colors.red,
-      ),
-    );
-  }
-
   dynamic image;
-  void creatAccount(fn, ln, img, rgn, slt) async {
-    if (fn.isNotEmpty) {
-      if (ln.isNotEmpty) {
-        if (slt.isNotEmpty) {
-          if (rgn != "Select Your Location") {
-            if (img != null) {
-              List<int> bytes = img.readAsBytesSync();
-              image = base64Encode(bytes);
-            }
+  void creatAccount(fn, ln, img, rgn, slt, gid) async {
+    if (gid != '') {
+      if (fn.isNotEmpty) {
+        if (ln.isNotEmpty) {
+          if (slt.isNotEmpty) {
+            if (rgn != "Select Your Location") {
+              if (img != null) {
+                List<int> bytes = img.readAsBytesSync();
+                image = base64Encode(bytes);
+              }
 
-            final CreateAccountModel r = await CreateAccountModel(
-                    password: '',
-                    status: 0,
-                    token: '',
-                    avater: image ?? '',
-                    username: '',
-                    phone: '',
-                    gender: '',
-                    address: rgn,
-                    bio: '',
-                    email: '',
-                    firstname: fn,
-                    role: 'n',
-                    lastname: ln,
-                    meritalStatus: slt)
-                .updateAccount(token, urlUpdateUserInfo);
+              final CreateAccountModel r = await CreateAccountModel(
+                      password: '',
+                      status: 0,
+                      token: '',
+                      gId: gid,
+                      avater: image ?? '',
+                      username: '',
+                      phone: '',
+                      gender: '',
+                      address: rgn,
+                      bio: '',
+                      email: '',
+                      firstname: fn,
+                      role: 'n',
+                      lastname: ln,
+                      meritalStatus: slt)
+                  .updateAccount(token, urlUpdateUserInfo);
 
-            if (r.status == 200) {
-              setState(() {
-                emptyField(r.token!);
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => HomeNav(
-                              getIndex: 2,
-                              user: emptyUser,
-                            )),
-                    ModalRoute.withName('/'));
-              });
+              if (r.status == 200) {
+                setState(() {
+                  emptyField(context, r.token!);
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => HomeNav(
+                                getIndex: 2,
+                                user: emptyUser,
+                              )),
+                      ModalRoute.withName('/'));
+                });
+              } else {
+                emptyField(context, 'System Error, Try Again');
+              }
             } else {
-              emptyField('System Error, Try Again');
+              emptyField(context, "Select your Location Please...");
             }
           } else {
-            emptyField("Select your Location Please...");
+            emptyField(context, "Select Your Marital Status Please...");
           }
         } else {
-          emptyField("Select Your Marital Status Please...");
+          emptyField(context, "Enter your Last Name Please...");
         }
       } else {
-        emptyField("Enter your Last Name Please...");
+        emptyField(context, "Enter your First Name Please...");
       }
     } else {
-      emptyField("Enter your First Name Please...");
+      emptyField(context, "Network poblem Reload Page please...");
     }
   }
 
@@ -229,7 +222,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
           GestureDetector(
             onTap: () {
               creatAccount(firstName.text, lastName.text, _generalimage,
-                  selectedRegion, select);
+                  selectedRegion, select, currentUser.gId);
             },
             child: Container(
               margin: const EdgeInsets.only(top: 12.0, right: 8.0, bottom: 10),
@@ -431,7 +424,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                                               top: 5.0,
                                               bottom: 5.0),
                                           child: Text(
-                                            'Add Your information',
+                                            'Add  information',
                                             style: header15.copyWith(
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.grey),
@@ -532,7 +525,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                                                     top: 5.0,
                                                     bottom: 5.0),
                                                 child: Text(
-                                                  'Select Your region',
+                                                  'Select your region',
                                                   style: header14.copyWith(
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -614,7 +607,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                                             top: 5.0,
                                             bottom: 5.0),
                                         child: Text(
-                                          'Select Your gender',
+                                          'Select your status',
                                           style: header14.copyWith(
                                               fontWeight: FontWeight.bold,
                                               color: Colors.grey,

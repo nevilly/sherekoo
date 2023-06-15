@@ -6,12 +6,13 @@
 
 // String api = "http://192.168.43.125/"; // Devota
 //String api = "http://172.20.10.13/"; // Reddeath
+//String api = "http://192.168.1.18/"; //familyfb as password
 String api = "http://192.168.43.125/"; // Neheman
 //String api = "http://192.168.43.237/"; // challo
 String prfxUpld = "${api}public/uploads/";
 //Authentications
 String login = "${api}Users/login";
-String craetAcount = '${api}Users/addAccount';
+String craetAcount = '${api}Users/add';
 
 //users
 String urlGetUser = '${api}Users/user';
@@ -19,7 +20,7 @@ String urlUserList = '${api}Users/users';
 String urlUserCrmVwr = '${api}Users/usersCrmViewer';
 String urlUserById = '${api}Users/userById';
 String urlUserProfileById = '${api}Users/getUserProfileById';
-String urlUpdateUserInfo = '${api}Users/updateAccount';
+String urlUpdateUserInfo = '${api}Users/update';
 String urlUpdateUserSetting = '${api}Users/updateSetting';
 
 // Follow System
@@ -91,7 +92,6 @@ String urlPostBusness = '${api}Busness/add';
 String urlAllBusnessList = '${api}Busness/getBsn';
 String urlGoldBusness = '${api}Busness/getGoldenBusness';
 String urlGoldBsnTyp = '${api}Busness/getByType';
-
 
 String urlMyBusnessList = '${api}Busness/getByBusnessCeoId';
 String urlMyBsnByCratorId = '${api}Busness/bsnByCreatorId';

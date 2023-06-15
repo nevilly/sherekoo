@@ -16,6 +16,7 @@ class CreateAccountModel {
   final String meritalStatus;
   final String bio;
   final String role;
+  final String gId;
   final String? token;
 
   final int status;
@@ -27,6 +28,7 @@ class CreateAccountModel {
       required this.email,
       required this.address,
       required this.bio,
+      required this.gId,
       required this.password,
       required this.status,
       required this.token,
@@ -42,6 +44,7 @@ class CreateAccountModel {
       token: json['payload'],
       password: '',
       username: '',
+      gId: '',
       avater: '',
       role: '',
       gender: '',
@@ -76,7 +79,7 @@ class CreateAccountModel {
         body: jsonEncode(toMap()),
         headers: {"content-Type": "application/json"}).then((http.Response r) {
       final rJson = jsonDecode(r.body);
-
+      print(rJson);
       if (r.statusCode == 200) {
         return CreateAccountModel.fromJson(rJson);
       }
@@ -100,7 +103,8 @@ class CreateAccountModel {
         'lastname': lastname,
         'meritalStatus': meritalStatus,
         'address': address,
-        'avater': avater
+        'avater': avater,
+        'gId': gId
       };
     }
 
@@ -122,7 +126,7 @@ class CreateAccountModel {
   }
 
   Future updateAccountSetting(
-      String token, dirUrl, String normalAvater, wyd) async {
+      String token, dirUrl, String normalAvater, wyd, String gId) async {
     Uri url = Uri.parse(dirUrl);
 
     if (token.isEmpty) {
@@ -143,7 +147,8 @@ class CreateAccountModel {
         'address': address,
         'avater': avater,
         'normalAvater': normalAvater,
-        'WhatYouDo': wyd
+        'WhatYouDo': wyd,
+        'gId': gId
       };
     }
 

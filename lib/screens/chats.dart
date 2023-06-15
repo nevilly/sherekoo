@@ -129,8 +129,7 @@ class _PostChatsState extends State<PostChats> {
               itemCount: chats.length,
               itemBuilder: (BuildContext context, index) {
                 final itm = chats[index];
-                final urlProfile =
-                    '${api}public/uploads/${itm.userInfo.username}/profile/';
+                final urlProfile = api + itm.userInfo.urlAvatar!;
                 return Padding(
                   padding:
                       const EdgeInsets.only(top: 16.0, left: 10.0, bottom: 10),
@@ -150,9 +149,10 @@ class _PostChatsState extends State<PostChats> {
                                                   id: itm.userId,
                                                   username:
                                                       itm.userInfo.username,
-                                                  avater: chats[index]
-                                                      .userInfo
-                                                      .avater,
+                                                  avater: itm.userInfo.avater,
+                                                  gId: itm.userInfo.gId,
+                                                  urlAvatar:
+                                                      itm.userInfo.urlAvatar,
                                                   phoneNo: '',
                                                   role: '',
                                                   gender: '',
@@ -175,7 +175,7 @@ class _PostChatsState extends State<PostChats> {
                               child: personProfileClipOval(
                                 context,
                                 itm.userInfo.avater!,
-                                urlProfile + itm.userInfo.avater!,
+                                urlProfile,
                                 const SizedBox.shrink(),
                                 15,
                                 35,
@@ -346,7 +346,6 @@ class _PostChatsState extends State<PostChats> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 }

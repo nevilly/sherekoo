@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../../util/app-variables.dart';
 import '../../util/colors.dart';
-import '../../util/Preferences.dart';
 import '../../util/modInstance.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../widgets/categoriesWidgets/ctgrWigets.dart';
@@ -265,7 +264,7 @@ class _SherekooState extends State<Sherekoo> {
                     ),
                     CategoryBody(
                       stream: _controller2.stream,
-                      title: title,
+                      title: title, 
                       heights: MediaQuery.of(context).size.height / 1.7,
                       crossAxisCountx: 3,
                       hotStatus: '0',

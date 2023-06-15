@@ -17,7 +17,9 @@ import '../homNav.dart';
 class UploadVedeo extends StatefulWidget {
   final String from;
   final CeremonyModel crm;
-  const UploadVedeo({Key? key, required this.from, required this.crm})
+  final User user;
+  const UploadVedeo(
+      {Key? key, required this.from, required this.crm, required this.user})
       : super(key: key);
 
   @override
@@ -80,7 +82,9 @@ class _UploadVedeoState extends State<UploadVedeo> {
         avater: '',
         username: '',
         hashTag: hashTag,
-      ).set(token, urlVedioPostSherekoo, _video).then((value) {
+      )
+          .set(token, urlVedioPostSherekoo, _video, widget.user.gId!)
+          .then((value) {
         if (widget.from == 'Home') {
           Navigator.push(
               context,
@@ -101,11 +105,12 @@ class _UploadVedeoState extends State<UploadVedeo> {
                             address: '',
                             bio: '',
                             meritalStatus: '',
-                            totalPost: '', isCurrentBsnAdmin: '', 
-      isCurrentCrmAdmin: '',
-      totalFollowers: '', 
-      totalFollowing: '', 
-      totalLikes: ''),
+                            totalPost: '',
+                            isCurrentBsnAdmin: '',
+                            isCurrentCrmAdmin: '',
+                            totalFollowers: '',
+                            totalFollowing: '',
+                            totalLikes: ''),
                       )));
         } else if (widget.from == 'Ceremony') {
           Navigator.push(

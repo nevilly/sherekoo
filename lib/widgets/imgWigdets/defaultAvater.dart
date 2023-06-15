@@ -18,11 +18,13 @@ class DefaultAvater extends StatefulWidget {
 class _DefaultAvaterState extends State<DefaultAvater> {
   @override
   Widget build(BuildContext context) {
-    return Image(
-      image: const AssetImage('assets/profile/profile.jpg'),
-      fit: BoxFit.cover,
-      width: widget.width,
-      height: widget.height,
+    return CircleAvatar(
+      child: Image(
+        image: const AssetImage('assets/profile/profile.jpg'),
+        fit: BoxFit.cover,
+        width: widget.width,
+        height: widget.height,
+      ),
     );
   }
 }

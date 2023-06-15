@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:sherekoo/util/colors.dart';
-import 'package:sherekoo/util/textStyle-pallet.dart';
 import '../../model/authentication/loginModel.dart';
 import '../../model/user/userModel.dart';
 import '../../util/Locale.dart';
@@ -53,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     _preferences.init().then((data) {
-      u = data.getString('token');
+      u = data.getString('token') ?? "";
 
       isLoggedIn = u.isNotEmpty;
       if (isLoggedIn) {
@@ -94,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                 password: '123456', //password.text, //
                 status: 0,
                 token: '',
-                username: '0686111111') //username.text) //
+                username: '0743552455') //username.text) //
             .postLoging(login);
         if (r.status == 200) {
           setState(() {

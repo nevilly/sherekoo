@@ -22,7 +22,7 @@ class CreateNewAccount extends StatefulWidget {
 }
 
 class _CreateNewAccountState extends State<CreateNewAccount> {
-  bool isSwahili = true, isVisibleDrawer = true, r = false;
+  bool isSwahili = false, isVisibleDrawer = true, r = false;
   final Preferences _preferences = Preferences();
   String u = '';
   String token = '';
@@ -80,19 +80,8 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
   @override
   void initState() {
     _preferences.init().then((data) {
-      u = data.getString('token');
-
+      u = data.getString('token') ?? "";
       isLoggedIn = u.isNotEmpty;
-      // if (isLoggedIn) {
-      //   SchedulerBinding.instance!.addPostFrameCallback((_) {
-      //     Navigator.pushAndRemoveUntil(
-      //         context,
-      //         MaterialPageRoute(
-      //           builder: (BuildContext context) => const Home(),
-      //         ),
-      //         ModalRoute.withName('/'));
-      //   });
-      // }
     });
     super.initState();
   }
@@ -129,7 +118,8 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                     firstname: '',
                     role: 'n',
                     lastname: '',
-                    meritalStatus: '')
+                    meritalStatus: '',
+                    gId: '')
                 .registerAccount();
 
             if (r.status == 200) {

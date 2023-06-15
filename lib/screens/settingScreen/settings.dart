@@ -109,7 +109,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
   }
 
   dynamic image;
-  void creatAccount(u, fn, ln, e, m, p, img, rgn, slt,wyd) async {
+  void creatAccount(u, fn, ln, e, m, p, img, rgn, slt, wyd) async {
     if (img != null) {
       List<int> bytes = img.readAsBytesSync();
       image = base64Encode(bytes);
@@ -129,8 +129,10 @@ class _ProfileSettingState extends State<ProfileSetting> {
             firstname: fn,
             role: 'n',
             lastname: ln,
-            meritalStatus: slt)
-        .updateAccountSetting(token, urlUpdateUserSetting, widget.user.avater!,wyd);
+            meritalStatus: slt,
+            gId: '')
+        .updateAccountSetting(token, urlUpdateUserSetting, widget.user.avater!,
+            wyd, widget.user.gId!);
 
     if (r.status == 200) {
       setState(() {
@@ -192,9 +194,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
                   _generalimage,
                   selectedRegion,
                   select,
-                  whatYouDo.text
-                  
-                  );
+                  whatYouDo.text);
             },
             child: Container(
               margin: const EdgeInsets.only(top: 10, right: 15, bottom: 10),
@@ -371,7 +371,6 @@ class _ProfileSettingState extends State<ProfileSetting> {
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(40.0),
                             topRight: Radius.circular(40.0))),
-                  
                     child: Container(
                       margin: const EdgeInsets.only(
                           top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),

@@ -29,10 +29,6 @@ import '../../util/button.dart';
 class PostTemplate extends StatefulWidget {
   final SherekooModel sherekoo;
 
-  final String postVedeo;
-
-  final crmViewer;
-
   final filterBck;
   final Widget userPost;
 
@@ -40,9 +36,7 @@ class PostTemplate extends StatefulWidget {
   const PostTemplate(
       {required this.sherekoo,
       required this.filterBck,
-      required this.userPost,
-      required this.postVedeo,
-      required this.crmViewer});
+      required this.userPost});
 
   @override
   PostTemplateState createState() => PostTemplateState();
@@ -73,6 +67,8 @@ class PostTemplateState extends State<PostTemplate> {
     }
 
     isLike = int.parse(widget.sherekoo.isLike!);
+    print('-----------Observe---------');
+    print(api + widget.sherekoo.creatorInfo.urlAvatar!);
     super.initState();
   }
 
@@ -152,7 +148,7 @@ class PostTemplateState extends State<PostTemplate> {
           //back Image filter
           widget.filterBck,
 
-          // User post(Image /Vedeo)
+          //User post(Image /Vedeo)
           widget.userPost,
 
           //Username & Caption
@@ -414,7 +410,7 @@ class PostTemplateState extends State<PostTemplate> {
           child: widget.sherekoo.creatorInfo.avater!.isNotEmpty
               ? CircleAvatar(
                   backgroundImage: NetworkImage(
-                      '${api}public/uploads/${widget.sherekoo.creatorInfo.username!}/profile/${widget.sherekoo.creatorInfo.avater}'),
+                      '${api}${widget.sherekoo.creatorInfo.urlAvatar}'),
                 )
               : const DefaultAvater(
                   height: profileImageSize,

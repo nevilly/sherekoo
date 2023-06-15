@@ -5,12 +5,14 @@ import '../../util/util.dart';
 class DisplayVedeo extends StatefulWidget {
   final String vedeo;
   final String username;
+  final String mediaUrl;
 
-  const DisplayVedeo({
-    Key? key,
-    required this.vedeo,
-    required this.username,
-  }) : super(key: key);
+  const DisplayVedeo(
+      {Key? key,
+      required this.vedeo,
+      required this.username,
+      required this.mediaUrl})
+      : super(key: key);
 
   @override
   State<DisplayVedeo> createState() => _DisplayVedeoState();
@@ -29,7 +31,7 @@ class _DisplayVedeoState extends State<DisplayVedeo> {
 
   loadVideoPlayer() {
     controller = VideoPlayerController.network(
-      '${api}public/uploads/${widget.username}/posts/${widget.vedeo}',
+      api + widget.mediaUrl,
     );
     controller!.addListener(() {
       setState(() {});
@@ -49,7 +51,7 @@ class _DisplayVedeoState extends State<DisplayVedeo> {
       child: Container(
         child: widget.vedeo.endsWith('.jpg')
             ? Image.network(
-                '${api}public/uploads/${widget.username}/posts/${widget.vedeo}',
+                '${api}${widget.mediaUrl}',
                 fit: BoxFit.contain,
                 loadingBuilder: (BuildContext context, Widget child,
                     ImageChunkEvent? loadingProgress) {

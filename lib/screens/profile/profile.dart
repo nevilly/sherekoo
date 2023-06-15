@@ -13,7 +13,6 @@ import '../../util/func.dart';
 import '../../util/pallets.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
-import '../../widgets/imgWigdets/userAvater.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
 import '../accounts/login.dart';
 import '../drawer/navDrawer.dart';
@@ -65,6 +64,7 @@ class ProfileState extends State<Profile> {
     preferences.get('token').then((value) {
       setState(() {
         token = value;
+        print(widget.user.id);
         widget.user.id != ''
             ? getUser('$urlGetUser/${widget.user.id}')
             : getUser(urlGetUser);
@@ -324,18 +324,21 @@ class ProfileState extends State<Profile> {
                 child: user.avater != ''
                     ? Padding(
                         padding: const EdgeInsets.all(4.0),
-                        child: ClipOval(
-                          child: UserAvater(
-                            avater: user.avater!,
-                            url: '/profile/',
-                            username: user.username!,
-                            width: 85.0,
-                            height: 85.0,
+                        child: CircleAvatar(
+                          backgroundColor: OColors.darGrey,
+                          radius: 45,
+                          child: ClipOval(
+                            child: profilefadeImg(context,
+                                api + user.urlAvatar!, 85.0, 85.0, BoxFit.fill),
                           ),
                         ))
-                    : const ClipOval(
-                        child:
-                            DefaultAvater(height: 85, radius: 35, width: 85)),
+                    : CircleAvatar(
+                        backgroundColor: OColors.darGrey,
+                        radius: 50,
+                        child: const ClipOval(
+                            child: DefaultAvater(
+                                height: 85, radius: 55, width: 85)),
+                      ),
               ),
 
               //username && Followers

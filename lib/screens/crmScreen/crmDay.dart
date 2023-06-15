@@ -9,7 +9,6 @@ import '../../util/colors.dart';
 import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
-import '../../widgets/imgWigdets/boxImg.dart';
 import '../ourServices/sherekoCards.dart';
 import '../uploadScreens/ceremonyUpload.dart';
 import 'crmDoor.dart';
