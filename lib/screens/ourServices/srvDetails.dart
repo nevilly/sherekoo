@@ -959,12 +959,24 @@ class _ServiceDetailsState extends State<ServiceDetails>
                         padding: const EdgeInsets.all(4.0),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(30),
-                          child: UserAvater(
-                            avater: superVisorInfo.avater!,
-                            url: '/profile/',
-                            username: superVisorInfo.username!,
+                          child: Image.network(
+                            '${api}${superVisorInfo.urlAvatar}',
+                            fit: BoxFit.cover,
                             width: 40.0,
                             height: 40.0,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ),
