@@ -145,11 +145,17 @@ class _SherekooBundleState extends State<SherekooBundle> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      ///
+                      /// Color Codes
+                      ///
                       colorCode(context),
                       const SizedBox(
                         height: 16,
                       ),
-                      //Header Hot Package
+
+                      ///
+                      ///Header Hot Package
+                      ///
                       Padding(
                         padding: const EdgeInsets.only(
                             left: 18, top: 8.0, bottom: 8),
@@ -283,7 +289,6 @@ class _SherekooBundleState extends State<SherekooBundle> {
                 ),
               ),
             );
-            
           }),
     );
   }
@@ -462,8 +467,23 @@ class _SherekooBundleState extends State<SherekooBundle> {
                   childAspectRatio: 0.8),
               itemBuilder: (context, i) {
                 final itm = pck.colorCode[i];
-                return crmColorCode(context, Color(int.parse(itm['color'])),
-                    clrRadius, clrWidht, clrHeight, itm['colorName'], header13);
+                String clrName = itm['colorName'].toString().length > 5
+                    ? '${itm['colorName'].toString().substring(0, 4)}..'
+                    : itm['colorName'].toString();
+
+                return GestureDetector(
+                  onTap: () {
+                    colorViewerBuilder(
+                        Color(int.parse(itm['color'])),
+                        clrRadius,
+                        150,
+                        100,
+                        itm['colorName'].toString(),
+                        header13);
+                  },
+                  child: crmColorCode(context, Color(int.parse(itm['color'])),
+                      clrRadius, clrWidht, clrHeight, clrName, header13),
+                );
               },
             ),
           ),
@@ -524,6 +544,47 @@ class _SherekooBundleState extends State<SherekooBundle> {
     );
   }
 
+  ///
+  /// Color view
+  ///
+  void colorViewerBuilder(
+      Color clr, double r, double w, double h, String title, TextStyle header) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            color: const Color(0xFF737373),
+            height: 200,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: OColors.secondary,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    )),
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            colorViewer(context, clr, r, w, h, title, header)
+                          ],
+                        ),
+                      ),
+                    ))),
+          );
+        });
+  }
+
+  ///
+  /// Admin only
+  ///
   void adminOnly() {
     showModalBottomSheet(
         context: context,
@@ -549,6 +610,8 @@ class _SherekooBundleState extends State<SherekooBundle> {
                             const SizedBox(
                               height: 20,
                             ),
+
+                            ///Add Package
                             GestureDetector(
                                 onTap: () {
                                   Navigator.of(context).pop();

@@ -248,6 +248,10 @@ class ProfileState extends State<Profile> {
     );
   }
 
+  ///
+  /// Top Bar
+  ///
+
   AppBar topBar() {
     return AppBar(
       backgroundColor: OColors.secondary,
@@ -306,7 +310,10 @@ class ProfileState extends State<Profile> {
     );
   }
 
-  // Profile Functions
+  ///
+  /// Profile Functions
+  ///
+
   Row topProfile() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -415,7 +422,10 @@ class ProfileState extends State<Profile> {
     );
   }
 
-  // Profile Settings
+  ///
+  /// Profile Settings
+  ///
+
   Row profileDetails(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -513,7 +523,10 @@ class ProfileState extends State<Profile> {
     );
   }
 
-// PopUp Widget
+  ///
+  /// PopUp Widget
+  ///
+
   Widget profileSettings(BuildContext context) {
     return AlertDialog(
       insetPadding: const EdgeInsets.only(left: 5),
@@ -577,7 +590,9 @@ class ProfileState extends State<Profile> {
     );
   }
 
-// Alert Widget
+  ///
+  /// Alert Widget
+  ///
   showAlertDialog(
       BuildContext context, String title, String msg, req, String from) async {
     // set up the buttons

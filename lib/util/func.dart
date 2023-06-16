@@ -1177,6 +1177,9 @@ showAlertDialog(BuildContext context, Widget title, Widget content,
   );
 }
 
+///
+/// Color Views
+///
 Column crmColorCode(BuildContext context, Color color, double r, double w,
     double h, title, TextStyle header) {
   return Column(
@@ -1190,15 +1193,56 @@ Column crmColorCode(BuildContext context, Color color, double r, double w,
       const SizedBox(
         height: 2,
       ),
-      Text(
-        title,
-        style: header,
+      Center(
+        child: Text(
+          title,
+          style: header,
+        ),
       )
     ],
   );
 }
 
-//Dialog title
+Row colorViewer(BuildContext context, Color color, double r, double w, double h,
+    title, TextStyle header) {
+  return Row(
+    children: [
+      Container(
+        width: w,
+        height: h,
+        decoration:
+            BoxDecoration(color: color, borderRadius: BorderRadius.circular(r)),
+      ),
+      const SizedBox(
+        width: 8,
+      ),
+      Column(
+        children: [
+          Center(
+            child: Text('Color Name',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: Colors.white38)),
+          ),
+          Center(
+            child: Text(
+              title,
+              style: header,
+            ),
+          ),
+          const SizedBox(
+            height: 2,
+          ),
+        ],
+      )
+    ],
+  );
+}
+
+///
+///Dialog title
+///
 Row titleDIalog(BuildContext context, String title) {
   return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
     GestureDetector(
@@ -1222,7 +1266,9 @@ Row titleDIalog(BuildContext context, String title) {
   ]);
 }
 
-//Dialog set up the buttons
+///
+///Dialog set up the buttons
+///
 Widget dialogButton(BuildContext context, text, ButtonStyle bttnStyl, funct) {
   return TextButton(
     style: bttnStyl,

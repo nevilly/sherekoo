@@ -91,7 +91,7 @@ class _CrmPackageAddState extends State<CrmPackageAdd> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('New Bundle'),
+        title: const Text('New Bundles'),
         actions: [
           GestureDetector(
             onTap: () {

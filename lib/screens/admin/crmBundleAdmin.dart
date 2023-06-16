@@ -80,6 +80,7 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
   String superVisorUname = '';
   String superVisorId = '';
   String superVisorRole = '';
+  String superVisorAvaterUrl = '';
 
   String bundleType = 'Bundle Type';
   CrmPckModel crmPackageInfo = CrmPckModel(
@@ -994,7 +995,7 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
           ),
 
           const SizedBox(height: 8),
-          //location
+          //Owner name
           Container(
             width: size.width,
             decoration: BoxDecoration(
@@ -1334,6 +1335,7 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
                                     superVisorUname = itm.username!;
                                     superVisorId = itm.id!;
                                     superVisorRole = itm.role!;
+                                    superVisorAvaterUrl = itm.urlAvatar!;
                                   });
                                 },
                                 child: Padding(
@@ -1341,24 +1343,20 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
                                       left: 4.0, right: 4.0),
                                   child: Column(
                                     children: [
-                                      itm.avater != ''
-                                          ? Padding(
-                                              padding:
-                                                  const EdgeInsets.all(4.0),
-                                              child: ClipOval(
-                                                child: UserAvater(
-                                                  avater: itm.avater!,
-                                                  url: '/profile/',
-                                                  username: itm.username!,
-                                                  width: 50.0,
-                                                  height: 50.0,
-                                                ),
-                                              ))
-                                          : const ClipOval(
-                                              child: DefaultAvater(
-                                                  height: 50,
-                                                  radius: 35,
-                                                  width: 50)),
+                                      Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: CircleAvatar(
+                                            backgroundColor: OColors.darGrey,
+                                            radius: 27,
+                                            child: ClipOval(
+                                              child: profilefadeImg(
+                                                  context,
+                                                  api + itm.urlAvatar!,
+                                                  50.0,
+                                                  50.0,
+                                                  BoxFit.fill),
+                                            ),
+                                          )),
                                       Positioned(
                                         child: Column(
                                           children: [
@@ -1390,13 +1388,16 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
                                   child: superVisorAvater != ''
                                       ? Padding(
                                           padding: const EdgeInsets.all(4.0),
-                                          child: ClipOval(
-                                            child: UserAvater(
-                                              avater: superVisorAvater,
-                                              url: '/profile/',
-                                              username: superVisorUname,
-                                              width: 50.0,
-                                              height: 50.0,
+                                          child: CircleAvatar(
+                                            backgroundColor: OColors.darGrey,
+                                            radius: 25,
+                                            child: ClipOval(
+                                              child: profilefadeImg(
+                                                  context,
+                                                  api + superVisorAvaterUrl,
+                                                  50.0,
+                                                  50.0,
+                                                  BoxFit.fill),
                                             ),
                                           ))
                                       : const ClipOval(
@@ -1427,6 +1428,7 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
                                   superVisorUname = '';
                                   superVisorId = "";
                                   superVisorRole = '';
+                                  superVisorAvaterUrl = '';
                                 });
                               },
                               child: Container(
