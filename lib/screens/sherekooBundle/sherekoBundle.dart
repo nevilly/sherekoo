@@ -608,7 +608,7 @@ class _SherekooBundleState extends State<SherekooBundle> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(
-                              height: 20,
+                              height: 15,
                             ),
 
                             ///Add Package
@@ -623,7 +623,16 @@ class _SherekooBundleState extends State<SherekooBundle> {
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text('Add Package', style: header14),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(6.0),
+                                        child: const Icon(Icons.add,
+                                            size: 20, color: Colors.green),
+                                      ),
+                                      Text('Add Package', style: header14),
+                                    ],
+                                  ),
                                 )),
                             const SizedBox(
                               height: 10,
@@ -645,9 +654,12 @@ class _SherekooBundleState extends State<SherekooBundle> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Row(
                                       children: [
-                                        const Icon(Icons.add,
-                                            size: 20, color: Colors.red),
-                                        Text('add package', style: header13)
+                                        Padding(
+                                          padding: const EdgeInsets.all(6.0),
+                                          child: const Icon(Icons.add,
+                                              size: 20, color: Colors.green),
+                                        ),
+                                        Text('add bundle', style: header14)
                                       ],
                                     ),
                                   ),
@@ -666,7 +678,16 @@ class _SherekooBundleState extends State<SherekooBundle> {
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text('View Package', style: header14),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(6.0),
+                                        child: const Icon(Icons.remove_red_eye,
+                                            size: 20, color: Colors.green),
+                                      ),
+                                      Text('View Package', style: header14),
+                                    ],
+                                  ),
                                 )),
                             const SizedBox(
                               height: 10,
@@ -682,8 +703,16 @@ class _SherekooBundleState extends State<SherekooBundle> {
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child:
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(6.0),
+                                        child: const Icon(Icons.book_online,
+                                            size: 20, color: Colors.green),
+                                      ),
                                       Text('Booking Orders', style: header14),
+                                    ],
+                                  ),
                                 )),
                           ],
                         ),
