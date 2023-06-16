@@ -88,7 +88,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
   void initState() {
     _tabController = TabController(
       initialIndex: 0,
-      length: 4,
+      length: 3,
       vsync: this,
     );
     _tabController.addListener(() {});
@@ -198,6 +198,9 @@ class _ServiceDetailsState extends State<ServiceDetails>
     );
   }
 
+  ///
+  /// Tab Bar
+  ///
   TabBar get _tabBar => TabBar(
           labelColor: OColors.primary,
           unselectedLabelColor: Colors.grey,
@@ -208,9 +211,9 @@ class _ServiceDetailsState extends State<ServiceDetails>
             Tab(
               text: 'OverView',
             ),
-            Tab(
-              text: 'Schedule',
-            ),
+            // Tab(
+            //   text: 'Schedule',
+            // ),
             Tab(
               text: 'SavedBy',
             ),
@@ -248,6 +251,10 @@ class _ServiceDetailsState extends State<ServiceDetails>
               SizedBox(
                 height: size.height / (25 * 10),
               ),
+
+              ///
+              /// Tab Bar
+              ///
               PreferredSize(
                 preferredSize: _tabBar.preferredSize,
                 child: Container(
@@ -265,7 +272,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                   controller: _tabController,
                   children: [
                     overViews(context, size),
-                    schedule(),
+                    // schedule(),  fix shedule problem after upload Appp
                     seviceDetails(context, size),
                     servicePlan(context, size)
                   ],

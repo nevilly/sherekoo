@@ -341,6 +341,9 @@ class _SherekooBundleState extends State<SherekooBundle> {
     );
   }
 
+  ///
+  /// Hot Bundles
+  ///
   SizedBox hotPackage(Size size) {
     return SizedBox(
       height: 210,
@@ -425,6 +428,9 @@ class _SherekooBundleState extends State<SherekooBundle> {
     );
   }
 
+  ///
+  /// Color Codes
+  ///
   Container colorCode(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -534,11 +540,12 @@ class _SherekooBundleState extends State<SherekooBundle> {
     );
   }
 
-  // Alert Widget
+  ///
+  /// Alert Widget
+  ///
+
   showAlertDialog(
       BuildContext context, String title, String msg, req, String from) async {
-    // set up the buttons
-
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       insetPadding: const EdgeInsets.only(right: 1, left: 1),
