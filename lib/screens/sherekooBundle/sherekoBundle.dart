@@ -61,7 +61,8 @@ class _SherekooBundleState extends State<SherekooBundle> {
       colorCode: [],
       createdDate: '',
       inYear: '',
-      pImage: '');
+      pImage: '',
+      colorDesigner: '');
 
   @override
   void initState() {
@@ -203,6 +204,53 @@ class _SherekooBundleState extends State<SherekooBundle> {
               ));
   }
 
+  ///
+  /// Top Bar
+  ///
+  AppBar topBar() {
+    return AppBar(
+        backgroundColor: osec,
+        elevation: 0,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Buy ceremony',
+              style: header16,
+            ),
+            GestureDetector(
+              onTap: () {
+                showAlertDialog(context, 'Search busness ', '', '', '');
+              },
+              child: Icon(
+                Icons.search,
+                color: OColors.white,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          const Icon(
+            Icons.notifications,
+            color: Colors.white,
+          ),
+          currentUser.role == 'a'
+              ? GestureDetector(
+                  onTap: () {
+                    adminOnly();
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.more_vert,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              : const SizedBox.shrink()
+        ]);
+  }
+
   Padding sherekooBundle(Size size) {
     return Padding(
       padding: const EdgeInsets.all(2.0),
@@ -291,50 +339,6 @@ class _SherekooBundleState extends State<SherekooBundle> {
             );
           }),
     );
-  }
-
-  AppBar topBar() {
-    return AppBar(
-        backgroundColor: osec,
-        elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Buy ceremony',
-              style: header16,
-            ),
-            GestureDetector(
-              onTap: () {
-                showAlertDialog(context, 'Search busness ', '', '', '');
-              },
-              child: Icon(
-                Icons.search,
-                color: OColors.white,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          const Icon(
-            Icons.notifications,
-            color: Colors.white,
-          ),
-          currentUser.role == 'a'
-              ? GestureDetector(
-                  onTap: () {
-                    adminOnly();
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.more_vert,
-                      color: Colors.white,
-                    ),
-                  ),
-                )
-              : const SizedBox.shrink()
-        ]);
   }
 
   SizedBox hotPackage(Size size) {
@@ -430,63 +434,101 @@ class _SherekooBundleState extends State<SherekooBundle> {
             bottomRight: Radius.circular(25),
           )),
       padding:
-          const EdgeInsets.only(bottom: 18.0, top: 10, left: 12, right: 12),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          const EdgeInsets.only(bottom: 12.0, top: 10, left: 12, right: 12),
+      child: Column(
         children: [
-          Container(
-            margin: const EdgeInsets.only(left: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text('Ceremony',
-                    style: header15.copyWith(
-                      fontWeight: FontWeight.bold,
-                    )),
-                Text('Colors ',
-                    style: header14.copyWith(
-                      fontWeight: FontWeight.w400,
-                    )),
-                Text(pck.inYear,
-                    style: header13.copyWith(
-                      fontWeight: FontWeight.w200,
-                    )),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 55,
-            width: MediaQuery.of(context).size.width / 2.0,
-            child: GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: pck.colorCode.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 6,
-                  childAspectRatio: 0.8),
-              itemBuilder: (context, i) {
-                final itm = pck.colorCode[i];
-                String clrName = itm['colorName'].toString().length > 5
-                    ? '${itm['colorName'].toString().substring(0, 4)}..'
-                    : itm['colorName'].toString();
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text('Ceremony',
+                        style: header15.copyWith(
+                          fontWeight: FontWeight.bold,
+                        )),
+                    Text('Colors ',
+                        style: header14.copyWith(
+                          fontWeight: FontWeight.w400,
+                        )),
+                    Text(pck.inYear,
+                        style: header13.copyWith(
+                          fontWeight: FontWeight.w200,
+                        )),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 55,
+                width: MediaQuery.of(context).size.width / 2.0,
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: pck.colorCode.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 6,
+                      childAspectRatio: 0.8),
+                  itemBuilder: (context, i) {
+                    final itm = pck.colorCode[i];
+                    String clrName = itm['colorName'].toString().length > 5
+                        ? '${itm['colorName'].toString().substring(0, 4)}..'
+                        : itm['colorName'].toString();
 
-                return GestureDetector(
-                  onTap: () {
-                    colorViewerBuilder(
-                        Color(int.parse(itm['color'])),
-                        clrRadius,
-                        150,
-                        100,
-                        itm['colorName'].toString(),
-                        header13);
+                    return GestureDetector(
+                      onTap: () {
+                        colorViewerBuilder(
+                            Color(int.parse(itm['color'])),
+                            clrRadius,
+                            150,
+                            100,
+                            itm['colorName'].toString(),
+                            header13);
+                      },
+                      child: crmColorCode(
+                          context,
+                          Color(int.parse(itm['color'])),
+                          clrRadius,
+                          clrWidht,
+                          clrHeight,
+                          clrName,
+                          header13),
+                    );
                   },
-                  child: crmColorCode(context, Color(int.parse(itm['color'])),
-                      clrRadius, clrWidht, clrHeight, clrName, header13),
-                );
-              },
-            ),
+                ),
+              ),
+            ],
           ),
+          SizedBox(height: 6),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(width: 1),
+              Row(
+                children: [
+                  Text('createdBy',
+                      style: TextStyle(
+                          fontSize: 11,
+                          color: Colors.white12,
+                          fontStyle: FontStyle.italic)),
+                  SizedBox(
+                    width: 6,
+                  ),
+                  Text(pck.colorDesigner,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: prmry,
+                          fontSize: 11,
+                          fontStyle: FontStyle.italic)),
+                  SizedBox(
+                    width: 6,
+                  ),
+                ],
+              )
+            ],
+          )
         ],
       ),
     );
@@ -608,10 +650,12 @@ class _SherekooBundleState extends State<SherekooBundle> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(
-                              height: 15,
+                              height: 10,
                             ),
 
+                            ///
                             ///Add Package
+                            ///
                             GestureDetector(
                                 onTap: () {
                                   Navigator.of(context).pop();
@@ -637,6 +681,10 @@ class _SherekooBundleState extends State<SherekooBundle> {
                             const SizedBox(
                               height: 10,
                             ),
+
+                            ///
+                            /// Add bundle
+                            ///
                             GestureDetector(
                                 onTap: () {
                                   Navigator.of(context).pop();

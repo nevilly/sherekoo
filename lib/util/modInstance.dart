@@ -111,7 +111,8 @@ CrmPckModel empytCrmPckModel = CrmPckModel(
     colorCode: [],
     createdDate: '',
     inYear: '',
-    pImage: '');
+    pImage: '',
+    colorDesigner: '');
 
 Map<String, dynamic> get shereKoMap {
   return {

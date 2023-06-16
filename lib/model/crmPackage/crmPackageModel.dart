@@ -6,6 +6,7 @@ class CrmPckModel {
   String inYear;
   String status;
   List colorCode;
+  String colorDesigner;
   String createdDate;
 
   CrmPckModel(
@@ -16,6 +17,7 @@ class CrmPckModel {
       required this.inYear,
       required this.status,
       required this.colorCode,
+      required this.colorDesigner,
       required this.createdDate});
 
   factory CrmPckModel.fromJson(Map<String, dynamic> json) {
@@ -24,9 +26,10 @@ class CrmPckModel {
         title: json['title'] ?? '',
         descr: json['descr'] ?? "",
         status: json['status'] ?? "",
-        pImage: json['pImage']?? "",
-        inYear:json['inYear']?? "",
+        pImage: json['pImage'] ?? "",
+        inYear: json['inYear'] ?? "",
         colorCode: json['colorCode'],
+        colorDesigner: json['colorDesigner'] ?? "",
         createdDate: json['createdDate'] ?? "");
   }
 }

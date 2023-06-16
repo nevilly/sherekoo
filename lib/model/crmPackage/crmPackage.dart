@@ -105,7 +105,7 @@ class CrmPackage {
   }
 
   Future<CrmPackage> post(String token, String dirUrl, title, descr, colorCode,
-      image, inYear) async {
+      image, inYear, String ClrDesgner) async {
     Uri url = Uri.parse(dirUrl);
 
     if (token.isEmpty) {
@@ -122,6 +122,7 @@ class CrmPackage {
         'colorCode': jsonEncode(colorCode),
         'year': inYear,
         'image': image,
+        'colorDesigner': ClrDesgner
       };
     }
 

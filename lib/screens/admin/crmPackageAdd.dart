@@ -28,6 +28,7 @@ class _CrmPackageAddState extends State<CrmPackageAdd> {
   final TextEditingController _color = TextEditingController();
   final TextEditingController _colorName = TextEditingController();
   final TextEditingController _inYear = TextEditingController();
+  final TextEditingController _colorDesigner = TextEditingController();
 
   final _picker = ImagePicker();
   File? _generalimage;
@@ -72,7 +73,7 @@ class _CrmPackageAddState extends State<CrmPackageAdd> {
         payload: [],
       )
           .post(token, urladdCrmPackage, _title.text, _body.text, _col, image,
-              _inYear.text)
+              _inYear.text, _colorDesigner.text)
           .then((value) {
         Navigator.push(
             context,
@@ -127,6 +128,7 @@ class _CrmPackageAddState extends State<CrmPackageAdd> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //Title
+
                 Padding(
                   padding: const EdgeInsets.all(6.0),
                   child: Container(
@@ -207,7 +209,10 @@ class _CrmPackageAddState extends State<CrmPackageAdd> {
                   height: 8,
                 ),
 
-                //ColorName
+                ///
+                /// ColorName
+                ///
+
                 Padding(
                   padding: const EdgeInsets.all(6.0),
                   child: Title(
@@ -328,6 +333,21 @@ class _CrmPackageAddState extends State<CrmPackageAdd> {
                       ),
                     ],
                   ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: textFieldContainer(
+                      context,
+                      'Color Desinger',
+                      _colorDesigner,
+                      MediaQuery.of(context).size.width / 1.3,
+                      35,
+                      5,
+                      10,
+                      Colors.white30,
+                      Icon(Icons.person),
+                      TextStyle(fontSize: 15, color: Colors.grey, height: 1.5),
+                      TextInputType.name),
                 ),
               ],
             ),

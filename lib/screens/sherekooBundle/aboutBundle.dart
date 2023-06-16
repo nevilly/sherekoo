@@ -19,8 +19,7 @@ import '../admin/crnBundleOrders.dart';
 
 class AboutBundle extends StatefulWidget {
   final CrmPckModel crmPck;
-  const AboutBundle({Key? key,  required this.crmPck})
-      : super(key: key);
+  const AboutBundle({Key? key, required this.crmPck}) : super(key: key);
 
   @override
   State<AboutBundle> createState() => _AboutBundleState();
@@ -62,7 +61,8 @@ class _AboutBundleState extends State<AboutBundle> {
       colorCode: [],
       createdDate: '',
       inYear: '',
-      pImage: '');
+      pImage: '',
+      colorDesigner: '');
   @override
   void initState() {
     _preferences.init();

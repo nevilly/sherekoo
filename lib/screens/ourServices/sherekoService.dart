@@ -56,16 +56,17 @@ class _SherekoServiceState extends State<SherekoService> {
       totalFollowers: '',
       totalFollowing: '',
       totalLikes: '');
-  
- CrmPckModel pck = CrmPckModel(
-    id: '',
-    title: '',
-    descr: '',
-    status: '',
-    colorCode: [],
-    createdDate: '',
-    inYear: '',
-    pImage: '');
+
+  CrmPckModel pck = CrmPckModel(
+      id: '',
+      title: '',
+      descr: '',
+      status: '',
+      colorCode: [],
+      createdDate: '',
+      inYear: '',
+      pImage: '',
+      colorDesigner: '');
   @override
   void initState() {
     _preferences.init();
@@ -256,7 +257,6 @@ class _SherekoServiceState extends State<SherekoService> {
                 ),
               )
             : const SizedBox.shrink(),
-     
       ],
     );
   }
@@ -586,7 +586,6 @@ class _SherekoServiceState extends State<SherekoService> {
           );
         });
   }
-
 }
 
 class AlwaysDisabledFocusNode extends FocusNode {

@@ -91,7 +91,8 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
       inYear: '',
       status: '',
       colorCode: [],
-      createdDate: '');
+      createdDate: '',
+      colorDesigner: '');
   List<BusnessModel> data = [];
   List<String> bsnId = [];
   List<BusnessModel> bsnArr = [];
@@ -1075,41 +1076,23 @@ class _CrmBundleAdminState extends State<CrmBundleAdmin> {
             ),
           ),
 
-          //amount of People
-          Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: Container(
-              width: MediaQuery.of(context).size.width / 1.3,
-              height: 35,
-              padding: const EdgeInsets.only(
-                top: 5,
-              ),
-              decoration: BoxDecoration(
-                border: Border.all(width: 1, color: Colors.grey),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: TextField(
-                controller: _amountOfPeople,
-                maxLines: null,
-                expands: true,
-                textAlign: TextAlign.left,
-                keyboardType: TextInputType.multiline,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
-                  border: InputBorder.none,
-                  hintText: "Amount of People.. \n \n \n",
-                  hintStyle: TextStyle(color: Colors.grey, height: 1.5),
-                ),
-                style: const TextStyle(
-                    fontSize: 15, color: Colors.grey, height: 1.5),
-                onChanged: (value) {
-                  setState(() {
-                    //_email = value;
-                  });
-                },
-              ),
-            ),
-          ),
+          ///
+          /// amount of People
+          ///
+
+          textFieldContainer(
+              context,
+              'Amount of People',
+              _amountOfPeople,
+              MediaQuery.of(context).size.width / 1.3,
+              35,
+              5,
+              10,
+              Colors.white12,
+              Icon(Icons.person),
+              TextStyle(fontSize: 15, color: Colors.grey, height: 1.5),
+              TextInputType.number),
+
           const SizedBox(
             height: 8,
           ),
