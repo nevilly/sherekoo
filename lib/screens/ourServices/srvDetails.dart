@@ -63,6 +63,8 @@ class _ServiceDetailsState extends State<ServiceDetails>
 
   User superVisorInfo = User(
       id: '',
+      gId: '',
+      urlAvatar: '',
       username: '',
       firstname: '',
       lastname: '',
@@ -272,6 +274,10 @@ class _ServiceDetailsState extends State<ServiceDetails>
             ],
           ),
         ),
+
+        ///
+        /// Supper Visor
+        ///
         bottomNavigationBar: widget.crm.cId != ''
             ? Container(
                 height: 60,
@@ -360,7 +366,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                             child: CircleAvatar(
                                 radius: 10,
                                 backgroundImage: NetworkImage(
-                                  '${api}public/uploads/${superVisorInfo.username!}/profile/${superVisorInfo.avater!}',
+                                  '${api}${superVisorInfo.urlAvatar!}',
                                 ))),
                         const SizedBox(
                           width: 5,
