@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import '../../util/util.dart';
 
-class DisplayVedeo extends StatefulWidget {
+class DisplayVedeoChat extends StatefulWidget {
   final String vedeo;
   final String username;
   final String mediaUrl;
 
-  const DisplayVedeo(
+  const DisplayVedeoChat(
       {Key? key,
       required this.vedeo,
       required this.username,
@@ -15,10 +15,10 @@ class DisplayVedeo extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<DisplayVedeo> createState() => _DisplayVedeoState();
+  State<DisplayVedeoChat> createState() => _DisplayVedeoChatState();
 }
 
-class _DisplayVedeoState extends State<DisplayVedeo> {
+class _DisplayVedeoChatState extends State<DisplayVedeoChat> {
   VideoPlayerController? controller;
 
   @override

@@ -7,6 +7,7 @@ import '../../model/post/sherekoModel.dart';
 import '../../model/user/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/util.dart';
+import '../../widgets/postWidgets/display-post-chats.dart';
 import '../../widgets/postWidgets/displayPost.dart';
 import '../chats.dart';
 
@@ -126,7 +127,7 @@ class _MyPostsState extends State<MyPosts> {
                       child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(29.0)),
-                          child: DisplayVedeo(
+                          child: DisplayVedeoChat(
                             mediaUrl: itm.mediaUrl,
                             username: itm.creatorInfo.username!,
                             vedeo: itm.vedeo,

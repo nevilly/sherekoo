@@ -12,6 +12,7 @@ import '../util/app-variables.dart';
 import '../util/colors.dart';
 import '../util/func.dart';
 import '../util/util.dart';
+import '../widgets/postWidgets/display-post-chats.dart';
 import 'settingScreen/chatsSetting.dart';
 
 class PostChats extends StatefulWidget {
@@ -105,14 +106,39 @@ class _PostChatsState extends State<PostChats> {
     }
   }
 
+  User user = User(
+      id: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      avater: '',
+      phoneNo: '',
+      email: '',
+      gender: '',
+      role: '',
+      isCurrentUser: '',
+      address: '',
+      bio: '',
+      whatYouDo: '',
+      followInfo: '',
+      meritalStatus: '',
+      totalPost: '',
+      isCurrentBsnAdmin: '',
+      isCurrentCrmAdmin: '',
+      currentFllwId: '',
+      totalFollowers: '',
+      totalFollowing: '',
+      totalLikes: '');
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: OColors.secondary,
       appBar: AppBar(
+        leading: CloseButton(color: Colors.white),
         backgroundColor: OColors.secondary,
-        title: Text('${widget.post.commentNumber}  Comments',
+        title: Text(' Comments',
             style: TextStyle(
                 // fontSize: 16,
                 color: OColors.fontColor,
@@ -131,7 +157,7 @@ class _PostChatsState extends State<PostChats> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  DisplayVedeo(
+                  DisplayVedeoChat(
                       vedeo: widget.post.vedeo,
                       username: widget.post.creatorInfo.username!,
                       mediaUrl: widget.post.mediaUrl),
@@ -141,8 +167,8 @@ class _PostChatsState extends State<PostChats> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'comments ${widget.post.commentNumber}',
-                      style: header13,
+                      'View all, comments ${widget.post.commentNumber}',
+                      style: header16,
                     ),
                   ),
                   SizedBox(
@@ -331,6 +357,7 @@ class _PostChatsState extends State<PostChats> {
               children: [
                 TextFormField(
                   controller: _body,
+                  style: TextStyle(color: OColors.white),
                   maxLines: null,
                   expands: true,
                   textAlign: TextAlign.left,
