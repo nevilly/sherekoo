@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sherekoo/model/ceremony/crm-model.dart';
+import 'package:sherekoo/model/post/sherekoModel.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../model/post/post.dart';
@@ -18,8 +19,13 @@ class UploadVedeo extends StatefulWidget {
   final String from;
   final CeremonyModel crm;
   final User user;
+  final SherekooModel post;
   const UploadVedeo(
-      {Key? key, required this.from, required this.crm, required this.user})
+      {Key? key,
+      required this.from,
+      required this.post,
+      required this.crm,
+      required this.user})
       : super(key: key);
 
   @override

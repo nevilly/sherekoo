@@ -70,11 +70,12 @@ class _PostChatsState extends State<PostChats> {
       userId: '',
     ).get(token, urlGetChats).then((value) {
       if (mounted) {
-        setState(() {
-          chats = value.payload
-              .map<ChatsModel>((e) => ChatsModel.fromJson(e))
-              .toList();
-        });
+        if (value.status == 200)
+          setState(() {
+            chats = value.payload
+                .map<ChatsModel>((e) => ChatsModel.fromJson(e))
+                .toList();
+          });
       }
     });
     id++;

@@ -5,11 +5,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
-import 'package:image_watermark/image_watermark.dart';
 import 'package:share_plus/share_plus.dart';
+
 import 'package:sherekoo/model/ceremony/crm-model.dart';
 import 'package:sherekoo/model/post/post.dart';
 import 'package:sherekoo/model/post/sherekoModel.dart';
@@ -20,11 +18,21 @@ import '../../model/user/userModel.dart';
 import '../../screens/crmScreen/crmDoor.dart';
 import '../../screens/detailScreen/livee.dart';
 import '../../screens/homNav.dart';
+import '../../screens/uploadScreens/uploadSherekoo.dart';
 import '../../util/app-variables.dart';
 import '../../util/colors.dart';
+import '../../util/modInstance.dart';
 import '../../util/textStyle-pallet.dart';
 import '../imgWigdets/defaultAvater.dart';
 import '../../util/button.dart';
+import "package:http/http.dart" as http;
+
+enum MenuItem {
+  item1,
+  item2,
+  item3,
+  item4,
+}
 
 class PostTemplate extends StatefulWidget {
   final SherekooModel sherekoo;
@@ -46,29 +54,31 @@ class PostTemplateState extends State<PostTemplate> {
   int isLike = 0;
   int totalLikes = 0;
   int totalShare = 0;
-
+  bool isPostAdmin = false;
   @override
   void initState() {
     preferences.init();
     preferences.get('token').then((value) {
-      token = value;
+      setState(() {
+        token = value;
+        isPostAdmin = widget.sherekoo.isPostAdmin ? true : false;
+
+        if (widget.sherekoo.totalLikes != '') {
+          totalLikes = int.parse(widget.sherekoo.totalLikes!);
+        } else {
+          totalLikes = 0;
+        }
+
+        if (widget.sherekoo.totalShare != '') {
+          totalShare = int.parse(widget.sherekoo.totalShare);
+        } else {
+          totalShare = 0;
+        }
+
+        isLike = int.parse(widget.sherekoo.isLike!);
+      });
     });
 
-    if (widget.sherekoo.totalLikes != '') {
-      totalLikes = int.parse(widget.sherekoo.totalLikes!);
-    } else {
-      totalLikes = 0;
-    }
-
-    if (widget.sherekoo.totalShare != '') {
-      totalShare = int.parse(widget.sherekoo.totalShare);
-    } else {
-      totalShare = 0;
-    }
-
-    isLike = int.parse(widget.sherekoo.isLike!);
-    print('-----------Observe---------');
-    print(api + widget.sherekoo.creatorInfo.urlAvatar!);
     super.initState();
   }
 
@@ -138,6 +148,128 @@ class PostTemplateState extends State<PostTemplate> {
     });
   }
 
+  SherekooModel sherekoMdl = SherekooModel(
+      pId: '',
+      createdBy: '',
+      ceremonyId: '',
+      body: '',
+      vedeo: '',
+      mediaUrl: '',
+      creatorInfo: User(
+          id: '',
+          username: '',
+          firstname: '',
+          lastname: '',
+          avater: '',
+          phoneNo: '',
+          email: '',
+          gender: '',
+          role: '',
+          isCurrentUser: '',
+          address: '',
+          bio: '',
+          meritalStatus: '',
+          totalPost: '',
+          isCurrentBsnAdmin: '',
+          isCurrentCrmAdmin: '',
+          totalFollowers: '',
+          totalFollowing: '',
+          totalLikes: ''),
+      createdDate: '',
+      commentNumber: '',
+      crmInfo: CeremonyModel(
+        cId: '',
+        codeNo: '',
+        ceremonyType: '',
+        cName: '',
+        fId: '',
+        sId: '',
+        cImage: '',
+        ceremonyDate: '',
+        admin: '',
+        contact: '',
+        isInFuture: '',
+        isCrmAdmin: '',
+        likeNo: '',
+        chatNo: '',
+        viwersNo: '',
+        userFid: emptyUser,
+        userSid: emptyUser,
+        youtubeLink: '',
+      ),
+      totalLikes: '',
+      isLike: '',
+      totalShare: '',
+      hashTag: '',
+      isPostAdmin: false,
+      crmViewer: '',
+      waterMarklUrl: '');
+  deletePost() {
+    Post(
+            pId: widget.sherekoo.pId,
+            createdBy: '',
+            body: '',
+            vedeo: '',
+            ceremonyId: '',
+            username: '',
+            avater: '',
+            status: 0,
+            payload: [],
+            hashTag: '')
+        .remove(token, urlremoveSherekoo)
+        .then((value) {
+      if (value.status == 200) {
+        Navigator.pop(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => HomeNav(
+                      getIndex: 2,
+                      user: User(
+                          id: '',
+                          gId: '',
+                          urlAvatar: '',
+                          username: '',
+                          firstname: '',
+                          lastname: '',
+                          avater: '',
+                          phoneNo: '',
+                          email: '',
+                          gender: '',
+                          role: '',
+                          isCurrentUser: '',
+                          address: '',
+                          bio: '',
+                          meritalStatus: '',
+                          totalPost: '',
+                          isCurrentBsnAdmin: '',
+                          isCurrentCrmAdmin: '',
+                          totalFollowers: '',
+                          totalFollowing: '',
+                          totalLikes: ''),
+                    )));
+      }
+      // make App to remember likes, or store
+    });
+  }
+
+  shareImage() async {
+    final String dirUrl = '${api}${widget.sherekoo.waterMarklUrl}';
+
+    Uri url = Uri.parse(dirUrl);
+    final response = await http.get(url);
+    final bytes = response.bodyBytes;
+
+    final temp = await getTemporaryDirectory();
+    final path = '${temp.path}/image.jpg';
+
+    File(path).writeAsBytesSync(bytes);
+    await Share.shareFiles([path], text: 'Image Shared from sherekoo');
+
+    //inspiration Link
+    // => https://protocoderspoint.com/flutter-share-files-images-videos-text-using-share_plus/
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -156,7 +288,10 @@ class PostTemplateState extends State<PostTemplate> {
               bottom: 0,
               child: SizedBox(height: 100, child: bodyPanel(context))),
 
-          //Post Details
+          ///
+          /// Post Details
+          ///
+
           Positioned(
             right: 0,
             bottom: 3,
@@ -209,7 +344,9 @@ class PostTemplateState extends State<PostTemplate> {
                   height: 8,
                 ),
 
-                // Like Button
+                ///
+                /// Like Button
+                ///
                 GestureDetector(
                   onTap: () {
                     onLikeButtonTapped();
@@ -257,7 +394,9 @@ class PostTemplateState extends State<PostTemplate> {
                   height: 10,
                 ),
 
-                // chats Buttons
+                ///
+                /// chats Buttons
+                ///
                 GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -276,42 +415,47 @@ class PostTemplateState extends State<PostTemplate> {
                   height: 10,
                 ),
 
-                // share
+                ///
+                /// share
+                ///
                 GestureDetector(
                   onTap: () async {
-                    share();
-                    final String dirUrl =
-                        '${api}public/uploads/${widget.sherekoo.creatorInfo.username}/posts/${widget.sherekoo.vedeo}';
-
-                    Uri url = Uri.parse(dirUrl);
-                    final response = await http.get(url);
-                    final bytes = response.bodyBytes;
-                    ByteData imagebyte = await rootBundle
-                        .load('assets/logo/waterMark/sherekoo.jpg');
-                    final logo = imagebyte.buffer.asUint8List();
-
-                    // waterMark
-                    final watermarkedImgBytes =
-                        await image_watermark.addImageWatermark(
-                            bytes, //image bytes
-                            logo, //watermark img bytes
-                            imgHeight: 250, //watermark img height
-                            imgWidth: 250, //watermark img width
-                            dstY: 400,
-                            dstX: 400);
-
-                    final temp = await getTemporaryDirectory();
-                    final path = '${temp.path}/image.jpg';
-
-                    File(path).writeAsBytesSync(watermarkedImgBytes);
-                    await Share.shareFiles([path],
-                        text: 'Image Shared from sherekoo');
-
-                    //inspiration Link
-                    // => https://protocoderspoint.com/flutter-share-files-images-videos-text-using-share_plus/
+                    moreBuilder();
+                    // PopupMenuButton<MenuItem>(
+                    //     onSelected: (value) {
+                    //       if (value == MenuItem.item1) {
+                    //         print('execute func item1');
+                    //       }
+                    //     },
+                    //     itemBuilder: (context) => [
+                    //           PopupMenuItem(
+                    //             enabled: true,
+                    //             value: widget.sherekoo.creatorInfo.isCurrentUser
+                    //                 ? MenuItem.item1
+                    //                 : null,
+                    //             child: widget.sherekoo.creatorInfo.isCurrentUser
+                    //                 ? const Text('Delete')
+                    //                 : const SizedBox.shrink(),
+                    //           ),
+                    //           PopupMenuItem(
+                    //             enabled: true,
+                    //             value: MenuItem.item2,
+                    //             child: const Text('report contet'),
+                    //           ),
+                    //         ]);
+                    // // share();
                   },
-                  child: MyButton(
-                      icon: Icons.reply_rounded, number: totalShare.toString()),
+                  child: Container(
+                      width: 35,
+                      height: 55,
+                      decoration: BoxDecoration(
+                          color: Colors.black54.withOpacity(.5),
+                          borderRadius: BorderRadius.circular(50)),
+                      child: Icon(
+                        Icons.more_vert,
+                        size: 25,
+                        color: Colors.white,
+                      )),
                 ),
                 const SizedBox(
                   height: 4,
@@ -601,6 +745,245 @@ class PostTemplateState extends State<PostTemplate> {
                   : const SizedBox(height: 1),
             ),
           ])),
+    );
+  }
+
+  ///
+  /// Admin only
+  ///
+  void moreBuilder() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            color: const Color(0xFF737373),
+            height: isPostAdmin ? 280 : 150,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: OColors.secondary,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    )),
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
+
+                            ///
+                            /// Edit  post
+                            ///
+                            isPostAdmin
+                                ? GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SherekooUpload(
+                                                    from: 'Home',
+                                                    crm: emptyCrmModel,
+                                                    post: widget.sherekoo,
+                                                  )));
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(6.0),
+                                            child: const Icon(Icons.add,
+                                                size: 20, color: Colors.green),
+                                          ),
+                                          Text('Edit post', style: header14),
+                                        ],
+                                      ),
+                                    ))
+                                : SizedBox.shrink(),
+                            const SizedBox(
+                              height: 10,
+                            ),
+
+                            ///
+                            /// delete post
+                            ///
+
+                            isPostAdmin
+                                ? GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                      deleteAlertDialog('Delete!');
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.only(
+                                          top: 8, bottom: 8, right: 5),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(6.0),
+                                              child: const Icon(Icons.delete,
+                                                  size: 20,
+                                                  color: Colors.green),
+                                            ),
+                                            Text('Delete', style: header14)
+                                          ],
+                                        ),
+                                      ),
+                                    ))
+                                : SizedBox.shrink(),
+
+                            SizedBox(
+                              height: 10,
+                            ),
+
+                            ///
+                            ///Share post
+                            ///
+
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                
+                                  shareImage();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(6.0),
+                                        child: const Icon(Icons.share,
+                                            size: 20, color: Colors.green),
+                                      ),
+                                      Text('share', style: header14),
+                                    ],
+                                  ),
+                                )),
+                            const SizedBox(
+                              height: 10,
+                            ),
+
+                            GestureDetector(
+                                onTap: () {
+                                  // Navigator.of(context).pop();
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (BuildContext context) =>
+                                  //             const CrmBundleOrders()));
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(6.0),
+                                        child: const Icon(Icons.download,
+                                            size: 20, color: Colors.green),
+                                      ),
+                                      Text('Download', style: header14),
+                                    ],
+                                  ),
+                                )),
+                          ],
+                        ),
+                      ),
+                    ))),
+          );
+        });
+  }
+
+  ///
+  /// Alert Widget
+  ///
+  deleteAlertDialog(String title) async {
+    // set up the buttons
+
+    Widget noButton = TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(6),
+        primary: OColors.fontColor,
+        backgroundColor: OColors.primary,
+        // textStyle: const TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
+      ),
+      child: Text("No +", style: header13),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    Widget yesButton = TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(6),
+        primary: OColors.fontColor,
+        backgroundColor: OColors.primary,
+      ),
+      child: Text(
+        "Yes ",
+        style: header13,
+      ),
+      onPressed: () {
+        Navigator.of(context).pop();
+        deletePost();
+      },
+    );
+
+    Widget setting = Padding(
+        padding: const EdgeInsets.all(8),
+        child: Icon(
+          Icons.settings,
+          color: OColors.primary,
+          size: 20,
+        ));
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: OColors.secondary,
+      title: Center(
+        child: Text(title, style: TextStyle(color: OColors.fontColor)),
+      ),
+      actions: [
+        Column(
+          children: [
+            Center(child: Text('Are you sure ?', style: header15)),
+            SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                noButton,
+                yesButton,
+              ],
+            ),
+            // const SizedBox(
+            //   height: 20,
+            // ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.start,
+            //   children: [
+            //     GestureDetector(onTap: () {}, child: setting),
+            //   ],
+            // ),
+          ],
+        ),
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

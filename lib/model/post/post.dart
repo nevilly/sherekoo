@@ -51,11 +51,14 @@ class Post {
     return getHttp(url, headers);
   }
 
-  Future<Post> post(String token, String dirUrl, String gId) async {
+  Future<Post> post(
+      String token, String dirUrl, String gId, String mediaUpdate) async {
     Uri url = Uri.parse(dirUrl);
 
     Map<String, dynamic> toMap() {
       return <String, dynamic>{
+        'pId': pId,
+        'mediaUpdated': mediaUpdate,
         'createdBy': createdBy,
         'vedeo': vedeo,
         'ceremonyId': ceremonyId,
@@ -201,7 +204,7 @@ Future<Post> postHttp(Uri url, Map<String, dynamic> Function() toMap,
   return await http
       .post(url, body: jsonEncode(toMap()), headers: headers)
       .then((r) {
-    // print(r.body); // Debugger
+    print(r.body); // Debugger
     if (r.statusCode == 200) {
       return rBody(r);
     }
@@ -220,6 +223,7 @@ Future<Post> getHttp(Uri url, Map<String, String> headers) async {
 }
 
 Post rBody(http.Response r) {
+  // print(r.body);
   return Post.fromJson(
       {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
 }

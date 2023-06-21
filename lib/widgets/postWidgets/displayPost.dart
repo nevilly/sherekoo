@@ -23,9 +23,12 @@ class _DisplayVedeoState extends State<DisplayVedeo> {
 
   @override
   void initState() {
-    if (widget.vedeo.endsWith('.mp4')) {
-      loadVideoPlayer();
-    }
+    setState(() {
+      if (widget.vedeo.endsWith('.mp4')) {
+        loadVideoPlayer();
+      }
+    });
+
     super.initState();
   }
 
@@ -96,12 +99,12 @@ class _DisplayVedeoState extends State<DisplayVedeo> {
                                   child: controller!.value.volume == 0
                                       ? const Icon(
                                           Icons.volume_off_outlined,
-                                          size: 25,
+                                          size: 20,
                                           color: Colors.white,
                                         )
                                       : const Icon(
                                           Icons.volume_up_rounded,
-                                          size: 25,
+                                          size: 20,
                                           color: Colors.white,
                                         ),
                                 ))

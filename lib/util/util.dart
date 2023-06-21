@@ -122,9 +122,12 @@ String urlRemoveServiceById = '${api}Services/remove';
 //Subscription List
 String urlUpdateSubscription = '${api}Subscription/update';
 
-//PostsSherekkoo
+//Posts Sherekkoo
 String urlPostSherekoo = '${api}MyPost/add';
 String urlGetSherekoo = '${api}MyPost/get';
+
+String urlUpdateSherekoo = '${api}MyPost/update';
+
 String urlGetSherekooByCeremonyId = '${api}MyPost/getPostByCrmId';
 String urlGetSherekooByUid = '${api}MyPost/getPostByUid';
 String urlGetCrmPostByUid = '${api}MyPost/getPostByUid';

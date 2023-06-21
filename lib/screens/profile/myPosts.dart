@@ -7,6 +7,7 @@ import '../../model/post/sherekoModel.dart';
 import '../../model/user/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/util.dart';
+import '../../widgets/postWidgets/displayPost.dart';
 import '../chats.dart';
 
 class MyPosts extends StatefulWidget {
@@ -126,22 +127,11 @@ class _MyPostsState extends State<MyPosts> {
                       child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(29.0)),
-                          child: itm.vedeo != ''
-                              ? FadeInImage(
-                                  image: NetworkImage('${api}${itm.mediaUrl}'),
-                                  fadeInDuration:
-                                      const Duration(milliseconds: 100),
-                                  placeholder: const AssetImage(
-                                      'assets/logo/noimage.png'),
-                                  imageErrorBuilder:
-                                      (context, error, stackTrace) {
-                                    return Image.asset(
-                                        'assets/logo/noimage.png',
-                                        fit: BoxFit.fitWidth);
-                                  },
-                                  fit: BoxFit.fitWidth,
-                                )
-                              : const SizedBox(height: 1)),
+                          child: DisplayVedeo(
+                            mediaUrl: itm.mediaUrl,
+                            username: itm.creatorInfo.username!,
+                            vedeo: itm.vedeo,
+                          )),
                     ),
                     Positioned(
                       left: 0,

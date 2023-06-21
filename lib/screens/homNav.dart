@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:sherekoo/util/modInstance.dart';
 
+import '../model/ceremony/crm-model.dart';
+import '../model/post/sherekoModel.dart';
 import '../model/user/userModel.dart';
 import '../util/app-variables.dart';
 import '../util/colors.dart';
@@ -44,7 +46,66 @@ class _HomeNavState extends State<HomeNav> {
   int index = 2;
 
   final screen = [
-    SherekooUpload(from: 'Home', crm: emptyCrmModel),
+    SherekooUpload(
+      from: 'Home',
+      crm: emptyCrmModel,
+      post: SherekooModel(
+          pId: '',
+          createdBy: '',
+          ceremonyId: '',
+          body: '',
+          vedeo: '',
+          mediaUrl: '',
+          creatorInfo: User(
+              id: '',
+              username: '',
+              firstname: '',
+              lastname: '',
+              avater: '',
+              phoneNo: '',
+              email: '',
+              gender: '',
+              role: '',
+              isCurrentUser: '',
+              address: '',
+              bio: '',
+              meritalStatus: '',
+              totalPost: '',
+              isCurrentBsnAdmin: '',
+              isCurrentCrmAdmin: '',
+              totalFollowers: '',
+              totalFollowing: '',
+              totalLikes: ''),
+          createdDate: '',
+          commentNumber: '',
+          crmInfo: CeremonyModel(
+            cId: '',
+            codeNo: '',
+            ceremonyType: '',
+            cName: '',
+            fId: '',
+            sId: '',
+            cImage: '',
+            ceremonyDate: '',
+            admin: '',
+            contact: '',
+            isInFuture: '',
+            isCrmAdmin: '',
+            likeNo: '',
+            chatNo: '',
+            viwersNo: '',
+            userFid: emptyUser,
+            userSid: emptyUser,
+            youtubeLink: '',
+          ),
+          totalLikes: '',
+          isLike: '',
+          totalShare: '',
+          hashTag: '',
+          isPostAdmin: false,
+          crmViewer: '',
+          waterMarklUrl: ''),
+    ),
     // const CrmOnNav(),
     const SherekooBundle(),
     const Home(),

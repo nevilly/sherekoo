@@ -9,8 +9,9 @@ class SherekooModel {
   final String body;
   final String vedeo;
   final String mediaUrl;
+  final String waterMarklUrl;
 
-  final String isPostAdmin;
+  bool isPostAdmin;
 
   User creatorInfo;
 
@@ -42,6 +43,7 @@ class SherekooModel {
       required this.mediaUrl,
       required this.creatorInfo,
       required this.createdDate,
+      required this.waterMarklUrl,
 
       //Chats
       required this.commentNumber,
@@ -71,6 +73,7 @@ class SherekooModel {
         createdBy: json['createdBy'] ?? "",
         vedeo: json['vedeo'] ?? "",
         mediaUrl: json['mediaUrl'] ?? "",
+        waterMarklUrl: json['waterMarklUrl'] ?? "",
         body: json['body'] ?? "",
         ceremonyId: json['ceremonyId'].toString(),
         creatorInfo: User.fromJson(json['creatorInfo']),
@@ -81,7 +84,7 @@ class SherekooModel {
 
         //Chats
         commentNumber: json['commentNumber'].toString(),
-        isPostAdmin: json['isPostAdmin'].toString(),
+        isPostAdmin: json['isPostAdmin'],
 
         //Likes Info
         totalLikes: json['totalLikes'].toString(),

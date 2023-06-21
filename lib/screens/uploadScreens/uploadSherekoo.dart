@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:sherekoo/model/post/sherekoModel.dart';
 
 import '../../model/ceremony/crm-model.dart';
 import '../../model/user/user-call.dart';
@@ -18,14 +19,18 @@ import 'uploadVedeo.dart';
 class SherekooUpload extends StatefulWidget {
   final String from;
   final CeremonyModel crm;
-  const SherekooUpload({Key? key, required this.from, required this.crm})
+  final SherekooModel post;
+  const SherekooUpload(
+      {Key? key, required this.from, required this.crm, required this.post})
       : super(key: key);
 
   @override
   State<SherekooUpload> createState() => _SherekooUploadState();
 }
 
-class _SherekooUploadState extends State<SherekooUpload> {
+class _SherekooUploadState extends State<SherekooUpload>
+    with SingleTickerProviderStateMixin {
+  late TabController _controller;
   User user = User(
       id: '',
       gId: '',
@@ -48,8 +53,24 @@ class _SherekooUploadState extends State<SherekooUpload> {
       totalFollowers: '',
       totalFollowing: '',
       totalLikes: '');
+
+  int indx = 0;
   @override
   void initState() {
+    if (widget.post.pId.isNotEmpty) {
+      setState(() {
+        indx =
+            widget.post.vedeo.endsWith('.jpg') && widget.post.vedeo.isNotEmpty
+                ? 0
+                : 1;
+      });
+    }
+    ;
+    _controller = TabController(
+      initialIndex: indx,
+      length: 2,
+      vsync: this,
+    );
     preferences.init();
     preferences.get('token').then((value) {
       setState(() {
@@ -116,6 +137,7 @@ class _SherekooUploadState extends State<SherekooUpload> {
               ),
             ),
             TabBar(
+                controller: _controller,
                 labelColor: OColors.primary,
                 unselectedLabelColor: OColors.primary,
                 indicatorColor: OColors.primary,
@@ -135,14 +157,15 @@ class _SherekooUploadState extends State<SherekooUpload> {
                 from: widget.from,
                 crm: widget.crm,
                 user: user,
+                post: widget.post,
               ),
 
               //Vedio Uploader...
               UploadVedeo(
-                from: widget.from,
-                crm: widget.crm,
-                user: user,
-              )
+                  from: widget.from,
+                  crm: widget.crm,
+                  user: user,
+                  post: widget.post)
             ])),
             const SizedBox(
               height: 30,

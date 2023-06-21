@@ -19,7 +19,6 @@ import '../../util/util.dart';
 import '../../widgets/calender/eventEditingPage.dart';
 import '../../widgets/gradientBorder.dart';
 import '../../widgets/imgWigdets/defaultAvater.dart';
-import '../../widgets/imgWigdets/userAvater.dart';
 import '../admin/crmBundleAdmin.dart';
 
 class ServiceDetails extends StatefulWidget {

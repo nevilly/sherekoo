@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:sherekoo/model/ceremony/crm-model.dart';
+import 'package:sherekoo/model/post/sherekoModel.dart';
 import 'package:sherekoo/screens/homNav.dart';
 import 'package:sherekoo/util/colors.dart';
 
@@ -21,8 +22,13 @@ class UploadImage extends StatefulWidget {
   final String from;
   final CeremonyModel crm;
   final User user;
+  final SherekooModel post;
   const UploadImage(
-      {Key? key, required this.from, required this.crm, required this.user})
+      {Key? key,
+      required this.from,
+      required this.crm,
+      required this.user,
+      required this.post})
       : super(key: key);
 
   @override
@@ -37,13 +43,25 @@ class _UploadImageState extends State<UploadImage> {
   String token = "";
 
   String hashTag = "";
-
+  int profile = 0;
+  String id = '';
+  String createdBy = '';
   @override
   void initState() {
     _preferences.init();
     _preferences.get('token').then((value) {
       setState(() {
         token = value;
+
+        if (widget.post.pId.isNotEmpty) {
+          _body.text = widget.post.body;
+          id = widget.post.pId;
+          createdBy = widget.post.createdBy;
+        }
+
+        if (widget.post.vedeo.isNotEmpty) {
+          profile = 1;
+        }
       });
     });
     super.initState();
@@ -60,18 +78,30 @@ class _UploadImageState extends State<UploadImage> {
 
     setState(() {
       _generalimage = img;
+      profile = 2;
     });
   }
 
   // Posting
   Future<void> post() async {
-    if (_generalimage != null) {
-      List<int> bytes = _generalimage!.readAsBytesSync();
-      String image = base64Encode(bytes);
+    String image = '';
+    if (profile == 2) {
+      if (_generalimage != null) {
+        List<int> bytes = _generalimage!.readAsBytesSync();
+        image = base64Encode(bytes);
+      }
+    }
 
+    if (profile == 1) {
+      image = widget.post.vedeo;
+    }
+
+    String dirUrl =
+        widget.post.pId.isNotEmpty ? urlUpdateSherekoo : urlPostSherekoo;
+    if (image != '') {
       Post(
-        pId: '',
-        createdBy: '',
+        pId: id,
+        createdBy: createdBy,
         body: _body.text,
         vedeo: image,
         ceremonyId: widget.crm.cId,
@@ -80,8 +110,9 @@ class _UploadImageState extends State<UploadImage> {
         payload: [],
         avater: '',
         username: '',
-      ).post(token, urlPostSherekoo, widget.user.gId!).then((value) {
+      ).post(token, dirUrl, widget.user.gId!, profile.toString()).then((value) {
         if (widget.from == 'Home') {
+          Navigator.pop(context);
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -139,14 +170,34 @@ class _UploadImageState extends State<UploadImage> {
                 // width: double.infinity,
                 // height: _generalimage != null ? 300 : 10,
                 color: OColors.secondary,
-                child: _generalimage != null
-                    ? Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Image.file(
-                          _generalimage!,
-                        ),
-                      )
-                    : const SizedBox(height: 1),
+                child: Stack(children: [
+                  if (profile == 0) SizedBox.shrink(),
+                  if (profile == 1)
+                    Image.network(
+                      api + widget.post.mediaUrl,
+                      // height: 400,
+                      fit: BoxFit.fill,
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                : null,
+                          ),
+                        );
+                      },
+                    ),
+                  if (profile == 2)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Image.file(
+                        _generalimage!,
+                      ),
+                    )
+                ]),
               ),
             ),
           ],
@@ -159,7 +210,7 @@ class _UploadImageState extends State<UploadImage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Gallary
+              // camera
               GestureDetector(
                 onTap: () {
                   _openImagePicker(ImageSource.camera);
@@ -176,8 +227,8 @@ class _UploadImageState extends State<UploadImage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20.0),
-              //cameraa
+              const SizedBox(height: 8.0),
+              //Gallalery
               GestureDetector(
                 onTap: () {
                   _openImagePicker(ImageSource.gallery);
@@ -194,6 +245,52 @@ class _UploadImageState extends State<UploadImage> {
                   ),
                 ),
               ),
+
+              const SizedBox(height: 8.0),
+              widget.post.vedeo.isNotEmpty
+                  ? GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _generalimage = null;
+                          profile = 1;
+                          // Navigator.of(context).pop();
+                        });
+                      },
+                      child: Card(
+                        color: OColors.primary,
+                        child: const Padding(
+                          padding: EdgeInsets.all(4.0),
+                          child: Icon(
+                            Icons.reply,
+                            size: 24,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    )
+                  : SizedBox.shrink(),
+              const SizedBox(height: 8.0),
+
+              if (_generalimage != null || profile == 1)
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _generalimage = null;
+                      profile = 0;
+                    });
+                  },
+                  child: Card(
+                    color: OColors.primary,
+                    child: const Padding(
+                      padding: EdgeInsets.all(4.0),
+                      child: Icon(
+                        Icons.close,
+                        size: 24,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
