@@ -59,10 +59,7 @@ class ChatsCall {
     Uri url = Uri.parse(dirUrl);
 
     Map<String, dynamic> toMap() {
-      return <String, dynamic>{
-        'id': postId,
-        'body':body
-      };
+      return <String, dynamic>{'id': postId, 'body': body};
     }
 
     invalidToken(token);
@@ -92,6 +89,22 @@ class ChatsCall {
     Map<String, dynamic> toMap() {
       return <String, dynamic>{
         'postId': postId,
+        'body': body,
+      };
+    }
+
+    invalidToken(token);
+    Map<String, String> headers = myHttpHeaders(token);
+    return postHttp(url, toMap, headers);
+  }
+
+  Future<ChatsCall> addReply(String token, String dirUrl, replyId) async {
+    Uri url = Uri.parse(dirUrl);
+
+    Map<String, dynamic> toMap() {
+      return <String, dynamic>{
+        'postId': postId,
+        'replyId': replyId,
         'body': body,
       };
     }
