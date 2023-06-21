@@ -69,49 +69,45 @@ class _DisplayVedeoState extends State<DisplayVedeo> {
                   );
                 },
               )
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  controller!.value.isInitialized
-                      ? Stack(
-                          alignment: AlignmentDirectional.centerStart,
-                          children: [
-                            AspectRatio(
-                              aspectRatio: controller!.value.aspectRatio,
-                              child: VideoPlayer(controller!),
-                            ),
-                            GestureDetector(
-                                onTap: () {
-                                  if (controller!.value.volume == 0) {
-                                    //check if volume is already set to 0 (i.e mute)
-                                    controller!.setVolume(1.0);
-                                  } else {
-                                    //check if volume is already set to 1 (i.e unmute)
-                                    controller!.setVolume(0.0);
-                                  }
-                                  setState(() {});
-                                },
-                                child: Container(
-                                  color: Colors.black.withOpacity(0.3),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 8),
-                                  child: controller!.value.volume == 0
-                                      ? const Icon(
-                                          Icons.volume_off_outlined,
-                                          size: 20,
-                                          color: Colors.white,
-                                        )
-                                      : const Icon(
-                                          Icons.volume_up_rounded,
-                                          size: 20,
-                                          color: Colors.white,
-                                        ),
-                                ))
-                          ],
-                        )
-                      : const CircularProgressIndicator(),
-                ],
+            : Positioned.fill(
+                child: controller!.value.isInitialized
+                    ? Stack(
+                        alignment: AlignmentDirectional.centerStart,
+                        children: [
+                          AspectRatio(
+                            aspectRatio: controller!.value.aspectRatio,
+                            child: VideoPlayer(controller!),
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                if (controller!.value.volume == 0) {
+                                  //check if volume is already set to 0 (i.e mute)
+                                  controller!.setVolume(1.0);
+                                } else {
+                                  //check if volume is already set to 1 (i.e unmute)
+                                  controller!.setVolume(0.0);
+                                }
+                                setState(() {});
+                              },
+                              child: Container(
+                                color: Colors.black.withOpacity(0.3),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 8),
+                                child: controller!.value.volume == 0
+                                    ? const Icon(
+                                        Icons.volume_off_outlined,
+                                        size: 20,
+                                        color: Colors.white,
+                                      )
+                                    : const Icon(
+                                        Icons.volume_up_rounded,
+                                        size: 20,
+                                        color: Colors.white,
+                                      ),
+                              ))
+                        ],
+                      )
+                    : const CircularProgressIndicator(),
               ),
       ),
     );

@@ -88,6 +88,7 @@ class HomeState extends State<Home> {
       body: Stack(
         children: [
           PageView(
+            padEnds: false,
             controller: _controller,
             scrollDirection: Axis.vertical,
             onPageChanged: onPage,
@@ -101,8 +102,7 @@ class HomeState extends State<Home> {
                       sigmaX: 10.0,
                       sigmaY: 10.0,
                     ),
-                    child: post[index].vedeo.endsWith('.jpg') &&
-                            post[index].vedeo.isNotEmpty
+                    child: itm.vedeo.endsWith('.jpg') && itm.vedeo.isNotEmpty
                         ? Image.network(
                             api + itm.mediaUrl,
                             // height: 400,

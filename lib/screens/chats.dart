@@ -161,11 +161,10 @@ class _PostChatsState extends State<PostChats> {
                       vedeo: widget.post.vedeo,
                       username: widget.post.creatorInfo.username!,
                       mediaUrl: widget.post.mediaUrl),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    color: OColors.darGrey,
+                    padding: const EdgeInsets.all(18.0),
                     child: Text(
                       'View all, comments ${widget.post.commentNumber}',
                       style: header16,

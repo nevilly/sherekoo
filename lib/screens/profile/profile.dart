@@ -290,19 +290,23 @@ class ProfileState extends State<Profile> {
         const SizedBox(
           width: 5,
         ),
-        // Notification
-        GestureDetector(
-          onTap: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) => profileSettings(context),
-            );
-          },
-          child: Container(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: const Icon(Icons.settings)),
-        ),
 
+        ///
+        /// Settings
+        ///
+        user.isCurrentUser == true
+            ? GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => profileSettings(context),
+                  );
+                },
+                child: Container(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: const Icon(Icons.settings)),
+              )
+            : SizedBox.shrink(),
         const SizedBox(
           width: 5,
         ),
