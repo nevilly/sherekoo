@@ -31,6 +31,13 @@ class Profile extends StatefulWidget {
   ProfileState createState() => ProfileState();
 }
 
+enum MenuItem {
+  item1,
+  item2,
+  item3,
+  item4,
+}
+
 class ProfileState extends State<Profile> {
   TextStyle styl =
       header13.copyWith(fontWeight: FontWeight.bold, color: OColors.primary);
@@ -126,7 +133,84 @@ class ProfileState extends State<Profile> {
       length: 2,
       child: Scaffold(
         backgroundColor: OColors.secondary,
-        appBar: topBar(),
+        appBar: AppBar(
+          backgroundColor: OColors.secondary,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              user.username!.isNotEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Text(
+                        '${user.username!.substring(0, 3).toUpperCase()}..',
+                        style: h3,
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                            color: OColors.secondary, strokeWidth: 2.0),
+                      ),
+                    ),
+              const SizedBox(
+                width: 2,
+              ),
+              const Padding(
+                padding: EdgeInsets.only(top: 4.0),
+                child: Icon(Icons.keyboard_arrow_down),
+              )
+            ],
+          ),
+          centerTitle: true,
+          actions: [
+            const NotifyWidget(),
+            const SizedBox(
+              width: 5,
+            ),
+
+            ///
+            /// Settings
+            ///
+            user.isCurrentUser == true
+                ? GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) =>
+                            profileSettings(context),
+                      );
+
+                      // PopupMenuButton<MenuItem>(
+                      //     onSelected: (value) {
+                      //       if (value == MenuItem.item1) {
+                      //         print('execute func item1');
+                      //       }
+                      //     },
+                      //     itemBuilder: (context) => [
+                      //           PopupMenuItem(
+                      //               enabled: true,
+                      //               value: MenuItem.item1,
+                      //               child: const Text('Delete')),
+                      //           PopupMenuItem(
+                      //             enabled: true,
+                      //             value: MenuItem.item2,
+                      //             child: const Text('report contet'),
+                      //           ),
+                      //         ]);
+                    },
+                    child: Container(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: const Icon(Icons.more_vert)),
+                  )
+                : SizedBox.shrink(),
+            const SizedBox(
+              width: 5,
+            ),
+          ],
+        ),
         drawer: const NavDrawer(),
         body: Column(
           children: [
@@ -245,72 +329,6 @@ class ProfileState extends State<Profile> {
           ],
         ),
       ),
-    );
-  }
-
-  ///
-  /// Top Bar
-  ///
-
-  AppBar topBar() {
-    return AppBar(
-      backgroundColor: OColors.secondary,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          user.username!.isNotEmpty
-              ? Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Text(
-                    '${user.username!.substring(0, 3).toUpperCase()}..',
-                    style: h3,
-                  ),
-                )
-              : Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                        color: OColors.secondary, strokeWidth: 2.0),
-                  ),
-                ),
-          const SizedBox(
-            width: 2,
-          ),
-          const Padding(
-            padding: EdgeInsets.only(top: 4.0),
-            child: Icon(Icons.keyboard_arrow_down),
-          )
-        ],
-      ),
-      centerTitle: true,
-      actions: [
-        const NotifyWidget(),
-        const SizedBox(
-          width: 5,
-        ),
-
-        ///
-        /// Settings
-        ///
-        user.isCurrentUser == true
-            ? GestureDetector(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) => profileSettings(context),
-                  );
-                },
-                child: Container(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: const Icon(Icons.settings)),
-              )
-            : SizedBox.shrink(),
-        const SizedBox(
-          width: 5,
-        ),
-      ],
     );
   }
 

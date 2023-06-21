@@ -1,16 +1,24 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:sherekoo/model/post/sherekoModel.dart';
 import 'package:sherekoo/screens/homNav.dart';
+import 'package:sherekoo/screens/uploadScreens/uploadSherekoo.dart';
 import 'package:sherekoo/util/textStyle-pallet.dart';
-import 'package:sherekoo/widgets/postWidgets/displayPost.dart';
+import "package:http/http.dart" as http;
 
+import '../model/chats-reply/replyCall.dart';
+import '../model/chats-reply/replyModule.dart';
 import '../model/chats/chat-call.dart';
 import '../model/chats/chatsModel.dart';
+import '../model/post/post.dart';
 import '../model/user/userModel.dart';
 import '../util/app-variables.dart';
 import '../util/colors.dart';
 import '../util/func.dart';
+import '../util/modInstance.dart';
 import '../util/util.dart';
 import '../widgets/postWidgets/display-post-chats.dart';
 import 'settingScreen/chatsSetting.dart';
@@ -29,8 +37,10 @@ class _PostChatsState extends State<PostChats> {
 
   List<ChatsModel> chats = [];
   final TextEditingController _body = TextEditingController();
+  final TextEditingController _replybody = TextEditingController();
   int id = 0;
 
+  bool isPostAdmin = false;
   @override
   void initState() {
     preferences.init();
@@ -42,6 +52,7 @@ class _PostChatsState extends State<PostChats> {
     preferences.get('token').then((value) {
       setState(() {
         token = value;
+        isPostAdmin = widget.post.isPostAdmin;
         getPost();
       });
     });
@@ -81,6 +92,32 @@ class _PostChatsState extends State<PostChats> {
       }
     });
     id++;
+  }
+
+  List<ReplyModel> reply = [];
+  replyChat(ChatsModel c) async {
+    if (_replybody.text.isNotEmpty) {
+      ReplyCall(
+        payload: [],
+        status: 0,
+        body: _replybody.text,
+        postId: widget.post.pId,
+        userId: '',
+        chatId: c.id,
+        id: '',
+      ).post(token, urlAddReply).then((value) {
+        if (mounted) {
+          if (value.status == 200)
+            setState(() {
+              // reply = value.payload
+              //     .map<ReplyModel>((e) => ReplyModel.fromJson(e))
+              //     .toList();
+            });
+        }
+      });
+    } else {
+      emptyField(context, 'reply is empty..');
+    }
   }
 
   Future<void> post() async {
@@ -130,6 +167,72 @@ class _PostChatsState extends State<PostChats> {
       totalFollowing: '',
       totalLikes: '');
 
+  deletePost() {
+    Post(
+            pId: widget.post.pId,
+            createdBy: '',
+            body: '',
+            vedeo: '',
+            ceremonyId: '',
+            username: '',
+            avater: '',
+            status: 0,
+            payload: [],
+            hashTag: '')
+        .remove(token, urlremoveSherekoo)
+        .then((value) {
+      if (value.status == 200) {
+        Navigator.pop(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => HomeNav(
+                      getIndex: 2,
+                      user: User(
+                          id: '',
+                          gId: '',
+                          urlAvatar: '',
+                          username: '',
+                          firstname: '',
+                          lastname: '',
+                          avater: '',
+                          phoneNo: '',
+                          email: '',
+                          gender: '',
+                          role: '',
+                          isCurrentUser: '',
+                          address: '',
+                          bio: '',
+                          meritalStatus: '',
+                          totalPost: '',
+                          isCurrentBsnAdmin: '',
+                          isCurrentCrmAdmin: '',
+                          totalFollowers: '',
+                          totalFollowing: '',
+                          totalLikes: ''),
+                    )));
+      }
+      // make App to remember likes, or store
+    });
+  }
+
+  shareImage() async {
+    final String dirUrl = '${api}${widget.post.waterMarklUrl}';
+
+    Uri url = Uri.parse(dirUrl);
+    final response = await http.get(url);
+    final bytes = response.bodyBytes;
+
+    final temp = await getTemporaryDirectory();
+    final path = '${temp.path}/image.jpg';
+
+    File(path).writeAsBytesSync(bytes);
+    await Share.shareFiles([path], text: 'Image Shared from sherekoo');
+
+    //inspiration Link
+    // => https://protocoderspoint.com/flutter-share-files-images-videos-text-using-share_plus/
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -149,6 +252,47 @@ class _PostChatsState extends State<PostChats> {
         //   onTap: ()=> HomeNav(getIndex: 2, user: User()),
         //   child:Icon(Icons.arrow_back)
         // ),
+
+        actions: [
+          // const NotifyWidget(),
+          const SizedBox(
+            width: 5,
+          ),
+
+          ///
+          /// Settings
+          ///
+
+          GestureDetector(
+            onTap: () {
+              moreOptionsBuilder();
+              // PopupMenuButton<MenuItem>(
+              //     onSelected: (value) {
+              //       if (value == MenuItem.item1) {
+              //         print('execute func item1');
+              //       }
+              //     },
+              //     itemBuilder: (context) => [
+              //           PopupMenuItem(
+              //               enabled: true,
+              //               value: MenuItem.item1,
+              //               child: const Text('Delete')),
+              //           PopupMenuItem(
+              //             enabled: true,
+              //             value: MenuItem.item2,
+              //             child: const Text('report contet'),
+              //           ),
+              //         ]);
+            },
+            child: Container(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: const Icon(Icons.more_vert)),
+          ),
+
+          const SizedBox(
+            width: 5,
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -161,13 +305,24 @@ class _PostChatsState extends State<PostChats> {
                       vedeo: widget.post.vedeo,
                       username: widget.post.creatorInfo.username!,
                       mediaUrl: widget.post.mediaUrl),
+                  widget.post.body.isNotEmpty
+                      ? Container(
+                          width: MediaQuery.of(context).size.width,
+                          color: OColors.darGrey,
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            '${widget.post.body}',
+                            style: header16,
+                          ),
+                        )
+                      : SizedBox.shrink(),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     color: OColors.darGrey,
                     padding: const EdgeInsets.all(18.0),
                     child: Text(
                       'View all, comments ${widget.post.commentNumber}',
-                      style: header16,
+                      style: header14,
                     ),
                   ),
                   SizedBox(
@@ -184,6 +339,9 @@ class _PostChatsState extends State<PostChats> {
                               top: 16.0, left: 10.0, bottom: 10),
                           child: Column(
                             children: [
+                              ///
+                              /// user Details
+                              ///
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
@@ -237,45 +395,58 @@ class _PostChatsState extends State<PostChats> {
                                       )),
                                   SizedBox(
                                     width:
-                                        MediaQuery.of(context).size.width / 1.3,
+                                        MediaQuery.of(context).size.width / 1.2,
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
+                                        ///
+                                        /// UserName
+                                        ///
                                         Text(chats[index].userInfo.username!,
                                             style: TextStyle(
                                               color: OColors.fontColor,
                                               fontWeight: FontWeight.w600,
                                             )),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (BuildContext
-                                                            context) =>
-                                                        ChatSettings(
-                                                          chat: chats[index],
-                                                          fromScrn: 'homeChats',
-                                                        )));
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 8.0),
-                                            child: Container(
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: Colors.grey,
-                                                      width: 2),
-                                                  borderRadius:
-                                                      BorderRadius.circular(50),
-                                                ),
-                                                child: Icon(
-                                                  Icons.more_horiz_rounded,
+
+                                        ///
+                                        /// chat settings
+                                        ///
+                                        Row(
+                                          children: [
+                                            Text(itm.date,
+                                                style: TextStyle(
+                                                    color: OColors.fontColor,
+                                                    fontSize: 13)),
+                                            SizedBox(
+                                              width: 4,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (BuildContext
+                                                                context) =>
+                                                            ChatSettings(
+                                                              chat:
+                                                                  chats[index],
+                                                              fromScrn:
+                                                                  'homeChats',
+                                                            )));
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 6, right: 6.0),
+                                                child: Container(
+                                                    child: Icon(
+                                                  Icons.more_vert_rounded,
                                                   size: 15,
                                                   color: OColors.fontColor,
                                                 )),
-                                          ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
@@ -283,7 +454,9 @@ class _PostChatsState extends State<PostChats> {
                                 ],
                               ),
 
-                              //body Message
+                              ///
+                              /// body Message
+                              ///
                               Container(
                                 padding: const EdgeInsets.only(
                                     top: 1.0, left: 55, right: 8),
@@ -302,6 +475,8 @@ class _PostChatsState extends State<PostChats> {
                                 padding: const EdgeInsets.only(
                                     top: 8.0, left: 40, right: 8),
                                 child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.only(
@@ -309,24 +484,33 @@ class _PostChatsState extends State<PostChats> {
                                       child: Row(
                                         children: [
                                           Icon(
-                                            Icons.favorite_border_outlined,
+                                            Icons.remove_red_eye,
                                             color: OColors.primary,
-                                            size: 18,
+                                            size: 16,
                                           ),
-                                          const SizedBox(width: 8),
-                                          Text('212',
+                                          const SizedBox(width: 4),
+                                          Text('view all reply',
                                               style: TextStyle(
-                                                fontSize: 13,
+                                                fontSize: 12,
                                                 color: OColors.fontColor,
                                               ))
                                         ],
                                       ),
                                     ),
                                     const SizedBox(width: 2),
-                                    Text(chats[index].date,
-                                        style: TextStyle(
-                                          color: OColors.fontColor,
-                                        )),
+                                    GestureDetector(
+                                      onTap: () {
+                                        replyTextBoxBuilder(context, itm);
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 8.0, right: 8),
+                                        child: Text('reply',
+                                            style: TextStyle(
+                                                color: OColors.fontColor,
+                                                fontSize: 12)),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               )
@@ -404,6 +588,357 @@ class _PostChatsState extends State<PostChats> {
           ),
         ],
       ),
+    );
+  }
+
+  ///
+  /// more Options
+  ///
+  void moreOptionsBuilder() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            color: const Color(0xFF737373),
+            height: isPostAdmin ? 280 : 150,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: OColors.secondary,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    )),
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
+
+                            ///
+                            /// Edit  post
+                            ///
+                            widget.post.isPostAdmin
+                                ? GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SherekooUpload(
+                                                    from: 'profile',
+                                                    crm: emptyCrmModel,
+                                                    post: widget.post,
+                                                  )));
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(6.0),
+                                            child: const Icon(Icons.add,
+                                                size: 20, color: Colors.green),
+                                          ),
+                                          Text('Edit post', style: header14),
+                                        ],
+                                      ),
+                                    ))
+                                : SizedBox.shrink(),
+                            const SizedBox(
+                              height: 10,
+                            ),
+
+                            ///
+                            /// delete post
+                            ///
+
+                            isPostAdmin
+                                ? GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                      deleteAlertDialog('Delete!');
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.only(
+                                          top: 8, bottom: 8, right: 5),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(6.0),
+                                              child: const Icon(Icons.delete,
+                                                  size: 20,
+                                                  color: Colors.green),
+                                            ),
+                                            Text('Delete', style: header14)
+                                          ],
+                                        ),
+                                      ),
+                                    ))
+                                : SizedBox.shrink(),
+
+                            SizedBox(
+                              height: 10,
+                            ),
+
+                            ///
+                            ///Share post
+                            ///
+
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+
+                                  shareImage();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(6.0),
+                                        child: const Icon(Icons.share,
+                                            size: 20, color: Colors.green),
+                                      ),
+                                      Text('share', style: header14),
+                                    ],
+                                  ),
+                                )),
+                            const SizedBox(
+                              height: 10,
+                            ),
+
+                            GestureDetector(
+                                onTap: () {
+                                  // Navigator.of(context).pop();
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (BuildContext context) =>
+                                  //             const CrmBundleOrders()));
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(6.0),
+                                        child: const Icon(Icons.download,
+                                            size: 20, color: Colors.green),
+                                      ),
+                                      Text('Download', style: header14),
+                                    ],
+                                  ),
+                                )),
+                          ],
+                        ),
+                      ),
+                    ))),
+          );
+        });
+  }
+
+  ///
+  /// Delete Alert
+  ///
+  deleteAlertDialog(String title) async {
+    // set up the buttons
+
+    Widget noButton = TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(6),
+        primary: OColors.fontColor,
+        backgroundColor: OColors.primary,
+        // textStyle: const TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
+      ),
+      child: Text("No +", style: header13),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    Widget yesButton = TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(6),
+        primary: OColors.fontColor,
+        backgroundColor: OColors.primary,
+      ),
+      child: Text(
+        "Yes ",
+        style: header13,
+      ),
+      onPressed: () {
+        Navigator.of(context).pop();
+        deletePost();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: OColors.secondary,
+      title: Center(
+        child: Text(title, style: TextStyle(color: OColors.fontColor)),
+      ),
+      actions: [
+        Column(
+          children: [
+            Center(child: Text('Are you sure ?', style: header15)),
+            SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                noButton,
+                yesButton,
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  ///
+  /// Reply Textbox
+  ///
+  replyTextBoxBuilder(BuildContext context, ChatsModel itm) async {
+    // set up the buttons
+
+    Widget noButton = TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(6),
+        primary: OColors.fontColor,
+        backgroundColor: OColors.primary,
+        // textStyle: const TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
+      ),
+      child: Text("No +", style: header13),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    Widget yesButton = TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(6),
+        primary: OColors.fontColor,
+        backgroundColor: OColors.primary,
+      ),
+      child: Text(
+        "Yes ",
+        style: header13,
+      ),
+      onPressed: () {
+        Navigator.of(context).pop();
+        deletePost();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      contentPadding: EdgeInsets.zero,
+      insetPadding: EdgeInsets.all(8.0),
+      backgroundColor: OColors.secondary,
+      title: Center(
+        child: Text('Reply chat', style: TextStyle(color: OColors.fontColor)),
+      ),
+      content: SizedBox(
+        height: 100,
+        child: Column(
+          children: [
+            Container(
+              // height: 50,
+
+              height: MediaQuery.of(context).size.height * 0.1,
+              width: MediaQuery.of(context).size.width * 4.8,
+              margin: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: OColors.primary.withOpacity(.1),
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: Stack(
+                children: [
+                  TextFormField(
+                    controller: _replybody,
+                    style: TextStyle(color: OColors.white),
+                    maxLines: null,
+                    expands: true,
+                    textAlign: TextAlign.left,
+                    keyboardType: TextInputType.multiline,
+                    decoration: InputDecoration(
+                      hintStyle: TextStyle(color: OColors.primary),
+                      contentPadding: const EdgeInsets.only(
+                          left: 20.0, right: 20.0, top: 5, bottom: 5),
+                      prefixIcon:
+                          Icon(Icons.tag_faces_sharp, color: OColors.primary),
+                      suffixIcon: GestureDetector(
+                          onTap: () {
+                            replyChat(itm);
+                            _replybody.text = '';
+                          },
+                          child: Icon(
+                            Icons.send,
+                            color: OColors.primary,
+                          )),
+                      // suffixIcon: Icon(Icons.send_rounded),
+                      hintText: 'Type here..',
+
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: OColors.primary,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: OColors.primary,
+                          width: 1,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: OColors.primary,
+                            width: 1,
+                          ),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(13.0))),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            noButton,
+            yesButton,
+          ],
+        ),
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 

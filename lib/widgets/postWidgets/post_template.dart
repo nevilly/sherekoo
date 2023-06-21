@@ -27,13 +27,6 @@ import '../imgWigdets/defaultAvater.dart';
 import '../../util/button.dart';
 import "package:http/http.dart" as http;
 
-enum MenuItem {
-  item1,
-  item2,
-  item3,
-  item4,
-}
-
 class PostTemplate extends StatefulWidget {
   final SherekooModel sherekoo;
 
@@ -414,33 +407,12 @@ class PostTemplateState extends State<PostTemplate> {
                 ),
 
                 ///
-                /// share
+                /// post settings
                 ///
                 GestureDetector(
                   onTap: () async {
-                    moreBuilder();
-                    // PopupMenuButton<MenuItem>(
-                    //     onSelected: (value) {
-                    //       if (value == MenuItem.item1) {
-                    //         print('execute func item1');
-                    //       }
-                    //     },
-                    //     itemBuilder: (context) => [
-                    //           PopupMenuItem(
-                    //             enabled: true,
-                    //             value: widget.sherekoo.creatorInfo.isCurrentUser
-                    //                 ? MenuItem.item1
-                    //                 : null,
-                    //             child: widget.sherekoo.creatorInfo.isCurrentUser
-                    //                 ? const Text('Delete')
-                    //                 : const SizedBox.shrink(),
-                    //           ),
-                    //           PopupMenuItem(
-                    //             enabled: true,
-                    //             value: MenuItem.item2,
-                    //             child: const Text('report contet'),
-                    //           ),
-                    //         ]);
+                    moreOptionsBuilder();
+
                     // // share();
                   },
                   child: Container(
@@ -747,9 +719,9 @@ class PostTemplateState extends State<PostTemplate> {
   }
 
   ///
-  /// Admin only
+  /// more Options
   ///
-  void moreBuilder() {
+  void moreOptionsBuilder() {
     showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -903,7 +875,7 @@ class PostTemplateState extends State<PostTemplate> {
   }
 
   ///
-  /// Alert Widget
+  /// Delete Alert
   ///
   deleteAlertDialog(String title) async {
     // set up the buttons
