@@ -402,10 +402,8 @@ class PostTemplateState extends State<PostTemplate> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) => PostChats(
-                                    postId: widget.sherekoo.pId,
-                                    chatsNo: widget.sherekoo.commentNumber!,
-                                  )));
+                              builder: (BuildContext context) =>
+                                  PostChats(post: widget.sherekoo)));
                     },
                     child: MyButton(
                       icon: Icons.chat_bubble,
@@ -854,7 +852,7 @@ class PostTemplateState extends State<PostTemplate> {
                             GestureDetector(
                                 onTap: () {
                                   Navigator.of(context).pop();
-                                
+
                                   shareImage();
                                 },
                                 child: Padding(

@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:sherekoo/model/post/sherekoModel.dart';
 import 'package:sherekoo/screens/homNav.dart';
+import 'package:sherekoo/util/textStyle-pallet.dart';
+import 'package:sherekoo/widgets/postWidgets/displayPost.dart';
 
 import '../model/chats/chat-call.dart';
 import '../model/chats/chatsModel.dart';
@@ -12,11 +15,9 @@ import '../util/util.dart';
 import 'settingScreen/chatsSetting.dart';
 
 class PostChats extends StatefulWidget {
-  final String postId;
-  final String chatsNo;
+  final SherekooModel post;
 
-  const PostChats({Key? key, required this.postId, required this.chatsNo})
-      : super(key: key);
+  const PostChats({Key? key, required this.post}) : super(key: key);
 
   @override
   State<PostChats> createState() => _PostChatsState();
@@ -32,7 +33,7 @@ class _PostChatsState extends State<PostChats> {
   @override
   void initState() {
     preferences.init();
-    postid = widget.postId;
+    postid = widget.post.pId;
     // print('postid');
     // print(postid);
     backgroundTask();
@@ -84,7 +85,7 @@ class _PostChatsState extends State<PostChats> {
   Future<void> post() async {
     if (_body.text != '') {
       ChatsCall(
-        postId: widget.postId,
+        postId: widget.post.pId,
         userId: '',
         body: _body.text,
         status: 0,
@@ -111,7 +112,7 @@ class _PostChatsState extends State<PostChats> {
       backgroundColor: OColors.secondary,
       appBar: AppBar(
         backgroundColor: OColors.secondary,
-        title: Text('${widget.chatsNo}  Comments',
+        title: Text('${widget.post.commentNumber}  Comments',
             style: TextStyle(
                 // fontSize: 16,
                 color: OColors.fontColor,
@@ -126,157 +127,192 @@ class _PostChatsState extends State<PostChats> {
       body: Column(
         children: [
           Expanded(
-            child: ListView.builder(
-              itemCount: chats.length,
-              itemBuilder: (BuildContext context, index) {
-                final itm = chats[index];
-                final urlProfile = api + itm.userInfo.urlAvatar!;
-                return Padding(
-                  padding:
-                      const EdgeInsets.only(top: 16.0, left: 10.0, bottom: 10),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            HomeNav(
-                                              user: User(
-                                                  id: itm.userId,
-                                                  username:
-                                                      itm.userInfo.username,
-                                                  avater: itm.userInfo.avater,
-                                                  gId: itm.userInfo.gId,
-                                                  urlAvatar:
-                                                      itm.userInfo.urlAvatar,
-                                                  phoneNo: '',
-                                                  role: '',
-                                                  gender: '',
-                                                  email: '',
-                                                  firstname: '',
-                                                  lastname: '',
-                                                  isCurrentUser: '',
-                                                  address: '',
-                                                  bio: '',
-                                                  meritalStatus: '',
-                                                  totalPost: '',
-                                                  isCurrentBsnAdmin: '',
-                                                  isCurrentCrmAdmin: '',
-                                                  totalFollowers: '',
-                                                  totalFollowing: '',
-                                                  totalLikes: ''),
-                                              getIndex: 4,
-                                            )));
-                              },
-                              child: personProfileClipOval(
-                                context,
-                                itm.userInfo.avater!,
-                                urlProfile,
-                                const SizedBox.shrink(),
-                                15,
-                                35,
-                                35,
-                                Colors.grey,
-                              )),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 1.3,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(chats[index].userInfo.username!,
-                                    style: TextStyle(
-                                      color: OColors.fontColor,
-                                      fontWeight: FontWeight.w600,
-                                    )),
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                ChatSettings(
-                                                  chat: chats[index],
-                                                  fromScrn: 'homeChats',
-                                                )));
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.grey, width: 2),
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                        ),
-                                        child: Icon(
-                                          Icons.more_horiz_rounded,
-                                          size: 15,
-                                          color: OColors.fontColor,
-                                        )),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      //body Message
-                      Container(
-                        padding:
-                            const EdgeInsets.only(top: 1.0, left: 55, right: 8),
-                        alignment: Alignment.topLeft,
-                        child: Text(chats[index].body!,
-                            textAlign: TextAlign.left,
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontSize: 14.0,
-                              color: OColors.fontColor,
-                            )),
-                      ),
-
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(top: 8.0, left: 40, right: 8),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10.0, right: 10),
-                              child: Row(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DisplayVedeo(
+                      vedeo: widget.post.vedeo,
+                      username: widget.post.creatorInfo.username!,
+                      mediaUrl: widget.post.mediaUrl),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'comments ${widget.post.commentNumber}',
+                      style: header13,
+                    ),
+                  ),
+                  SizedBox(
+                    //height: MediaQuery.maybeOf(context)!.size.height,
+                    child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: chats.length,
+                      itemBuilder: (BuildContext context, index) {
+                        final itm = chats[index];
+                        final urlProfile = api + itm.userInfo.urlAvatar!;
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                              top: 16.0, left: 10.0, bottom: 10),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: [
-                                  Icon(
-                                    Icons.favorite_border_outlined,
-                                    color: OColors.primary,
-                                    size: 18,
+                                  GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (BuildContext
+                                                        context) =>
+                                                    HomeNav(
+                                                      user: User(
+                                                          id: itm.userId,
+                                                          username: itm.userInfo
+                                                              .username,
+                                                          avater: itm
+                                                              .userInfo.avater,
+                                                          gId: itm.userInfo.gId,
+                                                          urlAvatar: itm
+                                                              .userInfo
+                                                              .urlAvatar,
+                                                          phoneNo: '',
+                                                          role: '',
+                                                          gender: '',
+                                                          email: '',
+                                                          firstname: '',
+                                                          lastname: '',
+                                                          isCurrentUser: '',
+                                                          address: '',
+                                                          bio: '',
+                                                          meritalStatus: '',
+                                                          totalPost: '',
+                                                          isCurrentBsnAdmin: '',
+                                                          isCurrentCrmAdmin: '',
+                                                          totalFollowers: '',
+                                                          totalFollowing: '',
+                                                          totalLikes: ''),
+                                                      getIndex: 4,
+                                                    )));
+                                      },
+                                      child: personProfileClipOval(
+                                        context,
+                                        itm.userInfo.avater!,
+                                        urlProfile,
+                                        const SizedBox.shrink(),
+                                        15,
+                                        35,
+                                        35,
+                                        Colors.grey,
+                                      )),
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width / 1.3,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(chats[index].userInfo.username!,
+                                            style: TextStyle(
+                                              color: OColors.fontColor,
+                                              fontWeight: FontWeight.w600,
+                                            )),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        ChatSettings(
+                                                          chat: chats[index],
+                                                          fromScrn: 'homeChats',
+                                                        )));
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 8.0),
+                                            child: Container(
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Colors.grey,
+                                                      width: 2),
+                                                  borderRadius:
+                                                      BorderRadius.circular(50),
+                                                ),
+                                                child: Icon(
+                                                  Icons.more_horiz_rounded,
+                                                  size: 15,
+                                                  color: OColors.fontColor,
+                                                )),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  const SizedBox(width: 8),
-                                  Text('212',
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        color: OColors.fontColor,
-                                      ))
                                 ],
                               ),
-                            ),
-                            const SizedBox(width: 2),
-                            Text(chats[index].date,
-                                style: TextStyle(
-                                  color: OColors.fontColor,
-                                )),
-                          ],
-                        ),
-                      )
-                    ],
+
+                              //body Message
+                              Container(
+                                padding: const EdgeInsets.only(
+                                    top: 1.0, left: 55, right: 8),
+                                alignment: Alignment.topLeft,
+                                child: Text(chats[index].body!,
+                                    textAlign: TextAlign.left,
+                                    overflow: TextOverflow.clip,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 14.0,
+                                      color: OColors.fontColor,
+                                    )),
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 8.0, left: 40, right: 8),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10.0, right: 10),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.favorite_border_outlined,
+                                            color: OColors.primary,
+                                            size: 18,
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Text('212',
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                color: OColors.fontColor,
+                                              ))
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(width: 2),
+                                    Text(chats[index].date,
+                                        style: TextStyle(
+                                          color: OColors.fontColor,
+                                        )),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                );
-              },
+                ],
+              ),
             ),
           ),
 
