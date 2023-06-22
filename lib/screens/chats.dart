@@ -34,6 +34,7 @@ class PostChats extends StatefulWidget {
 
 class _PostChatsState extends State<PostChats> {
   String postid = '';
+  bool textfield = true;
 
   List<ChatsModel> chats = [];
   final TextEditingController _body = TextEditingController();
@@ -107,12 +108,13 @@ class _PostChatsState extends State<PostChats> {
         id: '',
       ).post(token, urlAddReply).then((value) {
         if (mounted) {
-          if (value.status == 200)
-            setState(() {
-              // reply = value.payload
-              //     .map<ReplyModel>((e) => ReplyModel.fromJson(e))
-              //     .toList();
-            });
+          if (value.status == 200) print('-----payload-----');
+          print(value.payload);
+          setState(() {
+            // reply = value.payload
+            //     .map<ReplyModel>((e) => ReplyModel.fromJson(e))
+            //     .toList();
+          });
         }
       });
     } else {
@@ -305,24 +307,29 @@ class _PostChatsState extends State<PostChats> {
                       vedeo: widget.post.vedeo,
                       username: widget.post.creatorInfo.username!,
                       mediaUrl: widget.post.mediaUrl),
-                  widget.post.body.isNotEmpty
-                      ? Container(
-                          width: MediaQuery.of(context).size.width,
-                          color: OColors.darGrey,
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text(
-                            '${widget.post.body}',
-                            style: header16,
-                          ),
-                        )
-                      : SizedBox.shrink(),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     color: OColors.darGrey,
-                    padding: const EdgeInsets.all(18.0),
-                    child: Text(
-                      'View all, comments ${widget.post.commentNumber}',
-                      style: header14,
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        widget.post.body.isNotEmpty
+                            ? Container(
+                                child: Text(
+                                  '${widget.post.body}',
+                                  style: header16,
+                                ),
+                              )
+                            : SizedBox.shrink(),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          'View, comments ${chats.length.toString()}',
+                          style: header13,
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(
@@ -333,8 +340,12 @@ class _PostChatsState extends State<PostChats> {
                       itemCount: chats.length,
                       itemBuilder: (BuildContext context, index) {
                         final itm = chats[index];
+
                         final urlProfile = api + itm.userInfo.urlAvatar!;
-                        return Padding(
+                        return Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: EdgeInsets.only(bottom: 3),
+                          color: OColors.darGrey,
                           padding: const EdgeInsets.only(
                               top: 16.0, left: 10.0, bottom: 10),
                           child: Column(
@@ -344,71 +355,83 @@ class _PostChatsState extends State<PostChats> {
                               ///
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
+                                  Row(
+                                    children: [
+                                      GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        HomeNav(
+                                                          user: User(
+                                                              id: itm.userId,
+                                                              username: itm
+                                                                  .userInfo
+                                                                  .username,
+                                                              avater: itm
+                                                                  .userInfo
+                                                                  .avater,
+                                                              gId: itm
+                                                                  .userInfo.gId,
+                                                              urlAvatar: itm
+                                                                  .userInfo
+                                                                  .urlAvatar,
+                                                              phoneNo: '',
+                                                              role: '',
+                                                              gender: '',
+                                                              email: '',
+                                                              firstname: '',
+                                                              lastname: '',
+                                                              isCurrentUser: '',
+                                                              address: '',
+                                                              bio: '',
+                                                              meritalStatus: '',
+                                                              totalPost: '',
+                                                              isCurrentBsnAdmin:
+                                                                  '',
+                                                              isCurrentCrmAdmin:
+                                                                  '',
+                                                              totalFollowers:
+                                                                  '',
+                                                              totalFollowing:
+                                                                  '',
+                                                              totalLikes: ''),
+                                                          getIndex: 4,
+                                                        )));
+                                          },
+                                          child: personProfileClipOval(
                                             context,
-                                            MaterialPageRoute(
-                                                builder: (BuildContext
-                                                        context) =>
-                                                    HomeNav(
-                                                      user: User(
-                                                          id: itm.userId,
-                                                          username: itm.userInfo
-                                                              .username,
-                                                          avater: itm
-                                                              .userInfo.avater,
-                                                          gId: itm.userInfo.gId,
-                                                          urlAvatar: itm
-                                                              .userInfo
-                                                              .urlAvatar,
-                                                          phoneNo: '',
-                                                          role: '',
-                                                          gender: '',
-                                                          email: '',
-                                                          firstname: '',
-                                                          lastname: '',
-                                                          isCurrentUser: '',
-                                                          address: '',
-                                                          bio: '',
-                                                          meritalStatus: '',
-                                                          totalPost: '',
-                                                          isCurrentBsnAdmin: '',
-                                                          isCurrentCrmAdmin: '',
-                                                          totalFollowers: '',
-                                                          totalFollowing: '',
-                                                          totalLikes: ''),
-                                                      getIndex: 4,
-                                                    )));
-                                      },
-                                      child: personProfileClipOval(
-                                        context,
-                                        itm.userInfo.avater!,
-                                        urlProfile,
-                                        const SizedBox.shrink(),
-                                        15,
-                                        35,
-                                        35,
-                                        Colors.grey,
-                                      )),
+                                            itm.userInfo.avater!,
+                                            urlProfile,
+                                            const SizedBox.shrink(),
+                                            20,
+                                            35,
+                                            35,
+                                            Colors.grey,
+                                          )),
+                                      SizedBox(
+                                        width: 6,
+                                      ),
+
+                                      ///
+                                      /// UserName
+                                      ///
+                                      Text(chats[index].userInfo.username!,
+                                          style: TextStyle(
+                                            color: OColors.fontColor,
+                                            fontWeight: FontWeight.w600,
+                                          )),
+                                    ],
+                                  ),
                                   SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 1.2,
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        ///
-                                        /// UserName
-                                        ///
-                                        Text(chats[index].userInfo.username!,
-                                            style: TextStyle(
-                                              color: OColors.fontColor,
-                                              fontWeight: FontWeight.w600,
-                                            )),
-
                                         ///
                                         /// chat settings
                                         ///
@@ -459,9 +482,9 @@ class _PostChatsState extends State<PostChats> {
                               ///
                               Container(
                                 padding: const EdgeInsets.only(
-                                    top: 1.0, left: 55, right: 8),
+                                    top: 1.0, left: 30, right: 8),
                                 alignment: Alignment.topLeft,
-                                child: Text(chats[index].body!,
+                                child: Text(itm.body!,
                                     textAlign: TextAlign.left,
                                     overflow: TextOverflow.clip,
                                     style: TextStyle(
@@ -473,7 +496,7 @@ class _PostChatsState extends State<PostChats> {
 
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    top: 8.0, left: 40, right: 8),
+                                    top: 4.0, left: 15, right: 8),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -489,17 +512,28 @@ class _PostChatsState extends State<PostChats> {
                                             size: 16,
                                           ),
                                           const SizedBox(width: 4),
-                                          Text('view all reply',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: OColors.fontColor,
-                                              ))
+                                          itm.replyInfo.first.id.isNotEmpty
+                                              ? Text(
+                                                  'replies(${itm.replyInfo.length.toString()})',
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: OColors.fontColor,
+                                                  ))
+                                              : Text('replies(0)',
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: OColors.fontColor,
+                                                  ))
                                         ],
                                       ),
                                     ),
                                     const SizedBox(width: 2),
                                     GestureDetector(
                                       onTap: () {
+                                        setState(() {
+                                          textfield = false;
+                                        });
+
                                         replyTextBoxBuilder(context, itm);
                                       },
                                       child: Padding(
@@ -513,7 +547,33 @@ class _PostChatsState extends State<PostChats> {
                                     ),
                                   ],
                                 ),
-                              )
+                              ),
+
+                              SizedBox(height: 8),
+                              itm.replyInfo.isNotEmpty
+                                  ? Container(
+                                      padding:
+                                          EdgeInsets.only(left: 20, right: 4),
+                                      child: Column(
+                                        children: [
+                                          ListView.builder(
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              shrinkWrap: true,
+                                              itemCount: itm.replyInfo.length,
+                                              itemBuilder:
+                                                  (BuildContext context, i) {
+                                                final rply = itm.replyInfo[i];
+                                                return rply.id.isNotEmpty
+                                                    ? replyContainer(
+                                                        context, rply, index)
+                                                    : SizedBox.shrink();
+                                              }),
+                                          Divider()
+                                        ],
+                                      ),
+                                    )
+                                  : SizedBox.shrink()
                             ],
                           ),
                         );
@@ -526,69 +586,214 @@ class _PostChatsState extends State<PostChats> {
           ),
 
           //Textfield..
-          Container(
-            // height: 50,
+          textfield
+              ? Container(
+                  // height: 50,
 
-            height: size.height * 0.1,
-            width: size.width * 4.8,
-            margin: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: OColors.primary.withOpacity(.1),
-              borderRadius: BorderRadius.circular(18),
-            ),
-            child: Stack(
-              children: [
-                TextFormField(
-                  controller: _body,
-                  style: TextStyle(color: OColors.white),
-                  maxLines: null,
-                  expands: true,
-                  textAlign: TextAlign.left,
-                  keyboardType: TextInputType.multiline,
-                  decoration: InputDecoration(
-                    hintStyle: TextStyle(color: OColors.primary),
-                    contentPadding: const EdgeInsets.only(
-                        left: 20.0, right: 20.0, top: 5, bottom: 5),
-                    prefixIcon:
-                        Icon(Icons.tag_faces_sharp, color: OColors.primary),
-                    suffixIcon: GestureDetector(
-                        onTap: () {
-                          post();
-                          _body.text = '';
-                        },
-                        child: Icon(
-                          Icons.send,
-                          color: OColors.primary,
-                        )),
-                    // suffixIcon: Icon(Icons.send_rounded),
-                    hintText: 'Type here..',
-
-                    border: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: OColors.primary,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: OColors.primary,
-                        width: 1,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: OColors.primary,
-                          width: 1,
-                        ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(13.0))),
+                  height: size.height * 0.1,
+                  width: size.width * 4.8,
+                  margin: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: OColors.primary.withOpacity(.1),
+                    borderRadius: BorderRadius.circular(18),
                   ),
-                ),
-              ],
-            ),
-          ),
+                  child: Stack(
+                    children: [
+                      TextFormField(
+                        controller: _body,
+                        style: TextStyle(color: OColors.white),
+                        maxLines: null,
+                        expands: true,
+                        textAlign: TextAlign.left,
+                        keyboardType: TextInputType.multiline,
+                        decoration: InputDecoration(
+                          hintStyle: TextStyle(color: OColors.primary),
+                          contentPadding: const EdgeInsets.only(
+                              left: 20.0, right: 20.0, top: 5, bottom: 5),
+                          prefixIcon: Icon(Icons.tag_faces_sharp,
+                              color: OColors.primary),
+                          suffixIcon: GestureDetector(
+                              onTap: () {
+                                post();
+                                _body.text = '';
+                              },
+                              child: Icon(
+                                Icons.send,
+                                color: OColors.primary,
+                              )),
+                          // suffixIcon: Icon(Icons.send_rounded),
+                          hintText: 'Type here..',
+
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: OColors.primary,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: OColors.primary,
+                              width: 1,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: OColors.primary,
+                                width: 1,
+                              ),
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(13.0))),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : SizedBox.shrink(),
         ],
       ),
     );
+  }
+
+  Column replyContainer(BuildContext context, ReplyModel rply, int index) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Stack(
+              alignment: AlignmentDirectional.topCenter,
+              children: [
+                GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => HomeNav(
+                                    user: rplyUserInfo(rply),
+                                    getIndex: 4,
+                                  )));
+                    },
+                    child: personProfileClipOval(
+                      context,
+                      rply.userInfo.avater!,
+                      api + rply.userInfo.urlAvatar!,
+                      const SizedBox.shrink(),
+                      15,
+                      45,
+                      45,
+                      Colors.grey,
+                    )),
+                SizedBox(
+                  width: 10,
+                  child: Text('i'),
+                )
+              ],
+            ),
+            SizedBox(
+              width: 4,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width / 1.3,
+              child: Column(
+                children: [
+                  ///
+                  /// UserName
+                  ///
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(rply.userInfo.username!,
+                          style: TextStyle(
+                            color: OColors.fontColor,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          )),
+                      Row(
+                        children: [
+                          ///
+                          /// chat settings
+                          ///
+                          Row(
+                            children: [
+                              Text(rply.date,
+                                  style: TextStyle(
+                                      color: OColors.fontColor, fontSize: 12)),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              ChatSettings(
+                                                chat: chats[index],
+                                                fromScrn: 'homeChats',
+                                              )));
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 6,
+                                  ),
+                                  child: Container(
+                                      child: Icon(
+                                    Icons.more_vert_rounded,
+                                    size: 15,
+                                    color: OColors.fontColor,
+                                  )),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+
+                  ///
+                  /// body Message
+                  ///
+                  Container(
+                    padding: const EdgeInsets.only(top: 1.0, left: 5, right: 4),
+                    alignment: Alignment.topLeft,
+                    child: Text(rply.body!,
+                        textAlign: TextAlign.left,
+                        overflow: TextOverflow.clip,
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 13.0,
+                          color: OColors.fontColor,
+                        )),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+        SizedBox(height: 10)
+      ],
+    );
+  }
+
+  User rplyUserInfo(ReplyModel rply) {
+    return User(
+        id: rply.userId,
+        username: rply.userInfo.username,
+        avater: rply.userInfo.avater,
+        gId: rply.userInfo.gId,
+        urlAvatar: rply.userInfo.urlAvatar,
+        phoneNo: '',
+        role: '',
+        gender: '',
+        email: '',
+        firstname: '',
+        lastname: '',
+        isCurrentUser: '',
+        address: '',
+        bio: '',
+        meritalStatus: '',
+        totalPost: '',
+        isCurrentBsnAdmin: '',
+        isCurrentCrmAdmin: '',
+        totalFollowers: '',
+        totalFollowing: '',
+        totalLikes: '');
   }
 
   ///
@@ -844,7 +1049,6 @@ class _PostChatsState extends State<PostChats> {
       ),
       onPressed: () {
         Navigator.of(context).pop();
-        deletePost();
       },
     );
 
@@ -854,12 +1058,20 @@ class _PostChatsState extends State<PostChats> {
       insetPadding: EdgeInsets.all(8.0),
       backgroundColor: OColors.secondary,
       title: Center(
-        child: Text('Reply chat', style: TextStyle(color: OColors.fontColor)),
+        child: Text('Reply To', style: TextStyle(color: OColors.fontColor)),
       ),
       content: SizedBox(
         height: 100,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 15.0),
+              child: Text(
+                "${itm.userInfo.username}'s Chat",
+                style: header12,
+              ),
+            ),
             Container(
               // height: 50,
 
@@ -882,13 +1094,26 @@ class _PostChatsState extends State<PostChats> {
                     decoration: InputDecoration(
                       hintStyle: TextStyle(color: OColors.primary),
                       contentPadding: const EdgeInsets.only(
-                          left: 20.0, right: 20.0, top: 5, bottom: 5),
-                      prefixIcon:
-                          Icon(Icons.tag_faces_sharp, color: OColors.primary),
+                          left: 20.0, right: 10.0, top: 5, bottom: 5),
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.only(left: 8.0, top: 8),
+                        child: personProfileClipOval(
+                          context,
+                          itm.userInfo.avater!,
+                          api + itm.userInfo.urlAvatar!,
+                          const SizedBox.shrink(),
+                          18,
+                          45,
+                          45,
+                          Colors.grey,
+                        ),
+                      ),
                       suffixIcon: GestureDetector(
                           onTap: () {
                             replyChat(itm);
                             _replybody.text = '';
+                            textfield = true;
+                            Navigator.of(context).pop();
                           },
                           child: Icon(
                             Icons.send,
@@ -923,20 +1148,21 @@ class _PostChatsState extends State<PostChats> {
           ],
         ),
       ),
-      actions: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            noButton,
-            yesButton,
-          ],
-        ),
-      ],
+      // actions: [
+      //   Row(
+      //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //     children: [
+      //       noButton,
+      //       yesButton,
+      //     ],
+      //   ),
+      // ],
     );
     // show the dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        textfield = true;
         return alert;
       },
     );

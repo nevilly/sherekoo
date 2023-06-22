@@ -146,7 +146,7 @@ String urlPostChats = '${api}Chats/add';
 String urlGetChats = '${api}Chats/get';
 
 //Reply on chats
-String urlAddReply = '${api}Reply/add';
+String urlAddReply = '${api}ChatsReply/add';
 
 //BIGMONTH Tv Show
 String urlAddBigMonth = '${api}TvshowBigMonth/add';
