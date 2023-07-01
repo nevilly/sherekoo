@@ -4,7 +4,7 @@
 
 // ignore_for_file: non_constant_identifier_names
 
-// String api = "http://192.168.43.125/"; // Devota
+//String api = "http://192.168.43.237/"; // Devota
 //String api = "http://172.20.10.13/"; // Reddeath
 //String api = "http://192.168.1.18/"; //familyfb as password
 String api = "http://192.168.43.125/"; // Neheman
@@ -92,6 +92,7 @@ String urlPostBusness = '${api}Busness/add';
 String urlAllBusnessList = '${api}Busness/getBsn';
 String urlGoldBusness = '${api}Busness/getGoldenBusness';
 String urlGoldBsnTyp = '${api}Busness/getByType';
+String urlUpDateWorkList = '${api}Busness/updateWorkList';
 
 String urlMyBusnessList = '${api}Busness/getByBusnessCeoId';
 String urlMyBsnByCratorId = '${api}Busness/bsnByCreatorId';

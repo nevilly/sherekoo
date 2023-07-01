@@ -1,4 +1,3 @@
-import '../likesModel.dart';
 import '../user/userModel.dart';
 
 class ReplyModel {

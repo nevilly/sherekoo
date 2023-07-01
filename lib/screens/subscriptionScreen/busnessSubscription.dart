@@ -175,8 +175,7 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return 
-    Scaffold(
+    return Scaffold(
       appBar: AppBar(
         backgroundColor: OColors.secondary,
         title: const Text('Subscription'),
@@ -307,7 +306,6 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
         ),
       ),
     );
- 
   }
 
   void oneButtonPressed(title, price) {
@@ -831,5 +829,4 @@ class _BusnessSubscriptionState extends State<BusnessSubscription> {
       },
     );
   }
-
 }

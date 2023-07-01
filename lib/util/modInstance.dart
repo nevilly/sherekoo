@@ -101,7 +101,10 @@ BusnessModel emptyBsnMdl = BusnessModel(
     isBsnAdmin: '',
     createdBy: '',
     user: emptyUser,
-    createdDate: '');
+    createdDate: '',
+    mediaUrl: '',
+    works: [],
+    work: '');
 
 CrmPckModel empytCrmPckModel = CrmPckModel(
     id: '',

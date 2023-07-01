@@ -217,6 +217,7 @@ class _HotCategoryBodyState extends State<HotCategoryBody> {
                   scrollDirection: Axis.horizontal,
                   itemCount: data.length,
                   itemBuilder: (context, index) {
+                    final itm = data[index];
                     return Padding(
                         padding: const EdgeInsets.all(1.0),
                         child: InkWell(
@@ -241,12 +242,13 @@ class _HotCategoryBodyState extends State<HotCategoryBody> {
                                   ),
                                   child: ClipOval(
                                     child: Center(
-                                        child: data[index].coProfile != ''
+                                        child: itm.coProfile != ''
                                             ? fadeImg(
                                                 context,
-                                                '${api}public/uploads/${data[index].user.username}/busness/${data[index].coProfile}',
+                                                '${api}${itm.mediaUrl}',
                                                 50.0,
-                                                50.0,BoxFit.fitWidth)
+                                                50.0,
+                                                BoxFit.fitWidth)
                                             : const SizedBox(height: 1)),
                                   )),
                               Container(

@@ -40,11 +40,11 @@ class BsnTabState extends State<BsnTab> {
     ceremonyDate: '',
     admin: '',
     contact: '',
-    isInFuture:'',
-       isCrmAdmin: '',
-         likeNo:'',
-      chatNo: '',
-      viwersNo: '',
+    isInFuture: '',
+    isCrmAdmin: '',
+    likeNo: '',
+    chatNo: '',
+    viwersNo: '',
     userFid: User(
         id: '',
         username: '',
@@ -200,7 +200,7 @@ class BsnTabState extends State<BsnTab> {
                             ),
                             child: data[index].coProfile != ''
                                 ? Image.network(
-                                    '${api}public/uploads/${data[index].user.username}/busness/${data[index].coProfile}',
+                                    '${api}${data[index].mediaUrl}',
                                     fit: BoxFit.cover,
                                     loadingBuilder: (BuildContext context,
                                         Widget child,

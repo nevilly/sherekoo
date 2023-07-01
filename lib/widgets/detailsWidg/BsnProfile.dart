@@ -28,7 +28,7 @@ class BusnessProfile extends StatelessWidget {
           child: Center(
               child: data.coProfile != ''
                   ? Image.network(
-                      '${api}public/uploads/${data.user.username}/busness/${data.coProfile}',
+                      '${api}${data.mediaUrl}',
                       height: 160,
                       fit: BoxFit.cover,
                     )
@@ -95,7 +95,7 @@ class BusnessProfile extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        "Hire",
+                        "Call",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,

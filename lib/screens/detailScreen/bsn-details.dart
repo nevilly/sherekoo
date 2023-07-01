@@ -12,6 +12,7 @@ import '../../model/services/service-call.dart';
 import '../../model/services/servicexModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/colors.dart';
+import '../../util/func.dart';
 import '../../util/util.dart';
 import '../../widgets/detailsWidg/BsnProfile.dart';
 import '../../widgets/detailsWidg/bsnDescr.dart';
@@ -297,20 +298,25 @@ class _BsnDetailsState extends State<BsnDetails> {
                                     )));
                       },
                       child: Container(
-                        // width: 30,
-                        margin: const EdgeInsets.only(top: 10.0, bottom: 10),
-                        padding: const EdgeInsets.all(4.0),
-                        decoration: BoxDecoration(
-                          color: OColors.primary,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            bottomLeft: Radius.circular(10),
+                          // width: 30,
+                          margin: const EdgeInsets.only(top: 10.0, bottom: 10),
+                          padding: const EdgeInsets.all(4.0),
+                          decoration: BoxDecoration(
+                            color: OColors.primary,
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              bottomLeft: Radius.circular(10),
+                            ),
                           ),
-                        ),
-                        child: const Center(
-                          child: Icon(Icons.admin_panel_settings_sharp),
-                        ),
-                      ),
+                          child: const Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.person_add,
+                                size: 20,
+                              ),
+                            ),
+                          )),
                     )
                   : Container(
                       // width: 30,
@@ -324,9 +330,12 @@ class _BsnDetailsState extends State<BsnDetails> {
                         ),
                       ),
                       child: const Center(
-                        child: Icon(
-                          Icons.share_rounded,
-                          size: 16,
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.share_rounded,
+                            size: 16,
+                          ),
                         ),
                       )),
             ],
@@ -391,15 +400,54 @@ class _BsnDetailsState extends State<BsnDetails> {
                           height: 10,
                         ),
 
-                        // other Busness List
-                        BusnessLst(
-                          otherBsn: otherBsn,
-                          ceremony: ceremony,
-                          data: widget.data,
+                        // Works photoos
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Recient works',
+                              style: header14,
+                            ),
+                            IconButton(
+                                icon: const Icon(Icons.more_horiz),
+                                color: OColors.primary,
+                                iconSize: 20.0,
+                                onPressed: () {
+                                  // otherCeremony(context);
+                                })
+                          ],
                         ),
-                        const SizedBox(
-                          height: 20.0,
-                        )
+                        SizedBox(
+                          child: GridView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: widget.data.works.length,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3),
+                              itemBuilder: (context, index) {
+                                final itm = widget.data.works[index];
+                                print('work list');
+                                print(itm);
+                                return Container(
+                                  color: OColors.darGrey,
+                                  child: Stack(
+                                    children: [
+                                      Positioned.fill(
+                                          child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: fadeImg(
+                                            context,
+                                            '${api}${itm}',
+                                            MediaQuery.of(context).size.width,
+                                            MediaQuery.of(context).size.height,
+                                            BoxFit.fill),
+                                      )),
+                                    ],
+                                  ),
+                                );
+                              }),
+                        ),
                       ],
                     ),
                   ),
@@ -411,6 +459,11 @@ class _BsnDetailsState extends State<BsnDetails> {
 
                 BsnDescr(data: widget.data, photo: photo),
               ])),
+              BusnessLst(
+                otherBsn: otherBsn,
+                ceremony: ceremony,
+                data: widget.data,
+              ),
             ],
           ),
         ));
@@ -460,12 +513,24 @@ class _BsnDetailsState extends State<BsnDetails> {
                 borderRadius: const BorderRadius.all(Radius.circular(30)),
               ),
               child: Center(
-                child: Text(
-                  "Hire Me ",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: OColors.fontColor),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.call,
+                      color: Colors.green,
+                    ),
+                    SizedBox(
+                      width: 6,
+                    ),
+                    Text(
+                      "Call me",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: OColors.fontColor),
+                    ),
+                  ],
                 ),
               ),
             ),

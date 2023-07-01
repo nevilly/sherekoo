@@ -63,7 +63,6 @@ class BusnessCall {
   Future<BusnessCall> get(String token, String dirUrl) async {
     Uri url = Uri.parse(dirUrl);
 
-
     Map<String, dynamic> toMap() {
       return <String, dynamic>{
         'busnessType': busnessType,
@@ -81,16 +80,105 @@ class BusnessCall {
         'subscrlevel': subscrlevel,
       };
     }
+
     invalidToken(token);
     Map<String, String> headers = myHttpHeaders(token);
     return postHttp(url, toMap, headers);
   }
 
+  Future<BusnessCall> set(
+      String token, String dirUrl, var imageFileList) async {
+    Uri url = Uri.parse(dirUrl);
+    Map<String, String> headers = {
+      "Accept": "application/json",
+      "Authorization": "Owesis " + token
+    }; // ignore this headers if there is no authentication
+
+    Map<String, String> toMap() {
+      return <String, String>{
+        'busnessType': busnessType,
+        'knownAs': knownAs,
+        'coProfile': coProfile,
+        'price': price,
+        'contact': contact,
+        'location': location,
+        'companyName': companyName,
+        'ceoId': ceoId,
+        'aboutCEO': aboutCEO,
+        'aboutCompany': aboutCompany,
+        'createdBy': createdBy,
+        'hotStatus': hotStatus,
+        'subscrlevel': subscrlevel,
+      };
+    }
+
+    var request = http.MultipartRequest('POST', url);
+
+    request.headers.addAll(headers);
+    List<http.MultipartFile> files = [];
+
+    if (imageFileList != null)
+      for (int x = 0; x <= imageFileList!.length - 1; x++) {
+        files.add(await http.MultipartFile.fromPath(
+            'media[]', imageFileList![x].path));
+      }
+
+    request.fields.addAll(toMap());
+
+    request.files.addAll(files);
+    var res = await request.send();
+    String data = await res.stream.bytesToString();
+
+    // print(data);
+    // print(jsonDecode(data)['payload']);
+
+    return BusnessCall.fromJson(
+        {"status": res.statusCode, "payload": jsonDecode(data)['payload']});
+  }
+
+  Future<BusnessCall> updateWorks(
+      String token, String dirUrl, var imageFileList, String work) async {
+    Uri url = Uri.parse(dirUrl);
+    Map<String, String> headers = {
+      "Accept": "application/json",
+      "Authorization": "Owesis " + token
+    }; // ignore this headers if there is no authentication
+
+    Map<String, String> toMap() {
+      return <String, String>{
+        'bId': bId,
+        'work': work,
+      };
+    }
+
+    var request = http.MultipartRequest('POST', url);
+
+    request.headers.addAll(headers);
+    List<http.MultipartFile> files = [];
+
+    if (imageFileList != null)
+      for (int x = 0; x <= imageFileList!.length - 1; x++) {
+        files.add(await http.MultipartFile.fromPath(
+            'media[]', imageFileList![x].path));
+      }
+
+    request.fields.addAll(toMap());
+
+    request.files.addAll(files);
+
+    var res = await request.send();
+    String data = await res.stream.bytesToString();
+
+    print(data);
+    print(jsonDecode(data)['payload']);
+
+    return BusnessCall.fromJson(
+        {"status": res.statusCode, "payload": jsonDecode(data)['payload']});
+  }
+
   Future<BusnessCall> update(
       String token, String dirUrl, String oldCoProfile) async {
     Uri url = Uri.parse(dirUrl);
-
-
 
     Map<String, dynamic> toMap() {
       return <String, dynamic>{
@@ -112,12 +200,11 @@ class BusnessCall {
       };
     }
 
-      invalidToken(token);
+    invalidToken(token);
     Map<String, String> headers = myHttpHeaders(token);
     return postHttp(url, toMap, headers);
   }
 }
-
 
 /// External Function
 Map<String, String> myHttpHeaders(String token) {

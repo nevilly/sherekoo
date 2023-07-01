@@ -111,6 +111,9 @@ class _CrmnAdminState extends State<CrmnAdmin>
           totalFollowers: '',
           totalFollowing: '',
           totalLikes: ''),
+      mediaUrl: '',
+      works: [],
+      work: '',
     ),
     crmInfo: CeremonyModel(
       cId: '',
@@ -822,7 +825,8 @@ class _CrmnAdminState extends State<CrmnAdmin>
                                             context,
                                             '${api}public/uploads/${itm.viewerInfo.username}/profile/${itm.viewerInfo.avater}',
                                             40.0,
-                                            45.0,BoxFit.fitWidth)
+                                            45.0,
+                                            BoxFit.fitWidth)
                                         : const DefaultAvater(
                                             height: 45, radius: 3, width: 40),
                                   ),
@@ -2029,7 +2033,10 @@ class _CrmnAdminState extends State<CrmnAdmin>
               isCurrentCrmAdmin: '',
               totalFollowers: '',
               totalFollowing: '',
-              totalLikes: '')),
+              totalLikes: ''),
+          mediaUrl: '',
+          works: req.bsnInfo!.works,
+          work: req.bsnInfo!.work),
     );
   }
 
@@ -2353,7 +2360,8 @@ class _CrmnAdminState extends State<CrmnAdmin>
                                                 context,
                                                 '${api}public/uploads/${option.username}/profile/${option.avater}',
                                                 40.0,
-                                                40.0,BoxFit.fitWidth)
+                                                40.0,
+                                                BoxFit.fitWidth)
                                             : const DefaultAvater(
                                                 height: 40,
                                                 radius: 3,
@@ -2518,7 +2526,8 @@ class _CrmnAdminState extends State<CrmnAdmin>
                             context,
                             '${api}public/uploads/${opt.username}/profile/${opt.avater}',
                             60.0,
-                            60.0,BoxFit.fitWidth)
+                            60.0,
+                            BoxFit.fitWidth)
                         : const DefaultAvater(height: 60, radius: 3, width: 60),
                     Padding(
                       padding: const EdgeInsets.only(left: 10.0),
@@ -2905,7 +2914,8 @@ class _CrmnAdminState extends State<CrmnAdmin>
                                       context,
                                       '${api}public/uploads/${opt.viewerInfo.username}/profile/${opt.viewerInfo.avater}',
                                       60.0,
-                                      60.0,BoxFit.fitWidth)
+                                      60.0,
+                                      BoxFit.fitWidth)
                                   : const DefaultAvater(
                                       height: 60, radius: 3, width: 60),
                               Padding(

@@ -16,9 +16,11 @@ import '../../util/func.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
+import '../categoriesPage/sherekooPage.dart';
 import '../profile/crm-admin.dart';
 import '../subscriptionScreen/update-subscription.dart';
 import '../uploadScreens/busnessUpload.dart';
+import 'media-add.dart';
 
 class AdminBsn extends StatefulWidget {
   final BusnessModel bsn;
@@ -169,13 +171,8 @@ class _AdminBsnState extends State<AdminBsn> {
       setState(() {
         if (value.status == 200) {
           Navigator.of(context).pop();
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => AdminPage(
-                        from: 'Bsn',
-                        user: user,
-                      )));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (BuildContext context) => Sherekoo()));
         }
         // print(data);
       });
@@ -220,9 +217,10 @@ class _AdminBsnState extends State<AdminBsn> {
                       child: ClipRRect(
                           child: fadeImg(
                               context,
-                              '${api}public/uploads/${widget.bsn.user.username}/busness/${widget.bsn.coProfile}',
+                              '${api}${widget.bsn.mediaUrl}',
                               150,
-                              100,BoxFit.fitWidth)),
+                              100,
+                              BoxFit.fitWidth)),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
@@ -251,7 +249,15 @@ class _AdminBsnState extends State<AdminBsn> {
                             // crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              AddBsnMediaUpload(
+                                                  bsn: widget.bsn)));
+                                },
                                 child: Container(
                                   padding: const EdgeInsets.only(
                                       left: 8, right: 8, top: 4, bottom: 4),
@@ -270,7 +276,7 @@ class _AdminBsnState extends State<AdminBsn> {
                                         width: 6,
                                       ),
                                       Text(
-                                        'New Features',
+                                        'Add photos',
                                         style: header11,
                                       ),
                                     ],
@@ -666,7 +672,6 @@ class _AdminBsnState extends State<AdminBsn> {
                                                                 .primary),
                                                       ),
                                               )));
-                        
                           },
                         ),
                       )

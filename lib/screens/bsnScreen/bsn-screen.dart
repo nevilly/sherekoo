@@ -35,9 +35,9 @@ class _BusnessScreenState extends State<BusnessScreen> {
     contact: '',
     isCrmAdmin: '',
     isInFuture: '',
-      likeNo:'',
-      chatNo: '',
-      viwersNo: '',
+    likeNo: '',
+    chatNo: '',
+    viwersNo: '',
     userFid: User(
         id: '',
         username: '',
@@ -95,10 +95,19 @@ class _BusnessScreenState extends State<BusnessScreen> {
       aboutCompany: '',
       createdDate: '',
       ceoId: '',
-      subscriptionInfo:SubscriptionModel(subId: '', level: '', subscriptionType: '', categoryId: '', activeted: '', duration: '', startTime: '', endTime: '', receiptNo: '', createdDate: ''),
-      
+      subscriptionInfo: SubscriptionModel(
+          subId: '',
+          level: '',
+          subscriptionType: '',
+          categoryId: '',
+          activeted: '',
+          duration: '',
+          startTime: '',
+          endTime: '',
+          receiptNo: '',
+          createdDate: ''),
       createdBy: '',
-      isBsnAdmin:'',
+      isBsnAdmin: '',
       user: User(
           id: '',
           username: '',
@@ -118,7 +127,10 @@ class _BusnessScreenState extends State<BusnessScreen> {
           isCurrentCrmAdmin: '',
           totalFollowers: '',
           totalFollowing: '',
-          totalLikes: ''));
+          totalLikes: ''),
+      mediaUrl: '',
+      works: [],
+      work: '');
   @override
   void initState() {
     ceremony = widget.ceremony;

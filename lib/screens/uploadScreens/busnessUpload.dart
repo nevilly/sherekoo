@@ -17,6 +17,7 @@ import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../bsnScreen/bsn-screen.dart';
 import '../subscriptionScreen/busnessSubscription.dart';
+import 'medias-upload.dart';
 
 class BusnessUpload extends StatefulWidget {
   final BusnessModel getData;
@@ -486,7 +487,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) => BusnessSubscription(
+                    builder: (BuildContext context) => BsnMediaUpload(
                         busnessType: bType,
                         knownAs: knwnAs,
                         coProfile: image,
@@ -498,7 +499,23 @@ class _BusnessUploadState extends State<BusnessUpload> {
                         aboutCEO: abtCeo,
                         aboutCompany: abtCo,
                         createdBy: '',
-                        hotStatus: '0')));
+                        hotStatus: '0')
+
+                    // BusnessSubscription(
+                    //     busnessType: bType,
+                    //     knownAs: knwnAs,
+                    //     coProfile: image,
+                    //     price: price,
+                    //     contact: no,
+                    //     location: adress,
+                    //     companyName: coName,
+                    //     ceoId: ceoId,
+                    //     aboutCEO: abtCeo,
+                    //     aboutCompany: abtCo,
+                    //     createdBy: '',
+                    //     hotStatus: '0')
+
+                    ));
           } else {
             fillTheBlanks(context, imgInsertAlt, altSty, odng);
           }
@@ -1040,7 +1057,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                           width: 300, fit: BoxFit.cover)
                       : widget.getData.bId.isNotEmpty
                           ? Image.network(
-                              '${api}public/uploads/${widget.getData.user.username}/busness/${widget.getData.coProfile}',
+                              '${api}${widget.getData.mediaUrl}',
                               fit: BoxFit.cover,
                             )
                           : const Image(

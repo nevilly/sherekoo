@@ -230,7 +230,8 @@ class _BSnAdminPageState extends State<BSnAdminPage> {
                                                 context,
                                                 '${api}public/uploads/${adm.user.username!}/busness/${adm.coProfile}',
                                                 60,
-                                                60,BoxFit.fitWidth)
+                                                60,
+                                                BoxFit.fitWidth)
                                             : const SizedBox(height: 1)),
                                   ),
                                 ),
@@ -357,7 +358,8 @@ class _BSnAdminPageState extends State<BSnAdminPage> {
                                                         context,
                                                         '${api}public/uploads/${adm.user.username!}/busness/${adm.coProfile}',
                                                         40,
-                                                        40,BoxFit.fitWidth)
+                                                        40,
+                                                        BoxFit.fitWidth)
                                                     : const SizedBox(
                                                         height: 1)),
                                           ),
@@ -493,13 +495,16 @@ class _BSnAdminPageState extends State<BSnAdminPage> {
                                                                                 context,
                                                                                 '${api}public/uploads/${r.crmInfo!.userFid.username}/ceremony/${r.crmInfo!.cImage}',
                                                                                 40,
-                                                                                40,BoxFit.fitWidth),
+                                                                                40,
+                                                                                BoxFit.fitWidth),
                                                                           )
                                                                         : fadeImg(
                                                                             context,
                                                                             '${api}public/uploads/${r.crmInfo!.userFid.username}/ceremony/${r.crmInfo!.cImage}',
                                                                             40,
-                                                                            40,BoxFit.fitWidth)
+                                                                            40,
+                                                                            BoxFit
+                                                                                .fitWidth)
                                                                     : const SizedBox(
                                                                         height:
                                                                             1)),
@@ -553,7 +558,6 @@ class _BSnAdminPageState extends State<BSnAdminPage> {
                                                                           from:
                                                                               'bsnAdmin2',
                                                                         )));
-                                                          
                                                           },
                                                           child: Text(
                                                             'View',
@@ -634,7 +638,10 @@ class _BSnAdminPageState extends State<BSnAdminPage> {
         createdBy: adm.createdBy,
         user: adm.user,
         subscriptionInfo: adm.subscriptionInfo,
-        isBsnAdmin: adm.isBsnAdmin);
+        isBsnAdmin: adm.isBsnAdmin,
+        mediaUrl: '',
+        works: [],
+        work: '');
   }
 
   AppBar toBar(BuildContext context) {

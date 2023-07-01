@@ -23,9 +23,12 @@ import '../../util/app-variables.dart';
 import '../../util/colors.dart';
 import '../../util/modInstance.dart';
 import '../../util/textStyle-pallet.dart';
+import '../animetedClip.dart';
 import '../imgWigdets/defaultAvater.dart';
 import '../../util/button.dart';
 import "package:http/http.dart" as http;
+
+import 'post-chats-widget.dart';
 
 class PostTemplate extends StatefulWidget {
   final SherekooModel sherekoo;
@@ -47,7 +50,9 @@ class PostTemplateState extends State<PostTemplate> {
   int isLike = 0;
   int totalLikes = 0;
   int totalShare = 0;
+  double captionsHgth = 225;
   bool isPostAdmin = false;
+  bool _open = false;
   @override
   void initState() {
     preferences.init();
@@ -265,6 +270,7 @@ class PostTemplateState extends State<PostTemplate> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
           // backgroundColor: Colors.blue,
@@ -279,7 +285,10 @@ class PostTemplateState extends State<PostTemplate> {
           //Username & Caption
           Positioned(
               bottom: 0,
-              child: SizedBox(height: 100, child: bodyPanel(context))),
+              child: Container(
+                  //color: Colors.red,
+                  height: captionsHgth,
+                  child: bodyPanel(context))),
 
           ///
           /// Post Details
@@ -438,7 +447,9 @@ class PostTemplateState extends State<PostTemplate> {
     );
   }
 
-  // User body
+  ///
+  /// User body
+  ///
   Column bodyPanel(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -446,39 +457,107 @@ class PostTemplateState extends State<PostTemplate> {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: Colors.black54.withOpacity(.2),
+            color: Colors.black54.withOpacity(.4),
             borderRadius:
                 const BorderRadius.only(topRight: Radius.circular(15)),
           ),
           width: MediaQuery.of(context).size.width / 1.2,
           child: Padding(
             padding: const EdgeInsets.only(
-                left: 10.0, top: 8.0, bottom: 8.0, right: 8.0),
+                left: 10.0, top: 1.0, bottom: 1.0, right: 8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 //Username info
-                Text('@ ${widget.sherekoo.creatorInfo.username}',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Colors.white)),
-                const SizedBox(
-                  height: 5,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('@ ${widget.sherekoo.creatorInfo.username}',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.white)),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    IconButton(
+                        color: OColors.primary,
+                        highlightColor: OColors.primary,
+                        padding: const EdgeInsets.all(8.0),
+                        onPressed: () {
+                          setState(() => _open ^= true);
+
+                          setState(() {
+                            if (_open) {
+                              captionsHgth = 450;
+                            } else {
+                              Future.delayed(const Duration(milliseconds: 500),
+                                  () {
+                                setState(() {
+                                  captionsHgth = 225;
+                                });
+                              });
+                            }
+                          });
+                        },
+                        icon: _open == false
+                            ? Icon(Icons.keyboard_arrow_up_outlined,
+                                color: OColors.fontColor)
+                            : Icon(Icons.keyboard_arrow_down,
+                                color: OColors.fontColor))
+                  ],
                 ),
 
                 // Description
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
-                  child: RichText(
-                      text: TextSpan(children: [
-                    TextSpan(text: widget.sherekoo.body, style: header12),
-                    // const TextSpan(
-                    //     text: ' @ koosafi',
-                    //     style: TextStyle(
-                    //         fontWeight: FontWeight.bold, fontSize: 12.0)),
-                  ])),
+                widget.sherekoo.body.isNotEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 18.0),
+                        child: Text(widget.sherekoo.body, style: header15),
+                      )
+                    : SizedBox.shrink(),
+                SizedBox(
+                  height: 4,
+                ),
+                Row(
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.remove_red_eye,
+                          color: Colors.green,
+                          size: 16,
+                        ),
+                        Text(
+                          'View reply',
+                          style: header12,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+
+                AnimatedClipRect(
+                  open: _open,
+                  horizontalAnimation: false,
+                  verticalAnimation: true,
+                  alignment: Alignment.center,
+                  duration: const Duration(milliseconds: 1000),
+                  curve: Curves.bounceOut,
+                  reverseCurve: Curves.bounceIn,
+                  child: widget.sherekoo.commentNumber != ''
+                      ? SizedBox(
+                          height: 230,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                PostChatsSCreen(
+                                  post: widget.sherekoo,
+                                ),
+                              ],
+                            ),
+                          ))
+                      : SizedBox(),
                 )
               ],
             ),
@@ -623,70 +702,7 @@ class PostTemplateState extends State<PostTemplate> {
                 context,
                 MaterialPageRoute(
                     builder: (BuildContext context) => Livee(
-                          ceremony: CeremonyModel(
-                              cId: widget.sherekoo.ceremonyId,
-                              codeNo: widget.sherekoo.crmInfo.codeNo,
-                              ceremonyType:
-                                  widget.sherekoo.crmInfo.ceremonyType,
-                              cName: widget.sherekoo.crmInfo.cName,
-                              fId: widget.sherekoo.crmInfo.fId,
-                              sId: widget.sherekoo.crmInfo.sId,
-                              cImage: widget.sherekoo.crmInfo.cImage,
-                              ceremonyDate:
-                                  widget.sherekoo.crmInfo.ceremonyDate,
-                              contact: widget.sherekoo.crmInfo.contact,
-                              admin: widget.sherekoo.crmInfo.admin,
-                              isInFuture: widget.sherekoo.crmInfo.isInFuture,
-                              isCrmAdmin: widget.sherekoo.crmInfo.isCrmAdmin,
-                              likeNo: '',
-                              chatNo: '',
-                              viwersNo: '',
-                              userFid: User(
-                                  id: widget.sherekoo.crmInfo.userFid.id,
-                                  username:
-                                      widget.sherekoo.crmInfo.userFid.username,
-                                  firstname:
-                                      widget.sherekoo.crmInfo.userFid.firstname,
-                                  lastname:
-                                      widget.sherekoo.crmInfo.userFid.lastname,
-                                  avater:
-                                      widget.sherekoo.crmInfo.userFid.avater,
-                                  phoneNo:
-                                      widget.sherekoo.crmInfo.userFid.phoneNo,
-                                  email: '',
-                                  gender: '',
-                                  role: '',
-                                  address: '',
-                                  meritalStatus: '',
-                                  bio: '',
-                                  totalPost: '',
-                                  isCurrentUser: '',
-                                  isCurrentCrmAdmin: '',
-                                  isCurrentBsnAdmin: '',
-                                  totalFollowers: '',
-                                  totalFollowing: '',
-                                  totalLikes: ''),
-                              userSid: User(
-                                  id: '',
-                                  username: '',
-                                  firstname: '',
-                                  lastname: '',
-                                  avater: '',
-                                  phoneNo: '',
-                                  email: '',
-                                  gender: '',
-                                  role: '',
-                                  address: '',
-                                  meritalStatus: '',
-                                  bio: '',
-                                  totalPost: '',
-                                  isCurrentUser: '',
-                                  isCurrentCrmAdmin: '',
-                                  isCurrentBsnAdmin: '',
-                                  totalFollowers: '',
-                                  totalFollowing: '',
-                                  totalLikes: ''),
-                              youtubeLink: widget.sherekoo.crmInfo.youtubeLink),
+                          ceremony: crmMdlLivee(),
                         )));
       },
       child: SizedBox(
@@ -716,6 +732,66 @@ class PostTemplateState extends State<PostTemplate> {
             ),
           ])),
     );
+  }
+
+  CeremonyModel crmMdlLivee() {
+    return CeremonyModel(
+        cId: widget.sherekoo.ceremonyId,
+        codeNo: widget.sherekoo.crmInfo.codeNo,
+        ceremonyType: widget.sherekoo.crmInfo.ceremonyType,
+        cName: widget.sherekoo.crmInfo.cName,
+        fId: widget.sherekoo.crmInfo.fId,
+        sId: widget.sherekoo.crmInfo.sId,
+        cImage: widget.sherekoo.crmInfo.cImage,
+        ceremonyDate: widget.sherekoo.crmInfo.ceremonyDate,
+        contact: widget.sherekoo.crmInfo.contact,
+        admin: widget.sherekoo.crmInfo.admin,
+        isInFuture: widget.sherekoo.crmInfo.isInFuture,
+        isCrmAdmin: widget.sherekoo.crmInfo.isCrmAdmin,
+        likeNo: '',
+        chatNo: '',
+        viwersNo: '',
+        userFid: User(
+            id: widget.sherekoo.crmInfo.userFid.id,
+            username: widget.sherekoo.crmInfo.userFid.username,
+            firstname: widget.sherekoo.crmInfo.userFid.firstname,
+            lastname: widget.sherekoo.crmInfo.userFid.lastname,
+            avater: widget.sherekoo.crmInfo.userFid.avater,
+            phoneNo: widget.sherekoo.crmInfo.userFid.phoneNo,
+            email: '',
+            gender: '',
+            role: '',
+            address: '',
+            meritalStatus: '',
+            bio: '',
+            totalPost: '',
+            isCurrentUser: '',
+            isCurrentCrmAdmin: '',
+            isCurrentBsnAdmin: '',
+            totalFollowers: '',
+            totalFollowing: '',
+            totalLikes: ''),
+        userSid: User(
+            id: '',
+            username: '',
+            firstname: '',
+            lastname: '',
+            avater: '',
+            phoneNo: '',
+            email: '',
+            gender: '',
+            role: '',
+            address: '',
+            meritalStatus: '',
+            bio: '',
+            totalPost: '',
+            isCurrentUser: '',
+            isCurrentCrmAdmin: '',
+            isCurrentBsnAdmin: '',
+            totalFollowers: '',
+            totalFollowing: '',
+            totalLikes: ''),
+        youtubeLink: widget.sherekoo.crmInfo.youtubeLink);
   }
 
   ///

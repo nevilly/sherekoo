@@ -153,6 +153,7 @@ Future<ChatsCall> getHttp(Uri url, Map<String, String> headers) async {
 }
 
 ChatsCall rBody(http.Response r) {
+  print(r.body);
   return ChatsCall.fromJson(
       {'status': r.statusCode, 'payload': jsonDecode(r.body)['payload']});
 }
