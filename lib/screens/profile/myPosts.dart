@@ -8,7 +8,6 @@ import '../../model/user/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/util.dart';
 import '../../widgets/postWidgets/display-post-chats.dart';
-import '../../widgets/postWidgets/displayPost.dart';
 import '../chats.dart';
 
 class MyPosts extends StatefulWidget {

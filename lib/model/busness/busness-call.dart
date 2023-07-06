@@ -119,6 +119,8 @@ class BusnessCall {
 
     if (imageFileList != null)
       for (int x = 0; x <= imageFileList!.length - 1; x++) {
+        print('--Image Path---');
+        print(imageFileList![x].path);
         files.add(await http.MultipartFile.fromPath(
             'media[]', imageFileList![x].path));
       }
@@ -158,6 +160,8 @@ class BusnessCall {
 
     if (imageFileList != null)
       for (int x = 0; x <= imageFileList!.length - 1; x++) {
+        print('---Image File List');
+        print(imageFileList![x].path);
         files.add(await http.MultipartFile.fromPath(
             'media[]', imageFileList![x].path));
       }
@@ -204,6 +208,24 @@ class BusnessCall {
     Map<String, String> headers = myHttpHeaders(token);
     return postHttp(url, toMap, headers);
   }
+
+  Future<BusnessCall> deletePhoto(String token, String dirUrl, String photo,
+      String work, String dir) async {
+    Uri url = Uri.parse(dirUrl);
+
+    Map<String, dynamic> toMap() {
+      return <String, dynamic>{
+        'bId': bId,
+        'work': work,
+        'photo': photo,
+        'photoDir': dir
+      };
+    }
+
+    invalidToken(token);
+    Map<String, String> headers = myHttpHeaders(token);
+    return postHttp(url, toMap, headers);
+  }
 }
 
 /// External Function
@@ -225,7 +247,7 @@ Future<BusnessCall> postHttp(Uri url, Map<String, dynamic> Function() toMap,
   return await http
       .post(url, body: jsonEncode(toMap()), headers: headers)
       .then((r) {
-    // print('categories Details');
+    // print('----Body---');
     // print(r.body);
     if (r.statusCode == 200) {
       return rBody(r);

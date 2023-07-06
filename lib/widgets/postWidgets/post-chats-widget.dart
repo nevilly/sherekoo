@@ -236,7 +236,6 @@ class _PostChatsSCreenState extends State<PostChatsSCreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return SizedBox(
       child: ListView.builder(
         controller: _controller,
@@ -772,34 +771,6 @@ class _PostChatsSCreenState extends State<PostChatsSCreen> {
   ///
   replyTextBoxBuilder(BuildContext context, ChatsModel itm) async {
     // set up the buttons
-
-    Widget noButton = TextButton(
-      style: TextButton.styleFrom(
-        padding: const EdgeInsets.all(6),
-        primary: OColors.fontColor,
-        backgroundColor: OColors.primary,
-        // textStyle: const TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
-      ),
-      child: Text("No +", style: header13),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-
-    Widget yesButton = TextButton(
-      style: TextButton.styleFrom(
-        padding: const EdgeInsets.all(6),
-        primary: OColors.fontColor,
-        backgroundColor: OColors.primary,
-      ),
-      child: Text(
-        "Yes ",
-        style: header13,
-      ),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(

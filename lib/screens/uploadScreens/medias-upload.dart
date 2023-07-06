@@ -47,7 +47,7 @@ class BsnMediaUpload extends StatefulWidget {
 class _BsnMediaUploadState extends State<BsnMediaUpload> {
   bool isMultiple = false;
 
-  var _images = [];
+  //var _images = [];
   List<XFile>? _imageFileList;
 
   dynamic _pickImageError;
@@ -82,6 +82,11 @@ class _BsnMediaUploadState extends State<BsnMediaUpload> {
   }
 
   selectSubscription(lvl) async {
+    print('--_imageFileList--');
+    for (int x = 0; x <= _imageFileList!.length - 1; x++) {
+      print(_imageFileList![x].path);
+    }
+
     BusnessCall(
       busnessType: widget.busnessType,
       knownAs: widget.knownAs,

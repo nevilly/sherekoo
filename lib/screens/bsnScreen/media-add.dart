@@ -9,12 +9,17 @@ import '../../model/ceremony/crm-model.dart';
 import '../../model/user/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/colors.dart';
+import '../../util/modInstance.dart';
 import '../../util/util.dart';
 import '../categoriesPage/sherekooPage.dart';
+import '../detailScreen/bsn-details.dart';
+import 'bsn-admin.dart';
 
 class AddBsnMediaUpload extends StatefulWidget {
   final BusnessModel bsn;
-  const AddBsnMediaUpload({Key? key, required this.bsn}) : super(key: key);
+  final String fromPage;
+  const AddBsnMediaUpload({Key? key, required this.bsn, required this.fromPage})
+      : super(key: key);
 
   @override
   State<AddBsnMediaUpload> createState() => _AddBsnMediaUploadState();
@@ -33,8 +38,6 @@ class _AddBsnMediaUploadState extends State<AddBsnMediaUpload> {
     preferences.get('token').then((value) {
       setState(() {
         token = value;
-        print('widget.bsn.work');
-        print(widget.bsn.bId);
       });
     });
 
@@ -77,10 +80,33 @@ class _AddBsnMediaUploadState extends State<AddBsnMediaUpload> {
         .updateWorks(token, urlUpDateWorkList, _imageFileList, widget.bsn.work)
         .then((v) {
       if (v.status == 200) {
-        alertMessage(v.payload);
+        print('----payload---');
+        print(v.payload);
+
+        setState(() {
+          widget.bsn.works = v.payload['works'];
+          widget.bsn.work = v.payload['work'];
+        });
+        v.payload.runtimeType == List
+            ? alertMessage('Photo uploded succesfull')
+            : alertMessage(v.payload['message']);
+
         Navigator.of(context).pop();
-        Navigator.push(context,
-            MaterialPageRoute(builder: (BuildContext context) => Sherekoo()));
+        Navigator.of(context).pop();
+        widget.fromPage == 'bsnDetails'
+            ? Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => BsnDetails(
+                          ceremonyData: emptyCrmModel,
+                          data: widget.bsn,
+                        )))
+            : Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => AdminBsn(
+                          bsn: widget.bsn,
+                        )));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('System Error, Try Again'),

@@ -1024,34 +1024,6 @@ class _PostChatsState extends State<PostChats> {
   replyTextBoxBuilder(BuildContext context, ChatsModel itm) async {
     // set up the buttons
 
-    Widget noButton = TextButton(
-      style: TextButton.styleFrom(
-        padding: const EdgeInsets.all(6),
-        primary: OColors.fontColor,
-        backgroundColor: OColors.primary,
-        // textStyle: const TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
-      ),
-      child: Text("No +", style: header13),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-
-    Widget yesButton = TextButton(
-      style: TextButton.styleFrom(
-        padding: const EdgeInsets.all(6),
-        primary: OColors.fontColor,
-        backgroundColor: OColors.primary,
-      ),
-      child: Text(
-        "Yes ",
-        style: header13,
-      ),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       contentPadding: EdgeInsets.zero,

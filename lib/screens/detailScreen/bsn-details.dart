@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sherekoo/util/textStyle-pallet.dart';
+import '../../model/busness/busness-call.dart';
 import '../../model/user/user-call.dart';
 import '../../model/busness/bsn-call.dart';
 import '../../model/busness/busnessMembers.dart';
@@ -20,6 +21,7 @@ import '../../widgets/detailsWidg/busnessList.dart';
 import '../../widgets/detailsWidg/ceremonyList.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
 import '../bsnScreen/bsn-admin.dart';
+import '../bsnScreen/media-add.dart';
 import '../subscriptionScreen/hiringPage.dart';
 
 class BsnDetails extends StatefulWidget {
@@ -255,6 +257,87 @@ class _BsnDetailsState extends State<BsnDetails> {
   //   });
   // }
 
+  deletePoto(i) {
+    String lstStr = i.substring(47);
+    BusnessCall(
+      busnessType: widget.data.busnessType,
+      knownAs: widget.data.knownAs,
+      coProfile: widget.data.coProfile,
+      price: widget.data.price,
+      contact: widget.data.contact,
+      location: widget.data.location,
+      companyName: widget.data.companyName,
+      ceoId: widget.data.ceoId,
+      aboutCEO: widget.data.aboutCEO,
+      aboutCompany: widget.data.aboutCompany,
+      createdBy: widget.data.createdBy,
+      hotStatus: '0',
+      status: 0,
+      payload: [],
+      subscrlevel: '',
+      bId: widget.data.bId,
+    ).deletePhoto(token, urlDeletePhoto, lstStr, widget.data.work, i).then((v) {
+      if (v.status == 200) {
+        setState(() {
+          widget.data.work = v.payload['work'];
+          widget.data.works.removeWhere((element) => element == i);
+        });
+
+        alertMessage(v.payload['message']);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('System Error, Try Again'),
+        ));
+      }
+    });
+
+    // print('---i--');
+    // print(i);
+    // String str = i;
+    // String start = 'works/';
+    // String end = '.jpg';
+
+    // print(lstStr.endsWith('.jpg'));
+    // final startIndex = str.indexOf(start);
+    // final endIndex = str.indexOf(end, startIndex + start.length);
+
+    // print(str.substring(startIndex + start.length, endIndex));
+    // print('----Work to array');
+    // print(widget.data.work.split(','));
+    // var re = RegExp(r'(?<=")(.*)(?=")');
+    // var match = re.firstMatch(widget.data.work)?.group(0);
+    // print('---- Match');
+    // print(match);
+
+    // final splitted = widget.data.work.split(' ');
+    // print(splitted.runtimeType);
+    // splitted.forEach((element) {
+    //   element.matchAsPrefix;
+    //   print('---Elemten---');
+
+    //   print(element);
+    // });
+    // splitted.removeWhere((element) {
+    //   print(element.length);
+    //   return element == lstStr;
+    // });
+    // print('--after Remove');
+    // print(splitted);
+  }
+
+  alertMessage(String title) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 18),
+        ),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
   TabBar get _tabBar => TabBar(
           labelColor: OColors.primary,
           unselectedLabelColor: Colors.grey,
@@ -408,46 +491,107 @@ class _BsnDetailsState extends State<BsnDetails> {
                               'Recient works',
                               style: header14,
                             ),
-                            IconButton(
-                                icon: const Icon(Icons.more_horiz),
-                                color: OColors.primary,
-                                iconSize: 20.0,
-                                onPressed: () {
-                                  // otherCeremony(context);
-                                })
+                            Row(
+                              children: [
+                                widget.data.isBsnAdmin == 'true'
+                                    ? IconButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      AddBsnMediaUpload(
+                                                        bsn: widget.data,
+                                                        fromPage: 'bsnDetails',
+                                                      )));
+                                        },
+                                        icon: Icon(Icons.add_a_photo),
+                                        color: OColors.primary,
+                                      )
+                                    : SizedBox.shrink(),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                IconButton(
+                                    icon: const Icon(Icons.more_horiz),
+                                    color: OColors.primary,
+                                    iconSize: 20.0,
+                                    onPressed: () {
+                                      // otherCeremony(context);
+                                    }),
+                              ],
+                            )
                           ],
                         ),
-                        SizedBox(
-                          child: GridView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: widget.data.works.length,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 3),
-                              itemBuilder: (context, index) {
-                                final itm = widget.data.works[index];
-                                print('work list');
-                                print(itm);
-                                return Container(
-                                  color: OColors.darGrey,
-                                  child: Stack(
-                                    children: [
-                                      Positioned.fill(
-                                          child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: fadeImg(
-                                            context,
-                                            '${api}${itm}',
-                                            MediaQuery.of(context).size.width,
-                                            MediaQuery.of(context).size.height,
-                                            BoxFit.fill),
-                                      )),
-                                    ],
-                                  ),
-                                );
-                              }),
-                        ),
+                        widget.data.work != ''
+                            ? SizedBox(
+                                child: GridView.builder(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: widget.data.works.length,
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 3),
+                                    itemBuilder: (context, index) {
+                                      final itm = widget.data.works[index];
+                                      // print('work list');
+                                      // print(itm);
+                                      return Container(
+                                        color: OColors.darGrey,
+                                        child: Stack(
+                                          children: [
+                                            Positioned.fill(
+                                                child: GestureDetector(
+                                              onTap: () {
+                                                prevPhotoDialog(
+                                                    context, '${api}${itm}');
+                                              },
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                child: fadeImg(
+                                                    context,
+                                                    '${api}${itm}',
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width,
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .height,
+                                                    BoxFit.fill),
+                                              ),
+                                            )),
+                                            widget.data.isBsnAdmin == 'true'
+                                                ? Positioned(
+                                                    top: 0,
+                                                    right: 0,
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        showAlertDialog(
+                                                            context,
+                                                            'Delete',
+                                                            'Are you sure?',
+                                                            'bsnDetails',
+                                                            itm);
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Icon(
+                                                          Icons.delete,
+                                                          color: Colors.red,
+                                                        ),
+                                                      ),
+                                                    ))
+                                                : SizedBox.shrink()
+                                          ],
+                                        ),
+                                      );
+                                    }),
+                              )
+                            : SizedBox.shrink(),
                       ],
                     ),
                   ),
@@ -537,6 +681,170 @@ class _BsnDetailsState extends State<BsnDetails> {
           )
         ],
       ),
+    );
+  }
+
+  showAlertDialog(
+      BuildContext context, String title, String msg, String from, i) async {
+    // set up the buttons
+    Widget noButton = TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(6),
+        primary: OColors.fontColor,
+        backgroundColor: OColors.primary,
+        // textStyle: const TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
+      ),
+      child: Text("No", style: header13),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    Widget yesButton = TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(6),
+        primary: OColors.fontColor,
+        backgroundColor: OColors.primary,
+      ),
+      child: Text(
+        "Yes ",
+        style: header13,
+      ),
+      onPressed: () {
+        Navigator.of(context).pop();
+        deletePoto(i);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: OColors.secondary,
+      title: Center(
+        child: Text(title, style: TextStyle(color: OColors.fontColor)),
+      ),
+      actions: [
+        Column(
+          children: [
+            Center(
+              child: Text(
+                msg,
+                style: header16,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                noButton,
+                yesButton,
+              ],
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+          ],
+        ),
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  ///
+  /// Preview Photos
+  ///
+
+  prevPhotoDialog(BuildContext context, photoUrl) async {
+    double h = 50;
+    double w = 50;
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: const SizedBox(),
+      onPressed: () {
+        // Navigator.of(context).pop();
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (BuildContext context) => CeremonyUpload(
+        //             getData: ceremony, getcurrentUser: widget.user)));
+      },
+    );
+    Widget continueButton = TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(6),
+        primary: OColors.fontColor,
+        backgroundColor: OColors.primary,
+      ),
+      child: const Text("cancel"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      insetPadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.zero,
+      titlePadding: const EdgeInsets.only(top: 8, bottom: 8),
+      backgroundColor: OColors.secondary,
+      title: Container(
+        alignment: Alignment.topLeft,
+        child: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Container(
+            margin: const EdgeInsets.all(8),
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Icon(
+                Icons.close,
+                size: 20,
+                color: OColors.fontColor,
+              ),
+            ),
+          ),
+        ),
+      ),
+      content: StatefulBuilder(builder: (BuildContext context, setState) {
+        return SizedBox(
+          // color: Colors.red,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height / 1,
+          child: FadeInImage(
+            image: NetworkImage(photoUrl),
+            fadeInDuration: const Duration(milliseconds: 100),
+            placeholder: const AssetImage('assets/logo/noimage.png'),
+            imageErrorBuilder: (context, error, stackTrace) {
+              return Image.asset('assets/logo/noimage.png',
+                  fit: BoxFit.fitWidth);
+            },
+            fit: BoxFit.cover,
+          ),
+        );
+      }),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            cancelButton,
+            continueButton,
+          ],
+        ),
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

@@ -17,7 +17,6 @@ import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
 import '../categoriesPage/sherekooPage.dart';
-import '../profile/crm-admin.dart';
 import '../subscriptionScreen/update-subscription.dart';
 import '../uploadScreens/busnessUpload.dart';
 import 'media-add.dart';
@@ -256,7 +255,9 @@ class _AdminBsnState extends State<AdminBsn> {
                                       MaterialPageRoute(
                                           builder: (BuildContext context) =>
                                               AddBsnMediaUpload(
-                                                  bsn: widget.bsn)));
+                                                bsn: widget.bsn,
+                                                fromPage: 'bsnAdmin',
+                                              )));
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.only(

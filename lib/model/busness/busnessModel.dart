@@ -20,7 +20,7 @@ class BusnessModel {
   final String createdBy;
   final String createdDate;
   final String isBsnAdmin;
-  final String work;
+  String work;
   List works = [];
   final User user;
 

@@ -16,7 +16,6 @@ import '../../util/modInstance.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../bsnScreen/bsn-screen.dart';
-import '../subscriptionScreen/busnessSubscription.dart';
 import 'medias-upload.dart';
 
 class BusnessUpload extends StatefulWidget {

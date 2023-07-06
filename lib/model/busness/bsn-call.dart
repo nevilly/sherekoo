@@ -6,11 +6,7 @@ class BsnCall {
   final int status;
   dynamic payload;
 
-  BsnCall(
-    
-    {required this.payload, required this.status}
-    
-    );
+  BsnCall({required this.payload, required this.status});
 
   factory BsnCall.fromJson(Map<String, dynamic> json) {
     return BsnCall(payload: json['payload'], status: json['status']);
@@ -29,7 +25,10 @@ class BsnCall {
     Uri url = Uri.parse(dirUrl);
 
     Map<String, dynamic> toMap() {
-      return <String, dynamic>{'id': id, 'type': bsnType,};
+      return <String, dynamic>{
+        'id': id,
+        'type': bsnType,
+      };
     }
 
     invalidToken(token);
@@ -38,11 +37,15 @@ class BsnCall {
   }
 
   Future<BsnCall> bsnByType(
-      String token, String dirUrl, String bsnType, String id,hotStatus) async {
+      String token, String dirUrl, String bsnType, String id, hotStatus) async {
     Uri url = Uri.parse(dirUrl);
 
     Map<String, dynamic> toMap() {
-      return <String, dynamic>{'id': id, 'type': bsnType,'hotStatus':hotStatus};
+      return <String, dynamic>{
+        'id': id,
+        'type': bsnType,
+        'hotStatus': hotStatus
+      };
     }
 
     invalidToken(token);
@@ -107,8 +110,9 @@ Future<BsnCall> postHttp(Uri url, Map<String, dynamic> Function() toMap,
   return await http
       .post(url, body: jsonEncode(toMap()), headers: headers)
       .then((r) {
-   //print(r.body); print('categories Details');
-    
+    print(r.body);
+    print('categories Details');
+
     if (r.statusCode == 200) {
       return rBody(r);
     }

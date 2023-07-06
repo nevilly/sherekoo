@@ -93,6 +93,7 @@ String urlAllBusnessList = '${api}Busness/getBsn';
 String urlGoldBusness = '${api}Busness/getGoldenBusness';
 String urlGoldBsnTyp = '${api}Busness/getByType';
 String urlUpDateWorkList = '${api}Busness/updateWorkList';
+String urlDeletePhoto = '${api}Busness/deletePhotoWork';
 
 String urlMyBusnessList = '${api}Busness/getByBusnessCeoId';
 String urlMyBsnByCratorId = '${api}Busness/bsnByCreatorId';

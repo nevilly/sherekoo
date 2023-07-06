@@ -270,7 +270,6 @@ class PostTemplateState extends State<PostTemplate> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
           // backgroundColor: Colors.blue,
@@ -984,14 +983,6 @@ class PostTemplateState extends State<PostTemplate> {
         deletePost();
       },
     );
-
-    Widget setting = Padding(
-        padding: const EdgeInsets.all(8),
-        child: Icon(
-          Icons.settings,
-          color: OColors.primary,
-          size: 20,
-        ));
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
