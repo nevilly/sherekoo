@@ -8,6 +8,8 @@ import '../../model/ceremony/crm-model.dart';
 import '../../model/user/userModel.dart';
 import '../../util/app-variables.dart';
 import '../../util/colors.dart';
+import '../../util/func.dart';
+import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../bsnScreen/bsn-screen.dart';
 
@@ -50,9 +52,6 @@ class _BsnMediaUploadState extends State<BsnMediaUpload> {
   //var _images = [];
   List<XFile>? _imageFileList;
 
-  dynamic _pickImageError;
-  String? _retrieveDataError;
-
   final ImagePicker _picker = ImagePicker();
 
   @override
@@ -82,45 +81,43 @@ class _BsnMediaUploadState extends State<BsnMediaUpload> {
   }
 
   selectSubscription(lvl) async {
-    print('--_imageFileList--');
-    for (int x = 0; x <= _imageFileList!.length - 1; x++) {
-      print(_imageFileList![x].path);
+    if (_imageFileList != null && _imageFileList!.length >= 3) {
+      BusnessCall(
+        busnessType: widget.busnessType,
+        knownAs: widget.knownAs,
+        coProfile: widget.coProfile,
+        price: widget.price,
+        contact: widget.contact,
+        location: widget.location,
+        companyName: widget.companyName,
+        ceoId: widget.ceoId,
+        aboutCEO: widget.aboutCEO,
+        aboutCompany: widget.aboutCompany,
+        createdBy: widget.createdBy,
+        hotStatus: '0',
+        status: 0,
+        payload: [],
+        subscrlevel: lvl,
+        bId: '',
+      ).set(token, urlPostBusness, _imageFileList).then((v) {
+        if (v.status == 200) {
+          alertMessage(v.payload);
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => BusnessScreen(
+                        bsnType: widget.busnessType,
+                        ceremony: cmr(),
+                      )));
+        } else {
+          fillTheBlanks(context, 'System Error, Try Again', altSty, odng);
+        }
+      });
+    } else {
+      fillTheBlanks(context, 'Select more than 3 work photo,', altSty, odng);
     }
-
-    BusnessCall(
-      busnessType: widget.busnessType,
-      knownAs: widget.knownAs,
-      coProfile: widget.coProfile,
-      price: widget.price,
-      contact: widget.contact,
-      location: widget.location,
-      companyName: widget.companyName,
-      ceoId: widget.ceoId,
-      aboutCEO: widget.aboutCEO,
-      aboutCompany: widget.aboutCompany,
-      createdBy: widget.createdBy,
-      hotStatus: '0',
-      status: 0,
-      payload: [],
-      subscrlevel: lvl,
-      bId: '',
-    ).set(token, urlPostBusness, _imageFileList).then((v) {
-      if (v.status == 200) {
-        alertMessage(v.payload);
-        Navigator.of(context).pop();
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => BusnessScreen(
-                      bsnType: widget.busnessType,
-                      ceremony: cmr(),
-                    )));
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('System Error, Try Again'),
-        ));
-      }
-    });
   }
 
   CeremonyModel cmr() {
@@ -196,115 +193,17 @@ class _BsnMediaUploadState extends State<BsnMediaUpload> {
     );
   }
 
-  Text? _getRetrieveErrorWidget() {
-    if (_retrieveDataError != null) {
-      final Text result = Text(_retrieveDataError!);
-      _retrieveDataError = null;
-      return result;
-    }
-    return null;
-  }
-
-  Widget _previewImages() {
-    final Text? retrieveError = _getRetrieveErrorWidget();
-    if (retrieveError != null) {
-      return retrieveError;
-    }
-    if (_imageFileList != null) {
-      return Container(
-        margin: EdgeInsets.only(
-          right: 80,
-        ),
-        width: MediaQuery.of(context).size.width,
-        height: 79,
-        child: Semantics(
-            child: ListView.builder(
-              key: UniqueKey(),
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                // Why network for web?
-                //kIsWeb
-                //                     ? Image.network(_imageFileList![index].path)
-                //                     : Image.file(File(_imageFileList![index].path))
-                // See https://pub.flutter-io.cn/packages/image_picker#getting-ready-for-the-web-platform
-                return Container(
-                  width: 80,
-                  margin: EdgeInsets.only(right: 5),
-                  decoration: BoxDecoration(
-                    color: OColors.opacity.withOpacity(.2),
-                    image: DecorationImage(
-                        image: FileImage(File(_imageFileList![index].path)),
-                        fit: BoxFit.cover),
-                  ),
-                );
-              },
-              itemCount: _imageFileList!.length,
-            ),
-            label: 'image_picker_example_picked_images'),
-      );
-    } else if (_pickImageError != null) {
-      return Container(
-          margin: EdgeInsets.only(
-            right: 80,
-          ),
-          width: MediaQuery.of(context).size.width,
-          child: Text(
-            'Pick image error: $_pickImageError',
-            textAlign: TextAlign.center,
-          ));
-    } else {
-      return Container(
-          margin: EdgeInsets.only(
-            right: 80,
-          ),
-          width: MediaQuery.of(context).size.width,
-          child: Text(
-            'You have not yet picked an image.',
-            textAlign: TextAlign.center,
-          ));
-    }
-  }
-
-  Widget _handlePreview() => _previewImages();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: OColors.secondary,
       appBar: AppBar(
-        title: Text('Work photo'),
-      ),
-      body: Column(
-        children: [
-          Container(
-            height: 100,
-            padding: EdgeInsets.only(left: 25, right: 25, bottom: 20),
-            child: Stack(
-              children: [
-                _handlePreview(),
-                Positioned(
-                  child: InkWell(
-                    child: Container(
-                      height: 80,
-                      width: 80,
-                      color: OColors.primary,
-                      child: Center(
-                        child: Icon(
-                          Icons.add_a_photo_outlined,
-                          color: OColors.white.withOpacity(.8),
-                        ),
-                      ),
-                    ),
-                    onTap: () {
-                      _modalBottomSheetMenu();
-                    },
-                  ),
-                  right: 0,
-                )
-              ],
-            ),
-          ),
+        backgroundColor: OColors.secondary,
+        title: Text('Add Work photo'),
+        actions: [
           GestureDetector(
             onTap: () {
+              print('object');
               selectSubscription('Free');
             },
             child: Container(
@@ -317,11 +216,85 @@ class _BsnMediaUploadState extends State<BsnMediaUpload> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Text(
-                'Buy Now',
+                'Add',
                 style: TextStyle(color: Colors.white),
               ),
             ),
           )
+        ],
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              child: Container(
+                height: 40,
+                width: 80,
+                color: OColors.primary,
+                child: Center(
+                  child: Icon(
+                    Icons.add_a_photo_outlined,
+                    color: OColors.white.withOpacity(.8),
+                  ),
+                ),
+              ),
+              onTap: () {
+                _modalBottomSheetMenu();
+              },
+            ),
+          ),
+          _imageFileList != null
+              ? GridView.builder(
+                  // key: UniqueKey(),
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3),
+                  // scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    // Why network for web?
+                    //kIsWeb
+                    //                     ? Image.network(_imageFileList![index].path)
+                    //                     : Image.file(File(_imageFileList![index].path))
+                    // See https://pub.flutter-io.cn/packages/image_picker#getting-ready-for-the-web-platform
+                    return Stack(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(right: 5),
+                          decoration: BoxDecoration(
+                            color: OColors.opacity.withOpacity(.2),
+                            image: DecorationImage(
+                                image: FileImage(
+                                    File(_imageFileList![index].path)),
+                                fit: BoxFit.cover),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _imageFileList!.removeWhere((element) =>
+                                  element.path == _imageFileList![index].path);
+                            });
+                          },
+                          child: Positioned(
+                              right: 0,
+                              top: 0,
+                              child: Container(
+                                  width: 25,
+                                  height: 25,
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ))),
+                        ),
+                      ],
+                    );
+                  },
+                  itemCount: _imageFileList!.length,
+                )
+              : SizedBox.shrink()
         ],
       ),
     );

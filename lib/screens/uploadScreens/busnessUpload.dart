@@ -83,6 +83,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
         if (widget.getData.bId.isNotEmpty) {
           selectedBusness = widget.getData.busnessType;
 
+          ///
+          /// Mc
+          ///
           if (widget.getData.busnessType == 'Mc') {
             mcAvater = widget.getData.user.avater!;
             mcId = widget.getData.ceoId;
@@ -98,6 +101,9 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _mcCeoPhoneController.text = widget.getData.contact;
           }
 
+          ///
+          /// Production
+          ///
           if (widget.getData.busnessType == 'Production') {
             productionAvater = widget.getData.user.avater!;
             productionId = widget.getData.ceoId;
@@ -114,6 +120,10 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _productionCeobioController.text = widget.getData.aboutCEO;
             _productionCeoPhoneController.text = widget.getData.contact;
           }
+
+          ///
+          /// Decoration
+          ///
           if (widget.getData.busnessType == 'Decorator') {
             decoratorAvater = widget.getData.user.avater!;
             decoratorId = widget.getData.ceoId;
@@ -129,6 +139,10 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _decoratorCeobioController.text = widget.getData.aboutCEO;
             _decoratorCeoPhoneController.text = widget.getData.contact;
           }
+
+          ///
+          /// Hall
+          ///
           if (widget.getData.busnessType == 'Hall') {
             hallAvater = widget.getData.user.avater!;
             hallId = widget.getData.ceoId;
@@ -143,6 +157,10 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _hallCeobioController.text = widget.getData.aboutCEO;
             _hallCeoPhoneController.text = widget.getData.contact;
           }
+
+          ///
+          /// Cake Bakery
+          ///
           if (widget.getData.busnessType == 'Cake Bakery') {
             cakeAvater = widget.getData.user.avater!;
             cakeId = widget.getData.ceoId;
@@ -157,6 +175,10 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _cakeCeobioController.text = widget.getData.aboutCEO;
             _cakeCeoPhoneController.text = widget.getData.contact;
           }
+
+          ///
+          /// Singers
+          ///
           if (widget.getData.busnessType == 'Singer') {
             singersAvater = widget.getData.user.avater!;
             singersId = widget.getData.ceoId;
@@ -171,6 +193,11 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _singersCeobioController.text = widget.getData.aboutCEO;
             _singersCeoPhoneController.text = widget.getData.contact;
           }
+
+          ///
+          /// Dancers
+          ///
+
           if (widget.getData.busnessType == 'Dancer') {
             dancersAvater = widget.getData.user.avater!;
             dancersId = widget.getData.ceoId;
@@ -185,6 +212,10 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _dancersCeobioController.text = widget.getData.aboutCEO;
             _dancersCeoPhoneController.text = widget.getData.contact;
           }
+
+          ///
+          /// Cooker
+          ///
           if (widget.getData.busnessType == 'Cooker') {
             cookerAvater = widget.getData.user.avater!;
             cookerId = widget.getData.ceoId;
@@ -199,6 +230,10 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _cookerCeobioController.text = widget.getData.aboutCEO;
             _cookerCeoPhoneController.text = widget.getData.contact;
           }
+
+          ///
+          /// Saloon
+          ///
           if (widget.getData.busnessType == 'saloon') {
             saloonAvater = widget.getData.user.avater!;
             saloonId = widget.getData.ceoId;
@@ -213,6 +248,10 @@ class _BusnessUploadState extends State<BusnessUpload> {
             _saloonCeobioController.text = widget.getData.aboutCEO;
             _saloonCeoPhoneController.text = widget.getData.contact;
           }
+
+          ///
+          /// car
+          ///
           if (widget.getData.busnessType == 'Car') {
             carsAvater = widget.getData.user.avater!;
             carsId = widget.getData.ceoId;
@@ -270,7 +309,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
   final TextEditingController _mcCeobioController = TextEditingController();
   final TextEditingController _mcCeoPhoneController = TextEditingController();
 
-  // Production Decorators
+  // Production
   String productionAvater = '';
   String productionId = "";
   String productionUsername = "";
@@ -727,7 +766,7 @@ class _BusnessUploadState extends State<BusnessUpload> {
                       }
                     }
 
-                    if (selectedBusness == 'Halls') {
+                    if (selectedBusness == 'Hall') {
                       if (widget.getData.bId.isEmpty) {
                         _postBusness(
                             selectedBusness,
@@ -6323,34 +6362,31 @@ class _BusnessUploadState extends State<BusnessUpload> {
   }
 }
 
-
-
-  // Column(
-  //                 children: [
-  //                   if (selectedBusness == _busness[0]) mcWorkCategory,
-  //                   if (selectedBusness == _busness[1]) prodWorkCategory,
-  //                   if (selectedBusness == _busness[2]) decWorkCategory,
-  //                   if (selectedBusness == _busness[3]) hallWorkCategory,
-  //                   if (selectedBusness == _busness[4]) cakeWorkCategory,
-  //                   if (selectedBusness == _busness[5]) singWorkCategory,
-  //                   if (selectedBusness == _busness[6]) dancWorkCategory,
-  //                   if (selectedBusness == _busness[7]) cokWorkCategory,
-  //                   if (selectedBusness == _busness[8]) salWorkCategory,
-  //                   if (selectedBusness == _busness[9]) carWorkCategory
-  //                 ],
-  //               ),
-  //               Column(
-  //                 children: [
-  //                   if (selectedBusness == _busness[0]) mcStaffCategory,
-  //                   if (selectedBusness == _busness[1]) prodStaffCategory,
-  //                   if (selectedBusness == _busness[2]) decStaffCategory,
-  //                   if (selectedBusness == _busness[3]) hallStaffCategory,
-  //                   if (selectedBusness == _busness[4]) cakeStaffCategory,
-  //                   if (selectedBusness == _busness[5]) singStaffCategory,
-  //                   if (selectedBusness == _busness[6]) dancStaffCategory,
-  //                   if (selectedBusness == _busness[7]) cokStaffCategory,
-  //                   if (selectedBusness == _busness[8]) salStaffCategory,
-  //                   if (selectedBusness == _busness[9]) carStaffCategory,
-  //                 ],
-  //               ),
-             
+// Column(
+//                 children: [
+//                   if (selectedBusness == _busness[0]) mcWorkCategory,
+//                   if (selectedBusness == _busness[1]) prodWorkCategory,
+//                   if (selectedBusness == _busness[2]) decWorkCategory,
+//                   if (selectedBusness == _busness[3]) hallWorkCategory,
+//                   if (selectedBusness == _busness[4]) cakeWorkCategory,
+//                   if (selectedBusness == _busness[5]) singWorkCategory,
+//                   if (selectedBusness == _busness[6]) dancWorkCategory,
+//                   if (selectedBusness == _busness[7]) cokWorkCategory,
+//                   if (selectedBusness == _busness[8]) salWorkCategory,
+//                   if (selectedBusness == _busness[9]) carWorkCategory
+//                 ],
+//               ),
+//               Column(
+//                 children: [
+//                   if (selectedBusness == _busness[0]) mcStaffCategory,
+//                   if (selectedBusness == _busness[1]) prodStaffCategory,
+//                   if (selectedBusness == _busness[2]) decStaffCategory,
+//                   if (selectedBusness == _busness[3]) hallStaffCategory,
+//                   if (selectedBusness == _busness[4]) cakeStaffCategory,
+//                   if (selectedBusness == _busness[5]) singStaffCategory,
+//                   if (selectedBusness == _busness[6]) dancStaffCategory,
+//                   if (selectedBusness == _busness[7]) cokStaffCategory,
+//                   if (selectedBusness == _busness[8]) salStaffCategory,
+//                   if (selectedBusness == _busness[9]) carStaffCategory,
+//                 ],
+//               ),

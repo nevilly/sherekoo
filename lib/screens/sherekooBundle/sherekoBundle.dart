@@ -345,7 +345,8 @@ class _SherekooBundleState extends State<SherekooBundle> {
   /// Hot Bundles
   ///
   SizedBox hotPackage(Size size) {
-    return SizedBox(
+    return 
+    SizedBox(
       height: 210,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -426,6 +427,7 @@ class _SherekooBundleState extends State<SherekooBundle> {
             );
           }),
     );
+  
   }
 
   ///

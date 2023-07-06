@@ -12,8 +12,7 @@ import '../../util/modInstance.dart';
 import '../../util/textStyle-pallet.dart';
 import '../../util/util.dart';
 import '../accounts/login.dart';
-import '../crmScreen/Crm.dart';
-import '../crmScreen/crmScreen.dart';
+import '../bundles/hotBundle.dart';
 
 class NavDrawer extends StatefulWidget {
   const NavDrawer({Key? key}) : super(key: key);
@@ -25,6 +24,8 @@ class NavDrawer extends StatefulWidget {
 class _NavDrawerState extends State<NavDrawer> {
   final Preferences _preferences = Preferences();
   String token = '';
+  double wdt = 8;
+  Color oclr = prmry;
 
   User user = User(
       id: '',
@@ -104,11 +105,21 @@ class _NavDrawerState extends State<NavDrawer> {
                 },
               ),
 
-              //LIve ceremony
               ListTile(
-                title: Text(
-                  'Home',
-                  style: header15,
+                title: Row(
+                  children: [
+                    Icon(
+                      Icons.local_fire_department,
+                      color: oclr,
+                    ),
+                    SizedBox(
+                      width: wdt,
+                    ),
+                    Text(
+                      'Hot bundle',
+                      style: header15,
+                    ),
+                  ],
                 ),
                 onTap: () {
                   Navigator.of(context).pop();
@@ -116,25 +127,43 @@ class _NavDrawerState extends State<NavDrawer> {
                       context,
                       MaterialPageRoute(
                           builder: (BuildContext context) =>
-                              HomeNav(getIndex: 2, user: user)));
+                              HotBundles(user: user)));
                 },
               ),
+
               //LIve ceremony
-              ListTile(
-                title: Text(
-                  'Live',
-                  style: header15,
-                ),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => Livee(
-                                ceremony: emptyCrmModel,
-                              )));
-                },
-              ),
+
+              // ListTile(
+              //   title: Text(
+              //     'Home',
+              //     style: header15,
+              //   ),
+              //   onTap: () {
+              //     Navigator.of(context).pop();
+              //     Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //             builder: (BuildContext context) =>
+              //                 HomeNav(getIndex: 2, user: user)));
+              //   },
+              // ),
+
+              //LIve ceremony
+              // ListTile(
+              //   title: Text(
+              //     'Live',
+              //     style: header15,
+              //   ),
+              //   onTap: () {
+              //     Navigator.of(context).pop();
+              //     Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //             builder: (BuildContext context) => Livee(
+              //                   ceremony: emptyCrmModel,
+              //                 )));
+              //   },
+              // ),
 
               //All Busness
               ListTile(
@@ -167,36 +196,36 @@ class _NavDrawerState extends State<NavDrawer> {
               //                 )));
               //   },
               // ),
-              ListTile(
-                title: Text(
-                  'Ceremony',
-                  style: header15,
-                ),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const CeremonyScreen()));
-                },
-              ),
+              // ListTile(
+              //   title: Text(
+              //     'Ceremony',
+              //     style: header15,
+              //   ),
+              //   onTap: () {
+              //     Navigator.of(context).pop();
+              //     Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //             builder: (BuildContext context) =>
+              //                 const CeremonyScreen()));
+              //   },
+              // ),
               //ceremony
-              ListTile(
-                title: Text('leter use Ceremony...', style: header15),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const Crm(dataType: 'all')));
-                },
-              ),
+              // ListTile(
+              //   title: Text('leter use Ceremony...', style: header15),
+              //   onTap: () {
+              //     Navigator.of(context).pop();
+              //     Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //             builder: (BuildContext context) =>
+              //                 const Crm(dataType: 'all')));
+              //   },
+              // ),
 
               ListTile(
                 title: Text(
-                  'Invatation',
+                  'Invatation cards',
                   style: header15,
                 ),
                 onTap: () {
@@ -210,9 +239,13 @@ class _NavDrawerState extends State<NavDrawer> {
                               )));
                 },
               ),
+
               // Livee ceremony
               ListTile(
-                title: const Text('Livee'),
+                title: Text(
+                  'Sherekoo Tv show',
+                  style: header15,
+                ),
                 onTap: () {
                   Navigator.of(context).pop();
                   Navigator.push(
@@ -224,32 +257,36 @@ class _NavDrawerState extends State<NavDrawer> {
                 },
               ),
 
-              // ListTile(
-              //   title: const Text('Shampeners Dancers'),
-              //   onTap: () {
-              //     // Navigator.of(context).pop();
-              //     // Navigator.push(
-              //     //     context,
-              //     //     new MaterialPageRoute(
-              //     //         builder: (BuildContext context) =>
-              //     //             new BusnessDetails()));
-              //   },
-              // ),
-
               ListTile(
-                title: const Text('Log Out'),
+                title: Text(
+                  'Mshenga TvShow',
+                  style: header15,
+                ),
                 onTap: () {
-                  _preferences.logout();
-
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const LoginPage()));
+                  // Navigator.of(context).pop();
+                  // Navigator.push(
+                  //     context,
+                  //     new MaterialPageRoute(
+                  //         builder: (BuildContext context) =>
+                  //             new BusnessDetails()));
                 },
               ),
             ],
+          ),
+          ListTile(
+            title: Text(
+              'Log Out',
+              style: header15,
+            ),
+            onTap: () {
+              _preferences.logout();
+
+              Navigator.of(context).pop();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => const LoginPage()));
+            },
           ),
         ],
       ),

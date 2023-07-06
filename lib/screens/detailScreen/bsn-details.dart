@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:sherekoo/util/textStyle-pallet.dart';
 import '../../model/busness/busness-call.dart';
 import '../../model/user/user-call.dart';
@@ -22,7 +23,6 @@ import '../../widgets/detailsWidg/ceremonyList.dart';
 import '../../widgets/notifyWidget/notifyWidget.dart';
 import '../bsnScreen/bsn-admin.dart';
 import '../bsnScreen/media-add.dart';
-import '../subscriptionScreen/hiringPage.dart';
 
 class BsnDetails extends StatefulWidget {
   final BusnessModel data;
@@ -639,14 +639,15 @@ class _BsnDetailsState extends State<BsnDetails> {
           //Hire Me Botton
           GestureDetector(
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => HiringPage(
-                            busness: widget.data,
-                            ceremony: widget.ceremonyData,
-                            user: user,
-                          )));
+              FlutterPhoneDirectCaller.callNumber('+255743882455');
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (_) => HiringPage(
+              //               busness: widget.data,
+              //               ceremony: widget.ceremonyData,
+              //               user: user,
+              //             )));
             },
             child: Container(
               width: 200,
@@ -762,8 +763,6 @@ class _BsnDetailsState extends State<BsnDetails> {
   ///
 
   prevPhotoDialog(BuildContext context, photoUrl) async {
-    double h = 50;
-    double w = 50;
     // set up the buttons
     Widget cancelButton = TextButton(
       child: const SizedBox(),

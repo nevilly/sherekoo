@@ -48,6 +48,8 @@ dependencies:
   path_provider:
   image_watermark:
   curved_navigation_bar:
+  flutter_phone_direct_caller:
+  url_launcher:
   # firebase_messaging: ^13.0.2
   # flutter_local_notifications: ^9.9.1
   flutter_inappwebview: ^5.4.3+7
